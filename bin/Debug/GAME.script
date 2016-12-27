@@ -1,0 +1,11 @@
+true = 1
+false = 0
+
+main
+ do
+  delay 1000
+  r=irand(0,255); g=irand(0,255); b=irand(0,255)
+  set background color rgb(r, g, b)
+  set window title ("["+r+"]["+g+"]["+b+"]")
+ loop
+endmain

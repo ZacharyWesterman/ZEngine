@@ -27,20 +27,20 @@ namespace script
         core::string<CHAR> expr_string;
         core::string<CHAR> expr_value;
 
-        uint expr_error;
+        error_flag expr_error;
 
         void evaluate_expression();
 
-        uint cumulative_operate(const core::array< core::string<CHAR> >&);
+        error_flag cumulative_operate(const core::array< core::string<CHAR> >&);
 
-        uint single_operate(core::dynamic_stack< core::string<CHAR> >&, uint);
+        error_flag single_operate(core::dynamic_stack< core::string<CHAR> >&, t_oper);
 
-        uint separate_infix(core::array< core::string<CHAR> >&);
+        error_flag separate_infix(core::array< core::string<CHAR> >&);
 
-        uint to_postfix(const core::array< core::string<CHAR> >&,
+        error_flag to_postfix(const core::array< core::string<CHAR> >&,
                         core::array< core::string<CHAR> >&);
 
-        uint correct_negatives(core::array< core::string<CHAR> >&);
+        error_flag correct_negatives(core::array< core::string<CHAR> >&);
 
         bool operand_is_string(const core::string<CHAR>&);
         core::string<CHAR> destringed_operand(const core::string<CHAR>&);
@@ -69,7 +69,7 @@ namespace script
 
         const core::string<CHAR>& value() const {return expr_value;}
 
-        uint error() const {return expr_error;}
+        error_flag error() const {return expr_error;}
     };
 
 
@@ -170,7 +170,7 @@ namespace script
         for (int i=0; i<postfix.size(); i++)
         {
             //check if we have an operator
-            uint oper = what_operator(postfix.at(i));
+            t_oper oper = what_operator(postfix.at(i));
 
             //if we do have an operator
             if (oper)
@@ -198,9 +198,9 @@ namespace script
 
 
     template <typename CHAR>
-    uint expression<CHAR>::single_operate(core::dynamic_stack< core::string<CHAR> >& operands, uint oper)
+    error_flag expression<CHAR>::single_operate(core::dynamic_stack< core::string<CHAR> >& operands, t_oper oper)
     {
-        uint operation_error = ERROR::NONE;
+        error_flag operation_error = ERROR::NONE;
 
         if (oper == OPERATOR::ADD)
         {
@@ -1000,9 +1000,9 @@ namespace script
 
 
     template <typename CHAR>
-    uint expression<CHAR>::separate_infix(core::array< core::string<CHAR> >& infix)
+    error_flag expression<CHAR>::separate_infix(core::array< core::string<CHAR> >& infix)
     {
-        uint expr_error = ERROR::NONE;
+        error_flag expr_error = ERROR::NONE;
 
         //define quote character and quote escape sequence
         core::string<CHAR> quote = (CHAR)34;
@@ -1042,7 +1042,7 @@ namespace script
             }
 
             //if we are at an operator
-            uint oper = what_operator(expr_string, i);
+            t_oper oper = what_operator(expr_string, i);
 
             if (oper && !in_string)
             {

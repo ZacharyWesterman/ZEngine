@@ -158,8 +158,9 @@ namespace script
         };
 
 
+        typedef int8_t t_param_c;
 
-        const int MIN_PARAMS[] =
+        const t_param_c MIN_PARAMS[] =
         {
             0,//NONE,
             2,//SET_VARIABLE,   (min. 2 parameters: var name, var value)
@@ -206,7 +207,7 @@ namespace script
             1, //DELAY_SCRIPT
         };
 
-        const int MAX_PARAMS[] =
+        const t_param_c MAX_PARAMS[] =
         {
             0,//NONE,
             -1,//SET_VARIABLE, can be an array of any size

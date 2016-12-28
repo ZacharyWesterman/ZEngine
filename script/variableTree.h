@@ -4,9 +4,6 @@
 
 #include "variable.h"
 
-#ifndef uint
-    #define uint uint32_t
-#endif // uint
 
 #include <iostream>
 using namespace std;
@@ -53,22 +50,22 @@ namespace script
         ~variableTree() {delete_sub_nodes(root);}
 
 
-        uint set_to_array(const core::string<CHAR>& name,
+        error_flag set_to_array(const core::string<CHAR>& name,
                           const core::array< core::string<CHAR> >& values);
 
-        uint set_array_value(const core::string<CHAR>& name, const int index,
+        error_flag set_array_value(const core::string<CHAR>& name, const int index,
                              const core::string<CHAR>& value);
 
-        uint set_to_array_of_size(const core::string<CHAR>& name, const int size);
+        error_flag set_to_array_of_size(const core::string<CHAR>& name, const int size);
 
-        uint set_to_single_value(const core::string<CHAR>& name,
+        error_flag set_to_single_value(const core::string<CHAR>& name,
                                  const core::string<CHAR>& value);
 
 
-        uint get_array_value(const core::string<CHAR>& name, const int index,
+        error_flag get_array_value(const core::string<CHAR>& name, const int index,
                              core::string<CHAR>& value);
 
-        uint get_single_value(const core::string<CHAR>& name,
+        error_flag get_single_value(const core::string<CHAR>& name,
                               core::string<CHAR>& value);
 
         bool found_variable(const core::string<CHAR>& input, int position,
@@ -214,7 +211,7 @@ namespace script
 
 
     template <typename CHAR>
-    uint variableTree<CHAR>::set_array_value(const core::string<CHAR>& name, const int index,
+    error_flag variableTree<CHAR>::set_array_value(const core::string<CHAR>& name, const int index,
                                              const core::string<CHAR>& value)
     {
         node* at_var = get_variable(root, name);
@@ -228,7 +225,7 @@ namespace script
 
 
     template <typename CHAR>
-    uint variableTree<CHAR>::set_to_array_of_size(const core::string<CHAR>& name,
+    error_flag variableTree<CHAR>::set_to_array_of_size(const core::string<CHAR>& name,
                                                   const int size)
     {
         node* at_var = add_variable(root, name);
@@ -241,7 +238,7 @@ namespace script
 
 
     template <typename CHAR>
-    uint variableTree<CHAR>::set_to_single_value(const core::string<CHAR>& name,
+    error_flag variableTree<CHAR>::set_to_single_value(const core::string<CHAR>& name,
                                                  const core::string<CHAR>& value)
     {
         node* at_var = add_variable(root, name);
@@ -254,7 +251,7 @@ namespace script
 
 
     template <typename CHAR>
-    uint variableTree<CHAR>::set_to_array(const core::string<CHAR>& name,
+    error_flag variableTree<CHAR>::set_to_array(const core::string<CHAR>& name,
                                           const core::array< core::string<CHAR> >& values)
     {
         node* at_var = add_variable(root, name);
@@ -267,7 +264,7 @@ namespace script
 
 
     template <typename CHAR>
-    uint variableTree<CHAR>::get_single_value(const core::string<CHAR>& name,
+    error_flag variableTree<CHAR>::get_single_value(const core::string<CHAR>& name,
                                               core::string<CHAR>& value)
     {
         node* at_var = get_variable(root, name);
@@ -280,7 +277,7 @@ namespace script
 
 
     template <typename CHAR>
-    uint variableTree<CHAR>::get_array_value(const core::string<CHAR>& name, const int index,
+    error_flag variableTree<CHAR>::get_array_value(const core::string<CHAR>& name, const int index,
                                              core::string<CHAR>& value)
     {
         node* at_var = get_variable(root, name);

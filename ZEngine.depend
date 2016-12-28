@@ -1644,7 +1644,7 @@
 
 1479523912 c:\users\zachary\documents\github\zengine\core\dynamicstack.h
 
-1482891702 c:\users\zachary\documents\github\zengine\script\commands.h
+1482892669 c:\users\zachary\documents\github\zengine\script\commands.h
 	"../core/string.h"
 	"../core/stringUtils/string_remove_whiteSpace.h"
 	"../core/array.h"
@@ -1679,7 +1679,7 @@
 	"../core/string.h"
 	"../core/stringUtils/char_is_alphanumeric.h"
 
-1481336200 c:\users\zachary\documents\github\zengine\script\variabletree.h
+1482892324 c:\users\zachary\documents\github\zengine\script\variabletree.h
 	"variable.h"
 	<iostream>
 
@@ -1689,7 +1689,7 @@
 	"script_errors.h"
 	"is_valid_script_name.h"
 
-1482887506 c:\users\zachary\documents\github\zengine\script\functionalexpression.h
+1482891997 c:\users\zachary\documents\github\zengine\script\functionalexpression.h
 	"../core/string.h"
 	"../core/array.h"
 	"functions.h"
@@ -1720,11 +1720,11 @@
 	"script_functions/blue_rgba.h"
 	"script_functions/alpha_rgba.h"
 
-1482429548 c:\users\zachary\documents\github\zengine\script\functions.h
+1482892748 c:\users\zachary\documents\github\zengine\script\functions.h
 	"../core/string.h"
 	"../core/array.h"
 
-1482889847 c:\users\zachary\documents\github\zengine\script\expression.h
+1482892920 c:\users\zachary\documents\github\zengine\script\expression.h
 	"../core/string.h"
 	"../core/stringUtils/eval_string.h"
 	"../core/stringUtils/char_is_whiteSpace.h"

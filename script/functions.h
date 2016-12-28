@@ -15,19 +15,19 @@ namespace script
         public:
             core::string<CHAR> name;
 
-            uint min_params;
-            uint max_params;
+            COMMAND::t_param_c min_params;
+            COMMAND::t_param_c max_params;
 
             //pointer to real function.
             //every script function must take an array of strings as parameters,
             //and a single string as output. It should return any error encountered.
-            uint (*func)(const core::array< core::string<CHAR> >&, core::string<CHAR>&);
+            error_flag (*func)(const core::array< core::string<CHAR> >&, core::string<CHAR>&);
 
 
             function() {}
             function(const core::string<CHAR>& Name,
-                     const uint minParams, const uint maxParams,
-                     uint (*Func)(const core::array< core::string<CHAR> >&, core::string<CHAR>&))
+                     const COMMAND::t_param_c minParams, const COMMAND::t_param_c maxParams,
+                     error_flag (*Func)(const core::array< core::string<CHAR> >&, core::string<CHAR>&))
             {
                 name = Name;
                 min_params = minParams;
@@ -73,7 +73,7 @@ namespace script
             FUNCTION_COUNT
         };
 
-        const uint MIN_PARAM[] =
+        const COMMAND::t_param_c MIN_PARAM[] =
         {
             1,//CEILING,
             1,//FLOOR,
@@ -107,7 +107,7 @@ namespace script
             1,//ALPHA_RGB
         };
 
-        const uint MAX_PARAM[] =
+        const COMMAND::t_param_c MAX_PARAM[] =
         {
             1,//CEILING,
             1,//FLOOR,
@@ -211,9 +211,10 @@ namespace script
         };
 
 
-        bool function_name(uint func, core::string<char>& name)
+        bool function_name(int func, core::string<char>& name)
         {
-            if (func < FUNCTION_COUNT)
+            if ((func < FUNCTION_COUNT) &&
+                (func >= 0))
             {
                 name = CHAR_FUNC_NAME[func];
                 return true;
@@ -224,9 +225,10 @@ namespace script
             }
         }
 
-        bool function_name(uint func, core::string<wchar_t>& name)
+        bool function_name(int func, core::string<wchar_t>& name)
         {
-            if (func < FUNCTION_COUNT)
+            if ((func < FUNCTION_COUNT) &&
+                (func >= 0))
             {
                 name = WCHAR_T_FUNC_NAME[func];
                 return true;

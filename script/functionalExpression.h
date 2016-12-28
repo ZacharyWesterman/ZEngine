@@ -37,11 +37,6 @@
 #include "script_functions/alpha_rgba.h"
 
 
-#ifndef uint
-    #define uint uint32_t
-#endif // uint
-
-
 namespace script
 {
     ///FUNCTIONAL EXPRESSION HANDLER///

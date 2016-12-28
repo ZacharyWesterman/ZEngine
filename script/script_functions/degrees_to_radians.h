@@ -6,13 +6,10 @@
 #include "../../core/stringUtils/eval_string.h"
 #include "../script_errors.h"
 
-#ifndef uint
-    #define uint uint32_t
-#endif // uint
-
 #ifndef PI
     #define PI 3.141592653589 //pi to the 12th decimal place should be accurate enough
 #endif // PI
+
 
 namespace script
 {
@@ -22,9 +19,9 @@ namespace script
         //this function converts a number from degrees to radians.
         //as such, units are assumed to be in degrees.
         template <typename CHAR>
-        uint deg_to_rad(const core::array< core::string<CHAR> >& params, core::string<CHAR>& output)
+        error_flag deg_to_rad(const core::array< core::string<CHAR> >& params, core::string<CHAR>& output)
         {
-            uint func_error = ERROR::NONE;
+            error_flag func_error = ERROR::NONE;
 
             if (params.size() > 1)
             {

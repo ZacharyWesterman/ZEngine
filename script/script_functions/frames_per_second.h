@@ -8,9 +8,6 @@
 
 #include "../../engine/global/fps.h"
 
-#ifndef uint
-    #define uint uint32_t
-#endif // uint
 
 namespace script
 {
@@ -18,9 +15,9 @@ namespace script
     {
         //fps function takes no parameters.
         template <typename CHAR>
-        uint frames_per_second(const core::array< core::string<CHAR> >& params, core::string<CHAR>& output)
+        error_flag frames_per_second(const core::array< core::string<CHAR> >& params, core::string<CHAR>& output)
         {
-            uint func_error = ERROR::NONE;
+            error_flag func_error = ERROR::NONE;
 
             if (params.size() > 0)
             {

@@ -117,13 +117,16 @@ namespace engine
 
         void print_to_console(const core::string<wchar_t>&);
 
-        core::string<wchar_t> get_error_string(uint);
+        core::string<wchar_t> get_error_string(script::error_flag);
 
 
         void load_settings_file(core::string<wchar_t>&,
                                 int&, int&,
                                 bool&, bool&,
                                 DEBUG_MODE&);
+
+
+        core::timer scriptTimer;
 
     public:
         game();
@@ -402,6 +405,7 @@ namespace engine
 
             ///deal with the script
             ///
+            scriptTimer.reset();
 
             if (!script_has_error)
                 check_script_contextual_errors();
@@ -444,6 +448,8 @@ namespace engine
                     }
                 }
             }
+
+            print_to_console(core::string<wchar_t>(scriptTimer.elapsed()));
 
 
 
@@ -637,7 +643,7 @@ namespace engine
     }
 
 
-    core::string<wchar_t> game::get_error_string(uint error)
+    core::string<wchar_t> game::get_error_string(script::error_flag error)
     {
         core::array< core::string<wchar_t> > err_list;
 

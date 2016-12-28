@@ -9,19 +9,15 @@
 
 #include <math.h>
 
-#ifndef uint
-    #define uint uint32_t
-#endif // uint
-
 namespace script
 {
     namespace FUNCTION
     {
         //square root function must take 1 parameter.
         template <typename CHAR>
-        uint square_root(const core::array< core::string<CHAR> >& params, core::string<CHAR>& output)
+        error_flag square_root(const core::array< core::string<CHAR> >& params, core::string<CHAR>& output)
         {
-            uint func_error = ERROR::NONE;
+            error_flag func_error = ERROR::NONE;
 
             if (params.size() > 1)
             {

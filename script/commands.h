@@ -63,7 +63,7 @@ namespace script
         };
 
 
-        const core::array< core::string<char> > CHAR_COMMANDS =
+        const core::string<char> CHAR_COMMANDS[] =
         {
             "",     //NONE
             "=",    //SET_VARIABLE
@@ -110,7 +110,7 @@ namespace script
             "delay", //DELAY_SCRIPT
         };
 
-        const core::array< core::string<char> > WCHAR_T_COMMANDS =
+        const core::string<wchar_t> WCHAR_T_COMMANDS[] =
         {
             L"",     //NONE
             L"=",    //SET_VARIABLE

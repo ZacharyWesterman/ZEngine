@@ -9,35 +9,7 @@ namespace script
 {
     namespace FUNCTION
     {
-        template <typename CHAR>
-        class function
-        {
-        public:
-            core::string<CHAR> name;
-
-            COMMAND::t_param_c min_params;
-            COMMAND::t_param_c max_params;
-
-            //pointer to real function.
-            //every script function must take an array of strings as parameters,
-            //and a single string as output. It should return any error encountered.
-            error_flag (*func)(const core::array< core::string<CHAR> >&, core::string<CHAR>&);
-
-
-            function() {}
-            function(const core::string<CHAR>& Name,
-                     const COMMAND::t_param_c minParams, const COMMAND::t_param_c maxParams,
-                     error_flag (*Func)(const core::array< core::string<CHAR> >&, core::string<CHAR>&))
-            {
-                name = Name;
-                min_params = minParams;
-                max_params = maxParams;
-                func = Func;
-            }
-        };
-
-
-        enum FUNCTIONS
+        enum FUNC_ID
         {
             CEILING,
             FLOOR,
@@ -211,7 +183,40 @@ namespace script
         };
 
 
-        bool function_name(int func, core::string<char>& name)
+
+
+        template <typename CHAR>
+        class function
+        {
+        public:
+            core::string<CHAR> name;
+
+            COMMAND::t_param_c min_params;
+            COMMAND::t_param_c max_params;
+
+
+
+            //pointer to real function.
+            //every script function must take an array of strings as parameters,
+            //and a single string as output. It should return any error encountered.
+            error_flag (*func)(const core::array< core::string<CHAR> >&, core::string<CHAR>&);
+
+
+            function() {}
+            function(const core::string<CHAR>& Name,
+                     const COMMAND::t_param_c minParams, const COMMAND::t_param_c maxParams,
+                     error_flag (*Func)(const core::array< core::string<CHAR> >&, core::string<CHAR>&))
+            {
+                name = Name;
+                min_params = minParams;
+                max_params = maxParams;
+                func = Func;
+            }
+        };
+
+
+
+        bool function_name(FUNC_ID func, core::string<char>& name)
         {
             if ((func < FUNCTION_COUNT) &&
                 (func >= 0))
@@ -225,7 +230,7 @@ namespace script
             }
         }
 
-        bool function_name(int func, core::string<wchar_t>& name)
+        bool function_name(FUNC_ID func, core::string<wchar_t>& name)
         {
             if ((func < FUNCTION_COUNT) &&
                 (func >= 0))

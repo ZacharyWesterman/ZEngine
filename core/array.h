@@ -3,8 +3,6 @@
 #define ARRAY_H_INCLUDED
 
 #include <vector>
-#include <iostream>
-using namespace std;
 
 namespace core
 {

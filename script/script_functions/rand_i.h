@@ -20,9 +20,6 @@
     std::mt19937 generator(time(NULL));
 #endif // RANDOM_GENERATOR
 
-#ifndef uint
-    #define uint uint32_t
-#endif // uint
 
 namespace script
 {
@@ -31,9 +28,9 @@ namespace script
         //rand_i function must take 2 parameters.
         //low range and high range, inclusive.
         template <typename CHAR>
-        uint rand_i(const core::array< core::string<CHAR> >& params, core::string<CHAR>& output)
+        error_flag rand_i(const core::array< core::string<CHAR> >& params, core::string<CHAR>& output)
         {
-            uint func_error = ERROR::NONE;
+            error_flag func_error = ERROR::NONE;
 
             if (params.size() > 2)
             {

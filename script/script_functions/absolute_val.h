@@ -9,9 +9,6 @@
 
 #include <math.h>
 
-#ifndef uint
-    #define uint uint32_t
-#endif // uint
 
 namespace script
 {
@@ -19,9 +16,9 @@ namespace script
     {
         //absolute value function must take 1 parameter.
         template <typename CHAR>
-        uint absolute_val(const core::array< core::string<CHAR> >& params, core::string<CHAR>& output)
+        error_flag absolute_val(const core::array< core::string<CHAR> >& params, core::string<CHAR>& output)
         {
-            uint func_error = ERROR::NONE;
+            error_flag func_error = ERROR::NONE;
 
             if (params.size() > 1)
             {

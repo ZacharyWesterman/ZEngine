@@ -85,10 +85,10 @@ namespace script
 
         void set_var_in_scope(variableTree<CHAR>*, command<CHAR>&);
 
-        uint replace_vars(const core::string<CHAR>&, core::string<CHAR>&);
+        error_flag replace_vars(const core::string<CHAR>&, core::string<CHAR>&);
         bool get_var_array_index(const core::string<CHAR>&, int, core::string<CHAR>&, int&);
 
-        uint replace_last_function();
+        error_flag replace_last_function();
 
         void unload();
         void preprocess();
@@ -207,13 +207,13 @@ namespace script
         unload();
 
         //split the script into commands based on newline or colon characters.
-        for (uint i=0; i<input.size(); i++)
+        for (int i=0; i<input.size(); i++)
         {
             core::array< command<CHAR> > parsed_input;
 
             split_script_into_commands(input.at(i), parsed_input);
 
-            for (uint j=0; j<parsed_input.size(); j++)
+            for (int j=0; j<parsed_input.size(); j++)
                 parsed_script.add(parsed_input.at(j));
         }
 
@@ -239,7 +239,7 @@ namespace script
 
             split_script_into_commands(input[i], parsed_input);
 
-            for (uint j=0; j<parsed_input.size(); j++)
+            for (int j=0; j<parsed_input.size(); j++)
                 parsed_script.add(parsed_input.at(j));
         }
 
@@ -1088,7 +1088,7 @@ namespace script
     template <typename CHAR>
     void scriptParser<CHAR>::link_conditionals()
     {
-        core::dynamic_stack<uint> prev_conditional;
+        core::dynamic_stack<int> prev_conditional;
 
         for (int i=0; i<parsed_script.size(); i++)
         {
@@ -1110,7 +1110,7 @@ namespace script
                 }
                 else
                 {
-                    uint prev_cond;
+                    int prev_cond;
                     prev_conditional.pop(prev_cond);
 
                     if (parsed_script[prev_cond].type == COMMAND::CONDITIONAL_ELSE)
@@ -1136,7 +1136,7 @@ namespace script
                 }
                 else
                 {
-                    uint prev_cond;
+                    int prev_cond;
                     prev_conditional.pop(prev_cond);
 
                     if (parsed_script[prev_cond].type == COMMAND::CONDITIONAL_ELSE)
@@ -1160,7 +1160,7 @@ namespace script
                 }
                 else
                 {
-                    uint prev_cond;
+                    int prev_cond;
                     prev_conditional.pop(prev_cond);
 
 
@@ -1227,7 +1227,7 @@ namespace script
     template <typename CHAR>
     void scriptParser<CHAR>::link_for_loops()
     {
-        core::dynamic_stack<uint> prev_loop;
+        core::dynamic_stack<int> prev_loop;
 
         for (int i=0; i<parsed_script.size(); i++)
         {
@@ -1249,7 +1249,7 @@ namespace script
                 }
                 else
                 {
-                    uint prev_l;
+                    int prev_l;
                     prev_loop.pop(prev_l);
 
 

@@ -7,9 +7,6 @@
 #include "../../core/stringUtils/eval_string.h"
 #include "../script_errors.h"
 
-#ifndef uint
-    #define uint uint32_t
-#endif // uint
 
 namespace script
 {
@@ -17,9 +14,9 @@ namespace script
     {
         //alpha function must take 1 parameter. Gets the alpha value from a color.
         template <typename CHAR>
-        uint alpha_rgba(const core::array< core::string<CHAR> >& params, core::string<CHAR>& output)
+        error_flag alpha_rgba(const core::array< core::string<CHAR> >& params, core::string<CHAR>& output)
         {
-            uint func_error = ERROR::NONE;
+            error_flag func_error = ERROR::NONE;
 
             if (params.size() > 1)
             {

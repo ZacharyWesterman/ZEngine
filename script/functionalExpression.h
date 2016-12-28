@@ -46,13 +46,13 @@ namespace script
     private:
         FUNCTION::function<CHAR> funcs[FUNCTION::FUNCTION_COUNT];
 
-        uint get_func_value(const core::string<CHAR>&, uint, uint, core::string<CHAR>&);
-        uint get_func_range(const core::string<CHAR>&, uint);
+        error_flag get_func_value(const core::string<CHAR>&, int, int, core::string<CHAR>&);
+        int get_func_range(const core::string<CHAR>&, int);
 
     public:
         functionalExpression();
 
-        uint process(const core::string<CHAR>&, core::array< core::string<CHAR> >&);
+        error_flag process(const core::string<CHAR>&, core::array< core::string<CHAR> >&);
     };
 
 
@@ -62,8 +62,8 @@ namespace script
     {
         //assign the function data
         core::string<CHAR> names[FUNCTION::FUNCTION_COUNT];
-        for (uint i=0; i<FUNCTION::FUNCTION_COUNT; i++)
-            FUNCTION::function_name(i, names[i]);
+        for (int i=0; i<FUNCTION::FUNCTION_COUNT; i++)
+            FUNCTION::function_name(FUNCTION::FUNC_ID(i), names[i]);
 
 
 
@@ -102,10 +102,10 @@ namespace script
 
 
     template <typename CHAR>
-    uint functionalExpression<CHAR>::process(const core::string<CHAR>& input_line,
+    error_flag functionalExpression<CHAR>::process(const core::string<CHAR>& input_line,
                                              core::array< core::string<CHAR> >& solved_params)
     {
-        uint expr_error = ERROR::NONE;
+        error_flag expr_error = ERROR::NONE;
 
         //split all parameters and evaluate separately
         core::array< core::string<CHAR> > params;
@@ -139,13 +139,13 @@ namespace script
                 if (!in_quote)
                 {
                     //consecutively check for each function
-                    for (uint f=0; f<FUNCTION::FUNCTION_COUNT; f++)
+                    for (int f=0; f<FUNCTION::FUNCTION_COUNT; f++)
                     {
                         //if we found a function at this index,
                         if (!in_quote && params[p].foundAt(funcs[f].name, i))
                         {
                             //get the length the function encompasses
-                            uint func_len = get_func_range(params[p], i);
+                            int func_len = get_func_range(params[p], i);
 
                             //get the function's value
                             core::string<CHAR> func_value;
@@ -185,15 +185,15 @@ namespace script
 
 
     template <typename CHAR>
-    uint functionalExpression<CHAR>::get_func_value(const core::string<CHAR>& input_expr,
-                                                    uint func_number,
-                                                    uint past_func_name,
+    error_flag functionalExpression<CHAR>::get_func_value(const core::string<CHAR>& input_expr,
+                                                    int func_number,
+                                                    int past_func_name,
                                                     core::string<CHAR>& output_value)
     {
-        uint expr_error = ERROR::NONE;
+        error_flag expr_error = ERROR::NONE;
 
         ///we are going to get the positions inside the function parentheses
-        uint layer = 0;
+        int layer = 0;
 
         core::string<CHAR> open_parenth;
         operator_string(OPERATOR::OPEN_PARENTH, open_parenth);
@@ -251,10 +251,10 @@ namespace script
 
 
     template <typename CHAR>
-    uint functionalExpression<CHAR>::get_func_range(const core::string<CHAR>& input_expr,
-                                                    uint func_name_start)
+    int functionalExpression<CHAR>::get_func_range(const core::string<CHAR>& input_expr,
+                                                    int func_name_start)
     {
-        uint layer = 0;
+        int layer = 0;
 
         int pos = func_name_start;
 

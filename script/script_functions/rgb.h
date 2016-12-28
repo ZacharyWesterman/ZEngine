@@ -7,9 +7,6 @@
 #include "../../core/stringUtils/eval_string.h"
 #include "../script_errors.h"
 
-#ifndef uint
-    #define uint uint32_t
-#endif // uint
 
 namespace script
 {
@@ -17,9 +14,9 @@ namespace script
     {
         //rgb function must take 3 parameters. converts red, green, and blue value to an opaque color.
         template <typename CHAR>
-        uint rgb(const core::array< core::string<CHAR> >& params, core::string<CHAR>& output)
+        error_flag rgb(const core::array< core::string<CHAR> >& params, core::string<CHAR>& output)
         {
-            uint func_error = ERROR::NONE;
+            error_flag func_error = ERROR::NONE;
 
             if (params.size() > 3)
             {

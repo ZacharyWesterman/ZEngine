@@ -10,11 +10,12 @@
 				<Option output="bin/Debug/ZEngine" prefix_auto="1" extension_auto="1" />
 				<Option working_dir="bin/Debug" />
 				<Option object_output="obj/Debug/" />
-				<Option type="0" />
+				<Option type="1" />
 				<Option compiler="gcc" />
+				<Option use_console_runner="0" />
 				<Compiler>
-					<Add option="-O3" />
 					<Add option="-std=c++11" />
+					<Add option="-g" />
 					<Add option="-U__STRICT_ANSI__" />
 					<Add directory="C:/Users/Zachary/Documents/irrlicht-1.8.4/include" />
 				</Compiler>
@@ -42,6 +43,7 @@
 		</Compiler>
 		<Unit filename="core/array.h" />
 		<Unit filename="core/dynamicStack.h" />
+		<Unit filename="core/sorted_array.h" />
 		<Unit filename="core/string.h" />
 		<Unit filename="core/stringUtils.h" />
 		<Unit filename="core/stringUtils/char_is_alphanumeric.h" />

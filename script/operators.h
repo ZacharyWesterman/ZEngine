@@ -7,6 +7,8 @@
 
 namespace script
 {
+    typedef uint8_t t_oper;
+
     namespace OPERATOR
     {
         enum OPERATOR_LIST
@@ -145,7 +147,7 @@ namespace script
         };
     }
 
-    uint8_t priority(uint8_t oper)
+    uint8_t priority(t_oper oper)
     {
         if (oper < OPERATOR::OPERATOR_COUNT)
             return OPERATOR::OPERATOR_PRIORITY[oper];
@@ -155,9 +157,9 @@ namespace script
 
 
     ///<char> functions relating to operators
-    uint8_t what_operator(const core::string<char>& oper, int position)
+    t_oper what_operator(const core::string<char>& oper, int position)
     {
-        for (uint8_t i=OPERATOR::OPERATOR_COUNT-1; i>0; i--)
+        for (t_oper i=OPERATOR::OPERATOR_COUNT-1; i>0; i--)
         {
             if (oper.foundAt(OPERATOR::CHAR_OPERATOR[i], position))
                 return i;
@@ -177,9 +179,9 @@ namespace script
         return OPERATOR::NONE;
     }
 
-    uint8_t what_operator_at_end(const core::string<char>& oper)
+    t_oper what_operator_at_end(const core::string<char>& oper)
     {
-        for (uint8_t i=OPERATOR::OPERATOR_COUNT-1; i>0; i--)
+        for (t_oper i=OPERATOR::OPERATOR_COUNT-1; i>0; i--)
         {
             if (oper.foundAt(OPERATOR::CHAR_OPERATOR[i],
                              oper.length()-OPERATOR::CHAR_OPERATOR[i].length()))
@@ -189,7 +191,7 @@ namespace script
         return OPERATOR::NONE;
     }
 
-    void operator_string(uint8_t oper, core::string<char>& output)
+    void operator_string(t_oper oper, core::string<char>& output)
     {
         if (oper < OPERATOR::OPERATOR_COUNT)
             output = OPERATOR::CHAR_OPERATOR[oper];
@@ -199,9 +201,9 @@ namespace script
 
 
     ///<wchar_t> functions relating to operators
-    uint8_t what_operator(const core::string<wchar_t>& oper, int position)
+    t_oper what_operator(const core::string<wchar_t>& oper, int position)
     {
-        for (uint8_t i=OPERATOR::OPERATOR_COUNT-1; i>0; i--)
+        for (t_oper i=OPERATOR::OPERATOR_COUNT-1; i>0; i--)
         {
             if (oper.foundAt(OPERATOR::WCHAR_T_OPERATOR[i], position))
                 return i;
@@ -210,9 +212,9 @@ namespace script
         return OPERATOR::NONE;
     }
 
-    uint8_t what_operator(const core::string<wchar_t>& oper)
+    t_oper what_operator(const core::string<wchar_t>& oper)
     {
-        for (uint8_t i=OPERATOR::OPERATOR_COUNT-1; i>0; i--)
+        for (t_oper i=OPERATOR::OPERATOR_COUNT-1; i>0; i--)
         {
             if (oper == OPERATOR::WCHAR_T_OPERATOR[i])
                 return i;
@@ -221,9 +223,9 @@ namespace script
         return OPERATOR::NONE;
     }
 
-    uint8_t what_operator_at_end(const core::string<wchar_t>& oper)
+    t_oper what_operator_at_end(const core::string<wchar_t>& oper)
     {
-        for (uint8_t i=OPERATOR::OPERATOR_COUNT-1; i>0; i--)
+        for (t_oper i=OPERATOR::OPERATOR_COUNT-1; i>0; i--)
         {
             if (oper.foundAt(OPERATOR::WCHAR_T_OPERATOR[i],
                              oper.length()-OPERATOR::WCHAR_T_OPERATOR[i].length()))
@@ -233,7 +235,7 @@ namespace script
         return OPERATOR::NONE;
     }
 
-    void operator_string(uint8_t oper, core::string<wchar_t>& output)
+    void operator_string(t_oper oper, core::string<wchar_t>& output)
     {
         if (oper < OPERATOR::OPERATOR_COUNT)
             output = OPERATOR::WCHAR_T_OPERATOR[oper];

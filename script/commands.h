@@ -9,11 +9,6 @@
 #include "script_errors.h"
 #include "split_parameters.h"
 
-#ifndef uint
-    #define uint uint32_t
-#endif // uint
-
-
 namespace script
 {
     namespace COMMAND
@@ -259,20 +254,34 @@ namespace script
         };
     }
 
+
+
+    typedef int t_meta;
+    typedef int cmd_flag;
+
     template <typename CHAR>
-    struct command
+    class command
     {
-        uint type;
+    public:
+        cmd_flag type;
 
         core::array< core::string<CHAR> > data;
 
-        uint error;
+        error_flag error;
 
-        uint meta;
+        t_meta meta;
 
 
         int text_begin;
         int text_end;
+
+
+        bool operator==(const command& other) const
+        {
+            return ((type == other.type) &&
+                    (data == other.data) &&
+                    (meta == other.meta));
+        }
     };
 
 
@@ -324,7 +333,7 @@ namespace script
                         output.type = i;
 
                         //append variable name
-                        output.data.append(core::remove_whitespace(thisInput.substr(0, pos - 1)));
+                        output.data.add(core::remove_whitespace(thisInput.substr(0, pos - 1)));
 
                         //append variable value(s)
                         split_parameters(core::remove_whitespace(thisInput.substr(thisCMDname.length() + pos,
@@ -357,7 +366,7 @@ namespace script
                                                                 funcParamsBegin-1));
 
                             if (funcName.length() > 0)
-                                output.data.append(funcName);
+                                output.data.add(funcName);
 
 
                             //split function parameters
@@ -369,13 +378,13 @@ namespace script
                                              params);
 
                             //and append them
-                            for (uint p=0; p<params.size(); p++)
+                            for (int p=0; p<params.size(); p++)
                             {
                                 core::string<CHAR> param = core::remove_whitespace(params.at(p));
 
                                 //but only if the parameter has something
                                 if (param.length() > 0)
-                                    output.data.append(param);
+                                    output.data.add(param);
                             }
                         }
                         else
@@ -386,7 +395,7 @@ namespace script
                                                                 input.length()-1));
 
                             if (funcName.length() > 0)
-                                output.data.append(funcName);
+                                output.data.add(funcName);
                         }
 
                         return output;
@@ -399,7 +408,7 @@ namespace script
                     {
                         output.type = i;
 
-                        output.data.append(thisInput.substr(thisCMDname.length(), thisInput.length()-1));
+                        output.data.add(thisInput.substr(thisCMDname.length(), thisInput.length()-1));
 
                         return output;
                     }
@@ -425,7 +434,7 @@ namespace script
 
         if (thisInput.length() > 0)
         {
-            output.data.append(thisInput);
+            output.data.add(thisInput);
             output.error |= ERROR::UNKNOWN_COMMAND;
         }
 

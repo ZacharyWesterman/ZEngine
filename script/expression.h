@@ -17,10 +17,6 @@
 #include "escape_sequences.h"
 #include "destringify.h"
 
-#ifndef uint
-    #define uint uint32_t
-#endif // uint
-
 
 namespace script
 {
@@ -108,13 +104,13 @@ namespace script
 
 
     template <typename CHAR>
-    uint expression<CHAR>::correct_negatives(core::array< core::string<CHAR> >& infix)
+    error_flag expression<CHAR>::correct_negatives(core::array< core::string<CHAR> >& infix)
     {
-        uint expression_error = ERROR::NONE;
+        error_flag expression_error = ERROR::NONE;
 
-        for (uint i=0; i<infix.size(); i++)
+        for (int i=0; i<infix.size(); i++)
         {
-            uint oper = what_operator(infix.at(i), 0);
+            t_oper oper = what_operator(infix.at(i), 0);
 
             //if this is a '-'
             if (oper == OPERATOR::SUBTRACT)
@@ -133,7 +129,7 @@ namespace script
                 if (infix.is_valid(i+1) &&
                     !what_operator(infix.at(i+1)))
                 {
-                    uint l_oper = OPERATOR::NONE;
+                    t_oper l_oper = OPERATOR::NONE;
 
                     if (infix.is_valid(i-1))
                         l_oper = what_operator(infix.at(i-1));
@@ -162,16 +158,16 @@ namespace script
     }
 
     template <typename CHAR>
-    uint expression<CHAR>::cumulative_operate(const core::array< core::string<CHAR> >& postfix)
+    error_flag expression<CHAR>::cumulative_operate(const core::array< core::string<CHAR> >& postfix)
     {
         //cout << postfix.size() << endl;
-        uint operation_error = ERROR::NONE;
+        error_flag operation_error = ERROR::NONE;
 
         core::dynamic_stack< core::string<CHAR> > operands;
 
 
 
-        for (uint i=0; i<postfix.size(); i++)
+        for (int i=0; i<postfix.size(); i++)
         {
             //check if we have an operator
             uint oper = what_operator(postfix.at(i));
@@ -1033,7 +1029,7 @@ namespace script
                                                          expr_string.substr(num_beg, num_end+1));
 
                     if (this_value.length() > 0)
-                        infix.append(this_value.str());
+                        infix.add(this_value.str());
 
                     num_beg = i + 1;
                 }
@@ -1058,7 +1054,7 @@ namespace script
                                                          expr_string.substr(num_beg, num_end));
 
                     if (this_value.length() > 0)
-                        infix.append(this_value.str());
+                        infix.add(this_value.str());
                 }
 
 
@@ -1066,7 +1062,7 @@ namespace script
                 core::string<CHAR> this_oper;
                 operator_string(oper, this_oper);
 
-                infix.append(this_oper.str());
+                infix.add(this_oper.str());
 
                 num_beg = i + this_oper.length();
                 i = num_beg - 1;
@@ -1093,7 +1089,7 @@ namespace script
             core::string<CHAR> this_value = core::remove_whitespace(
                                                  expr_string.substr(num_beg, num_end));
             if (this_value.length() > 0)
-                infix.append(this_value.str());
+                infix.add(this_value.str());
         }
 
 
@@ -1102,24 +1098,24 @@ namespace script
 
 
     template <typename CHAR>
-    uint expression<CHAR>::to_postfix(const core::array< core::string<CHAR> >& infix,
+    error_flag expression<CHAR>::to_postfix(const core::array< core::string<CHAR> >& infix,
                                       core::array< core::string<CHAR> >& postfix)
     {
-        uint expr_error = ERROR::NONE;
+        error_flag expr_error = ERROR::NONE;
 
         //stack for operators
-        core::dynamic_stack< uint > operators;
+        core::dynamic_stack< t_oper > operators;
 
 
-        for (uint i=0; i<infix.size(); i++)
+        for (int i=0; i<infix.size(); i++)
         {
             //check if we have an operator
-            uint oper = what_operator(infix.at(i));
+            int oper = what_operator(infix.at(i));
 
             //if we do have an operator
             if (oper)
             {
-                uint lastOper = OPERATOR::NONE;
+                t_oper lastOper = OPERATOR::NONE;
 
                 if (oper == OPERATOR::OPEN_PARENTH)
                 {
@@ -1139,7 +1135,7 @@ namespace script
                         core::string<CHAR> last_oper;
                         operator_string(lastOper, last_oper);
 
-                        postfix.append(last_oper);
+                        postfix.add(last_oper);
 
                         lastOper = OPERATOR::NONE;
                         didPop = operators.pop(lastOper);
@@ -1154,7 +1150,7 @@ namespace script
                         core::string<CHAR> last_oper;
                         operator_string(lastOper, last_oper);
 
-                        postfix.append(last_oper);
+                        postfix.add(last_oper);
 
                         lastOper = OPERATOR::NONE;
                         didPop = operators.pop(lastOper);
@@ -1179,18 +1175,18 @@ namespace script
                         core::string<CHAR> mul;
                         operator_string(OPERATOR::MULTIPLY, mul);
 
-                        postfix.append(mul);
+                        postfix.add(mul);
                     }
 
                 //append to the output
                 if (infix.at(i).length() > 0)
-                    postfix.append(infix.at(i));
+                    postfix.add(infix.at(i));
             }
         }
 
 
         //pop any operators still left on the stack
-        uint oper = OPERATOR::NONE;
+        t_oper oper = OPERATOR::NONE;
         core::string<CHAR> val;
 
         bool opers_left = operators.pop(oper);
@@ -1201,7 +1197,7 @@ namespace script
             core::string<CHAR> oper_str;
             operator_string(oper, oper_str);
 
-            postfix.append(oper_str);
+            postfix.add(oper_str);
 
 
             opers_left = operators.pop(oper);

@@ -96,7 +96,7 @@ namespace script
                 for (int i=0; i<new_size; i++)
                 {
                     core::string<CHAR> empty_str;
-                    var_values.append(empty_str);
+                    var_values.add(empty_str);
                 }
 
                 return ERROR::NONE;
@@ -138,7 +138,7 @@ namespace script
         {
             var_values.clear();
 
-            var_values.append(val);
+            var_values.add(val);
 
             var_type = VARIABLE::SINGLE;
 

@@ -19,9 +19,7 @@
 
 #include "escape_sequences.h"
 
-#ifndef uint
-    #define uint uint32_t
-#endif // uint
+
 
 #include <iostream>
 #include "../core/stringUtils/convert_type.h"
@@ -35,7 +33,7 @@ namespace script
     private:
         core::array< command<CHAR> > parsed_script;
         core::dynamic_stack< variableTree<CHAR>* > scope;
-        core::dynamic_stack<uint> return_position;
+        core::dynamic_stack<int> return_position;
 
         core::dynamic_stack<bool> prev_conditional_result;
 
@@ -45,14 +43,14 @@ namespace script
         functionalExpression<CHAR> expression_parser;
 
         core::array< core::string<CHAR> > user_functions;
-        core::array< uint > user_func_positions;
+        core::array< int > user_func_positions;
 
 
-        uint entry_point;
+        int entry_point;
 
-        uint current_cmd;
+        int current_cmd;
 
-        uint this_err_cmd;
+        int this_err_cmd;
 
 
         void empty_scope()
@@ -172,7 +170,7 @@ namespace script
         link_functions();
 
 
-        for (uint i=0; i<user_functions.size(); i++)
+        for (int i=0; i<user_functions.size(); i++)
         {
             cout << "function '" << core::narrow(user_functions[i]).str();
             cout << "' at line " << user_func_positions[i] << endl;
@@ -216,7 +214,7 @@ namespace script
             split_script_into_commands(input.at(i), parsed_input);
 
             for (uint j=0; j<parsed_input.size(); j++)
-                parsed_script.append(parsed_input.at(j));
+                parsed_script.add(parsed_input.at(j));
         }
 
 
@@ -242,7 +240,7 @@ namespace script
             split_script_into_commands(input[i], parsed_input);
 
             for (uint j=0; j<parsed_input.size(); j++)
-                parsed_script.append(parsed_input.at(j));
+                parsed_script.add(parsed_input.at(j));
         }
 
 
@@ -255,7 +253,7 @@ namespace script
     template <typename CHAR>
     bool scriptParser<CHAR>::get_next_error(command<CHAR>& bad_command)
     {
-        for (uint i=this_err_cmd; i<parsed_script.size(); i++)
+        for (int i=this_err_cmd; i<parsed_script.size(); i++)
         {
             this_err_cmd = i;
 
@@ -319,7 +317,7 @@ namespace script
 
                     core::array< core::string<CHAR> > parsed_data;
 
-                    for (uint c=1; c<parsed_script.at(current_cmd).data.size(); c++)
+                    for (int c=1; c<parsed_script.at(current_cmd).data.size(); c++)
                     {
                         parsed_script.at(current_cmd).error |= replace_vars(parsed_script.at(current_cmd).data.at(c), this_data);
 
@@ -331,10 +329,10 @@ namespace script
 
 
                     if (parsed_script.at(current_cmd).data.is_valid(0))
-                        this_command.data.append(parsed_script.at(current_cmd).data.at(0));
+                        this_command.data.add(parsed_script.at(current_cmd).data.at(0));
 
-                    for (uint i=0; i<parsed_data.size(); i++)
-                        this_command.data.append(parsed_data.at(i));
+                    for (int i=0; i<parsed_data.size(); i++)
+                        this_command.data.add(parsed_data.at(i));
                     //cout << "##" << core::narrow(parsed_data[0]).str() <<endl;
 
                     this_command.error = parsed_script.at(current_cmd).error;
@@ -492,7 +490,7 @@ namespace script
                         scope.pop(current_scope);
                     }
 
-                    current_cmd = parsed_script.at(current_cmd).meta+1;
+                    current_cmd = (int)(parsed_script.at(current_cmd).meta+1);
                 }
                 //if break command, leave the current loop
                 else if (parsed_script[current_cmd].type == COMMAND::LEAVE_SCOPE)
@@ -504,7 +502,7 @@ namespace script
                     //calculate how many scopes need to be left
                     int shed_scopes = 1;
 
-                    for (uint i=current_cmd; i<parsed_script[current_cmd].meta; i++)
+                    for (int i=current_cmd; i<(int)parsed_script[current_cmd].meta; i++)
                     {
                         if (parsed_script[i].type == COMMAND::CONDITIONAL_IF)
                             shed_scopes--;
@@ -677,8 +675,8 @@ namespace script
                             t_cmd.error = ERROR::NONE;
                             t_cmd.meta = 0;
                             //set the looping variable
-                            t_cmd.data.append(var_name);
-                            t_cmd.data.append(this_command.data.at(0));
+                            t_cmd.data.add(var_name);
+                            t_cmd.data.add(this_command.data.at(0));
 
                             //then we are going to be in this loop,
                             set_var_in_scope(current_scope, t_cmd);
@@ -707,10 +705,10 @@ namespace script
                 }
                 else if (parsed_script[current_cmd].type == COMMAND::FOR_LOOP_END)
                 {
-                    if (parsed_script[current_cmd].meta < current_cmd)
+                    if ((int)parsed_script[current_cmd].meta < current_cmd)
                     {
                         //get the variable name
-                        uint loop_beg = parsed_script[current_cmd].meta;
+                        int loop_beg = (int)parsed_script[current_cmd].meta;
 
                         core::string<CHAR> var_name = core::remove_whitespace(
                                                         parsed_script[loop_beg].data.at(0));
@@ -775,8 +773,8 @@ namespace script
                             var_value = (core::value(var_value) + core::value(this_command.data.at(1)));
 
 
-                            t_cmd.data.append(var_name);
-                            t_cmd.data.append(var_value);
+                            t_cmd.data.add(var_name);
+                            t_cmd.data.add(var_value);
 
                             //then we are going to be in this loop,
                             set_var_in_scope(current_scope, t_cmd);
@@ -826,7 +824,7 @@ namespace script
                 }
                 else //for any other command, just process the data and return the command
                 {
-                    for (uint i=0; i<parsed_script.at(current_cmd).data.size(); i++)
+                    for (int i=0; i<parsed_script.at(current_cmd).data.size(); i++)
                     {
 
 
@@ -909,7 +907,7 @@ namespace script
         bool in_main = false;
         bool in_subroutine = false;
 
-        for (uint i=0; i<parsed_script.size(); i++)
+        for (int i=0; i<parsed_script.size(); i++)
         {
             //if we are in a function, the scope is valid for loops
             if (parsed_script[i].type == COMMAND::FUNCTION_DEFINE)
@@ -961,9 +959,9 @@ namespace script
 
                 command<CHAR> cmd;
                 if (parsed_script.at(i).data.is_valid(0))
-                    cmd.data.append(parsed_script.at(i).data.at(0));
+                    cmd.data.add(parsed_script.at(i).data.at(0));
                 if (parsed_data.is_valid(0))
-                    cmd.data.append(parsed_data.at(0));
+                    cmd.data.add(parsed_data.at(0));
                 cmd.error = parsed_script.at(i).error;
                 cmd.meta = parsed_script.at(i).meta;
                 cmd.type = parsed_script.at(i).type;
@@ -983,7 +981,7 @@ namespace script
         bool in_main = false;
         bool in_subroutine = false;
 
-        for (uint i=0; i<parsed_script.size(); i++)
+        for (int i=0; i<parsed_script.size(); i++)
         {
             //if we are in a function, the scope is valid for loops
             if (parsed_script[i].type == COMMAND::FUNCTION_DEFINE)
@@ -1056,7 +1054,7 @@ namespace script
         //find the entry point
         bool found_entry_point = false;
 
-        for (uint i=0; i<parsed_script.size(); i++)
+        for (int i=0; i<parsed_script.size(); i++)
         {
             if (parsed_script[i].type == COMMAND::ENTRY_POINT)
             {
@@ -1092,7 +1090,7 @@ namespace script
     {
         core::dynamic_stack<uint> prev_conditional;
 
-        for (uint i=0; i<parsed_script.size(); i++)
+        for (int i=0; i<parsed_script.size(); i++)
         {
             //conditional "if"
             if (parsed_script[i].type == COMMAND::CONDITIONAL_IF)
@@ -1183,9 +1181,9 @@ namespace script
     template <typename CHAR>
     void scriptParser<CHAR>::link_loops()
     {
-        core::dynamic_stack<uint> prev_loop;
+        core::dynamic_stack<int> prev_loop;
 
-        for (uint i=0; i<parsed_script.size(); i++)
+        for (int i=0; i<parsed_script.size(); i++)
         {
             //loop begin/begin&condition command
             if ((parsed_script[i].type == COMMAND::LOOP_BEGIN) ||
@@ -1207,7 +1205,7 @@ namespace script
                 }
                 else
                 {
-                    uint prev_l;
+                    int prev_l;
                     prev_loop.pop(prev_l);
 
 
@@ -1231,7 +1229,7 @@ namespace script
     {
         core::dynamic_stack<uint> prev_loop;
 
-        for (uint i=0; i<parsed_script.size(); i++)
+        for (int i=0; i<parsed_script.size(); i++)
         {
             //numbered loop begin command
             if (parsed_script[i].type == COMMAND::FOR_LOOP_BEGIN)
@@ -1274,15 +1272,15 @@ namespace script
     void scriptParser<CHAR>::link_labels()
     {
         core::array< core::string<CHAR> > label_names;
-        core::array< uint > label_positions;
+        core::array< int > label_positions;
 
-        uint scope_layer = 0;
-        uint scope_begin_pos = 0;
+        int scope_layer = 0;
+        int scope_begin_pos = 0;
 
         bool getting_labels = true;
 
 
-        for (uint i=0; i<parsed_script.size(); i++)
+        for (int i=0; i<parsed_script.size(); i++)
         {
             if ((parsed_script[i].type == COMMAND::FUNCTION_DEFINE) ||
                 (parsed_script[i].type == COMMAND::ENTRY_POINT) ||
@@ -1324,8 +1322,8 @@ namespace script
                             }
                             else
                             {
-                                label_names.append(parsed_script[i].data.at(0));
-                                label_positions.append(i);
+                                label_names.add(parsed_script[i].data.at(0));
+                                label_positions.add(i);
                             }
                         }
                         else
@@ -1381,10 +1379,10 @@ namespace script
     void scriptParser<CHAR>::link_subroutines()
     {
         core::array< core::string<CHAR> > subroutine_names;
-        core::array< uint > subroutine_positions;
+        core::array< int > subroutine_positions;
 
         //find all the subroutines
-        for (uint i=0; i<parsed_script.size(); i++)
+        for (int i=0; i<parsed_script.size(); i++)
         {
             if (parsed_script[i].type == COMMAND::SUBROUTINE_DEFINE)
             {
@@ -1397,8 +1395,8 @@ namespace script
                     }
                     else
                     {
-                        subroutine_names.append(parsed_script[i].data.at(0));
-                        subroutine_positions.append(i);
+                        subroutine_names.add(parsed_script[i].data.at(0));
+                        subroutine_positions.add(i);
                     }
                 }
                 else
@@ -1409,7 +1407,7 @@ namespace script
         }
 
         //link all the subroutine calls
-        for (uint i=0; i<parsed_script.size(); i++)
+        for (int i=0; i<parsed_script.size(); i++)
         {
             if (parsed_script[i].type == COMMAND::SUBROUTINE_GOTO)
             {
@@ -1439,16 +1437,16 @@ namespace script
     template <typename CHAR>
     void scriptParser<CHAR>::link_breakages()
     {
-        core::dynamic_stack< core::array<uint> > scoped_break_pos;
+        core::dynamic_stack< core::array<int> > scoped_break_pos;
 
-        core::array<uint> break_pos;
+        core::array<int> break_pos;
 
-        for(uint i=0; i<parsed_script.size(); i++)
+        for(int i=0; i<parsed_script.size(); i++)
         {
             if (parsed_script[i].type == COMMAND::LEAVE_SCOPE)
             {
-                parsed_script[i].meta = i+1;
-                break_pos.append(i);
+                parsed_script[i].meta = (t_meta)(i+1);
+                break_pos.add(i);
             }
             else if ((parsed_script[i].type == COMMAND::LOOP_BEGIN) ||
                      (parsed_script[i].type == COMMAND::LOOP_BEGIN_CONDITION))
@@ -1463,9 +1461,9 @@ namespace script
                      (parsed_script[i].type == COMMAND::LOOP_END_CONDITION) ||
                      (parsed_script[i].type == COMMAND::FOR_LOOP_END))
             {
-                for (uint b=0; b<break_pos.size(); b++)
+                for (int b=0; b<break_pos.size(); b++)
                 {
-                    parsed_script[break_pos[b]].meta = i+1;
+                    parsed_script[break_pos[b]].meta = (t_meta)(i+1);
                 }
 
                 break_pos.clear();
@@ -1477,7 +1475,7 @@ namespace script
 
 
         //Errors if there are any break commands out of a valid scope.
-        for (uint b=0; b<break_pos.size(); b++)
+        for (int b=0; b<break_pos.size(); b++)
         {
             parsed_script[break_pos[b]].error |= ERROR::BAD_SCOPING;
         }
@@ -1488,7 +1486,7 @@ namespace script
         {
             scoped_break_pos.pop(break_pos);
 
-            for (uint b=0; b<break_pos.size(); b++)
+            for (int b=0; b<break_pos.size(); b++)
             {
                 parsed_script[break_pos[b]].error |= ERROR::BAD_SCOPING;
             }
@@ -1504,14 +1502,14 @@ namespace script
     void scriptParser<CHAR>::check_param_counts()
     {
         //look at every command
-        for (uint i=0; i<parsed_script.size(); i++)
+        for (int i=0; i<parsed_script.size(); i++)
         {
-            if ((parsed_script[i].data.size() < (uint)COMMAND::MIN_PARAMS[parsed_script[i].type]) &&
+            if ((parsed_script[i].data.size() < COMMAND::MIN_PARAMS[parsed_script[i].type]) &&
                 (COMMAND::MIN_PARAMS[parsed_script[i].type] > -1))
             {
                 parsed_script[i].error |= ERROR::TOO_FEW_PARAMS;
             }
-            else if ((parsed_script[i].data.size() > (uint)COMMAND::MAX_PARAMS[parsed_script[i].type]) &&
+            else if ((parsed_script[i].data.size() > COMMAND::MAX_PARAMS[parsed_script[i].type]) &&
                      (COMMAND::MAX_PARAMS[parsed_script[i].type] > -1))
             {
                 parsed_script[i].error |= ERROR::TOO_MANY_PARAMS;
@@ -1528,15 +1526,15 @@ namespace script
     {
         bool in_function = false;
 
-        for (uint i=0; i<parsed_script.size(); i++)
+        for (int i=0; i<parsed_script.size(); i++)
         {
             if (!parsed_script[i].error)
             {
                 //if we are in a function, we can check for function-based errors
                 if (parsed_script[i].type == COMMAND::FUNCTION_DEFINE)
                 {
-                    user_functions.append(parsed_script[i].data[0]);
-                    user_func_positions.append(i);
+                    user_functions.add(parsed_script[i].data[0]);
+                    user_func_positions.add(i);
 
                     in_function = true;
                 }
@@ -1626,7 +1624,7 @@ namespace script
             {
                 core::array< core::string<CHAR> > expr_values;
 
-                for (uint i=1; i<cmd.data.size(); i++)
+                for (int i=1; i<cmd.data.size(); i++)
                 {
                     cmd.error |= expression_parser.process(cmd.data.at(i), expr_values);
                 }
@@ -1659,9 +1657,9 @@ namespace script
     ///template function to replace the variables in a given string with
     ///the values of corresponding variables in the current scope.
     template <typename CHAR>
-    uint scriptParser<CHAR>::replace_vars(const core::string<CHAR>& input, core::string<CHAR>& output)
+    error_flag scriptParser<CHAR>::replace_vars(const core::string<CHAR>& input, core::string<CHAR>& output)
     {
-        uint error = ERROR::NONE;
+        error_flag error = ERROR::NONE;
 
         output = input;
 

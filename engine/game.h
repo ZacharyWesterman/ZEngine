@@ -374,7 +374,7 @@ namespace engine
         int max_x = console_window->getClientRect().getWidth() + min_x;
         int max_y = console_window->getClientRect().getHeight() + min_y;
 
-        irr::gui::IGUIListBox* console =
+        //irr::gui::IGUIListBox* console =
             gui->addListBox(irr::core::rect<irr::s32>(min_x,min_y,max_x,max_y),
                             console_window, //parent
                             GUI_CONSOLE_LIST, //id
@@ -621,7 +621,7 @@ namespace engine
                 error_string += script::COMMAND::WCHAR_T_COMMANDS[cmd.type];
 
 
-                for (uint i=0; i<cmd.data.size(); i++)
+                for (int i=0; i<cmd.data.size(); i++)
                 {
                     error_string += L", ";
                     error_string += cmd.data[i];
@@ -644,73 +644,73 @@ namespace engine
         if (error)
         {
             if (error & script::ERROR::DIV_BY_ZERO)
-                err_list.append(L"DIV_BY_ZERO");
+                err_list.add(L"DIV_BY_ZERO");
 
             if (error & script::ERROR::INVALID_CHARACTER)
-                err_list.append(L"INVALID_CHARACTER");
+                err_list.add(L"INVALID_CHARACTER");
 
             if (error & script::ERROR::MISSING_OPERAND)
-                err_list.append(L"MISSING_OPERAND");
+                err_list.add(L"MISSING_OPERAND");
 
             if (error & script::ERROR::INVALID_OPERATION)
-                err_list.append(L"INVALID_OPERATION");
+                err_list.add(L"INVALID_OPERATION");
 
             if (error & script::ERROR::MISSING_L_PARENTH)
-                err_list.append(L"MISSING_L_PARENTH");
+                err_list.add(L"MISSING_L_PARENTH");
 
             if (error & script::ERROR::MISSING_R_PARENTH)
-                err_list.append(L"MISSING_R_PARENTH");
+                err_list.add(L"MISSING_R_PARENTH");
 
             if (error & script::ERROR::TOO_FEW_PARAMS)
-                err_list.append(L"TOO_FEW_PARAMS");
+                err_list.add(L"TOO_FEW_PARAMS");
 
             if (error & script::ERROR::TOO_MANY_PARAMS)
-                err_list.append(L"TOO_MANY_PARAMS");
+                err_list.add(L"TOO_MANY_PARAMS");
 
             if (error & script::ERROR::INVALID_PARAM)
-                err_list.append(L"INVALID_PARAM");
+                err_list.add(L"INVALID_PARAM");
 
             if (error & script::ERROR::NON_REAL_NUMBER)
-                err_list.append(L"NON_REAL_NUMBER");
+                err_list.add(L"NON_REAL_NUMBER");
 
             if (error & script::ERROR::OUT_OF_BOUNDS)
-                err_list.append(L"OUT_OF_BOUNDS");
+                err_list.add(L"OUT_OF_BOUNDS");
 
             if (error & script::ERROR::UNKNOWN_VARIABLE)
-                err_list.append(L"UNKNOWN_VARIABLE");
+                err_list.add(L"UNKNOWN_VARIABLE");
 
             if (error & script::ERROR::WRONG_VAR_TYPE)
-                err_list.append(L"WRONG_VAR_TYPE");
+                err_list.add(L"WRONG_VAR_TYPE");
 
             if (error & script::ERROR::BAD_FORMATTING)
-                err_list.append(L"BAD_FORMATTING");
+                err_list.add(L"BAD_FORMATTING");
 
             if (error & script::ERROR::MISSING_OPERATOR)
-                err_list.append(L"MISSING_OPERATOR");
+                err_list.add(L"MISSING_OPERATOR");
 
             if (error & script::ERROR::UNKNOWN_COMMAND)
-                err_list.append(L"UNKNOWN_COMMAND");
+                err_list.add(L"UNKNOWN_COMMAND");
 
             if (error & script::ERROR::BAD_REDEFINITION)
-                err_list.append(L"BAD_REDEFINITION");
+                err_list.add(L"BAD_REDEFINITION");
 
             if (error & script::ERROR::NO_ENTRY_POINT)
-                err_list.append(L"NO_ENTRY_POINT");
+                err_list.add(L"NO_ENTRY_POINT");
 
             if (error & script::ERROR::BAD_SCOPING)
-                err_list.append(L"BAD_SCOPING");
+                err_list.add(L"BAD_SCOPING");
 
             if (error & script::ERROR::UNEXP_COMMAND)
-                err_list.append(L"UNEXP_COMMAND");
+                err_list.add(L"UNEXP_COMMAND");
 
             if (error & script::ERROR::UNEXP_END_OF_SCRIPT)
-                err_list.append(L"UNEXP_END_OF_SCRIPT");
+                err_list.add(L"UNEXP_END_OF_SCRIPT");
 
             if (error & script::ERROR::UNKNOWN_LABEL)
-                err_list.append(L"UNKNOWN_LABEL");
+                err_list.add(L"UNKNOWN_LABEL");
 
             if (error & script::ERROR::UNKNOWN_SUBROUTINE)
-                err_list.append(L"UNKNOWN_SUBROUTINE");
+                err_list.add(L"UNKNOWN_SUBROUTINE");
 
         }
 
@@ -721,7 +721,7 @@ namespace engine
         {
             output = err_list.at(0);
 
-            for (uint i=1; i<err_list.size(); i++)
+            for (int i=1; i<err_list.size(); i++)
             {
                 output += L", ";
                 output += err_list.at(i);

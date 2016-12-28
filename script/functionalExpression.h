@@ -124,7 +124,7 @@ namespace script
         esc_sequence_name(ESC_SEQUENCE::QUOTE, quote_esc);
 
         //evaluate each parameter separately
-        for (uint p=0; p<params.size(); p++)
+        for (int p=0; p<params.size(); p++)
         {
             bool in_quote = false;
             //for every character in this parameter
@@ -179,7 +179,7 @@ namespace script
                 expr_error |= expr.error();
 
                 //and append each parameter to the output.
-                solved_params.append(expr.value());
+                solved_params.add(expr.value());
             }
         }
 

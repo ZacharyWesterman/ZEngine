@@ -5,6 +5,8 @@
 
 namespace script
 {
+    typedef uint32_t error_flag;
+
     namespace ERROR
     {
         enum ERRORS

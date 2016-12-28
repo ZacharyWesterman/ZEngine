@@ -56,7 +56,7 @@ namespace script
             }
             else if (input.foundAt(comma, i) && (level == 0) && !in_quote)
             {
-                comma_positions.append(i);
+                comma_positions.add(i);
             }
             else if (what_esc_sequence(input, i) == ESC_SEQUENCE::QUOTE)
             {
@@ -72,21 +72,21 @@ namespace script
         //now separate into strings using the given positions
         if (comma_positions.size() >= 1)
         {
-            output.append(input.substr(0, comma_positions.at(0)-1));
+            output.add(input.substr(0, comma_positions.at(0)-1));
 
-            for (uint i=1; i<comma_positions.size(); i++)
+            for (int i=1; i<comma_positions.size(); i++)
             {
-                output.append(input.substr(comma_positions.at(i-1)+1,
+                output.add(input.substr(comma_positions.at(i-1)+1,
                                            comma_positions.at(i)-1));
             }
 
-            output.append(input.substr(comma_positions.at(comma_positions.size()-1)+1,
+            output.add(input.substr(comma_positions.at(comma_positions.size()-1)+1,
                                        input.length()-1));
         }
         else
         {
             if (core::remove_whitespace(input).length() > 0)
-                output.append(input);
+                output.add(input);
         }
     }
 }

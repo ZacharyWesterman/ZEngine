@@ -44,7 +44,7 @@ namespace script
                         (t_cmd.type != COMMAND::NONE)))
                     {
 
-                        output.append(t_cmd);
+                        output.add(t_cmd);
                     }
                 }
 
@@ -58,7 +58,7 @@ namespace script
             t_cmd.text_begin = start_pos;
             t_cmd.text_end = input.length() - 1;
 
-            output.append(t_cmd);
+            output.add(t_cmd);
         }
     }
 }

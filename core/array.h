@@ -27,15 +27,15 @@ namespace core
         void clear();
 
         virtual int add(const T&);
-        bool insert(const T&, uint);
-        bool remove(uint);
+        bool insert(const T&, int);
+        bool remove(int);
 
         int size() const;
 
-        T& at(const uint);
-        const T& at(const uint) const;
-        T& operator[](const uint);
-        const T& operator[](const uint) const;
+        T& at(const int);
+        const T& at(const int) const;
+        T& operator[](const int);
+        const T& operator[](const int) const;
 
         ///Function to check if a given object is in the array
         //linear search (array is unsorted)
@@ -54,7 +54,7 @@ namespace core
         {
             clear();
 
-            for (uint i=0; i<other.array_data.size(); i++)
+            for (int i=0; i<(int)other.array_data.size(); i++)
                 array_data.push_back(other.array_data.at(i));
 
             return *this;
@@ -72,9 +72,9 @@ namespace core
             return true;
         }
 
-        bool is_valid(uint position) const
+        bool is_valid(int position) const
         {
-            return (position < array_data.size());
+            return (position < (int)array_data.size());
         }
     };
 
@@ -82,7 +82,7 @@ namespace core
     template <typename T>
     array<T>::array(const array<T>& other)
     {
-        for (uint i=0; i<other.array_data.size(); i++)
+        for (int i=0; i<(int)other.array_data.size(); i++)
             array_data.push_back(other.array_data.at(i));
     }
 
@@ -101,14 +101,14 @@ namespace core
     {
         array_data.push_back(object);
 
-        return (array_data.size() - 1);
+        return ((int)array_data.size() - 1);
     }
 
 
     ///Function to insert an object to the given index in the array
     //places the given object in that index(if valid), returning false if invalid index
     template <typename T>
-    bool array<T>::insert(const T& object, uint index)
+    bool array<T>::insert(const T& object, int index)
     {
         //if invalid index, return false
         if (index >= (int)array_data.size())
@@ -123,9 +123,9 @@ namespace core
     ///Function to remove an object from the array
     //removes an object from the given index, returning false if invalid index
     template <typename T>
-    bool array<T>::remove(uint index)
+    bool array<T>::remove(int index)
     {
-        if ((index < 0) || (index >= array_data.size()))
+        if ((index < 0) || (index >= (int)array_data.size()))
             return false;
 
         array_data.erase(array_data.begin() + index);
@@ -144,9 +144,10 @@ namespace core
     ///Functions to get an object from the array, given an index
     //throw an exception if given an invalid index
     template <typename T>
-    T& array<T>::at(uint index)
+    T& array<T>::at(int index)
     {
-        if (index >= array_data.size())
+        if ((index >= (int)array_data.size()) ||
+            (index < 0))
         {
             throw std::bad_alloc();
         }
@@ -157,9 +158,10 @@ namespace core
     }
 
     template <typename T>
-    const T& array<T>::at(uint index) const
+    const T& array<T>::at(int index) const
     {
-        if (index >= array_data.size())
+        if ((index >= (int)array_data.size()) ||
+            (index < 0))
         {
             throw std::bad_alloc();
         }
@@ -171,9 +173,10 @@ namespace core
 
 
     template <typename T>
-    T& array<T>::operator[](uint index)
+    T& array<T>::operator[](int index)
     {
-        if (index >= array_data.size())
+        if ((index >= (int)array_data.size()) ||
+            (index < 0))
         {
             throw std::bad_alloc();
         }
@@ -184,9 +187,10 @@ namespace core
     }
 
     template <typename T>
-    const T& array<T>::operator[](uint index) const
+    const T& array<T>::operator[](int index) const
     {
-        if (index >= array_data.size())
+        if ((index >= (int)array_data.size()) ||
+            (index < 0))
         {
             throw std::bad_alloc();
         }

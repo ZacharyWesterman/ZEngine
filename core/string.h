@@ -8,9 +8,6 @@
     #define null 0
 #endif // null
 
-#ifndef uint
-    #define uint uint32_t
-#endif // uint
 
 ///Use this for converting numbers to strings
 #include <stdio.h>
@@ -31,7 +28,7 @@ namespace core
     class string
     {
     protected:
-        uint array_length;
+        int array_length;
         CHAR* string_array;
 
         //internal function to clear string data
@@ -45,7 +42,7 @@ namespace core
         }
 
         //internal function to assign new data
-        void assign_data(const CHAR* buffer, uint bufsiz)
+        void assign_data(const CHAR* buffer, int bufsiz)
         {
             clear_data();
 
@@ -54,7 +51,7 @@ namespace core
                 array_length = bufsiz+1;
                 string_array = new CHAR[array_length];
 
-                for (uint i=0; i<array_length-1; i++)
+                for (int i=0; i<array_length-1; i++)
                 {
                     string_array[i] = buffer[i];
                     if (buffer[i] == null)
@@ -69,13 +66,13 @@ namespace core
         }
 
         //internal function to append a character array
-        void append_string(const CHAR* buffer, uint bufsiz)
+        void append_string(const CHAR* buffer, int bufsiz)
         {
             if (buffer)
             {
                 //shift current data
                 CHAR* temp = string_array;
-                uint tempsiz = array_length;
+                int tempsiz = array_length;
 
                 //prep for new data
                 array_length = tempsiz + bufsiz - 1;
@@ -83,11 +80,11 @@ namespace core
 
 
                 //copy old data
-                for (uint i=0; i<tempsiz-1; i++)
+                for (int i=0; i<tempsiz-1; i++)
                     string_array[i] = temp[i];
 
                 //copy new data
-                for (uint j=tempsiz-1; j<array_length; j++)
+                for (int j=tempsiz-1; j<array_length; j++)
                     string_array[j] = buffer[j - tempsiz + 1];
 
                 delete[] temp;
@@ -99,7 +96,7 @@ namespace core
         {
             //shift current data
             CHAR* temp = string_array;
-            uint tempsiz = array_length;
+            int tempsiz = array_length;
 
             if (!string_array || !array_length)
                 tempsiz++;
@@ -109,7 +106,7 @@ namespace core
             string_array = new CHAR[array_length];
 
             //copy old data
-            for (uint i=0; i<tempsiz-1; i++)
+            for (int i=0; i<tempsiz-1; i++)
                 string_array[i] = temp[i];
 
             //append new data
@@ -120,9 +117,9 @@ namespace core
         }
 
         //internal function to check if the specified sub-string is at the specified position
-        bool found_sub_string_at(uint pos, const CHAR* substr, uint substr_len) const
+        bool found_sub_string_at(int pos, const CHAR* substr, int substr_len) const
         {
-            for (uint i=0 ; i<substr_len-1; i++)
+            for (int i=0 ; i<substr_len-1; i++)
             {
                 //if the string ends before all of the substring was found
                 if (pos+i >= array_length-1)
@@ -137,7 +134,7 @@ namespace core
         }
 
         //internal function to replace the substring in the given index range(inclusive) with the given string
-        void replace_sub_string_at_with(int beg_index, int end_index, const CHAR* sub_str, uint substr_len)
+        void replace_sub_string_at_with(int beg_index, int end_index, const CHAR* sub_str, int substr_len)
         {
             if (string_array && array_length)
             {
@@ -160,10 +157,10 @@ namespace core
 
                 //shift the string data
                 CHAR* temp = string_array;
-                uint tempsiz = array_length;
+                int tempsiz = array_length;
 
                 //prep data
-                array_length = array_length + substr_len - (uint)(end_index - beg_index);
+                array_length = array_length + substr_len - (end_index - beg_index);
                 string_array = new CHAR[array_length];
 
                 int index = 0;
@@ -175,14 +172,14 @@ namespace core
                 }
 
                 //copy the new substring into place
-                for (uint i=0; i<substr_len-1; i++)
+                for (int i=0; i<substr_len-1; i++)
                 {
                     string_array[index] = sub_str[i];
                     index++;
                 }
 
                 //copy original data from the end position
-                for (uint i=end_index+1; i<tempsiz; i++)
+                for (int i=end_index+1; i<tempsiz; i++)
                 {
                     string_array[index] = temp[i];
                     index++;
@@ -200,9 +197,9 @@ namespace core
         //returns -1 if this string is less than another,
         //        +1 if it is greater,
         //     and 0 if they are the same.
-        int lessthan_equal_greater(const CHAR* other, uint str_size) const
+        int lessthan_equal_greater(const CHAR* other, int str_size) const
         {
-            uint i = 0;
+            int i = 0;
 
             while ((i<str_size-1) && (i<array_length-1))
             {
@@ -246,11 +243,11 @@ namespace core
 
 
             //shift data
-            uint tempsiz = array_length;
+            int tempsiz = array_length;
             CHAR* temp = string_array;
 
             //prep new string
-            uint section = (end_index - beg_index + 1);
+            int section = (end_index - beg_index + 1);
             array_length = tempsiz - section;
             string_array = new CHAR[array_length];
 
@@ -276,7 +273,7 @@ namespace core
             array_length = 0;
             string_array = NULL;
 
-            uint amount = 0;
+            int amount = 0;
 
             if (buffer)
             {
@@ -354,7 +351,7 @@ namespace core
         {
             int sum = 0;
 
-            for (uint i=0; i<array_length; i++)
+            for (int i=0; i<array_length; i++)
                 sum += sizeof(string_array[i]);
 
             return sum;
@@ -570,7 +567,7 @@ namespace core
         //returns -1 if it was not found
         int find(const string& sub_string) const
         {
-            for (uint i=0; i<array_length-1; i++)
+            for (int i=0; i<array_length-1; i++)
             {
                 if (found_sub_string_at(i, sub_string.string_array, sub_string.array_length))
                     return (int)i;
@@ -587,7 +584,7 @@ namespace core
         {
             int amount = -1;
 
-            for (uint i=0; i<array_length-1; i++)
+            for (int i=0; i<array_length-1; i++)
             {
                 if (found_sub_string_at(i, sub_string.string_array, sub_string.array_length))
                     amount++;
@@ -686,7 +683,7 @@ namespace core
         {
             int amount = 0;
 
-            for (uint i=0; i<array_length-1; i++)
+            for (int i=0; i<array_length-1; i++)
             {
                 if (found_sub_string_at(i, sub_string.string_array, sub_string.array_length))
                     amount++;
@@ -709,7 +706,7 @@ namespace core
             if ((position < 0) || (position >= (int)array_length-1))
                 return false;
 
-            for (uint i=0; i<sub_string.array_length-1; i++)
+            for (int i=0; i<sub_string.array_length-1; i++)
             {
                 if (sub_string[i] != string_array[i + position])
                     return false;

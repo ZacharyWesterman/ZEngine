@@ -19,9 +19,34 @@ namespace core
     protected:
         std::vector<T> array_data;
 
+        void init(T arg1)
+        {
+            array_data.push_back(arg1);
+        }
+
+        template <typename... Args>
+        void init(T arg1, Args... args)
+        {
+            array_data.push_back(arg1);
+
+            init(args...);
+        }
+
     public:
         array() {}
         array(const array&);
+
+        array(T arg1)
+        {
+            init(arg1);
+        }
+
+        template <typename... Args>
+        array(T arg1, Args... args)
+        {
+            init(arg1, args...);
+        }
+
         ~array() {}
 
         void clear();

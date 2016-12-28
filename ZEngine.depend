@@ -1615,7 +1615,7 @@
 	<stdint.h>
 	<stdio.h>
 
-1482891467 c:\users\zachary\documents\github\zengine\core\array.h
+1482896265 c:\users\zachary\documents\github\zengine\core\array.h
 	<vector>
 	<iostream>
 
@@ -1644,7 +1644,7 @@
 
 1479523912 c:\users\zachary\documents\github\zengine\core\dynamicstack.h
 
-1482892669 c:\users\zachary\documents\github\zengine\script\commands.h
+1482896309 c:\users\zachary\documents\github\zengine\script\commands.h
 	"../core/string.h"
 	"../core/stringUtils/string_remove_whiteSpace.h"
 	"../core/array.h"

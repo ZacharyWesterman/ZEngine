@@ -18,6 +18,8 @@
 #include "../core/stringUtils/convert_type.h"
 #include "pure_string.h"
 
+#include <windows.h>
+
 #include <iostream>
 
 /*#ifdef _IRR_WINDOWS_
@@ -86,6 +88,8 @@ namespace engine
     private:
         DEBUG_MODE PROJECT_MODE;
 
+        double Max_FPS;
+
 
         irr::IrrlichtDevice *device;
 
@@ -128,8 +132,6 @@ namespace engine
                                 DEBUG_MODE&);
 
 
-        core::timer scriptTimer;
-
     public:
         game();
         ~game();
@@ -151,6 +153,9 @@ namespace engine
                            width, height,
                            fullscreen, shadows,
                            PROJECT_MODE);
+
+
+        Max_FPS = 60.0;
 
 
 
@@ -223,7 +228,7 @@ namespace engine
     {
         if (device)
         {
-            device->drop();
+            device->closeDevice();
 
             delete event;
         }
@@ -397,7 +402,7 @@ namespace engine
         if (device && device->run())
         {
             //set the global fps so the script function 'fps()' stays accurate
-            global::FPS = (double)driver->getFPS();
+            global::frame.reset();
 
 
             ///Draw the scene
@@ -411,13 +416,12 @@ namespace engine
 
             ///deal with the script
             ///
-            scriptTimer.reset();
 
             if (!script_has_error)
                 check_script_contextual_errors();
 
             if (!script_has_error && !parser.done() &&
-                (global::SCRIPT_DELAY_TIMER.elapsed() >= global::SCRIPT_DELAY_MILLIS))
+                (global::SCRIPT_DELAY_TIMER.millis() >= global::SCRIPT_DELAY_TIME))
             {
                 script::command<wchar_t> cmd;
 
@@ -429,34 +433,35 @@ namespace engine
                     }
                     else
                     {
-                        if (cmd.type == script::COMMAND::PRINT_TO_CONSOLE)
+                        if (cmd.type == script::cmd::PRINT_TO_CONSOLE)
                         {
                             print_to_console(cmd.data[0]);
                         }
-                        else if (cmd.type == script::COMMAND::SET_WINDOW_TITLE)
+                        else if (cmd.type == script::cmd::SET_WINDOW_TITLE)
                         {
                             device->setWindowCaption(pure_string(cmd.data[0]).str());
                         }
-                        else if (cmd.type == script::COMMAND::EXIT_PROGRAM)
+                        else if (cmd.type == script::cmd::EXIT_PROGRAM)
                         {
                             return false;
                         }
-                        else if (cmd.type == script::COMMAND::SET_BACKGROUND_COLOR)
+                        else if (cmd.type == script::cmd::SET_SCENE_COLOR)
                         {
                             sceneColor = getScriptColor(cmd.data[0]);
                         }
-                        else if (cmd.type == script::COMMAND::DELAY_SCRIPT)
+                        else if (cmd.type == script::cmd::DELAY_SCRIPT)
                         {
-                            global::SCRIPT_DELAY_MILLIS = core::value(cmd.data[0]);
+                            global::SCRIPT_DELAY_TIME = core::value(cmd.data[0]);
 
                             global::SCRIPT_DELAY_TIMER.reset();
+                        }
+                        else if (cmd.type == script::cmd::SET_MAX_FPS)
+                        {
+                            Max_FPS = core::value(cmd.data[0]);
                         }
                     }
                 }
             }
-
-            print_to_console(core::string<wchar_t>(scriptTimer.elapsed()));
-
 
 
             if (PROJECT_MODE == DEBUG)
@@ -469,6 +474,27 @@ namespace engine
 
 
             event->reset();
+
+
+            double frame_seconds = global::frame.micros()/1000000;
+
+            if ((Max_FPS > 0.0) &&
+                (frame_seconds > 0) &&
+                (frame_seconds < (1.0/Max_FPS)))
+            {
+                Sleep(((1.0/Max_FPS) - frame_seconds)*1000);
+            }
+
+
+            if (global::frame.micros() <= 0.0)
+            {
+                global::FPS = (double)-1;
+            }
+            else
+            {
+                global::FPS = 1000000 / global::frame.micros();
+            }
+
 
             return true;
         }
@@ -630,7 +656,7 @@ namespace engine
             {
                 //and set its text to a description of the error
                 core::string<wchar_t> error_string = L"Error [";
-                error_string += script::COMMAND::WCHAR_T_COMMANDS[cmd.type];
+                error_string += script::cmd::WCHAR_T_COMMANDS[cmd.type];
 
 
                 for (int i=0; i<cmd.data.size(); i++)
@@ -655,73 +681,73 @@ namespace engine
 
         if (error)
         {
-            if (error & script::ERROR::DIV_BY_ZERO)
+            if (error & script::error::DIV_BY_ZERO)
                 err_list.add(L"DIV_BY_ZERO");
 
-            if (error & script::ERROR::INVALID_CHARACTER)
+            if (error & script::error::INVALID_CHARACTER)
                 err_list.add(L"INVALID_CHARACTER");
 
-            if (error & script::ERROR::MISSING_OPERAND)
+            if (error & script::error::MISSING_OPERAND)
                 err_list.add(L"MISSING_OPERAND");
 
-            if (error & script::ERROR::INVALID_OPERATION)
+            if (error & script::error::INVALID_OPERATION)
                 err_list.add(L"INVALID_OPERATION");
 
-            if (error & script::ERROR::MISSING_L_PARENTH)
+            if (error & script::error::MISSING_L_PARENTH)
                 err_list.add(L"MISSING_L_PARENTH");
 
-            if (error & script::ERROR::MISSING_R_PARENTH)
+            if (error & script::error::MISSING_R_PARENTH)
                 err_list.add(L"MISSING_R_PARENTH");
 
-            if (error & script::ERROR::TOO_FEW_PARAMS)
+            if (error & script::error::TOO_FEW_PARAMS)
                 err_list.add(L"TOO_FEW_PARAMS");
 
-            if (error & script::ERROR::TOO_MANY_PARAMS)
+            if (error & script::error::TOO_MANY_PARAMS)
                 err_list.add(L"TOO_MANY_PARAMS");
 
-            if (error & script::ERROR::INVALID_PARAM)
+            if (error & script::error::INVALID_PARAM)
                 err_list.add(L"INVALID_PARAM");
 
-            if (error & script::ERROR::NON_REAL_NUMBER)
+            if (error & script::error::NON_REAL_NUMBER)
                 err_list.add(L"NON_REAL_NUMBER");
 
-            if (error & script::ERROR::OUT_OF_BOUNDS)
+            if (error & script::error::OUT_OF_BOUNDS)
                 err_list.add(L"OUT_OF_BOUNDS");
 
-            if (error & script::ERROR::UNKNOWN_VARIABLE)
+            if (error & script::error::UNKNOWN_VARIABLE)
                 err_list.add(L"UNKNOWN_VARIABLE");
 
-            if (error & script::ERROR::WRONG_VAR_TYPE)
+            if (error & script::error::WRONG_VAR_TYPE)
                 err_list.add(L"WRONG_VAR_TYPE");
 
-            if (error & script::ERROR::BAD_FORMATTING)
+            if (error & script::error::BAD_FORMATTING)
                 err_list.add(L"BAD_FORMATTING");
 
-            if (error & script::ERROR::MISSING_OPERATOR)
+            if (error & script::error::MISSING_OPERATOR)
                 err_list.add(L"MISSING_OPERATOR");
 
-            if (error & script::ERROR::UNKNOWN_COMMAND)
+            if (error & script::error::UNKNOWN_COMMAND)
                 err_list.add(L"UNKNOWN_COMMAND");
 
-            if (error & script::ERROR::BAD_REDEFINITION)
+            if (error & script::error::BAD_REDEFINITION)
                 err_list.add(L"BAD_REDEFINITION");
 
-            if (error & script::ERROR::NO_ENTRY_POINT)
+            if (error & script::error::NO_ENTRY_POINT)
                 err_list.add(L"NO_ENTRY_POINT");
 
-            if (error & script::ERROR::BAD_SCOPING)
+            if (error & script::error::BAD_SCOPING)
                 err_list.add(L"BAD_SCOPING");
 
-            if (error & script::ERROR::UNEXP_COMMAND)
+            if (error & script::error::UNEXP_COMMAND)
                 err_list.add(L"UNEXP_COMMAND");
 
-            if (error & script::ERROR::UNEXP_END_OF_SCRIPT)
+            if (error & script::error::UNEXP_END_OF_SCRIPT)
                 err_list.add(L"UNEXP_END_OF_SCRIPT");
 
-            if (error & script::ERROR::UNKNOWN_LABEL)
+            if (error & script::error::UNKNOWN_LABEL)
                 err_list.add(L"UNKNOWN_LABEL");
 
-            if (error & script::ERROR::UNKNOWN_SUBROUTINE)
+            if (error & script::error::UNKNOWN_SUBROUTINE)
                 err_list.add(L"UNKNOWN_SUBROUTINE");
 
         }

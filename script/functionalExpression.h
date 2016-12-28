@@ -105,7 +105,7 @@ namespace script
     error_flag functionalExpression<CHAR>::process(const core::string<CHAR>& input_line,
                                              core::array< core::string<CHAR> >& solved_params)
     {
-        error_flag expr_error = ERROR::NONE;
+        error_flag expr_error = error::NONE;
 
         //split all parameters and evaluate separately
         core::array< core::string<CHAR> > params;
@@ -190,7 +190,7 @@ namespace script
                                                     int past_func_name,
                                                     core::string<CHAR>& output_value)
     {
-        error_flag expr_error = ERROR::NONE;
+        error_flag expr_error = error::NONE;
 
         ///we are going to get the positions inside the function parentheses
         int layer = 0;
@@ -211,7 +211,7 @@ namespace script
 
 
         if (start_pos >= input_expr.length())
-            expr_error |= ERROR::MISSING_L_PARENTH;
+            expr_error |= error::MISSING_L_PARENTH;
 
 
         if (!expr_error)

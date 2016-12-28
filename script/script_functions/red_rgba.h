@@ -16,15 +16,15 @@ namespace script
         template <typename CHAR>
         error_flag red_rgba(const core::array< core::string<CHAR> >& params, core::string<CHAR>& output)
         {
-            error_flag func_error = ERROR::NONE;
+            error_flag func_error = error::NONE;
 
             if (params.size() > 1)
             {
-                func_error |= ERROR::TOO_MANY_PARAMS;
+                func_error |= error::TOO_MANY_PARAMS;
             }
             else if (params.size() < 1)
             {
-                func_error |= ERROR::TOO_FEW_PARAMS;
+                func_error |= error::TOO_FEW_PARAMS;
             }
             else
             {

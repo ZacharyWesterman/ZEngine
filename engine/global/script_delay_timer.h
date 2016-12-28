@@ -9,7 +9,7 @@ namespace engine
     {
         core::timer SCRIPT_DELAY_TIMER(true);
 
-        double SCRIPT_DELAY_MILLIS (0.f);
+        double SCRIPT_DELAY_TIME (0.f);
     }
 }
 

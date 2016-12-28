@@ -17,15 +17,15 @@ namespace script
         template <typename CHAR>
         error_flag square_root(const core::array< core::string<CHAR> >& params, core::string<CHAR>& output)
         {
-            error_flag func_error = ERROR::NONE;
+            error_flag func_error = error::NONE;
 
             if (params.size() > 1)
             {
-                func_error |= ERROR::TOO_MANY_PARAMS;
+                func_error |= error::TOO_MANY_PARAMS;
             }
             else if (params.size() < 1)
             {
-                func_error |= ERROR::TOO_FEW_PARAMS;
+                func_error |= error::TOO_FEW_PARAMS;
             }
             else
             {
@@ -37,7 +37,7 @@ namespace script
                 }
                 else
                 {
-                    func_error = ERROR::NON_REAL_NUMBER;
+                    func_error = error::NON_REAL_NUMBER;
                 }
 
             }

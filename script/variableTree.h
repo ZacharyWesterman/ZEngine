@@ -220,7 +220,7 @@ namespace script
         if (at_var)
             return at_var->data.set_array_value(index, value);
         else
-            return ERROR::UNKNOWN_VARIABLE;
+            return error::UNKNOWN_VARIABLE;
     }
 
 
@@ -233,7 +233,7 @@ namespace script
         if (at_var)
             return at_var->data.set_array_size(size);
         else
-            return ERROR::UNKNOWN_VARIABLE;
+            return error::UNKNOWN_VARIABLE;
     }
 
 
@@ -246,7 +246,7 @@ namespace script
         if (at_var)
             return at_var->data.set_to_single_value(value);
         else
-            return ERROR::UNKNOWN_VARIABLE;
+            return error::UNKNOWN_VARIABLE;
     }
 
 
@@ -259,7 +259,7 @@ namespace script
         if (at_var)
             return at_var->data.set_array_values(values);
         else
-            return ERROR::UNKNOWN_VARIABLE;
+            return error::UNKNOWN_VARIABLE;
     }
 
 
@@ -272,7 +272,7 @@ namespace script
         if (at_var)
             return at_var->data.get_single_value(value);
         else
-            return ERROR::UNKNOWN_VARIABLE;
+            return error::UNKNOWN_VARIABLE;
     }
 
 
@@ -285,7 +285,7 @@ namespace script
         if (at_var)
             return at_var->data.get_array_value(index, value);
         else
-            return ERROR::UNKNOWN_VARIABLE;
+            return error::UNKNOWN_VARIABLE;
     }
 
 

@@ -96,12 +96,12 @@ namespace script
                     var_values.add(empty_str);
                 }
 
-                return ERROR::NONE;
+                return error::NONE;
             }
             else
             {
                 var_type = VARIABLE::NONE;
-                return ERROR::OUT_OF_BOUNDS;
+                return error::OUT_OF_BOUNDS;
             }
         }
 
@@ -111,23 +111,23 @@ namespace script
 
             var_values = vals;
 
-            return ERROR::NONE;
+            return error::NONE;
         }
 
         error_flag set_array_value(const int index, const core::string<CHAR>& val)
         {
             if (var_type != VARIABLE::ARRAY)
-                return ERROR::WRONG_VAR_TYPE;
+                return error::WRONG_VAR_TYPE;
 
             if ((int)var_values.size() > index)
             {
                 var_values.at(index) = val;
 
-                return ERROR::NONE;
+                return error::NONE;
             }
             else
             {
-                return ERROR::OUT_OF_BOUNDS;
+                return error::OUT_OF_BOUNDS;
             }
         }
 
@@ -139,30 +139,30 @@ namespace script
 
             var_type = VARIABLE::SINGLE;
 
-            return ERROR::NONE;
+            return error::NONE;
         }
 
 
         error_flag get_single_value(core::string<CHAR>& output) const
         {
             if (var_type != VARIABLE::SINGLE)
-                return ERROR::WRONG_VAR_TYPE;
+                return error::WRONG_VAR_TYPE;
 
             output = var_values.at(0);
 
-            return ERROR::NONE;
+            return error::NONE;
         }
 
         error_flag get_array_value(const int index, core::string<CHAR>& output) const
         {
             if (var_type != VARIABLE::ARRAY)
-                return ERROR::WRONG_VAR_TYPE;
+                return error::WRONG_VAR_TYPE;
 
             if ((index < 0) || (index >= (int)var_values.size()))
-                return ERROR::OUT_OF_BOUNDS;
+                return error::OUT_OF_BOUNDS;
 
             output = var_values.at(index);
-            return ERROR::NONE;
+            return error::NONE;
         }
 
 

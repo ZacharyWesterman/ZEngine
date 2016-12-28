@@ -11,7 +11,7 @@
 
 namespace script
 {
-    namespace COMMAND
+    namespace cmd
     {
         enum CMD
         {
@@ -54,10 +54,10 @@ namespace script
             PRINT_TO_CONSOLE,
 
             SET_WINDOW_TITLE,
-
-            SET_BACKGROUND_COLOR,
+            SET_SCENE_COLOR,
 
             DELAY_SCRIPT,
+            SET_MAX_FPS,
 
             COMMAND_COUNT
         };
@@ -104,10 +104,10 @@ namespace script
             "print",//PRINT_TO_CONSOLE
 
             "set window title", //SET_WINDOW_TITLE
-
-            "set background color", //SET_BACKGROUND_COLOR
+            "set background color", //SET_SCENE_COLOR
 
             "delay", //DELAY_SCRIPT
+            "set max fps", //SET_MAX_FPS
         };
 
         const core::string<wchar_t> WCHAR_T_COMMANDS[] =
@@ -151,10 +151,10 @@ namespace script
             L"print",//PRINT_TO_CONSOLE
 
             L"set window title", //SET_WINDOW_TITLE
-
-            L"set background color", //SET_BACKGROUND_COLOR
+            L"set background color", //SET_SCENE_COLOR
 
             L"delay", //DELAY_SCRIPT
+            L"set max fps", //SET_MAX_FPS
         };
 
 
@@ -201,10 +201,10 @@ namespace script
             1,//PRINT_TO_CONSOLE
 
             1, //SET_WINDOW_TITLE
-
-            1, //SET_BACKGROUND_COLOR
+            1, //SET_SCENE_COLOR
 
             1, //DELAY_SCRIPT
+            1, //SET_MAX_FPS
         };
 
         const t_param_c MAX_PARAMS[] =
@@ -248,10 +248,10 @@ namespace script
             1,//PRINT_TO_CONSOLE
 
             1, //SET_WINDOW_TITLE
-
-            1, //SET_BACKGROUND_COLOR
+            1, //SET_SCENE_COLOR
 
             1, //DELAY_SCRIPT
+            1, //SET_MAX_FPS
         };
     }
 
@@ -288,18 +288,18 @@ namespace script
 
     void commandName(const cmd_flag cmd, core::string<char>& name)
     {
-        if (cmd < COMMAND::COMMAND_COUNT)
-            name = COMMAND::CHAR_COMMANDS[cmd];
+        if (cmd < cmd::COMMAND_COUNT)
+            name = cmd::CHAR_COMMANDS[cmd];
         else
-            name = COMMAND::CHAR_COMMANDS[COMMAND::NONE];
+            name = cmd::CHAR_COMMANDS[cmd::NONE];
     }
 
     void commandName(const cmd_flag cmd, core::string<wchar_t>& name)
     {
-        if (cmd < COMMAND::COMMAND_COUNT)
-            name = COMMAND::WCHAR_T_COMMANDS[cmd];
+        if (cmd < cmd::COMMAND_COUNT)
+            name = cmd::WCHAR_T_COMMANDS[cmd];
         else
-            name = COMMAND::WCHAR_T_COMMANDS[COMMAND::NONE];
+            name = cmd::WCHAR_T_COMMANDS[cmd::NONE];
     }
 
 
@@ -308,8 +308,8 @@ namespace script
     command<CHAR> getCommand(const core::string<CHAR>& input)
     {
         command<CHAR> output;
-        output.type = COMMAND::NONE;
-        output.error = ERROR::NONE;
+        output.type = cmd::NONE;
+        output.error = error::NONE;
         output.meta = 0;
         output.text_begin = -1;
         output.text_end = -1;
@@ -318,14 +318,14 @@ namespace script
         core::string<CHAR> thisCMDname;
         core::string<CHAR> thisInput = core::remove_whitespace(input);
 
-        for (cmd_flag i=COMMAND::COMMAND_COUNT-1; i>0; i--)
+        for (cmd_flag i=cmd::COMMAND_COUNT-1; i>0; i--)
         {
             commandName(i, thisCMDname);
 
             if (thisCMDname.length() > 0)
             {
                 //set variable command will be after a variable name
-                if (i == COMMAND::SET_VARIABLE)
+                if (i == cmd::SET_VARIABLE)
                 {
                     int pos = thisInput.find(thisCMDname);
 
@@ -344,7 +344,7 @@ namespace script
                     }
                 }
                 //define function command will behave like name(a,b,...)
-                else if (i == COMMAND::FUNCTION_DEFINE)
+                else if (i == cmd::FUNCTION_DEFINE)
                 {
                     if (input.beginsWith(thisCMDname))
                     {
@@ -403,7 +403,7 @@ namespace script
                     }
                 }
                 //comments can have no errors
-                else if (i == COMMAND::COMMENT)
+                else if (i == cmd::COMMENT)
                 {
                     if (thisInput.beginsWith(thisCMDname))
                     {
@@ -436,7 +436,7 @@ namespace script
         if (thisInput.length() > 0)
         {
             output.data.add(thisInput);
-            output.error |= ERROR::UNKNOWN_COMMAND;
+            output.error |= error::UNKNOWN_COMMAND;
         }
 
         return output;

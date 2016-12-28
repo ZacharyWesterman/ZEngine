@@ -47,7 +47,7 @@ namespace script
 
     public:
 
-        expression() {expr_error = ERROR::NONE;}
+        expression() {expr_error = error::NONE;}
         expression(const core::string<CHAR>& expr)
         {
             expr_string = expr;
@@ -80,7 +80,7 @@ namespace script
     template <typename CHAR>
     void expression<CHAR>::evaluate_expression()
     {
-        expr_error = ERROR::NONE;
+        expr_error = error::NONE;
 
 
         core::array< core::string<CHAR> > infix;
@@ -106,7 +106,7 @@ namespace script
     template <typename CHAR>
     error_flag expression<CHAR>::correct_negatives(core::array< core::string<CHAR> >& infix)
     {
-        error_flag expression_error = ERROR::NONE;
+        error_flag expression_error = error::NONE;
 
         for (int i=0; i<infix.size(); i++)
         {
@@ -161,7 +161,7 @@ namespace script
     error_flag expression<CHAR>::cumulative_operate(const core::array< core::string<CHAR> >& postfix)
     {
         //cout << postfix.size() << endl;
-        error_flag operation_error = ERROR::NONE;
+        error_flag operation_error = error::NONE;
 
         core::dynamic_stack< core::string<CHAR> > operands;
 
@@ -190,7 +190,7 @@ namespace script
         operands.pop(expr_value);
 
         if (!operands.isEmpty())
-            operation_error |= ERROR::MISSING_OPERATOR;
+            operation_error |= error::MISSING_OPERATOR;
 
         //cout << operation_error;
         return operation_error;
@@ -200,7 +200,7 @@ namespace script
     template <typename CHAR>
     error_flag expression<CHAR>::single_operate(core::dynamic_stack< core::string<CHAR> >& operands, t_oper oper)
     {
-        error_flag operation_error = ERROR::NONE;
+        error_flag operation_error = error::NONE;
 
         if (oper == OPERATOR::ADD)
         {
@@ -243,12 +243,12 @@ namespace script
                 }
                 else
                 {
-                    operation_error |= ERROR::MISSING_OPERAND;
+                    operation_error |= error::MISSING_OPERAND;
                 }
             }
             else
             {
-                operation_error |= ERROR::MISSING_OPERAND;
+                operation_error |= error::MISSING_OPERAND;
             }
         }
         else if (oper == OPERATOR::SUBTRACT)
@@ -263,7 +263,7 @@ namespace script
                     if (operand_is_string(arg1) ||//can't subtract from a string,
                         operand_is_string(arg2))  //or subtract a string from something
                     {
-                        operation_error |= ERROR::INVALID_OPERATION;
+                        operation_error |= error::INVALID_OPERATION;
                     }
                     else
                     {
@@ -277,12 +277,12 @@ namespace script
                 }
                 else
                 {
-                    operation_error |= ERROR::MISSING_OPERAND;
+                    operation_error |= error::MISSING_OPERAND;
                 }
             }
             else
             {
-                operation_error |= ERROR::MISSING_OPERAND;
+                operation_error |= error::MISSING_OPERAND;
             }
         }
         else if (oper == OPERATOR::MULTIPLY)
@@ -297,7 +297,7 @@ namespace script
                     if (operand_is_string(arg1) ||
                         operand_is_string(arg2))
                     {
-                        operation_error |= ERROR::INVALID_OPERATION;
+                        operation_error |= error::INVALID_OPERATION;
                     }
                     else
                     {
@@ -311,12 +311,12 @@ namespace script
                 }
                 else
                 {
-                    operation_error |= ERROR::MISSING_OPERAND;
+                    operation_error |= error::MISSING_OPERAND;
                 }
             }
             else
             {
-                operation_error |= ERROR::MISSING_OPERAND;
+                operation_error |= error::MISSING_OPERAND;
             }
         }
         else if (oper == OPERATOR::DIVIDE)
@@ -331,7 +331,7 @@ namespace script
                     if (operand_is_string(arg1) ||
                         operand_is_string(arg2))
                     {
-                        operation_error |= ERROR::INVALID_OPERATION;
+                        operation_error |= error::INVALID_OPERATION;
                     }
                     else
                     {
@@ -340,7 +340,7 @@ namespace script
 
                         if (val2 == 0.f)
                         {
-                            operation_error |= ERROR::DIV_BY_ZERO;
+                            operation_error |= error::DIV_BY_ZERO;
                             operands.push(1.f);
                         }
                         else
@@ -353,12 +353,12 @@ namespace script
                 }
                 else
                 {
-                    operation_error |= ERROR::MISSING_OPERAND;
+                    operation_error |= error::MISSING_OPERAND;
                 }
             }
             else
             {
-                operation_error |= ERROR::MISSING_OPERAND;
+                operation_error |= error::MISSING_OPERAND;
             }
         }
         else if (oper == OPERATOR::INTEGER_DIVIDE)
@@ -373,7 +373,7 @@ namespace script
                     if (operand_is_string(arg1) ||
                         operand_is_string(arg2))
                     {
-                        operation_error |= ERROR::INVALID_OPERATION;
+                        operation_error |= error::INVALID_OPERATION;
                     }
                     else
                     {
@@ -382,7 +382,7 @@ namespace script
 
                         if (val2 == 0.f)
                         {
-                            operation_error |= ERROR::DIV_BY_ZERO;
+                            operation_error |= error::DIV_BY_ZERO;
                             operands.push(1.f);
                         }
                         else
@@ -395,12 +395,12 @@ namespace script
                 }
                 else
                 {
-                    operation_error |= ERROR::MISSING_OPERAND;
+                    operation_error |= error::MISSING_OPERAND;
                 }
             }
             else
             {
-                operation_error |= ERROR::MISSING_OPERAND;
+                operation_error |= error::MISSING_OPERAND;
             }
         }
         else if (oper == OPERATOR::MODULUS)
@@ -415,7 +415,7 @@ namespace script
                     if (operand_is_string(arg1) ||
                         operand_is_string(arg2))
                     {
-                        operation_error |= ERROR::INVALID_OPERATION;
+                        operation_error |= error::INVALID_OPERATION;
                     }
                     else
                     {
@@ -424,7 +424,7 @@ namespace script
 
                         if (val2 == 0.f)
                         {
-                            operation_error |= ERROR::DIV_BY_ZERO;
+                            operation_error |= error::DIV_BY_ZERO;
                             operands.push(0.f);
                         }
                         else
@@ -437,12 +437,12 @@ namespace script
                 }
                 else
                 {
-                    operation_error |= ERROR::MISSING_OPERAND;
+                    operation_error |= error::MISSING_OPERAND;
                 }
             }
             else
             {
-                operation_error |= ERROR::MISSING_OPERAND;
+                operation_error |= error::MISSING_OPERAND;
             }
         }
         else if (oper == OPERATOR::POWER)
@@ -457,7 +457,7 @@ namespace script
                     if (operand_is_string(arg1) ||
                         operand_is_string(arg2))
                     {
-                        operation_error |= ERROR::INVALID_OPERATION;
+                        operation_error |= error::INVALID_OPERATION;
                     }
                     else
                     {
@@ -471,12 +471,12 @@ namespace script
                 }
                 else
                 {
-                    operation_error |= ERROR::MISSING_OPERAND;
+                    operation_error |= error::MISSING_OPERAND;
                 }
             }
             else
             {
-                operation_error |= ERROR::MISSING_OPERAND;
+                operation_error |= error::MISSING_OPERAND;
             }
         }
         else if (oper == OPERATOR::FACTORIAL)
@@ -487,7 +487,7 @@ namespace script
             {
                 if (operand_is_string(arg1))
                 {
-                    operation_error |= ERROR::INVALID_OPERATION;
+                    operation_error |= error::INVALID_OPERATION;
                 }
                 else
                 {
@@ -500,7 +500,7 @@ namespace script
             }
             else
             {
-                operation_error |= ERROR::MISSING_OPERAND;
+                operation_error |= error::MISSING_OPERAND;
             }
         }
         else if (oper == OPERATOR::EQUALS)
@@ -530,12 +530,12 @@ namespace script
                 }
                 else
                 {
-                    operation_error |= ERROR::MISSING_OPERAND;
+                    operation_error |= error::MISSING_OPERAND;
                 }
             }
             else
             {
-                operation_error |= ERROR::MISSING_OPERAND;
+                operation_error |= error::MISSING_OPERAND;
             }
         }
         else if (oper == OPERATOR::GREATER_THAN)
@@ -578,12 +578,12 @@ namespace script
                 }
                 else
                 {
-                    operation_error |= ERROR::MISSING_OPERAND;
+                    operation_error |= error::MISSING_OPERAND;
                 }
             }
             else
             {
-                operation_error |= ERROR::MISSING_OPERAND;
+                operation_error |= error::MISSING_OPERAND;
             }
         }
         else if (oper == OPERATOR::LESS_THAN)
@@ -626,12 +626,12 @@ namespace script
                 }
                 else
                 {
-                    operation_error |= ERROR::MISSING_OPERAND;
+                    operation_error |= error::MISSING_OPERAND;
                 }
             }
             else
             {
-                operation_error |= ERROR::MISSING_OPERAND;
+                operation_error |= error::MISSING_OPERAND;
             }
         }
         else if (oper == OPERATOR::GREATER_THAN_EQUAL)
@@ -673,12 +673,12 @@ namespace script
                 }
                 else
                 {
-                    operation_error |= ERROR::MISSING_OPERAND;
+                    operation_error |= error::MISSING_OPERAND;
                 }
             }
             else
             {
-                operation_error |= ERROR::MISSING_OPERAND;
+                operation_error |= error::MISSING_OPERAND;
             }
         }
         else if (oper == OPERATOR::LESS_THAN_EQUAL)
@@ -720,12 +720,12 @@ namespace script
                 }
                 else
                 {
-                    operation_error |= ERROR::MISSING_OPERAND;
+                    operation_error |= error::MISSING_OPERAND;
                 }
             }
             else
             {
-                operation_error |= ERROR::MISSING_OPERAND;
+                operation_error |= error::MISSING_OPERAND;
             }
         }
         else if (oper == OPERATOR::NOT_EQUAL)
@@ -754,12 +754,12 @@ namespace script
                 }
                 else
                 {
-                    operation_error |= ERROR::MISSING_OPERAND;
+                    operation_error |= error::MISSING_OPERAND;
                 }
             }
             else
             {
-                operation_error |= ERROR::MISSING_OPERAND;
+                operation_error |= error::MISSING_OPERAND;
             }
         }
         else if (oper == OPERATOR::AND)
@@ -774,7 +774,7 @@ namespace script
                     if (operand_is_string(arg1) ||
                         operand_is_string(arg2))
                     {
-                        operation_error |= ERROR::INVALID_OPERATION;
+                        operation_error |= error::INVALID_OPERATION;
                     }
                     else
                     {
@@ -788,12 +788,12 @@ namespace script
                 }
                 else
                 {
-                    operation_error |= ERROR::MISSING_OPERAND;
+                    operation_error |= error::MISSING_OPERAND;
                 }
             }
             else
             {
-                operation_error |= ERROR::MISSING_OPERAND;
+                operation_error |= error::MISSING_OPERAND;
             }
         }
         else if (oper == OPERATOR::OR)
@@ -808,7 +808,7 @@ namespace script
                     if (operand_is_string(arg1) ||
                         operand_is_string(arg2))
                     {
-                        operation_error |= ERROR::INVALID_OPERATION;
+                        operation_error |= error::INVALID_OPERATION;
                     }
                     else
                     {
@@ -822,12 +822,12 @@ namespace script
                 }
                 else
                 {
-                    operation_error |= ERROR::MISSING_OPERAND;
+                    operation_error |= error::MISSING_OPERAND;
                 }
             }
             else
             {
-                operation_error |= ERROR::MISSING_OPERAND;
+                operation_error |= error::MISSING_OPERAND;
             }
         }
         else if (oper == OPERATOR::NOT)
@@ -838,7 +838,7 @@ namespace script
             {
                 if (operand_is_string(arg1))
                 {
-                    operation_error |= ERROR::INVALID_OPERATION;
+                    operation_error |= error::INVALID_OPERATION;
                 }
                 else
                 {
@@ -851,7 +851,7 @@ namespace script
             }
             else
             {
-                operation_error |= ERROR::MISSING_OPERAND;
+                operation_error |= error::MISSING_OPERAND;
             }
         }
         else if (oper == OPERATOR::XOR)
@@ -866,7 +866,7 @@ namespace script
                     if (operand_is_string(arg1) ||
                         operand_is_string(arg2))
                     {
-                        operation_error |= ERROR::INVALID_OPERATION;
+                        operation_error |= error::INVALID_OPERATION;
                     }
                     else
                     {
@@ -880,12 +880,12 @@ namespace script
                 }
                 else
                 {
-                    operation_error |= ERROR::MISSING_OPERAND;
+                    operation_error |= error::MISSING_OPERAND;
                 }
             }
             else
             {
-                operation_error |= ERROR::MISSING_OPERAND;
+                operation_error |= error::MISSING_OPERAND;
             }
         }
         else if (oper == OPERATOR::NAND)
@@ -900,7 +900,7 @@ namespace script
                     if (operand_is_string(arg1) ||
                         operand_is_string(arg2))
                     {
-                        operation_error |= ERROR::INVALID_OPERATION;
+                        operation_error |= error::INVALID_OPERATION;
                     }
                     else
                     {
@@ -914,12 +914,12 @@ namespace script
                 }
                 else
                 {
-                    operation_error |= ERROR::MISSING_OPERAND;
+                    operation_error |= error::MISSING_OPERAND;
                 }
             }
             else
             {
-                operation_error |= ERROR::MISSING_OPERAND;
+                operation_error |= error::MISSING_OPERAND;
             }
         }
         else if (oper == OPERATOR::NOR)
@@ -934,7 +934,7 @@ namespace script
                     if (operand_is_string(arg1) ||
                         operand_is_string(arg2))
                     {
-                        operation_error |= ERROR::INVALID_OPERATION;
+                        operation_error |= error::INVALID_OPERATION;
                     }
                     else
                     {
@@ -948,12 +948,12 @@ namespace script
                 }
                 else
                 {
-                    operation_error |= ERROR::MISSING_OPERAND;
+                    operation_error |= error::MISSING_OPERAND;
                 }
             }
             else
             {
-                operation_error |= ERROR::MISSING_OPERAND;
+                operation_error |= error::MISSING_OPERAND;
             }
         }
         else if (oper == OPERATOR::XNOR)
@@ -968,7 +968,7 @@ namespace script
                     if (operand_is_string(arg1) ||
                         operand_is_string(arg2))
                     {
-                        operation_error |= ERROR::INVALID_OPERATION;
+                        operation_error |= error::INVALID_OPERATION;
                     }
                     else
                     {
@@ -982,17 +982,17 @@ namespace script
                 }
                 else
                 {
-                    operation_error |= ERROR::MISSING_OPERAND;
+                    operation_error |= error::MISSING_OPERAND;
                 }
             }
             else
             {
-                operation_error |= ERROR::MISSING_OPERAND;
+                operation_error |= error::MISSING_OPERAND;
             }
         }
         else
         {
-            operation_error |= ERROR::INVALID_OPERATION;
+            operation_error |= error::INVALID_OPERATION;
         }
 
         return operation_error;
@@ -1002,7 +1002,7 @@ namespace script
     template <typename CHAR>
     error_flag expression<CHAR>::separate_infix(core::array< core::string<CHAR> >& infix)
     {
-        error_flag expr_error = ERROR::NONE;
+        error_flag expr_error = error::NONE;
 
         //define quote character and quote escape sequence
         core::string<CHAR> quote = (CHAR)34;
@@ -1075,7 +1075,7 @@ namespace script
                     (expr_string[i] != (CHAR)34)) //or a quote
                 {
                     //it is invalid
-                    expr_error |= ERROR::INVALID_CHARACTER;
+                    expr_error |= error::INVALID_CHARACTER;
                 }
             }
 
@@ -1101,7 +1101,7 @@ namespace script
     error_flag expression<CHAR>::to_postfix(const core::array< core::string<CHAR> >& infix,
                                       core::array< core::string<CHAR> >& postfix)
     {
-        error_flag expr_error = ERROR::NONE;
+        error_flag expr_error = error::NONE;
 
         //stack for operators
         core::dynamic_stack< t_oper > operators;

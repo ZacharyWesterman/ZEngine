@@ -39,9 +39,9 @@ namespace script
 
 
                     //ignore blank lines and comments
-                    if ((t_cmd.type != COMMAND::COMMENT) &&
+                    if ((t_cmd.type != cmd::COMMENT) &&
                         (t_cmd.error ||
-                        (t_cmd.type != COMMAND::NONE)))
+                        (t_cmd.type != cmd::NONE)))
                     {
 
                         output.add(t_cmd);

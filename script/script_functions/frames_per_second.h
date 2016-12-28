@@ -17,11 +17,11 @@ namespace script
         template <typename CHAR>
         error_flag frames_per_second(const core::array< core::string<CHAR> >& params, core::string<CHAR>& output)
         {
-            error_flag func_error = ERROR::NONE;
+            error_flag func_error = error::NONE;
 
             if (params.size() > 0)
             {
-                func_error |= ERROR::TOO_MANY_PARAMS;
+                func_error |= error::TOO_MANY_PARAMS;
             }
             else
             {

@@ -277,8 +277,8 @@ namespace script
     bool scriptParser<CHAR>::next(command<CHAR>& this_command)
     {
         this_command.data.clear();
-        this_command.type = COMMAND::NONE;
-        this_command.error = ERROR::NONE;
+        this_command.type = cmd::NONE;
+        this_command.error = error::NONE;
         this_command.meta = 0;
         this_command.text_begin = -1;
         this_command.text_end = -1;
@@ -310,8 +310,8 @@ namespace script
 
 
                 //variables can be set within the current scope
-                if ((parsed_script[current_cmd].type == COMMAND::SET_VARIABLE) ||
-                    (parsed_script[current_cmd].type == COMMAND::SET_ARRAY_SIZE))
+                if ((parsed_script[current_cmd].type == cmd::SET_VARIABLE) ||
+                    (parsed_script[current_cmd].type == cmd::SET_ARRAY_SIZE))
                 {
                     core::string<CHAR> this_data;
 
@@ -346,7 +346,7 @@ namespace script
                 }
                 //any new conditional will add a new layer to the scope if it evaluates to true,
                 //and may remove a layer that an appropriate conditional added.
-                else if (parsed_script[current_cmd].type == COMMAND::CONDITIONAL_IF)
+                else if (parsed_script[current_cmd].type == cmd::CONDITIONAL_IF)
                 {
                     //set a new scope for this conditional
                     scope.push(current_scope);
@@ -373,7 +373,7 @@ namespace script
                         current_cmd = parsed_script.at(current_cmd).meta;
                     }
                 }
-                else if (parsed_script[current_cmd].type == COMMAND::CONDITIONAL_ELSE_IF)
+                else if (parsed_script[current_cmd].type == cmd::CONDITIONAL_ELSE_IF)
                 {
                     //get rid of the previous conditional's scope
                     if (current_scope)
@@ -418,7 +418,7 @@ namespace script
                         }
                     }
                 }
-                else if (parsed_script[current_cmd].type == COMMAND::CONDITIONAL_ELSE)
+                else if (parsed_script[current_cmd].type == cmd::CONDITIONAL_ELSE)
                 {
                     //get rid of the previous conditional's scope
                     if (current_scope)
@@ -446,7 +446,7 @@ namespace script
                         current_cmd++;
                     }
                 }
-                else if (parsed_script[current_cmd].type == COMMAND::CONDITIONAL_END)
+                else if (parsed_script[current_cmd].type == cmd::CONDITIONAL_END)
                 {
                     bool prev_cond_result = false;
                     prev_conditional_result.pop(prev_cond_result);
@@ -464,22 +464,22 @@ namespace script
                 }
                 //if we go to a subroutine, no new scope will be added,
                 //but a new return point will be added.
-                else if (parsed_script[current_cmd].type == COMMAND::SUBROUTINE_GOTO)
+                else if (parsed_script[current_cmd].type == cmd::SUBROUTINE_GOTO)
                 {
                     return_position.push(current_cmd+1);
 
                     current_cmd = parsed_script.at(current_cmd).meta+1;
                 }
-                else if (parsed_script[current_cmd].type == COMMAND::SUBROUTINE_RETURN)
+                else if (parsed_script[current_cmd].type == cmd::SUBROUTINE_RETURN)
                 {
                     return_position.pop(current_cmd);
                 }
                 //deal with label and goto commands
-                else if (parsed_script[current_cmd].type == COMMAND::LABEL_DEFINE)
+                else if (parsed_script[current_cmd].type == cmd::LABEL_DEFINE)
                 {
                     current_cmd++;
                 }
-                else if (parsed_script[current_cmd].type == COMMAND::LABEL_GOTO)
+                else if (parsed_script[current_cmd].type == cmd::LABEL_GOTO)
                 {
                     //by definition, labels should go to the base scope
                     while (!scope.isEmpty())
@@ -493,7 +493,7 @@ namespace script
                     current_cmd = (int)(parsed_script.at(current_cmd).meta+1);
                 }
                 //if break command, leave the current loop
-                else if (parsed_script[current_cmd].type == COMMAND::LEAVE_SCOPE)
+                else if (parsed_script[current_cmd].type == cmd::LEAVE_SCOPE)
                 {
                     //when leaving the current loop, we should leave as many scopes
                     //as are between the break (current_cmd) and the break point (current_cmd meta)
@@ -504,9 +504,9 @@ namespace script
 
                     for (int i=current_cmd; i<(int)parsed_script[current_cmd].meta; i++)
                     {
-                        if (parsed_script[i].type == COMMAND::CONDITIONAL_IF)
+                        if (parsed_script[i].type == cmd::CONDITIONAL_IF)
                             shed_scopes--;
-                        else if (parsed_script[i].type == COMMAND::CONDITIONAL_END)
+                        else if (parsed_script[i].type == cmd::CONDITIONAL_END)
                             shed_scopes++;
                     }
 
@@ -525,7 +525,7 @@ namespace script
                     current_cmd = parsed_script.at(current_cmd).meta;
                 }
                 //deal with loops
-                else if (parsed_script[current_cmd].type == COMMAND::LOOP_BEGIN)
+                else if (parsed_script[current_cmd].type == cmd::LOOP_BEGIN)
                 {
                     //regardless of context, add new scope
                     scope.push(current_scope);
@@ -535,7 +535,7 @@ namespace script
                     //move forward regardless of context
                     current_cmd++;
                 }
-                else if (parsed_script[current_cmd].type == COMMAND::LOOP_BEGIN_CONDITION)
+                else if (parsed_script[current_cmd].type == cmd::LOOP_BEGIN_CONDITION)
                 {
                     core::string<CHAR> this_data;
 
@@ -561,7 +561,7 @@ namespace script
                         current_cmd = parsed_script.at(current_cmd).meta+1;
                     }
                 }
-                else if (parsed_script[current_cmd].type == COMMAND::LOOP_END)
+                else if (parsed_script[current_cmd].type == cmd::LOOP_END)
                 {
                     //regardless of context, remove the current scope
                     if (current_scope)
@@ -573,7 +573,7 @@ namespace script
                     //go to the beginning of the loop regardless of context
                     current_cmd = parsed_script.at(current_cmd).meta;
                 }
-                else if (parsed_script[current_cmd].type == COMMAND::LOOP_END_CONDITION)
+                else if (parsed_script[current_cmd].type == cmd::LOOP_END_CONDITION)
                 {
                     core::string<CHAR> this_data;
 
@@ -603,7 +603,7 @@ namespace script
 
                     scope.pop(current_scope);
                 }
-                else if (parsed_script[current_cmd].type == COMMAND::FOR_LOOP_BEGIN)
+                else if (parsed_script[current_cmd].type == cmd::FOR_LOOP_BEGIN)
                 {
                     //add new scope
                     scope.push(current_scope);
@@ -671,8 +671,8 @@ namespace script
                         if (good)
                         {
                             command<CHAR> t_cmd;
-                            t_cmd.type = COMMAND::SET_VARIABLE;
-                            t_cmd.error = ERROR::NONE;
+                            t_cmd.type = cmd::SET_VARIABLE;
+                            t_cmd.error = error::NONE;
                             t_cmd.meta = 0;
                             //set the looping variable
                             t_cmd.data.add(var_name);
@@ -703,7 +703,7 @@ namespace script
                         current_cmd++;
                     }
                 }
-                else if (parsed_script[current_cmd].type == COMMAND::FOR_LOOP_END)
+                else if (parsed_script[current_cmd].type == cmd::FOR_LOOP_END)
                 {
                     if ((int)parsed_script[current_cmd].meta < current_cmd)
                     {
@@ -766,8 +766,8 @@ namespace script
                         if (good)
                         {
                             command<CHAR> t_cmd;
-                            t_cmd.type = COMMAND::SET_VARIABLE;
-                            t_cmd.error = ERROR::NONE;
+                            t_cmd.type = cmd::SET_VARIABLE;
+                            t_cmd.error = error::NONE;
                             t_cmd.meta = 0;
                             //increment the looping variable
                             var_value = (core::value(var_value) + core::value(this_command.data.at(1)));
@@ -801,7 +801,7 @@ namespace script
                         current_cmd++;
                     }
                 }
-                else if (parsed_script[current_cmd].type == COMMAND::RETURN_VALUE)
+                else if (parsed_script[current_cmd].type == cmd::RETURN_VALUE)
                 {
                     //if there is a return point in the stack
                     if (!return_position.isEmpty())
@@ -819,7 +819,7 @@ namespace script
                     }
                     else //we cannot return if we are in main
                     {
-                        parsed_script.at(current_cmd).error |= ERROR::BAD_SCOPING;
+                        parsed_script.at(current_cmd).error |= error::BAD_SCOPING;
                     }
                 }
                 else //for any other command, just process the data and return the command
@@ -876,7 +876,7 @@ namespace script
     {
         if (parsed_script.is_valid(current_cmd))
         {
-            if (parsed_script.at(current_cmd).type != COMMAND::EXIT_POINT)
+            if (parsed_script.at(current_cmd).type != cmd::EXIT_POINT)
                 return false;
         }
 
@@ -910,39 +910,39 @@ namespace script
         for (int i=0; i<parsed_script.size(); i++)
         {
             //if we are in a function, the scope is valid for loops
-            if (parsed_script[i].type == COMMAND::FUNCTION_DEFINE)
+            if (parsed_script[i].type == cmd::FUNCTION_DEFINE)
             {
                 in_function = true;
             }
-            else if (parsed_script[i].type == COMMAND::FUNCTION_RETURN)
+            else if (parsed_script[i].type == cmd::FUNCTION_RETURN)
             {
                 in_function = false;
             }
 
             //if we are in main, the scope is valid for loops
-            else if (parsed_script[i].type == COMMAND::ENTRY_POINT)
+            else if (parsed_script[i].type == cmd::ENTRY_POINT)
             {
                 in_main = true;
             }
-            else if (parsed_script[i].type == COMMAND::EXIT_POINT)
+            else if (parsed_script[i].type == cmd::EXIT_POINT)
             {
                 in_main = false;
             }
 
             //if we are in a subroutine, the scope is valid for loops
-            else if (parsed_script[i].type == COMMAND::SUBROUTINE_DEFINE)
+            else if (parsed_script[i].type == cmd::SUBROUTINE_DEFINE)
             {
                 in_subroutine = true;
             }
-            else if (parsed_script[i].type == COMMAND::SUBROUTINE_RETURN)
+            else if (parsed_script[i].type == cmd::SUBROUTINE_RETURN)
             {
                 in_subroutine = false;
             }
 
 
             //variables can be set outside of the scope (global variables), but no other commands
-            else if (((parsed_script[i].type == COMMAND::SET_VARIABLE) ||
-                      (parsed_script[i].type == COMMAND::SET_ARRAY_SIZE)) &&
+            else if (((parsed_script[i].type == cmd::SET_VARIABLE) ||
+                      (parsed_script[i].type == cmd::SET_ARRAY_SIZE)) &&
                      !(in_function || in_main || in_subroutine))
             {
                 core::string<CHAR> this_data;
@@ -984,49 +984,49 @@ namespace script
         for (int i=0; i<parsed_script.size(); i++)
         {
             //if we are in a function, the scope is valid for loops
-            if (parsed_script[i].type == COMMAND::FUNCTION_DEFINE)
+            if (parsed_script[i].type == cmd::FUNCTION_DEFINE)
             {
                 if (in_function || in_main || in_subroutine)
-                    parsed_script[i].error |= ERROR::BAD_SCOPING;
+                    parsed_script[i].error |= error::BAD_SCOPING;
 
                 in_function = true;
             }
-            else if (parsed_script[i].type == COMMAND::FUNCTION_RETURN)
+            else if (parsed_script[i].type == cmd::FUNCTION_RETURN)
             {
                 if (!in_function || in_main || in_subroutine)
-                    parsed_script[i].error |= ERROR::BAD_SCOPING;
+                    parsed_script[i].error |= error::BAD_SCOPING;
 
                 in_function = false;
             }
 
             //if we are in main, the scope is valid for loops
-            else if (parsed_script[i].type == COMMAND::ENTRY_POINT)
+            else if (parsed_script[i].type == cmd::ENTRY_POINT)
             {
                 if (in_function || in_main || in_subroutine)
-                    parsed_script[i].error |= ERROR::BAD_SCOPING;
+                    parsed_script[i].error |= error::BAD_SCOPING;
 
                 in_main = true;
             }
-            else if (parsed_script[i].type == COMMAND::EXIT_POINT)
+            else if (parsed_script[i].type == cmd::EXIT_POINT)
             {
                 if (in_function || !in_main || in_subroutine)
-                    parsed_script[i].error |= ERROR::BAD_SCOPING;
+                    parsed_script[i].error |= error::BAD_SCOPING;
 
                 in_main = false;
             }
 
             //if we are in a subroutine, the scope is valid for loops
-            else if (parsed_script[i].type == COMMAND::SUBROUTINE_DEFINE)
+            else if (parsed_script[i].type == cmd::SUBROUTINE_DEFINE)
             {
                 if (in_function || in_main || in_subroutine)
-                    parsed_script[i].error |= ERROR::BAD_SCOPING;
+                    parsed_script[i].error |= error::BAD_SCOPING;
 
                 in_subroutine = true;
             }
-            else if (parsed_script[i].type == COMMAND::SUBROUTINE_RETURN)
+            else if (parsed_script[i].type == cmd::SUBROUTINE_RETURN)
             {
                 if (in_function || in_main || !in_subroutine)
-                    parsed_script[i].error |= ERROR::BAD_SCOPING;
+                    parsed_script[i].error |= error::BAD_SCOPING;
 
                 in_subroutine = false;
             }
@@ -1034,13 +1034,13 @@ namespace script
 
             //variables can be set outside of the scope (global variables), but no other commands
             //Comments are allowed.
-            else if ((parsed_script[i].type != COMMAND::NONE) &&
-                     (parsed_script[i].type != COMMAND::COMMENT) &&
-                     (parsed_script[i].type != COMMAND::SET_VARIABLE) &&
-                     (parsed_script[i].type != COMMAND::SET_ARRAY_SIZE))
+            else if ((parsed_script[i].type != cmd::NONE) &&
+                     (parsed_script[i].type != cmd::COMMENT) &&
+                     (parsed_script[i].type != cmd::SET_VARIABLE) &&
+                     (parsed_script[i].type != cmd::SET_ARRAY_SIZE))
             {
                 if (!(in_function || in_main || in_subroutine))
-                    parsed_script[i].error |= ERROR::BAD_SCOPING;
+                    parsed_script[i].error |= error::BAD_SCOPING;
             }
         }
     }
@@ -1056,7 +1056,7 @@ namespace script
 
         for (int i=0; i<parsed_script.size(); i++)
         {
-            if (parsed_script[i].type == COMMAND::ENTRY_POINT)
+            if (parsed_script[i].type == cmd::ENTRY_POINT)
             {
                 if (!found_entry_point)
                 {
@@ -1066,7 +1066,7 @@ namespace script
                 }
                 else
                 {
-                    parsed_script[i].error |= ERROR::BAD_REDEFINITION;
+                    parsed_script[i].error |= error::BAD_REDEFINITION;
                 }
             }
         }
@@ -1075,7 +1075,7 @@ namespace script
         if (!found_entry_point)
         {
             if (parsed_script.size() > 0)
-                parsed_script[parsed_script.size()-1].error |= ERROR::NO_ENTRY_POINT;
+                parsed_script[parsed_script.size()-1].error |= error::NO_ENTRY_POINT;
 
             entry_point = parsed_script.size();
         }
@@ -1093,29 +1093,29 @@ namespace script
         for (int i=0; i<parsed_script.size(); i++)
         {
             //conditional "if"
-            if (parsed_script[i].type == COMMAND::CONDITIONAL_IF)
+            if (parsed_script[i].type == cmd::CONDITIONAL_IF)
             {
                 parsed_script[i].meta = i+1;
 
                 prev_conditional.push(i);
             }
             //conditional "else if"
-            else if (parsed_script[i].type == COMMAND::CONDITIONAL_ELSE_IF)
+            else if (parsed_script[i].type == cmd::CONDITIONAL_ELSE_IF)
             {
                 parsed_script[i].meta = i+1;
 
                 if (prev_conditional.isEmpty())
                 {
-                    parsed_script[i].error |= ERROR::UNEXP_COMMAND;
+                    parsed_script[i].error |= error::UNEXP_COMMAND;
                 }
                 else
                 {
                     int prev_cond;
                     prev_conditional.pop(prev_cond);
 
-                    if (parsed_script[prev_cond].type == COMMAND::CONDITIONAL_ELSE)
+                    if (parsed_script[prev_cond].type == cmd::CONDITIONAL_ELSE)
                     {
-                        parsed_script[i].error |= ERROR::UNEXP_COMMAND;
+                        parsed_script[i].error |= error::UNEXP_COMMAND;
                     }
                     else
                     {
@@ -1126,22 +1126,22 @@ namespace script
                 prev_conditional.push(i);
             }
             //conditional "else"
-            else if (parsed_script[i].type == COMMAND::CONDITIONAL_ELSE)
+            else if (parsed_script[i].type == cmd::CONDITIONAL_ELSE)
             {
                 parsed_script[i].meta = i+1;
 
                 if (prev_conditional.isEmpty())
                 {
-                    parsed_script[i].error |= ERROR::UNEXP_COMMAND;
+                    parsed_script[i].error |= error::UNEXP_COMMAND;
                 }
                 else
                 {
                     int prev_cond;
                     prev_conditional.pop(prev_cond);
 
-                    if (parsed_script[prev_cond].type == COMMAND::CONDITIONAL_ELSE)
+                    if (parsed_script[prev_cond].type == cmd::CONDITIONAL_ELSE)
                     {
-                        parsed_script[i].error |= ERROR::UNEXP_COMMAND;
+                        parsed_script[i].error |= error::UNEXP_COMMAND;
                     }
                     else
                     {
@@ -1152,11 +1152,11 @@ namespace script
                 prev_conditional.push(i);
             }
             //conditional "endif"
-            else if (parsed_script[i].type == COMMAND::CONDITIONAL_END)
+            else if (parsed_script[i].type == cmd::CONDITIONAL_END)
             {
                 if (prev_conditional.isEmpty())
                 {
-                    parsed_script[i].error |= ERROR::UNEXP_COMMAND;
+                    parsed_script[i].error |= error::UNEXP_COMMAND;
                 }
                 else
                 {
@@ -1172,7 +1172,7 @@ namespace script
 
 
         if (!prev_conditional.isEmpty())
-            parsed_script[parsed_script.size()-1].error |= ERROR::UNEXP_END_OF_SCRIPT;
+            parsed_script[parsed_script.size()-1].error |= error::UNEXP_END_OF_SCRIPT;
     }
 
 
@@ -1186,22 +1186,22 @@ namespace script
         for (int i=0; i<parsed_script.size(); i++)
         {
             //loop begin/begin&condition command
-            if ((parsed_script[i].type == COMMAND::LOOP_BEGIN) ||
-                (parsed_script[i].type == COMMAND::LOOP_BEGIN_CONDITION))
+            if ((parsed_script[i].type == cmd::LOOP_BEGIN) ||
+                (parsed_script[i].type == cmd::LOOP_BEGIN_CONDITION))
             {
                 parsed_script[i].meta = i+1;
 
                 prev_loop.push(i);
             }
             //end loop/loop&condition command
-            else if ((parsed_script[i].type == COMMAND::LOOP_END) ||
-                     (parsed_script[i].type == COMMAND::LOOP_END_CONDITION))
+            else if ((parsed_script[i].type == cmd::LOOP_END) ||
+                     (parsed_script[i].type == cmd::LOOP_END_CONDITION))
             {
                 parsed_script[i].meta = i+1;
 
                 if (prev_loop.isEmpty())
                 {
-                    parsed_script[i].error |= ERROR::UNEXP_COMMAND;
+                    parsed_script[i].error |= error::UNEXP_COMMAND;
                 }
                 else
                 {
@@ -1218,7 +1218,7 @@ namespace script
 
 
         if (!prev_loop.isEmpty())
-            parsed_script[parsed_script.size()-1].error |= ERROR::UNEXP_END_OF_SCRIPT;
+            parsed_script[parsed_script.size()-1].error |= error::UNEXP_END_OF_SCRIPT;
     }
 
 
@@ -1232,20 +1232,20 @@ namespace script
         for (int i=0; i<parsed_script.size(); i++)
         {
             //numbered loop begin command
-            if (parsed_script[i].type == COMMAND::FOR_LOOP_BEGIN)
+            if (parsed_script[i].type == cmd::FOR_LOOP_BEGIN)
             {
                 parsed_script[i].meta = i+1;
 
                 prev_loop.push(i);
             }
             //end loop/loop&condition command
-            else if (parsed_script[i].type == COMMAND::FOR_LOOP_END)
+            else if (parsed_script[i].type == cmd::FOR_LOOP_END)
             {
                 parsed_script[i].meta = i+1;
 
                 if (prev_loop.isEmpty())
                 {
-                    parsed_script[i].error |= ERROR::UNEXP_COMMAND;
+                    parsed_script[i].error |= error::UNEXP_COMMAND;
                 }
                 else
                 {
@@ -1262,7 +1262,7 @@ namespace script
 
 
         if (!prev_loop.isEmpty())
-            parsed_script[parsed_script.size()-1].error |= ERROR::UNEXP_END_OF_SCRIPT;
+            parsed_script[parsed_script.size()-1].error |= error::UNEXP_END_OF_SCRIPT;
     }
 
 
@@ -1282,25 +1282,25 @@ namespace script
 
         for (int i=0; i<parsed_script.size(); i++)
         {
-            if ((parsed_script[i].type == COMMAND::FUNCTION_DEFINE) ||
-                (parsed_script[i].type == COMMAND::ENTRY_POINT) ||
-                (parsed_script[i].type == COMMAND::SUBROUTINE_DEFINE) ||
-                (parsed_script[i].type == COMMAND::CONDITIONAL_IF) ||
-                (parsed_script[i].type == COMMAND::LOOP_BEGIN) ||
-                (parsed_script[i].type == COMMAND::LOOP_BEGIN_CONDITION) ||
-                (parsed_script[i].type == COMMAND::FOR_LOOP_BEGIN))
+            if ((parsed_script[i].type == cmd::FUNCTION_DEFINE) ||
+                (parsed_script[i].type == cmd::ENTRY_POINT) ||
+                (parsed_script[i].type == cmd::SUBROUTINE_DEFINE) ||
+                (parsed_script[i].type == cmd::CONDITIONAL_IF) ||
+                (parsed_script[i].type == cmd::LOOP_BEGIN) ||
+                (parsed_script[i].type == cmd::LOOP_BEGIN_CONDITION) ||
+                (parsed_script[i].type == cmd::FOR_LOOP_BEGIN))
             {
                 scope_begin_pos = i;
                 scope_layer++;
                 getting_labels = true;
             }
-            else if ((parsed_script[i].type == COMMAND::FUNCTION_RETURN) ||
-                     (parsed_script[i].type == COMMAND::EXIT_POINT) ||
-                     (parsed_script[i].type == COMMAND::SUBROUTINE_RETURN) ||
-                     (parsed_script[i].type == COMMAND::CONDITIONAL_END) ||
-                     (parsed_script[i].type == COMMAND::LOOP_END) ||
-                     (parsed_script[i].type == COMMAND::LOOP_END_CONDITION) ||
-                     (parsed_script[i].type == COMMAND::FOR_LOOP_END))
+            else if ((parsed_script[i].type == cmd::FUNCTION_RETURN) ||
+                     (parsed_script[i].type == cmd::EXIT_POINT) ||
+                     (parsed_script[i].type == cmd::SUBROUTINE_RETURN) ||
+                     (parsed_script[i].type == cmd::CONDITIONAL_END) ||
+                     (parsed_script[i].type == cmd::LOOP_END) ||
+                     (parsed_script[i].type == cmd::LOOP_END_CONDITION) ||
+                     (parsed_script[i].type == cmd::FOR_LOOP_END))
             {
                 scope_layer--;
             }
@@ -1311,14 +1311,14 @@ namespace script
                 if (getting_labels)
                 {
                     //label definition
-                    if (parsed_script[i].type == COMMAND::LABEL_DEFINE)
+                    if (parsed_script[i].type == cmd::LABEL_DEFINE)
                     {
                         if ((parsed_script[i].data.is_valid(0)) &&
                             is_valid_script_name(parsed_script[i].data.at(0)))
                         {
                             if (label_names.find(parsed_script[i].data.at(0)) > -1)
                             {
-                                parsed_script[i].error |= ERROR::BAD_REDEFINITION;
+                                parsed_script[i].error |= error::BAD_REDEFINITION;
                             }
                             else
                             {
@@ -1328,14 +1328,14 @@ namespace script
                         }
                         else
                         {
-                            parsed_script[i].error |= ERROR::BAD_FORMATTING;
+                            parsed_script[i].error |= error::BAD_FORMATTING;
                         }
                     }
                 }
                 else
                 {
                     //call to jump to a label
-                    if (parsed_script[i].type == COMMAND::LABEL_GOTO)
+                    if (parsed_script[i].type == cmd::LABEL_GOTO)
                     {
                         parsed_script[i].meta = i+1;
 
@@ -1346,7 +1346,7 @@ namespace script
 
                         if (label_pos <= -1)
                         {
-                            parsed_script[i].error |= ERROR::UNKNOWN_LABEL;
+                            parsed_script[i].error |= error::UNKNOWN_LABEL;
                         }
                         else
                         {
@@ -1384,14 +1384,14 @@ namespace script
         //find all the subroutines
         for (int i=0; i<parsed_script.size(); i++)
         {
-            if (parsed_script[i].type == COMMAND::SUBROUTINE_DEFINE)
+            if (parsed_script[i].type == cmd::SUBROUTINE_DEFINE)
             {
                 if (parsed_script[i].data.is_valid(0) &&
                     is_valid_script_name(parsed_script[i].data.at(0)))
                 {
                     if (subroutine_names.find(parsed_script[i].data.at(0)) > -1)
                     {
-                        parsed_script[i].error |= ERROR::BAD_REDEFINITION;
+                        parsed_script[i].error |= error::BAD_REDEFINITION;
                     }
                     else
                     {
@@ -1401,7 +1401,7 @@ namespace script
                 }
                 else
                 {
-                    parsed_script[i].error |= ERROR::BAD_FORMATTING;
+                    parsed_script[i].error |= error::BAD_FORMATTING;
                 }
             }
         }
@@ -1409,7 +1409,7 @@ namespace script
         //link all the subroutine calls
         for (int i=0; i<parsed_script.size(); i++)
         {
-            if (parsed_script[i].type == COMMAND::SUBROUTINE_GOTO)
+            if (parsed_script[i].type == cmd::SUBROUTINE_GOTO)
             {
                 parsed_script[i].meta = i+1;
 
@@ -1420,7 +1420,7 @@ namespace script
 
                 if (sub_pos <= -1)
                 {
-                    parsed_script[i].error |= ERROR::UNKNOWN_SUBROUTINE;
+                    parsed_script[i].error |= error::UNKNOWN_SUBROUTINE;
                 }
                 else
                 {
@@ -1443,23 +1443,23 @@ namespace script
 
         for(int i=0; i<parsed_script.size(); i++)
         {
-            if (parsed_script[i].type == COMMAND::LEAVE_SCOPE)
+            if (parsed_script[i].type == cmd::LEAVE_SCOPE)
             {
                 parsed_script[i].meta = (t_meta)(i+1);
                 break_pos.add(i);
             }
-            else if ((parsed_script[i].type == COMMAND::LOOP_BEGIN) ||
-                     (parsed_script[i].type == COMMAND::LOOP_BEGIN_CONDITION))
+            else if ((parsed_script[i].type == cmd::LOOP_BEGIN) ||
+                     (parsed_script[i].type == cmd::LOOP_BEGIN_CONDITION))
             {
                 scoped_break_pos.push(break_pos);
             }
-            else if (parsed_script[i].type == COMMAND::FOR_LOOP_BEGIN)
+            else if (parsed_script[i].type == cmd::FOR_LOOP_BEGIN)
             {
                 scoped_break_pos.push(break_pos);
             }
-            else if ((parsed_script[i].type == COMMAND::LOOP_END) ||
-                     (parsed_script[i].type == COMMAND::LOOP_END_CONDITION) ||
-                     (parsed_script[i].type == COMMAND::FOR_LOOP_END))
+            else if ((parsed_script[i].type == cmd::LOOP_END) ||
+                     (parsed_script[i].type == cmd::LOOP_END_CONDITION) ||
+                     (parsed_script[i].type == cmd::FOR_LOOP_END))
             {
                 for (int b=0; b<break_pos.size(); b++)
                 {
@@ -1477,7 +1477,7 @@ namespace script
         //Errors if there are any break commands out of a valid scope.
         for (int b=0; b<break_pos.size(); b++)
         {
-            parsed_script[break_pos[b]].error |= ERROR::BAD_SCOPING;
+            parsed_script[break_pos[b]].error |= error::BAD_SCOPING;
         }
 
         break_pos.clear();
@@ -1488,7 +1488,7 @@ namespace script
 
             for (int b=0; b<break_pos.size(); b++)
             {
-                parsed_script[break_pos[b]].error |= ERROR::BAD_SCOPING;
+                parsed_script[break_pos[b]].error |= error::BAD_SCOPING;
             }
 
             break_pos.clear();
@@ -1504,15 +1504,15 @@ namespace script
         //look at every command
         for (int i=0; i<parsed_script.size(); i++)
         {
-            if ((parsed_script[i].data.size() < COMMAND::MIN_PARAMS[parsed_script[i].type]) &&
-                (COMMAND::MIN_PARAMS[parsed_script[i].type] > -1))
+            if ((parsed_script[i].data.size() < cmd::MIN_PARAMS[parsed_script[i].type]) &&
+                (cmd::MIN_PARAMS[parsed_script[i].type] > -1))
             {
-                parsed_script[i].error |= ERROR::TOO_FEW_PARAMS;
+                parsed_script[i].error |= error::TOO_FEW_PARAMS;
             }
-            else if ((parsed_script[i].data.size() > COMMAND::MAX_PARAMS[parsed_script[i].type]) &&
-                     (COMMAND::MAX_PARAMS[parsed_script[i].type] > -1))
+            else if ((parsed_script[i].data.size() > cmd::MAX_PARAMS[parsed_script[i].type]) &&
+                     (cmd::MAX_PARAMS[parsed_script[i].type] > -1))
             {
-                parsed_script[i].error |= ERROR::TOO_MANY_PARAMS;
+                parsed_script[i].error |= error::TOO_MANY_PARAMS;
             }
         }
     }
@@ -1531,27 +1531,27 @@ namespace script
             if (!parsed_script[i].error)
             {
                 //if we are in a function, we can check for function-based errors
-                if (parsed_script[i].type == COMMAND::FUNCTION_DEFINE)
+                if (parsed_script[i].type == cmd::FUNCTION_DEFINE)
                 {
                     user_functions.add(parsed_script[i].data[0]);
                     user_func_positions.add(i);
 
                     in_function = true;
                 }
-                else if (parsed_script[i].type == COMMAND::FUNCTION_RETURN)
+                else if (parsed_script[i].type == cmd::FUNCTION_RETURN)
                 {
                     in_function = false;
                 }
                 //variables can be set outside of the scope (global variables), but no other commands
                 //Comments are allowed.
                 /*else if (in_function &&
-                         (parsed_script[i].type != COMMAND::NONE) &&
-                         (parsed_script[i].type != COMMAND::COMMENT) &&
-                         (parsed_script[i].type != COMMAND::SET_VARIABLE) &&
-                         (parsed_script[i].type != COMMAND::SET_ARRAY_SIZE))
+                         (parsed_script[i].type != cmd::NONE) &&
+                         (parsed_script[i].type != cmd::COMMENT) &&
+                         (parsed_script[i].type != cmd::SET_VARIABLE) &&
+                         (parsed_script[i].type != cmd::SET_ARRAY_SIZE))
                 {
                     if (!(in_function || in_main || in_subroutine))
-                        parsed_script[i].error |= ERROR::BAD_SCOPING;
+                        parsed_script[i].error |= error::BAD_SCOPING;
                 }*/
 
                 if (in_function){}
@@ -1567,7 +1567,7 @@ namespace script
     void scriptParser<CHAR>::set_var_in_scope(variableTree<CHAR>* scope, command<CHAR>& cmd)
     {
 
-        if (cmd.type == COMMAND::SET_VARIABLE)
+        if (cmd.type == cmd::SET_VARIABLE)
         {
             if (cmd.data.size() == 2)   //variable name and single value
             {
@@ -1600,9 +1600,9 @@ namespace script
 
 
                         if (condensed_index.size() > 1)
-                            cmd.error |= ERROR::TOO_MANY_PARAMS;
+                            cmd.error |= error::TOO_MANY_PARAMS;
                         else if (condensed_index.size() < 1)
-                            cmd.error |= ERROR::TOO_FEW_PARAMS;
+                            cmd.error |= error::TOO_FEW_PARAMS;
 
 
                         if (!cmd.error)
@@ -1636,7 +1636,7 @@ namespace script
                 }
             }
         }
-        else if (cmd.type == COMMAND::SET_ARRAY_SIZE)
+        else if (cmd.type == cmd::SET_ARRAY_SIZE)
         {
             if (cmd.data.is_valid(0) && //has array name,
                 cmd.data.is_valid(1))   //and array size
@@ -1659,7 +1659,7 @@ namespace script
     template <typename CHAR>
     error_flag scriptParser<CHAR>::replace_vars(const core::string<CHAR>& input, core::string<CHAR>& output)
     {
-        error_flag error = ERROR::NONE;
+        error_flag error = error::NONE;
 
         output = input;
 
@@ -1707,9 +1707,9 @@ namespace script
 
 
                         if (condensed_index.size() > 1)
-                            error |= ERROR::TOO_MANY_PARAMS;
+                            error |= error::TOO_MANY_PARAMS;
                         else if (condensed_index.size() < 1)
-                            error |= ERROR::TOO_FEW_PARAMS;
+                            error |= error::TOO_FEW_PARAMS;
 
                         if (!error)
                         {

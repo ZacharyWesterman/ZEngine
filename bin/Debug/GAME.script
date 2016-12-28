@@ -2,10 +2,9 @@ true = 1
 false = 0
 
 main
+ set max fps 200
  do
-  delay 1000
-  r=irand(0,255); g=irand(0,255); b=irand(0,255)
-  set background color rgb(r, g, b)
-  set window title ("["+r+"]["+g+"]["+b+"]")
+  delay 500
+  set window title "ZEngine [" + floor(fps()) + "fps]"
  loop
 endmain

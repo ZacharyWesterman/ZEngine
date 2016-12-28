@@ -45,7 +45,7 @@ namespace script
             FUNCTION_COUNT
         };
 
-        const COMMAND::t_param_c MIN_PARAM[] =
+        const cmd::t_param_c MIN_PARAM[] =
         {
             1,//CEILING,
             1,//FLOOR,
@@ -79,7 +79,7 @@ namespace script
             1,//ALPHA_RGB
         };
 
-        const COMMAND::t_param_c MAX_PARAM[] =
+        const cmd::t_param_c MAX_PARAM[] =
         {
             1,//CEILING,
             1,//FLOOR,
@@ -191,8 +191,8 @@ namespace script
         public:
             core::string<CHAR> name;
 
-            COMMAND::t_param_c min_params;
-            COMMAND::t_param_c max_params;
+            cmd::t_param_c min_params;
+            cmd::t_param_c max_params;
 
 
 
@@ -204,7 +204,7 @@ namespace script
 
             function() {}
             function(const core::string<CHAR>& Name,
-                     const COMMAND::t_param_c minParams, const COMMAND::t_param_c maxParams,
+                     const cmd::t_param_c minParams, const cmd::t_param_c maxParams,
                      error_flag (*Func)(const core::array< core::string<CHAR> >&, core::string<CHAR>&))
             {
                 name = Name;

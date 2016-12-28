@@ -1109,6 +1109,7 @@ namespace script
 
         for (int i=0; i<infix.size(); i++)
         {
+            infix.at(i);
             //check if we have an operator
             int oper = what_operator(infix.at(i));
 

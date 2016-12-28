@@ -18,6 +18,8 @@
 #include "../core/stringUtils/convert_type.h"
 #include "pure_string.h"
 
+#include <iostream>
+
 /*#ifdef _IRR_WINDOWS_
 #pragma comment(lib, "Irrlicht.lib")
 #pragma comment(linker, "/subsystem:windows /ENTRY:mainCRTStartup")
@@ -165,7 +167,7 @@ namespace engine
         parser.parse(script);
 
 
-        device = irr::createDevice(irr::video::EDT_SOFTWARE, //rendering engine
+        device = irr::createDevice(irr::video::EDT_OPENGL, //rendering engine
                                    irr::core::dimension2d<irr::u32>(width, height), //window dimensions
                                    32, //32-bit colors
                                    fullscreen, //fullscreen?
@@ -205,9 +207,13 @@ namespace engine
             //set the default font
             irr::gui::IGUIFont* font = gui->getFont("fonts/DEFAULT.xml");
             if (font)
+            {
                 gui->getSkin()->setFont(font);
+            }
             else
+            {
                 gui->getSkin()->setFont(gui->getBuiltInFont());
+            }
         }
     }
 
@@ -274,7 +280,7 @@ namespace engine
                                                                  start_y+sep+btn_height),
                                        script_window,
                                        GUI_SCRIPT_SAVE_BTN,
-                                       L"SAVE",
+                                       L"Save",
                                        L"Save the current script.");
 
 
@@ -285,7 +291,7 @@ namespace engine
                                                                  start_y+btn_height*2+sep*2),
                                        script_window,
                                        GUI_SCRIPT_PARSE_BTN,
-                                       L"RUN",
+                                       L"Run",
                                        L"Parse and run the script.");
 
 
@@ -296,7 +302,7 @@ namespace engine
                                                                  start_y+btn_height*3+sep*3),
                                        script_window,
                                        GUI_SCRIPT_STOP_BTN,
-                                       L"STOP",
+                                       L"Stop",
                                        L"Stop running the script.");
 
 
@@ -324,28 +330,28 @@ namespace engine
                         gui->addButton(irr::core::rect<irr::s32>(0,0,60,20),
                                        0,
                                        GUI_EXIT_BUTTON,
-                                       L"EXIT",
+                                       L"Exit",
                                        L"Exit the application.");
 
         //irr::gui::IGUIButton *script_btn =
                         gui->addButton(irr::core::rect<irr::s32>(0,25,60,45),
                                        0,
                                        GUI_SCRIPT_BUTTON,
-                                       L"SCRIPT",
+                                       L"Script",
                                        L"Show the current script.");
 
         //irr::gui::IGUIButton *script_btn =
                         gui->addButton(irr::core::rect<irr::s32>(0,50,60,70),
                                        0,
                                        GUI_SETTINGS_BUTTON,
-                                       L"SETTINGS",
+                                       L"Settings",
                                        L"Show application settings.");
 
         //irr::gui::IGUIButton *console_btn =
                         gui->addButton(irr::core::rect<irr::s32>(0,75,60,95),
                                        0,
                                        GUI_CONSOLE_BUTTON,
-                                       L"CONSOLE",
+                                       L"Console",
                                        L"Show the console.");
     }
 

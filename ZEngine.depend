@@ -1594,7 +1594,7 @@
 	"core/sorted_array.h"
 	<iostream>
 
-1482898915 c:\users\zachary\documents\github\zengine\engine\game.h
+1482902963 c:\users\zachary\documents\github\zengine\engine\game.h
 	<irrlicht.h>
 	"eventHandler.h"
 	"../core/string.h"
@@ -1606,6 +1606,7 @@
 	"global/script_delay_timer.h"
 	"../core/stringUtils/convert_type.h"
 	"pure_string.h"
+	<iostream>
 
 1482542406 c:\users\zachary\documents\github\zengine\engine\eventhandler.h
 	<irrlicht.h>
@@ -1615,8 +1616,9 @@
 	<stdint.h>
 	<stdio.h>
 
-1482898041 c:\users\zachary\documents\github\zengine\core\array.h
+1482899953 c:\users\zachary\documents\github\zengine\core\array.h
 	<vector>
+	<iostream>
 
 1482898853 c:\users\zachary\documents\github\zengine\script\scriptparser.h
 	"../core/array.h"
@@ -1723,7 +1725,7 @@
 	"../core/string.h"
 	"../core/array.h"
 
-1482892920 c:\users\zachary\documents\github\zengine\script\expression.h
+1482899709 c:\users\zachary\documents\github\zengine\script\expression.h
 	"../core/string.h"
 	"../core/stringUtils/eval_string.h"
 	"../core/stringUtils/char_is_whiteSpace.h"

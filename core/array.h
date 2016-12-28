@@ -4,6 +4,9 @@
 
 #include <vector>
 
+#include <iostream>
+using namespace std;
+
 namespace core
 {
     ///Custom array class
@@ -97,7 +100,8 @@ namespace core
 
         bool is_valid(int position) const
         {
-            return (position < (int)array_data.size());
+            return ((position < (int)array_data.size()) &&
+                    (position >= 0));
         }
     };
 

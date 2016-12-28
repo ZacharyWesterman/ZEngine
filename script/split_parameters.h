@@ -9,10 +9,6 @@
 #include "operators.h"
 #include "escape_sequences.h"
 
-#ifndef uint
-    #define uint uint32_t
-#endif // uint
-
 
 namespace script
 {
@@ -33,12 +29,12 @@ namespace script
         operator_string(OPERATOR::CLOSE_PARENTH, close_parenth);
 
 
-        core::array<uint> comma_positions;
+        core::array<int> comma_positions;
 
         //first, get comma positions,
         //not including commas inside parentheses,
         //or commas inside quotes.
-        uint level = 0;
+        int level = 0;
         bool in_quote = false;
 
         for (int i=0; i<input.length(); i++)

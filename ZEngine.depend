@@ -1644,7 +1644,7 @@
 
 1479523912 c:\users\zachary\documents\github\zengine\core\dynamicstack.h
 
-1482890715 c:\users\zachary\documents\github\zengine\script\commands.h
+1482891702 c:\users\zachary\documents\github\zengine\script\commands.h
 	"../core/string.h"
 	"../core/stringUtils/string_remove_whiteSpace.h"
 	"../core/array.h"
@@ -1657,7 +1657,7 @@
 
 1482888141 c:\users\zachary\documents\github\zengine\script\script_errors.h
 
-1482889990 c:\users\zachary\documents\github\zengine\script\split_parameters.h
+1482891599 c:\users\zachary\documents\github\zengine\script\split_parameters.h
 	"../core/array.h"
 	"../core/string.h"
 	"../core/stringUtils/string_remove_whiteSpace.h"
@@ -1683,7 +1683,7 @@
 	"variable.h"
 	<iostream>
 
-1482888325 c:\users\zachary\documents\github\zengine\script\variable.h
+1482891833 c:\users\zachary\documents\github\zengine\script\variable.h
 	"../core/string.h"
 	"../core/array.h"
 	"script_errors.h"

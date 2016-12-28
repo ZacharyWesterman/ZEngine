@@ -8,9 +8,6 @@
 #include "script_errors.h"
 #include "is_valid_script_name.h"
 
-#ifndef uint
-    #define uint unsigned int
-#endif // uint
 
 namespace script
 {
@@ -37,7 +34,7 @@ namespace script
         core::array< core::string<CHAR> > var_values;
 
         bool name_is_valid;
-        uint var_type;
+        VARIABLE::TYPE var_type;
 
     public:
         variable() {name_is_valid = false; var_type = VARIABLE::NONE;}
@@ -85,7 +82,7 @@ namespace script
             return name_is_valid;
         }
 
-        uint set_array_size(const int new_size)
+        error_flag set_array_size(const int new_size)
         {
             var_values.clear();
 
@@ -108,7 +105,7 @@ namespace script
             }
         }
 
-        uint set_array_values(const core::array< core::string<CHAR> >& vals)
+        error_flag set_array_values(const core::array< core::string<CHAR> >& vals)
         {
             var_type = VARIABLE::ARRAY;
 
@@ -117,7 +114,7 @@ namespace script
             return ERROR::NONE;
         }
 
-        uint set_array_value(const int index, const core::string<CHAR>& val)
+        error_flag set_array_value(const int index, const core::string<CHAR>& val)
         {
             if (var_type != VARIABLE::ARRAY)
                 return ERROR::WRONG_VAR_TYPE;
@@ -134,7 +131,7 @@ namespace script
             }
         }
 
-        uint set_to_single_value(const core::string<CHAR>& val)
+        error_flag set_to_single_value(const core::string<CHAR>& val)
         {
             var_values.clear();
 
@@ -146,7 +143,7 @@ namespace script
         }
 
 
-        uint get_single_value(core::string<CHAR>& output) const
+        error_flag get_single_value(core::string<CHAR>& output) const
         {
             if (var_type != VARIABLE::SINGLE)
                 return ERROR::WRONG_VAR_TYPE;
@@ -156,7 +153,7 @@ namespace script
             return ERROR::NONE;
         }
 
-        uint get_array_value(const int index, core::string<CHAR>& output) const
+        error_flag get_array_value(const int index, core::string<CHAR>& output) const
         {
             if (var_type != VARIABLE::ARRAY)
                 return ERROR::WRONG_VAR_TYPE;
@@ -169,12 +166,12 @@ namespace script
         }
 
 
-        uint get_size() const {return var_values.size();}
+        int get_size() const {return var_values.size();}
 
         const core::string<CHAR>& get_name() const {return var_name;}
 
         bool is_valid() const {return name_is_valid;}
-        uint get_type() const {return var_type;}
+        VARIABLE::TYPE get_type() const {return var_type;}
     };
 }
 

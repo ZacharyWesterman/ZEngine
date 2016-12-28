@@ -285,7 +285,7 @@ namespace script
     };
 
 
-    void commandName(const uint cmd, core::string<char>& name)
+    void commandName(const cmd_flag cmd, core::string<char>& name)
     {
         if (cmd < COMMAND::COMMAND_COUNT)
             name = COMMAND::CHAR_COMMANDS[cmd];
@@ -293,7 +293,7 @@ namespace script
             name = COMMAND::CHAR_COMMANDS[COMMAND::NONE];
     }
 
-    void commandName(const uint cmd, core::string<wchar_t>& name)
+    void commandName(const cmd_flag cmd, core::string<wchar_t>& name)
     {
         if (cmd < COMMAND::COMMAND_COUNT)
             name = COMMAND::WCHAR_T_COMMANDS[cmd];
@@ -317,7 +317,7 @@ namespace script
         core::string<CHAR> thisCMDname;
         core::string<CHAR> thisInput = core::remove_whitespace(input);
 
-        for (uint i=COMMAND::COMMAND_COUNT-1; i>0; i--)
+        for (cmd_flag i=COMMAND::COMMAND_COUNT-1; i>0; i--)
         {
             commandName(i, thisCMDname);
 

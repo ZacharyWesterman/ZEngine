@@ -6,11 +6,11 @@ The binary file is located in the bin/Debug folder, and should be able to run fi
 To compile this program, download the Irrlicht API.
 Documentation for linking and compiling Irrlicht projects can be found on the [Irrlicht website](irrlicht.sourceforge.net "irrlicht.sourceforge.net").
 
+--------------
 
-
-#### To do:
-- script
- * user-defined script functions
-- engine
- * make text less blurry
-- definitely a *lot* of other stuff, but I'll add more as it occurs to me.
+### To do:
+* script
+  * user-defined script functions
+* engine
+  * make text less blurry
+* definitely a *lot* of other stuff, but I'll add more as it occurs to me.

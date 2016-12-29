@@ -18,6 +18,8 @@
 #include "../core/stringUtils/convert_type.h"
 #include "pure_string.h"
 
+#include "deviceSettings.h"
+
 #include <windows.h>
 
 #include <iostream>
@@ -78,15 +80,8 @@ namespace engine
             GUI_CONSOLE_LIST        = -14,
         };
 
-        enum DEBUG_MODE
-        {
-            DEBUG,
-            TEST,
-            RELEASE
-        };
-
     private:
-        DEBUG_MODE PROJECT_MODE;
+        deviceSettings settings;
 
         double Max_FPS;
 

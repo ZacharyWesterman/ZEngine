@@ -20,7 +20,15 @@ namespace engine
     class deviceSettings
     {
     public:
-        bool fullScreen;
+        int width;
+        int height;
+
+        int bits;
+
+        bool fullscreen;
+        bool shadows;
+
+        bool vsync;
 
         mode::DEBUG_MODE Mode;
 
@@ -28,20 +36,26 @@ namespace engine
 
         deviceSettings();
 
-        load(const core::string<char>&);
+        bool load(const core::string<char>&);
     };
 
 
     deviceSettings::deviceSettings()
     {
-        fullScreen = false;
+        width = 800;
+        height = 600;
+
+        bits = 16;
+
+        fullscreen = false;
+        shadows = false;
+
+        vsync = false;
 
         Mode = mode::DEBUG;
-
-
     }
 
-    deviceSettings::load()
+    bool deviceSettings::load(const core::string<char>& fileName) {return false;}
 }
 
 

@@ -20,7 +20,7 @@
 
 #include "deviceSettings.h"
 
-#include <windows.h>
+#include "../core/pause.h"
 
 #include <iostream>
 
@@ -121,12 +121,6 @@ namespace engine
         core::string<wchar_t> get_error_string(script::error_flag);
 
 
-        void load_settings_file(core::string<wchar_t>&,
-                                int&, int&,
-                                bool&, bool&,
-                                DEBUG_MODE&);
-
-
     public:
         game();
         ~game();
@@ -138,17 +132,7 @@ namespace engine
     //initialize the game engine
     game::game()
     {
-        core::string<wchar_t> title;
-        int width;
-        int height;
-        bool fullscreen;
-        bool shadows;
-
-        load_settings_file(title,
-                           width, height,
-                           fullscreen, shadows,
-                           PROJECT_MODE);
-
+        settings.load("SETTINGS.cfg");
 
         Max_FPS = 60.0;
 
@@ -168,11 +152,11 @@ namespace engine
 
 
         device = irr::createDevice(irr::video::EDT_OPENGL, //rendering engine
-                                   irr::core::dimension2d<irr::u32>(width, height), //window dimensions
-                                   32, //32-bit colors
-                                   fullscreen, //fullscreen?
-                                   shadows, //stencil buffer? (for shadows)
-                                   false, //vsync enabled? (only useful in fullscreen)
+                                   irr::core::dimension2d<irr::u32>(settings.width, settings.height), //window dimensions
+                                   settings.bits, //32-bit colors
+                                   settings.fullscreen, //fullscreen?
+                                   settings.shadows, //stencil buffer? (for shadows)
+                                   settings.vsync, //vsync enabled? (only useful in fullscreen)
                                    0); //event receiver
 
 
@@ -186,7 +170,7 @@ namespace engine
             device->setEventReceiver(event);
 
 
-            device->setWindowCaption(title.str());
+            device->setWindowCaption(L"ZEngine");
 
 
             setSkinTransparency(255, gui->getSkin());
@@ -196,7 +180,7 @@ namespace engine
 
             //init_console();
 
-            if (PROJECT_MODE == DEBUG)
+            if (settings.Mode == mode::DEBUG)
             {
                 //init_script_window();
                 init_button_menu();
@@ -459,7 +443,7 @@ namespace engine
             }
 
 
-            if (PROJECT_MODE == DEBUG)
+            if (settings.Mode == mode::DEBUG)
             {
                 handle_button_menu();
 
@@ -477,7 +461,7 @@ namespace engine
                 (frame_seconds > 0) &&
                 (frame_seconds < (1.0/Max_FPS)))
             {
-                Sleep(((1.0/Max_FPS) - frame_seconds)*1000);
+                core::pause(((1.0/Max_FPS) - frame_seconds)*1000);
             }
 
 
@@ -762,31 +746,6 @@ namespace engine
         }
 
         return output;
-    }
-
-
-    void game::load_settings_file(core::string<wchar_t>& title,
-                                  int& width, int& height,
-                                  bool& fullscreen, bool& shadows,
-                                  DEBUG_MODE& mode)
-    {
-        title = L"Untitled project";
-
-        width = 800;
-        height = 600;
-
-        fullscreen = false;
-        shadows = false;
-
-        mode = DEBUG;
-
-
-        //core::string<wchar_t> settings;
-
-        //if (file::loadFileToMemory("SETTINGS.cfg", settings))
-        {
-
-        }
     }
 
 

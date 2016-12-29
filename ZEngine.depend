@@ -1594,7 +1594,7 @@
 	"core/sorted_array.h"
 	<iostream>
 
-1482965046 c:\users\zachary\documents\github\zengine\engine\game.h
+1482990148 c:\users\zachary\documents\github\zengine\engine\game.h
 	<irrlicht.h>
 	"eventHandler.h"
 	"../core/string.h"
@@ -1606,7 +1606,8 @@
 	"global/script_delay_timer.h"
 	"../core/stringUtils/convert_type.h"
 	"pure_string.h"
-	<windows.h>
+	"deviceSettings.h"
+	"../core/pause.h"
 	<iostream>
 
 1482542406 c:\users\zachary\documents\github\zengine\engine\eventhandler.h
@@ -1925,4 +1926,11 @@
 
 1482890518 c:\users\zachary\documents\github\zengine\core\sorted_array.h
 	"./array.h"
+
+1482990135 c:\users\zachary\documents\github\zengine\engine\devicesettings.h
+	"../core/string.h"
+
+1482988773 c:\users\zachary\documents\github\zengine\core\pause.h
+	<unistd.h>
+	<windows.h>
 

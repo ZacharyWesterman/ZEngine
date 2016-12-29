@@ -42,6 +42,7 @@
 		</Compiler>
 		<Unit filename="core/array.h" />
 		<Unit filename="core/dynamicStack.h" />
+		<Unit filename="core/pause.h" />
 		<Unit filename="core/sorted_array.h" />
 		<Unit filename="core/string.h" />
 		<Unit filename="core/stringUtils.h" />

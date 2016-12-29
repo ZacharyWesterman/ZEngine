@@ -9,8 +9,9 @@ Documentation for linking and compiling Irrlicht projects can be found on the [I
 --------------
 
 ### To do:
-* script
-  * user-defined script functions
-* engine
-  * make text less blurry
-* definitely a *lot* of other stuff, but I'll add more as it occurs to me.
++ **script**
+  + user-defined script functions
++ **engine**
+  + make text less blurry
+
+Definitely a *lot* of other stuff to be added, but I'll write it down as it occurs to me.

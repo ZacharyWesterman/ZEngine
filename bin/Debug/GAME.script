@@ -2,9 +2,9 @@ true = 1
 false = 0
 
 main
- set max fps 200
+ set max fps 60
  do
   delay 500
-  set window title "ZEngine [" + floor(fps()) + "fps]"
+  set window title "ZEngine [" + round(fps()) + "fps]"
  loop
 endmain

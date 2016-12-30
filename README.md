@@ -10,12 +10,12 @@ Documentation for linking and compiling Irrlicht projects can be found on the [I
 
 ### To do:
 + **script**
-  + user-defined script functions
+ - [ ] user-defined script functions
 + **engine**
-  + load settings from file at startup (if available)
-  + save settings to file on exit
-  + make text less blurry
-  + populate GUI settings window
-  + allow user to change settings (not just bells & whistles)
+ - [ ] load settings from file at startup (if available)
+ - [ ] save settings to file on exit
+ - [x] make text less blurry
+ - [ ] populate GUI settings window
+ - [ ] allow user to change settings (not just bells & whistles)
 
 Definitely a *lot* of other stuff to be added, but I'll write it down as it occurs to me.

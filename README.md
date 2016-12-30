@@ -23,6 +23,8 @@ Documentation for linking and compiling Irrlicht projects can be found on the [I
  - [ ] add documentation for math expressions
  - [ ] add documentation for functions
  - [ ] add documentation for commands and syntax
++ **Miscellaneous**
+ - [ ] compile for Linux
 
 ---
 

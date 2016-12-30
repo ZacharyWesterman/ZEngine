@@ -14,7 +14,7 @@ Documentation for linking and compiling Irrlicht projects can be found on the [I
 + **engine**
  - [ ] load settings from file at startup (if available)
  - [ ] save settings to file on exit
- - [ ] ~~make text less blurry~~
+ - [x] ~~make text less blurry~~
  - [ ] populate GUI settings window
  - [ ] allow user to change settings (not just bells & whistles)
 

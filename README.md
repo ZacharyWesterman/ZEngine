@@ -7,7 +7,7 @@ The binary file is located in the bin/Debug folder, and should be able to run fi
 To compile this program, download the Irrlicht API.
 Documentation for linking and compiling Irrlicht projects can be found on the [Irrlicht website](irrlicht.sourceforge.net "irrlicht.sourceforge.net").
 
---------------
+---
 
 ### To do:
 + **Script**
@@ -24,6 +24,7 @@ Documentation for linking and compiling Irrlicht projects can be found on the [I
  - [ ] add documentation for functions
  - [ ] add documentation for commands and syntax
 
+---
 
 ### Bugs
 + UI font doesn't load on certain Windows machines

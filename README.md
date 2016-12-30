@@ -24,4 +24,6 @@ Documentation for linking and compiling Irrlicht projects can be found on the [I
  - [ ] add documentation for functions
  - [ ] add documentation for commands and syntax
 
-Definitely a *lot* of other stuff to be added, but I'll write it down as it occurs to me.
+
+### Bugs
++ UI font doesn't load on certain Windows machines

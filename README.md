@@ -13,6 +13,7 @@ Documentation for linking and compiling Irrlicht projects can be found on the [I
 + **Script**
  - [ ] user-defined script functions
  - [ ] make command list more extensible
+ - [ ] allow multiple scripts to run simultaneously
 + **Engine**
  - [ ] load settings from file at startup (if available)
  - [ ] save settings to file on exit

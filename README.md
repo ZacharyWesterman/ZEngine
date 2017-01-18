@@ -30,4 +30,4 @@ Documentation for linking and compiling Irrlicht projects can be found on the [I
 ---
 
 ### Bugs
-+ UI font doesn't load on certain Windows machines
++ ~~UI font doesn't load on certain Windows machines~~ Fixed.

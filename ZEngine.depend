@@ -1589,12 +1589,12 @@
 1482454662 k:\zengine\engine\global\script_delay_timer.h
 	"../../core/timer.h"
 
-1482887408 source:c:\users\zachary\documents\github\zengine\main.cpp
+1484768347 source:c:\users\zachary\documents\github\zengine\main.cpp
 	"engine/game.h"
 	"core/sorted_array.h"
 	<iostream>
 
-1482990148 c:\users\zachary\documents\github\zengine\engine\game.h
+1484768341 c:\users\zachary\documents\github\zengine\engine\game.h
 	<irrlicht.h>
 	"eventHandler.h"
 	"../core/string.h"
@@ -1610,19 +1610,19 @@
 	"../core/pause.h"
 	<iostream>
 
-1482542406 c:\users\zachary\documents\github\zengine\engine\eventhandler.h
+1484768341 c:\users\zachary\documents\github\zengine\engine\eventhandler.h
 	<irrlicht.h>
 	<iostream>
 
-1482891209 c:\users\zachary\documents\github\zengine\core\string.h
+1484768339 c:\users\zachary\documents\github\zengine\core\string.h
 	<stdint.h>
 	<stdio.h>
 
-1482899953 c:\users\zachary\documents\github\zengine\core\array.h
+1484768338 c:\users\zachary\documents\github\zengine\core\array.h
 	<vector>
 	<iostream>
 
-1482961263 c:\users\zachary\documents\github\zengine\script\scriptparser.h
+1484768356 c:\users\zachary\documents\github\zengine\script\scriptparser.h
 	"../core/array.h"
 	"../core/string.h"
 	"../core/stringUtils/eval_string.h"
@@ -1637,62 +1637,62 @@
 	<iostream>
 	"../core/stringUtils/convert_type.h"
 
-1480804312 c:\users\zachary\documents\github\zengine\core\stringutils\eval_string.h
+1484768340 c:\users\zachary\documents\github\zengine\core\stringutils\eval_string.h
 	"../string.h"
 	"char_is_alphanumeric.h"
 
-1478344246 c:\users\zachary\documents\github\zengine\core\stringutils\char_is_alphanumeric.h
+1484768340 c:\users\zachary\documents\github\zengine\core\stringutils\char_is_alphanumeric.h
 
-1480906150 c:\users\zachary\documents\github\zengine\core\stringutils\char_is_whitespace.h
+1484768340 c:\users\zachary\documents\github\zengine\core\stringutils\char_is_whitespace.h
 
-1479523912 c:\users\zachary\documents\github\zengine\core\dynamicstack.h
+1484768339 c:\users\zachary\documents\github\zengine\core\dynamicstack.h
 
-1482964312 c:\users\zachary\documents\github\zengine\script\commands.h
+1484768349 c:\users\zachary\documents\github\zengine\script\commands.h
 	"../core/string.h"
 	"../core/stringUtils/string_remove_whiteSpace.h"
 	"../core/array.h"
 	"script_errors.h"
 	"split_parameters.h"
 
-1478347280 c:\users\zachary\documents\github\zengine\core\stringutils\string_remove_whitespace.h
+1484768341 c:\users\zachary\documents\github\zengine\core\stringutils\string_remove_whitespace.h
 	"../string.h"
 	"char_is_whiteSpace.h"
 
-1482960881 c:\users\zachary\documents\github\zengine\script\script_errors.h
+1484768350 c:\users\zachary\documents\github\zengine\script\script_errors.h
 
-1482891599 c:\users\zachary\documents\github\zengine\script\split_parameters.h
+1484768357 c:\users\zachary\documents\github\zengine\script\split_parameters.h
 	"../core/array.h"
 	"../core/string.h"
 	"../core/stringUtils/string_remove_whiteSpace.h"
 	"operators.h"
 	"escape_sequences.h"
 
-1482889772 c:\users\zachary\documents\github\zengine\script\operators.h
+1484768350 c:\users\zachary\documents\github\zengine\script\operators.h
 	"../core/string.h"
 
-1482897342 c:\users\zachary\documents\github\zengine\script\escape_sequences.h
+1484768349 c:\users\zachary\documents\github\zengine\script\escape_sequences.h
 	"../core/string.h"
 
-1482961263 c:\users\zachary\documents\github\zengine\script\split_script_into_commands.h
+1484959641 c:\users\zachary\documents\github\zengine\script\split_script_into_commands.h
 	"../core/array.h"
 	"../core/string.h"
 	"commands.h"
 
-1479622310 c:\users\zachary\documents\github\zengine\script\is_valid_script_name.h
+1484768350 c:\users\zachary\documents\github\zengine\script\is_valid_script_name.h
 	"../core/string.h"
 	"../core/stringUtils/char_is_alphanumeric.h"
 
-1482961076 c:\users\zachary\documents\github\zengine\script\variabletree.h
+1484768357 c:\users\zachary\documents\github\zengine\script\variabletree.h
 	"variable.h"
 	<iostream>
 
-1482961076 c:\users\zachary\documents\github\zengine\script\variable.h
+1484768357 c:\users\zachary\documents\github\zengine\script\variable.h
 	"../core/string.h"
 	"../core/array.h"
 	"script_errors.h"
 	"is_valid_script_name.h"
 
-1482961077 c:\users\zachary\documents\github\zengine\script\functionalexpression.h
+1484768350 c:\users\zachary\documents\github\zengine\script\functionalexpression.h
 	"../core/string.h"
 	"../core/array.h"
 	"functions.h"
@@ -1723,11 +1723,11 @@
 	"script_functions/blue_rgba.h"
 	"script_functions/alpha_rgba.h"
 
-1482961263 c:\users\zachary\documents\github\zengine\script\functions.h
+1484768350 c:\users\zachary\documents\github\zengine\script\functions.h
 	"../core/string.h"
 	"../core/array.h"
 
-1482961076 c:\users\zachary\documents\github\zengine\script\expression.h
+1484768349 c:\users\zachary\documents\github\zengine\script\expression.h
 	"../core/string.h"
 	"../core/stringUtils/eval_string.h"
 	"../core/stringUtils/char_is_whiteSpace.h"
@@ -1741,40 +1741,32 @@
 	"escape_sequences.h"
 	"destringify.h"
 
-1478466980 c:\users\zachary\documents\github\zengine\math\factorial.h
+1484768348 c:\users\zachary\documents\github\zengine\math\factorial.h
 
-1481061492 c:\users\zachary\documents\github\zengine\script\destringify.h
+1484768349 c:\users\zachary\documents\github\zengine\script\destringify.h
 	"../core/string.h"
 	"../core/stringUtils/string_remove_whiteSpace.h"
 	"escape_sequences.h"
 
-1482961076 c:\users\zachary\documents\github\zengine\script\script_functions\ceiling.h
+1484768351 c:\users\zachary\documents\github\zengine\script\script_functions\ceiling.h
 	"../../core/array.h"
 	"../../core/string.h"
 	"../../core/stringUtils/eval_string.h"
 	"../script_errors.h"
 
-1482961076 c:\users\zachary\documents\github\zengine\script\script_functions\floor.h
+1484768351 c:\users\zachary\documents\github\zengine\script\script_functions\floor.h
 	"../../core/array.h"
 	"../../core/string.h"
 	"../../core/stringUtils/eval_string.h"
 	"../script_errors.h"
 
-1482961076 c:\users\zachary\documents\github\zengine\script\script_functions\round.h
+1484768353 c:\users\zachary\documents\github\zengine\script\script_functions\round.h
 	"../../core/array.h"
 	"../../core/string.h"
 	"../../core/stringUtils/eval_string.h"
 	"../script_errors.h"
 
-1482961076 c:\users\zachary\documents\github\zengine\script\script_functions\rand_f.h
-	"../../core/array.h"
-	"../../core/string.h"
-	"../../core/stringUtils/eval_string.h"
-	"../script_errors.h"
-	<random>
-	<time.h>
-
-1482961076 c:\users\zachary\documents\github\zengine\script\script_functions\rand_i.h
+1484768352 c:\users\zachary\documents\github\zengine\script\script_functions\rand_f.h
 	"../../core/array.h"
 	"../../core/string.h"
 	"../../core/stringUtils/eval_string.h"
@@ -1782,155 +1774,163 @@
 	<random>
 	<time.h>
 
-1482961076 c:\users\zachary\documents\github\zengine\script\script_functions\log.h
+1484768352 c:\users\zachary\documents\github\zengine\script\script_functions\rand_i.h
+	"../../core/array.h"
+	"../../core/string.h"
+	"../../core/stringUtils/eval_string.h"
+	"../script_errors.h"
+	<random>
+	<time.h>
+
+1484768352 c:\users\zachary\documents\github\zengine\script\script_functions\log.h
 	"../../core/array.h"
 	"../../core/string.h"
 	"../../core/stringUtils/eval_string.h"
 	"../script_errors.h"
 	<math.h>
 
-1482961076 c:\users\zachary\documents\github\zengine\script\script_functions\square_root.h
+1484768356 c:\users\zachary\documents\github\zengine\script\script_functions\square_root.h
 	"../../core/array.h"
 	"../../core/string.h"
 	"../../core/stringUtils/eval_string.h"
 	"../script_errors.h"
 	<math.h>
 
-1482961076 c:\users\zachary\documents\github\zengine\script\script_functions\sine.h
+1484768353 c:\users\zachary\documents\github\zengine\script\script_functions\sine.h
 	"../../core/array.h"
 	"../../core/string.h"
 	"../../core/stringUtils/eval_string.h"
 	"../script_errors.h"
 	<math.h>
 
-1482961076 c:\users\zachary\documents\github\zengine\script\script_functions\cosine.h
+1484768351 c:\users\zachary\documents\github\zengine\script\script_functions\cosine.h
 	"../../core/array.h"
 	"../../core/string.h"
 	"../../core/stringUtils/eval_string.h"
 	"../script_errors.h"
 	<math.h>
 
-1482961076 c:\users\zachary\documents\github\zengine\script\script_functions\tangent.h
+1484768356 c:\users\zachary\documents\github\zengine\script\script_functions\tangent.h
 	"../../core/array.h"
 	"../../core/string.h"
 	"../../core/stringUtils/eval_string.h"
 	"../script_errors.h"
 	<math.h>
 
-1482961076 c:\users\zachary\documents\github\zengine\script\script_functions\degrees_to_radians.h
+1484768351 c:\users\zachary\documents\github\zengine\script\script_functions\degrees_to_radians.h
 	"../../core/array.h"
 	"../../core/string.h"
 	"../../core/stringUtils/eval_string.h"
 	"../script_errors.h"
 
-1482961077 c:\users\zachary\documents\github\zengine\script\script_functions\radians_to_degrees.h
+1484768352 c:\users\zachary\documents\github\zengine\script\script_functions\radians_to_degrees.h
 	"../../core/array.h"
 	"../../core/string.h"
 	"../../core/stringUtils/eval_string.h"
 	"../script_errors.h"
 
-1482961076 c:\users\zachary\documents\github\zengine\script\script_functions\arc_sine.h
-	"../../core/array.h"
-	"../../core/string.h"
-	"../../core/stringUtils/eval_string.h"
-	"../script_errors.h"
-	<math.h>
-
-1482961076 c:\users\zachary\documents\github\zengine\script\script_functions\arc_cosine.h
+1484768350 c:\users\zachary\documents\github\zengine\script\script_functions\arc_sine.h
 	"../../core/array.h"
 	"../../core/string.h"
 	"../../core/stringUtils/eval_string.h"
 	"../script_errors.h"
 	<math.h>
 
-1482961076 c:\users\zachary\documents\github\zengine\script\script_functions\arc_tangent.h
+1484768350 c:\users\zachary\documents\github\zengine\script\script_functions\arc_cosine.h
 	"../../core/array.h"
 	"../../core/string.h"
 	"../../core/stringUtils/eval_string.h"
 	"../script_errors.h"
 	<math.h>
 
-1482961076 c:\users\zachary\documents\github\zengine\script\script_functions\absolute_val.h
+1484768351 c:\users\zachary\documents\github\zengine\script\script_functions\arc_tangent.h
 	"../../core/array.h"
 	"../../core/string.h"
 	"../../core/stringUtils/eval_string.h"
 	"../script_errors.h"
 	<math.h>
 
-1482961076 c:\users\zachary\documents\github\zengine\script\script_functions\frames_per_second.h
+1484768350 c:\users\zachary\documents\github\zengine\script\script_functions\absolute_val.h
+	"../../core/array.h"
+	"../../core/string.h"
+	"../../core/stringUtils/eval_string.h"
+	"../script_errors.h"
+	<math.h>
+
+1484768352 c:\users\zachary\documents\github\zengine\script\script_functions\frames_per_second.h
 	"../../core/array.h"
 	"../../core/string.h"
 	"../script_errors.h"
 	"../../engine/global/fps.h"
 
-1482961799 c:\users\zachary\documents\github\zengine\engine\global\fps.h
+1484768342 c:\users\zachary\documents\github\zengine\engine\global\fps.h
 	"../../core/timer.h"
 
-1482961076 c:\users\zachary\documents\github\zengine\script\script_functions\rgb.h
+1484768352 c:\users\zachary\documents\github\zengine\script\script_functions\rgb.h
 	"../../core/array.h"
 	"../../core/string.h"
 	"../../core/stringUtils/eval_string.h"
 	"../script_errors.h"
 
-1482961076 c:\users\zachary\documents\github\zengine\script\script_functions\rgba.h
+1484768353 c:\users\zachary\documents\github\zengine\script\script_functions\rgba.h
 	"../../core/array.h"
 	"../../core/string.h"
 	"../../core/stringUtils/eval_string.h"
 	"../script_errors.h"
 
-1482961076 c:\users\zachary\documents\github\zengine\script\script_functions\red_rgba.h
+1484768352 c:\users\zachary\documents\github\zengine\script\script_functions\red_rgba.h
 	"../../core/array.h"
 	"../../core/string.h"
 	"../../core/stringUtils/eval_string.h"
 	"../script_errors.h"
 
-1482961077 c:\users\zachary\documents\github\zengine\script\script_functions\green_rgba.h
+1484768352 c:\users\zachary\documents\github\zengine\script\script_functions\green_rgba.h
 	"../../core/array.h"
 	"../../core/string.h"
 	"../../core/stringUtils/eval_string.h"
 	"../script_errors.h"
 
-1482961076 c:\users\zachary\documents\github\zengine\script\script_functions\blue_rgba.h
+1484768351 c:\users\zachary\documents\github\zengine\script\script_functions\blue_rgba.h
 	"../../core/array.h"
 	"../../core/string.h"
 	"../../core/stringUtils/eval_string.h"
 	"../script_errors.h"
 
-1482961076 c:\users\zachary\documents\github\zengine\script\script_functions\alpha_rgba.h
+1484768350 c:\users\zachary\documents\github\zengine\script\script_functions\alpha_rgba.h
 	"../../core/array.h"
 	"../../core/string.h"
 	"../../core/stringUtils/eval_string.h"
 	"../script_errors.h"
 
-1480807354 c:\users\zachary\documents\github\zengine\core\stringutils\convert_type.h
+1484768340 c:\users\zachary\documents\github\zengine\core\stringutils\convert_type.h
 	"../string.h"
 
-1480917860 c:\users\zachary\documents\github\zengine\file\loadfiletomemory.h
+1484768342 c:\users\zachary\documents\github\zengine\file\loadfiletomemory.h
 	"../core/string.h"
 	<fstream>
 	<stdio.h>
 
-1480902602 c:\users\zachary\documents\github\zengine\file\savetofilefrommemory.h
+1484768347 c:\users\zachary\documents\github\zengine\file\savetofilefrommemory.h
 	"../core/string.h"
 	<stdio.h>
 
-1482957805 c:\users\zachary\documents\github\zengine\engine\global\script_delay_timer.h
+1484768342 c:\users\zachary\documents\github\zengine\engine\global\script_delay_timer.h
 	"../../core/timer.h"
 
-1482957959 c:\users\zachary\documents\github\zengine\core\timer.h
+1484768341 c:\users\zachary\documents\github\zengine\core\timer.h
 	<chrono>
 
-1481061572 c:\users\zachary\documents\github\zengine\engine\pure_string.h
+1484768342 c:\users\zachary\documents\github\zengine\engine\pure_string.h
 	"../script/escape_sequences.h"
 	"../script/destringify.h"
 
-1482890518 c:\users\zachary\documents\github\zengine\core\sorted_array.h
+1484768339 c:\users\zachary\documents\github\zengine\core\sorted_array.h
 	"./array.h"
 
-1482990135 c:\users\zachary\documents\github\zengine\engine\devicesettings.h
+1484768341 c:\users\zachary\documents\github\zengine\engine\devicesettings.h
 	"../core/string.h"
 
-1482988773 c:\users\zachary\documents\github\zengine\core\pause.h
+1484768339 c:\users\zachary\documents\github\zengine\core\pause.h
 	<unistd.h>
 	<windows.h>
 

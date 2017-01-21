@@ -14,6 +14,7 @@ namespace script
                                     core::array< command<CHAR> >& output)
     {
         core::string<CHAR> new_line = (CHAR)10;
+        core::string<CHAR> carr_ret = (CHAR)13;
         core::string<CHAR> new_cmd = (CHAR)59; //semicolon character
         //core::string<CHAR> new_cmd = (CHAR)58; //colon character
 
@@ -24,6 +25,7 @@ namespace script
         for (int i=0; i<input.length(); i++)
         {
             if (input.foundAt(new_line, i) ||
+                input.foundAt(carr_ret, i) ||
                 input.foundAt(new_cmd, i))
             {
                 if (i == start_pos)

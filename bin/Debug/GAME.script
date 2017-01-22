@@ -1,1 +1,0 @@
-main  pi = 3.141592654  #pi/4 radians should be 45 degrees   print deg(pi/4)  #the sine of 45 degrees should be about 0.707  print sin( rad(45) )endmain

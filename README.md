@@ -17,7 +17,6 @@ Documentation for linking and compiling Irrlicht projects can be found on the [I
 + **Engine**
  - [ ] load settings from file at startup (if available)
  - [ ] save settings to file on exit
- - [x] make text less blurry
  - [ ] populate GUI settings window
  - [ ] allow user to change settings (not just bells & whistles)
 + **Documentation**
@@ -26,8 +25,3 @@ Documentation for linking and compiling Irrlicht projects can be found on the [I
  - [ ] add documentation for commands and syntax
 + **Miscellaneous**
  - [ ] compile for Linux
-
----
-
-### Bugs
-+ ~~UI font doesn't load on certain Windows machines~~ Fixed.

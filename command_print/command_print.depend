@@ -1,0 +1,7 @@
+# depslib dependency file v1.0
+1446667744 source:c:\users\zachary\documents\github\zengine\command_print\main.cpp
+	"main.h"
+
+1485155226 c:\users\zachary\documents\github\zengine\command_print\main.h
+	<windows.h>
+

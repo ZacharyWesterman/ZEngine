@@ -1,36 +1,20 @@
-#include "engine/game.h"
-
-#include "core/sorted_array.h"
-
-#include <iostream>
-using namespace std;
-
+#include<stdio.h>
+#include<windows.h>
 
 int main()
 {
-    core::sorted_array<int> s_arr;
 
-    engine::game game;//(L"Untitled project", 1366,768, true);
+  HINSTANCE ldll;
+  int (*add2)(int);
+  int (*mul)(int,int);
 
-    while (game.run()) {}
+  ldll = LoadLibrary("mydll.dll");
+  if(ldll>(void*)HINSTANCE_ERROR){
+    add2 = GetProcAddress(ldll, "add2");
+    mul = GetProcAddress(ldll, "mul");
+    printf("add2(3): %d\nmul(4,5): %d", add2(3), mul(4,5));
+  } else {
+    printf("ERROR.");
+  }
 
-
-
-    cout << "\nDone.\n";
-
-    cout << endl;
-    cout << "[ " << (int)'[' << ':' << (int)L'[' << endl;
-    cout << "] " << (int)']' << ':' << (int)L']' << endl;
-    cout << "{ " << (int)'{' << ':' << (int)L'{' << endl;
-    cout << "} " << (int)'}' << ':' << (int)L'}' << endl;
-    cout << "\" " << (int)'"' << ':' << (int)L'"' << endl;
-    cout << "  " << (int)' ' << ':' << (int)L' ' << endl;
-    cout << ". " << (int)'.' << ':' << (int)L'.' << endl;
-    cout << ", " << (int)',' << ':' << (int)L',' << endl;
-    cout << "_ " << (int)'_' << ':' << (int)L'_' << endl;
-    cout << ": " << (int)':' << ':' << (int)L':' << endl;
-    cout << "; " << (int)';' << ':' << (int)L';' << endl;
-    cout << "\\n"<< (int)'\n'<< ':' << (int)L'\n'<< endl;
-
-    return 0;
 }

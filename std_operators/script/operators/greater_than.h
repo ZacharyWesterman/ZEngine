@@ -1,6 +1,5 @@
-#pragma once
-#ifndef EQUALS_H_INCLUDED
-#define EQUALS_H_INCLUDED
+#ifndef GREATER_THAN_H_INCLUDED
+#define GREATER_THAN_H_INCLUDED
 
 #include "oper_t.h"
 
@@ -14,11 +13,11 @@ namespace script
     namespace oper
     {
         template <typename CHAR>
-        class factorial : public oper_t<CHAR>
+        class greater_than : public oper_t<CHAR>
         {
         public:
-            ///Factorial uses '!' and has a priority of 7.
-            factorial() : oper_t<CHAR>(core::string<char>("^"), 6) {}
+            ///Greater than uses '>' and has a priority of 2.
+            greater_than() : oper_t<CHAR>(core::string<char>(">"), 2) {}
 
 
             ///Perform multiplication
@@ -35,4 +34,4 @@ namespace script
     }
 }
 
-#endif // EQUALS_H_INCLUDED
+#endif // GREATER_THAN_H_INCLUDED

@@ -2,7 +2,7 @@
 <CodeBlocks_project_file>
 	<FileVersion major="1" minor="6" />
 	<Project>
-		<Option title="CreateDLL" />
+		<Option title="std_operators" />
 		<Option pch_mode="2" />
 		<Option compiler="gcc" />
 		<Build>
@@ -46,11 +46,13 @@
 		<Unit filename="core/stringUtils/eval_string.h" />
 		<Unit filename="main.cpp" />
 		<Unit filename="main.h" />
+		<Unit filename="math/factorial.h" />
 		<Unit filename="script/destringify.h" />
 		<Unit filename="script/escape_sequences.h" />
 		<Unit filename="script/is_script_string.h" />
 		<Unit filename="script/operators/add.h" />
 		<Unit filename="script/operators/divide.h" />
+		<Unit filename="script/operators/equals.h" />
 		<Unit filename="script/operators/factorial.h" />
 		<Unit filename="script/operators/integer_divide.h" />
 		<Unit filename="script/operators/modulus.h" />

@@ -70,7 +70,7 @@ int main()
 {
     core::array< script::oper::oper_t<char>* > opers;
 
-    if(load_opers(opers, "CreateDLL.dll"));
+    if(load_opers(opers, "std_operators.dll"));
 
     for (int i=0; i<opers.size(); i++)
     {

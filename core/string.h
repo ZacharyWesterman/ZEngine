@@ -364,62 +364,13 @@ namespace core
 
 
         //string assignment operator
-        const string& operator=(const string& other)
+        const string& operator=(const string<CHAR>& other)
         {
             assign_data(other.string_array, other.length());
 
             return *this;
         }
 
-        //null-terminated character array assignment operator
-        /*const string& operator=(const CHAR* other)
-        {
-            unsigned int amount = 0;
-            while (other[amount] != null)
-                amount++;
-
-            assign_data(other, amount);
-
-            return *this;
-        }
-
-        //assignment operator to put single character into string
-        const string& operator=(CHAR character)
-        {
-            clear_data();
-
-            array_length = 2;
-            string_array = new CHAR[2];
-
-            string_array[0] = character;
-            string_array[1] = null;
-
-            return *this;
-        }
-
-        //assignment operator to put number into string
-        const string& operator=(int number)
-        {
-            string String;
-
-            toString(number, String);
-
-            assign_data(String.string_array, String.length());
-
-            return *this;
-        }
-
-        //assignment operator to put number into string
-        const string& operator=(double number)
-        {
-            string String;
-
-            toString(number, String);
-
-            assign_data(String.string_array, String.length());
-
-            return *this;
-        }*/
 
 
         //equality operator
@@ -749,6 +700,9 @@ namespace core
 
             string_array[0] = null;
         }
+
+
+        friend const string<char> narrow(const string<wchar_t>&);
     };
 
 
@@ -838,6 +792,82 @@ namespace core
             start++;
 
         output = &String[start];
+    }
+
+
+
+    ///functions for narrowing and widening strings
+    const string<char> narrow(const string<wchar_t>& other)
+    {
+        string<char> output;
+
+        for (int i=0; i<other.length(); i++)
+        {
+            wchar_t code = other[i];
+
+            if (code < 128)
+                output += (char)code;
+            else
+            {
+                output += '?';
+
+                if ((code >= 0xD800) && (code <= 0xD8FF))
+                    i++;
+            }
+        }
+
+
+
+        return output;
+    }
+
+    const string<char>& narrow(const string<char>& other)
+    {
+        return other;
+    }
+
+
+
+    const string<wchar_t> widen(const string<char>& other)
+    {
+        string<wchar_t> output;
+
+        for (int i=0; i<other.length(); i++)
+        {
+            output += (wchar_t)other[i];
+        }
+
+
+        return output;
+    }
+
+    const string<wchar_t>& widen(const string<wchar_t>& other)
+    {
+        return other;
+    }
+
+
+
+    ///Functions for converting between string types
+    void convertStr(string<char>& to, const string<wchar_t>& from)
+    {
+        to = narrow(from);
+    }
+
+    void convertStr(string<char>& to, const string<char>& from)
+    {
+        to = from;
+    }
+
+
+    void convertStr(string<wchar_t>& to, const string<char>& from)
+    {
+        to = widen(from);
+    }
+
+    void convertStr(string<wchar_t>& to, const string<wchar_t>& from)
+    {
+        to = from;
     }
 }
 

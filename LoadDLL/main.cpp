@@ -8,6 +8,8 @@ using namespace std;
 #include "script/operators/oper_t.h"
 #include "core/array.h"
 
+#include "file/list_files_in_dir.h"
+
 bool load_opers(core::array< script::oper::oper_t<char>* >& output, const core::string<char> file_name)
 {
     typedef void (__stdcall *_func) (core::array< script::oper::oper_t<char>* >&);
@@ -68,28 +70,55 @@ bool load_opers(core::array< script::oper::oper_t<wchar_t>* >& output, const cor
 
 int main()
 {
+    //get list of all dlls in the directory
+    core::array< core::string<char> > files;
+
+    core::string<char> dir = "operators";
+    core::string<char> type = "dll";
+
+    file::list_files_in_dir(dir, type, files);
+
+    cout << "Found " << files.size();
+    cout << ((files.size() == 1) ? (" library in dir '") : (" libraries in dir '"));
+    cout << dir.str() << "' of type '" << type.str() << "':\n\n";
+
+    for (int i=0; i<files.size(); i++)
+    {
+        cout << files[i].str() << endl;
+    }
+
+    cout << "\n-----------------\n\n";
+
+
+    //load the dlls
     core::array< script::oper::oper_t<char>* > opers;
 
-    if(load_opers(opers, "std_operators.dll"));
-
-    for (int i=0; i<opers.size(); i++)
+    for (int lib=0; lib<files.size(); lib++)
     {
-        cout << "type[" << opers[i]->str().str() << "]\n";
+        core::string<char> file_dir = dir + "/";
+        file_dir += files[lib];
 
-        core::string<char> a("2"),b("3");
+        load_opers(opers, file_dir);
 
-        core::dynamic_stack< core::string<char> > _stack;
-        _stack.push(a);
-        _stack.push(b);
+        for (int i=0; i<opers.size(); i++)
+        {
+            cout << "type[" << opers[i]->str().str() << "]\n";
 
-        script::error_flag err = opers[i]->operate(_stack);
+            core::string<char> a("2"),b("3");
 
-        core::string<char> c;
+            core::dynamic_stack< core::string<char> > _stack;
+            _stack.push(a);
+            _stack.push(b);
 
-        _stack.pop(c);
+            script::error_flag err = opers[i]->operate(_stack);
 
-        cout << "operate(" << a.str() << "," << b.str() << ") \nresulted in '";
-        cout << c.str() << "' \nand returned error{" << err << "}.\n\n";
+            core::string<char> c;
+
+            _stack.pop(c);
+
+            cout << "operate(" << a.str() << "," << b.str() << ") \nresulted in '";
+            cout << c.str() << "' \nand returned error{" << err << "}.\n\n";
+        }
     }
 
     system("PAUSE");

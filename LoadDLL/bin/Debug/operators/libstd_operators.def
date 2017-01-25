@@ -1,0 +1,3 @@
+EXPORTS
+    get_opers_c @1
+    get_opers_w @2

@@ -153,7 +153,7 @@
 	"../destringify.h"
 	"../../core/stringUtils/eval_string.h"
 
-1485376305 source:c:\users\zachary\documents\github\zengine\std_operators\main.cpp
+1485377046 source:c:\users\zachary\documents\github\zengine\std_operators\main.cpp
 	"main.h"
 	"script/operators/add.h"
 	"script/operators/subtract.h"
@@ -164,6 +164,11 @@
 	"script/operators/power.h"
 	"script/operators/factorial.h"
 	"script/operators/equals.h"
+	"script/operators/not_equal.h"
+	"script/operators/greater_than.h"
+	"script/operators/less_than.h"
+	"script/operators/greater_than_equal.h"
+	"script/operators/less_than_equal.h"
 
 1485342661 c:\users\zachary\documents\github\zengine\std_operators\main.h
 	"script/operators/oper_t.h"
@@ -260,6 +265,36 @@
 	"../../core/stringUtils/eval_string.h"
 
 1485376250 c:\users\zachary\documents\github\zengine\std_operators\script\operators\equals.h
+	"oper_t.h"
+	"../is_script_string.h"
+	"../destringify.h"
+	"../../core/stringUtils/eval_string.h"
+
+1485377406 c:\users\zachary\documents\github\zengine\std_operators\script\operators\not_equal.h
+	"oper_t.h"
+	"../is_script_string.h"
+	"../destringify.h"
+	"../../core/stringUtils/eval_string.h"
+
+1485377264 c:\users\zachary\documents\github\zengine\std_operators\script\operators\greater_than.h
+	"oper_t.h"
+	"../is_script_string.h"
+	"../destringify.h"
+	"../../core/stringUtils/eval_string.h"
+
+1485377335 c:\users\zachary\documents\github\zengine\std_operators\script\operators\less_than.h
+	"oper_t.h"
+	"../is_script_string.h"
+	"../destringify.h"
+	"../../core/stringUtils/eval_string.h"
+
+1485377549 c:\users\zachary\documents\github\zengine\std_operators\script\operators\greater_than_equal.h
+	"oper_t.h"
+	"../is_script_string.h"
+	"../destringify.h"
+	"../../core/stringUtils/eval_string.h"
+
+1485377570 c:\users\zachary\documents\github\zengine\std_operators\script\operators\less_than_equal.h
 	"oper_t.h"
 	"../is_script_string.h"
 	"../destringify.h"

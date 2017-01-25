@@ -37,6 +37,7 @@
 		</Compiler>
 		<Unit filename="core/array.h" />
 		<Unit filename="core/loadLibrary.h" />
+		<Unit filename="file/list_files_in_dir.h" />
 		<Unit filename="main.cpp" />
 		<Unit filename="script/operators/oper_t.h" />
 		<Extensions>

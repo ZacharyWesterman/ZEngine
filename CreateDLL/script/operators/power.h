@@ -9,6 +9,8 @@
 
 #include "../../core/stringUtils/eval_string.h"
 
+#include <math.h>
+
 namespace script
 {
     namespace oper
@@ -26,7 +28,37 @@ namespace script
             {
                 error_flag operation_error = error::NONE;
 
-                /** Stuff goes here **/
+                core::string<CHAR> arg1;
+                core::string<CHAR> arg2;
+
+                if (operands.pop(arg2))
+                {
+                    if (operands.pop(arg1))
+                    {
+                        if (is_script_string(arg1) ||
+                            is_script_string(arg2))
+                        {
+                            operation_error |= error::INVALID_OPERATION;
+                        }
+                        else
+                        {
+                            double val1 = core::value(arg1);
+                            double val2 = core::value(arg2);
+
+                            double result = pow(val1, val2); ///power
+
+                            operands.push(result);
+                        }
+                    }
+                    else
+                    {
+                        operation_error |= error::MISSING_OPERAND;
+                    }
+                }
+                else
+                {
+                    operation_error |= error::MISSING_OPERAND;
+                }
 
                 return operation_error;
             }

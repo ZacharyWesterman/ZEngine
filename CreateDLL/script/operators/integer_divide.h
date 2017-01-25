@@ -50,7 +50,7 @@ namespace script
                             }
                             else
                             {
-                                double result = (double)((long int)val1 / (long int)val2); ///integer divide
+                                double result = (double)((long int)(val1 /val2)); ///integer divide
 
                                 operands.push(result);
                             }

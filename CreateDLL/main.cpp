@@ -10,6 +10,9 @@
 #include "script/operators/integer_divide.h"
 #include "script/operators/modulus.h"
 
+#include "script/operators/power.h"
+
+
 __declspec(dllexport) void __cdecl get_opers_c(core::array< script::oper::oper_t<char>* >& output)
 {
     output.add(new script::oper::add<char>);
@@ -19,6 +22,8 @@ __declspec(dllexport) void __cdecl get_opers_c(core::array< script::oper::oper_t
     output.add(new script::oper::divide<char>);
     output.add(new script::oper::integer_divide<char>);
     output.add(new script::oper::modulus<char>);
+
+    output.add(new script::oper::power<char>);
 }
 
 __declspec(dllexport) void __cdecl get_opers_w(core::array< script::oper::oper_t<wchar_t>* >& output)
@@ -30,4 +35,6 @@ __declspec(dllexport) void __cdecl get_opers_w(core::array< script::oper::oper_t
     output.add(new script::oper::divide<wchar_t>);
     output.add(new script::oper::integer_divide<wchar_t>);
     output.add(new script::oper::modulus<wchar_t>);
+
+    output.add(new script::oper::power<wchar_t>);
 }

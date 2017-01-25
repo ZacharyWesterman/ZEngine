@@ -48,58 +48,93 @@
 
 1485128175 c:\users\zachary\desktop\createdll\core\stringutils\char_is_alphanumeric.h
 
-1485338068 source:c:\users\zachary\documents\github\zengine\createdll\main.cpp
+1485341952 source:c:\users\zachary\documents\github\zengine\createdll\main.cpp
 	"main.h"
 	"script/operators/add.h"
+	"script/operators/subtract.h"
+	"script/operators/multiply.h"
+	"script/operators/divide.h"
+	"script/operators/integer_divide.h"
+	"script/operators/modulus.h"
 
-1485337910 c:\users\zachary\documents\github\zengine\createdll\main.h
+1485339940 c:\users\zachary\documents\github\zengine\createdll\main.h
 	"script/operators/oper_t.h"
 	"core/array.h"
 
-1485326500 c:\users\zachary\documents\github\zengine\createdll\script\operators\oper_t.h
+1485339136 c:\users\zachary\documents\github\zengine\createdll\script\operators\oper_t.h
 	<stdint.h>
 	"../../core/string.h"
 	"../script_errors.h"
 	"../../core/dynamicStack.h"
 
-1485322833 c:\users\zachary\documents\github\zengine\createdll\core\string.h
+1485339136 c:\users\zachary\documents\github\zengine\createdll\core\string.h
 	<stdint.h>
 	<stdio.h>
 
-1485128175 c:\users\zachary\documents\github\zengine\createdll\script\script_errors.h
+1485339136 c:\users\zachary\documents\github\zengine\createdll\script\script_errors.h
 
-1485128175 c:\users\zachary\documents\github\zengine\createdll\core\dynamicstack.h
+1485339136 c:\users\zachary\documents\github\zengine\createdll\core\dynamicstack.h
 
-1485151835 c:\users\zachary\documents\github\zengine\createdll\core\array.h
+1485339136 c:\users\zachary\documents\github\zengine\createdll\core\array.h
 	<vector>
 	<iostream>
 
-1485327379 c:\users\zachary\documents\github\zengine\createdll\script\operators\add.h
+1485339136 c:\users\zachary\documents\github\zengine\createdll\script\operators\add.h
 	"oper_t.h"
 	"../is_script_string.h"
 	"../destringify.h"
 	"../../core/stringUtils/eval_string.h"
 
-1485152682 c:\users\zachary\documents\github\zengine\createdll\script\is_script_string.h
+1485339136 c:\users\zachary\documents\github\zengine\createdll\script\is_script_string.h
 	"../core/string.h"
 
-1485128175 c:\users\zachary\documents\github\zengine\createdll\script\destringify.h
+1485339136 c:\users\zachary\documents\github\zengine\createdll\script\destringify.h
 	"../core/string.h"
 	"../core/stringUtils/string_remove_whiteSpace.h"
 	"escape_sequences.h"
 
-1485128175 c:\users\zachary\documents\github\zengine\createdll\core\stringutils\string_remove_whitespace.h
+1485339136 c:\users\zachary\documents\github\zengine\createdll\core\stringutils\string_remove_whitespace.h
 	"../string.h"
 	"char_is_whiteSpace.h"
 
-1485128175 c:\users\zachary\documents\github\zengine\createdll\core\stringutils\char_is_whitespace.h
+1485339136 c:\users\zachary\documents\github\zengine\createdll\core\stringutils\char_is_whitespace.h
 
-1485128175 c:\users\zachary\documents\github\zengine\createdll\script\escape_sequences.h
+1485339136 c:\users\zachary\documents\github\zengine\createdll\script\escape_sequences.h
 	"../core/string.h"
 
-1485128175 c:\users\zachary\documents\github\zengine\createdll\core\stringutils\eval_string.h
+1485339136 c:\users\zachary\documents\github\zengine\createdll\core\stringutils\eval_string.h
 	"../string.h"
 	"char_is_alphanumeric.h"
 
-1485128175 c:\users\zachary\documents\github\zengine\createdll\core\stringutils\char_is_alphanumeric.h
+1485339136 c:\users\zachary\documents\github\zengine\createdll\core\stringutils\char_is_alphanumeric.h
+
+1485341572 c:\users\zachary\documents\github\zengine\createdll\script\operators\subtract.h
+	"oper_t.h"
+	"../is_script_string.h"
+	"../destringify.h"
+	"../../core/stringUtils/eval_string.h"
+
+1485341561 c:\users\zachary\documents\github\zengine\createdll\script\operators\multiply.h
+	"oper_t.h"
+	"../is_script_string.h"
+	"../destringify.h"
+	"../../core/stringUtils/eval_string.h"
+
+1485341594 c:\users\zachary\documents\github\zengine\createdll\script\operators\divide.h
+	"oper_t.h"
+	"../is_script_string.h"
+	"../destringify.h"
+	"../../core/stringUtils/eval_string.h"
+
+1485342087 c:\users\zachary\documents\github\zengine\createdll\script\operators\integer_divide.h
+	"oper_t.h"
+	"../is_script_string.h"
+	"../destringify.h"
+	"../../core/stringUtils/eval_string.h"
+
+1485341923 c:\users\zachary\documents\github\zengine\createdll\script\operators\modulus.h
+	"oper_t.h"
+	"../is_script_string.h"
+	"../destringify.h"
+	"../../core/stringUtils/eval_string.h"
 

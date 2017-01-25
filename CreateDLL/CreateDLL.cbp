@@ -17,6 +17,7 @@
 					<Add option="-Wall" />
 					<Add option="-std=c++11" />
 					<Add option="-g" />
+					<Add option="-U__STRICT_ANSI__" />
 					<Add option="-DBUILD_DLL" />
 				</Compiler>
 				<Linker>
@@ -49,7 +50,14 @@
 		<Unit filename="script/escape_sequences.h" />
 		<Unit filename="script/is_script_string.h" />
 		<Unit filename="script/operators/add.h" />
+		<Unit filename="script/operators/divide.h" />
+		<Unit filename="script/operators/factorial.h" />
+		<Unit filename="script/operators/integer_divide.h" />
+		<Unit filename="script/operators/modulus.h" />
+		<Unit filename="script/operators/multiply.h" />
 		<Unit filename="script/operators/oper_t.h" />
+		<Unit filename="script/operators/power.h" />
+		<Unit filename="script/operators/subtract.h" />
 		<Unit filename="script/script_errors.h" />
 		<Extensions>
 			<code_completion />

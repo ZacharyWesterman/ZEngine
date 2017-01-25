@@ -11,6 +11,7 @@
 #include "script/operators/modulus.h"
 
 #include "script/operators/power.h"
+#include "script/operators/factorial.h"
 
 
 __declspec(dllexport) void __cdecl get_opers_c(core::array< script::oper::oper_t<char>* >& output)
@@ -24,6 +25,7 @@ __declspec(dllexport) void __cdecl get_opers_c(core::array< script::oper::oper_t
     output.add(new script::oper::modulus<char>);
 
     output.add(new script::oper::power<char>);
+    output.add(new script::oper::factorial<char>);
 }
 
 __declspec(dllexport) void __cdecl get_opers_w(core::array< script::oper::oper_t<wchar_t>* >& output)
@@ -37,4 +39,5 @@ __declspec(dllexport) void __cdecl get_opers_w(core::array< script::oper::oper_t
     output.add(new script::oper::modulus<wchar_t>);
 
     output.add(new script::oper::power<wchar_t>);
+    output.add(new script::oper::factorial<wchar_t>);
 }

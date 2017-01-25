@@ -72,7 +72,7 @@ int main()
 
     for (int i=0; i<opers.size(); i++)
     {
-        cout << "type[" << opers[i]->str().str() << "]\n\n";
+        cout << "type[" << opers[i]->str().str() << "]\n";
 
         core::string<char> a("2"),b("3");
 
@@ -87,7 +87,7 @@ int main()
         _stack.pop(c);
 
         cout << "operate(" << a.str() << "," << b.str() << ") \nresulted in '";
-        cout << c.str() << "' \nand returned error{" << err << "}.\n";
+        cout << c.str() << "' \nand returned error{" << err << "}.\n\n";
     }
 
 

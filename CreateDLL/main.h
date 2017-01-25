@@ -1,11 +1,12 @@
 #pragma once
 
-#include "script/operators/add.h"
+#include "script/operators/oper_t.h"
+#include "core/array.h"
 
 extern "C"
 {
-    __declspec(dllexport) script::oper::oper_t<char>* __cdecl get_oper_c();
+    __declspec(dllexport) void __cdecl get_opers_c(core::array< script::oper::oper_t<char> >&);
 
-    __declspec(dllexport) script::oper::oper_t<wchar_t>* __cdecl get_oper_w();
+    __declspec(dllexport) void __cdecl get_opers_w(core::array< script::oper::oper_t<wchar_t> >&);
 }
 

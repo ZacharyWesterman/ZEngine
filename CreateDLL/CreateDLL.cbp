@@ -15,8 +15,9 @@
 				<Option createStaticLib="1" />
 				<Compiler>
 					<Add option="-Wall" />
-					<Add option="-DBUILD_DLL" />
+					<Add option="-std=c++11" />
 					<Add option="-g" />
+					<Add option="-DBUILD_DLL" />
 				</Compiler>
 				<Linker>
 					<Add library="user32" />
@@ -40,6 +41,7 @@
 				</Linker>
 			</Target>
 		</Build>
+		<Unit filename="core/array.h" />
 		<Unit filename="core/stringUtils/eval_string.h" />
 		<Unit filename="main.cpp" />
 		<Unit filename="main.h" />

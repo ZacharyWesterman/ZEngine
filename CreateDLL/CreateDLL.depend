@@ -1,0 +1,50 @@
+# depslib dependency file v1.0
+1485327187 source:c:\users\zachary\desktop\createdll\main.cpp
+	"main.h"
+
+1485327169 c:\users\zachary\desktop\createdll\main.h
+	"script/operators/add.h"
+
+1485326500 c:\users\zachary\desktop\createdll\script\operators\oper_t.h
+	<stdint.h>
+	"../../core/string.h"
+	"../script_errors.h"
+	"../../core/dynamicStack.h"
+
+1485322833 c:\users\zachary\desktop\createdll\core\string.h
+	<stdint.h>
+	<stdio.h>
+
+1485128175 c:\users\zachary\desktop\createdll\script\script_errors.h
+
+1485128175 c:\users\zachary\desktop\createdll\core\dynamicstack.h
+
+1485327379 c:\users\zachary\desktop\createdll\script\operators\add.h
+	"oper_t.h"
+	"../is_script_string.h"
+	"../destringify.h"
+	"../../core/stringUtils/eval_string.h"
+
+1485152682 c:\users\zachary\desktop\createdll\script\is_script_string.h
+	"../core/string.h"
+
+1485128175 c:\users\zachary\desktop\createdll\script\destringify.h
+	"../core/string.h"
+	"../core/stringUtils/string_remove_whiteSpace.h"
+	"escape_sequences.h"
+
+1485128175 c:\users\zachary\desktop\createdll\core\stringutils\string_remove_whitespace.h
+	"../string.h"
+	"char_is_whiteSpace.h"
+
+1485128175 c:\users\zachary\desktop\createdll\core\stringutils\char_is_whitespace.h
+
+1485128175 c:\users\zachary\desktop\createdll\script\escape_sequences.h
+	"../core/string.h"
+
+1485128175 c:\users\zachary\desktop\createdll\core\stringutils\eval_string.h
+	"../string.h"
+	"char_is_alphanumeric.h"
+
+1485128175 c:\users\zachary\desktop\createdll\core\stringutils\char_is_alphanumeric.h
+

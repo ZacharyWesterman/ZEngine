@@ -1,0 +1,5 @@
+# depslib dependency file v1.0
+1485235144 source:c:\users\zachary\desktop\loaddll\main.cpp
+	<windows.h>
+	<iostream>
+

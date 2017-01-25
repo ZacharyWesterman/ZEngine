@@ -1,6 +1,6 @@
 #pragma once
-#ifndef SUBTRACT_H_INCLUDED
-#define SUBTRACT_H_INCLUDED
+#ifndef MULTIPLY_H_INCLUDED
+#define MULTIPLY_H_INCLUDED
 
 #include "oper_t.h"
 
@@ -14,14 +14,14 @@ namespace script
     namespace oper
     {
         template <typename CHAR>
-        class subtract : public oper_t<CHAR>
+        class multiply : public oper_t<CHAR>
         {
         public:
             ///Addition uses '+' and has a priority of 3.
-            subtract() : oper_t<CHAR>(core::string<char>("-"), 3) {}
+            multiply() : oper_t<CHAR>(core::string<char>("*"), 3) {}
 
 
-            ///Perform subtraction
+            ///Perform multiplication
             error_flag operate(core::dynamic_stack< core::string<CHAR> >& operands) const
             {
                 error_flag operation_error = error::NONE;
@@ -33,19 +33,17 @@ namespace script
                 {
                     if (operands.pop(arg1))
                     {
-                        //concatenate when one or both of the operands are strings
                         if (is_script_string(arg1) ||
                             is_script_string(arg2))
                         {
                             operation_error |= error::INVALID_OPERATION;
                         }
-                        //only add values when we have two numbers
                         else
                         {
                             double val1 = core::value(arg1);
                             double val2 = core::value(arg2);
 
-                            double result = (val1 - val2); ///subtract
+                            double result = (val1 * val2); ///multiply
 
                             operands.push(result);
                         }
@@ -67,4 +65,4 @@ namespace script
     }
 }
 
-#endif // SUBTRACT_H_INCLUDED
+#endif // MULTIPLY_H_INCLUDED

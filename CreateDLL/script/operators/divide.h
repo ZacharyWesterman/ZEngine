@@ -17,7 +17,7 @@ namespace script
         class divide : public oper_t<CHAR>
         {
         public:
-            ///Addition uses '+' and has a priority of 3.
+            ///Division uses '/' and has a priority of 4.
             divide() : oper_t<CHAR>(core::string<char>("/"), 4) {}
 
 

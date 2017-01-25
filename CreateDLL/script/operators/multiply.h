@@ -17,7 +17,7 @@ namespace script
         class multiply : public oper_t<CHAR>
         {
         public:
-            ///Addition uses '+' and has a priority of 3.
+            ///Multiplication uses '*' and has a priority of 4.
             multiply() : oper_t<CHAR>(core::string<char>("*"), 4) {}
 
 

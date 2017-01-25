@@ -1,5 +1,7 @@
 #include "core/loadLibrary.h"
 
+#include <windows.h>
+
 #include <iostream>
 using namespace std;
 
@@ -90,6 +92,7 @@ int main()
         cout << c.str() << "' \nand returned error{" << err << "}.\n\n";
     }
 
+    system("PAUSE");
 
     return 0;
 }

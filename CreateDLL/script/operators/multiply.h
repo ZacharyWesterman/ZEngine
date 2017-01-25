@@ -18,7 +18,7 @@ namespace script
         {
         public:
             ///Addition uses '+' and has a priority of 3.
-            multiply() : oper_t<CHAR>(core::string<char>("*"), 3) {}
+            multiply() : oper_t<CHAR>(core::string<char>("*"), 4) {}
 
 
             ///Perform multiplication

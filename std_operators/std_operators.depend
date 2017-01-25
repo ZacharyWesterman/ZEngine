@@ -153,3 +153,115 @@
 	"../destringify.h"
 	"../../core/stringUtils/eval_string.h"
 
+1485376305 source:c:\users\zachary\documents\github\zengine\std_operators\main.cpp
+	"main.h"
+	"script/operators/add.h"
+	"script/operators/subtract.h"
+	"script/operators/multiply.h"
+	"script/operators/divide.h"
+	"script/operators/integer_divide.h"
+	"script/operators/modulus.h"
+	"script/operators/power.h"
+	"script/operators/factorial.h"
+	"script/operators/equals.h"
+
+1485342661 c:\users\zachary\documents\github\zengine\std_operators\main.h
+	"script/operators/oper_t.h"
+	"core/array.h"
+
+1485342661 c:\users\zachary\documents\github\zengine\std_operators\script\operators\oper_t.h
+	<stdint.h>
+	"../../core/string.h"
+	"../script_errors.h"
+	"../../core/dynamicStack.h"
+
+1485342661 c:\users\zachary\documents\github\zengine\std_operators\core\string.h
+	<stdint.h>
+	<stdio.h>
+
+1485342661 c:\users\zachary\documents\github\zengine\std_operators\script\script_errors.h
+
+1485342661 c:\users\zachary\documents\github\zengine\std_operators\core\dynamicstack.h
+
+1485342661 c:\users\zachary\documents\github\zengine\std_operators\core\array.h
+	<vector>
+	<iostream>
+
+1485342661 c:\users\zachary\documents\github\zengine\std_operators\script\operators\add.h
+	"oper_t.h"
+	"../is_script_string.h"
+	"../destringify.h"
+	"../../core/stringUtils/eval_string.h"
+
+1485342661 c:\users\zachary\documents\github\zengine\std_operators\script\is_script_string.h
+	"../core/string.h"
+
+1485342661 c:\users\zachary\documents\github\zengine\std_operators\script\destringify.h
+	"../core/string.h"
+	"../core/stringUtils/string_remove_whiteSpace.h"
+	"escape_sequences.h"
+
+1485342661 c:\users\zachary\documents\github\zengine\std_operators\core\stringutils\string_remove_whitespace.h
+	"../string.h"
+	"char_is_whiteSpace.h"
+
+1485342661 c:\users\zachary\documents\github\zengine\std_operators\core\stringutils\char_is_whitespace.h
+
+1485342661 c:\users\zachary\documents\github\zengine\std_operators\script\escape_sequences.h
+	"../core/string.h"
+
+1485342661 c:\users\zachary\documents\github\zengine\std_operators\core\stringutils\eval_string.h
+	"../string.h"
+	"char_is_alphanumeric.h"
+
+1485342661 c:\users\zachary\documents\github\zengine\std_operators\core\stringutils\char_is_alphanumeric.h
+
+1485342661 c:\users\zachary\documents\github\zengine\std_operators\script\operators\subtract.h
+	"oper_t.h"
+	"../is_script_string.h"
+	"../destringify.h"
+	"../../core/stringUtils/eval_string.h"
+
+1485342661 c:\users\zachary\documents\github\zengine\std_operators\script\operators\multiply.h
+	"oper_t.h"
+	"../is_script_string.h"
+	"../destringify.h"
+	"../../core/stringUtils/eval_string.h"
+
+1485342661 c:\users\zachary\documents\github\zengine\std_operators\script\operators\divide.h
+	"oper_t.h"
+	"../is_script_string.h"
+	"../destringify.h"
+	"../../core/stringUtils/eval_string.h"
+
+1485342661 c:\users\zachary\documents\github\zengine\std_operators\script\operators\integer_divide.h
+	"oper_t.h"
+	"../is_script_string.h"
+	"../destringify.h"
+	"../../core/stringUtils/eval_string.h"
+
+1485342661 c:\users\zachary\documents\github\zengine\std_operators\script\operators\modulus.h
+	"oper_t.h"
+	"../is_script_string.h"
+	"../destringify.h"
+	"../../core/stringUtils/eval_string.h"
+
+1485342661 c:\users\zachary\documents\github\zengine\std_operators\script\operators\power.h
+	"oper_t.h"
+	"../is_script_string.h"
+	"../destringify.h"
+	"../../core/stringUtils/eval_string.h"
+	<math.h>
+
+1485343199 c:\users\zachary\documents\github\zengine\std_operators\script\operators\factorial.h
+	"oper_t.h"
+	"../is_script_string.h"
+	"../destringify.h"
+	"../../core/stringUtils/eval_string.h"
+
+1485376250 c:\users\zachary\documents\github\zengine\std_operators\script\operators\equals.h
+	"oper_t.h"
+	"../is_script_string.h"
+	"../destringify.h"
+	"../../core/stringUtils/eval_string.h"
+

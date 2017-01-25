@@ -1,6 +1,6 @@
 #pragma once
-#ifndef GREATER_THAN_H_INCLUDED
-#define GREATER_THAN_H_INCLUDED
+#ifndef GREATER_THAN_EQUAL_H_INCLUDED
+#define GREATER_THAN_EQUAL_H_INCLUDED
 
 #include "oper_t.h"
 
@@ -14,11 +14,11 @@ namespace script
     namespace oper
     {
         template <typename CHAR>
-        class greater_than : public oper_t<CHAR>
+        class greater_than_equal : public oper_t<CHAR>
         {
         public:
-            ///Greater than uses '>' and has a priority of 2.
-            greater_than() : oper_t<CHAR>(core::string<char>(">"), 2) {}
+            ///GT equality than uses '>=' and has a priority of 2.
+            greater_than_equal() : oper_t<CHAR>(core::string<char>(">"), 2) {}
 
 
             ///Perform multiplication
@@ -35,4 +35,4 @@ namespace script
     }
 }
 
-#endif // GREATER_THAN_H_INCLUDED
+#endif // GREATER_THAN_EQUAL_H_INCLUDED

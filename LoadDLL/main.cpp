@@ -4,10 +4,11 @@
 using namespace std;
 
 #include "script/operators/oper_t.h"
+#include "core/array.h"
 
-bool load_oper(script::oper::oper_t<char>*& output, const core::string<char> file_name)
+bool load_opers(core::array< script::oper::oper_t<char>* >& output, const core::string<char> file_name)
 {
-    typedef script::oper::oper_t<char>* (__stdcall *_func) ();
+    typedef void (__stdcall *_func) (core::array< script::oper::oper_t<char>* >&);
 
     core::library::lib_t lib = NULL;
     lib = core::library::load(file_name.str());
@@ -19,24 +20,24 @@ bool load_oper(script::oper::oper_t<char>*& output, const core::string<char> fil
     }
     else
     {
-        _func get_oper = (_func)core::library::get_function(lib, "get_oper_c");
+        _func get_opers = (_func)core::library::get_function(lib, "get_opers_c");
 
-        if (!get_oper)
+        if (!get_opers)
         {
             return false;
         }
         else
         {
-            output = get_oper();
+            get_opers(output);
             return true;
         }
     }
 }
 
 
-bool load_oper(script::oper::oper_t<wchar_t>*& output, const core::string<char> file_name)
+bool load_opers(core::array< script::oper::oper_t<wchar_t>* >& output, const core::string<char> file_name)
 {
-    typedef script::oper::oper_t<wchar_t>* (__stdcall *_func) ();
+    typedef void (__stdcall *_func) (core::array< script::oper::oper_t<wchar_t>* >&);
 
     core::library::lib_t lib = NULL;
     lib = core::library::load(file_name.str());
@@ -48,15 +49,15 @@ bool load_oper(script::oper::oper_t<wchar_t>*& output, const core::string<char> 
     }
     else
     {
-        _func get_oper = (_func)core::library::get_function(lib, "get_oper_c");
+        _func get_opers = (_func)core::library::get_function(lib, "get_opers_w");
 
-        if (!get_oper)
+        if (!get_opers)
         {
             return false;
         }
         else
         {
-            output = get_oper();
+            get_opers(output);
             return true;
         }
     }
@@ -65,28 +66,29 @@ bool load_oper(script::oper::oper_t<wchar_t>*& output, const core::string<char> 
 
 int main()
 {
-    script::oper::oper_t<char>* Operator = NULL;
+    core::array< script::oper::oper_t<char>* > opers;
 
-    if(load_oper(Operator, "CreateDLL.dll"));
+    if(load_opers(opers, "CreateDLL.dll"));
 
+    for (int i=0; i<opers.size(); i++)
+    {
+        cout << "type[" << opers[i]->str().str() << "]\n\n";
 
-    cout << "type[" << Operator->str().str() << "]\n\n";
+        core::string<char> a("2"),b("3");
 
-    core::string<char> a("2"),b("3");
+        core::dynamic_stack< core::string<char> > _stack;
+        _stack.push(a);
+        _stack.push(b);
 
-    core::dynamic_stack< core::string<char> > _stack;
-    _stack.push(a);
-    _stack.push(b);
+        script::error_flag err = opers[i]->operate(_stack);
 
-    script::error_flag err = Operator->operate(_stack);
+        core::string<char> c;
 
-    core::string<char> c;
+        _stack.pop(c);
 
-    _stack.pop(c);
-
-    cout << "operate(" << a.str() << "," << b.str() << ") \nresulted in '";
-    cout << c.str() << "' \nand returned error{" << err << "}.\n";
-
+        cout << "operate(" << a.str() << "," << b.str() << ") \nresulted in '";
+        cout << c.str() << "' \nand returned error{" << err << "}.\n";
+    }
 
 
     return 0;

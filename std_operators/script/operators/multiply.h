@@ -18,7 +18,7 @@ namespace script
         {
         public:
             ///Multiplication uses '*' and has a priority of 4.
-            multiply() : oper_t<CHAR>(core::string<char>("*"), 4) {}
+            multiply() : oper_t<CHAR>(core::string<char>("*"), 4, false) {}
 
 
             ///Perform multiplication

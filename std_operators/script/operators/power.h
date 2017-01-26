@@ -20,10 +20,10 @@ namespace script
         {
         public:
             ///Power uses '^' and has a priority of 6.
-            power() : oper_t<CHAR>(core::string<char>("^"), 6) {}
+            power() : oper_t<CHAR>(core::string<char>("^"), 6, false) {}
 
 
-            ///Perform multiplication
+            ///Perform operation
             error_flag operate(core::dynamic_stack< core::string<CHAR> >& operands) const
             {
                 error_flag operation_error = error::NONE;

@@ -22,13 +22,17 @@ namespace script
             core::string<CHAR> _string;
             oper_priority oper_pri;
 
+            bool is_unary;
+
         public:
             template <typename CHAR_T>
-            oper_t(core::string<CHAR_T> oper_string, oper_priority _priority)
+            oper_t(core::string<CHAR_T> oper_string, oper_priority _priority, bool unary_operator)
             {
                 core::convertStr(_string, oper_string);
 
                 oper_pri = _priority;
+
+                is_unary = unary_operator;
             }
 
 
@@ -65,6 +69,9 @@ namespace script
                 return (_string < other._string);
             }
 
+
+            bool unary() const {return is_unary;}
+            bool binary() const {return !is_unary;}
         };
     }
 }

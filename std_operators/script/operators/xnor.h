@@ -1,6 +1,6 @@
 #pragma once
-#ifndef DIVIDE_H_INCLUDED
-#define DIVIDE_H_INCLUDED
+#ifndef XNOR_H_INCLUDED
+#define XNOR_H_INCLUDED
 
 #include "oper_t.h"
 
@@ -14,14 +14,14 @@ namespace script
     namespace oper
     {
         template <typename CHAR>
-        class divide : public oper_t<CHAR>
+        class _xnor : public oper_t<CHAR>
         {
         public:
-            ///Division uses '/' and has a priority of 4.
-            divide() : oper_t<CHAR>(core::string<char>("/"), 4, false) {}
+            ///Exclusive nor uses 'xnor' and has a priority of 1.
+            _xnor() : oper_t<CHAR>(core::string<char>("xnor"), 1, false) {}
 
 
-            ///Perform floating-point division
+            ///Perform operation
             error_flag operate(core::dynamic_stack< core::string<CHAR> >& operands) const
             {
                 error_flag operation_error = error::NONE;
@@ -43,17 +43,9 @@ namespace script
                             double val1 = core::value(arg1);
                             double val2 = core::value(arg2);
 
-                            if (val2 == 0.f)
-                            {
-                                operation_error |= error::DIV_BY_ZERO;
-                                operands.push(1.f);
-                            }
-                            else
-                            {
-                                double result = (val1 / val2); ///divide
+                            double result = (double)((val1 && val2) || !(val1 || val2)); ///a and b are both true, or both false
 
-                                operands.push(result);
-                            }
+                            operands.push(result);
                         }
                     }
                     else
@@ -73,4 +65,4 @@ namespace script
     }
 }
 
-#endif // DIVIDE_H_INCLUDED
+#endif // XNOR_H_INCLUDED

@@ -18,7 +18,7 @@ namespace script
         {
         public:
             ///Inequality than uses '<>' and has a priority of 2.
-            not_equal() : oper_t<CHAR>(core::string<char>("<>"), 2) {}
+            not_equal() : oper_t<CHAR>(core::string<char>("<>"), 2, false) {}
 
 
             ///Perform multiplication

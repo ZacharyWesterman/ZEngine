@@ -18,7 +18,7 @@ namespace script
         {
         public:
             ///Subtraction uses '-' and has a priority of 3.
-            subtract() : oper_t<CHAR>(core::string<char>("-"), 3) {}
+            subtract() : oper_t<CHAR>(core::string<char>("-"), 3, false) {}
 
 
             ///Perform subtraction

@@ -1,6 +1,6 @@
 #pragma once
-#ifndef FACTORIAL_H_INCLUDED
-#define FACTORIAL_H_INCLUDED
+#ifndef NOT_H_INCLUDED
+#define NOT_H_INCLUDED
 
 #include "oper_t.h"
 
@@ -9,31 +9,16 @@
 
 #include "../../core/stringUtils/eval_string.h"
 
-namespace math
-{
-    long int factorial(int n)
-    {
-        long int output = 1;
-
-        for (long int i=2; i<=(long int)n; i++)
-        {
-            output *= i;
-        }
-
-        return output;
-    }
-}
-
 namespace script
 {
     namespace oper
     {
         template <typename CHAR>
-        class factorial : public oper_t<CHAR>
+        class _not : public oper_t<CHAR>
         {
         public:
-            ///Factorial uses '!' and has a priority of 7.
-            factorial() : oper_t<CHAR>(core::string<char>("!"), 7, true) {}
+            ///Not uses 'not' and has a priority of 5.
+            _not() : oper_t<CHAR>(core::string<char>("not"), 5, true) {}
 
 
             ///Perform operation
@@ -53,7 +38,7 @@ namespace script
                     {
                         double val1 = core::value(arg1);
 
-                        double result = (double)(math::factorial((int)val1)); ///factorial
+                        double result = (double)(!val1); ///not a
 
                         operands.push(result);
                     }
@@ -70,4 +55,4 @@ namespace script
     }
 }
 
-#endif // FACTORIAL_H_INCLUDED
+#endif // NOT_H_INCLUDED

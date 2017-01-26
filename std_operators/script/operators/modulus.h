@@ -18,10 +18,10 @@ namespace script
         {
         public:
             ///Modulus uses '%' and has a priority of 4.
-            modulus() : oper_t<CHAR>(core::string<char>("%"), 4) {}
+            modulus() : oper_t<CHAR>(core::string<char>("%"), 4, false) {}
 
 
-            ///Perform multiplication
+            ///Perform operation
             error_flag operate(core::dynamic_stack< core::string<CHAR> >& operands) const
             {
                 error_flag operation_error = error::NONE;

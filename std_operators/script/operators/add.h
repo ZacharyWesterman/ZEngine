@@ -18,7 +18,7 @@ namespace script
         {
         public:
             ///Addition uses '+' and has a priority of 3.
-            add() : oper_t<CHAR>(core::string<char>("+"), 3) {}
+            add() : oper_t<CHAR>(core::string<char>("+"), 3, false) {}
 
 
             ///Perform addition

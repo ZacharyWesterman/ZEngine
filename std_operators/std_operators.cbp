@@ -7,7 +7,7 @@
 		<Option compiler="gcc" />
 		<Build>
 			<Target title="Debug">
-				<Option output="bin/Debug/std_operators" prefix_auto="1" extension_auto="1" />
+				<Option output="bin/Debug/operators/std_operators" prefix_auto="1" extension_auto="1" />
 				<Option object_output="obj/Debug/" />
 				<Option type="3" />
 				<Option compiler="gcc" />
@@ -62,10 +62,16 @@
 		<Unit filename="script/operators/less_than_equal.h" />
 		<Unit filename="script/operators/modulus.h" />
 		<Unit filename="script/operators/multiply.h" />
+		<Unit filename="script/operators/nand.h" />
+		<Unit filename="script/operators/nor.h" />
+		<Unit filename="script/operators/not.h" />
 		<Unit filename="script/operators/not_equal.h" />
 		<Unit filename="script/operators/oper_t.h" />
+		<Unit filename="script/operators/or.h" />
 		<Unit filename="script/operators/power.h" />
 		<Unit filename="script/operators/subtract.h" />
+		<Unit filename="script/operators/xnor.h" />
+		<Unit filename="script/operators/xor.h" />
 		<Unit filename="script/script_errors.h" />
 		<Extensions>
 			<code_completion />

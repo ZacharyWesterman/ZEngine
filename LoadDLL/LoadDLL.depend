@@ -3,3 +3,39 @@
 	<windows.h>
 	<iostream>
 
+1485382524 source:c:\users\zachary\documents\github\zengine\loaddll\main.cpp
+	"core/loadLibrary.h"
+	<windows.h>
+	<iostream>
+	"script/operators/oper_t.h"
+	"core/array.h"
+	"file/list_files_in_dir.h"
+
+1485342662 c:\users\zachary\documents\github\zengine\loaddll\core\loadlibrary.h
+	"string.h"
+	<stdint.h>
+	<windows.h>
+
+1485342662 c:\users\zachary\documents\github\zengine\loaddll\core\string.h
+	<stdint.h>
+	<stdio.h>
+
+1485398366 c:\users\zachary\documents\github\zengine\loaddll\script\operators\oper_t.h
+	<stdint.h>
+	"../../core/string.h"
+	"../script_errors.h"
+	"../../core/dynamicStack.h"
+
+1485342662 c:\users\zachary\documents\github\zengine\loaddll\script\script_errors.h
+
+1485342661 c:\users\zachary\documents\github\zengine\loaddll\core\dynamicstack.h
+
+1485342661 c:\users\zachary\documents\github\zengine\loaddll\core\array.h
+	<vector>
+	<iostream>
+
+1485381786 c:\users\zachary\documents\github\zengine\loaddll\file\list_files_in_dir.h
+	"../core/string.h"
+	"../core/array.h"
+	<windows.h>
+

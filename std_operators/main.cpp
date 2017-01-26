@@ -20,6 +20,14 @@
 #include "script/operators/greater_than_equal.h"
 #include "script/operators/less_than_equal.h"
 
+#include "script/operators/and.h"
+#include "script/operators/or.h"
+#include "script/operators/nand.h"
+#include "script/operators/nor.h"
+#include "script/operators/xor.h"
+#include "script/operators/xnor.h"
+#include "script/operators/not.h"
+
 
 __declspec(dllexport) void __cdecl get_opers_c(core::array< script::oper::oper_t<char>* >& output)
 {
@@ -44,6 +52,15 @@ __declspec(dllexport) void __cdecl get_opers_c(core::array< script::oper::oper_t
     output.add(new script::oper::less_than<char>);
     output.add(new script::oper::greater_than_equal<char>);
     output.add(new script::oper::less_than_equal<char>);
+
+    //Boolean logic
+    output.add(new script::oper::_and<char>);
+    output.add(new script::oper::_or<char>);
+    output.add(new script::oper::_nand<char>);
+    output.add(new script::oper::_nor<char>);
+    output.add(new script::oper::_xor<char>);
+    output.add(new script::oper::_xnor<char>);
+    output.add(new script::oper::_not<char>);
 }
 
 __declspec(dllexport) void __cdecl get_opers_w(core::array< script::oper::oper_t<wchar_t>* >& output)
@@ -69,4 +86,13 @@ __declspec(dllexport) void __cdecl get_opers_w(core::array< script::oper::oper_t
     output.add(new script::oper::less_than<wchar_t>);
     output.add(new script::oper::greater_than_equal<wchar_t>);
     output.add(new script::oper::less_than_equal<wchar_t>);
+
+    //Boolean logic
+    output.add(new script::oper::_and<wchar_t>);
+    output.add(new script::oper::_or<wchar_t>);
+    output.add(new script::oper::_nand<wchar_t>);
+    output.add(new script::oper::_nor<wchar_t>);
+    output.add(new script::oper::_xor<wchar_t>);
+    output.add(new script::oper::_xnor<wchar_t>);
+    output.add(new script::oper::_not<wchar_t>);
 }

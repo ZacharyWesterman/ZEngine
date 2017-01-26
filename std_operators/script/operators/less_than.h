@@ -18,10 +18,10 @@ namespace script
         {
         public:
             ///Less than uses '<' and has a priority of 2.
-            less_than() : oper_t<CHAR>(core::string<char>("<"), 2) {}
+            less_than() : oper_t<CHAR>(core::string<char>("<"), 2, false) {}
 
 
-            ///Perform multiplication
+            ///Perform operation
             error_flag operate(core::dynamic_stack< core::string<CHAR> >& operands) const
             {
                 error_flag operation_error = error::NONE;

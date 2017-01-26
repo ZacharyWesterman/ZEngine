@@ -116,7 +116,9 @@ int main()
 
             _stack.pop(c);
 
-            cout << "operate(" << a.str() << "," << b.str() << ") \nresulted in '";
+            cout << "operate(";
+            opers[i]->binary() ? (cout <<a.str() << "," << b.str()) : (cout << b.str());
+            cout << ") \nresulted in '";
             cout << c.str() << "' \nand returned error{" << err << "}.\n\n";
         }
     }

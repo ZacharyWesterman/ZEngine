@@ -10,7 +10,7 @@
 				<Option output="bin/Debug/ZEngine" prefix_auto="1" extension_auto="1" />
 				<Option working_dir="bin/Debug" />
 				<Option object_output="obj/Debug/" />
-				<Option type="0" />
+				<Option type="1" />
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-std=c++11" />
@@ -70,6 +70,7 @@
 		<Unit filename="file/saveToFileFromMemory.h" />
 		<Unit filename="main.cpp" />
 		<Unit filename="math/factorial.h" />
+		<Unit filename="script/basic_expression.h" />
 		<Unit filename="script/commands.h" />
 		<Unit filename="script/destringify.h" />
 		<Unit filename="script/escape_sequences.h" />
@@ -78,7 +79,7 @@
 		<Unit filename="script/functions.h" />
 		<Unit filename="script/is_script_string.h" />
 		<Unit filename="script/is_valid_script_name.h" />
-		<Unit filename="script/operators.h" />
+		<Unit filename="script/operators/oper_t.h" />
 		<Unit filename="script/scriptParser.h" />
 		<Unit filename="script/script_errors.h" />
 		<Unit filename="script/script_functions/absolute_val.h" />

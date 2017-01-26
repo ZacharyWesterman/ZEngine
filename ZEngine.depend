@@ -1589,9 +1589,8 @@
 1482454662 k:\zengine\engine\global\script_delay_timer.h
 	"../../core/timer.h"
 
-1484768347 source:c:\users\zachary\documents\github\zengine\main.cpp
-	"engine/game.h"
-	"core/sorted_array.h"
+1485462775 source:c:\users\zachary\documents\github\zengine\main.cpp
+	"script/expression.h"
 	<iostream>
 
 1484768341 c:\users\zachary\documents\github\zengine\engine\game.h
@@ -1614,11 +1613,11 @@
 	<irrlicht.h>
 	<iostream>
 
-1484768339 c:\users\zachary\documents\github\zengine\core\string.h
+1485461800 c:\users\zachary\documents\github\zengine\core\string.h
 	<stdint.h>
 	<stdio.h>
 
-1484768338 c:\users\zachary\documents\github\zengine\core\array.h
+1485461800 c:\users\zachary\documents\github\zengine\core\array.h
 	<vector>
 	<iostream>
 
@@ -1637,15 +1636,15 @@
 	<iostream>
 	"../core/stringUtils/convert_type.h"
 
-1484768340 c:\users\zachary\documents\github\zengine\core\stringutils\eval_string.h
+1485461800 c:\users\zachary\documents\github\zengine\core\stringutils\eval_string.h
 	"../string.h"
 	"char_is_alphanumeric.h"
 
-1484768340 c:\users\zachary\documents\github\zengine\core\stringutils\char_is_alphanumeric.h
+1485461800 c:\users\zachary\documents\github\zengine\core\stringutils\char_is_alphanumeric.h
 
-1484768340 c:\users\zachary\documents\github\zengine\core\stringutils\char_is_whitespace.h
+1485461800 c:\users\zachary\documents\github\zengine\core\stringutils\char_is_whitespace.h
 
-1484768339 c:\users\zachary\documents\github\zengine\core\dynamicstack.h
+1485461800 c:\users\zachary\documents\github\zengine\core\dynamicstack.h
 
 1484768349 c:\users\zachary\documents\github\zengine\script\commands.h
 	"../core/string.h"
@@ -1654,11 +1653,11 @@
 	"script_errors.h"
 	"split_parameters.h"
 
-1484768341 c:\users\zachary\documents\github\zengine\core\stringutils\string_remove_whitespace.h
+1485461800 c:\users\zachary\documents\github\zengine\core\stringutils\string_remove_whitespace.h
 	"../string.h"
 	"char_is_whiteSpace.h"
 
-1484768350 c:\users\zachary\documents\github\zengine\script\script_errors.h
+1485461806 c:\users\zachary\documents\github\zengine\script\script_errors.h
 
 1484768357 c:\users\zachary\documents\github\zengine\script\split_parameters.h
 	"../core/array.h"
@@ -1667,10 +1666,10 @@
 	"operators.h"
 	"escape_sequences.h"
 
-1484768350 c:\users\zachary\documents\github\zengine\script\operators.h
+1485461806 c:\users\zachary\documents\github\zengine\script\operators.h
 	"../core/string.h"
 
-1484768349 c:\users\zachary\documents\github\zengine\script\escape_sequences.h
+1485461806 c:\users\zachary\documents\github\zengine\script\escape_sequences.h
 	"../core/string.h"
 
 1484959641 c:\users\zachary\documents\github\zengine\script\split_script_into_commands.h
@@ -1727,7 +1726,7 @@
 	"../core/string.h"
 	"../core/array.h"
 
-1484768349 c:\users\zachary\documents\github\zengine\script\expression.h
+1485462765 c:\users\zachary\documents\github\zengine\script\expression.h
 	"../core/string.h"
 	"../core/stringUtils/eval_string.h"
 	"../core/stringUtils/char_is_whiteSpace.h"
@@ -1741,9 +1740,9 @@
 	"escape_sequences.h"
 	"destringify.h"
 
-1484768348 c:\users\zachary\documents\github\zengine\math\factorial.h
+1485461805 c:\users\zachary\documents\github\zengine\math\factorial.h
 
-1484768349 c:\users\zachary\documents\github\zengine\script\destringify.h
+1485461806 c:\users\zachary\documents\github\zengine\script\destringify.h
 	"../core/string.h"
 	"../core/stringUtils/string_remove_whiteSpace.h"
 	"escape_sequences.h"

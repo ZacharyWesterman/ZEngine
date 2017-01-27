@@ -91,7 +91,7 @@ int main()
     }
 
 
-    core::string<char> expr = "cat*(-dog + 4) * -2.5";
+    core::string<char> expr = "cat*-dog + 4 * -2.5";
 
     bool is_number = false;
 
@@ -102,7 +102,7 @@ int main()
 
     for (int i=0; i<expr.length(); i++)
     {
-        bool found_num = core::is_alphanumeric(expr[i]) || (expr[i] == (char)46); //decimal point
+        /*bool found_num = core::is_alphanumeric(expr[i]) || (expr[i] == (char)46); //decimal point
 
         if (!is_number && found_num)
         {
@@ -122,7 +122,7 @@ int main()
         }
 
 
-        thisString += expr[i];
+        thisString += expr[i];*/
     }
 
     if (thisString.length() > 0)

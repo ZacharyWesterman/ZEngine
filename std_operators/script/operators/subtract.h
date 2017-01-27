@@ -33,7 +33,7 @@ namespace script
                 {
                     if (operands.pop(arg1))
                     {
-                        //concatenate when one or both of the operands are strings
+                        //strings cannot undergo subtraction
                         if (is_script_string(arg1) ||
                             is_script_string(arg2))
                         {
@@ -52,7 +52,20 @@ namespace script
                     }
                     else
                     {
-                        operation_error |= error::MISSING_OPERAND;
+                        //strings cannot undergo subtraction
+                        if (is_script_string(arg1))
+                        {
+                            operation_error |= error::INVALID_OPERATION;
+                        }
+                        //negate the given value
+                        else
+                        {
+                            double val1 = core::value(arg1);
+
+                            double result = (-val1); ///negate
+
+                            operands.push(result);
+                        }
                     }
                 }
                 else

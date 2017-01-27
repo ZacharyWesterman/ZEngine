@@ -2,6 +2,9 @@
 
 //#include "core/sorted_array.h"
 
+#include "core/stringUtils/char_is_alphanumeric.h"
+#include "core/stringUtils/char_is_whiteSpace.h"
+
 #include "script/basic_expression.h"
 
 #include "core/loadLibrary.h"
@@ -77,7 +80,7 @@ bool load_opers(core::array< script::oper::oper_t<wchar_t>* >& output, const cor
 
 int main()
 {
-    core::array< script::oper::oper_t<char>* > operators;
+    /*core::array< script::oper::oper_t<char>* > operators;
 
     if (load_opers(operators, "operators/std_operators.dll"))
     {
@@ -85,7 +88,50 @@ int main()
 
 
         cout << "loaded successfully" << endl;
+    }*/
+
+
+    core::string<char> expr = "cat*(-dog + 4) * -2.5";
+
+    bool is_number = false;
+
+    core::array< core::string<char> > fragment;
+
+
+    core::string<char> thisString;
+
+    for (int i=0; i<expr.length(); i++)
+    {
+        bool found_num = core::is_alphanumeric(expr[i]) || (expr[i] == (char)46); //decimal point
+
+        if (!is_number && found_num)
+        {
+            is_number = true;
+
+            fragment.add(thisString);
+
+            thisString.clear();
+        }
+        else if (is_number && !found_num)
+        {
+            is_number = false;
+
+            fragment.add(thisString);
+
+            thisString.clear();
+        }
+
+
+        thisString += expr[i];
     }
+
+    if (thisString.length() > 0)
+        fragment.add(thisString);
+
+
+
+    for (int i=0; i<fragment.size(); i++)
+        cout << fragment[i].str() << endl;
 
 
 

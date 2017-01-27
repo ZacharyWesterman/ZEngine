@@ -80,15 +80,15 @@ bool load_opers(core::array< script::oper::oper_t<wchar_t>* >& output, const cor
 
 int main()
 {
-    /*core::array< script::oper::oper_t<char>* > operators;
+    core::array< script::oper::oper_t<char>* > operators;
 
     if (load_opers(operators, "operators/std_operators.dll"))
     {
-        script::basic_expression<char> expr (operators);
+        //script::basic_expression<char> expr (operators);
 
 
         cout << "loaded successfully" << endl;
-    }*/
+    }
 
 
     core::string<char> expr = "cat*(-dog + 4) * -2.5";

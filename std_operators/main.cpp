@@ -4,6 +4,7 @@
 
 #include "script/operators/add.h"
 #include "script/operators/subtract.h"
+#include "script/operators/negate.h"
 
 #include "script/operators/multiply.h"
 #include "script/operators/divide.h"
@@ -34,6 +35,7 @@ __declspec(dllexport) void __cdecl get_opers_c(core::array< script::oper::oper_t
     //Addition
     output.add(new script::oper::add<char>);
     output.add(new script::oper::subtract<char>);
+    output.add(new script::oper::negate<char>);
 
     //Multiplication
     output.add(new script::oper::multiply<char>);
@@ -68,6 +70,7 @@ __declspec(dllexport) void __cdecl get_opers_w(core::array< script::oper::oper_t
     //Addition
     output.add(new script::oper::add<wchar_t>);
     output.add(new script::oper::subtract<wchar_t>);
+    output.add(new script::oper::negate<wchar_t>);
 
     //Multiplication
     output.add(new script::oper::multiply<wchar_t>);

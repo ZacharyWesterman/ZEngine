@@ -52,20 +52,7 @@ namespace script
                     }
                     else
                     {
-                        //strings cannot undergo subtraction
-                        if (is_script_string(arg1))
-                        {
-                            operation_error |= error::INVALID_OPERATION;
-                        }
-                        //negate the given value
-                        else
-                        {
-                            double val1 = core::value(arg1);
-
-                            double result = (-val1); ///negate
-
-                            operands.push(result);
-                        }
+                        operation_error |= error::MISSING_OPERAND;
                     }
                 }
                 else

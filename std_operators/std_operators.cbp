@@ -63,6 +63,7 @@
 		<Unit filename="script/operators/modulus.h" />
 		<Unit filename="script/operators/multiply.h" />
 		<Unit filename="script/operators/nand.h" />
+		<Unit filename="script/operators/negate.h" />
 		<Unit filename="script/operators/nor.h" />
 		<Unit filename="script/operators/not.h" />
 		<Unit filename="script/operators/not_equal.h" />

@@ -266,7 +266,7 @@
 	"../../core/stringUtils/eval_string.h"
 	<math.h>
 
-1485731683 c:\users\zachary\documents\github\zengine\std_operators\script\operators\factorial.h
+1485731891 c:\users\zachary\documents\github\zengine\std_operators\script\operators\factorial.h
 	"oper_t.h"
 	"../is_script_string.h"
 	"../destringify.h"
@@ -350,7 +350,7 @@
 	"../destringify.h"
 	"../../core/stringUtils/eval_string.h"
 
-1485731686 c:\users\zachary\documents\github\zengine\std_operators\script\operators\negate.h
+1485731913 c:\users\zachary\documents\github\zengine\std_operators\script\operators\negate.h
 	"oper_t.h"
 	"../is_script_string.h"
 	"../destringify.h"

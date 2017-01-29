@@ -17,8 +17,8 @@ namespace script
         class negate : public oper_t<CHAR>
         {
         public:
-            ///Negation uses '-' and has a priority of 7.
-            negate() : oper_t<CHAR>(core::string<char>("-"), 7, true) {}
+            ///Negation uses '-' and has a priority of 7, is unary and comes before the operand.
+            negate() : oper_t<CHAR>(core::string<char>("-"), 7, true, true) {}
 
 
             ///Perform subtraction

@@ -17,8 +17,8 @@ namespace script
         class _not : public oper_t<CHAR>
         {
         public:
-            ///Not uses 'not' and has a priority of 5.
-            _not() : oper_t<CHAR>(core::string<char>("not"), 5, true) {}
+            ///Not uses 'not' and has a priority of 5, is unary and comes before the operand
+            _not() : oper_t<CHAR>(core::string<char>("not"), 5, true, true) {}
 
 
             ///Perform operation

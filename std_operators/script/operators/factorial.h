@@ -32,8 +32,8 @@ namespace script
         class factorial : public oper_t<CHAR>
         {
         public:
-            ///Factorial uses '!' and has a priority of 7.
-            factorial() : oper_t<CHAR>(core::string<char>("!"), 7, true) {}
+            ///Factorial uses '!' and has a priority of 7, is unary and comes after the operand.
+            factorial() : oper_t<CHAR>(core::string<char>("!"), 7, true, false) {}
 
 
             ///Perform operation

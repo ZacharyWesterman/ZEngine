@@ -66,6 +66,7 @@
 		<Unit filename="engine/global/script_delay_timer.h" />
 		<Unit filename="engine/print_to_console.h" />
 		<Unit filename="engine/pure_string.h" />
+		<Unit filename="file/list_files_in_dir.h" />
 		<Unit filename="file/loadFileToMemory.h" />
 		<Unit filename="file/saveToFileFromMemory.h" />
 		<Unit filename="main.cpp" />

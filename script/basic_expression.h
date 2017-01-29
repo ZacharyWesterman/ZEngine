@@ -22,11 +22,15 @@ namespace script
         void evaluate_expression();
 
     public:
+        //constructor REQUIRES all operators be set
         basic_expression(core::array< oper::oper_t<CHAR>* >& operators)
         {
+            expr_error = error::NONE;
+
             opers = &operators;
         }
 
+        //evaluate a basic expression (no parentheses)
         const core::string<CHAR>& operator=(const core::string<CHAR>& expr)
         {
             expr_string = expr;
@@ -37,10 +41,12 @@ namespace script
         }
 
 
+
+
+
+
         const core::string<CHAR>& string() const {return expr_string;}
-
         const core::string<CHAR>& value() const {return expr_value;}
-
         error_flag error() const {return expr_error;}
     };
 
@@ -48,6 +54,8 @@ namespace script
     template <typename CHAR>
     void basic_expression<CHAR>::evaluate_expression()
     {
+        expr_error = error::NONE;
+
         core::dynamic_stack< core::string<CHAR> > operands;
     }
 }

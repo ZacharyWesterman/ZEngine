@@ -19,7 +19,7 @@ using namespace std;
 
 #include "file/list_files_in_dir.h"
 
-bool load_opers(core::array< script::oper::oper_t<char>* >& output, const core::string<char> file_name)
+bool load_opers(core::array< script::oper::oper_t<char>* >& output, const core::string<char>& file_name)
 {
     typedef void (__stdcall *_func) (core::array< script::oper::oper_t<char>* >&);
 
@@ -48,7 +48,7 @@ bool load_opers(core::array< script::oper::oper_t<char>* >& output, const core::
 }
 
 
-bool load_opers(core::array< script::oper::oper_t<wchar_t>* >& output, const core::string<char> file_name)
+bool load_opers(core::array< script::oper::oper_t<wchar_t>* >& output, const core::string<char>& file_name)
 {
     typedef void (__stdcall *_func) (core::array< script::oper::oper_t<wchar_t>* >&);
 
@@ -77,62 +77,45 @@ bool load_opers(core::array< script::oper::oper_t<wchar_t>* >& output, const cor
 }
 
 
+void load_all_opers(core::array< script::oper::oper_t<char>* >& output,
+                    const core::string<char>& folder_name)
+{
+    core::array< core::string<char> > files;
+
+    file::list_files_in_dir(folder_name, "dll", files);
+
+    for(int i=0; i<files.size(); i++)
+    {
+        core::string<char> file_name = folder_name;
+        file_name += '/';
+        file_name += files[i];
+
+        load_opers(output, file_name);
+    }
+}
+
 
 int main()
 {
+    //load operators
     core::array< script::oper::oper_t<char>* > operators;
 
-    if (load_opers(operators, "operators/std_operators.dll"))
+    load_all_opers(operators, "operators");
+
+
+    //list operators
+    /*for(int i=0; i<operators.size(); i++)
     {
-        //script::basic_expression<char> expr (operators);
+        cout << (operators[i]->unary() ? "unary" : "     ");
+        cout << '\t' << operators[i]->str().str() << "\toperator" << endl;
+    }*/
 
 
-        cout << "loaded successfully" << endl;
-    }
+    script::basic_expression<char> expr (operators);
 
+    expr = "10+ 20 *-12";
 
-    core::string<char> expr = "cat*-dog + 4 * -2.5";
-
-    bool is_number = false;
-
-    core::array< core::string<char> > fragment;
-
-
-    core::string<char> thisString;
-
-    for (int i=0; i<expr.length(); i++)
-    {
-        /*bool found_num = core::is_alphanumeric(expr[i]) || (expr[i] == (char)46); //decimal point
-
-        if (!is_number && found_num)
-        {
-            is_number = true;
-
-            fragment.add(thisString);
-
-            thisString.clear();
-        }
-        else if (is_number && !found_num)
-        {
-            is_number = false;
-
-            fragment.add(thisString);
-
-            thisString.clear();
-        }
-
-
-        thisString += expr[i];*/
-    }
-
-    if (thisString.length() > 0)
-        fragment.add(thisString);
-
-
-
-    for (int i=0; i<fragment.size(); i++)
-        cout << fragment[i].str() << endl;
-
+    cout << "val{" << expr.value().str() << "}\terr[" << expr.error() << "]\n";
 
 
     cout << "\nDone.\n";

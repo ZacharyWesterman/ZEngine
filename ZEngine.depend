@@ -1589,7 +1589,7 @@
 1482454662 k:\zengine\engine\global\script_delay_timer.h
 	"../../core/timer.h"
 
-1485500859 source:c:\users\zachary\documents\github\zengine\main.cpp
+1485730921 source:c:\users\zachary\documents\github\zengine\main.cpp
 	"core/stringUtils/char_is_alphanumeric.h"
 	"core/stringUtils/char_is_whiteSpace.h"
 	"script/basic_expression.h"
@@ -1940,12 +1940,12 @@
 	<unistd.h>
 	<windows.h>
 
-1485500766 c:\users\zachary\documents\github\zengine\script\basic_expression.h
+1485730978 c:\users\zachary\documents\github\zengine\script\basic_expression.h
 	"../core/array.h"
 	"../core/dynamicStack.h"
 	"operators/oper_t.h"
 
-1485500766 c:\users\zachary\documents\github\zengine\script\operators\oper_t.h
+1485731565 c:\users\zachary\documents\github\zengine\script\operators\oper_t.h
 	<stdint.h>
 	"../../core/string.h"
 	"../script_errors.h"

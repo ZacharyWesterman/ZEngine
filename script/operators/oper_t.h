@@ -24,15 +24,20 @@ namespace script
 
             bool is_unary;
 
+            bool unary_pos_is_front;
+
         public:
             template <typename CHAR_T>
-            oper_t(core::string<CHAR_T> oper_string, oper_priority _priority, bool unary_operator)
+            oper_t(core::string<CHAR_T> oper_string, oper_priority _priority,
+                   bool unary_operator, bool operator_before_operand = true)
             {
                 core::convertStr(_string, oper_string);
 
                 oper_pri = _priority;
 
                 is_unary = unary_operator;
+
+                unary_pos_is_front = operator_before_operand;
             }
 
 
@@ -72,6 +77,9 @@ namespace script
 
             bool unary() const {return is_unary;}
             bool binary() const {return !is_unary;}
+
+            bool before() const {return unary_pos_is_front;}
+            bool after() const {return !unary_pos_is_front;}
         };
     }
 }

@@ -14,7 +14,7 @@ namespace core
     //It uses a vector of pointers rather than objects, to speed up resizing.
     //Thus, this class is not effective for small objects like chars.
     //(char pointer size > char size)
-    template <typename T>
+    template <class T>
     class array
     {
     protected:

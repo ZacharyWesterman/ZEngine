@@ -113,9 +113,9 @@ int main()
 
     script::basic_expression<char> expr (operators);
 
-    expr = "10+ 20 *-12";
+    expr = "10+ 20    *-12";
 
-    cout << "val{" << expr.value().str() << "}\terr[" << expr.error() << "]\n";
+    //cout << "val{" << expr.value().str() << "}\terr[" << expr.error() << "]\n";
 
 
     cout << "\nDone.\n";

@@ -40,8 +40,12 @@
 				</Linker>
 			</Target>
 		</Build>
+		<Unit filename="core/array.h" />
+		<Unit filename="core/string.h" />
 		<Unit filename="main.cpp" />
 		<Unit filename="main.h" />
+		<Unit filename="script/functions/func_t.h" />
+		<Unit filename="script/script_errors.h" />
 		<Extensions>
 			<code_completion />
 			<envvars />

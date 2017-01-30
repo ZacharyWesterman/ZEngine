@@ -113,12 +113,16 @@ int main()
 
     script::preParser<char> preP (operators);
 
-    preP.split("10+ 20    *-12");
+
+    core::array< core::string<char> > output;
+
+    script::error_flag err = preP.list_opers("*-", &output);
 
     for (int i=0; i<preP.arr.size(); i++)
     {
-        cout << preP.arr[i].str.str() << endl;
+        cout << output[i].str() << endl;
     }
+    cout << "err[" << err << "]\n";
 
     //cout << "val{" << expr.value().str() << "}\terr[" << expr.error() << "]\n";
 

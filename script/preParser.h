@@ -8,7 +8,12 @@
 #include "../core/stringUtils/char_is_whiteSpace.h"
 #include "../core/stringUtils/char_is_alphanumeric.h"
 
+#include "escape_sequences.h"
+
 #include "operators/oper_t.h"
+
+#include <iostream>
+using namespace std;
 
 namespace script
 {
@@ -41,6 +46,12 @@ namespace script
         core::string<CHAR> str;
         ident::ident_enum type;
 
+        ident_t (core::string<CHAR> s, ident::ident_enum t)
+        {
+            str = s;
+            type = t;
+        }
+
         bool operator==(const ident_t& other) const
         {
             return ((type == other.type) &&
@@ -68,6 +79,9 @@ namespace script
 
 
         void split(const core::string<CHAR>&);
+
+        error_flag list_opers(const core::string<CHAR>&,
+                              core::array< core::string<CHAR> >*);
     };
 
 
@@ -91,7 +105,16 @@ namespace script
 
         for (int i=0; i<input.length(); i++)
         {
-            //if (core::is_alpha())
+            if (input[i] == (CHAR)34)
+            {
+                ;
+            }
+
+            if (core::is_alphanumeric(input[i]) ||
+                (input[i] == (CHAR)46))
+            {
+                ;
+            }
 
 
 
@@ -123,6 +146,64 @@ namespace script
 
             arr.add(this_object);
         }
+    }
+
+
+    ///list all the possible operators in the string
+    ///the string must contain ONLY operators and NO spaces
+    template <typename CHAR>
+    error_flag preParser<CHAR>::list_opers(const core::string<CHAR>& input,
+                                           core::array< core::string<CHAR> >* output)
+    {
+        output->clear();
+        error_flag oper_error = error::NONE;
+
+        core::array< core::string<CHAR> > temp_opers;
+
+
+        int pos = 0;
+        core::string<CHAR> curr_oper;
+
+        while ((pos < input.length()) && !oper_error)
+        {
+
+            for (int i=0; i<(opers->size()); i++)
+            {
+                if (input.foundAt(opers->at(i)->str(), pos))
+                {
+                    curr_oper = opers->at(i)->str();
+                }
+            }
+
+
+            if (curr_oper.length() > 0)
+            {
+                output->add(curr_oper);
+
+                pos += curr_oper.length();
+            }
+            else //that operator was not found
+            {
+                if (pos > 0)
+                    oper_error |= error::AMBIGUOUS_EXPR;
+                else
+                    oper_error |= error::UNKNOWN_OPERATOR;
+            }
+        }
+
+        output->add("!!!!");
+
+        /*if (oper_error == error::NONE)
+        {
+            for (int i=0; i<temp_opers.size(); i++)
+            {
+                output.add(temp_opers[i]);
+
+                //cout << output[i].str() << endl;
+            }
+        }*/
+
+        return oper_error;
     }
 }
 

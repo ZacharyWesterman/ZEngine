@@ -78,30 +78,25 @@ namespace script
         }
 
 
-        void split(const core::string<CHAR>&);
+        error_flag split(const core::string<CHAR>&);
 
         error_flag list_opers(const core::string<CHAR>&,
-                              core::array< core::string<CHAR> >&) const;
+                              core::array< ident_t<CHAR> >&) const;
     };
 
 
     template <typename CHAR>
-    void preParser<CHAR>::split(const core::string<CHAR>& input)
+    error_flag preParser<CHAR>::split(const core::string<CHAR>& input)
     {
         arr.clear();
 
-        ident_t<CHAR> this_object;
-
-        this_object.type = ident::NONE;
-
-
-        int beg = 0;
-        int end = -1;
+        error_flag split_errors = error::NONE;
 
         bool in_string = false;
 
 
-        ident::ident_enum new_type = this_object.type;
+        core::string<CHAR> current_string;
+        ident::ident_enum current_type = ident::NONE;
 
         for (int i=0; i<input.length(); i++)
         {
@@ -110,42 +105,55 @@ namespace script
                 ;
             }
 
-            if (core::is_alphanumeric(input[i]) ||
-                (input[i] == (CHAR)46))
-            {
-                ;
-            }
-
-
 
             //split if we encounter a different type of object
-            if (core::is_white_space(input[i]) ||
-                (this_object.type != new_type))
+            if (core::is_white_space(input[i]))
             {
-                //end of the string is before we encounter whitespace
-                end = i - 1;
-
-                if (end >= beg)
+                if (current_string.length() > 0)
                 {
-                    this_object.str = input.substr(beg, end);
-                    this_object.type = new_type;
-
-                    arr.add(this_object);
+                    arr.add(ident_t<CHAR>(current_string, current_type));
+                    current_string.clear();
+                }
+            }
+            else if (core::is_alphanumeric(input[i]) || //alphanumeric
+                    (input[i] == (CHAR)46) || //or decimal
+                    (input[i] == (CHAR)95)) //or underscore
+            {
+                if ((current_type != ident::IDENTIFIER) &&
+                    (current_string.length() > 0))
+                {
+                    split_errors |= list_opers(current_string, arr);
+                    current_string.clear();
                 }
 
-                //beginning of next string is after this whitespace
-                beg = i + 1;
+                current_string += input[i];
+                current_type = ident::IDENTIFIER;
+            }
+            else
+            {
+                if ((current_type != ident::OPERATOR) &&
+                    (current_string.length() > 0))
+                {
+                    arr.add(ident_t<CHAR>(current_string, current_type));
+                    current_string.clear();
+                }
+
+
+                current_string += input[i];
+                current_type = ident::OPERATOR;
             }
         }
 
-        //append any leftover characters in the input to the output
-        if (input.length()-1 >= beg)
-        {
-            this_object.str = input.substr(beg, input.length()-1);
-            this_object.type = new_type;
 
-            arr.add(this_object);
+        if (current_string.length() > 0)
+        {
+            if (current_type == ident::OPERATOR)
+                split_errors |= list_opers(current_string, arr);
+            else
+                arr.add(ident_t<CHAR>(current_string, current_type));
         }
+
+        return split_errors;
     }
 
 
@@ -153,7 +161,7 @@ namespace script
     ///the string must contain ONLY operators and NO spaces
     template <typename CHAR>
     error_flag preParser<CHAR>::list_opers(const core::string<CHAR>& input,
-                                           core::array< core::string<CHAR> >& output) const
+                                           core::array< ident_t<CHAR> >& output) const
     {
         error_flag oper_error = error::NONE;
 
@@ -197,7 +205,7 @@ namespace script
         {
             for (int i=0; i<temp_opers.size(); i++)
             {
-                output.add(temp_opers[i]);
+                output.add(ident_t<CHAR>(temp_opers[i], ident::OPERATOR));
             }
         }
 

@@ -114,15 +114,14 @@ int main()
     script::preParser<char> preP (operators);
 
 
-    core::array< core::string<char> > output;
 
-    script::error_flag err = preP.list_opers(">==", output);
+    preP.split("4!>=--23");
 
-    for (int i=0; i<output.size(); i++)
+    for (int i=0; i<preP.arr.size(); i++)
     {
-        cout << output[i].str() << endl;
+        cout << preP.arr[i].str.str() << endl;
     }
-    cout << "err[" << err << "]\n";
+    //cout << "err[" << err << "]\n";
 
     //cout << "val{" << expr.value().str() << "}\terr[" << expr.error() << "]\n";
 

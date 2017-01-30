@@ -5,7 +5,7 @@
 #include "core/stringUtils/char_is_alphanumeric.h"
 #include "core/stringUtils/char_is_whiteSpace.h"
 
-#include "script/basic_expression.h"
+#include "script/preParser.h"
 
 #include "core/loadLibrary.h"
 
@@ -111,9 +111,14 @@ int main()
     }*/
 
 
-    script::basic_expression<char> expr (operators);
+    script::preParser<char> preP (operators);
 
-    expr = "10+ 20    *-12";
+    preP.split("10+ 20    *-12");
+
+    for (int i=0; i<preP.arr.size(); i++)
+    {
+        cout << preP.arr[i].str.str() << endl;
+    }
 
     //cout << "val{" << expr.value().str() << "}\terr[" << expr.error() << "]\n";
 

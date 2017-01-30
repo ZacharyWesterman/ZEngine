@@ -26,11 +26,11 @@ namespace script
             IDENTIFIER,
             OPERATOR,
 
+            PARENTH,
+
             LITERAL,
 
             VARIABLE,
-            SUBVARIABLE,
-            ARR_ELEMENT,
 
             FUNCTION,
             COMMAND,
@@ -93,54 +93,99 @@ namespace script
         error_flag split_errors = error::NONE;
 
         bool in_string = false;
+        bool out_of_string = true;
 
 
         core::string<CHAR> current_string;
         ident::ident_enum current_type = ident::NONE;
 
+        core::string<CHAR> esc_quote;
+        esc_sequence_name(ESC_SEQUENCE::QUOTE, esc_quote);
+
         for (int i=0; i<input.length(); i++)
         {
             if (input[i] == (CHAR)34)
             {
-                ;
-            }
-
-
-            //split if we encounter a different type of object
-            if (core::is_white_space(input[i]))
-            {
-                if (current_string.length() > 0)
+                if (!in_string)
                 {
+                    if (current_string.length() > 0)
+                    {
+                        arr.add(ident_t<CHAR>(current_string, current_type));
+                        current_string.clear();
+                    }
+                    in_string = true;
+                    out_of_string = false;
+
+                    current_type = ident::LITERAL;
+                }
+                else
+                {
+                    out_of_string = true;
+                    current_string += input[i];
+
                     arr.add(ident_t<CHAR>(current_string, current_type));
                     current_string.clear();
                 }
             }
-            else if (core::is_alphanumeric(input[i]) || //alphanumeric
-                    (input[i] == (CHAR)46) || //or decimal
-                    (input[i] == (CHAR)95)) //or underscore
-            {
-                if ((current_type != ident::IDENTIFIER) &&
-                    (current_string.length() > 0))
-                {
-                    split_errors |= list_opers(current_string, arr);
-                    current_string.clear();
-                }
 
-                current_string += input[i];
-                current_type = ident::IDENTIFIER;
+
+            if (!in_string)
+            {
+                //split if we encounter a different type of object
+                if (core::is_white_space(input[i]))
+                {
+                    if (current_string.length() > 0)
+                    {
+                        arr.add(ident_t<CHAR>(current_string, current_type));
+                        current_string.clear();
+                    }
+                }
+                else if ((input[i] == (CHAR)40) || //open parentheses
+                         (input[i] == (CHAR)41))   //closed parentheses
+                {
+                    if (current_string.length() > 0)
+                    {
+                        arr.add(ident_t<CHAR>(current_string, current_type));
+                        current_string.clear();
+                    }
+
+                    current_type = ident::PARENTH;
+                    arr.add(ident_t<CHAR>(input[i], current_type));
+                }
+                else if (core::is_alphanumeric(input[i]) || //alphanumeric
+                        (input[i] == (CHAR)46) || //or decimal
+                        (input[i] == (CHAR)95)) //or underscore
+                {
+                    if ((current_type != ident::IDENTIFIER) &&
+                        (current_string.length() > 0))
+                    {
+                        split_errors |= list_opers(current_string, arr);
+                        current_string.clear();
+                    }
+
+                    current_string += input[i];
+                    current_type = ident::IDENTIFIER;
+                }
+                else
+                {
+                    if ((current_type != ident::OPERATOR) &&
+                        (current_string.length() > 0))
+                    {
+                        arr.add(ident_t<CHAR>(current_string, current_type));
+                        current_string.clear();
+                    }
+
+
+                    current_string += input[i];
+                    current_type = ident::OPERATOR;
+                }
             }
             else
             {
-                if ((current_type != ident::OPERATOR) &&
-                    (current_string.length() > 0))
-                {
-                    arr.add(ident_t<CHAR>(current_string, current_type));
-                    current_string.clear();
-                }
-
-
-                current_string += input[i];
-                current_type = ident::OPERATOR;
+                if (!out_of_string)
+                    current_string += input[i];
+                else
+                    in_string = false;
             }
         }
 

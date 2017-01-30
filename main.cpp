@@ -115,7 +115,7 @@ int main()
 
 
 
-    preP.split("4!>=--23");
+    cout << "err[" << preP.split("if(A.s>=\"A.s>= - 23\")") << "]\n";
 
     for (int i=0; i<preP.arr.size(); i++)
     {
@@ -129,6 +129,8 @@ int main()
     cout << "\nDone.\n";
 
     cout << endl;
+    cout << "( " << (int)'(' << ':' << (int)L'(' << endl;
+    cout << ") " << (int)')' << ':' << (int)L')' << endl;
     cout << "[ " << (int)'[' << ':' << (int)L'[' << endl;
     cout << "] " << (int)']' << ':' << (int)L']' << endl;
     cout << "{ " << (int)'{' << ':' << (int)L'{' << endl;

@@ -107,7 +107,7 @@ int main()
     //test the pre-parser
     script::preParser<char> preP (operators);
 
-    cout << "err[" << preP.split("if(Arr[10]>=\n\"Arr[10]>= \\\"- 23\")") << "]\n";
+    cout << "err[" << preP.split("print 10,\"arr[10]=\",arr[10]") << "]\n";
 
     for (int i=0; i<preP.arr.size(); i++)
     {

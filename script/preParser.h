@@ -27,6 +27,7 @@ namespace script
             OPERATOR,
 
             PARENTH,
+            DELIMITER,
 
             LITERAL,
 
@@ -140,6 +141,17 @@ namespace script
                         arr.add(ident_t<CHAR>(current_string, current_type));
                         current_string.clear();
                     }
+                }
+                else if (input[i] == (CHAR)44) //commas are the default delimiters
+                {
+                    if (current_string.length() > 0)
+                    {
+                        arr.add(ident_t<CHAR>(current_string, current_type));
+                        current_string.clear();
+                    }
+
+                    current_type = ident::DELIMITER;
+                    arr.add(ident_t<CHAR>(input[i], current_type));
                 }
                 else if ((input[i] == (CHAR)40) || //open parentheses
                          (input[i] == (CHAR)41))   //closed parentheses

@@ -196,9 +196,21 @@ namespace script
             else
             {
                 if (!out_of_string)
-                    current_string += input[i];
+                {
+                    if (input.foundAt(esc_quote, i))
+                    {
+                        current_string += esc_quote;
+                        i += esc_quote.length() - 1;
+                    }
+                    else
+                    {
+                        current_string += input[i];
+                    }
+                }
                 else
+                {
                     in_string = false;
+                }
             }
         }
 

@@ -103,27 +103,18 @@ int main()
     load_all_opers(operators, "operators");
 
 
-    //list operators
-    /*for(int i=0; i<operators.size(); i++)
-    {
-        cout << (operators[i]->unary() ? "unary" : "     ");
-        cout << '\t' << operators[i]->str().str() << "\toperator" << endl;
-    }*/
 
-
+    //test the pre-parser
     script::preParser<char> preP (operators);
 
-
-
-    cout << "err[" << preP.split("if(Arr[10]>=\"Arr[10]>= - 23\")") << "]\n";
+    cout << "err[" << preP.split("if(Arr[10]>=\n\"Arr[10]>= \\\"- 23\")") << "]\n";
 
     for (int i=0; i<preP.arr.size(); i++)
     {
         cout << preP.arr[i].str.str() << endl;
     }
-    //cout << "err[" << err << "]\n";
 
-    //cout << "val{" << expr.value().str() << "}\terr[" << expr.error() << "]\n";
+
 
 
     cout << "\nDone.\n";

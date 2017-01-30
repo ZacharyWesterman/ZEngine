@@ -116,9 +116,9 @@ int main()
 
     core::array< core::string<char> > output;
 
-    script::error_flag err = preP.list_opers("*-", &output);
+    script::error_flag err = preP.list_opers(">==", output);
 
-    for (int i=0; i<preP.arr.size(); i++)
+    for (int i=0; i<output.size(); i++)
     {
         cout << output[i].str() << endl;
     }

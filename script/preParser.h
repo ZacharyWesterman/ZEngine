@@ -81,7 +81,7 @@ namespace script
         void split(const core::string<CHAR>&);
 
         error_flag list_opers(const core::string<CHAR>&,
-                              core::array< core::string<CHAR> >*);
+                              core::array< core::string<CHAR> >&) const;
     };
 
 
@@ -153,9 +153,8 @@ namespace script
     ///the string must contain ONLY operators and NO spaces
     template <typename CHAR>
     error_flag preParser<CHAR>::list_opers(const core::string<CHAR>& input,
-                                           core::array< core::string<CHAR> >* output)
+                                           core::array< core::string<CHAR> >& output) const
     {
-        output->clear();
         error_flag oper_error = error::NONE;
 
         core::array< core::string<CHAR> > temp_opers;
@@ -166,19 +165,21 @@ namespace script
 
         while ((pos < input.length()) && !oper_error)
         {
+            bool found = false;
 
             for (int i=0; i<(opers->size()); i++)
             {
                 if (input.foundAt(opers->at(i)->str(), pos))
                 {
                     curr_oper = opers->at(i)->str();
+                    found = true;
                 }
             }
 
 
-            if (curr_oper.length() > 0)
+            if (found)
             {
-                output->add(curr_oper);
+                temp_opers.add(curr_oper);
 
                 pos += curr_oper.length();
             }
@@ -191,17 +192,14 @@ namespace script
             }
         }
 
-        output->add("!!!!");
 
-        /*if (oper_error == error::NONE)
+        if (oper_error == error::NONE)
         {
             for (int i=0; i<temp_opers.size(); i++)
             {
                 output.add(temp_opers[i]);
-
-                //cout << output[i].str() << endl;
             }
-        }*/
+        }
 
         return oper_error;
     }

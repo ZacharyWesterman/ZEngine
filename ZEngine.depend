@@ -1589,7 +1589,7 @@
 1482454662 k:\zengine\engine\global\script_delay_timer.h
 	"../../core/timer.h"
 
-1485749818 source:c:\users\zachary\documents\github\zengine\main.cpp
+1485751773 source:c:\users\zachary\documents\github\zengine\main.cpp
 	"core/stringUtils/char_is_alphanumeric.h"
 	"core/stringUtils/char_is_whiteSpace.h"
 	"script/preParser.h"
@@ -1962,7 +1962,7 @@
 	"../core/array.h"
 	<windows.h>
 
-1485749876 c:\users\zachary\documents\github\zengine\script\preparser.h
+1485751935 c:\users\zachary\documents\github\zengine\script\preparser.h
 	"../core/array.h"
 	"../core/string.h"
 	"../core/stringUtils/char_is_whiteSpace.h"

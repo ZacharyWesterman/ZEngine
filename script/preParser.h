@@ -31,6 +31,7 @@ namespace script
             LITERAL,
 
             VARIABLE,
+            ELEMENT,
 
             FUNCTION,
             COMMAND,
@@ -150,6 +151,18 @@ namespace script
                     }
 
                     current_type = ident::PARENTH;
+                    arr.add(ident_t<CHAR>(input[i], current_type));
+                }
+                else if ((input[i] == (CHAR)91) || //open bracket
+                         (input[i] == (CHAR)93))   //closed bracket
+                {
+                    if (current_string.length() > 0)
+                    {
+                        arr.add(ident_t<CHAR>(current_string, current_type));
+                        current_string.clear();
+                    }
+
+                    current_type = ident::ELEMENT;
                     arr.add(ident_t<CHAR>(input[i], current_type));
                 }
                 else if (core::is_alphanumeric(input[i]) || //alphanumeric

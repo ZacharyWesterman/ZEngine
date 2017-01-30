@@ -115,7 +115,7 @@ int main()
 
 
 
-    cout << "err[" << preP.split("if(A.s>=\"A.s>= - 23\")") << "]\n";
+    cout << "err[" << preP.split("if(Arr[10]>=\"Arr[10]>= - 23\")") << "]\n";
 
     for (int i=0; i<preP.arr.size(); i++)
     {

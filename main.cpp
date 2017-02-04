@@ -2,12 +2,11 @@
 
 //#include "core/sorted_array.h"
 
-#include "core/stringUtils/char_is_alphanumeric.h"
-#include "core/stringUtils/char_is_whiteSpace.h"
+#include "z/core/string.h"
 
-#include "script/preParser.h"
+#include "z/script/preParser.h"
 
-#include "core/loadLibrary.h"
+#include "z/core/loadLibrary.h"
 
 #include <windows.h>
 

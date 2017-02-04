@@ -1,14 +1,16 @@
-#include "core/loadLibrary.h"
+#include "z/core/loadLibrary.h"
 
 #include <windows.h>
 
 #include <iostream>
 using namespace std;
 
-#include "script/operators/oper_t.h"
-#include "core/array.h"
+#include "z/script/operators/oper_t.h"
+#include "z/core/array.h"
 
-#include "file/list_files_in_dir.h"
+#include "z/file/list_files_in_dir.h"
+
+using namespace z;
 
 bool load_opers(core::array< script::oper::oper_t<char>* >& output, const core::string<char> file_name)
 {

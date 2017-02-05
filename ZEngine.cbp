@@ -83,8 +83,8 @@
 		<Unit filename="z/script/functions.h" />
 		<Unit filename="z/script/is_script_string.h" />
 		<Unit filename="z/script/is_valid_script_name.h" />
+		<Unit filename="z/script/load_operators.h" />
 		<Unit filename="z/script/operators/oper_t.h" />
-		<Unit filename="z/script/preParser.h" />
 		<Unit filename="z/script/scriptParser.h" />
 		<Unit filename="z/script/script_errors.h" />
 		<Unit filename="z/script/split_parameters.h" />

@@ -50,7 +50,9 @@ namespace z
                 UNEXP_COMMAND =     0x00080000,
                 UNEXP_END_OF_SCRIPT=0x00100000,
                 UNKNOWN_LABEL =     0x00200000,
-                UNKNOWN_SUBROUTINE =0x00400000
+                UNKNOWN_SUBROUTINE =0x00400000,
+                UNKNOWN_OPERATOR =  0x00800000,
+                AMBIGUOUS_EXPR =    0x01000000
             };
         }
     }

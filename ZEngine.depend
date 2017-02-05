@@ -1589,8 +1589,9 @@
 1482454662 k:\zengine\engine\global\script_delay_timer.h
 	"../../core/timer.h"
 
-1486296691 source:c:\users\zachary\documents\github\zengine\main.cpp
+1486299305 source:c:\users\zachary\documents\github\zengine\main.cpp
 	"z/core/string.h"
+	"z/script/scanner.h"
 	"z/script/load_operators.h"
 	<iostream>
 
@@ -2019,7 +2020,7 @@
 	"../script_errors.h"
 	"../../core/dynamicStack.h"
 
-1486164079 c:\users\zachary\documents\github\zengine\z\script\script_errors.h
+1486299194 c:\users\zachary\documents\github\zengine\z\script\script_errors.h
 
 1486154560 c:\users\zachary\documents\github\zengine\z\core\dynamicstack.h
 
@@ -2035,4 +2036,15 @@
 	"string.h"
 	<stdint.h>
 	<windows.h>
+
+1486299796 c:\users\zachary\documents\github\zengine\z\script\scanner.h
+	"../core/array.h"
+	"../core/string.h"
+	"escape_sequences.h"
+	"operators/oper_t.h"
+	<iostream>
+
+1486166804 c:\users\zachary\documents\github\zengine\z\script\escape_sequences.h
+	<stdint.h>
+	"../core/string.h"
 

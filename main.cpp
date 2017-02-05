@@ -1,6 +1,6 @@
 #include "z/core/string.h"
 
-//#include "z/script/preParser.h"
+#include "z/script/scanner.h"
 
 #include "z/script/load_operators.h"
 
@@ -19,14 +19,14 @@ int main()
 
 
     //test the pre-parser
-    /*script::preParser<char> preP (operators);
+    z::script::scanner<char> preP (operators);
 
-    cout << "err[" << preP.split("print 10{\"arr[10]=\",arr[10]}") << "]\n";
+    cout << "err[" << preP.split("bool = a and b") << "]\n";
 
     for (int i=0; i<preP.arr.size(); i++)
     {
-        cout << preP.arr[i].str.str() << endl;
-    }*/
+        cout << preP.arr[i].str.str() << '\t' << preP.arr[i].type << endl;
+    }
 
 
 

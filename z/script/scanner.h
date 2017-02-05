@@ -99,7 +99,7 @@ namespace z
             error_flag list_opers(const core::string<CHAR>&,
                                   core::array< ident_t<CHAR> >&) const;
 
-            void check_for_operators(core::array< ident_t<CHAR> >&) const;
+            void check_for_operators();
         };
 
 
@@ -263,6 +263,9 @@ namespace z
                     arr.add(ident_t<CHAR>(current_string, current_type));
             }
 
+
+            check_for_operators();
+
             return split_errors;
         }
 
@@ -326,13 +329,17 @@ namespace z
         ///Some operators may have alphanumeric characters in them.
         ///if any identifiers match an operator, change the type to OPERATOR.
         template <typename CHAR>
-        void scanner<CHAR>::check_for_operators(core::array< ident_t<CHAR> >& output) const
+        void scanner<CHAR>::check_for_operators()
         {
-            for (int i=0; i<output.size(); i++)
+            for (int i=0; i<arr.size(); i++)
             {
-                if (output[i].type == ident::IDENTIFIER)
+                if (arr[i].type == ident::IDENTIFIER)
                 {
-
+                    for (int o=0; o<(opers->size()); o++)
+                    {
+                        if (arr[i].str == opers->at(o)->str())
+                            arr[i].type = ident::OPERATOR;
+                    }
                 }
             }
         }

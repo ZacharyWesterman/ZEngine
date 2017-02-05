@@ -94,7 +94,7 @@ namespace z
             }
 
 
-            error_flag split(const core::string<CHAR>&);
+            error_flag scan(const core::string<CHAR>&);
 
             error_flag list_opers(const core::string<CHAR>&,
                                   core::array< ident_t<CHAR> >&) const;
@@ -104,7 +104,7 @@ namespace z
 
 
         template <typename CHAR>
-        error_flag scanner<CHAR>::split(const core::string<CHAR>& input)
+        error_flag scanner<CHAR>::scan(const core::string<CHAR>& input)
         {
             arr.clear();
 

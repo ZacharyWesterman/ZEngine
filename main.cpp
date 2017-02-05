@@ -19,14 +19,18 @@ int main()
 
 
     //test the pre-parser
-    z::script::scanner<char> preP (operators);
+    z::script::scanner<char>* S;
+    S = new z::script::scanner<char>(operators);
 
-    cout << "err[" << preP.split("bool = a and b") << "]\n";
+    cout << "err[" << S->scan("bool = a and b") << "]\n";
 
-    for (int i=0; i<preP.arr.size(); i++)
+    for (int i=0; i<S->arr.size(); i++)
     {
-        cout << preP.arr[i].str.str() << '\t' << preP.arr[i].type << endl;
+        cout << S->arr[i].str.str() << '\t' << S->arr[i].type << endl;
     }
+
+
+    delete S;
 
 
 

@@ -75,12 +75,11 @@ namespace z
                         (str == other.str));
             }
         };
-        ///End of identifiers definition
 
 
 
         template <typename CHAR>
-        class preParser
+        class scanner
         {
         private:
             core::array< oper::oper_t<CHAR>* >* opers;
@@ -89,7 +88,7 @@ namespace z
             core::array< ident_t<CHAR> > arr;
 
             //constructor REQUIRES all operators be set
-            preParser(core::array< oper::oper_t<CHAR>* >& operators)
+            scanner(core::array< oper::oper_t<CHAR>* >& operators)
             {
                 opers = &operators;
             }
@@ -99,11 +98,13 @@ namespace z
 
             error_flag list_opers(const core::string<CHAR>&,
                                   core::array< ident_t<CHAR> >&) const;
+
+            void check_for_operators(core::array< ident_t<CHAR> >&) const;
         };
 
 
         template <typename CHAR>
-        error_flag preParser<CHAR>::split(const core::string<CHAR>& input)
+        error_flag scanner<CHAR>::split(const core::string<CHAR>& input)
         {
             arr.clear();
 
@@ -192,8 +193,8 @@ namespace z
                         current_type = ident::ELEMENT;
                         arr.add(ident_t<CHAR>(input[i], current_type));
                     }
-                    else if ((input[i] == (CHAR)123) || //open bracket
-                             (input[i] == (CHAR)125))   //closed bracket
+                    else if ((input[i] == (CHAR)123) || //open curly brace
+                             (input[i] == (CHAR)125))   //closed curly brace
                     {
                         if (current_string.length() > 0)
                         {
@@ -218,7 +219,7 @@ namespace z
                         current_string += input[i];
                         current_type = ident::IDENTIFIER;
                     }
-                    else
+                    else //assume we have an operator
                     {
                         if ((current_type != ident::OPERATOR) &&
                             (current_string.length() > 0))
@@ -269,7 +270,7 @@ namespace z
         ///list all the possible operators in the string
         ///the string must contain ONLY operators and NO spaces
         template <typename CHAR>
-        error_flag preParser<CHAR>::list_opers(const core::string<CHAR>& input,
+        error_flag scanner<CHAR>::list_opers(const core::string<CHAR>& input,
                                                core::array< ident_t<CHAR> >& output) const
         {
             error_flag oper_error = error::NONE;
@@ -319,6 +320,21 @@ namespace z
             }
 
             return oper_error;
+        }
+
+
+        ///Some operators may have alphanumeric characters in them.
+        ///if any identifiers match an operator, change the type to OPERATOR.
+        template <typename CHAR>
+        void scanner<CHAR>::check_for_operators(core::array< ident_t<CHAR> >& output) const
+        {
+            for (int i=0; i<output.size(); i++)
+            {
+                if (output[i].type == ident::IDENTIFIER)
+                {
+
+                }
+            }
         }
     }
 }

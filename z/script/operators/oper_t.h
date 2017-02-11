@@ -8,7 +8,7 @@
  *
  * Author:          Zachary Westerman
  * Email:           zacharywesterman@yahoo.com
- * Last modified:   3 Feb. 2017
+ * Last modified:   11 Feb. 2017
 **/
 
 #pragma once
@@ -44,8 +44,8 @@ namespace z
             public:
                 ///Constructor
                 template <typename CHAR_T>
-                oper_t(core::string<CHAR_T> oper_string, oper_priority _priority,
-                       bool unary_operator, bool operator_before_operand = true)
+                oper_t(core::string<CHAR_T> oper_string, oper_priority _priority = 0,
+                       bool unary_operator = false, bool operator_before_operand = true)
                 {
                     _string = oper_string;
 

@@ -1589,11 +1589,11 @@
 1482454662 k:\zengine\engine\global\script_delay_timer.h
 	"../../core/timer.h"
 
-1486299305 source:c:\users\zachary\documents\github\zengine\main.cpp
+1486799097 source:c:\users\zachary\documents\github\zengine\main.cpp
 	"z/core/string.h"
-	"z/script/scanner.h"
 	"z/script/load_operators.h"
 	<iostream>
+	"z/core/sorted_array.h"
 
 1484768341 c:\users\zachary\documents\github\zengine\engine\game.h
 	<irrlicht.h>
@@ -2014,7 +2014,7 @@
 	"../core/array.h"
 	"../core/loadLibrary.h"
 
-1486164361 c:\users\zachary\documents\github\zengine\z\script\operators\oper_t.h
+1486797073 c:\users\zachary\documents\github\zengine\z\script\operators\oper_t.h
 	<stdint.h>
 	"../../core/string.h"
 	"../script_errors.h"
@@ -2047,4 +2047,8 @@
 1486166804 c:\users\zachary\documents\github\zengine\z\script\escape_sequences.h
 	<stdint.h>
 	"../core/string.h"
+
+1486800035 c:\users\zachary\documents\github\zengine\z\core\sorted_array.h
+	"./array.h"
+	<iostream>
 

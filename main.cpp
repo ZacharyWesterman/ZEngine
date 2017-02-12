@@ -12,25 +12,13 @@ using namespace std;
 int main()
 {
     //load operators
-    //z::core::array< z::script::oper::oper_t<char>* > operators;
+    z::core::array< z::script::oper::oper_t<char>* > operators;
 
-    //z::script::load_operators(operators, "operators");
-
-
-    z::core::sorted_array<int> vals;
-
-    vals.add(120);
-    vals.add(10);
-    vals.add(-4);
-    vals.add(57);
-    vals.add(1);
-    vals.add(900);
-    vals.add(0);
-    vals.add(121);
+    z::script::load_operators(operators, "operators");
 
 
-    for (int i=0; i<vals.size(); i++)
-        cout << vals[i] << endl;
+    for (int i=0; i<operators.size(); i++)
+        cout << operators[i]->str().str() << endl;
 
     //test the pre-parser
     /*z::script::scanner<char>* S;
@@ -49,7 +37,7 @@ int main()
 
 
 
-    /*cout << "\nDone.\n";
+    cout << "\nDone.\n";
 
     cout << endl;
     cout << "( " << (int)'(' << ':' << (int)L'(' << endl;
@@ -67,7 +55,7 @@ int main()
     cout << "; " << (int)';' << ':' << (int)L';' << endl;
     cout << "\\n"<< (int)'\n'<< ':' << (int)L'\n'<< endl;
     cout << "-"<< (int)'-'<< ':' << (int)L'-'<< endl;
-    cout << "+"<< (int)'+'<< ':' << (int)L'+'<< endl;*/
+    cout << "+"<< (int)'+'<< ':' << (int)L'+'<< endl;
 
     return 0;
 }

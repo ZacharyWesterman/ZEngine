@@ -12,9 +12,9 @@ using namespace std;
 int main()
 {
     //load operators
-    z::core::array< z::script::oper::oper_t<char>* > operators;
+    z::core::sorted_array< z::script::oper::oper_t<char>* > operators;
 
-    z::script::load_operators(operators, "operators");
+    z::script::load_operators(&operators, "operators");
 
 
     for (int i=0; i<operators.size(); i++)

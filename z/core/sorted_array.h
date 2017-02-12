@@ -47,19 +47,6 @@ namespace z
                 this->array_data.push_back(object);
                 return 0;
             }
-            else if (this->array_data.size() == 1)
-            {
-                if (this->array_data.at(0) < object)
-                {
-                    this->array_data.push_back(object);
-                    return 1;
-                }
-                else
-                {
-                    this->insert(object, 0);
-                    return 0;
-                }
-            }
             else
             {
                 int left = 0;
@@ -89,8 +76,12 @@ namespace z
                     //std::cout << left << ":" << right << std::endl;
                 }
 
-                this->insert(object, right);
-                std::cout << left << ":" << right << std::endl;
+
+                if (this->array_data.at(left) < object)
+                    this->insert(object, left+1);
+                else
+                    this->insert(object, left);
+
                 return left;
             }
         }

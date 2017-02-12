@@ -148,7 +148,7 @@ namespace z
         bool array<T>::insert(const T& object, int index)
         {
             //if invalid index, return false
-            if (index >= (int)array_data.size())
+            if (index > (int)array_data.size())
                 return false;
 
             array_data.insert(array_data.begin() + index, object);

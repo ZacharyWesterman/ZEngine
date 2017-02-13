@@ -7,16 +7,16 @@
 #include <iostream>
 using namespace std;
 
-#include "z/core/sorted_array.h"
+#include "z/core/sorted_ref_array.h"
 
 int main()
 {
     //load operators
-    z::core::sorted_array< z::script::oper::oper_t<char>* > operators;
+    z::core::sorted_ref_array< z::script::oper::oper_t<char>* > operators;
 
     z::script::load_operators(&operators, "operators");
 
-    operators.sort();
+    //operators.sort();
 
     for (int i=0; i<operators.size(); i++)
         cout << operators[i]->str().str() << endl;

@@ -19,6 +19,8 @@
 
 #include "./array.h"
 
+#include <iostream>
+
 namespace z
 {
     namespace core
@@ -30,12 +32,63 @@ namespace z
             //private
 
         public:
-            int find(const T& object);
+            virtual int add(const T&);
+
+            virtual int find(const T&) const;
         };
 
 
+
         template <typename T>
-        int sorted_array<T>::find(const T& object)
+        int sorted_array<T>::add(const T& object)
+        {
+            if (this->array_data.size() == 0)
+            {
+                this->array_data.push_back(object);
+                return 0;
+            }
+            else
+            {
+                int left = 0;
+                int right = this->array_data.size()-1;
+
+
+                while (left < right)
+                {
+                    int center = (left + right) / 2;
+
+
+                    if (this->array_data.at(center) > object)
+                    {
+                        right = center;
+                    }
+                    else if (this->array_data.at(center) < object)
+                    {
+                        left = center + 1;
+                    }
+                    else
+                    {
+                        this->insert(object, center);
+                        return center;
+                    }
+
+
+                    //std::cout << left << ":" << right << std::endl;
+                }
+
+
+                if (this->array_data.at(left) < object)
+                    this->insert(object, left+1);
+                else
+                    this->insert(object, left);
+
+                return left;
+            }
+        }
+
+
+        template <typename T>
+        int sorted_array<T>::find(const T& object) const
         {
             int left = 0;
             int right = this->array_data.size()-1;

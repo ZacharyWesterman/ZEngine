@@ -16,6 +16,7 @@ int main()
 
     z::script::load_operators(&operators, "operators");
 
+    operators.sort();
 
     for (int i=0; i<operators.size(); i++)
         cout << operators[i]->str().str() << endl;

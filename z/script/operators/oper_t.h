@@ -87,6 +87,17 @@ namespace z
                 }
 
 
+                bool operator>=(const oper_t& other) const
+                {
+                    return (_string >= other._string);
+                }
+
+                bool operator<=(const oper_t& other) const
+                {
+                    return (_string <= other._string);
+                }
+
+
                 bool unary() const {return is_unary;}
                 bool binary() const {return !is_unary;}
 

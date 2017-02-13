@@ -21,7 +21,7 @@
 #include "../file/list_files_in_dir.h"
 
 #include "../core/string.h"
-#include "../core/array.h"
+#include "../core/sorted_array.h"
 #include "../core/loadLibrary.h"
 
 
@@ -35,10 +35,10 @@ namespace z
     {
 
         ///Load operators with narrow character
-        bool load_oper_lib(core::array< script::oper::oper_t<char>* >* output,
+        bool load_oper_lib(core::sorted_array< script::oper::oper_t<char>* >* output,
                            const core::string<char>& file_name)
         {
-            typedef void (__stdcall *_func) (core::array< script::oper::oper_t<char>* >*);
+            typedef void (__stdcall *_func) (core::sorted_array< script::oper::oper_t<char>* >*);
 
             core::library::lib_t lib = NULL;
             lib = core::library::load(file_name.str());
@@ -66,10 +66,10 @@ namespace z
 
 
         ///Load operators with wide characters
-        bool load_oper_lib(core::array< script::oper::oper_t<wchar_t>* >* output,
+        bool load_oper_lib(core::sorted_array< script::oper::oper_t<wchar_t>* >* output,
                            const core::string<char>& file_name)
         {
-            typedef void (__stdcall *_func) (core::array< script::oper::oper_t<wchar_t>* >*);
+            typedef void (__stdcall *_func) (core::sorted_array< script::oper::oper_t<wchar_t>* >*);
 
             core::library::lib_t lib = NULL;
             lib = core::library::load(file_name.str());
@@ -97,7 +97,7 @@ namespace z
 
 
         ///Load all of the libraries in the "./operators/" directory (narrow chars)
-        void load_operators(core::array< script::oper::oper_t<char>* >* output,
+        void load_operators(core::sorted_array< script::oper::oper_t<char>* >* output,
                             const core::string<char>& folder_name)
         {
             core::array< core::string<char> > files;
@@ -115,7 +115,7 @@ namespace z
         }
 
         ///Load all of the libraries in the "./operators/" directory (wide chars)
-        void load_operators(core::array< script::oper::oper_t<wchar_t>* >* output,
+        void load_operators(core::sorted_array< script::oper::oper_t<wchar_t>* >* output,
                             const core::string<char>& folder_name)
         {
             core::array< core::string<char> > files;

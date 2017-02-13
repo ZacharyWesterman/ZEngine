@@ -35,6 +35,8 @@ namespace z
             virtual int add(const T&);
 
             virtual int find(const T&) const;
+
+            virtual void sort();
         };
 
 
@@ -115,6 +117,32 @@ namespace z
                 return left;
             else
                 return -1;
+        }
+
+
+        template <typename T>
+        void sorted_array<T>::sort()
+        {
+            bool done = true;
+
+            do
+            {
+                done = true;
+
+
+                for (int i=0; i<(int)this->array_data.size()-1; i++)
+                {
+                    if (this->array_data[i] > this->array_data[i+1])
+                    {
+                        done = false;
+
+                        T temp = this->array_data[i];
+                        this->array_data[i] = this->array_data[i+1];
+                        this->array_data[i+1] = temp;
+                    }
+                }
+            }
+            while (!done);
         }
     }
 }

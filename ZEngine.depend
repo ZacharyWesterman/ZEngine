@@ -1589,7 +1589,7 @@
 1482454662 k:\zengine\engine\global\script_delay_timer.h
 	"../../core/timer.h"
 
-1486948861 source:c:\users\zachary\documents\github\zengine\main.cpp
+1486949178 source:c:\users\zachary\documents\github\zengine\main.cpp
 	"z/core/string.h"
 	"z/script/load_operators.h"
 	<iostream>
@@ -1966,7 +1966,7 @@
 	"operators/oper_t.h"
 	<iostream>
 
-1486947387 c:\users\zachary\documents\github\zengine\z\core\string.h
+1486949178 c:\users\zachary\documents\github\zengine\z\core\string.h
 	"string/string.h"
 	"string/char_is_alphanumeric.h"
 	"string/char_is_whitespace.h"
@@ -1977,62 +1977,62 @@
 	"string/string_upper.h"
 	"string/string_remove_whiteSpace.h"
 
-1486947387 c:\users\zachary\documents\github\zengine\z\core\string\string.h
+1486949178 c:\users\zachary\documents\github\zengine\z\core\string\string.h
 	<stdio.h>
 	"convert_char_type.h"
 
-1486947387 c:\users\zachary\documents\github\zengine\z\core\string\convert_char_type.h
+1486949178 c:\users\zachary\documents\github\zengine\z\core\string\convert_char_type.h
 
-1486947387 c:\users\zachary\documents\github\zengine\z\core\string\char_is_alphanumeric.h
+1486949178 c:\users\zachary\documents\github\zengine\z\core\string\char_is_alphanumeric.h
 
-1486947387 c:\users\zachary\documents\github\zengine\z\core\string\char_is_whitespace.h
+1486949178 c:\users\zachary\documents\github\zengine\z\core\string\char_is_whitespace.h
 
-1486947387 c:\users\zachary\documents\github\zengine\z\core\string\depad_string.h
+1486949178 c:\users\zachary\documents\github\zengine\z\core\string\depad_string.h
 	"string.h"
 
-1486947387 c:\users\zachary\documents\github\zengine\z\core\string\eval_string.h
+1486949178 c:\users\zachary\documents\github\zengine\z\core\string\eval_string.h
 	"../string.h"
 	"char_is_alphanumeric.h"
 
-1486947387 c:\users\zachary\documents\github\zengine\z\core\string\pad_string.h
+1486949178 c:\users\zachary\documents\github\zengine\z\core\string\pad_string.h
 	"../string.h"
 
-1486947387 c:\users\zachary\documents\github\zengine\z\core\string\string_lower.h
+1486949178 c:\users\zachary\documents\github\zengine\z\core\string\string_lower.h
 	"../string.h"
 
-1486947387 c:\users\zachary\documents\github\zengine\z\core\string\string_upper.h
+1486949178 c:\users\zachary\documents\github\zengine\z\core\string\string_upper.h
 	"../string.h"
 
-1486947387 c:\users\zachary\documents\github\zengine\z\core\string\string_remove_whitespace.h
+1486949178 c:\users\zachary\documents\github\zengine\z\core\string\string_remove_whitespace.h
 	"../string.h"
 	"char_is_whiteSpace.h"
 
-1486948832 c:\users\zachary\documents\github\zengine\z\script\load_operators.h
+1486949178 c:\users\zachary\documents\github\zengine\z\script\load_operators.h
 	"operators/oper_t.h"
 	"../file/list_files_in_dir.h"
 	"../core/string.h"
 	"../core/sorted_ref_array.h"
 	"../core/loadLibrary.h"
 
-1486947387 c:\users\zachary\documents\github\zengine\z\script\operators\oper_t.h
+1486949178 c:\users\zachary\documents\github\zengine\z\script\operators\oper_t.h
 	<stdint.h>
 	"../../core/string.h"
 	"../script_errors.h"
 	"../../core/dynamicStack.h"
 
-1486947387 c:\users\zachary\documents\github\zengine\z\script\script_errors.h
+1486949179 c:\users\zachary\documents\github\zengine\z\script\script_errors.h
 
-1486947387 c:\users\zachary\documents\github\zengine\z\core\dynamicstack.h
+1486949178 c:\users\zachary\documents\github\zengine\z\core\dynamicstack.h
 
-1486947387 c:\users\zachary\documents\github\zengine\z\file\list_files_in_dir.h
+1486949178 c:\users\zachary\documents\github\zengine\z\file\list_files_in_dir.h
 	"../core/string.h"
 	"../core/array.h"
 	<windows.h>
 
-1486947387 c:\users\zachary\documents\github\zengine\z\core\array.h
+1486949178 c:\users\zachary\documents\github\zengine\z\core\array.h
 	<vector>
 
-1486947387 c:\users\zachary\documents\github\zengine\z\core\loadlibrary.h
+1486949178 c:\users\zachary\documents\github\zengine\z\core\loadlibrary.h
 	"string.h"
 	<stdint.h>
 	<windows.h>
@@ -2052,5 +2052,6 @@
 	"./array.h"
 	<iostream>
 
-1486948919 c:\users\zachary\documents\github\zengine\z\core\sorted_ref_array.h
+1486949217 c:\users\zachary\documents\github\zengine\z\core\sorted_ref_array.h
+	"array.h"
 

@@ -17,6 +17,8 @@
 #ifndef SORTED_REF_ARRAY_H_INCLUDED
 #define SORTED_REF_ARRAY_H_INCLUDED
 
+#include "array.h"
+
 namespace z
 {
     namespace core

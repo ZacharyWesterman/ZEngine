@@ -1,6 +1,6 @@
 #include "z/core/string.h"
 
-//#include "z/script/scanner.h"
+#include "z/script/scanner.h"
 
 #include "z/script/load_operators.h"
 
@@ -18,11 +18,11 @@ int main()
 
     //operators.sort();
 
-    for (int i=0; i<operators.size(); i++)
-        cout << operators[i]->str().str() << endl;
+    //for (int i=0; i<operators.size(); i++)
+      //  cout << operators[i]->str().str() << endl;
 
     //test the pre-parser
-    /*z::script::scanner<char>* S;
+    z::script::scanner<char>* S;
     S = new z::script::scanner<char>(operators);
 
     cout << "err[" << S->scan("bool = a and b") << "]\n";
@@ -33,7 +33,7 @@ int main()
     }
 
 
-    delete S;*/
+    delete S;
 
 
 

@@ -30,7 +30,7 @@
 #include "z/script/operators/not.h"
 
 
-__declspec(dllexport) void __cdecl get_opers_c(z::core::sorted_array< z::script::oper::oper_t<char>* >* output)
+__declspec(dllexport) void __cdecl get_opers_c(z::core::array< z::script::oper::oper_t<char>* >* output)
 {
     if (output)
     {
@@ -68,7 +68,7 @@ __declspec(dllexport) void __cdecl get_opers_c(z::core::sorted_array< z::script:
     }
 }
 
-__declspec(dllexport) void __cdecl get_opers_w(z::core::sorted_array< z::script::oper::oper_t<wchar_t>* >* output)
+__declspec(dllexport) void __cdecl get_opers_w(z::core::array< z::script::oper::oper_t<wchar_t>* >* output)
 {
     if (output)
     {

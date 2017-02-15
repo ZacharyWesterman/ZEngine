@@ -25,11 +25,17 @@ int main()
     z::script::scanner<char>* S;
     S = new z::script::scanner<char>(operators);
 
-    cout << "err[" << S->scan("bool = a and b") << "]\n";
+
+    z::script::error_flag err = z::script::error::NONE;
+
+    err |= S->scan("bool a and b");
+    err |= S->clean();
+
+    cout << "err[" << err << "]\n";
 
     for (int i=0; i<S->arr.size(); i++)
     {
-        cout << S->arr[i].str.str() << '\t' << S->arr[i].type << endl;
+        cout << S->arr[i].str.str() << "\t[" << S->arr[i].line << ',' << S->arr[i].column << "]\n";
     }
 
 

@@ -44,7 +44,8 @@ namespace z
                 BRACE,
                 DELIMITER,
 
-                LITERAL,
+                NUMBER_LITERAL,
+                STRING_LITERAL,
 
                 VARIABLE,
                 ELEMENT,
@@ -63,10 +64,16 @@ namespace z
             core::string<CHAR> str;
             ident::ident_enum type;
 
-            ident_t (core::string<CHAR> s, ident::ident_enum t)
+            int line;
+            int column;
+
+            ident_t (core::string<CHAR> s, ident::ident_enum t, int lin, int col)
             {
                 str = s;
                 type = t;
+
+                line = lin;
+                column = col;
             }
 
             bool operator==(const ident_t& other) const
@@ -95,6 +102,7 @@ namespace z
 
 
             error_flag scan(const core::string<CHAR>&);
+            error_flag clean();
 
             error_flag list_opers(const core::string<CHAR>&,
                                   core::array< ident_t<CHAR> >&) const;
@@ -120,6 +128,12 @@ namespace z
             core::string<CHAR> esc_quote;
             esc_sequence_name(ESC_SEQUENCE::QUOTE, esc_quote);
 
+            int X = 0;
+            int Y = 0;
+
+            int line = 0;
+            int col = 0;
+
             for (int i=0; i<input.length(); i++)
             {
                 if (input[i] == (CHAR)34)
@@ -128,21 +142,27 @@ namespace z
                     {
                         if (current_string.length() > 0)
                         {
-                            arr.add(ident_t<CHAR>(current_string, current_type));
+                            arr.add(ident_t<CHAR>(current_string, current_type, line, col));
                             current_string.clear();
+
+                            line = Y;
+                            col = X;
                         }
                         in_string = true;
                         out_of_string = false;
 
-                        current_type = ident::LITERAL;
+                        current_type = ident::STRING_LITERAL;
                     }
                     else
                     {
                         out_of_string = true;
                         current_string += input[i];
 
-                        arr.add(ident_t<CHAR>(current_string, current_type));
+                        arr.add(ident_t<CHAR>(current_string, current_type, line, col));
                         current_string.clear();
+
+                        line = Y;
+                        col = X;
                     }
                 }
 
@@ -154,56 +174,80 @@ namespace z
                     {
                         if (current_string.length() > 0)
                         {
-                            arr.add(ident_t<CHAR>(current_string, current_type));
+                            arr.add(ident_t<CHAR>(current_string, current_type, line, col));
                             current_string.clear();
                         }
+
+                        line = Y;
+                        col = X;
                     }
                     else if (input[i] == (CHAR)44) //commas are the default delimiters
                     {
                         if (current_string.length() > 0)
                         {
-                            arr.add(ident_t<CHAR>(current_string, current_type));
+                            arr.add(ident_t<CHAR>(current_string, current_type, line, col));
                             current_string.clear();
+
+                            line = Y;
+                            col = X;
                         }
 
                         current_type = ident::DELIMITER;
-                        arr.add(ident_t<CHAR>(input[i], current_type));
+                        arr.add(ident_t<CHAR>(input[i], current_type, line, col));
+
+                        line = Y;
+                        col = X;
                     }
                     else if ((input[i] == (CHAR)40) || //open parentheses
                              (input[i] == (CHAR)41))   //closed parentheses
                     {
                         if (current_string.length() > 0)
                         {
-                            arr.add(ident_t<CHAR>(current_string, current_type));
+                            arr.add(ident_t<CHAR>(current_string, current_type, line, col));
                             current_string.clear();
+
+                            line = Y;
+                            col = X;
                         }
 
                         current_type = ident::PARENTH;
-                        arr.add(ident_t<CHAR>(input[i], current_type));
+                        arr.add(ident_t<CHAR>(input[i], current_type, line, col));
                     }
                     else if ((input[i] == (CHAR)91) || //open bracket
                              (input[i] == (CHAR)93))   //closed bracket
                     {
                         if (current_string.length() > 0)
                         {
-                            arr.add(ident_t<CHAR>(current_string, current_type));
+                            arr.add(ident_t<CHAR>(current_string, current_type, line, col));
                             current_string.clear();
+
+                            line = Y;
+                            col = X;
                         }
 
                         current_type = ident::ELEMENT;
-                        arr.add(ident_t<CHAR>(input[i], current_type));
+                        arr.add(ident_t<CHAR>(input[i], current_type, line, col));
+
+                        line = Y;
+                        col = X;
                     }
                     else if ((input[i] == (CHAR)123) || //open curly brace
                              (input[i] == (CHAR)125))   //closed curly brace
                     {
                         if (current_string.length() > 0)
                         {
-                            arr.add(ident_t<CHAR>(current_string, current_type));
+                            arr.add(ident_t<CHAR>(current_string, current_type, line, col));
                             current_string.clear();
+
+                            line = Y;
+                            col = X;
                         }
 
                         current_type = ident::BRACE;
-                        arr.add(ident_t<CHAR>(input[i], current_type));
+                        arr.add(ident_t<CHAR>(input[i], current_type, line, col));
+
+                        line = Y;
+                        col = X;
                     }
                     else if (core::is_alphanumeric(input[i]) || //alphanumeric
                             (input[i] == (CHAR)46) || //or decimal
@@ -214,6 +258,9 @@ namespace z
                         {
                             split_errors |= list_opers(current_string, arr);
                             current_string.clear();
+
+                            line = Y;
+                            col = X;
                         }
 
                         current_string += input[i];
@@ -224,8 +271,11 @@ namespace z
                         if ((current_type != ident::OPERATOR) &&
                             (current_string.length() > 0))
                         {
-                            arr.add(ident_t<CHAR>(current_string, current_type));
+                            arr.add(ident_t<CHAR>(current_string, current_type, line, col));
                             current_string.clear();
+
+                            line = Y;
+                            col = X;
                         }
 
 
@@ -252,6 +302,27 @@ namespace z
                         in_string = false;
                     }
                 }
+
+
+
+                X++;
+
+                if (input[i] == (CHAR)10)
+                {
+                    if (input[i+1] == (CHAR)13)
+                        i++;
+
+                    Y++;
+                    X = 0;
+                }
+                else if (input[i] == (CHAR)13)
+                {
+                    if (input[i+1] == (CHAR)10)
+                        i++;
+
+                    Y++;
+                    X = 0;
+                }
             }
 
 
@@ -260,13 +331,22 @@ namespace z
                 if (current_type == ident::OPERATOR)
                     split_errors |= list_opers(current_string, arr);
                 else
-                    arr.add(ident_t<CHAR>(current_string, current_type));
+                    arr.add(ident_t<CHAR>(current_string, current_type, line, col));
             }
 
 
+            return split_errors;
+        }
+
+
+
+        template <typename CHAR>
+        error_flag scanner<CHAR>::clean()
+        {
             check_for_operators();
 
-            return split_errors;
+
+            return error::NONE;
         }
 
 
@@ -316,9 +396,16 @@ namespace z
 
             if (oper_error == error::NONE)
             {
+                int x_offset = 0;
+                int line = output[output.size()-1].line;
+                int column = output[output.size()-1].column;
+
                 for (int i=0; i<temp_opers.size(); i++)
                 {
-                    output.add(ident_t<CHAR>(temp_opers[i], ident::OPERATOR));
+                    output.add(ident_t<CHAR>(temp_opers[i], ident::OPERATOR,
+                                             line, column + x_offset));
+
+                    x_offset += temp_opers[i].length();
                 }
             }
 

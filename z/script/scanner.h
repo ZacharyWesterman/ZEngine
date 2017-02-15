@@ -24,6 +24,8 @@
 
 #include "operators/oper_t.h"
 
+#include "identity.h"
+
 #include <iostream>
 using namespace std;
 
@@ -31,59 +33,6 @@ namespace z
 {
     namespace script
     {
-        namespace ident
-        {
-            enum ident_enum
-            {
-                NONE = 0,
-
-                IDENTIFIER,
-                OPERATOR,
-
-                PARENTH,
-                BRACE,
-                DELIMITER,
-
-                NUMBER_LITERAL,
-                STRING_LITERAL,
-
-                VARIABLE,
-                ELEMENT,
-
-                FUNCTION,
-                COMMAND,
-                UNKNOWN
-            };
-
-        }
-
-        template <typename CHAR>
-        class ident_t
-        {
-        public:
-            core::string<CHAR> str;
-            ident::ident_enum type;
-
-            int line;
-            int column;
-
-            ident_t (core::string<CHAR> s, ident::ident_enum t, int lin, int col)
-            {
-                str = s;
-                type = t;
-
-                line = lin;
-                column = col;
-            }
-
-            bool operator==(const ident_t& other) const
-            {
-                return ((type == other.type) &&
-                        (str == other.str));
-            }
-        };
-
-
 
         template <typename CHAR>
         class scanner

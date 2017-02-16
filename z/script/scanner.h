@@ -50,8 +50,8 @@ namespace z
             }
 
 
-            error_flag scan(const core::string<CHAR>&);
-            error_flag clean();
+            void scan(const core::string<CHAR>&);
+            void clean();
 
             error_flag list_opers(const core::string<CHAR>&,
                                   core::array< ident_t<CHAR> >&) const;
@@ -61,241 +61,149 @@ namespace z
 
 
         template <typename CHAR>
-        error_flag scanner<CHAR>::scan(const core::string<CHAR>& input)
+        void scanner<CHAR>::scan(const core::string<CHAR>& input)
         {
             arr.clear();
-
-            error_flag split_errors = error::NONE;
 
             bool in_string = false;
             bool out_of_string = true;
 
 
-            core::string<CHAR> current_string;
-            ident::ident_enum current_type = ident::NONE;
-
-            core::string<CHAR> esc_quote;
-            esc_sequence_name(ESC_SEQUENCE::QUOTE, esc_quote);
-
-            int X = 0;
-            int Y = 0;
+            core::string<CHAR> NL = "\n";
+            core::string<CHAR> CR = "\r";
 
             int line = 0;
-            int col = 0;
+            int column = 0;
+
+
+            ident_t<CHAR> current_ident (ident::NONE, 0, 0);
+            ident::ident_enum newIdent = ident::NONE;
+
 
             for (int i=0; i<input.length(); i++)
             {
-                if (input[i] == (CHAR)34)
+                //white space
+                if (core::is_white_space(input[i]))
                 {
-                    if (!in_string)
-                    {
-                        if (current_string.length() > 0)
-                        {
-                            arr.add(ident_t<CHAR>(current_string, current_type, line, col));
-                            current_string.clear();
-
-                            line = Y;
-                            col = X;
-                        }
-                        in_string = true;
-                        out_of_string = false;
-
-                        current_type = ident::STRING_LITERAL;
-                    }
-                    else
-                    {
-                        out_of_string = true;
-                        current_string += input[i];
-
-                        arr.add(ident_t<CHAR>(current_string, current_type, line, col));
-                        current_string.clear();
-
-                        line = Y;
-                        col = X;
-                    }
+                    newIdent = ident::NONE;
                 }
-
-
-                if (!in_string)
+                //generic identifiers
+                else if (core::is_alphanumeric(input[i]) ||
+                         (input[i] == (CHAR)46) ||
+                         (input[i] == (CHAR)95))
                 {
-                    //split if we encounter a different type of object
-                    if (core::is_white_space(input[i]))
-                    {
-                        if (current_string.length() > 0)
-                        {
-                            arr.add(ident_t<CHAR>(current_string, current_type, line, col));
-                            current_string.clear();
-                        }
-
-                        line = Y;
-                        col = X;
-                    }
-                    else if (input[i] == (CHAR)44) //commas are the default delimiters
-                    {
-                        if (current_string.length() > 0)
-                        {
-                            arr.add(ident_t<CHAR>(current_string, current_type, line, col));
-                            current_string.clear();
-
-                            line = Y;
-                            col = X;
-                        }
-
-                        current_type = ident::DELIMITER;
-                        arr.add(ident_t<CHAR>(input[i], current_type, line, col));
-
-                        line = Y;
-                        col = X;
-                    }
-                    else if ((input[i] == (CHAR)40) || //open parentheses
-                             (input[i] == (CHAR)41))   //closed parentheses
-                    {
-                        if (current_string.length() > 0)
-                        {
-                            arr.add(ident_t<CHAR>(current_string, current_type, line, col));
-                            current_string.clear();
-
-                            line = Y;
-                            col = X;
-                        }
-
-                        current_type = ident::PARENTH;
-                        arr.add(ident_t<CHAR>(input[i], current_type, line, col));
-                    }
-                    else if ((input[i] == (CHAR)91) || //open bracket
-                             (input[i] == (CHAR)93))   //closed bracket
-                    {
-                        if (current_string.length() > 0)
-                        {
-                            arr.add(ident_t<CHAR>(current_string, current_type, line, col));
-                            current_string.clear();
-
-                            line = Y;
-                            col = X;
-                        }
-
-                        current_type = ident::ELEMENT;
-                        arr.add(ident_t<CHAR>(input[i], current_type, line, col));
-
-                        line = Y;
-                        col = X;
-                    }
-                    else if ((input[i] == (CHAR)123) || //open curly brace
-                             (input[i] == (CHAR)125))   //closed curly brace
-                    {
-                        if (current_string.length() > 0)
-                        {
-                            arr.add(ident_t<CHAR>(current_string, current_type, line, col));
-                            current_string.clear();
-
-                            line = Y;
-                            col = X;
-                        }
-
-                        current_type = ident::BRACE;
-                        arr.add(ident_t<CHAR>(input[i], current_type, line, col));
-
-                        line = Y;
-                        col = X;
-                    }
-                    else if (core::is_alphanumeric(input[i]) || //alphanumeric
-                            (input[i] == (CHAR)46) || //or decimal
-                            (input[i] == (CHAR)95)) //or underscore
-                    {
-                        if ((current_type != ident::IDENTIFIER) &&
-                            (current_string.length() > 0))
-                        {
-                            split_errors |= list_opers(current_string, arr);
-                            current_string.clear();
-
-                            line = Y;
-                            col = X;
-                        }
-
-                        current_string += input[i];
-                        current_type = ident::IDENTIFIER;
-                    }
-                    else //assume we have an operator
-                    {
-                        if ((current_type != ident::OPERATOR) &&
-                            (current_string.length() > 0))
-                        {
-                            arr.add(ident_t<CHAR>(current_string, current_type, line, col));
-                            current_string.clear();
-
-                            line = Y;
-                            col = X;
-                        }
-
-
-                        current_string += input[i];
-                        current_type = ident::OPERATOR;
-                    }
+                    newIdent = ident::IDENTIFIER;
+                }
+                //parentheses
+                else if (input[i] == (CHAR)40)
+                {
+                    newIdent = ident::LPARENTH;
+                }
+                else if (input[i] == (CHAR)41)
+                {
+                    newIdent = ident::RPARENTH;
+                }
+                //brackets
+                else if (input[i] == (CHAR)91)
+                {
+                    newIdent = ident::LBRACKET;
+                }
+                else if (input[i] == (CHAR)93)
+                {
+                    newIdent = ident::RBRACKET;
+                }
+                //curly braces
+                else if (input[i] == (CHAR)123)
+                {
+                    newIdent = ident::LBRACE;
+                }
+                else if (input[i] == (CHAR)125)
+                {
+                    newIdent = ident::RBRACE;
+                }
+                //comma
+                else if (input[i] == (CHAR)44)
+                {
+                    newIdent = ident::LBRACE;
+                }
+                //semicolon
+                else if (input[i] == (CHAR)59)
+                {
+                    newIdent = ident::RBRACE;
                 }
                 else
                 {
-                    if (!out_of_string)
-                    {
-                        if (input.foundAt(esc_quote, i))
-                        {
-                            current_string += esc_quote;
-                            i += esc_quote.length() - 1;
-                        }
-                        else
-                        {
-                            current_string += input[i];
-                        }
-                    }
-                    else
-                    {
-                        in_string = false;
-                    }
+                    newIdent = ident::UNKNOWN;
                 }
 
 
-
-                X++;
-
-                if (input[i] == (CHAR)10)
+                ///If there is a change in the type
+                if (newIdent != current_ident.type)
                 {
-                    if (input[i+1] == (CHAR)13)
-                        i++;
+                    if (current_ident.type)
+                        arr.add(current_ident);
 
-                    Y++;
-                    X = 0;
+                    current_ident.name.clear();
+                    current_ident.type = newIdent;
+
+                    current_ident.line = line;
+                    current_ident.column = column;
+
+                    if (current_ident.type)
+                        current_ident.name += input[i];
+
+                    if ((current_ident.type >= ident::LPARENTH) &&
+                        (current_ident.type <= ident::SEMICOLON))
+                    {
+                        arr.add(current_ident);
+                        current_ident.name.clear();
+
+                        current_ident.type = ident::NONE;
+                        newIdent = ident::NONE;
+                    }
                 }
-                else if (input[i] == (CHAR)13)
+                else if (current_ident.type)
                 {
-                    if (input[i+1] == (CHAR)10)
+                    current_ident.name += input[i];
+                }
+
+
+                //update current line and column
+                if (input.foundAt(NL, i))
+                {
+                    if (input.foundAt(CR, i+1))
                         i++;
 
-                    Y++;
-                    X = 0;
+                    line++;
+                    column = 0;
+                }
+                else if (input.foundAt(CR, i))
+                {
+                    if (input.foundAt(NL, i+1))
+                        i++;
+
+                    line++;
+                    column = 0;
+                }
+                else
+                {
+                    column++;
                 }
             }
 
 
-            if (current_string.length() > 0)
+            if (current_ident.type)
             {
-                if (current_type == ident::OPERATOR)
-                    split_errors |= list_opers(current_string, arr);
-                else
-                    arr.add(ident_t<CHAR>(current_string, current_type, line, col));
+                arr.add(current_ident);
             }
-
-
-            return split_errors;
         }
 
 
 
         template <typename CHAR>
-        error_flag scanner<CHAR>::clean()
+        void scanner<CHAR>::clean()
         {
             check_for_operators();
-
-
-            return error::NONE;
         }
 
 
@@ -373,7 +281,7 @@ namespace z
                 {
                     for (int o=0; o<(opers->size()); o++)
                     {
-                        if (arr[i].str == opers->at(o)->str())
+                        if (arr[i].name == opers->at(o)->str())
                             arr[i].type = ident::OPERATOR;
                     }
                 }

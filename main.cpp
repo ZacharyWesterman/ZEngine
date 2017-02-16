@@ -26,16 +26,18 @@ int main()
     S = new z::script::scanner<char>(operators);
 
 
-    z::script::error_flag err = z::script::error::NONE;
 
-    err |= S->scan("bool a and b");
-    err |= S->clean();
+    z::core::string<char> input = "a = {1,2,3,4}; print 10*(2+ a[2]-1);";
 
-    cout << "err[" << err << "]\n";
+    S->scan(input);
+    //S->clean();
+
+    cout << input.str() << "\n\n";
 
     for (int i=0; i<S->arr.size(); i++)
     {
-        cout << S->arr[i].str.str() << "\t[" << S->arr[i].line << ',' << S->arr[i].column << "]\n";
+        cout << S->arr[i].name.str() << "\t(" << S->arr[i].type;
+        cout << ")\t[" << S->arr[i].line << ',' << S->arr[i].column << "]\n";
     }
 
 

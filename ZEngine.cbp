@@ -82,6 +82,7 @@
 		<Unit filename="z/script/expression.h" />
 		<Unit filename="z/script/functionalExpression.h" />
 		<Unit filename="z/script/functions.h" />
+		<Unit filename="z/script/identity.h" />
 		<Unit filename="z/script/is_script_string.h" />
 		<Unit filename="z/script/is_valid_script_name.h" />
 		<Unit filename="z/script/load_operators.h" />

@@ -44,10 +44,8 @@ namespace z
             ///Stream output operator when left operand is a string
             stream& operator<<(const string<CHAR>& arg2)
             {
-                CHAR STX = 2; //start of text
                 CHAR ETX = 3; //end of text
 
-                data += STX;
                 data += arg2 + ETX;
 
                 return *this;
@@ -72,30 +70,27 @@ namespace z
 
 
             ///Stream input operator for strings
-            /*stream& operator>>(string<CHAR>& arg2)
+            stream& operator>>(string<CHAR>& arg2)
             {
-                CHAR STX = 2; //start of text
                 CHAR ETX = 3; //end of text
 
 
-                int start = data.find(STX);
                 int stop  = data.find(ETX);
 
-                if ((start <= -1) ||
-                    (stop  <= -1))
+                if (stop  <= -1)
                 {
                     arg2.clear();
                     data.clear();
                 }
                 else
                 {
-                    arg2 = data.substr(start+1, stop-1);
+                    arg2 = data.substr(0, stop-1);
 
                     data.remove(0, stop);
                 }
 
                 return *this;
-            }*/
+            }
 
 
             ///Stream input operator for numerical types
@@ -105,14 +100,12 @@ namespace z
             >
             stream& operator>>(T& arg2)
             {
-                CHAR STX = 2; //start of text
                 CHAR ETX = 3; //end of text
 
 
-                int start = data.find(STX);
                 int stop  = data.find(ETX);
 
-                arg2 = (T)value(data.substr(start+1, stop-1));
+                arg2 = (T)value(data.substr(0, stop-1));
 
                 data.remove(0, stop);
 
@@ -120,6 +113,42 @@ namespace z
                 return *this;
             }
 
+
+            void shift_in()
+            {
+                CHAR SI = 15; //shift-in
+
+                data += SI;
+            }
+
+            void shift_out()
+            {
+                CHAR SO = 14; //shift-out
+
+                data += SO;
+            }
+
+            stream pop()
+            {
+                CHAR SI = 15; //shift-in
+                CHAR SO = 14; //shift-out
+
+                int start = data.find(SI);
+                int stop  = data.find(SO);
+
+
+                stream output;
+
+                if ((start > -1) &&
+                    (stop > -1))
+                {
+                    output.data = data.substr(start+1, stop-1);
+
+                    data.remove(start, stop);
+                }
+
+                return output;
+            }
         };
 
 
@@ -131,11 +160,9 @@ namespace z
         {
             stream<char> output;
 
-            char STX = 2; //start of text
             char ETX = 3; //end of text
 
-            output.data = STX;
-            output.data += arg1 + ETX;
+            output.data = arg1 + ETX;
             output.data += arg2.data;
 
             return output;
@@ -147,11 +174,9 @@ namespace z
         {
             stream<wchar_t> output;
 
-            wchar_t STX = 2; //start of text
             wchar_t ETX = 3; //end of text
 
-            output.data = STX;
-            output.data += arg1 + ETX;
+            output.data = arg1 + ETX;
             output.data += arg2.data;
 
             return output;
@@ -163,12 +188,9 @@ namespace z
         {
             stream<char> output;
 
-            char STX = 2; //start of text
             char ETX = 3; //end of text
 
-            output.data = STX;
-            output.data += arg1 + ETX;
-            output.data += STX;
+            output.data = arg1 + ETX;
             output.data += arg2 + ETX;
 
             return output;
@@ -180,12 +202,9 @@ namespace z
         {
             stream<wchar_t> output;
 
-            wchar_t STX = 2; //start of text
             wchar_t ETX = 3; //end of text
 
-            output.data = STX;
-            output.data += arg1 + ETX;
-            output.data += STX;
+            output.data = arg1 + ETX;
             output.data += arg2 + ETX;
 
             return output;

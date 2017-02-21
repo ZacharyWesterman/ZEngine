@@ -9,14 +9,33 @@ using namespace std;
 
 #include "z/core/sorted_ref_array.h"
 
+#include "z/core/stream.h"
+
+using namespace z;
+
 int main()
 {
-    z::core::string<char> s1("string1"), s2("string2"), full;
+    core::string<char> s1("string1"), s2("string2");
 
-    full = s1 << s2;
+    core::stream<char> ss1 = s1 << s2;
+
+
+    cout << "|" << ss1.str() << endl;
+
+    ss1 >> s2 >> s1;
+
+    cout << "|" << ss1.str() << endl;
+
+    cout << "[" << s1.str() << "]\n";
+    cout << "[" << s2.str() << "]\n";
+
+
+    /*z::core::string<char> s1("string1"), s2("string2"), s3("string3"), full;
+
+    full = s1 << s2 << s3;
 
     for (int i=0; i<full.length(); i++)
-        cout << (int)full[i] << endl;
+        cout << (int)full[i] << endl;*/
 
     //load operators
     /*z::core::sorted_ref_array< z::script::oper::oper_t<char>* > operators;

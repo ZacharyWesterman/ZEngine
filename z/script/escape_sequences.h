@@ -59,7 +59,7 @@ namespace z
             {
                 "",//NONE
                 "\"",//QUOTE (\")
-                "\n",//NEWLINE (\n)
+                "\r\n",//NEWLINE (\n)
                 "\t",//TAB (\t)
                 "\\",//BACKSLASH (\)
             };
@@ -68,7 +68,7 @@ namespace z
             {
                 L"",//NONE
                 L"\"",//QUOTE (\")
-                L"\n",//NEWLINE (\n)
+                L"\r\n",//NEWLINE (\n)
                 L"\t",//TAB (\t)
                 L"\\",//BACKSLASH (\)
             };

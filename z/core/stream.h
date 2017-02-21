@@ -60,11 +60,40 @@ namespace z
             }
 
 
+            ///Other stream output operators
             friend stream<char> operator<<(const string<char>&, const stream<char>&);
             friend stream<wchar_t> operator<<(const string<wchar_t>&, const stream<wchar_t>&);
 
             friend stream<char> operator<<(const string<char>&, const string<char>&);
             friend stream<wchar_t> operator<<(const string<wchar_t>&, const string<wchar_t>&);
+
+
+
+            ///Stream input operator
+            stream& operator>>(string<CHAR>& arg2)
+            {
+                CHAR STX = 2; //start of text
+                CHAR ETX = 3; //end of text
+
+
+                int start = data.find(STX);
+                int stop  = data.find(ETX);
+
+                if ((start <= -1) ||
+                    (stop  <= -1))
+                {
+                    arg2.clear();
+                    data.clear();
+                }
+                else
+                {
+                    arg2 = data.substr(start+1, stop-1);
+
+                    data.remove(0, stop);
+                }
+
+                return *this;
+            }
         };
 
 

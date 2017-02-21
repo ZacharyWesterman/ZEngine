@@ -33,37 +33,105 @@ namespace z
             string<CHAR> data;
 
         public:
-            stream()
-            {
-                array_data = new CHAR[1];
-                array_data[0] = null;
-
-                array_length = 1;
-            }
-
-            ~stream()
-            {
-                delete[] array_data;
-            }
 
             int length() {return data.length();}
 
             const CHAR* str() {return data.str();}
 
 
+            ///Stream output operator when left operand is a string
+            stream& operator<<(const string<CHAR>& arg2)
+            {
+                CHAR STX = 2; //start of text
+                CHAR ETX = 3; //end of text
+
+                data += STX;
+                data += arg2 + ETX;
+
+                return *this;
+            }
+
+            ///Stream output operator when both operands are streams
+            stream& operator<<(const stream& arg2)
+            {
+                data += arg2.data;
+
+                return *this;
+            }
+
+
+            friend stream<char> operator<<(const string<char>&, const stream<char>&);
+            friend stream<wchar_t> operator<<(const string<wchar_t>&, const stream<wchar_t>&);
+
+            friend stream<char> operator<<(const string<char>&, const string<char>&);
+            friend stream<wchar_t> operator<<(const string<wchar_t>&, const string<wchar_t>&);
         };
 
 
-        ///Stream output operator for strings
-        template <typename CHAR>
-        stream<CHAR> operator<<(const string<CHAR>& arg1, const string& other) const
-        {
-            CHAR STX = 2; //start of text
-            CHAR ETX = 3; //end of text
 
-            string output = *this + ETX;
-            output += STX;
-            output += other;
+
+
+        ///Stream output operator when right operand is a string (narrow chars)
+        stream<char> operator<<(const string<char>& arg1, const stream<char>& arg2)
+        {
+            stream<char> output;
+
+            char STX = 2; //start of text
+            char ETX = 3; //end of text
+
+            output.data = STX;
+            output.data += arg1 + ETX;
+            output.data += arg2.data;
+
+            return output;
+        }
+
+
+        ///Stream output operator when right operand is a string (wide chars)
+        stream<wchar_t> operator<<(const string<wchar_t>& arg1, const stream<wchar_t>& arg2)
+        {
+            stream<wchar_t> output;
+
+            wchar_t STX = 2; //start of text
+            wchar_t ETX = 3; //end of text
+
+            output.data = STX;
+            output.data += arg1 + ETX;
+            output.data += arg2.data;
+
+            return output;
+        }
+
+
+        ///Stream output operator when both operands are strings (narrow chars)
+        stream<char> operator<<(const string<char>& arg1, const string<char>& arg2)
+        {
+            stream<char> output;
+
+            char STX = 2; //start of text
+            char ETX = 3; //end of text
+
+            output.data = STX;
+            output.data += arg1 + ETX;
+            output.data += STX;
+            output.data += arg2 + ETX;
+
+            return output;
+        }
+
+
+        ///Stream output operator when both operands are strings (wide chars)
+        stream<wchar_t> operator<<(const string<wchar_t>& arg1, const string<wchar_t>& arg2)
+        {
+            stream<wchar_t> output;
+
+            wchar_t STX = 2; //start of text
+            wchar_t ETX = 3; //end of text
+
+            output.data = STX;
+            output.data += arg1 + ETX;
+            output.data += STX;
+            output.data += arg2 + ETX;
 
             return output;
         }

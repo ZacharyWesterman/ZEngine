@@ -7,7 +7,7 @@
  *
  * Author:          Zachary Westerman
  * Email:           zacharywesterman@yahoo.com
- * Last modified:   3 Feb. 2017
+ * Last modified:   21 Feb. 2017
 **/
 
 #pragma once
@@ -15,6 +15,8 @@
 #define ARRAY_H_INCLUDED
 
 #include <vector>
+
+#include "stream.h"
 
 namespace z
 {
@@ -235,6 +237,39 @@ namespace z
             {
                 return array_data.at(index);
             }
+        }
+
+
+
+        ///Stream output template (from array)
+        template <typename CHAR, typename T>
+        stream<CHAR>& operator<<(stream<CHAR>& arg1, const array<T>& arg2)
+        {
+            arg1.shift_in();
+
+            for (int i=0; i<arg2.size(); i++)
+                arg1 << arg2[i];
+
+            arg1.shift_out();
+
+            return arg1;
+        }
+
+        ///Stream input template (to array)
+        template <typename CHAR, typename T>
+        stream<CHAR>& operator>>(stream<CHAR>& arg1, array<T>& arg2)
+        {
+            stream<CHAR> data = arg1.pop();
+
+            while(!data.isEmpty())
+            {
+                T item;
+                data >> item;
+
+                arg2.add(item);
+            }
+
+            return arg1;
         }
     }
 }

@@ -71,6 +71,8 @@ namespace z
 
             error_flag err;
 
+            void* meta;
+
             ///constructor with no name, as name may not be needed.
             ident_t (ident::ident_enum t, int lin, int col)
             {
@@ -81,6 +83,8 @@ namespace z
 
 
                 err = error::NONE;
+
+                meta = NULL;
             }
 
             ///full constructor
@@ -93,6 +97,8 @@ namespace z
                 column = col;
 
                 err = error::NONE;
+
+                meta = NULL;
             }
 
 

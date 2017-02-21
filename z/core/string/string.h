@@ -381,7 +381,7 @@ namespace z
             }
 
 
-            string(int number)
+            string(long number)
             {
                 string_array = NULL;
                 array_length = 0;
@@ -798,6 +798,21 @@ namespace z
 
 
                 return *this;
+            }
+
+
+
+            ///Stream output operator
+            const string operator<<(const string& other) const
+            {
+                CHAR STX = 2; //start of text
+                CHAR ETX = 3; //end of text
+
+                string output = *this + ETX;
+                output += STX;
+                output += other;
+
+                return output;
             }
         };
 

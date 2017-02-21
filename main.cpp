@@ -11,8 +11,15 @@ using namespace std;
 
 int main()
 {
+    z::core::string<char> s1("string1"), s2("string2"), full;
+
+    full = s1 << s2;
+
+    for (int i=0; i<full.length(); i++)
+        cout << (int)full[i] << endl;
+
     //load operators
-    z::core::sorted_ref_array< z::script::oper::oper_t<char>* > operators;
+    /*z::core::sorted_ref_array< z::script::oper::oper_t<char>* > operators;
 
     z::script::load_operators(&operators, "operators");
 
@@ -64,7 +71,7 @@ int main()
     cout << "; " << (int)';' << ':' << (int)L';' << endl;
     cout << "\\n"<< (int)'\n'<< ':' << (int)L'\n'<< endl;
     cout << "-"<< (int)'-'<< ':' << (int)L'-'<< endl;
-    cout << "+"<< (int)'+'<< ':' << (int)L'+'<< endl;
+    cout << "+"<< (int)'+'<< ':' << (int)L'+'<< endl;*/
 
     return 0;
 }

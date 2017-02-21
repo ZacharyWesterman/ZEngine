@@ -10,7 +10,7 @@
  *
  * Author:          Zachary Westerman
  * Email:           zacharywesterman@yahoo.com
- * Last modified:   5 Feb. 2017
+ * Last modified:   20 Feb. 2017
 **/
 
 #pragma once

@@ -13,29 +13,43 @@ using namespace std;
 
 using namespace z;
 
+void bitstream(const core::stream<char>& input)
+{
+    for (int i=0; i<input.length(); i++)
+        cout << (int)input.str()[i] << endl;
+}
+
 int main()
 {
-    core::string<char> s1("string1"), s2("string2");
+    core::stream<char> ss1;
 
-    core::stream<char> ss1 = s1 << s2;
+    core::array<char> arr1, arr2;
 
+    arr1.add('a');
+    arr1.add('b');
+
+    arr2.add('c');
+    arr2.add('d');
+
+
+    ss1 << arr1 << arr2;
 
     cout << "|" << ss1.str() << endl;
 
-    ss1 >> s2 >> s1;
 
-    cout << "|" << ss1.str() << endl;
+    core::array<char> arr3, arr4;
 
-    cout << "[" << s1.str() << "]\n";
-    cout << "[" << s2.str() << "]\n";
+    ss1 >> arr3 >> arr4;
+
+    for (int i=0; i<arr3.size(); i++)
+        cout << arr3[i] << endl;
+
+    cout << endl;
+
+    for (int i=0; i<arr4.size(); i++)
+        cout << arr4[i] << endl;
 
 
-    /*z::core::string<char> s1("string1"), s2("string2"), s3("string3"), full;
-
-    full = s1 << s2 << s3;
-
-    for (int i=0; i<full.length(); i++)
-        cout << (int)full[i] << endl;*/
 
     //load operators
     /*z::core::sorted_ref_array< z::script::oper::oper_t<char>* > operators;

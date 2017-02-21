@@ -49,6 +49,7 @@
 		<Unit filename="z/core/pause.h" />
 		<Unit filename="z/core/sorted_array.h" />
 		<Unit filename="z/core/sorted_ref_array.h" />
+		<Unit filename="z/core/stream.h" />
 		<Unit filename="z/core/string.h" />
 		<Unit filename="z/core/string/char_is_alphanumeric.h" />
 		<Unit filename="z/core/string/char_is_whiteSpace.h" />

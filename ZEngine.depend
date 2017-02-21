@@ -1589,7 +1589,7 @@
 1482454662 k:\zengine\engine\global\script_delay_timer.h
 	"../../core/timer.h"
 
-1487665522 source:c:\users\zachary\documents\github\zengine\main.cpp
+1487670484 source:c:\users\zachary\documents\github\zengine\main.cpp
 	"z/core/string.h"
 	"z/script/scanner.h"
 	"z/script/load_operators.h"
@@ -1979,7 +1979,8 @@
 	"string/string_upper.h"
 	"string/string_remove_whiteSpace.h"
 
-1487661831 c:\users\zachary\documents\github\zengine\z\core\string\string.h
+1487667876 c:\users\zachary\documents\github\zengine\z\core\string\string.h
+	<type_traits>
 	<stdio.h>
 	"convert_char_type.h"
 
@@ -2031,8 +2032,9 @@
 	"../core/array.h"
 	<windows.h>
 
-1486949178 c:\users\zachary\documents\github\zengine\z\core\array.h
+1487670775 c:\users\zachary\documents\github\zengine\z\core\array.h
 	<vector>
+	"stream.h"
 
 1486949178 c:\users\zachary\documents\github\zengine\z\core\loadlibrary.h
 	"string.h"
@@ -2062,6 +2064,7 @@
 	"../core/string.h"
 	"script_errors.h"
 
-1487665614 c:\users\zachary\documents\github\zengine\z\core\stream.h
+1487670743 c:\users\zachary\documents\github\zengine\z\core\stream.h
+	<type_traits>
 	"string.h"
 

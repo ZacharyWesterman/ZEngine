@@ -66,7 +66,6 @@ namespace z
             arr.clear();
 
             bool in_string = false;
-            bool out_of_string = true;
 
 
             core::string<CHAR> NL = "\n";
@@ -82,91 +81,142 @@ namespace z
 
             for (int i=0; i<input.length(); i++)
             {
-                //white space
-                if (core::is_white_space(input[i]))
+                if (in_string)
                 {
-                    newIdent = ident::NONE;
-                }
-                //generic identifiers
-                else if (core::is_alphanumeric(input[i]) ||
-                         (input[i] == (CHAR)46) ||
-                         (input[i] == (CHAR)95))
-                {
-                    newIdent = ident::IDENTIFIER;
-                }
-                //parentheses
-                else if (input[i] == (CHAR)40)
-                {
-                    newIdent = ident::LPARENTH;
-                }
-                else if (input[i] == (CHAR)41)
-                {
-                    newIdent = ident::RPARENTH;
-                }
-                //brackets
-                else if (input[i] == (CHAR)91)
-                {
-                    newIdent = ident::LBRACKET;
-                }
-                else if (input[i] == (CHAR)93)
-                {
-                    newIdent = ident::RBRACKET;
-                }
-                //curly braces
-                else if (input[i] == (CHAR)123)
-                {
-                    newIdent = ident::LBRACE;
-                }
-                else if (input[i] == (CHAR)125)
-                {
-                    newIdent = ident::RBRACE;
-                }
-                //comma
-                else if (input[i] == (CHAR)44)
-                {
-                    newIdent = ident::LBRACE;
-                }
-                //semicolon
-                else if (input[i] == (CHAR)59)
-                {
-                    newIdent = ident::RBRACE;
+                    if (input[i] == (CHAR)34)
+                    {
+                        in_string = false;
+                        i++;
+                    }
+                    else
+                    {
+                        int esc_seq = (int)what_esc_sequence(input, i);
+
+                        if (esc_seq)
+                        {
+                            core::string<CHAR> seq_name;
+                            core::string<CHAR> seq_equiv;
+
+                            esc_sequence_name(esc_seq, seq_name);
+                            esc_sequence_equiv(esc_seq, seq_equiv);
+
+                            current_ident.name += seq_equiv;
+
+                            i += seq_name.length() - 1;
+                            column += seq_name.length() - 1;
+                        }
+                        else
+                        {
+                            current_ident.name += input[i];
+                        }
+                    }
                 }
                 else
                 {
-                    newIdent = ident::UNKNOWN;
-                }
-
-
-                ///If there is a change in the type
-                if (newIdent != current_ident.type)
-                {
-                    if (current_ident.type)
-                        arr.add(current_ident);
-
-                    current_ident.name.clear();
-                    current_ident.type = newIdent;
-
-                    current_ident.line = line;
-                    current_ident.column = column;
-
-                    if (current_ident.type)
-                        current_ident.name += input[i];
-
-                    if ((current_ident.type >= ident::LPARENTH) &&
-                        (current_ident.type <= ident::SEMICOLON))
+                    if (input[i] == (CHAR)34)
                     {
-                        arr.add(current_ident);
-                        current_ident.name.clear();
+                        newIdent = ident::STRING_LITERAL;
+                        in_string = true;
 
-                        current_ident.type = ident::NONE;
-                        newIdent = ident::NONE;
+                        if (current_ident.type)
+                            arr.add(current_ident);
+
+                        current_ident.name.clear();
+                        current_ident.type = newIdent;
+
+                        current_ident.line = line;
+                        current_ident.column = column;
                     }
                 }
-                else if (current_ident.type)
-                {
-                    current_ident.name += input[i];
-                }
 
+
+                if (!in_string)
+                {
+                    //white space
+                    if (core::is_white_space(input[i]))
+                    {
+                        newIdent = ident::NONE;
+                    }
+                    //generic identifiers
+                    else if (core::is_alphanumeric(input[i]) ||
+                             (input[i] == (CHAR)46) ||
+                             (input[i] == (CHAR)95))
+                    {
+                        newIdent = ident::IDENTIFIER;
+                    }
+                    //parentheses
+                    else if (input[i] == (CHAR)40)
+                    {
+                        newIdent = ident::LPARENTH;
+                    }
+                    else if (input[i] == (CHAR)41)
+                    {
+                        newIdent = ident::RPARENTH;
+                    }
+                    //brackets
+                    else if (input[i] == (CHAR)91)
+                    {
+                        newIdent = ident::LBRACKET;
+                    }
+                    else if (input[i] == (CHAR)93)
+                    {
+                        newIdent = ident::RBRACKET;
+                    }
+                    //curly braces
+                    else if (input[i] == (CHAR)123)
+                    {
+                        newIdent = ident::LBRACE;
+                    }
+                    else if (input[i] == (CHAR)125)
+                    {
+                        newIdent = ident::RBRACE;
+                    }
+                    //comma
+                    else if (input[i] == (CHAR)44)
+                    {
+                        newIdent = ident::LBRACE;
+                    }
+                    //semicolon
+                    else if (input[i] == (CHAR)59)
+                    {
+                        newIdent = ident::RBRACE;
+                    }
+                    else
+                    {
+                        newIdent = ident::UNKNOWN;
+                    }
+
+
+                    ///If there is a change in the type
+                    if (newIdent != current_ident.type)
+                    {
+                        if (current_ident.type)
+                            arr.add(current_ident);
+
+                        current_ident.name.clear();
+                        current_ident.type = newIdent;
+
+                        current_ident.line = line;
+                        current_ident.column = column;
+
+                        if (current_ident.type)
+                            current_ident.name += input[i];
+
+                        if ((current_ident.type >= ident::LPARENTH) &&
+                            (current_ident.type <= ident::SEMICOLON))
+                        {
+                            arr.add(current_ident);
+                            current_ident.name.clear();
+
+                            current_ident.type = ident::NONE;
+                            newIdent = ident::NONE;
+                        }
+                    }
+                    else if (current_ident.type)
+                    {
+                        current_ident.name += input[i];
+                    }
+                }
 
                 //update current line and column
                 if (input.foundAt(NL, i))
@@ -189,6 +239,7 @@ namespace z
                 {
                     column++;
                 }
+
             }
 
 

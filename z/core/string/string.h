@@ -25,6 +25,9 @@
     #define null 0
 #endif // null
 
+//this is for initializing numbers properly
+#include <type_traits>
+
 //We use this for converting numbers to strings
 #include <stdio.h>
 
@@ -361,7 +364,7 @@ namespace z
             }
 
 
-            string(char character)
+            explicit string(char character)
             {
                 array_length = 2;
                 string_array = new CHAR[2];
@@ -370,7 +373,7 @@ namespace z
                 string_array[1] = null;
             }
 
-            string(wchar_t character)
+            explicit string(wchar_t character)
             {
                 array_length = 2;
                 string_array = new CHAR[2];
@@ -380,29 +383,21 @@ namespace z
             }
 
 
-            string(long number)
+
+            template<
+                typename T, //real type
+                typename = typename std::enable_if<std::is_arithmetic<T>::value, T>::type
+            >
+            string(T number)
             {
                 string_array = NULL;
                 array_length = 0;
 
                 string String;
 
-                toString(number, String);
+                toString((double)number, String);
 
                 assign_data(String.string_array, String.length());
-            }
-
-            //number assignment constructor
-            string(double number)
-            {
-                string_array = NULL;
-                array_length = 0;
-
-                string String;
-
-                toString(number, String);
-
-                assign_data(String.string_array, String.array_length);
             }
 
 

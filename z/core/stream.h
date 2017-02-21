@@ -16,11 +16,11 @@
 #ifndef STREAM_H_INCLUDED
 #define STREAM_H_INCLUDED
 
+#include "string.h"
+
 #ifndef null
     #define null 0
 #endif // null
-
-extern "string/string.h";
 
 namespace z
 {
@@ -30,8 +30,7 @@ namespace z
         class stream
         {
         private:
-            CHAR* array_data;
-            int array_length;
+            string<CHAR> data;
 
         public:
             stream()
@@ -47,12 +46,27 @@ namespace z
                 delete[] array_data;
             }
 
-            int length() {return (array_length - 1);}
+            int length() {return data.length();}
 
-            const CHAR* str() {return array_data;}
+            const CHAR* str() {return data.str();}
 
 
         };
+
+
+        ///Stream output operator for strings
+        template <typename CHAR>
+        stream<CHAR> operator<<(const string<CHAR>& arg1, const string& other) const
+        {
+            CHAR STX = 2; //start of text
+            CHAR ETX = 3; //end of text
+
+            string output = *this + ETX;
+            output += STX;
+            output += other;
+
+            return output;
+        }
     }
 }
 

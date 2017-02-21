@@ -13,7 +13,7 @@
  *
  * Author:          Zachary Westerman
  * Email:           zacharywesterman@yahoo.com
- * Last modified:   2 Feb. 2017
+ * Last modified:   21 Feb. 2017
 **/
 
 
@@ -38,7 +38,6 @@
 
 
 #include "convert_char_type.h"
-
 
 namespace z
 {
@@ -798,21 +797,6 @@ namespace z
 
 
                 return *this;
-            }
-
-
-
-            ///Stream output operator
-            const string operator<<(const string& other) const
-            {
-                CHAR STX = 2; //start of text
-                CHAR ETX = 3; //end of text
-
-                string output = *this + ETX;
-                output += STX;
-                output += other;
-
-                return output;
             }
         };
 

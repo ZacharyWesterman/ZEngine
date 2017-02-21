@@ -27,7 +27,7 @@ int main()
 
 
 
-    z::core::string<char> input = "a = {1,2,3,4}; print 10*(2+ a[2]-1);";
+    z::core::string<char> input = "\"ten \\nis \" + 10";
 
     S->scan(input);
     //S->clean();

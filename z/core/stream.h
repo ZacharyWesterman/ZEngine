@@ -16,6 +16,8 @@
 #ifndef STREAM_H_INCLUDED
 #define STREAM_H_INCLUDED
 
+#include <type_traits>
+
 #include "string.h"
 
 #ifndef null
@@ -34,9 +36,9 @@ namespace z
 
         public:
 
-            int length() {return data.length();}
+            int length() const {return data.length();}
 
-            const CHAR* str() {return data.str();}
+            const CHAR* str() const {return data.str();}
 
 
             ///Stream output operator when left operand is a string
@@ -69,8 +71,8 @@ namespace z
 
 
 
-            ///Stream input operator
-            stream& operator>>(string<CHAR>& arg2)
+            ///Stream input operator for strings
+            /*stream& operator>>(string<CHAR>& arg2)
             {
                 CHAR STX = 2; //start of text
                 CHAR ETX = 3; //end of text
@@ -93,7 +95,31 @@ namespace z
                 }
 
                 return *this;
+            }*/
+
+
+            ///Stream input operator for numerical types
+            template<
+                typename T, //real type
+                typename = typename std::enable_if<std::is_arithmetic<T>::value, T>::type
+            >
+            stream& operator>>(T& arg2)
+            {
+                CHAR STX = 2; //start of text
+                CHAR ETX = 3; //end of text
+
+
+                int start = data.find(STX);
+                int stop  = data.find(ETX);
+
+                arg2 = (T)value(data.substr(start+1, stop-1));
+
+                data.remove(0, stop);
+
+
+                return *this;
             }
+
         };
 
 

@@ -364,7 +364,7 @@ namespace z
             }
 
 
-            explicit string(char character)
+            string(char character)
             {
                 array_length = 2;
                 string_array = new CHAR[2];
@@ -373,7 +373,7 @@ namespace z
                 string_array[1] = null;
             }
 
-            explicit string(wchar_t character)
+            string(wchar_t character)
             {
                 array_length = 2;
                 string_array = new CHAR[2];

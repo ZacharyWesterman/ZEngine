@@ -92,6 +92,30 @@ namespace z
                 return *this;
             }
 
+            ///Stream input operator for characters
+            stream& operator>>(CHAR& arg2)
+            {
+                CHAR ETX = 3; //end of text
+
+
+                int stop  = data.find(ETX);
+
+                if (stop  <= -1)
+                {
+                    arg2 = null;
+                    data.clear();
+                }
+                else
+                {
+                    arg2 = data[0];
+
+                    data.remove(0, stop);
+                }
+
+                return *this;
+            }
+
+
 
             ///Stream input operator for numerical types
             template<
@@ -149,6 +173,8 @@ namespace z
 
                 return output;
             }
+
+            bool isEmpty() {return (data.length() == 0);}
         };
 
 

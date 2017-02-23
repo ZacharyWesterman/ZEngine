@@ -13,7 +13,7 @@ using namespace std;
 
 using namespace z;
 
-void bitstream(const core::stream<char>& input)
+void charstream(const core::stream<char>& input)
 {
     for (int i=0; i<input.length(); i++)
         cout << (int)input.str()[i] << endl;

@@ -1,3 +1,16 @@
+/**
+ * File:            string.h
+ * Namespace:       none
+ * Description:     Header file which includes all
+ *                  z::core::string related functions
+ *                  and datatypes.
+ *
+ *
+ * Author:          Zachary Westerman
+ * Email:           zacharywesterman@yahoo.com
+ * Last modified:   1 Mar. 2017
+**/
+
 #pragma once
 #ifndef STRINGUTILS_H_INCLUDED
 #define STRINGUTILS_H_INCLUDED

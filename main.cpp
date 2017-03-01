@@ -1,15 +1,11 @@
-#include "z/core/string.h"
+#include <z/core.h>
 
-#include "z/script/scanner.h"
+//#include "z/script/scanner.h"
 
-#include "z/script/load_operators.h"
+//#include "z/script/load_operators.h"
 
 #include <iostream>
 using namespace std;
-
-#include "z/core/sorted_ref_array.h"
-
-#include "z/core/stream.h"
 
 using namespace z;
 
@@ -21,8 +17,21 @@ void charstream(const core::stream<char>& input)
 
 int main()
 {
-    //cout << core::value(core::string<char>("101.234")) << endl;
-    core::stream<char> ss1;
+    core::circular_number<int> min (60, 0), hr (13, 1);
+
+    while (true)
+    {
+        cout << hr.val() << ":" << min.val() << endl;
+
+        min += 10;
+
+        hr += min.overflow();
+
+        core::pause(300);
+    }
+
+
+    /*core::stream<char> ss1;
 
     core::array<char> arr1, arr2;
 
@@ -48,7 +57,7 @@ int main()
     cout << endl;
 
     for (int i=0; i<arr4.size(); i++)
-        cout << arr4[i] << endl;
+        cout << arr4[i] << endl;*/
 
 
 

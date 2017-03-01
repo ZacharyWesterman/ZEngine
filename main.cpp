@@ -21,6 +21,7 @@ void charstream(const core::stream<char>& input)
 
 int main()
 {
+    //cout << core::value(core::string<char>("101.234")) << endl;
     core::stream<char> ss1;
 
     core::array<char> arr1, arr2;

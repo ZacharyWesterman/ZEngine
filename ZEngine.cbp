@@ -17,6 +17,7 @@
 					<Add option="-g" />
 					<Add option="-U__STRICT_ANSI__" />
 					<Add directory="C:/Users/Zachary/Documents/irrlicht-1.8.4/include" />
+					<Add directory="C:/Users/Zachary/Documents/GitHub/ZEngine/" />
 				</Compiler>
 				<Linker>
 					<Add library="libIrrlicht.a" />
@@ -41,6 +42,7 @@
 			<Add option="-fexceptions" />
 		</Compiler>
 		<Unit filename="main.cpp" />
+		<Unit filename="z/core.h" />
 		<Unit filename="z/core/array.h" />
 		<Unit filename="z/core/binaryTree.h" />
 		<Unit filename="z/core/circular_number.h" />

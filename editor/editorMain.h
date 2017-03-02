@@ -11,8 +11,11 @@
 #define EDITORMAIN_H
 
 //(*Headers(editorFrame)
+#include <wx/notebook.h>
 #include <wx/sizer.h>
 #include <wx/menu.h>
+#include <wx/textctrl.h>
+#include <wx/statbox.h>
 #include <wx/panel.h>
 #include <wx/frame.h>
 #include <wx/statusbr.h>
@@ -33,6 +36,9 @@ class editorFrame: public wxFrame
         //*)
 
         //(*Identifiers(editorFrame)
+        static const long ID_TEXTCTRL1;
+        static const long ID_NOTEBOOK1;
+        static const long ID_STATICBOX2;
         static const long ID_PANEL1;
         static const long idMenuQuit;
         static const long idMenuAbout;
@@ -40,8 +46,11 @@ class editorFrame: public wxFrame
         //*)
 
         //(*Declarations(editorFrame)
+        wxNotebook* Notebook1;
         wxPanel* Panel1;
+        wxStaticBox* StaticBox2;
         wxStatusBar* StatusBar1;
+        wxTextCtrl* TextCtrl1;
         //*)
 
         DECLARE_EVENT_TABLE()

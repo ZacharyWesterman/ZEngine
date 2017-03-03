@@ -1962,12 +1962,11 @@
 1488429625 c:\users\zachary\documents\github\zengine\editor\editorapp.h
 	<wx/app.h>
 
-1488433631 c:\users\zachary\documents\github\zengine\editor\editormain.h
+1488515833 c:\users\zachary\documents\github\zengine\editor\editormain.h
 	<wx/notebook.h>
 	<wx/sizer.h>
 	<wx/menu.h>
 	<wx/textctrl.h>
-	<wx/statbox.h>
 	<wx/panel.h>
 	<wx/frame.h>
 	<wx/statusbr.h>

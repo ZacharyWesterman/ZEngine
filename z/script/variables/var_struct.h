@@ -2,12 +2,14 @@
  * File:            var_struct.h
  * Namespace:       z::script::var
  *
- * Description:     A template struct for basic variable types.
- *                  Generic single variables can either be a
- *                  character string or a numeric value. We will
- *                  want to differentiate between the two to
- *                  allow for high precision with numbers.
- *                  By default, all var_t types are numerical.
+ * Description:     A template struct for basic variable data.
+ *                  Generic single variables can be a character
+ *                  string or a numeric value, or null. We will
+ *                  want to differentiate between strings and
+ *                  numbers to allow for high precision.
+ *                  We also want to know when a variable hasn't been set.
+ *
+ *                  By default, all var_t types are set to VAR_NULL.
  *
  *
  * Author:          Zachary Westerman
@@ -27,10 +29,19 @@ namespace z
     {
         namespace var
         {
+            enum VAR_TYPE
+            {
+                VAR_NULL = 0,
+
+                VAR_NUMERICAL,
+                VAR_STRING
+            };
+
+
             template <typename CHAR>
             struct var_t
             {
-                bool is_numerical = true;
+                VAR_TYPE type = VAR_NULL;
 
                 double value = 0.0;
 

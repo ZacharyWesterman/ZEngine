@@ -19,7 +19,7 @@ namespace z
 {
     namespace math
     {
-        long int fac(int n)
+        long int factorial(int n)
         {
             long int output = 1;
 

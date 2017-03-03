@@ -1962,7 +1962,7 @@
 1488429625 c:\users\zachary\documents\github\zengine\editor\editorapp.h
 	<wx/app.h>
 
-1488517375 c:\users\zachary\documents\github\zengine\editor\editormain.h
+1488519014 c:\users\zachary\documents\github\zengine\editor\editormain.h
 	<wx/notebook.h>
 	<wx/sizer.h>
 	<wx/menu.h>
@@ -2034,7 +2034,7 @@
 	"wx/event.h"
 	"wx/control.h"
 
-1488517399 source:c:\users\zachary\documents\github\zengine\editor\editormain.cpp
+1488518933 source:c:\users\zachary\documents\github\zengine\editor\editormain.cpp
 	"wx_pch.h"
 	"editorMain.h"
 	<wx/msgdlg.h>

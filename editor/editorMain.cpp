@@ -92,7 +92,7 @@ editorFrame::editorFrame(wxWindow* parent,wxWindowID id)
     Notebook1 = new wxNotebook(Panel1, ID_NOTEBOOK1, wxDefaultPosition, wxSize(400,-1), 0, _T("ID_NOTEBOOK1"));
     Panel4 = new wxPanel(Notebook1, ID_PANEL4, wxPoint(178,50), wxDefaultSize, wxTAB_TRAVERSAL, _T("ID_PANEL4"));
     BoxSizer3 = new wxBoxSizer(wxHORIZONTAL);
-    RichTextCtrl1 = new wxRichTextCtrl(Panel4, ID_RICHTEXTCTRL1, _("Text"), wxDefaultPosition, wxDefaultSize, wxRE_MULTILINE, wxDefaultValidator, _T("ID_RICHTEXTCTRL1"));
+    RichTextCtrl1 = new wxRichTextCtrl(Panel4, ID_RICHTEXTCTRL1, _("/* Sample script */"), wxDefaultPosition, wxDefaultSize, wxRE_MULTILINE, wxDefaultValidator, _T("ID_RICHTEXTCTRL1"));
     wxRichTextAttr rchtxtAttr_1;
     rchtxtAttr_1.SetBulletStyle(wxTEXT_ATTR_BULLET_STYLE_ALIGN_LEFT);
     wxFont Font_1(11,wxFONTFAMILY_SWISS,wxFONTSTYLE_NORMAL,wxFONTWEIGHT_NORMAL,false,_T("Consolas"),wxFONTENCODING_DEFAULT);

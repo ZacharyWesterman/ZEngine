@@ -1962,12 +1962,14 @@
 1488429625 c:\users\zachary\documents\github\zengine\editor\editorapp.h
 	<wx/app.h>
 
-1488515833 c:\users\zachary\documents\github\zengine\editor\editormain.h
+1488517375 c:\users\zachary\documents\github\zengine\editor\editormain.h
 	<wx/notebook.h>
 	<wx/sizer.h>
 	<wx/menu.h>
-	<wx/textctrl.h>
+	<wx/tglbtn.h>
 	<wx/panel.h>
+	<wx/richtext/richtextctrl.h>
+	<wx/button.h>
 	<wx/frame.h>
 	<wx/statusbr.h>
 
@@ -2032,10 +2034,110 @@
 	"wx/event.h"
 	"wx/control.h"
 
-1488433664 source:c:\users\zachary\documents\github\zengine\editor\editormain.cpp
+1488517399 source:c:\users\zachary\documents\github\zengine\editor\editormain.cpp
 	"wx_pch.h"
 	"editorMain.h"
 	<wx/msgdlg.h>
+	<wx/font.h>
 	<wx/intl.h>
 	<wx/string.h>
+
+1412525950 c:\wxwidgets-3.0.2\include\wx\glcanvas.h
+	"wx/defs.h"
+	"wx/app.h"
+	"wx/palette.h"
+	"wx/window.h"
+	"wx/msw/glcanvas.h"
+	"wx/x11/glcanvas.h"
+	"wx/gtk/glcanvas.h"
+	"wx/gtk1/glcanvas.h"
+	"wx/osx/glcanvas.h"
+	"wx/cocoa/glcanvas.h"
+
+1412525950 c:\wxwidgets-3.0.2\include\wx\msw\glcanvas.h
+	"wx/palette.h"
+	"wx/msw/wrapwin.h"
+	<GL/gl.h>
+
+1412525950 c:\wxwidgets-3.0.2\include\wx\tglbtn.h
+	"wx/defs.h"
+	"wx/event.h"
+	"wx/anybutton.h"
+	"wx/univ/tglbtn.h"
+	"wx/msw/tglbtn.h"
+	"wx/gtk/tglbtn.h"
+	"wx/gtk1/tglbtn.h"
+	"wx/motif/tglbtn.h"
+	"wx/osx/tglbtn.h"
+	"wx/os2/tglbtn.h"
+
+1412525950 c:\wxwidgets-3.0.2\include\wx\univ\tglbtn.h
+	"wx/button.h"
+
+1412525950 c:\wxwidgets-3.0.2\include\wx\msw\tglbtn.h
+	"wx/bitmap.h"
+
+1412525950 c:\wxwidgets-3.0.2\include\wx\richtext\richtextctrl.h
+	"wx/richtext/richtextbuffer.h"
+	"wx/scrolwin.h"
+	"wx/caret.h"
+	"wx/textctrl.h"
+	"wx/dnd.h"
+
+1412525950 c:\wxwidgets-3.0.2\include\wx\richtext\richtextbuffer.h
+	"wx/defs.h"
+	"wx/list.h"
+	"wx/textctrl.h"
+	"wx/bitmap.h"
+	"wx/image.h"
+	"wx/cmdproc.h"
+	"wx/txtstrm.h"
+	"wx/variant.h"
+	"wx/position.h"
+	"wx/dataobj.h"
+
+1412525948 c:\wxwidgets-3.0.2\include\wx\cmdproc.h
+	"wx/defs.h"
+	"wx/object.h"
+	"wx/list.h"
+
+1412525950 c:\wxwidgets-3.0.2\include\wx\txtstrm.h
+	"wx/stream.h"
+	"wx/convauto.h"
+
+1412525950 c:\wxwidgets-3.0.2\include\wx\position.h
+	"wx/gdicmn.h"
+
+1412525948 c:\wxwidgets-3.0.2\include\wx\caret.h
+	"wx/defs.h"
+	"wx/gdicmn.h"
+	"wx/msw/caret.h"
+	"wx/generic/caret.h"
+
+1412525950 c:\wxwidgets-3.0.2\include\wx\msw\caret.h
+
+1412525950 c:\wxwidgets-3.0.2\include\wx\generic\caret.h
+	"wx/timer.h"
+	"wx/dc.h"
+	"wx/overlay.h"
+
+1412525950 c:\wxwidgets-3.0.2\include\wx\overlay.h
+	"wx/defs.h"
+
+1412525948 c:\wxwidgets-3.0.2\include\wx\dnd.h
+	"wx/defs.h"
+	"wx/dataobj.h"
+	"wx/cursor.h"
+	"wx/msw/ole/dropsrc.h"
+	"wx/msw/ole/droptgt.h"
+	"wx/motif/dnd.h"
+	"wx/x11/dnd.h"
+	"wx/gtk/dnd.h"
+	"wx/gtk1/dnd.h"
+	"wx/osx/dnd.h"
+	"wx/os2/dnd.h"
+
+1412525950 c:\wxwidgets-3.0.2\include\wx\msw\ole\dropsrc.h
+
+1412525950 c:\wxwidgets-3.0.2\include\wx\msw\ole\droptgt.h
 

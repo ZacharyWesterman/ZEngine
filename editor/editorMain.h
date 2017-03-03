@@ -14,8 +14,10 @@
 #include <wx/notebook.h>
 #include <wx/sizer.h>
 #include <wx/menu.h>
-#include <wx/textctrl.h>
+#include <wx/tglbtn.h>
 #include <wx/panel.h>
+#include <wx/richtext/richtextctrl.h>
+#include <wx/button.h>
 #include <wx/frame.h>
 #include <wx/statusbr.h>
 //*)
@@ -35,9 +37,14 @@ class editorFrame: public wxFrame
         //*)
 
         //(*Identifiers(editorFrame)
-        static const long ID_TEXTCTRL1;
+        static const long ID_RICHTEXTCTRL1;
+        static const long ID_PANEL4;
         static const long ID_NOTEBOOK1;
+        static const long ID_BUTTON1;
+        static const long ID_BUTTON2;
+        static const long ID_BUTTON3;
         static const long ID_PANEL3;
+        static const long ID_TOGGLEBUTTON1;
         static const long ID_PANEL2;
         static const long ID_PANEL1;
         static const long idMenuQuit;
@@ -47,10 +54,15 @@ class editorFrame: public wxFrame
 
         //(*Declarations(editorFrame)
         wxNotebook* Notebook1;
+        wxPanel* Panel4;
+        wxRichTextCtrl* RichTextCtrl1;
+        wxButton* Button1;
+        wxToggleButton* ToggleButton1;
         wxPanel* Panel1;
+        wxButton* Button2;
         wxPanel* Panel3;
+        wxButton* Button3;
         wxStatusBar* StatusBar1;
-        wxTextCtrl* TextCtrl1;
         wxPanel* Panel2;
         //*)
 

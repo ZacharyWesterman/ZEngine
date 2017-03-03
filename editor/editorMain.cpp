@@ -12,6 +12,7 @@
 #include <wx/msgdlg.h>
 
 //(*InternalHeaders(editorFrame)
+#include <wx/font.h>
 #include <wx/intl.h>
 #include <wx/string.h>
 //*)
@@ -43,9 +44,14 @@ wxString wxbuildinfo(wxbuildinfoformat format)
 }
 
 //(*IdInit(editorFrame)
-const long editorFrame::ID_TEXTCTRL1 = wxNewId();
+const long editorFrame::ID_RICHTEXTCTRL1 = wxNewId();
+const long editorFrame::ID_PANEL4 = wxNewId();
 const long editorFrame::ID_NOTEBOOK1 = wxNewId();
+const long editorFrame::ID_BUTTON1 = wxNewId();
+const long editorFrame::ID_BUTTON2 = wxNewId();
+const long editorFrame::ID_BUTTON3 = wxNewId();
 const long editorFrame::ID_PANEL3 = wxNewId();
+const long editorFrame::ID_TOGGLEBUTTON1 = wxNewId();
 const long editorFrame::ID_PANEL2 = wxNewId();
 const long editorFrame::ID_PANEL1 = wxNewId();
 const long editorFrame::idMenuQuit = wxNewId();
@@ -62,13 +68,16 @@ editorFrame::editorFrame(wxWindow* parent,wxWindowID id)
 {
     //(*Initialize(editorFrame)
     wxMenuItem* MenuItem2;
+    wxFlexGridSizer* FlexGridSizer3;
     wxMenuItem* MenuItem1;
     wxFlexGridSizer* FlexGridSizer2;
+    wxBoxSizer* BoxSizer2;
     wxMenu* Menu1;
     wxStaticBoxSizer* StaticBoxSizer3;
     wxBoxSizer* BoxSizer1;
     wxMenuBar* MenuBar1;
     wxFlexGridSizer* FlexGridSizer1;
+    wxBoxSizer* BoxSizer3;
     wxMenu* Menu2;
 
     Create(parent, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxDEFAULT_FRAME_STYLE, _T("wxID_ANY"));
@@ -80,15 +89,46 @@ editorFrame::editorFrame(wxWindow* parent,wxWindowID id)
     FlexGridSizer1->AddGrowableRow(0);
     FlexGridSizer2 = new wxFlexGridSizer(2, 1, 0, 0);
     FlexGridSizer2->AddGrowableRow(0);
-    Notebook1 = new wxNotebook(Panel1, ID_NOTEBOOK1, wxDefaultPosition, wxSize(300,-1), 0, _T("ID_NOTEBOOK1"));
-    TextCtrl1 = new wxTextCtrl(Notebook1, ID_TEXTCTRL1, _("Text"), wxPoint(27,51), wxDefaultSize, 0, wxDefaultValidator, _T("ID_TEXTCTRL1"));
-    Notebook1->AddPage(TextCtrl1, _("Page name"), false);
+    Notebook1 = new wxNotebook(Panel1, ID_NOTEBOOK1, wxDefaultPosition, wxSize(400,-1), 0, _T("ID_NOTEBOOK1"));
+    Panel4 = new wxPanel(Notebook1, ID_PANEL4, wxPoint(178,50), wxDefaultSize, wxTAB_TRAVERSAL, _T("ID_PANEL4"));
+    BoxSizer3 = new wxBoxSizer(wxHORIZONTAL);
+    RichTextCtrl1 = new wxRichTextCtrl(Panel4, ID_RICHTEXTCTRL1, _("Text"), wxDefaultPosition, wxDefaultSize, wxRE_MULTILINE, wxDefaultValidator, _T("ID_RICHTEXTCTRL1"));
+    wxRichTextAttr rchtxtAttr_1;
+    rchtxtAttr_1.SetBulletStyle(wxTEXT_ATTR_BULLET_STYLE_ALIGN_LEFT);
+    wxFont Font_1(11,wxFONTFAMILY_SWISS,wxFONTSTYLE_NORMAL,wxFONTWEIGHT_NORMAL,false,_T("Consolas"),wxFONTENCODING_DEFAULT);
+    rchtxtAttr_1.SetFontFaceName(Font_1.GetFaceName());
+    rchtxtAttr_1.SetFontSize(Font_1.GetPointSize());
+    rchtxtAttr_1.SetFontStyle(Font_1.GetStyle());
+    rchtxtAttr_1.SetFontUnderlined(Font_1.GetUnderlined());
+    rchtxtAttr_1.SetFontWeight(Font_1.GetWeight());
+    RichTextCtrl1->SetBasicStyle(rchtxtAttr_1);
+    BoxSizer3->Add(RichTextCtrl1, 1, wxALL|wxEXPAND, 5);
+    Panel4->SetSizer(BoxSizer3);
+    BoxSizer3->Fit(Panel4);
+    BoxSizer3->SetSizeHints(Panel4);
+    Notebook1->AddPage(Panel4, _("Page name"), false);
     FlexGridSizer2->Add(Notebook1, 1, wxALL|wxEXPAND, 5);
     Panel3 = new wxPanel(Panel1, ID_PANEL3, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL, _T("ID_PANEL3"));
+    FlexGridSizer3 = new wxFlexGridSizer(0, 3, 0, 0);
+    Button1 = new wxButton(Panel3, ID_BUTTON1, _("Parse"), wxDefaultPosition, wxDefaultSize, 0, wxDefaultValidator, _T("ID_BUTTON1"));
+    FlexGridSizer3->Add(Button1, 1, wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 5);
+    Button2 = new wxButton(Panel3, ID_BUTTON2, _("Run"), wxDefaultPosition, wxDefaultSize, 0, wxDefaultValidator, _T("ID_BUTTON2"));
+    FlexGridSizer3->Add(Button2, 1, wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 5);
+    Button3 = new wxButton(Panel3, ID_BUTTON3, _("Parse + Run"), wxDefaultPosition, wxDefaultSize, 0, wxDefaultValidator, _T("ID_BUTTON3"));
+    FlexGridSizer3->Add(Button3, 1, wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 5);
+    Panel3->SetSizer(FlexGridSizer3);
+    FlexGridSizer3->Fit(Panel3);
+    FlexGridSizer3->SetSizeHints(Panel3);
     FlexGridSizer2->Add(Panel3, 1, wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 5);
-    FlexGridSizer1->Add(FlexGridSizer2, 0, wxALIGN_LEFT, 0);
-    StaticBoxSizer3 = new wxStaticBoxSizer(wxHORIZONTAL, Panel1, _("Label"));
+    FlexGridSizer1->Add(FlexGridSizer2, 0, wxEXPAND, 0);
+    StaticBoxSizer3 = new wxStaticBoxSizer(wxHORIZONTAL, Panel1, _("Program Output"));
     Panel2 = new wxPanel(Panel1, ID_PANEL2, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL, _T("ID_PANEL2"));
+    BoxSizer2 = new wxBoxSizer(wxHORIZONTAL);
+    ToggleButton1 = new wxToggleButton(Panel2, ID_TOGGLEBUTTON1, _("Placeholder"), wxDefaultPosition, wxDefaultSize, 0, wxDefaultValidator, _T("ID_TOGGLEBUTTON1"));
+    BoxSizer2->Add(ToggleButton1, 1, wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 5);
+    Panel2->SetSizer(BoxSizer2);
+    BoxSizer2->Fit(Panel2);
+    BoxSizer2->SetSizeHints(Panel2);
     StaticBoxSizer3->Add(Panel2, 1, wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 5);
     FlexGridSizer1->Add(StaticBoxSizer3, 1, wxALL|wxEXPAND, 5);
     Panel1->SetSizer(FlexGridSizer1);

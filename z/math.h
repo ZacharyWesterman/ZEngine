@@ -15,12 +15,12 @@
 #ifndef MATH_H_INCLUDED
 #define MATH_H_INCLUDED
 
-///Functions
-#include "math/factorial.h"
-
-
 ///Constants
 #include "math/constants.h"
+
+///Functions
+#include "math/factorial.h"
+#include "math/fibonacci.h"
 
 
 #endif // MATH_H_INCLUDED

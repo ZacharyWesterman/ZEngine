@@ -24,6 +24,10 @@
     #define null 0
 #endif // null
 
+static const int ETX = 3; //end of text
+static const int SI  = 15; //shift-in
+static const int SO  = 14; //shift-out
+
 namespace z
 {
     namespace core
@@ -44,9 +48,7 @@ namespace z
             ///Stream output operator when left operand is a string
             stream& operator<<(const string<CHAR>& arg2)
             {
-                CHAR ETX = 3; //end of text
-
-                data += arg2 + ETX;
+                data += arg2 + (CHAR)ETX;
 
                 return *this;
             }
@@ -61,11 +63,11 @@ namespace z
 
 
             ///Other stream output operators
-            friend stream<char> operator<<(const string<char>&, const stream<char>&);
-            friend stream<wchar_t> operator<<(const string<wchar_t>&, const stream<wchar_t>&);
+            //friend stream<char> operator<<(const string<char>&, const stream<char>&);
+            //friend stream<wchar_t> operator<<(const string<wchar_t>&, const stream<wchar_t>&);
 
-            friend stream<char> operator<<(const string<char>&, const string<char>&);
-            friend stream<wchar_t> operator<<(const string<wchar_t>&, const string<wchar_t>&);
+            //friend stream<char> operator<<(const string<char>&, const string<char>&);
+            //friend stream<wchar_t> operator<<(const string<wchar_t>&, const string<wchar_t>&);
 
 
 
@@ -95,10 +97,7 @@ namespace z
             ///Stream input operator for characters
             stream& operator>>(CHAR& arg2)
             {
-                CHAR ETX = 3; //end of text
-
-
-                int stop  = data.find(ETX);
+                int stop  = data.find((CHAR)ETX);
 
                 if (stop  <= -1)
                 {
@@ -124,10 +123,7 @@ namespace z
             >
             stream& operator>>(T& arg2)
             {
-                CHAR ETX = 3; //end of text
-
-
-                int stop  = data.find(ETX);
+                int stop  = data.find((CHAR)ETX);
 
                 arg2 = (T)value(data.substr(0, stop-1));
 
@@ -140,25 +136,18 @@ namespace z
 
             void shift_in()
             {
-                CHAR SI = 15; //shift-in
-
-                data += SI;
+                data += (CHAR)SI;
             }
 
             void shift_out()
             {
-                CHAR SO = 14; //shift-out
-
-                data += SO;
+                data += (CHAR)SO;
             }
 
             stream pop()
             {
-                CHAR SI = 15; //shift-in
-                CHAR SO = 14; //shift-out
-
-                int start = data.find(SI);
-                int stop  = data.find(SO);
+                int start = data.find((CHAR)SI);
+                int stop  = data.find((CHAR)SO);
 
 
                 stream output;
@@ -181,14 +170,12 @@ namespace z
 
 
 
-        ///Stream output operator when right operand is a string (narrow chars)
+        /*///Stream output operator when right operand is a string (narrow chars)
         stream<char> operator<<(const string<char>& arg1, const stream<char>& arg2)
         {
             stream<char> output;
 
-            char ETX = 3; //end of text
-
-            output.data = arg1 + ETX;
+            output.data = arg1 + (char)ETX;
             output.data += arg2.data;
 
             return output;
@@ -200,9 +187,7 @@ namespace z
         {
             stream<wchar_t> output;
 
-            wchar_t ETX = 3; //end of text
-
-            output.data = arg1 + ETX;
+            output.data = arg1 + (wchar_t)ETX;
             output.data += arg2.data;
 
             return output;
@@ -234,7 +219,7 @@ namespace z
             output.data += arg2 + ETX;
 
             return output;
-        }
+        }*/
     }
 }
 

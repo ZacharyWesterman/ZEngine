@@ -8,7 +8,7 @@
  *
  * Author:          Zachary Westerman
  * Email:           zacharywesterman@yahoo.com
- * Last modified:   3 Mar. 2017
+ * Last modified:   4 Mar. 2017
 **/
 
 
@@ -33,8 +33,8 @@ namespace z
                 var_t<CHAR> data;
 
             public:
-                ///Set the variable to a character (just convert to string)
-                const variable& operator=(CHAR character)
+                ///Set the contained data to a character (just convert to string)
+                const datatype& operator=(CHAR character)
                 {
                     data.string = character;
 
@@ -45,12 +45,12 @@ namespace z
                     return *this;
                 }
 
-                ///Set the variable to any numerical value
+                ///Set the contained data to any numerical value
                 template<
                     typename T, //real type
                     typename = typename std::enable_if<std::is_arithmetic<T>::value, T>::type
                 >
-                const variable& operator=(const T& number)
+                const datatype& operator=(const T& number)
                 {
                     data.string.clear();
 
@@ -62,8 +62,8 @@ namespace z
                 }
 
 
-                ///Set the variable to a string
-                const variable& operator=(const core::string<CHAR>& text)
+                ///Set the contained data to a string
+                const datatype& operator=(const core::string<CHAR>& text)
                 {
                     data.string = text;
 
@@ -74,8 +74,8 @@ namespace z
                     return *this;
                 }
 
-                ///Set the variable to be the same as another variable
-                const variable& operator=(const variable& other)
+                ///Set this datatype to be the same as another datatype
+                const datatype& operator=(const datatype& other)
                 {
                     data.type   = other.data.type;
                     data.string = other.data.string;
@@ -85,7 +85,7 @@ namespace z
                 }
 
 
-                ///Make the variable NULL
+                ///Make the data NULL
                 void clear()
                 {
                     data.string.clear();
@@ -96,7 +96,7 @@ namespace z
                 }
 
 
-                ///Get a string representation of the variable
+                ///Get a string representation of the data
                 const core::string<char> string() const
                 {
                     if (data.type == VAR_STRING)
@@ -108,8 +108,8 @@ namespace z
                 }
 
 
-                ///Get the numerical value of the variable
-                ///(returns 0.0 if not a number)
+                ///Get the numerical value of the data
+                ///(returns 0.0 if null or a string)
                 const double value() const
                 {
                     return data.value;

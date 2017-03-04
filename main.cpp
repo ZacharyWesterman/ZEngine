@@ -1,63 +1,27 @@
 #include <z/core.h>
+#include <z/math.h>
 
 //#include "z/script/scanner.h"
 
 //#include "z/script/load_operators.h"
+
+#include "z/script/variables/datatype.h"
+
+#include "z/script/parser/scanner.h"
 
 #include <iostream>
 using namespace std;
 
 using namespace z;
 
-void charstream(const core::stream<char>& input)
+/*void charstream(const core::stream<char>& input)
 {
     for (int i=0; i<input.length(); i++)
         cout << (int)input.str()[i] << endl;
-}
+}*/
 
 int main()
 {
-    core::circular_number<int> min (60, 0), hr (13, 1);
-
-    while (true)
-    {
-        cout << hr.val() << ":" << min.val() << endl;
-
-        min += 10;
-
-        hr += min.overflow();
-
-        core::pause(300);
-    }
-
-
-    /*core::stream<char> ss1;
-
-    core::array<char> arr1, arr2;
-
-    arr1.add('a');
-    arr1.add('b');
-
-    arr2.add('c');
-    arr2.add('d');
-
-
-    ss1 << arr1 << arr2;
-
-    cout << "|" << ss1.str() << endl;
-
-
-    core::array<char> arr3, arr4;
-
-    ss1 >> arr3 >> arr4;
-
-    for (int i=0; i<arr3.size(); i++)
-        cout << arr3[i] << endl;
-
-    cout << endl;
-
-    for (int i=0; i<arr4.size(); i++)
-        cout << arr4[i] << endl;*/
 
 
 
@@ -69,25 +33,36 @@ int main()
     //operators.sort();
 
     //for (int i=0; i<operators.size(); i++)
-      //  cout << operators[i]->str().str() << endl;
+      //  cout << operators[i]->str().str() << endl;*/
+
+    core::sorted_array< core::string<char> > operators;
+    operators.add("+");
+    operators.add("-");
+    operators.add("*");
+    operators.add("/");
+
+    core::sorted_array< core::string<char> > commands;
+    commands.add("print");
+    commands.add("exit");
+    commands.add("delay");
 
     //test the pre-parser
     z::script::scanner<char>* S;
-    S = new z::script::scanner<char>(operators);
+    S = new z::script::scanner<char>(&operators, &commands);
 
 
 
-    z::core::string<char> input = "\"ten \\nis \" + 10";
+    z::core::string<char> input = "main{print 10; delay 500; exit;}";
 
     S->scan(input);
-    //S->clean();
+    S->clean();
 
     cout << input.str() << "\n\n";
 
-    for (int i=0; i<S->arr.size(); i++)
+    for (int i=0; i<S->identifiers.size(); i++)
     {
-        cout << S->arr[i].name.str() << "\t(" << S->arr[i].type;
-        cout << ")\t[" << S->arr[i].line << ',' << S->arr[i].column << "]\n";
+        cout << S->identifiers[i].name.str() << "\t(" << S->identifiers[i].type;
+        cout << ")\t[" << S->identifiers[i].line << ',' << S->identifiers[i].column << "]\n";
     }
 
 
@@ -114,7 +89,7 @@ int main()
     cout << "; " << (int)';' << ':' << (int)L';' << endl;
     cout << "\\n"<< (int)'\n'<< ':' << (int)L'\n'<< endl;
     cout << "-"<< (int)'-'<< ':' << (int)L'-'<< endl;
-    cout << "+"<< (int)'+'<< ':' << (int)L'+'<< endl;*/
+    cout << "+"<< (int)'+'<< ':' << (int)L'+'<< endl;
 
     return 0;
 }

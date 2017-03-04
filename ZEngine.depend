@@ -1589,8 +1589,11 @@
 1482454662 k:\zengine\engine\global\script_delay_timer.h
 	"../../core/timer.h"
 
-1488408925 source:c:\users\zachary\documents\github\zengine\main.cpp
+1488617238 source:c:\users\zachary\documents\github\zengine\main.cpp
 	<z/core.h>
+	<z/math.h>
+	"z/script/variables/datatype.h"
+	"z/script/parser/scanner.h"
 	<iostream>
 
 1484768341 c:\users\zachary\documents\github\zengine\engine\game.h
@@ -2118,15 +2121,15 @@
 	"string.h"
 	"char_is_whiteSpace.h"
 
-1487670743 c:\users\zachary\documents\github\zengine\\z\core\stream.h
+1488572147 c:\users\zachary\documents\github\zengine\\z\core\stream.h
 	<type_traits>
 	"string.h"
 
-1487670775 c:\users\zachary\documents\github\zengine\\z\core\array.h
+1488617664 c:\users\zachary\documents\github\zengine\\z\core\array.h
 	<vector>
 	"stream.h"
 
-1486949178 c:\users\zachary\documents\github\zengine\\z\core\sorted_array.h
+1488617618 c:\users\zachary\documents\github\zengine\\z\core\sorted_array.h
 	"./array.h"
 
 1486949217 c:\users\zachary\documents\github\zengine\\z\core\sorted_ref_array.h
@@ -2149,4 +2152,45 @@
 1488406477 c:\users\zachary\documents\github\zengine\\z\core\pause.h
 	<unistd.h>
 	<windows.h>
+
+1488568443 c:\users\zachary\documents\github\zengine\\z\math.h
+	"math/constants.h"
+	"math/factorial.h"
+	"math/fibonacci.h"
+
+1488568654 c:\users\zachary\documents\github\zengine\\z\math\constants.h
+
+1488571429 c:\users\zachary\documents\github\zengine\\z\math\factorial.h
+
+1488570884 c:\users\zachary\documents\github\zengine\\z\math\fibonacci.h
+	"constants.h"
+	<math.h>
+
+1488577917 c:\users\zachary\documents\github\zengine\z\script\variables\var_struct.h
+	<z/core/string.h>
+
+1488580330 c:\users\zachary\documents\github\zengine\z\script\variables\variable.h
+	<type_traits>
+	"var_struct.h"
+
+1488607689 c:\users\zachary\documents\github\zengine\z\script\variables\datatype.h
+	<type_traits>
+	"var_struct.h"
+
+1488617642 c:\users\zachary\documents\github\zengine\z\script\parser\scanner.h
+	<z/core/sorted_array.h>
+	<z/core/string.h>
+	"escape_sequences.h"
+	"identity.h"
+	<iostream>
+
+1488609120 c:\users\zachary\documents\github\zengine\z\script\parser\escape_sequences.h
+	<stdint.h>
+	<z/core/string.h>
+
+1488614581 c:\users\zachary\documents\github\zengine\z\script\parser\identity.h
+	<z/core/string.h>
+	<z/script/errors.h>
+
+1486949179 c:\users\zachary\documents\github\zengine\\z\script\errors.h
 

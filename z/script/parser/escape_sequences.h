@@ -18,7 +18,7 @@
 
 #include <stdint.h>
 
-#include "../core/string.h"
+#include <z/core/string.h>
 
 namespace z
 {

@@ -10,15 +10,15 @@
  *
  * Author:          Zachary Westerman
  * Email:           zacharywesterman@yahoo.com
- * Last modified:   20 Feb. 2017
+ * Last modified:   4 Mar. 2017
 **/
 
 #pragma once
 #ifndef IDENTITY_H_INCLUDED
 #define IDENTITY_H_INCLUDED
 
-#include "../core/string.h"
-#include "script_errors.h"
+#include <z/core/string.h>
+#include <z/script/errors.h>
 
 namespace z
 {
@@ -45,16 +45,37 @@ namespace z
                 COMMA,
                 SEMICOLON,
 
-                NUMBER_LITERAL,
                 STRING_LITERAL,
 
-                VARIABLE,
-                VARTYPE,
-                SUBVARIABLE,
+                DECIMAL_LITERAL,
+                BINARY_LITERAL,
+                HEXADEC_LITERAL,
+                OCTAL_LITERAL,
 
                 FUNCTION,
                 COMMAND,
-                UNKNOWN
+
+                KEYWORD_MAIN,
+
+                KEYWORD_IF,
+                KEYWORD_ELSE,
+
+                KEYWORD_FOR,
+                KEYWORD_DO,
+                KEYWORD_LOOP,
+                KEYWORD_WHILE,
+
+                KEYWORD_GOTO,
+                KEYWORD_GOSUB,
+
+                KEYWORD_RUN,
+                KEYWORD_INCLUDE,
+
+                KEYWORD_BREAK,
+                KEYWORD_RETURN,
+
+
+                UNKNOWN = -1
             };
 
         }
@@ -74,7 +95,8 @@ namespace z
             void* meta;
 
             ///constructor with no name, as name may not be needed.
-            ident_t (ident::ident_enum t, int lin, int col)
+            ident_t (ident::ident_enum t, int lin, int col,
+                     error_flag _error = error::NONE)
             {
                 type = t;
 
@@ -82,13 +104,14 @@ namespace z
                 column = col;
 
 
-                err = error::NONE;
+                err = _error;
 
                 meta = NULL;
             }
 
             ///full constructor
-            ident_t (core::string<CHAR> s, ident::ident_enum t, int lin, int col)
+            ident_t (core::string<CHAR> s, ident::ident_enum t, int lin, int col,
+                     error_flag _error = error::NONE)
             {
                 name = s;
                 type = t;
@@ -96,7 +119,7 @@ namespace z
                 line = lin;
                 column = col;
 
-                err = error::NONE;
+                err = _error;
 
                 meta = NULL;
             }

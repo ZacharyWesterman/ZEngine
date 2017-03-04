@@ -10,24 +10,20 @@
  *
  * Author:          Zachary Westerman
  * Email:           zacharywesterman@yahoo.com
- * Last modified:   20 Feb. 2017
+ * Last modified:   4 Mar. 2017
 **/
 
 #pragma once
 #ifndef SCANNER_H_INCLUDED
 #define SCANNER_H_INCLUDED
 
-#include "../core/array.h"
-#include "../core/string.h"
+#include <z/core/sorted_array.h>
+#include <z/core/string.h>
 
 #include "escape_sequences.h"
-
-#include "operators/oper_t.h"
-
 #include "identity.h"
 
 #include <iostream>
-using namespace std;
 
 namespace z
 {
@@ -38,32 +34,41 @@ namespace z
         class scanner
         {
         private:
-            core::array< oper::oper_t<CHAR>* >* opers;
+            core::sorted_array< core::string<CHAR> >* operators;
+            core::sorted_array< core::string<CHAR> >* commands;
+            core::sorted_array< core::string<CHAR> >* functions;
 
         public:
-            core::array< ident_t<CHAR> > arr;
+            core::array< ident_t<CHAR> > identifiers;
 
             //constructor REQUIRES all operators be set
-            scanner(core::array< oper::oper_t<CHAR>* >& operators)
+            scanner(core::sorted_array< core::string<CHAR> >* opers = NULL,
+                    core::sorted_array< core::string<CHAR> >* cmds = NULL,
+                    core::sorted_array< core::string<CHAR> >* funcs = NULL)
             {
-                opers = &operators;
+                operators = opers;
+                commands = cmds;
+                functions = funcs;
             }
 
 
             void scan(const core::string<CHAR>&);
             void clean();
 
-            error_flag list_opers(const core::string<CHAR>&,
-                                  core::array< ident_t<CHAR> >&) const;
+            void list_opers(const core::string<CHAR>&,
+                            core::array< ident_t<CHAR> >&) const;
 
+            void check_for_keywords();
             void check_for_operators();
+            void check_for_commands();
+            void check_for_functions();
         };
 
 
         template <typename CHAR>
         void scanner<CHAR>::scan(const core::string<CHAR>& input)
         {
-            arr.clear();
+            identifiers.clear();
 
             bool in_string = false;
 
@@ -119,7 +124,7 @@ namespace z
                         in_string = true;
 
                         if (current_ident.type)
-                            arr.add(current_ident);
+                            identifiers.add(current_ident);
 
                         current_ident.name.clear();
                         current_ident.type = newIdent;
@@ -179,7 +184,7 @@ namespace z
                     //semicolon
                     else if (input[i] == (CHAR)59)
                     {
-                        newIdent = ident::RBRACE;
+                        newIdent = ident::SEMICOLON;
                     }
                     else
                     {
@@ -190,8 +195,10 @@ namespace z
                     ///If there is a change in the type
                     if (newIdent != current_ident.type)
                     {
-                        if (current_ident.type)
-                            arr.add(current_ident);
+                        if (current_ident.type == ident::UNKNOWN)
+                            list_opers(current_ident.name, identifiers);
+                        else if (current_ident.type)
+                            identifiers.add(current_ident);
 
                         current_ident.name.clear();
                         current_ident.type = newIdent;
@@ -205,7 +212,7 @@ namespace z
                         if ((current_ident.type >= ident::LPARENTH) &&
                             (current_ident.type <= ident::SEMICOLON))
                         {
-                            arr.add(current_ident);
+                            identifiers.add(current_ident);
                             current_ident.name.clear();
 
                             current_ident.type = ident::NONE;
@@ -243,10 +250,10 @@ namespace z
             }
 
 
-            if (current_ident.type)
-            {
-                arr.add(current_ident);
-            }
+            if (current_ident.type == ident::UNKNOWN)
+                list_opers(current_ident.name, identifiers);
+            else if (current_ident.type)
+                identifiers.add(current_ident);
         }
 
 
@@ -254,15 +261,24 @@ namespace z
         template <typename CHAR>
         void scanner<CHAR>::clean()
         {
-            check_for_operators();
+            check_for_keywords();
+
+            if (operators)
+                check_for_operators();
+
+            if (commands)
+                check_for_commands();
+
+            if (functions)
+                check_for_functions();
         }
 
 
         ///list all the possible operators in the string
         ///the string must contain ONLY operators and NO spaces
         template <typename CHAR>
-        error_flag scanner<CHAR>::list_opers(const core::string<CHAR>& input,
-                                               core::array< ident_t<CHAR> >& output) const
+        void scanner<CHAR>::list_opers(const core::string<CHAR>& input,
+                                       core::array< ident_t<CHAR> >& output) const
         {
             error_flag oper_error = error::NONE;
 
@@ -272,15 +288,15 @@ namespace z
             int pos = 0;
             core::string<CHAR> curr_oper;
 
-            while ((pos < input.length()) && !oper_error)
+            while ((pos < input.length()) && !oper_error && operators)
             {
                 bool found = false;
 
-                for (int i=0; i<(opers->size()); i++)
+                for (int i=0; i<(operators->size()); i++)
                 {
-                    if (input.foundAt(opers->at(i)->str(), pos))
+                    if (input.foundAt(operators->at(i), pos))
                     {
-                        curr_oper = opers->at(i)->str();
+                        curr_oper = operators->at(i);
                         found = true;
                     }
                 }
@@ -295,14 +311,14 @@ namespace z
                 else //that operator was not found
                 {
                     if (pos > 0)
-                        oper_error |= error::AMBIGUOUS_EXPR;
+                        oper_error = error::AMBIGUOUS_EXPR;
                     else
-                        oper_error |= error::UNKNOWN_OPERATOR;
+                        oper_error = error::UNKNOWN_OPERATOR;
                 }
             }
 
 
-            if (oper_error == error::NONE)
+            if ((oper_error == error::NONE) && operators)
             {
                 int x_offset = 0;
                 int line = output[output.size()-1].line;
@@ -316,24 +332,150 @@ namespace z
                     x_offset += temp_opers[i].length();
                 }
             }
+            else
+            {
+                ident::ident_enum this_type;
 
-            return oper_error;
+                if (oper_error == error::AMBIGUOUS_EXPR)
+                {
+                    this_type = ident::OPERATOR;
+                }
+                else
+                {
+                    this_type = ident::UNKNOWN;
+                }
+
+                int line = output[output.size()-1].line;
+                int column = output[output.size()-1].column;
+
+                output.add(ident_t<CHAR>(input, this_type,
+                                         line, column, oper_error));
+            }
         }
 
+
+        ///If any identifiers match a keyword, change the type to the appropriate keyword.
+        template <typename CHAR>
+        void scanner<CHAR>::check_for_keywords()
+        {
+            for (int i=0; i<identifiers.size(); i++)
+            {
+                if (identifiers[i].type == ident::IDENTIFIER)
+                {
+                    if (identifiers[i].name == L"main")
+                    {
+                        identifiers[i].type = ident::KEYWORD_MAIN;
+                    }
+
+                    else if (identifiers[i].name == L"if")
+                    {
+                        identifiers[i].type = ident::KEYWORD_IF;
+                    }
+                    else if (identifiers[i].name == L"else")
+                    {
+                        identifiers[i].type = ident::KEYWORD_ELSE;
+                    }
+
+                    else if (identifiers[i].name == L"for")
+                    {
+                        identifiers[i].type = ident::KEYWORD_FOR;
+                    }
+                    else if (identifiers[i].name == L"do")
+                    {
+                        identifiers[i].type = ident::KEYWORD_DO;
+                    }
+                    else if (identifiers[i].name == L"loop")
+                    {
+                        identifiers[i].type = ident::KEYWORD_LOOP;
+                    }
+                    else if (identifiers[i].name == L"while")
+                    {
+                        identifiers[i].type = ident::KEYWORD_WHILE;
+                    }
+
+                    else if (identifiers[i].name == L"goto")
+                    {
+                        identifiers[i].type = ident::KEYWORD_GOTO;
+                    }
+                    else if (identifiers[i].name == L"gosub")
+                    {
+                        identifiers[i].type = ident::KEYWORD_GOSUB;
+                    }
+
+                    else if (identifiers[i].name == L"run")
+                    {
+                        identifiers[i].type = ident::KEYWORD_RUN;
+                    }
+                    else if (identifiers[i].name == L"include")
+                    {
+                        identifiers[i].type = ident::KEYWORD_INCLUDE;
+                    }
+
+                    else if (identifiers[i].name == L"break")
+                    {
+                        identifiers[i].type = ident::KEYWORD_BREAK;
+                    }
+                    else if (identifiers[i].name == L"return")
+                    {
+                        identifiers[i].type = ident::KEYWORD_RETURN;
+                    }
+                }
+            }
+        }
 
         ///Some operators may have alphanumeric characters in them.
         ///if any identifiers match an operator, change the type to OPERATOR.
         template <typename CHAR>
         void scanner<CHAR>::check_for_operators()
         {
-            for (int i=0; i<arr.size(); i++)
+            for (int i=0; i<identifiers.size(); i++)
             {
-                if (arr[i].type == ident::IDENTIFIER)
+                if (identifiers[i].type == ident::IDENTIFIER)
                 {
-                    for (int o=0; o<(opers->size()); o++)
+                    int location = operators->find(identifiers[i].name);
+
+                    if (location > -1)
                     {
-                        if (arr[i].name == opers->at(o)->str())
-                            arr[i].type = ident::OPERATOR;
+                        identifiers[i].type = ident::OPERATOR;
+                    }
+                }
+            }
+        }
+
+
+        ///If any identifiers match a command, change the type to COMMAND.
+        template <typename CHAR>
+        void scanner<CHAR>::check_for_commands()
+        {
+            for (int i=0; i<identifiers.size(); i++)
+            {
+                if (identifiers[i].type == ident::IDENTIFIER)
+                {
+
+                    int location = commands->find(identifiers[i].name);
+
+                    if (location > -1)
+                    {
+                        identifiers[i].type = ident::COMMAND;
+                    }
+                }
+            }
+        }
+
+
+        ///If any identifiers match a function, change the type to FUNCTION.
+        template <typename CHAR>
+        void scanner<CHAR>::check_for_functions()
+        {
+            for (int i=0; i<identifiers.size(); i++)
+            {
+                if (identifiers[i].type == ident::IDENTIFIER)
+                {
+                    int location = functions->find(identifiers[i].name);
+
+                    if (location > -1)
+                    {
+                        identifiers[i].type = ident::FUNCTION;
                     }
                 }
             }

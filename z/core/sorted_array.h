@@ -91,7 +91,7 @@ namespace z
             int left = 0;
             int right = this->array_data.size()-1;
 
-            while (left != right)
+            while (left < right)
             {
                 int center = (left + right) / 2;
 

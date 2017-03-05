@@ -23,18 +23,6 @@ using namespace z;
 int main()
 {
 
-
-
-    //load operators
-    /*z::core::sorted_ref_array< z::script::oper::oper_t<char>* > operators;
-
-    z::script::load_operators(&operators, "operators");
-
-    //operators.sort();
-
-    //for (int i=0; i<operators.size(); i++)
-      //  cout << operators[i]->str().str() << endl;*/
-
     core::sorted_array< core::string<char> > operators;
     operators.add("+");
     operators.add("-");
@@ -46,13 +34,17 @@ int main()
     commands.add("exit");
     commands.add("delay");
 
+    core::sorted_array< core::string<char> > functions;
+    functions.add("log");
+
+
     //test the pre-parser
     z::script::scanner<char>* S;
-    S = new z::script::scanner<char>(&operators, &commands);
+    S = new z::script::scanner<char>(&operators, &commands, &functions);
 
 
 
-    z::core::string<char> input = "main{print 10; delay 500; exit;}";
+    z::core::string<char> input = "print \"me me \\\"big boy\\\"\"";
 
     S->scan(input);
     S->clean();

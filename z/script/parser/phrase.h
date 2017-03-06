@@ -16,6 +16,10 @@
 #ifndef PHRASE_H_INCLUDED
 #define PHRASE_H_INCLUDED
 
+#include <z/core/array.h>
+
+#include "identity.h"
+
 namespace z
 {
     namespace script
@@ -23,7 +27,10 @@ namespace z
         template <typename CHAR>
         class phrase
         {
+        public:
+            core::array<phrase*> children;
 
+            ident_t data;
         };
     }
 }

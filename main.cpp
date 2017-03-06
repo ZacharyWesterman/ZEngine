@@ -44,7 +44,7 @@ int main()
 
 
 
-    z::core::string<char> input = "0b1101.011";
+    z::core::string<char> input = "if 1 print 0";
 
     S->scan(input);
     S->clean();

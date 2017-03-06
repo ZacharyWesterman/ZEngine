@@ -10,13 +10,15 @@
  *
  * Author:          Zachary Westerman
  * Email:           zacharywesterman@yahoo.com
- * Last modified:   5 Mar. 2017
+ * Last modified:   6 Mar. 2017
 **/
 
 
 #pragma once
 #ifndef LEXER_H_INCLUDED
 #define LEXER_H_INCLUDED
+
+#include "phrase.h"
 
 namespace z
 {

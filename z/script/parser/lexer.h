@@ -4,7 +4,7 @@
  * Description:     Script lexer template. The lexer
  *                  takes the list of tokens generated
  *                  by the scanner and groups them into
- *                  functional sections (e.g. expression,
+ *                  functional phrases (e.g. expression,
  *                  scope, etc.)
  *
  *

@@ -30,27 +30,27 @@ namespace z
             {
                 NONE = 0,
 
-                IDENTIFIER,
-                OPERATOR,
+                IDENTIFIER,//1
+                OPERATOR,//2
 
-                LPARENTH,
-                RPARENTH,
+                LPARENTH,//3
+                RPARENTH,//4
 
-                LBRACE,
-                RBRACE,
+                LBRACE,//5
+                RBRACE,//6
 
-                LBRACKET,
-                RBRACKET,
+                LBRACKET,//7
+                RBRACKET,//8
 
-                COMMA,
-                SEMICOLON,
+                COMMA,//9
+                SEMICOLON,//10
 
-                STRING_LITERAL,
+                STRING_LITERAL,//11
 
-                DECIMAL_LITERAL,
-                BINARY_LITERAL,
-                HEXADEC_LITERAL,
-                OCTAL_LITERAL,
+                DECIMAL_LITERAL,//12
+                BINARY_LITERAL,//13
+                HEXADEC_LITERAL,//14
+                OCTAL_LITERAL,//15
 
                 FUNCTION,
                 COMMAND,

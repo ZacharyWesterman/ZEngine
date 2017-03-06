@@ -10,7 +10,7 @@
  *
  * Author:          Zachary Westerman
  * Email:           zacharywesterman@yahoo.com
- * Last modified:   4 Mar. 2017
+ * Last modified:   6 Mar. 2017
 **/
 
 #pragma once
@@ -59,6 +59,7 @@ namespace z
                             core::array< ident_t<CHAR> >&) const;
 
             void check_for_keywords();
+            void check_for_numbers();
             void check_for_operators();
             void check_for_commands();
             void check_for_functions();
@@ -262,6 +263,7 @@ namespace z
         void scanner<CHAR>::clean()
         {
             check_for_keywords();
+            check_for_numbers();
 
             if (operators)
                 check_for_operators();
@@ -418,6 +420,95 @@ namespace z
                     else if (identifiers[i].name == L"return")
                     {
                         identifiers[i].type = ident::KEYWORD_RETURN;
+                    }
+                }
+            }
+        }
+
+
+        ///If any identifiers match a number form, change the type to the appropriate number.
+        template <typename CHAR>
+        void scanner<CHAR>::check_for_numbers()
+        {
+            for (int i=0; i<identifiers.size(); i++)
+            {
+                if (identifiers[i].type == ident::IDENTIFIER)
+                {
+                    bool isNumber = core::is_numeric(identifiers[i].name[0]);
+
+                    if (isNumber)
+                    {
+                        if (identifiers[i].name.beginsWith("0b"))
+                        {
+                            identifiers[i].type = ident::BINARY_LITERAL;
+
+                            //Error check for binary numbers
+                            for (int e=2; e<identifiers[i].name.length(); e++)
+                            {
+                                CHAR _char = identifiers[i].name[e];
+
+                                if ((_char != (CHAR)48) && //not 0 or 1
+                                    (_char != (CHAR)49) &&
+                                    (_char != (CHAR)46)) //not a decimal point
+                                {
+                                    identifiers[i].err = error::INVALID_IDENTIFIER;
+                                    break;
+                                }
+                            }
+                        }
+                        else if (identifiers[i].name.beginsWith("0c"))
+                        {
+                            identifiers[i].type = ident::OCTAL_LITERAL;
+
+                            //Error check for octal numbers
+                            for (int e=2; e<identifiers[i].name.length(); e++)
+                            {
+                                CHAR _char = identifiers[i].name[e];
+
+                                if ((_char != (CHAR)46) && //not a decimal point
+                                    ((_char < (CHAR)48) || //not from 0 to 7
+                                     (_char > (CHAR)55)))
+                                {
+                                    identifiers[i].err = error::INVALID_IDENTIFIER;
+                                    break;
+                                }
+                            }
+                        }
+                        else if (identifiers[i].name.beginsWith("0x"))
+                        {
+                            identifiers[i].type = ident::HEXADEC_LITERAL;
+
+                            //Error check for hexadecimal numbers
+                            for (int e=2; e<identifiers[i].name.length(); e++)
+                            {
+                                CHAR _char = identifiers[i].name[e];
+
+                                if ((_char != (CHAR)46) && //not a decimal point
+                                    ((_char == (CHAR)95) || //'_'
+                                     ((_char > (CHAR)102) && //'g' to 'z'
+                                      (_char <= (CHAR)122)) ||
+                                     ((_char > (CHAR)70) && //'G' to 'Z'
+                                      (_char <= (CHAR)90))))
+                                {
+                                    identifiers[i].err = error::INVALID_IDENTIFIER;
+                                    break;
+                                }
+                            }
+                        }
+                        else
+                        {
+                            identifiers[i].type = ident::DECIMAL_LITERAL;
+
+                            //Error check for decimal numbers
+                            for (int e=0; e<identifiers[i].name.length(); e++)
+                            {
+                                if (core::is_alpha(identifiers[i].name[e]) || //any letter
+                                    (identifiers[i].name[e] == (CHAR)95)) //'_'
+                                {
+                                    identifiers[i].err = error::INVALID_IDENTIFIER;
+                                }
+                            }
+                        }
                     }
                 }
             }

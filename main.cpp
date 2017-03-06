@@ -38,7 +38,7 @@ int main()
     functions.add("log");
 
 
-    //test the pre-parser
+    //test the scanner
     z::script::scanner<char>* S;
     S = new z::script::scanner<char>(&operators, &commands, &functions);
 
@@ -67,7 +67,7 @@ int main()
     cout << "\nDone.\n";
 
     cout << endl;
-    cout << "( " << (int)'(' << ':' << (int)L'(' << endl;
+    /*cout << "( " << (int)'(' << ':' << (int)L'(' << endl;
     cout << ") " << (int)')' << ':' << (int)L')' << endl;
     cout << "[ " << (int)'[' << ':' << (int)L'[' << endl;
     cout << "] " << (int)']' << ':' << (int)L']' << endl;
@@ -92,7 +92,7 @@ int main()
     cout << "z "<< (int)'z'<< ':' << (int)L'z'<< endl;
     cout << "A "<< (int)'A'<< ':' << (int)L'A'<< endl;
     cout << "F "<< (int)'F'<< ':' << (int)L'F'<< endl;
-    cout << "Z "<< (int)'Z'<< ':' << (int)L'Z'<< endl;
+    cout << "Z "<< (int)'Z'<< ':' << (int)L'Z'<< endl;*/
 
     return 0;
 }

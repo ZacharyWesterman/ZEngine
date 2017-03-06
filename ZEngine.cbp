@@ -84,6 +84,7 @@
 		<Unit filename="z/script/basic_expression.h" />
 		<Unit filename="z/script/commands.h" />
 		<Unit filename="z/script/destringify.h" />
+		<Unit filename="z/script/errors.h" />
 		<Unit filename="z/script/expression.h" />
 		<Unit filename="z/script/functionalExpression.h" />
 		<Unit filename="z/script/functions.h" />
@@ -94,6 +95,7 @@
 		<Unit filename="z/script/parser/escape_sequences.h" />
 		<Unit filename="z/script/parser/identity.h" />
 		<Unit filename="z/script/parser/lexer.h" />
+		<Unit filename="z/script/parser/phrase.h" />
 		<Unit filename="z/script/parser/scanner.h" />
 		<Unit filename="z/script/scriptParser.h" />
 		<Unit filename="z/script/split_parameters.h" />

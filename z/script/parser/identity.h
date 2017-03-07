@@ -45,12 +45,14 @@ namespace z
                 COMMA,//9
                 SEMICOLON,//10
 
-                STRING_LITERAL,//11
+                ASSIGNMENT,//11
 
-                DECIMAL_LITERAL,//12
-                BINARY_LITERAL,//13
-                HEXADEC_LITERAL,//14
-                OCTAL_LITERAL,//15
+                STRING_LITERAL,//12
+
+                DECIMAL_LITERAL,//13
+                BINARY_LITERAL,//14
+                HEXADEC_LITERAL,//15
+                OCTAL_LITERAL,//16
 
                 FUNCTION,
                 COMMAND,

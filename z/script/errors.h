@@ -28,6 +28,10 @@ namespace z
                 NONE = 0,
 
                 INVALID_IDENTIFIER,
+                UNKNOWN_OPERATOR,
+                AMBIGUOUS_EXPR,
+
+
 
                 DIV_BY_ZERO,
                 INVALID_CHARACTER,
@@ -52,8 +56,6 @@ namespace z
                 UNEXP_END_OF_SCRIPT,
                 UNKNOWN_LABEL,
                 UNKNOWN_SUBROUTINE,
-                UNKNOWN_OPERATOR,
-                AMBIGUOUS_EXPR,
             };
         }
     }

@@ -72,6 +72,7 @@ namespace z
             identifiers.clear();
 
             bool in_string = false;
+            bool in_comment = false;
 
 
             core::string<CHAR> NL = "\n";
@@ -117,6 +118,14 @@ namespace z
                         }
                     }
                 }
+                else if (in_comment)
+                {
+                    if (input.foundAt("*/", i))
+                    {
+                        in_comment = false;
+                        i+=2;
+                    }
+                }
                 else
                 {
                     if (input[i] == (CHAR)34)
@@ -133,10 +142,26 @@ namespace z
                         current_ident.line = line;
                         current_ident.column = column;
                     }
+                    else if (input.foundAt("/*", i))
+                    {
+                        newIdent = ident::NONE;
+                        in_comment = true;
+
+                        if (current_ident.type)
+                            identifiers.add(current_ident);
+
+                        current_ident.name.clear();
+                        current_ident.type = newIdent;
+
+                        current_ident.line = line;
+                        current_ident.column = column;
+
+                        i++;
+                    }
                 }
 
 
-                if (!in_string)
+                if (!in_string && !in_comment)
                 {
                     //white space
                     if (core::is_white_space(input[i]))
@@ -187,7 +212,12 @@ namespace z
                     {
                         newIdent = ident::SEMICOLON;
                     }
-                    else
+                    //assignment
+                    else if (input[i] == (CHAR)61)//'='
+                    {
+                        newIdent = ident::ASSIGNMENT;
+                    }
+                    else //possible operator
                     {
                         newIdent = ident::UNKNOWN;
                     }
@@ -211,7 +241,7 @@ namespace z
                             current_ident.name += input[i];
 
                         if ((current_ident.type >= ident::LPARENTH) &&
-                            (current_ident.type <= ident::SEMICOLON))
+                            (current_ident.type <= ident::ASSIGNMENT))
                         {
                             identifiers.add(current_ident);
                             current_ident.name.clear();

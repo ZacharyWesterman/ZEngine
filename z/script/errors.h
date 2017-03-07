@@ -28,6 +28,8 @@ namespace z
                 NONE = 0,
 
                 INVALID_IDENTIFIER,
+                UNKNOWN_ESCAPE,
+
                 UNKNOWN_OPERATOR,
                 AMBIGUOUS_EXPR,
 

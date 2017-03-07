@@ -115,6 +115,9 @@ namespace z
                         else
                         {
                             current_ident.name += input[i];
+
+                            if (input[i] == (CHAR)92) //we have some unknown escape sequence
+                                current_ident.err = error::UNKNOWN_ESCAPE;
                         }
                     }
                 }

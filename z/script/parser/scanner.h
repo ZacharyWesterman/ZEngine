@@ -52,24 +52,28 @@ namespace z
             }
 
 
-            void scan(const core::string<CHAR>&);
-            void clean();
+            bool scan(const core::string<CHAR>&);
+            bool clean();
 
-            void list_opers(const core::string<CHAR>&,
+            bool list_opers(const core::string<CHAR>&,
                             core::array< ident_t<CHAR> >&) const;
 
-            void check_for_keywords();
-            void check_for_numbers();
-            void check_for_operators();
-            void check_for_commands();
-            void check_for_functions();
+            bool check_for_keywords();
+            bool check_for_numbers();
+            bool check_for_operators();
+            bool check_for_commands();
+            bool check_for_functions();
         };
 
 
+        //function to scan for and separate input into separate tokens.
+        //returns false if an error was found while scanning.
         template <typename CHAR>
-        void scanner<CHAR>::scan(const core::string<CHAR>& input)
+        bool scanner<CHAR>::scan(const core::string<CHAR>& input)
         {
             identifiers.clear();
+
+            bool no_errors = true;
 
             bool in_string = false;
             bool in_comment = false;
@@ -88,6 +92,9 @@ namespace z
 
             for (int i=0; i<input.length(); i++)
             {
+                if (current_ident.err)
+                  no_errors = false;
+
                 if (in_string)
                 {
                     if (input[i] == (CHAR)34)
@@ -144,6 +151,8 @@ namespace z
 
                         current_ident.line = line;
                         current_ident.column = column;
+
+                        current_ident.err = error::NONE;
                     }
                     else if (input.foundAt("/*", i))
                     {
@@ -158,6 +167,8 @@ namespace z
 
                         current_ident.line = line;
                         current_ident.column = column;
+
+                        current_ident.err = error::NONE;
 
                         i++;
                     }
@@ -240,6 +251,8 @@ namespace z
                         current_ident.line = line;
                         current_ident.column = column;
 
+                        current_ident.err = error::NONE;
+
                         if (current_ident.type)
                             current_ident.name += input[i];
 
@@ -284,35 +297,47 @@ namespace z
             }
 
 
+            if (current_ident.err)
+                no_errors = false;
+
             if (current_ident.type == ident::UNKNOWN)
                 list_opers(current_ident.name, identifiers);
             else if (current_ident.type)
                 identifiers.add(current_ident);
+
+
+            return no_errors;
         }
 
 
-
+        //function to reassign previously scanned tokens with more specific IDs.
+        //returns false if an error was found.
         template <typename CHAR>
-        void scanner<CHAR>::clean()
+        bool scanner<CHAR>::clean()
         {
-            check_for_keywords();
-            check_for_numbers();
+            bool no_errors = true;
+
+            no_errors &= check_for_keywords();
+            no_errors &= check_for_numbers();
 
             if (operators)
-                check_for_operators();
+                no_errors &= check_for_operators();
 
             if (commands)
-                check_for_commands();
+                no_errors &= check_for_commands();
 
             if (functions)
-                check_for_functions();
+                no_errors &= check_for_functions();
+
+            return no_errors;
         }
 
 
         ///list all the possible operators in the string
         ///the string must contain ONLY operators and NO spaces
+        //returns false if an error was found.
         template <typename CHAR>
-        void scanner<CHAR>::list_opers(const core::string<CHAR>& input,
+        bool scanner<CHAR>::list_opers(const core::string<CHAR>& input,
                                        core::array< ident_t<CHAR> >& output) const
         {
             error_flag oper_error = error::NONE;
@@ -350,6 +375,8 @@ namespace z
                     else
                         oper_error = error::UNKNOWN_OPERATOR;
                 }
+
+                return (oper_error != error::NONE);
             }
 
 
@@ -386,12 +413,15 @@ namespace z
                 output.add(ident_t<CHAR>(input, this_type,
                                          line, column, oper_error));
             }
+
+            return (oper_error == error::NONE);
         }
 
 
         ///If any identifiers match a keyword, change the type to the appropriate keyword.
+        //does not produce any errors, so always returns true.
         template <typename CHAR>
-        void scanner<CHAR>::check_for_keywords()
+        bool scanner<CHAR>::check_for_keywords()
         {
             for (int i=0; i<identifiers.size(); i++)
             {
@@ -456,13 +486,18 @@ namespace z
                     }
                 }
             }
+
+            return true;
         }
 
 
         ///If any identifiers match a number form, change the type to the appropriate number.
+        //returns false if an error was found.
         template <typename CHAR>
-        void scanner<CHAR>::check_for_numbers()
+        bool scanner<CHAR>::check_for_numbers()
         {
+            bool no_errors = true;
+
             for (int i=0; i<identifiers.size(); i++)
             {
                 if (identifiers[i].type == ident::IDENTIFIER)
@@ -485,6 +520,7 @@ namespace z
                                     (_char != (CHAR)46)) //not a decimal point
                                 {
                                     identifiers[i].err = error::INVALID_IDENTIFIER;
+                                    no_errors = false;
                                     break;
                                 }
                             }
@@ -503,6 +539,7 @@ namespace z
                                      (_char > (CHAR)55)))
                                 {
                                     identifiers[i].err = error::INVALID_IDENTIFIER;
+                                    no_errors = false;
                                     break;
                                 }
                             }
@@ -524,6 +561,7 @@ namespace z
                                       (_char <= (CHAR)90))))
                                 {
                                     identifiers[i].err = error::INVALID_IDENTIFIER;
+                                    no_errors = false;
                                     break;
                                 }
                             }
@@ -539,18 +577,23 @@ namespace z
                                     (identifiers[i].name[e] == (CHAR)95)) //'_'
                                 {
                                     identifiers[i].err = error::INVALID_IDENTIFIER;
+                                    no_errors = false;
+                                    break;
                                 }
                             }
                         }
                     }
                 }
             }
+
+            return no_errors;
         }
 
         ///Some operators may have alphanumeric characters in them.
         ///if any identifiers match an operator, change the type to OPERATOR.
+        //does not produce any errors, so always returns true.
         template <typename CHAR>
-        void scanner<CHAR>::check_for_operators()
+        bool scanner<CHAR>::check_for_operators()
         {
             for (int i=0; i<identifiers.size(); i++)
             {
@@ -564,12 +607,15 @@ namespace z
                     }
                 }
             }
+
+            return true;
         }
 
 
         ///If any identifiers match a command, change the type to COMMAND.
+        //does not produce any errors, so always returns true.
         template <typename CHAR>
-        void scanner<CHAR>::check_for_commands()
+        bool scanner<CHAR>::check_for_commands()
         {
             for (int i=0; i<identifiers.size(); i++)
             {
@@ -584,12 +630,15 @@ namespace z
                     }
                 }
             }
+
+            return true;
         }
 
 
         ///If any identifiers match a function, change the type to FUNCTION.
+        //does not produce any errors, so always returns true.
         template <typename CHAR>
-        void scanner<CHAR>::check_for_functions()
+        bool scanner<CHAR>::check_for_functions()
         {
             for (int i=0; i<identifiers.size(); i++)
             {
@@ -603,6 +652,8 @@ namespace z
                     }
                 }
             }
+
+            return true;
         }
     }
 }

@@ -1589,7 +1589,7 @@
 1482454662 k:\zengine\engine\global\script_delay_timer.h
 	"../../core/timer.h"
 
-1488826784 source:c:\users\zachary\documents\github\zengine\main.cpp
+1488908019 source:c:\users\zachary\documents\github\zengine\main.cpp
 	<z/core.h>
 	<z/math.h>
 	"z/script/variables/datatype.h"
@@ -2177,7 +2177,7 @@
 	<type_traits>
 	"var_struct.h"
 
-1488826957 c:\users\zachary\documents\github\zengine\z\script\parser\scanner.h
+1488908051 c:\users\zachary\documents\github\zengine\z\script\parser\scanner.h
 	<z/core/sorted_array.h>
 	<z/core/string.h>
 	"escape_sequences.h"
@@ -2188,9 +2188,9 @@
 	<stdint.h>
 	<z/core/string.h>
 
-1488824681 c:\users\zachary\documents\github\zengine\z\script\parser\identity.h
+1488907401 c:\users\zachary\documents\github\zengine\z\script\parser\identity.h
 	<z/core/string.h>
 	<z/script/errors.h>
 
-1488824159 c:\users\zachary\documents\github\zengine\\z\script\errors.h
+1488907653 c:\users\zachary\documents\github\zengine\\z\script\errors.h
 

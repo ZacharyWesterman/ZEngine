@@ -44,10 +44,10 @@ int main(int argc, char* argv[])
 
 
 
-    z::core::string<char> input = "print \"me me\\nbig boy\" ";
+    z::core::string<char> input = "print 0xffffff && 10";
 
-    S->scan(input);
-    S->clean();
+    cout << ((S->scan(input) && S->clean()) ? "No errors" : "Found errors") << endl;
+
 
     cout << input.str() << "\n\n";
 

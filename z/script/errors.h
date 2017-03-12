@@ -34,7 +34,7 @@ namespace z
                 AMBIGUOUS_EXPR,
 
                 INVALID_INCLUDE,
-                INCLUDE_NOT_FOUND,
+                INCLUDE_LOAD_FAILED,
 
                 DIV_BY_ZERO,
                 INVALID_CHARACTER,

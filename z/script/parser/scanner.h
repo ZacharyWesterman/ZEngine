@@ -23,8 +23,6 @@
 #include "escape_sequences.h"
 #include "identity.h"
 
-#include <iostream>
-
 namespace z
 {
     namespace script

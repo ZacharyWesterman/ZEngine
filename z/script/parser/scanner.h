@@ -39,7 +39,7 @@ namespace z
         public:
             core::array< ident_t<CHAR> > identifiers;
 
-            //constructor REQUIRES all operators be set
+            //constructor allows operators, commands, and functions be set
             scanner(core::sorted_array< core::string<CHAR> >* opers = NULL,
                     core::sorted_array< core::string<CHAR> >* cmds = NULL,
                     core::sorted_array< core::string<CHAR> >* funcs = NULL)

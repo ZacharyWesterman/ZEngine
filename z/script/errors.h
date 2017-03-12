@@ -33,7 +33,8 @@ namespace z
                 UNKNOWN_OPERATOR,
                 AMBIGUOUS_EXPR,
 
-
+                INVALID_INCLUDE,
+                INCLUDE_NOT_FOUND,
 
                 DIV_BY_ZERO,
                 INVALID_CHARACTER,

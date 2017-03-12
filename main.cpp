@@ -7,7 +7,7 @@
 
 #include "z/script/variables/datatype.h"
 
-#include "z/script/parser/scanner.h"
+#include "z/script/parser/scan_iterator.h"
 
 #include <iostream>
 using namespace std;
@@ -38,8 +38,10 @@ int main(int argc, char* argv[])
     functions.add("log");
 
 
+    z::script::scan_iterator<char> SI(&operators, &commands, &functions);
+
     //test the scanner
-    z::script::scanner<char>* S;
+    /*z::script::scanner<char>* S;
     S = new z::script::scanner<char>(&operators, &commands, &functions);
 
 
@@ -59,7 +61,7 @@ int main(int argc, char* argv[])
     }
 
 
-    delete S;
+    delete S;*/
 
 
 

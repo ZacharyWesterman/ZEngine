@@ -68,6 +68,12 @@ namespace z
             bool insert(const T&, int);
             bool remove(int);
 
+            bool replace(int, int, const T&);
+            bool replace(int, int, const array<T>&);
+
+
+            array subset(int, int);
+
             int size() const;
 
             T& at(const int);
@@ -237,6 +243,76 @@ namespace z
             {
                 return array_data.at(index);
             }
+        }
+
+
+        template <typename T>
+        bool array<T>::replace(int start, int stop, const T& object)
+        {
+            if (stop >= (int)array_data.size())
+                stop = (int)array_data.size() - 1;
+
+            if (start < 0)
+                start = 0;
+
+            if (stop < start)
+            {
+                return false;
+            }
+            else
+            {
+                array_data.erase(array_data.begin() + start, array_data.begin() + stop + 1);
+                array_data.insert(array_data.begin() + start, object);
+
+                return true;
+            }
+        }
+
+
+        template <typename T>
+        bool array<T>::replace(int start, int stop, const array<T>& other)
+        {
+            if (stop >= (int)array_data.size())
+                stop = (int)array_data.size() - 1;
+
+            if (start < 0)
+                start = 0;
+
+            if (stop < start)
+            {
+                return false;
+            }
+            else
+            {
+                array_data.erase(array_data.begin() + start, array_data.begin() + stop + 1);
+
+                for (int i=other.size()-1; i>=0; i--)
+                    array_data.insert(array_data.begin() + start, other[i]);
+
+                return true;
+            }
+        }
+
+
+        template <typename T>
+        array<T> array<T>::subset(int start, int stop)
+        {
+            if (stop >= (int)array_data.size())
+                stop = (int)array_data.size() - 1;
+
+            if (start < 0)
+                start = 0;
+
+
+            array<T> output;
+
+            if (stop >= start)
+            {
+                for (int i=start; i<=stop; i++)
+                    output.array_data.push_back(array_data[i]);
+            }
+
+            return output;
         }
 
 

@@ -73,6 +73,7 @@
 		<Unit filename="z/engine/global/script_delay_timer.h" />
 		<Unit filename="z/engine/print_to_console.h" />
 		<Unit filename="z/engine/pure_string.h" />
+		<Unit filename="z/file/directory_operations.h" />
 		<Unit filename="z/file/list_files_in_dir.h" />
 		<Unit filename="z/file/loadFileToMemory.h" />
 		<Unit filename="z/file/saveToFileFromMemory.h" />
@@ -98,6 +99,7 @@
 		<Unit filename="z/script/parser/phrase.h" />
 		<Unit filename="z/script/parser/scan_iterator.h" />
 		<Unit filename="z/script/parser/scanner.h" />
+		<Unit filename="z/script/parser/scanner_include_tree.h" />
 		<Unit filename="z/script/scriptParser.h" />
 		<Unit filename="z/script/split_parameters.h" />
 		<Unit filename="z/script/split_script_into_commands.h" />

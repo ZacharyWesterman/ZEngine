@@ -36,14 +36,19 @@ namespace z
             core::sorted_array< core::string<CHAR> >* commands;
             core::sorted_array< core::string<CHAR> >* functions;
 
+            core::sorted_ref_array< core::string<CHAR>* >* sym_table;
+
         public:
             core::array< ident_t<CHAR> > identifiers;
 
             //constructor allows operators, commands, and functions be set
-            scanner(core::sorted_array< core::string<CHAR> >* opers = NULL,
+            scanner(core::sorted_ref_array< core::string<CHAR>* >* symbol_table,
+                    core::sorted_array< core::string<CHAR> >* opers = NULL,
                     core::sorted_array< core::string<CHAR> >* cmds = NULL,
                     core::sorted_array< core::string<CHAR> >* funcs = NULL)
             {
+                sym_table = symbol_table;
+
                 operators = opers;
                 commands = cmds;
                 functions = funcs;
@@ -53,7 +58,7 @@ namespace z
             bool scan(const core::string<CHAR>&);
             bool clean();
 
-            bool list_opers(const core::string<CHAR>&,
+            bool list_opers(core::string<CHAR>&,
                             core::array< ident_t<CHAR> >&) const;
 
             bool check_for_keywords();
@@ -61,6 +66,8 @@ namespace z
             bool check_for_operators();
             bool check_for_commands();
             bool check_for_functions();
+
+            void* addToSymTable(core::string<CHAR>*) const;
         };
 
 
@@ -86,7 +93,7 @@ namespace z
 
             ident_t<CHAR> current_ident (ident::NONE, 0, 0);
             ident::ident_enum newIdent = ident::NONE;
-
+            core::string<CHAR> current_symbol;
 
             for (int i=0; i<input.length(); i++)
             {
@@ -112,14 +119,14 @@ namespace z
                             esc_sequence_name(esc_seq, seq_name);
                             esc_sequence_equiv(esc_seq, seq_equiv);
 
-                            current_ident.name += seq_equiv;
+                            current_symbol += seq_equiv;
 
                             i += seq_name.length() - 1;
                             column += seq_name.length() - 1;
                         }
                         else
                         {
-                            current_ident.name += input[i];
+                            current_symbol += input[i];
 
                             if (input[i] == (CHAR)92) //we have some unknown escape sequence
                                 current_ident.err = error::UNKNOWN_ESCAPE;
@@ -142,15 +149,20 @@ namespace z
                         in_string = true;
 
                         if (current_ident.type)
+                        {
+                            current_ident.meta = addToSymTable(&current_symbol);
                             identifiers.add(current_ident);
+                        }
 
-                        current_ident.name.clear();
+                        current_symbol.clear();
                         current_ident.type = newIdent;
 
                         current_ident.line = line;
                         current_ident.column = column;
 
                         current_ident.err = error::NONE;
+
+                        current_ident.meta = NULL;
                     }
                     else if (input.foundAt("/*", i))
                     {
@@ -158,15 +170,20 @@ namespace z
                         in_comment = true;
 
                         if (current_ident.type)
+                        {
+                            current_ident.meta = addToSymTable(&current_symbol);
                             identifiers.add(current_ident);
+                        }
 
-                        current_ident.name.clear();
+                        current_symbol.clear();
                         current_ident.type = newIdent;
 
                         current_ident.line = line;
                         current_ident.column = column;
 
                         current_ident.err = error::NONE;
+
+                        current_ident.meta = NULL;
 
                         i++;
                     }
@@ -239,26 +256,32 @@ namespace z
                     if (newIdent != current_ident.type)
                     {
                         if (current_ident.type == ident::UNKNOWN)
-                            list_opers(current_ident.name, identifiers);
+                        {
+                            list_opers(current_symbol, identifiers);
+                        }
                         else if (current_ident.type)
+                        {
+                            current_ident.meta = addToSymTable(&current_symbol);
                             identifiers.add(current_ident);
+                        }
 
-                        current_ident.name.clear();
+                        current_symbol.clear();
                         current_ident.type = newIdent;
 
                         current_ident.line = line;
                         current_ident.column = column;
 
                         current_ident.err = error::NONE;
+                        current_ident.meta = NULL;
 
                         if (current_ident.type)
-                            current_ident.name += input[i];
+                            current_symbol += input[i];
 
                         if ((current_ident.type >= ident::LPARENTH) &&
                             (current_ident.type <= ident::ASSIGNMENT))
                         {
                             identifiers.add(current_ident);
-                            current_ident.name.clear();
+                            current_symbol.clear();
 
                             current_ident.type = ident::NONE;
                             newIdent = ident::NONE;
@@ -266,7 +289,7 @@ namespace z
                     }
                     else if (current_ident.type)
                     {
-                        current_ident.name += input[i];
+                        current_symbol += input[i];
                     }
                 }
 
@@ -299,9 +322,15 @@ namespace z
                 no_errors = false;
 
             if (current_ident.type == ident::UNKNOWN)
-                list_opers(current_ident.name, identifiers);
+            {
+                list_opers(current_symbol, identifiers);
+            }
             else if (current_ident.type)
+            {
+                current_ident.meta = addToSymTable(&current_symbol);
+
                 identifiers.add(current_ident);
+            }
 
 
             return no_errors;
@@ -335,7 +364,7 @@ namespace z
         ///the string must contain ONLY operators and NO spaces
         //returns false if an error was found.
         template <typename CHAR>
-        bool scanner<CHAR>::list_opers(const core::string<CHAR>& input,
+        bool scanner<CHAR>::list_opers(core::string<CHAR>& input,
                                        core::array< ident_t<CHAR> >& output) const
         {
             error_flag oper_error = error::NONE;
@@ -373,8 +402,6 @@ namespace z
                     else
                         oper_error = error::UNKNOWN_OPERATOR;
                 }
-
-                return (oper_error != error::NONE);
             }
 
 
@@ -386,8 +413,8 @@ namespace z
 
                 for (int i=0; i<temp_opers.size(); i++)
                 {
-                    output.add(ident_t<CHAR>(temp_opers[i], ident::OPERATOR,
-                                             line, column + x_offset));
+                    output.add(ident_t<CHAR>(ident::OPERATOR, line, column + x_offset,
+                                             addToSymTable(&temp_opers[i])));
 
                     x_offset += temp_opers[i].length();
                 }
@@ -408,11 +435,11 @@ namespace z
                 int line = output[output.size()-1].line;
                 int column = output[output.size()-1].column;
 
-                output.add(ident_t<CHAR>(input, this_type,
-                                         line, column, oper_error));
+                output.add(ident_t<CHAR>(this_type, line, column,
+                                         addToSymTable(&input), oper_error));
             }
 
-            return (oper_error == error::NONE);
+            return (oper_error != error::NONE);
         }
 
 
@@ -423,62 +450,64 @@ namespace z
         {
             for (int i=0; i<identifiers.size(); i++)
             {
-                if (identifiers[i].type == ident::IDENTIFIER)
+                core::string<CHAR>* symbol = (core::string<CHAR>*)identifiers[i].meta;
+
+                if ((identifiers[i].type == ident::IDENTIFIER) && symbol)
                 {
-                    if (identifiers[i].name == L"main")
+                    if (*symbol == core::string<CHAR>(L"main"))
                     {
                         identifiers[i].type = ident::KEYWORD_MAIN;
                     }
 
-                    else if (identifiers[i].name == L"if")
+                    else if (*symbol == L"if")
                     {
                         identifiers[i].type = ident::KEYWORD_IF;
                     }
-                    else if (identifiers[i].name == L"else")
+                    else if (*symbol == L"else")
                     {
                         identifiers[i].type = ident::KEYWORD_ELSE;
                     }
 
-                    else if (identifiers[i].name == L"for")
+                    else if (*symbol == L"for")
                     {
                         identifiers[i].type = ident::KEYWORD_FOR;
                     }
-                    else if (identifiers[i].name == L"do")
+                    else if (*symbol == L"do")
                     {
                         identifiers[i].type = ident::KEYWORD_DO;
                     }
-                    else if (identifiers[i].name == L"loop")
+                    else if (*symbol == L"loop")
                     {
                         identifiers[i].type = ident::KEYWORD_LOOP;
                     }
-                    else if (identifiers[i].name == L"while")
+                    else if (*symbol == L"while")
                     {
                         identifiers[i].type = ident::KEYWORD_WHILE;
                     }
 
-                    else if (identifiers[i].name == L"goto")
+                    else if (*symbol == L"goto")
                     {
                         identifiers[i].type = ident::KEYWORD_GOTO;
                     }
-                    else if (identifiers[i].name == L"gosub")
+                    else if (*symbol == L"gosub")
                     {
                         identifiers[i].type = ident::KEYWORD_GOSUB;
                     }
 
-                    else if (identifiers[i].name == L"run")
+                    else if (*symbol == L"run")
                     {
                         identifiers[i].type = ident::KEYWORD_RUN;
                     }
-                    else if (identifiers[i].name == L"include")
+                    else if (*symbol == L"include")
                     {
                         identifiers[i].type = ident::KEYWORD_INCLUDE;
                     }
 
-                    else if (identifiers[i].name == L"break")
+                    else if (*symbol == L"break")
                     {
                         identifiers[i].type = ident::KEYWORD_BREAK;
                     }
-                    else if (identifiers[i].name == L"return")
+                    else if (*symbol == L"return")
                     {
                         identifiers[i].type = ident::KEYWORD_RETURN;
                     }
@@ -498,20 +527,22 @@ namespace z
 
             for (int i=0; i<identifiers.size(); i++)
             {
-                if (identifiers[i].type == ident::IDENTIFIER)
+                core::string<CHAR>* symbol = (core::string<CHAR>*)identifiers[i].meta;
+
+                if ((identifiers[i].type == ident::IDENTIFIER) && symbol)
                 {
-                    bool isNumber = core::is_numeric(identifiers[i].name[0]);
+                    bool isNumber = core::is_numeric(symbol->at(0));
 
                     if (isNumber)
                     {
-                        if (identifiers[i].name.beginsWith("0b"))
+                        if (symbol->beginsWith("0b"))
                         {
                             identifiers[i].type = ident::BINARY_LITERAL;
 
                             //Error check for binary numbers
-                            for (int e=2; e<identifiers[i].name.length(); e++)
+                            for (int e=2; e<(symbol->length()); e++)
                             {
-                                CHAR _char = identifiers[i].name[e];
+                                CHAR _char = symbol->at(e);
 
                                 if ((_char != (CHAR)48) && //not 0 or 1
                                     (_char != (CHAR)49) &&
@@ -523,14 +554,14 @@ namespace z
                                 }
                             }
                         }
-                        else if (identifiers[i].name.beginsWith("0c"))
+                        else if (symbol->beginsWith("0c"))
                         {
                             identifiers[i].type = ident::OCTAL_LITERAL;
 
                             //Error check for octal numbers
-                            for (int e=2; e<identifiers[i].name.length(); e++)
+                            for (int e=2; e<(symbol->length()); e++)
                             {
-                                CHAR _char = identifiers[i].name[e];
+                                CHAR _char = symbol->at(e);
 
                                 if ((_char != (CHAR)46) && //not a decimal point
                                     ((_char < (CHAR)48) || //not from 0 to 7
@@ -542,14 +573,14 @@ namespace z
                                 }
                             }
                         }
-                        else if (identifiers[i].name.beginsWith("0x"))
+                        else if (symbol->beginsWith("0x"))
                         {
                             identifiers[i].type = ident::HEXADEC_LITERAL;
 
                             //Error check for hexadecimal numbers
-                            for (int e=2; e<identifiers[i].name.length(); e++)
+                            for (int e=2; e<(symbol->length()); e++)
                             {
-                                CHAR _char = identifiers[i].name[e];
+                                CHAR _char = symbol->at(e);
 
                                 if ((_char != (CHAR)46) && //not a decimal point
                                     ((_char == (CHAR)95) || //'_'
@@ -569,10 +600,10 @@ namespace z
                             identifiers[i].type = ident::DECIMAL_LITERAL;
 
                             //Error check for decimal numbers
-                            for (int e=0; e<identifiers[i].name.length(); e++)
+                            for (int e=0; e<(symbol->length()); e++)
                             {
-                                if (core::is_alpha(identifiers[i].name[e]) || //any letter
-                                    (identifiers[i].name[e] == (CHAR)95)) //'_'
+                                if (core::is_alpha(symbol->at(e)) || //any letter
+                                    ((symbol->at(e)) == (CHAR)95)) //'_'
                                 {
                                     identifiers[i].err = error::INVALID_IDENTIFIER;
                                     no_errors = false;
@@ -595,9 +626,11 @@ namespace z
         {
             for (int i=0; i<identifiers.size(); i++)
             {
-                if (identifiers[i].type == ident::IDENTIFIER)
+                core::string<CHAR>* symbol = (core::string<CHAR>*)identifiers[i].meta;
+
+                if ((identifiers[i].type == ident::IDENTIFIER) && symbol)
                 {
-                    int location = operators->find(identifiers[i].name);
+                    int location = operators->find(*symbol);
 
                     if (location > -1)
                     {
@@ -617,10 +650,12 @@ namespace z
         {
             for (int i=0; i<identifiers.size(); i++)
             {
-                if (identifiers[i].type == ident::IDENTIFIER)
+                core::string<CHAR>* symbol = (core::string<CHAR>*)identifiers[i].meta;
+
+                if ((identifiers[i].type == ident::IDENTIFIER) && symbol)
                 {
 
-                    int location = commands->find(identifiers[i].name);
+                    int location = commands->find(*symbol);
 
                     if (location > -1)
                     {
@@ -640,9 +675,11 @@ namespace z
         {
             for (int i=0; i<identifiers.size(); i++)
             {
-                if (identifiers[i].type == ident::IDENTIFIER)
+                core::string<CHAR>* symbol = (core::string<CHAR>*)identifiers[i].meta;
+
+                if ((identifiers[i].type == ident::IDENTIFIER) && symbol)
                 {
-                    int location = functions->find(identifiers[i].name);
+                    int location = functions->find(*symbol);
 
                     if (location > -1)
                     {
@@ -652,6 +689,29 @@ namespace z
             }
 
             return true;
+        }
+
+
+
+        template <typename CHAR>
+        void* scanner<CHAR>::addToSymTable(core::string<CHAR>* symbol) const
+        {
+            if (sym_table)
+            {
+                int existing = sym_table->find(symbol);
+
+                if (existing > -1)
+                {
+                    return (void*)sym_table->at(existing);
+                }
+                else
+                {
+                    int location = sym_table->add(new core::string<CHAR>(*symbol));
+                    return (void*)sym_table->at(location);
+                }
+            }
+
+            return NULL;
         }
     }
 }

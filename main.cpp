@@ -70,8 +70,8 @@ int main(int argc, char* argv[])
         cout << " {" << S->identifiers[i].err << "}\n";
     }
 
-    //for (int i=0; i<symbol_table.size(); i++)
-      //  delete symbol_table[i];
+    for (int i=0; i<symbol_table.size(); i++)
+        delete symbol_table[i];
 
     delete S;
 

@@ -90,10 +90,13 @@ namespace z
         template <typename T>
         int sorted_ref_array<T>::find(const T object) const
         {
+            if (this->array_data.size() == 0)
+                return -1;
+
             int left = 0;
             int right = this->array_data.size()-1;
 
-            while (left != right)
+            while (left < right)
             {
                 int center = (left + right) / 2;
 

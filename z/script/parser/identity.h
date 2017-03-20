@@ -30,51 +30,51 @@ namespace z
             {
                 NONE = 0,
 
-                IDENTIFIER,//1
-                OPERATOR,//2
+                LPARENTH,//1
+                RPARENTH,//2
 
-                LPARENTH,//3
-                RPARENTH,//4
+                LBRACE,//3
+                RBRACE,//4
 
-                LBRACE,//5
-                RBRACE,//6
+                LBRACKET,//5
+                RBRACKET,//6
 
-                LBRACKET,//7
-                RBRACKET,//8
+                COMMA,//7
+                SEMICOLON,//8
 
-                COMMA,//9
-                SEMICOLON,//10
+                ASSIGNMENT,//9
 
-                ASSIGNMENT,//11
+                STRING_LITERAL,//10
 
-                STRING_LITERAL,//12
+                DECIMAL_LITERAL,//11
+                BINARY_LITERAL,//12
+                HEXADEC_LITERAL,//13
+                OCTAL_LITERAL,//14
 
-                DECIMAL_LITERAL,//13
-                BINARY_LITERAL,//14
-                HEXADEC_LITERAL,//15
-                OCTAL_LITERAL,//16
+                IDENTIFIER,//15
+                OPERATOR,//16
 
-                FUNCTION,
-                COMMAND,
+                FUNCTION,//17
+                COMMAND,//18
 
-                KEYWORD_MAIN,
+                KEYWORD_MAIN,//19
 
-                KEYWORD_IF,
-                KEYWORD_ELSE,
+                KEYWORD_IF,//20
+                KEYWORD_ELSE,//21
 
-                KEYWORD_FOR,
-                KEYWORD_DO,
-                KEYWORD_LOOP,
-                KEYWORD_WHILE,
+                KEYWORD_FOR,//22
+                KEYWORD_DO,//23
+                KEYWORD_LOOP,//24
+                KEYWORD_WHILE,//25
 
-                KEYWORD_GOTO,
-                KEYWORD_GOSUB,
+                KEYWORD_GOTO,//26
+                KEYWORD_GOSUB,//27
 
-                KEYWORD_RUN,
-                KEYWORD_INCLUDE,
+                KEYWORD_RUN,//28
+                KEYWORD_INCLUDE,//29
 
-                KEYWORD_BREAK,
-                KEYWORD_RETURN,
+                KEYWORD_BREAK,//30
+                KEYWORD_RETURN,//31
 
 
                 UNKNOWN = -1
@@ -86,7 +86,6 @@ namespace z
         class ident_t
         {
         public:
-            core::string<CHAR> name;
             ident::ident_enum type;
 
             int line;
@@ -96,26 +95,11 @@ namespace z
 
             void* meta;
 
-            ///constructor with no name, as name may not be needed.
-            ident_t (ident::ident_enum t, int lin, int col,
-                     error_flag _error = error::NONE)
-            {
-                type = t;
-
-                line = lin;
-                column = col;
-
-
-                err = _error;
-
-                meta = NULL;
-            }
 
             ///full constructor
-            ident_t (core::string<CHAR> s, ident::ident_enum t, int lin, int col,
-                     error_flag _error = error::NONE)
+            ident_t (ident::ident_enum t, int lin, int col,
+                     void* other_ptr = NULL, error_flag _error = error::NONE)
             {
-                name = s;
                 type = t;
 
                 line = lin;
@@ -123,45 +107,39 @@ namespace z
 
                 err = _error;
 
-                meta = NULL;
+                meta = other_ptr;
             }
 
 
             ///equality operators
-            bool operator==(const ident_t& other) const
+            inline bool operator==(const ident_t& other) const
             {
-                return ((type == other.type) &&
-                        (name == other.name));
+                return (type == other.type);
             }
 
-            bool operator!=(const ident_t& other) const
+            inline bool operator!=(const ident_t& other) const
             {
-                return ((type != other.type) &&
-                        (name != other.name));
+                return (type != other.type);
             }
 
-            bool operator>(const ident_t& other) const
+            inline bool operator>(const ident_t& other) const
             {
-                return ((type > other.type) &&
-                        (name > other.name));
+                return (type > other.type);
             }
 
-            bool operator>=(const ident_t& other) const
+            inline bool operator>=(const ident_t& other) const
             {
-                return ((type >= other.type) &&
-                        (name >= other.name));
+                return (type >= other.type);
             }
 
-            bool operator<(const ident_t& other) const
+            inline bool operator<(const ident_t& other) const
             {
-                return ((type < other.type) &&
-                        (name < other.name));
+                return (type < other.type);
             }
 
-            bool operator<=(const ident_t& other) const
+            inline bool operator<=(const ident_t& other) const
             {
-                return ((type <= other.type) &&
-                        (name <= other.name));
+                return (type <= other.type);
             }
         };
 

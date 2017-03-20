@@ -67,7 +67,7 @@ namespace z
             bool check_for_commands();
             bool check_for_functions();
 
-            void* addToSymTable(core::string<CHAR>*) const;
+            core::string<CHAR>* addToSymTable(core::string<CHAR>*) const;
         };
 
 
@@ -694,7 +694,7 @@ namespace z
 
 
         template <typename CHAR>
-        void* scanner<CHAR>::addToSymTable(core::string<CHAR>* symbol) const
+        core::string<CHAR>* scanner<CHAR>::addToSymTable(core::string<CHAR>* symbol) const
         {
             if (sym_table)
             {
@@ -702,12 +702,12 @@ namespace z
 
                 if (existing > -1)
                 {
-                    return (void*)sym_table->at(existing);
+                    return sym_table->at(existing);
                 }
                 else
                 {
                     int location = sym_table->add(new core::string<CHAR>(*symbol));
-                    return (void*)sym_table->at(location);
+                    return sym_table->at(location);
                 }
             }
 

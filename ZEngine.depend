@@ -1589,10 +1589,9 @@
 1482454662 k:\zengine\engine\global\script_delay_timer.h
 	"../../core/timer.h"
 
-1489083729 source:c:\users\zachary\documents\github\zengine\main.cpp
+1489997501 source:c:\users\zachary\documents\github\zengine\main.cpp
 	<z/core.h>
 	<z/math.h>
-	"z/script/variables/datatype.h"
 	"z/script/parser/scanner.h"
 	<iostream>
 
@@ -2067,7 +2066,7 @@
 	<type_traits>
 	"string.h"
 
-1488406472 c:\users\zachary\documents\github\zengine\\z\core.h
+1488410072 c:\users\zachary\documents\github\zengine\\z\core.h
 	"core/string.h"
 	"core/stream.h"
 	"core/array.h"
@@ -2079,7 +2078,7 @@
 	"core/pause.h"
 	"core/loadLibrary.h"
 
-1488405792 c:\users\zachary\documents\github\zengine\\z\core\string.h
+1488409392 c:\users\zachary\documents\github\zengine\\z\core\string.h
 	"string/string.h"
 	"string/char_is_alphanumeric.h"
 	"string/char_is_whitespace.h"
@@ -2090,79 +2089,79 @@
 	"string/string_upper.h"
 	"string/string_remove_whiteSpace.h"
 
-1487667876 c:\users\zachary\documents\github\zengine\\z\core\string\string.h
+1487671476 c:\users\zachary\documents\github\zengine\\z\core\string\string.h
 	<type_traits>
 	<stdio.h>
 	"convert_char_type.h"
 
-1486949178 c:\users\zachary\documents\github\zengine\\z\core\string\convert_char_type.h
+1486952778 c:\users\zachary\documents\github\zengine\\z\core\string\convert_char_type.h
 
-1486949178 c:\users\zachary\documents\github\zengine\\z\core\string\char_is_alphanumeric.h
+1486952778 c:\users\zachary\documents\github\zengine\\z\core\string\char_is_alphanumeric.h
 
-1486949178 c:\users\zachary\documents\github\zengine\\z\core\string\char_is_whitespace.h
+1486952778 c:\users\zachary\documents\github\zengine\\z\core\string\char_is_whitespace.h
 
-1486949178 c:\users\zachary\documents\github\zengine\\z\core\string\depad_string.h
+1486952778 c:\users\zachary\documents\github\zengine\\z\core\string\depad_string.h
 	"string.h"
 
-1488404569 c:\users\zachary\documents\github\zengine\\z\core\string\eval_string.h
+1488408169 c:\users\zachary\documents\github\zengine\\z\core\string\eval_string.h
 	"string.h"
 	"char_is_alphanumeric.h"
 
-1488404660 c:\users\zachary\documents\github\zengine\\z\core\string\pad_string.h
+1488408260 c:\users\zachary\documents\github\zengine\\z\core\string\pad_string.h
 	"string.h"
 
-1488404666 c:\users\zachary\documents\github\zengine\\z\core\string\string_lower.h
+1488408266 c:\users\zachary\documents\github\zengine\\z\core\string\string_lower.h
 	"string.h"
 
-1488404673 c:\users\zachary\documents\github\zengine\\z\core\string\string_upper.h
+1488408273 c:\users\zachary\documents\github\zengine\\z\core\string\string_upper.h
 	"string.h"
 
-1488404670 c:\users\zachary\documents\github\zengine\\z\core\string\string_remove_whitespace.h
+1488408270 c:\users\zachary\documents\github\zengine\\z\core\string\string_remove_whitespace.h
 	"string.h"
 	"char_is_whiteSpace.h"
 
-1488572147 c:\users\zachary\documents\github\zengine\\z\core\stream.h
+1488575747 c:\users\zachary\documents\github\zengine\\z\core\stream.h
 	<type_traits>
 	"string.h"
 
-1488617664 c:\users\zachary\documents\github\zengine\\z\core\array.h
+1489290886 c:\users\zachary\documents\github\zengine\\z\core\array.h
 	<vector>
 	"stream.h"
 
-1488618302 c:\users\zachary\documents\github\zengine\\z\core\sorted_array.h
+1489992459 c:\users\zachary\documents\github\zengine\\z\core\sorted_array.h
 	"./array.h"
 
-1486949217 c:\users\zachary\documents\github\zengine\\z\core\sorted_ref_array.h
+1489994970 c:\users\zachary\documents\github\zengine\\z\core\sorted_ref_array.h
 	"array.h"
 
-1486949178 c:\users\zachary\documents\github\zengine\\z\core\dynamicstack.h
+1486952778 c:\users\zachary\documents\github\zengine\\z\core\dynamicstack.h
 
-1486949178 c:\users\zachary\documents\github\zengine\\z\core\timer.h
+1486952778 c:\users\zachary\documents\github\zengine\\z\core\timer.h
 	<chrono>
 
-1488408940 c:\users\zachary\documents\github\zengine\\z\core\circular_number.h
+1488412540 c:\users\zachary\documents\github\zengine\\z\core\circular_number.h
 	<iostream>
 	<iostream>
 
-1486949178 c:\users\zachary\documents\github\zengine\\z\core\loadlibrary.h
+1486952778 c:\users\zachary\documents\github\zengine\\z\core\loadlibrary.h
 	"string.h"
 	<stdint.h>
 	<windows.h>
 
-1488406477 c:\users\zachary\documents\github\zengine\\z\core\pause.h
+1488410077 c:\users\zachary\documents\github\zengine\\z\core\pause.h
 	<unistd.h>
 	<windows.h>
 
-1488568443 c:\users\zachary\documents\github\zengine\\z\math.h
+1488572043 c:\users\zachary\documents\github\zengine\\z\math.h
 	"math/constants.h"
 	"math/factorial.h"
 	"math/fibonacci.h"
 
-1488568654 c:\users\zachary\documents\github\zengine\\z\math\constants.h
+1488572254 c:\users\zachary\documents\github\zengine\\z\math\constants.h
 
-1488571429 c:\users\zachary\documents\github\zengine\\z\math\factorial.h
+1488575029 c:\users\zachary\documents\github\zengine\\z\math\factorial.h
 
-1488570884 c:\users\zachary\documents\github\zengine\\z\math\fibonacci.h
+1488574484 c:\users\zachary\documents\github\zengine\\z\math\fibonacci.h
 	"constants.h"
 	<math.h>
 
@@ -2177,20 +2176,20 @@
 	<type_traits>
 	"var_struct.h"
 
-1489083683 c:\users\zachary\documents\github\zengine\z\script\parser\scanner.h
+1489997557 c:\users\zachary\documents\github\zengine\z\script\parser\scanner.h
 	<z/core/sorted_array.h>
 	<z/core/string.h>
 	"escape_sequences.h"
 	"identity.h"
 	<iostream>
 
-1488609120 c:\users\zachary\documents\github\zengine\z\script\parser\escape_sequences.h
+1488612720 c:\users\zachary\documents\github\zengine\z\script\parser\escape_sequences.h
 	<stdint.h>
 	<z/core/string.h>
 
-1488907401 c:\users\zachary\documents\github\zengine\z\script\parser\identity.h
+1489996705 c:\users\zachary\documents\github\zengine\z\script\parser\identity.h
 	<z/core/string.h>
 	<z/script/errors.h>
 
-1488908607 c:\users\zachary\documents\github\zengine\\z\script\errors.h
+1489353285 c:\users\zachary\documents\github\zengine\\z\script\errors.h
 

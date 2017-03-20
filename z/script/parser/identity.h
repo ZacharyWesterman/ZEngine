@@ -93,12 +93,12 @@ namespace z
 
             error_flag err;
 
-            void* meta;
+            core::string<CHAR>* meta;
 
 
             ///full constructor
             ident_t (ident::ident_enum t, int lin, int col,
-                     void* other_ptr = NULL, error_flag _error = error::NONE)
+                     core::string<CHAR>* symbol_ptr = NULL, error_flag _error = error::NONE)
             {
                 type = t;
 
@@ -107,7 +107,7 @@ namespace z
 
                 err = _error;
 
-                meta = other_ptr;
+                meta = symbol_ptr;
             }
 
 

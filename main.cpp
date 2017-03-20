@@ -1,13 +1,13 @@
 #include <z/core.h>
 #include <z/math.h>
 
-//#include "z/script/scanner.h"
+#include "z/script/parser/scanner.h"
 
 //#include "z/script/load_operators.h"
 
-#include "z/script/variables/datatype.h"
+//#include "z/script/variables/datatype.h"
 
-#include "z/script/parser/scan_iterator.h"
+//#include "z/script/parser/scan_iterator.h"
 
 #include <iostream>
 using namespace std;
@@ -38,30 +38,42 @@ int main(int argc, char* argv[])
     functions.add("log");
 
 
-    z::script::scan_iterator<char> SI(&operators, &commands, &functions);
+    core::sorted_ref_array< core::string<char>* > symbol_table;
+
+    //z::script::scanner<char> S(&symbol_table, &operators, &commands, &functions);
 
     //test the scanner
-    /*z::script::scanner<char>* S;
-    S = new z::script::scanner<char>(&operators, &commands, &functions);
+    z::script::scanner<char>* S;
+    S = new z::script::scanner<char>(&symbol_table, &operators, &commands, &functions);
 
 
 
-    z::core::string<char> input = "print 0xffffff && 10";
+    z::core::string<char> input = "print /*0xff + 10); print*/ \"Hello\";";
 
     cout << ((S->scan(input) && S->clean()) ? "No errors" : "Found errors") << endl;
 
+    //symbol_table.find(&input);
 
     cout << input.str() << "\n\n";
 
     for (int i=0; i<S->identifiers.size(); i++)
     {
-        cout << S->identifiers[i].name.str() << "\t(" << S->identifiers[i].type;
-        cout << ")\t[" << S->identifiers[i].line << ',' << S->identifiers[i].column << "]";
+        core::string<char>* symbol = (core::string<char>*)(S->identifiers[i].meta);
+
+        if (symbol)
+            cout << symbol->str();
+        else
+            cout << "NULL";
+        cout << "\t(" << S->identifiers[i].type;
+        cout << ")\t[" << S->identifiers[i].line;
+        cout << ',' << S->identifiers[i].column << "]";
         cout << " {" << S->identifiers[i].err << "}\n";
     }
 
+    //for (int i=0; i<symbol_table.size(); i++)
+      //  delete symbol_table[i];
 
-    delete S;*/
+    delete S;
 
 
 

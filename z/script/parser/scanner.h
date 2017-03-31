@@ -199,10 +199,22 @@ namespace z
                     }
                     //generic identifiers
                     else if (core::is_alphanumeric(input[i]) ||
-                             (input[i] == (CHAR)46) ||
                              (input[i] == (CHAR)95))
                     {
-                        newIdent = ident::IDENTIFIER;
+                        if ((newIdent != ident::NUMERIC) &&
+                            (newIdent != ident::IDENTIFIER))
+                        {
+                            if (core::is_numeric(input[i]))
+                                newIdent = ident::NUMERIC;
+                            else
+                                newIdent = ident::IDENTIFIER;
+                        }
+                    }
+                    //period
+                    else if (input[i] == (CHAR)46)
+                    {
+                        if (newIdent != ident::NUMERIC)
+                            newIdent = ident::PERIOD;
                     }
                     //parentheses
                     else if (input[i] == (CHAR)40)
@@ -240,11 +252,6 @@ namespace z
                     else if (input[i] == (CHAR)59)
                     {
                         newIdent = ident::SEMICOLON;
-                    }
-                    //assignment
-                    else if (input[i] == (CHAR)61)//'='
-                    {
-                        newIdent = ident::ASSIGNMENT;
                     }
                     else //possible operator
                     {
@@ -369,19 +376,23 @@ namespace z
         {
             error_flag oper_error = error::NONE;
 
-            core::array< core::string<CHAR> > temp_opers;
+            core::array< ident_t<CHAR> > temp_opers;
 
 
-            int pos = 0;
             core::string<CHAR> curr_oper;
 
-            while ((pos < input.length()) && !oper_error && operators)
+            int x_offset = 0;
+            int line = output[output.size()-1].line;
+            int column = output[output.size()-1].column;
+
+
+            while ((x_offset < input.length()) && !oper_error && operators)
             {
                 bool found = false;
 
                 for (int i=0; i<(operators->size()); i++)
                 {
-                    if (input.foundAt(operators->at(i), pos))
+                    if (input.foundAt(operators->at(i), x_offset))
                     {
                         curr_oper = operators->at(i);
                         found = true;
@@ -391,13 +402,20 @@ namespace z
 
                 if (found)
                 {
-                    temp_opers.add(curr_oper);
+                    temp_opers.add(ident_t<CHAR>(ident::OPERATOR, line, column + x_offset,
+                                             addToSymTable(&curr_oper)));
 
-                    pos += curr_oper.length();
+                    x_offset += curr_oper.length();
                 }
                 else //that operator was not found
                 {
-                    if (pos > 0)
+                    //assignment
+                    if (input[x_offset] == (CHAR)61)//'='
+                    {
+                        temp_opers.add(ident_t<CHAR>(ident::ASSIGNMENT, line, column+x_offset, NULL));
+                        x_offset++;
+                    }
+                    else if (x_offset > 0)
                         oper_error = error::AMBIGUOUS_EXPR;
                     else
                         oper_error = error::UNKNOWN_OPERATOR;
@@ -407,16 +425,9 @@ namespace z
 
             if ((oper_error == error::NONE) && operators)
             {
-                int x_offset = 0;
-                int line = output[output.size()-1].line;
-                int column = output[output.size()-1].column;
-
                 for (int i=0; i<temp_opers.size(); i++)
                 {
-                    output.add(ident_t<CHAR>(ident::OPERATOR, line, column + x_offset,
-                                             addToSymTable(&temp_opers[i])));
-
-                    x_offset += temp_opers[i].length();
+                    output.add(temp_opers[i]);
                 }
             }
             else
@@ -529,7 +540,7 @@ namespace z
             {
                 core::string<CHAR>* symbol = (core::string<CHAR>*)identifiers[i].meta;
 
-                if ((identifiers[i].type == ident::IDENTIFIER) && symbol)
+                if ((identifiers[i].type == ident::NUMERIC) && symbol)
                 {
                     bool isNumber = core::is_numeric(symbol->at(0));
 
@@ -706,8 +717,9 @@ namespace z
                 }
                 else
                 {
-                    int location = sym_table->add(new core::string<CHAR>(*symbol));
-                    return sym_table->at(location);
+                    core::string<CHAR>* new_sym = new core::string<CHAR>(*symbol);
+                    sym_table->add(new_sym);
+                    return new_sym;
                 }
             }
 

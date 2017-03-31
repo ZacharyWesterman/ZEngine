@@ -41,10 +41,13 @@ namespace z
 
                 COMMA,//7
                 SEMICOLON,//8
+                PERIOD,
 
                 ASSIGNMENT,//9
 
                 STRING_LITERAL,//10
+
+                NUMERIC,
 
                 DECIMAL_LITERAL,//11
                 BINARY_LITERAL,//12

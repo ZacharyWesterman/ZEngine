@@ -47,12 +47,7 @@ namespace z
 
                 STRING_LITERAL,//10
 
-                NUMERIC,
-
-                DECIMAL_LITERAL,//11
-                BINARY_LITERAL,//12
-                HEXADEC_LITERAL,//13
-                OCTAL_LITERAL,//14
+                NUMERIC_LITERAL,
 
                 IDENTIFIER,//15
                 OPERATOR,//16
@@ -98,6 +93,8 @@ namespace z
 
             core::string<CHAR>* meta;
 
+            double value;
+
 
             ///full constructor
             ident_t (ident::ident_enum t, int lin, int col,
@@ -111,6 +108,8 @@ namespace z
                 err = _error;
 
                 meta = symbol_ptr;
+
+                value = 0;
             }
 
 

@@ -68,6 +68,11 @@ namespace z
             bool check_for_functions();
 
             core::string<CHAR>* addToSymTable(core::string<CHAR>*) const;
+
+
+            double eval_binary_str(const core::string<CHAR>*) const;
+            double eval_octal_str(const core::string<CHAR>*) const;
+            double eval_hexadecimal_str(const core::string<CHAR>*) const;
         };
 
 
@@ -201,11 +206,11 @@ namespace z
                     else if (core::is_alphanumeric(input[i]) ||
                              (input[i] == (CHAR)95))
                     {
-                        if ((newIdent != ident::NUMERIC) &&
+                        if ((newIdent != ident::NUMERIC_LITERAL) &&
                             (newIdent != ident::IDENTIFIER))
                         {
                             if (core::is_numeric(input[i]))
-                                newIdent = ident::NUMERIC;
+                                newIdent = ident::NUMERIC_LITERAL;
                             else
                                 newIdent = ident::IDENTIFIER;
                         }
@@ -213,7 +218,12 @@ namespace z
                     //period
                     else if (input[i] == (CHAR)46)
                     {
-                        if (newIdent != ident::NUMERIC)
+                        //if a decimal point precedes a number
+                        //and no alphanumeric character directly precedes it,
+                        //we can assume we have a number (e.g. ".10")
+                        if (!newIdent && core::is_numeric(input[i+1]))
+                            newIdent = ident::NUMERIC_LITERAL;
+                        else if (newIdent != ident::NUMERIC_LITERAL)
                             newIdent = ident::PERIOD;
                     }
                     //parentheses
@@ -529,7 +539,8 @@ namespace z
         }
 
 
-        ///If any identifiers match a number form, change the type to the appropriate number.
+        ///If any identifiers match a number form, check what form the number is in.
+        ///That is, decimal, binary, octal or hexadecimal.
         //returns false if an error was found.
         template <typename CHAR>
         bool scanner<CHAR>::check_for_numbers()
@@ -540,7 +551,7 @@ namespace z
             {
                 core::string<CHAR>* symbol = (core::string<CHAR>*)identifiers[i].meta;
 
-                if ((identifiers[i].type == ident::NUMERIC) && symbol)
+                if ((identifiers[i].type == ident::NUMERIC_LITERAL) && symbol)
                 {
                     bool isNumber = core::is_numeric(symbol->at(0));
 
@@ -548,7 +559,7 @@ namespace z
                     {
                         if (symbol->beginsWith("0b"))
                         {
-                            identifiers[i].type = ident::BINARY_LITERAL;
+                            //identifiers[i].type = ident::BINARY_LITERAL;
 
                             //Error check for binary numbers
                             for (int e=2; e<(symbol->length()); e++)
@@ -564,10 +575,13 @@ namespace z
                                     break;
                                 }
                             }
+
+                            if (no_errors)
+                                identifiers[i].value = eval_binary_str(identifiers[i].meta);
                         }
                         else if (symbol->beginsWith("0c"))
                         {
-                            identifiers[i].type = ident::OCTAL_LITERAL;
+                            //identifiers[i].type = ident::OCTAL_LITERAL;
 
                             //Error check for octal numbers
                             for (int e=2; e<(symbol->length()); e++)
@@ -583,10 +597,13 @@ namespace z
                                     break;
                                 }
                             }
+
+                            if (no_errors)
+                                identifiers[i].value = eval_octal_str(identifiers[i].meta);
                         }
-                        else if (symbol->beginsWith("0x"))
+                        else if (symbol->beginsWith("0h"))
                         {
-                            identifiers[i].type = ident::HEXADEC_LITERAL;
+                            //identifiers[i].type = ident::HEXADEC_LITERAL;
 
                             //Error check for hexadecimal numbers
                             for (int e=2; e<(symbol->length()); e++)
@@ -605,10 +622,13 @@ namespace z
                                     break;
                                 }
                             }
+
+                            if (no_errors)
+                                identifiers[i].value = eval_hexadecimal_str(identifiers[i].meta);
                         }
                         else
                         {
-                            identifiers[i].type = ident::DECIMAL_LITERAL;
+                            //identifiers[i].type = ident::DECIMAL_LITERAL;
 
                             //Error check for decimal numbers
                             for (int e=0; e<(symbol->length()); e++)
@@ -621,6 +641,9 @@ namespace z
                                     break;
                                 }
                             }
+
+                            if (no_errors)
+                                identifiers[i].value = core::value(*identifiers[i].meta);
                         }
                     }
                 }
@@ -724,6 +747,132 @@ namespace z
             }
 
             return NULL;
+        }
+
+
+
+        ///function to evaluate binary strings
+        //assumes strings begin with "0b"
+        template <typename CHAR>
+        double scanner<CHAR>::eval_binary_str(const core::string<CHAR>* input) const
+        {
+            double result = 0;
+
+            bool reached_decimal = false;
+
+            double frac_mul = 1;
+
+            for (int i=2; i<(input->length()); i++)
+            {
+                if (input->at(i) == (CHAR)46) // '.'
+                {
+                    reached_decimal = true;
+                }
+                else
+                {
+                    if (!reached_decimal)
+                    {
+                        result *= 2;
+
+                        result += (input->at(i) - 48);
+                    }
+                    else
+                    {
+                        frac_mul /= 2;
+
+                        result += frac_mul * (input->at(i) - 48);
+                    }
+
+                }
+            }
+
+            return result;
+        }
+
+        ///function to evaluate octal strings
+        //assumes strings begin with "0c"
+        template <typename CHAR>
+        double scanner<CHAR>::eval_octal_str(const core::string<CHAR>* input) const
+        {
+            double result = 0;
+
+            bool reached_decimal = false;
+
+            double frac_mul = 1;
+
+            for (int i=2; i<(input->length()); i++)
+            {
+                if (input->at(i) == (CHAR)46) // '.'
+                {
+                    reached_decimal = true;
+                }
+                else
+                {
+                    if (!reached_decimal)
+                    {
+                        result *= 8;
+
+                        result += (input->at(i) - 48);
+                    }
+                    else
+                    {
+                        frac_mul /= 8;
+
+                        result += frac_mul * (input->at(i) - 48);
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        ///function to evaluate hexadecimal strings
+        //assumes strings begin with "0h"
+        template <typename CHAR>
+        double scanner<CHAR>::eval_hexadecimal_str(const core::string<CHAR>* input) const
+        {
+            double result = 0;
+
+            bool reached_decimal = false;
+
+            double frac_mul = 1;
+
+            for (int i=2; i<(input->length()); i++)
+            {
+                CHAR this_char = input->at(i);
+
+                if (this_char == (CHAR)46) // '.'
+                {
+                    reached_decimal = true;
+                }
+                else
+                {
+                    double char_val;
+
+                    if (core::is_upper_alpha(this_char))
+                        char_val = this_char - 65 + 10;
+                    else if (core::is_lower_alpha(this_char))
+                        char_val = this_char - 97 + 10;
+                    else
+                        char_val = this_char - 48;
+
+
+                    if (!reached_decimal)
+                    {
+                        result *= 16;
+
+                        result += char_val;
+                    }
+                    else
+                    {
+                        frac_mul /= 16;
+
+                        result += frac_mul * char_val;
+                    }
+                }
+            }
+
+            return result;
         }
     }
 }

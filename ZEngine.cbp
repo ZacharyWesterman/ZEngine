@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="ZEngine" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug">
+				<Option output="bin/Debug/ZEngine" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="bin/Debug" />
+				<Option object_output="obj/Debug/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-std=c++11" />
+					<Add option="-g" />
+					<Add option="-U__STRICT_ANSI__" />
+					<Add directory="C:/Users/Zachary/Documents/irrlicht-1.8.4/include" />
+					<Add directory="C:/Users/Zachary/Documents/GitHub/ZEngine/" />
+				</Compiler>
+				<Linker>
+					<Add library="libIrrlicht.a" />
+					<Add directory="C:/Users/Zachary/Documents/irrlicht-1.8.4/lib/Win32-gcc" />
+				</Linker>
+			</Target>
+			<Target title="Release">
+				<Option output="bin/Release/ZEngine" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Release/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-O2" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-Wall" />
+			<Add option="-fexceptions" />
+		</Compiler>
+		<Unit filename="main.cpp" />
+		<Unit filename="z/core.h" />
+		<Unit filename="z/core/array.h" />
+		<Unit filename="z/core/binaryTree.h" />
+		<Unit filename="z/core/circular_number.h" />
+		<Unit filename="z/core/dynamicStack.h" />
+		<Unit filename="z/core/loadLibrary.h" />
+		<Unit filename="z/core/pause.h" />
+		<Unit filename="z/core/sorted_array.h" />
+		<Unit filename="z/core/sorted_ref_array.h" />
+		<Unit filename="z/core/stream.h" />
+		<Unit filename="z/core/string.h" />
+		<Unit filename="z/core/string/char_is_alphanumeric.h" />
+		<Unit filename="z/core/string/char_is_whiteSpace.h" />
+		<Unit filename="z/core/string/convert_char_type.h" />
+		<Unit filename="z/core/string/dePad_string.h" />
+		<Unit filename="z/core/string/eval_string.h" />
+		<Unit filename="z/core/string/pad_string.h" />
+		<Unit filename="z/core/string/string.h" />
+		<Unit filename="z/core/string/string_lower.h" />
+		<Unit filename="z/core/string/string_remove_whiteSpace.h" />
+		<Unit filename="z/core/string/string_upper.h" />
+		<Unit filename="z/core/string/tokenize_string.h" />
+		<Unit filename="z/core/timer.h" />
+		<Unit filename="z/engine/MasterEventReceiver.h" />
+		<Unit filename="z/engine/deviceSettings.h" />
+		<Unit filename="z/engine/eventHandler.h" />
+		<Unit filename="z/engine/game.h" />
+		<Unit filename="z/engine/global/fps.h" />
+		<Unit filename="z/engine/global/script_delay_timer.h" />
+		<Unit filename="z/engine/print_to_console.h" />
+		<Unit filename="z/engine/pure_string.h" />
+		<Unit filename="z/file/directory_operations.h" />
+		<Unit filename="z/file/list_files_in_dir.h" />
+		<Unit filename="z/file/loadFileToMemory.h" />
+		<Unit filename="z/file/saveToFileFromMemory.h" />
+		<Unit filename="z/math.h" />
+		<Unit filename="z/math/constants.h" />
+		<Unit filename="z/math/factorial.h" />
+		<Unit filename="z/math/fibonacci.h" />
+		<Unit filename="z/script/ScriptExpression.h" />
+		<Unit filename="z/script/basic_expression.h" />
+		<Unit filename="z/script/commands.h" />
+		<Unit filename="z/script/destringify.h" />
+		<Unit filename="z/script/errors.h" />
+		<Unit filename="z/script/expression.h" />
+		<Unit filename="z/script/functionalExpression.h" />
+		<Unit filename="z/script/functions.h" />
+		<Unit filename="z/script/is_script_string.h" />
+		<Unit filename="z/script/is_valid_script_name.h" />
+		<Unit filename="z/script/load_operators.h" />
+		<Unit filename="z/script/operators/oper_t.h" />
+		<Unit filename="z/script/parser/escape_sequences.h" />
+		<Unit filename="z/script/parser/identity.h" />
+		<Unit filename="z/script/parser/lexer.h" />
+		<Unit filename="z/script/parser/phrase.h" />
+		<Unit filename="z/script/parser/scan_iterator.h" />
+		<Unit filename="z/script/parser/scanner.h" />
+		<Unit filename="z/script/parser/scanner_include_tree.h" />
+		<Unit filename="z/script/scriptParser.h" />
+		<Unit filename="z/script/split_parameters.h" />
+		<Unit filename="z/script/split_script_into_commands.h" />
+		<Unit filename="z/script/variable.h" />
+		<Unit filename="z/script/variableTree.h" />
+		<Unit filename="z/script/variables/datatype.h" />
+		<Unit filename="z/script/variables/var_struct.h" />
+		<Extensions>
+			<code_completion />
+			<envvars />
+			<debugger />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>

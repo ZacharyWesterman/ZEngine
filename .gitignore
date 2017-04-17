@@ -2,3 +2,5 @@
 bin/Debug/ZEngine\.exe
 
 *.o
+
+bin/Debug/ZEngine

@@ -48,7 +48,7 @@ int main(int argc, char* argv[])
 
 
 
-    z::core::string<char> input = "print /*0xff + 10); print*/ \"Hello\";";
+    z::core::string<char> input = "main() {print 10;}";
 
     cout << ((S->scan(input) && S->clean()) ? "No errors" : "Found errors") << endl;
 
@@ -80,7 +80,7 @@ int main(int argc, char* argv[])
 
     cout << "\nDone.\n";
 
-    /*cout << endl;
+    cout << endl;
     cout << "( " << (int)'(' << ':' << (int)L'(' << endl;
     cout << ") " << (int)')' << ':' << (int)L')' << endl;
     cout << "[ " << (int)'[' << ':' << (int)L'[' << endl;
@@ -108,7 +108,8 @@ int main(int argc, char* argv[])
     cout << "F "<< (int)'F'<< ':' << (int)L'F'<< endl;
     cout << "Z "<< (int)'Z'<< ':' << (int)L'Z'<< endl;
     cout << "= "<< (int)'='<< ':' << (int)L'='<< endl;
-    cout << "\\ "<< (int)'\\'<< ':' << (int)L'\\'<< endl;*/
+    cout << "\\ "<< (int)'\\'<< ':' << (int)L'\\'<< endl;
+    cout << "* "<< (int)'*'<< ':' << (int)L'*'<< endl;
 
     return 0;
 }

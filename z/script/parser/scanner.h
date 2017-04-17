@@ -517,7 +517,7 @@ namespace z
 
         ///If any identifiers match a keyword, change the type to the appropriate keyword.
         //does not produce any errors, so always returns true.
-        template <typename CHAR>
+        /*template <typename CHAR>
         bool scanner<CHAR>::check_for_keywords()
         {
             for (int i=0; i<identifiers.size(); i++)
@@ -587,7 +587,7 @@ namespace z
             }
 
             return true;
-        }
+        }*/
 
 
         ///If any identifiers match a number form, check what form the number is in.

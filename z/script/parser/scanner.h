@@ -285,7 +285,45 @@ namespace z
                         }
                         else if (current_ident.type)
                         {
-                            current_ident.meta = addToSymTable(&current_symbol);
+                            bool addmeta = false;
+
+                            //check if the current symbol is a keyword
+                            if (current_ident.type == ident::IDENTIFIER)
+                            {
+                                if (current_symbol == "main")
+                                    current_ident.type = ident::KEYWORD_MAIN;
+                                else if (current_symbol == "if")
+                                    current_ident.type = ident::KEYWORD_IF;
+                                else if (current_symbol == "else")
+                                    current_ident.type = ident::KEYWORD_ELSE;
+                                else if (current_symbol == "for")
+                                    current_ident.type = ident::KEYWORD_FOR;
+                                else if (current_symbol == "do")
+                                    current_ident.type = ident::KEYWORD_DO;
+                                else if (current_symbol == "loop")
+                                    current_ident.type = ident::KEYWORD_LOOP;
+                                else if (current_symbol == "while")
+                                    current_ident.type = ident::KEYWORD_WHILE;
+                                else if (current_symbol == "goto")
+                                    current_ident.type = ident::KEYWORD_GOTO;
+                                else if (current_symbol == "gosub")
+                                    current_ident.type = ident::KEYWORD_GOSUB;
+                                else if (current_symbol == "run")
+                                    current_ident.type = ident::KEYWORD_RUN;
+                                else if (current_symbol == "include")
+                                    current_ident.type = ident::KEYWORD_INCLUDE;
+                                else if (current_symbol == "break")
+                                    current_ident.type = ident::KEYWORD_BREAK;
+                                else if (current_symbol == "return")
+                                    current_ident.type = ident::KEYWORD_RETURN;
+                                else if (current_symbol == "exit")
+                                    current_ident.type = ident::KEYWORD_EXIT;
+                                else
+                                    addmeta = true;
+                            }
+
+                            if (addmeta)
+                                current_ident.meta = addToSymTable(&current_symbol);
                             identifiers.add(current_ident);
                         }
 
@@ -374,7 +412,7 @@ namespace z
         {
             bool no_errors = true;
 
-            no_errors &= check_for_keywords();
+            //no_errors &= check_for_keywords();
             no_errors &= check_for_numbers();
 
             if (operators)
@@ -889,5 +927,6 @@ namespace z
         }
     }
 }
+
 
 #endif // SCANNER_H_INCLUDED

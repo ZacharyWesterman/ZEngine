@@ -18,7 +18,7 @@
 #define IDENTITY_H_INCLUDED
 
 #include <z/core/string.h>
-#include <z/script/errors.h>
+#include "../errors.h"
 
 namespace z
 {

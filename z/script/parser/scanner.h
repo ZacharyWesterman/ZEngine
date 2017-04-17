@@ -86,7 +86,9 @@ namespace z
             bool no_errors = true;
 
             bool in_string = false;
+
             bool in_comment = false;
+            bool multiline_comment = false;
 
 
             core::string<CHAR> NL = "\n";
@@ -140,7 +142,7 @@ namespace z
                 }
                 else if (in_comment)
                 {
-                    if (input.foundAt("*/", i))
+                    if (input.foundAt("*\\", i))
                     {
                         in_comment = false;
                         i+=2;
@@ -169,10 +171,15 @@ namespace z
 
                         current_ident.meta = NULL;
                     }
-                    else if (input.foundAt("/*", i))
+                    ///in some kind of comment
+                    else if ((input[i] == (CHAR)92) &&
+                             ((input[i+1] == (CHAR)42) || //  multiline comment "\*"
+                              (input[i+1] == (CHAR)92)))  //single line comment "\\"
                     {
                         newIdent = ident::NONE;
                         in_comment = true;
+
+                        multiline_comment = (input[i+1] == (CHAR)42);
 
                         if (current_ident.type)
                         {
@@ -318,6 +325,9 @@ namespace z
 
                     line++;
                     column = 0;
+
+                    if (in_comment && !multiline_comment)
+                        in_comment = false;
                 }
                 else if (input.foundAt(CR, i))
                 {
@@ -326,6 +336,9 @@ namespace z
 
                     line++;
                     column = 0;
+
+                    if (in_comment && !multiline_comment)
+                        in_comment = false;
                 }
                 else
                 {

@@ -74,6 +74,7 @@ namespace z
                 KEYWORD_BREAK,//30
                 KEYWORD_RETURN,//31
 
+                KEYWORD_EXIT, //32
 
                 UNKNOWN = -1
             };

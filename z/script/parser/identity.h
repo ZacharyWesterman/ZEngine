@@ -76,6 +76,13 @@ namespace z
 
                 KEYWORD_EXIT, //32
 
+                KEYWORD_WAIT,
+
+                KEYWORD_TYPE,
+
+                KEYWORD_GLOBAL,
+                KEYWORD_EXTERNAL,
+
                 UNKNOWN = -1
             };
 

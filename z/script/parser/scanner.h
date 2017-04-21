@@ -318,6 +318,14 @@ namespace z
                                     current_ident.type = ident::KEYWORD_RETURN;
                                 else if (current_symbol == "exit")
                                     current_ident.type = ident::KEYWORD_EXIT;
+                                else if (current_symbol == "wait")
+                                    current_ident.type = ident::KEYWORD_WAIT;
+                                else if (current_symbol == "type")
+                                    current_ident.type = ident::KEYWORD_TYPE;
+                                else if (current_symbol == "global")
+                                    current_ident.type = ident::KEYWORD_GLOBAL;
+                                else if (current_symbol == "external")
+                                    current_ident.type = ident::KEYWORD_EXTERNAL;
                                 else
                                     addmeta = true;
                             }

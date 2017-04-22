@@ -129,7 +129,8 @@ namespace z
 
             ident::ident_enum get_keyword(const core::string<CHAR>&);
 
-            bool check_for_numbers();
+            bool check_this_number();
+
             bool check_for_operators();
             bool check_for_commands();
             bool check_for_functions();
@@ -347,6 +348,13 @@ namespace z
 
                                 addmeta = (current_ident.type == ident::IDENTIFIER);
                             }
+                            else if (current_ident.type == ident::NUMERIC_LITERAL)
+                            {
+                                addmeta = !check_this_number();
+
+                                if (addmeta)
+                                    current_ident.err = error::INVALID_IDENTIFIER;
+                            }
 
                             if (addmeta)
                                 current_ident.meta = addToSymTable(&current_symbol);
@@ -435,6 +443,13 @@ namespace z
 
                         addmeta = (current_ident.type == ident::IDENTIFIER);
                     }
+                    else if (current_ident.type == ident::NUMERIC_LITERAL)
+                    {
+                        addmeta = !check_this_number();
+
+                        if (addmeta)
+                            current_ident.err = error::INVALID_IDENTIFIER;
+                    }
 
                     if (addmeta)
                         current_ident.meta = addToSymTable(&current_symbol);
@@ -455,7 +470,7 @@ namespace z
             bool no_errors = true;
 
             //no_errors &= check_for_keywords();
-            no_errors &= check_for_numbers();
+            //no_errors &= check_for_numbers();
 
             if (operators)
                 no_errors &= check_for_operators();
@@ -603,117 +618,84 @@ namespace z
         }
 
 
-        ///If any identifiers match a number form, check what form the number is in.
-        ///That is, decimal, binary, octal or hexadecimal.
+        ///If the current identifier matches a number form, check what form the number is in
+        ///(e.g. decimal, binary, octal or hexadecimal) and convert to a number.
         //returns false if an error was found.
         template <typename CHAR>
-        bool scanner<CHAR>::check_for_numbers()
+        bool scanner<CHAR>::check_this_number()
         {
-            bool no_errors = true;
-
-            for (int i=0; i<identifiers.size(); i++)
+            if (current_symbol.beginsWith("0b"))
             {
-                core::string<CHAR>* symbol = (core::string<CHAR>*)identifiers[i].meta;
-
-                if ((identifiers[i].type == ident::NUMERIC_LITERAL) && symbol)
+                //Error check for binary numbers
+                for (int e=2; e<(current_symbol.length()); e++)
                 {
-                    bool isNumber = core::is_numeric(symbol->at(0));
+                    CHAR _char = current_symbol.at(e);
 
-                    if (isNumber)
+                    if ((_char != (CHAR)48) && //not 0 or 1
+                        (_char != (CHAR)49) &&
+                        (_char != (CHAR)46)) //not a decimal point
                     {
-                        if (symbol->beginsWith("0b"))
-                        {
-                            //identifiers[i].type = ident::BINARY_LITERAL;
-
-                            //Error check for binary numbers
-                            for (int e=2; e<(symbol->length()); e++)
-                            {
-                                CHAR _char = symbol->at(e);
-
-                                if ((_char != (CHAR)48) && //not 0 or 1
-                                    (_char != (CHAR)49) &&
-                                    (_char != (CHAR)46)) //not a decimal point
-                                {
-                                    identifiers[i].err = error::INVALID_IDENTIFIER;
-                                    no_errors = false;
-                                    break;
-                                }
-                            }
-
-                            if (no_errors)
-                                identifiers[i].value = eval_binary_str(identifiers[i].meta);
-                        }
-                        else if (symbol->beginsWith("0c"))
-                        {
-                            //identifiers[i].type = ident::OCTAL_LITERAL;
-
-                            //Error check for octal numbers
-                            for (int e=2; e<(symbol->length()); e++)
-                            {
-                                CHAR _char = symbol->at(e);
-
-                                if ((_char != (CHAR)46) && //not a decimal point
-                                    ((_char < (CHAR)48) || //not from 0 to 7
-                                     (_char > (CHAR)55)))
-                                {
-                                    identifiers[i].err = error::INVALID_IDENTIFIER;
-                                    no_errors = false;
-                                    break;
-                                }
-                            }
-
-                            if (no_errors)
-                                identifiers[i].value = eval_octal_str(identifiers[i].meta);
-                        }
-                        else if (symbol->beginsWith("0h"))
-                        {
-                            //identifiers[i].type = ident::HEXADEC_LITERAL;
-
-                            //Error check for hexadecimal numbers
-                            for (int e=2; e<(symbol->length()); e++)
-                            {
-                                CHAR _char = symbol->at(e);
-
-                                if ((_char != (CHAR)46) && //not a decimal point
-                                    ((_char == (CHAR)95) || //'_'
-                                     ((_char > (CHAR)102) && //'g' to 'z'
-                                      (_char <= (CHAR)122)) ||
-                                     ((_char > (CHAR)70) && //'G' to 'Z'
-                                      (_char <= (CHAR)90))))
-                                {
-                                    identifiers[i].err = error::INVALID_IDENTIFIER;
-                                    no_errors = false;
-                                    break;
-                                }
-                            }
-
-                            if (no_errors)
-                                identifiers[i].value = eval_hexadecimal_str(identifiers[i].meta);
-                        }
-                        else
-                        {
-                            //identifiers[i].type = ident::DECIMAL_LITERAL;
-
-                            //Error check for decimal numbers
-                            for (int e=0; e<(symbol->length()); e++)
-                            {
-                                if (core::is_alpha(symbol->at(e)) || //any letter
-                                    ((symbol->at(e)) == (CHAR)95)) //'_'
-                                {
-                                    identifiers[i].err = error::INVALID_IDENTIFIER;
-                                    no_errors = false;
-                                    break;
-                                }
-                            }
-
-                            if (no_errors)
-                                identifiers[i].value = core::value(*identifiers[i].meta);
-                        }
+                        return false;
                     }
                 }
+
+                current_ident.value = eval_binary_str(&current_symbol);
+            }
+            else if (current_symbol.beginsWith("0c") ||
+                     current_symbol.beginsWith("0o"))
+            {
+                //Error check for octal numbers
+                for (int e=2; e<(current_symbol.length()); e++)
+                {
+                    CHAR _char = current_symbol.at(e);
+
+                    if ((_char != (CHAR)46) && //not a decimal point
+                        ((_char < (CHAR)48) || //not from 0 to 7
+                         (_char > (CHAR)55)))
+                    {
+                        return false;
+                    }
+                }
+
+                current_ident.value = eval_octal_str(&current_symbol);
+            }
+            else if (current_symbol.beginsWith("0h") ||
+                     current_symbol.beginsWith("0x"))
+            {
+                //Error check for hexadecimal numbers
+                for (int e=2; e<(current_symbol.length()); e++)
+                {
+                    CHAR _char = current_symbol.at(e);
+
+                    if ((_char != (CHAR)46) && //not a decimal point
+                        ((_char == (CHAR)95) || //'_'
+                         ((_char > (CHAR)102) && //'g' to 'z'
+                          (_char <= (CHAR)122)) ||
+                         ((_char > (CHAR)70) && //'G' to 'Z'
+                          (_char <= (CHAR)90))))
+                    {
+                        return false;
+                    }
+                }
+
+                current_ident.value = eval_hexadecimal_str(&current_symbol);
+            }
+            else
+            {
+                //Error check for decimal numbers
+                for (int e=0; e<(current_symbol.length()); e++)
+                {
+                    if (core::is_alpha(current_symbol.at(e)) || //any letter
+                        ((current_symbol.at(e)) == (CHAR)95)) //'_'
+                    {
+                        return false;
+                    }
+                }
+
+                current_ident.value = core::value(current_symbol);
             }
 
-            return no_errors;
+            return true;
         }
 
         ///Some operators may have alphanumeric characters in them.

@@ -2193,13 +2193,13 @@
 
 1489353285 c:\users\zachary\documents\github\zengine\\z\script\errors.h
 
-1492395579 source:/home/zwesterman/GitHub/ZEngine/main.cpp
+1492821945 source:/home/zwesterman/GitHub/ZEngine/main.cpp
 	<z/core.h>
 	<z/math.h>
 	"z/script/parser/scanner.h"
 	<iostream>
 
-1491800855 /home/zwesterman/GitHub/zLibraries/z/core.h
+1492802325 /home/zwesterman/GitHub/zLibraries/z/core.h
 	"core/string.h"
 	"core/stream.h"
 	"core/array.h"
@@ -2208,6 +2208,7 @@
 	"core/dynamicStack.h"
 	"core/circular_number.h"
 	"core/timer.h"
+	"core/timeout.h"
 	"core/pause.h"
 	"core/loadLibrary.h"
 
@@ -2222,7 +2223,7 @@
 	"string/string_upper.h"
 	"string/string_remove_whiteSpace.h"
 
-1492395076 /home/zwesterman/GitHub/zLibraries/z/core/string/string.h
+1492792552 /home/zwesterman/GitHub/zLibraries/z/core/string/string.h
 	<type_traits>
 	"convert_char_type.h"
 
@@ -2272,7 +2273,7 @@
 	<iostream>
 	<iostream>
 
-1491800855 /home/zwesterman/GitHub/zLibraries/z/core/timer.h
+1492803365 /home/zwesterman/GitHub/zLibraries/z/core/timer.h
 	<chrono>
 
 1491800855 /home/zwesterman/GitHub/zLibraries/z/core/pause.h
@@ -2300,9 +2301,10 @@
 
 1491800855 /home/zwesterman/GitHub/zLibraries/z/math/matrix.h
 
-1492396768 /home/zwesterman/GitHub/ZEngine/z/script/parser/scanner.h
+1492822055 /home/zwesterman/GitHub/ZEngine/z/script/parser/scanner.h
 	<z/core/sorted_array.h>
 	<z/core/string.h>
+	<z/core/timeout.h>
 	"escape_sequences.h"
 	"identity.h"
 
@@ -2310,9 +2312,12 @@
 	<stdint.h>
 	<z/core/string.h>
 
-1492387749 /home/zwesterman/GitHub/ZEngine/z/script/parser/identity.h
+1492818516 /home/zwesterman/GitHub/ZEngine/z/script/parser/identity.h
 	<z/core/string.h>
 	"../errors.h"
 
 1491849930 /home/zwesterman/GitHub/ZEngine/z/script/errors.h
+
+1492812797 /home/zwesterman/GitHub/zLibraries/z/core/timeout.h
+	"timer.h"
 

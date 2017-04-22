@@ -48,9 +48,21 @@ int main(int argc, char* argv[])
 
 
 
-    z::core::string<char> input = "main() {print 10;}";
+    z::core::string<char> input = "0c17 0o17";
+    S->setInput(input);
 
-    cout << ((S->scan(input) && S->clean()) ? "No errors" : "Found errors") << endl;
+    z::core::timeout time (100);
+
+    int iter = 1;
+    while (!S->scan(time))
+    {
+        iter++;
+        time.reset();
+    }
+
+    //S->clean();
+
+    cout << "Scanned in " << iter << " iterations.\n";
 
     //symbol_table.find(&input);
 
@@ -62,6 +74,8 @@ int main(int argc, char* argv[])
 
         if (symbol)
             cout << symbol->str();
+        else if (S->identifiers[i].type == z::script::ident::NUMERIC_LITERAL)
+            cout << "#" << S->identifiers[i].value;
         else
             cout << "NULL";
         cout << "\t(" << S->identifiers[i].type;
@@ -80,7 +94,7 @@ int main(int argc, char* argv[])
 
     cout << "\nDone.\n";
 
-    cout << endl;
+    /*cout << endl;
     cout << "( " << (int)'(' << ':' << (int)L'(' << endl;
     cout << ") " << (int)')' << ':' << (int)L')' << endl;
     cout << "[ " << (int)'[' << ':' << (int)L'[' << endl;
@@ -109,7 +123,7 @@ int main(int argc, char* argv[])
     cout << "Z "<< (int)'Z'<< ':' << (int)L'Z'<< endl;
     cout << "= "<< (int)'='<< ':' << (int)L'='<< endl;
     cout << "\\ "<< (int)'\\'<< ':' << (int)L'\\'<< endl;
-    cout << "* "<< (int)'*'<< ':' << (int)L'*'<< endl;
+    cout << "* "<< (int)'*'<< ':' << (int)L'*'<< endl;*/
 
     return 0;
 }

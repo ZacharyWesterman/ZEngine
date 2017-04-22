@@ -105,7 +105,7 @@ namespace z
 
 
             ///full constructor
-            ident_t (ident::ident_enum t, int lin, int col,
+            ident_t (ident::ident_enum t = ident::NONE, int lin = 0, int col = 0,
                      core::string<CHAR>* symbol_ptr = NULL, error_flag _error = error::NONE)
             {
                 type = t;

@@ -20,8 +20,13 @@
 #include <z/core/sorted_array.h>
 #include <z/core/string.h>
 
+#include <z/core/timeout.h>
+
 #include "escape_sequences.h"
 #include "identity.h"
+
+#define NL '\n'
+#define CR '\r'
 
 namespace z
 {
@@ -32,6 +37,26 @@ namespace z
         class scanner
         {
         private:
+            core::string<CHAR> input;
+            int index;
+
+            bool in_string;
+
+            bool in_comment;
+            bool multiline_comment;
+
+            int line;
+            int column;
+
+            ident_t<CHAR> current_ident;
+            ident::ident_enum newIdent;
+            core::string<CHAR> current_symbol;
+
+            bool done;
+
+            bool found_error;
+
+
             core::sorted_array< core::string<CHAR> >* operators;
             core::sorted_array< core::string<CHAR> >* commands;
             core::sorted_array< core::string<CHAR> >* functions;
@@ -52,16 +77,58 @@ namespace z
                 operators = opers;
                 commands = cmds;
                 functions = funcs;
+
+                done = true;
+                found_error = false;
             }
 
+            void setInput(const core::string<CHAR>& inputString)
+            {
+                input = inputString;
+                index = 0;
 
-            bool scan(const core::string<CHAR>&);
+                identifiers.clear();
+
+                in_string = false;
+
+                in_comment = false;
+                multiline_comment = false;
+
+                line = 0;
+                column = 0;
+
+                current_ident = ident_t<CHAR>(ident::NONE, 0, 0);
+                newIdent = ident::NONE;
+                current_symbol.clear();
+
+                done = false;
+                found_error = false;
+            }
+
+            bool scan(const core::timeout&);
             bool clean();
 
+            void clear()
+            {
+                input.clear();
+                identifiers.clear();
+                current_symbol.clear();
+
+                found_error = false;
+                done = true;
+            }
+
+            inline bool error()
+            {
+                return found_error;
+            }
+
+        private:
             bool list_opers(core::string<CHAR>&,
                             core::array< ident_t<CHAR> >&) const;
 
-            bool check_for_keywords();
+            ident::ident_enum get_keyword(const core::string<CHAR>&);
+
             bool check_for_numbers();
             bool check_for_operators();
             bool check_for_commands();
@@ -77,46 +144,33 @@ namespace z
 
 
         //function to scan for and separate input into separate tokens.
-        //returns false if an error was found while scanning.
+        //returns on timeout (does not mean it is finished scanning).
+        //returns 1 if finished scanning,
+        //returns 0 otherwise.
         template <typename CHAR>
-        bool scanner<CHAR>::scan(const core::string<CHAR>& input)
+        bool scanner<CHAR>::scan(const core::timeout& time)
         {
-            identifiers.clear();
+            if (done)
+                return true;
 
             bool no_errors = true;
 
-            bool in_string = false;
 
-            bool in_comment = false;
-            bool multiline_comment = false;
-
-
-            core::string<CHAR> NL = "\n";
-            core::string<CHAR> CR = "\r";
-
-            int line = 0;
-            int column = 0;
-
-
-            ident_t<CHAR> current_ident (ident::NONE, 0, 0);
-            ident::ident_enum newIdent = ident::NONE;
-            core::string<CHAR> current_symbol;
-
-            for (int i=0; i<input.length(); i++)
+            while (!time.timedOut() && (index < input.length()))
             {
                 if (current_ident.err)
                   no_errors = false;
 
                 if (in_string)
                 {
-                    if (input[i] == (CHAR)34)
+                    if (input[index] == (CHAR)34)
                     {
                         in_string = false;
-                        i++;
+                        index++;
                     }
                     else
                     {
-                        int esc_seq = (int)what_esc_sequence(input, i);
+                        int esc_seq = (int)what_esc_sequence(input, index);
 
                         if (esc_seq)
                         {
@@ -128,29 +182,29 @@ namespace z
 
                             current_symbol += seq_equiv;
 
-                            i += seq_name.length() - 1;
+                            index += seq_name.length() - 1;
                             column += seq_name.length() - 1;
                         }
                         else
                         {
-                            current_symbol += input[i];
+                            current_symbol += input[index];
 
-                            if (input[i] == (CHAR)92) //we have some unknown escape sequence
+                            if (input[index] == (CHAR)92) //we have some unknown escape sequence
                                 current_ident.err = error::UNKNOWN_ESCAPE;
                         }
                     }
                 }
                 else if (in_comment)
                 {
-                    if (input.foundAt("*\\", i))
+                    if (input.foundAt("*\\", index))
                     {
                         in_comment = false;
-                        i+=2;
+                        index+=2;
                     }
                 }
                 else
                 {
-                    if (input[i] == (CHAR)34)
+                    if (input[index] == (CHAR)34)
                     {
                         newIdent = ident::STRING_LITERAL;
                         in_string = true;
@@ -172,14 +226,14 @@ namespace z
                         current_ident.meta = NULL;
                     }
                     ///in some kind of comment
-                    else if ((input[i] == (CHAR)92) &&
-                             ((input[i+1] == (CHAR)42) || //  multiline comment "\*"
-                              (input[i+1] == (CHAR)92)))  //single line comment "\\"
+                    else if ((input[index] == (CHAR)92) &&
+                             ((input[index+1] == (CHAR)42) || //  multiline comment "\*"
+                              (input[index+1] == (CHAR)92)))  //single line comment "\\"
                     {
                         newIdent = ident::NONE;
                         in_comment = true;
 
-                        multiline_comment = (input[i+1] == (CHAR)42);
+                        multiline_comment = (input[index+1] == (CHAR)42);
 
                         if (current_ident.type)
                         {
@@ -197,7 +251,7 @@ namespace z
 
                         current_ident.meta = NULL;
 
-                        i++;
+                        index++;
                     }
                 }
 
@@ -205,68 +259,68 @@ namespace z
                 if (!in_string && !in_comment)
                 {
                     //white space
-                    if (core::is_white_space(input[i]))
+                    if (core::is_white_space(input[index]))
                     {
                         newIdent = ident::NONE;
                     }
                     //generic identifiers
-                    else if (core::is_alphanumeric(input[i]) ||
-                             (input[i] == (CHAR)95))
+                    else if (core::is_alphanumeric(input[index]) ||
+                             (input[index] == (CHAR)95))
                     {
                         if ((newIdent != ident::NUMERIC_LITERAL) &&
                             (newIdent != ident::IDENTIFIER))
                         {
-                            if (core::is_numeric(input[i]))
+                            if (core::is_numeric(input[index]))
                                 newIdent = ident::NUMERIC_LITERAL;
                             else
                                 newIdent = ident::IDENTIFIER;
                         }
                     }
                     //period
-                    else if (input[i] == (CHAR)46)
+                    else if (input[index] == (CHAR)46)
                     {
                         //if a decimal point precedes a number
                         //and no alphanumeric character directly precedes it,
                         //we can assume we have a number (e.g. ".10")
-                        if (!newIdent && core::is_numeric(input[i+1]))
+                        if (!newIdent && core::is_numeric(input[index+1]))
                             newIdent = ident::NUMERIC_LITERAL;
                         else if (newIdent != ident::NUMERIC_LITERAL)
                             newIdent = ident::PERIOD;
                     }
                     //parentheses
-                    else if (input[i] == (CHAR)40)
+                    else if (input[index] == (CHAR)40)
                     {
                         newIdent = ident::LPARENTH;
                     }
-                    else if (input[i] == (CHAR)41)
+                    else if (input[index] == (CHAR)41)
                     {
                         newIdent = ident::RPARENTH;
                     }
                     //brackets
-                    else if (input[i] == (CHAR)91)
+                    else if (input[index] == (CHAR)91)
                     {
                         newIdent = ident::LBRACKET;
                     }
-                    else if (input[i] == (CHAR)93)
+                    else if (input[index] == (CHAR)93)
                     {
                         newIdent = ident::RBRACKET;
                     }
                     //curly braces
-                    else if (input[i] == (CHAR)123)
+                    else if (input[index] == (CHAR)123)
                     {
                         newIdent = ident::LBRACE;
                     }
-                    else if (input[i] == (CHAR)125)
+                    else if (input[index] == (CHAR)125)
                     {
                         newIdent = ident::RBRACE;
                     }
                     //comma
-                    else if (input[i] == (CHAR)44)
+                    else if (input[index] == (CHAR)44)
                     {
                         newIdent = ident::LBRACE;
                     }
                     //semicolon
-                    else if (input[i] == (CHAR)59)
+                    else if (input[index] == (CHAR)59)
                     {
                         newIdent = ident::SEMICOLON;
                     }
@@ -287,47 +341,11 @@ namespace z
                         {
                             bool addmeta = false;
 
-                            //check if the current symbol is a keyword
                             if (current_ident.type == ident::IDENTIFIER)
                             {
-                                if (current_symbol == "main")
-                                    current_ident.type = ident::KEYWORD_MAIN;
-                                else if (current_symbol == "if")
-                                    current_ident.type = ident::KEYWORD_IF;
-                                else if (current_symbol == "else")
-                                    current_ident.type = ident::KEYWORD_ELSE;
-                                else if (current_symbol == "for")
-                                    current_ident.type = ident::KEYWORD_FOR;
-                                else if (current_symbol == "do")
-                                    current_ident.type = ident::KEYWORD_DO;
-                                else if (current_symbol == "loop")
-                                    current_ident.type = ident::KEYWORD_LOOP;
-                                else if (current_symbol == "while")
-                                    current_ident.type = ident::KEYWORD_WHILE;
-                                else if (current_symbol == "goto")
-                                    current_ident.type = ident::KEYWORD_GOTO;
-                                else if (current_symbol == "gosub")
-                                    current_ident.type = ident::KEYWORD_GOSUB;
-                                else if (current_symbol == "run")
-                                    current_ident.type = ident::KEYWORD_RUN;
-                                else if (current_symbol == "include")
-                                    current_ident.type = ident::KEYWORD_INCLUDE;
-                                else if (current_symbol == "break")
-                                    current_ident.type = ident::KEYWORD_BREAK;
-                                else if (current_symbol == "return")
-                                    current_ident.type = ident::KEYWORD_RETURN;
-                                else if (current_symbol == "exit")
-                                    current_ident.type = ident::KEYWORD_EXIT;
-                                else if (current_symbol == "wait")
-                                    current_ident.type = ident::KEYWORD_WAIT;
-                                else if (current_symbol == "type")
-                                    current_ident.type = ident::KEYWORD_TYPE;
-                                else if (current_symbol == "global")
-                                    current_ident.type = ident::KEYWORD_GLOBAL;
-                                else if (current_symbol == "external")
-                                    current_ident.type = ident::KEYWORD_EXTERNAL;
-                                else
-                                    addmeta = true;
+                                current_ident.type = get_keyword(current_symbol);
+
+                                addmeta = (current_ident.type == ident::IDENTIFIER);
                             }
 
                             if (addmeta)
@@ -345,7 +363,7 @@ namespace z
                         current_ident.meta = NULL;
 
                         if (current_ident.type)
-                            current_symbol += input[i];
+                            current_symbol += input[index];
 
                         if ((current_ident.type >= ident::LPARENTH) &&
                             (current_ident.type <= ident::ASSIGNMENT))
@@ -359,15 +377,15 @@ namespace z
                     }
                     else if (current_ident.type)
                     {
-                        current_symbol += input[i];
+                        current_symbol += input[index];
                     }
                 }
 
                 //update current line and column
-                if (input.foundAt(NL, i))
+                if (input.foundAt(NL, index))
                 {
-                    if (input.foundAt(CR, i+1))
-                        i++;
+                    if (input.foundAt(CR, index+1))
+                        index++;
 
                     line++;
                     column = 0;
@@ -375,10 +393,10 @@ namespace z
                     if (in_comment && !multiline_comment)
                         in_comment = false;
                 }
-                else if (input.foundAt(CR, i))
+                else if (input.foundAt(CR, index))
                 {
-                    if (input.foundAt(NL, i+1))
-                        i++;
+                    if (input.foundAt(NL, index+1))
+                        index++;
 
                     line++;
                     column = 0;
@@ -391,25 +409,41 @@ namespace z
                     column++;
                 }
 
+
+                index++;
             }
 
 
-            if (current_ident.err)
-                no_errors = false;
+            done = (index >= input.length());
 
-            if (current_ident.type == ident::UNKNOWN)
+
+            found_error = !no_errors;
+
+            if (done)
             {
-                list_opers(current_symbol, identifiers);
+                if (current_ident.type == ident::UNKNOWN)
+                {
+                    list_opers(current_symbol, identifiers);
+                }
+                else if (current_ident.type)
+                {
+                    bool addmeta = false;
+
+                    if (current_ident.type == ident::IDENTIFIER)
+                    {
+                        current_ident.type = get_keyword(current_symbol);
+
+                        addmeta = (current_ident.type == ident::IDENTIFIER);
+                    }
+
+                    if (addmeta)
+                        current_ident.meta = addToSymTable(&current_symbol);
+                    identifiers.add(current_ident);
+                }
             }
-            else if (current_ident.type)
-            {
-                current_ident.meta = addToSymTable(&current_symbol);
-
-                identifiers.add(current_ident);
-            }
 
 
-            return no_errors;
+            return done;
         }
 
 
@@ -523,79 +557,50 @@ namespace z
         }
 
 
-        ///If any identifiers match a keyword, change the type to the appropriate keyword.
+        ///If the given string matches a keyword, change the type to the appropriate keyword.
         //does not produce any errors, so always returns true.
-        /*template <typename CHAR>
-        bool scanner<CHAR>::check_for_keywords()
+        template <typename CHAR>
+        ident::ident_enum scanner<CHAR>::get_keyword(const core::string<CHAR>& input)
         {
-            for (int i=0; i<identifiers.size(); i++)
-            {
-                core::string<CHAR>* symbol = (core::string<CHAR>*)identifiers[i].meta;
+            if (input == "main")
+                return ident::KEYWORD_MAIN;
+            else if (input == "if")
+                return ident::KEYWORD_IF;
+            else if (input == "else")
+                return ident::KEYWORD_ELSE;
+            else if (input == "for")
+                return ident::KEYWORD_FOR;
+            else if (input == "do")
+                return ident::KEYWORD_DO;
+            else if (input == "loop")
+                return ident::KEYWORD_LOOP;
+            else if (input == "while")
+                return ident::KEYWORD_WHILE;
+            else if (input == "goto")
+                return ident::KEYWORD_GOTO;
+            else if (input == "gosub")
+                return ident::KEYWORD_GOSUB;
+            else if (input == "run")
+                return ident::KEYWORD_RUN;
+            else if (input == "include")
+                return ident::KEYWORD_INCLUDE;
+            else if (input == "break")
+                return ident::KEYWORD_BREAK;
+            else if (input == "return")
+                return ident::KEYWORD_RETURN;
+            else if (input == "exit")
+                return ident::KEYWORD_EXIT;
+            else if (input == "wait")
+                return ident::KEYWORD_WAIT;
+            else if (input == "type")
+                return ident::KEYWORD_TYPE;
+            else if (input == "global")
+                return ident::KEYWORD_GLOBAL;
+            else if (input == "external")
+                return ident::KEYWORD_EXTERNAL;
 
-                if ((identifiers[i].type == ident::IDENTIFIER) && symbol)
-                {
-                    if (*symbol == core::string<CHAR>(L"main"))
-                    {
-                        identifiers[i].type = ident::KEYWORD_MAIN;
-                    }
-
-                    else if (*symbol == L"if")
-                    {
-                        identifiers[i].type = ident::KEYWORD_IF;
-                    }
-                    else if (*symbol == L"else")
-                    {
-                        identifiers[i].type = ident::KEYWORD_ELSE;
-                    }
-
-                    else if (*symbol == L"for")
-                    {
-                        identifiers[i].type = ident::KEYWORD_FOR;
-                    }
-                    else if (*symbol == L"do")
-                    {
-                        identifiers[i].type = ident::KEYWORD_DO;
-                    }
-                    else if (*symbol == L"loop")
-                    {
-                        identifiers[i].type = ident::KEYWORD_LOOP;
-                    }
-                    else if (*symbol == L"while")
-                    {
-                        identifiers[i].type = ident::KEYWORD_WHILE;
-                    }
-
-                    else if (*symbol == L"goto")
-                    {
-                        identifiers[i].type = ident::KEYWORD_GOTO;
-                    }
-                    else if (*symbol == L"gosub")
-                    {
-                        identifiers[i].type = ident::KEYWORD_GOSUB;
-                    }
-
-                    else if (*symbol == L"run")
-                    {
-                        identifiers[i].type = ident::KEYWORD_RUN;
-                    }
-                    else if (*symbol == L"include")
-                    {
-                        identifiers[i].type = ident::KEYWORD_INCLUDE;
-                    }
-
-                    else if (*symbol == L"break")
-                    {
-                        identifiers[i].type = ident::KEYWORD_BREAK;
-                    }
-                    else if (*symbol == L"return")
-                    {
-                        identifiers[i].type = ident::KEYWORD_RETURN;
-                    }
-                }
-            }
-
-            return true;
-        }*/
+            return ident::IDENTIFIER;
+        }
 
 
         ///If any identifiers match a number form, check what form the number is in.
@@ -935,6 +940,10 @@ namespace z
         }
     }
 }
+
+
+#undef NL
+#undef CR
 
 
 #endif // SCANNER_H_INCLUDED

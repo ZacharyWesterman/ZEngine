@@ -28,6 +28,7 @@ int main(int argc, char* argv[])
     operators.add("-");
     operators.add("*");
     operators.add("/");
+    operators.add("and");
 
     core::sorted_array< core::string<char> > commands;
     commands.add("print");
@@ -48,7 +49,7 @@ int main(int argc, char* argv[])
 
 
 
-    z::core::string<char> input = "0c17 0o17";
+    z::core::string<char> input = "print  ten 0c1.1 and log 0b1.1";
     S->setInput(input);
 
     z::core::timeout time (100);

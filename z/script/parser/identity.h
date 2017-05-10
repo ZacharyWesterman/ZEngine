@@ -41,47 +41,47 @@ namespace z
 
                 COMMA,//7
                 SEMICOLON,//8
-                PERIOD,
+                PERIOD,//9
 
-                ASSIGNMENT,//9
+                ASSIGNMENT,//10
 
-                STRING_LITERAL,//10
+                STRING_LITERAL,//11
 
-                NUMERIC_LITERAL,
+                NUMERIC_LITERAL,//12
 
-                IDENTIFIER,//15
-                OPERATOR,//16
+                IDENTIFIER,//13
+                OPERATOR,//14
 
-                FUNCTION,//17
-                COMMAND,//18
+                FUNCTION,//15
+                COMMAND,//16
 
-                KEYWORD_MAIN,//19
+                KEYWORD_MAIN,//17
 
-                KEYWORD_IF,//20
-                KEYWORD_ELSE,//21
+                KEYWORD_IF,//18
+                KEYWORD_ELSE,//19
 
-                KEYWORD_FOR,//22
-                KEYWORD_DO,//23
-                KEYWORD_LOOP,//24
-                KEYWORD_WHILE,//25
+                KEYWORD_FOR,//20
+                KEYWORD_DO,//21
+                KEYWORD_LOOP,//22
+                KEYWORD_WHILE,//23
 
-                KEYWORD_GOTO,//26
-                KEYWORD_GOSUB,//27
+                KEYWORD_GOTO,//24
+                KEYWORD_GOSUB,//25
 
-                KEYWORD_RUN,//28
-                KEYWORD_INCLUDE,//29
+                KEYWORD_RUN,//26
+                KEYWORD_INCLUDE,//27
 
-                KEYWORD_BREAK,//30
-                KEYWORD_RETURN,//31
+                KEYWORD_BREAK,//28
+                KEYWORD_RETURN,//29
 
-                KEYWORD_EXIT, //32
+                KEYWORD_EXIT, //30
 
-                KEYWORD_WAIT,
+                KEYWORD_WAIT,//31
 
-                KEYWORD_TYPE,
+                KEYWORD_TYPE,//32
 
-                KEYWORD_GLOBAL,
-                KEYWORD_EXTERNAL,
+                KEYWORD_GLOBAL,//33
+                KEYWORD_EXTERNAL,//34
 
                 UNKNOWN = -1
             };

@@ -127,13 +127,12 @@ namespace z
             bool list_opers(core::string<CHAR>&,
                             core::array< ident_t<CHAR> >&) const;
 
-            ident::ident_enum get_keyword(const core::string<CHAR>&);
+            void get_this_keyword();
+            void get_this_operator();
+            void get_this_function();
+            void get_this_command();
 
             bool check_this_number();
-
-            bool check_for_operators();
-            bool check_for_commands();
-            bool check_for_functions();
 
             core::string<CHAR>* addToSymTable(core::string<CHAR>*) const;
 
@@ -344,9 +343,15 @@ namespace z
 
                             if (current_ident.type == ident::IDENTIFIER)
                             {
-                                current_ident.type = get_keyword(current_symbol);
+                                get_this_keyword();
+                                get_this_operator();
+                                get_this_function();
+                                get_this_command();
 
-                                addmeta = (current_ident.type == ident::IDENTIFIER);
+                                addmeta = (current_ident.type == ident::IDENTIFIER) ||
+                                          (current_ident.type == ident::OPERATOR) ||
+                                          (current_ident.type == ident::FUNCTION) ||
+                                          (current_ident.type == ident::COMMAND);
                             }
                             else if (current_ident.type == ident::NUMERIC_LITERAL)
                             {
@@ -439,9 +444,15 @@ namespace z
 
                     if (current_ident.type == ident::IDENTIFIER)
                     {
-                        current_ident.type = get_keyword(current_symbol);
+                        get_this_keyword();
+                        get_this_operator();
+                        get_this_function();
+                        get_this_command();
 
-                        addmeta = (current_ident.type == ident::IDENTIFIER);
+                        addmeta = (current_ident.type == ident::IDENTIFIER) ||
+                                  (current_ident.type == ident::OPERATOR) ||
+                                  (current_ident.type == ident::FUNCTION) ||
+                                  (current_ident.type == ident::COMMAND);
                     }
                     else if (current_ident.type == ident::NUMERIC_LITERAL)
                     {
@@ -461,28 +472,6 @@ namespace z
             return done;
         }
 
-
-        //function to reassign previously scanned tokens with more specific IDs.
-        //returns false if an error was found.
-        template <typename CHAR>
-        bool scanner<CHAR>::clean()
-        {
-            bool no_errors = true;
-
-            //no_errors &= check_for_keywords();
-            //no_errors &= check_for_numbers();
-
-            if (operators)
-                no_errors &= check_for_operators();
-
-            if (commands)
-                no_errors &= check_for_commands();
-
-            if (functions)
-                no_errors &= check_for_functions();
-
-            return no_errors;
-        }
 
 
         ///list all the possible operators in the string
@@ -572,49 +561,49 @@ namespace z
         }
 
 
-        ///If the given string matches a keyword, change the type to the appropriate keyword.
-        //does not produce any errors, so always returns true.
+        ///If the current symbol matches a keyword, change the type to the appropriate keyword.
         template <typename CHAR>
-        ident::ident_enum scanner<CHAR>::get_keyword(const core::string<CHAR>& input)
+        void scanner<CHAR>::get_this_keyword()
         {
-            if (input == "main")
-                return ident::KEYWORD_MAIN;
-            else if (input == "if")
-                return ident::KEYWORD_IF;
-            else if (input == "else")
-                return ident::KEYWORD_ELSE;
-            else if (input == "for")
-                return ident::KEYWORD_FOR;
-            else if (input == "do")
-                return ident::KEYWORD_DO;
-            else if (input == "loop")
-                return ident::KEYWORD_LOOP;
-            else if (input == "while")
-                return ident::KEYWORD_WHILE;
-            else if (input == "goto")
-                return ident::KEYWORD_GOTO;
-            else if (input == "gosub")
-                return ident::KEYWORD_GOSUB;
-            else if (input == "run")
-                return ident::KEYWORD_RUN;
-            else if (input == "include")
-                return ident::KEYWORD_INCLUDE;
-            else if (input == "break")
-                return ident::KEYWORD_BREAK;
-            else if (input == "return")
-                return ident::KEYWORD_RETURN;
-            else if (input == "exit")
-                return ident::KEYWORD_EXIT;
-            else if (input == "wait")
-                return ident::KEYWORD_WAIT;
-            else if (input == "type")
-                return ident::KEYWORD_TYPE;
-            else if (input == "global")
-                return ident::KEYWORD_GLOBAL;
-            else if (input == "external")
-                return ident::KEYWORD_EXTERNAL;
-
-            return ident::IDENTIFIER;
+            if (current_ident.type == ident::IDENTIFIER)
+            {
+                if (current_symbol == "main")
+                    current_ident.type = ident::KEYWORD_MAIN;
+                else if (current_symbol == "if")
+                    current_ident.type = ident::KEYWORD_IF;
+                else if (current_symbol == "else")
+                    current_ident.type = ident::KEYWORD_ELSE;
+                else if (current_symbol == "for")
+                    current_ident.type = ident::KEYWORD_FOR;
+                else if (current_symbol == "do")
+                    current_ident.type = ident::KEYWORD_DO;
+                else if (current_symbol == "loop")
+                    current_ident.type = ident::KEYWORD_LOOP;
+                else if (current_symbol == "while")
+                    current_ident.type = ident::KEYWORD_WHILE;
+                else if (current_symbol == "goto")
+                    current_ident.type = ident::KEYWORD_GOTO;
+                else if (current_symbol == "gosub")
+                    current_ident.type = ident::KEYWORD_GOSUB;
+                else if (current_symbol == "run")
+                    current_ident.type = ident::KEYWORD_RUN;
+                else if (current_symbol == "include")
+                    current_ident.type = ident::KEYWORD_INCLUDE;
+                else if (current_symbol == "break")
+                    current_ident.type = ident::KEYWORD_BREAK;
+                else if (current_symbol == "return")
+                    current_ident.type = ident::KEYWORD_RETURN;
+                else if (current_symbol == "exit")
+                    current_ident.type = ident::KEYWORD_EXIT;
+                else if (current_symbol == "wait")
+                    current_ident.type = ident::KEYWORD_WAIT;
+                else if (current_symbol == "type")
+                    current_ident.type = ident::KEYWORD_TYPE;
+                else if (current_symbol == "global")
+                    current_ident.type = ident::KEYWORD_GLOBAL;
+                else if (current_symbol == "external")
+                    current_ident.type = ident::KEYWORD_EXTERNAL;
+            }
         }
 
 
@@ -699,76 +688,42 @@ namespace z
         }
 
         ///Some operators may have alphanumeric characters in them.
-        ///if any identifiers match an operator, change the type to OPERATOR.
+        ///if the current identifier matches an operator, change the type to OPERATOR.
         //does not produce any errors, so always returns true.
         template <typename CHAR>
-        bool scanner<CHAR>::check_for_operators()
+        void scanner<CHAR>::get_this_operator()
         {
-            for (int i=0; i<identifiers.size(); i++)
+            if (operators && (current_ident.type == ident::IDENTIFIER))
             {
-                core::string<CHAR>* symbol = (core::string<CHAR>*)identifiers[i].meta;
-
-                if ((identifiers[i].type == ident::IDENTIFIER) && symbol)
-                {
-                    int location = operators->find(*symbol);
-
-                    if (location > -1)
-                    {
-                        identifiers[i].type = ident::OPERATOR;
-                    }
-                }
+                if (operators->find(current_symbol) > -1)
+                    current_ident.type = ident::OPERATOR;
             }
-
-            return true;
         }
 
 
         ///If any identifiers match a command, change the type to COMMAND.
         //does not produce any errors, so always returns true.
         template <typename CHAR>
-        bool scanner<CHAR>::check_for_commands()
+        void scanner<CHAR>::get_this_command()
         {
-            for (int i=0; i<identifiers.size(); i++)
+            if (commands && (current_ident.type == ident::IDENTIFIER))
             {
-                core::string<CHAR>* symbol = (core::string<CHAR>*)identifiers[i].meta;
-
-                if ((identifiers[i].type == ident::IDENTIFIER) && symbol)
-                {
-
-                    int location = commands->find(*symbol);
-
-                    if (location > -1)
-                    {
-                        identifiers[i].type = ident::COMMAND;
-                    }
-                }
+                if (commands->find(current_symbol) > -1)
+                    current_ident.type = ident::COMMAND;
             }
-
-            return true;
         }
 
 
         ///If any identifiers match a function, change the type to FUNCTION.
         //does not produce any errors, so always returns true.
         template <typename CHAR>
-        bool scanner<CHAR>::check_for_functions()
+        void scanner<CHAR>::get_this_function()
         {
-            for (int i=0; i<identifiers.size(); i++)
+            if (functions && (current_ident.type == ident::IDENTIFIER))
             {
-                core::string<CHAR>* symbol = (core::string<CHAR>*)identifiers[i].meta;
-
-                if ((identifiers[i].type == ident::IDENTIFIER) && symbol)
-                {
-                    int location = functions->find(*symbol);
-
-                    if (location > -1)
-                    {
-                        identifiers[i].type = ident::FUNCTION;
-                    }
-                }
+                if (functions->find(current_symbol) > -1)
+                    current_ident.type = ident::FUNCTION;
             }
-
-            return true;
         }
 
 

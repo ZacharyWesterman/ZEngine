@@ -2193,7 +2193,7 @@
 
 1489353285 c:\users\zachary\documents\github\zengine\\z\script\errors.h
 
-1492821945 source:/home/zwesterman/GitHub/ZEngine/main.cpp
+1494431249 source:/home/zwesterman/GitHub/ZEngine/main.cpp
 	<z/core.h>
 	<z/math.h>
 	"z/script/parser/scanner.h"
@@ -2301,22 +2301,22 @@
 
 1491800855 /home/zwesterman/GitHub/zLibraries/z/math/matrix.h
 
-1492822055 /home/zwesterman/GitHub/ZEngine/z/script/parser/scanner.h
+1494432815 /home/zwesterman/GitHub/ZEngine/z/script/parser/scanner.h
 	<z/core/sorted_array.h>
 	<z/core/string.h>
 	<z/core/timeout.h>
 	"escape_sequences.h"
 	"identity.h"
 
-1491849930 /home/zwesterman/GitHub/ZEngine/z/script/parser/escape_sequences.h
+1494429326 /home/zwesterman/GitHub/ZEngine/z/script/parser/escape_sequences.h
 	<stdint.h>
 	<z/core/string.h>
 
-1492818516 /home/zwesterman/GitHub/ZEngine/z/script/parser/identity.h
+1494431216 /home/zwesterman/GitHub/ZEngine/z/script/parser/identity.h
 	<z/core/string.h>
 	"../errors.h"
 
-1491849930 /home/zwesterman/GitHub/ZEngine/z/script/errors.h
+1494429326 /home/zwesterman/GitHub/ZEngine/z/script/errors.h
 
 1492812797 /home/zwesterman/GitHub/zLibraries/z/core/timeout.h
 	"timer.h"

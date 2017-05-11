@@ -106,7 +106,6 @@ namespace z
             }
 
             bool scan(const core::timeout&);
-            bool clean();
 
             void clear()
             {
@@ -125,7 +124,7 @@ namespace z
 
         private:
             bool list_opers(core::string<CHAR>&,
-                            core::array< ident_t<CHAR> >&) const;
+                            core::array< ident_t<CHAR> >&);
 
             void get_this_keyword();
             void get_this_operator();
@@ -479,7 +478,7 @@ namespace z
         //returns false if an error was found.
         template <typename CHAR>
         bool scanner<CHAR>::list_opers(core::string<CHAR>& input,
-                                       core::array< ident_t<CHAR> >& output) const
+                                       core::array< ident_t<CHAR> >& output)
         {
             error_flag oper_error = error::NONE;
 

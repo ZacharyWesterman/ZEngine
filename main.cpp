@@ -43,6 +43,8 @@ int main(int argc, char* argv[])
 
     //z::script::scanner<char> S(&symbol_table, &operators, &commands, &functions);
 
+    core::array< z::script::ident_t<char> > identifiers;
+
     //test the scanner
     z::script::scanner<char>* S;
     S = new z::script::scanner<char>(&symbol_table, &operators, &commands, &functions);
@@ -51,6 +53,7 @@ int main(int argc, char* argv[])
 
     z::core::string<char> input = "print  ten 0c1.1 and log 0b1.1";
     S->setInput(input);
+    S->setOutput(identifiers);
 
     z::core::timeout time (100);
 
@@ -69,20 +72,20 @@ int main(int argc, char* argv[])
 
     cout << input.str() << "\n\n";
 
-    for (int i=0; i<S->identifiers.size(); i++)
+    for (int i=0; i<identifiers.size(); i++)
     {
-        core::string<char>* symbol = (core::string<char>*)(S->identifiers[i].meta);
+        core::string<char>* symbol = (core::string<char>*)(identifiers[i].meta);
 
         if (symbol)
             cout << symbol->str();
-        else if (S->identifiers[i].type == z::script::ident::NUMERIC_LITERAL)
-            cout << "#" << S->identifiers[i].value;
+        else if (identifiers[i].type == z::script::ident::NUMERIC_LITERAL)
+            cout << "#" << identifiers[i].value;
         else
             cout << "NULL";
-        cout << "\t(" << S->identifiers[i].type;
-        cout << ")\t[" << S->identifiers[i].line;
-        cout << ',' << S->identifiers[i].column << "]";
-        cout << " {" << S->identifiers[i].err << "}\n";
+        cout << "\t(" << identifiers[i].type;
+        cout << ")\t[" << identifiers[i].line;
+        cout << ',' << identifiers[i].column << "]";
+        cout << " {" << identifiers[i].err << "}\n";
     }
 
     for (int i=0; i<symbol_table.size(); i++)

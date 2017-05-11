@@ -37,7 +37,9 @@ namespace z
         class scanner
         {
         private:
-            core::string<CHAR> input;
+            core::string<CHAR>* input;
+            core::array< ident_t<CHAR> >* identifiers;
+
             int index;
 
             bool in_string;
@@ -64,33 +66,43 @@ namespace z
             core::sorted_ref_array< core::string<CHAR>* >* sym_table;
 
         public:
-            core::array< ident_t<CHAR> > identifiers;
-
             //constructor allows operators, commands, and functions be set
             scanner(core::sorted_ref_array< core::string<CHAR>* >* symbol_table,
                     core::sorted_array< core::string<CHAR> >* opers = NULL,
                     core::sorted_array< core::string<CHAR> >* cmds = NULL,
                     core::sorted_array< core::string<CHAR> >* funcs = NULL)
             {
+                input = NULL;
+                identifiers = NULL;
+
                 sym_table = symbol_table;
 
                 operators = opers;
                 commands = cmds;
                 functions = funcs;
 
-                done = true;
-                found_error = false;
+                clear();
             }
 
-            void setInput(const core::string<CHAR>& inputString)
+            inline void setInput(core::string<CHAR>& string_input)
             {
-                input = inputString;
+                input = &string_input;
+            }
+
+            inline void setOutput(core::array< ident_t<CHAR> >& ident_output)
+            {
+                identifiers = &ident_output;
+            }
+
+            bool scan(const core::timeout&);
+
+            void clear()
+            {
+                current_symbol.clear();
+
                 index = 0;
 
-                identifiers.clear();
-
                 in_string = false;
-
                 in_comment = false;
                 multiline_comment = false;
 
@@ -101,20 +113,8 @@ namespace z
                 newIdent = ident::NONE;
                 current_symbol.clear();
 
+                found_error = false;
                 done = false;
-                found_error = false;
-            }
-
-            bool scan(const core::timeout&);
-
-            void clear()
-            {
-                input.clear();
-                identifiers.clear();
-                current_symbol.clear();
-
-                found_error = false;
-                done = true;
             }
 
             inline bool error()
@@ -123,8 +123,7 @@ namespace z
             }
 
         private:
-            bool list_opers(core::string<CHAR>&,
-                            core::array< ident_t<CHAR> >&);
+            bool list_opers(core::string<CHAR>&);
 
             void get_this_keyword();
             void get_this_operator();
@@ -149,27 +148,27 @@ namespace z
         template <typename CHAR>
         bool scanner<CHAR>::scan(const core::timeout& time)
         {
-            if (done)
+            if (done || !input || !identifiers)
                 return true;
 
             bool no_errors = true;
 
 
-            while (!time.timedOut() && (index < input.length()))
+            while (!time.timedOut() && (index < input->length()))
             {
                 if (current_ident.err)
                   no_errors = false;
 
                 if (in_string)
                 {
-                    if (input[index] == (CHAR)34)
+                    if (input->at(index) == (CHAR)34)
                     {
                         in_string = false;
                         index++;
                     }
                     else
                     {
-                        int esc_seq = (int)what_esc_sequence(input, index);
+                        int esc_seq = (int)what_esc_sequence(*input, index);
 
                         if (esc_seq)
                         {
@@ -186,16 +185,16 @@ namespace z
                         }
                         else
                         {
-                            current_symbol += input[index];
+                            current_symbol += input->at(index);
 
-                            if (input[index] == (CHAR)92) //we have some unknown escape sequence
+                            if (input->at(index) == (CHAR)92) //we have some unknown escape sequence
                                 current_ident.err = error::UNKNOWN_ESCAPE;
                         }
                     }
                 }
                 else if (in_comment)
                 {
-                    if (input.foundAt("*\\", index))
+                    if (input->foundAt("*\\", index))
                     {
                         in_comment = false;
                         index+=2;
@@ -203,7 +202,7 @@ namespace z
                 }
                 else
                 {
-                    if (input[index] == (CHAR)34)
+                    if (input->at(index) == (CHAR)34)
                     {
                         newIdent = ident::STRING_LITERAL;
                         in_string = true;
@@ -211,7 +210,7 @@ namespace z
                         if (current_ident.type)
                         {
                             current_ident.meta = addToSymTable(&current_symbol);
-                            identifiers.add(current_ident);
+                            identifiers->add(current_ident);
                         }
 
                         current_symbol.clear();
@@ -225,19 +224,19 @@ namespace z
                         current_ident.meta = NULL;
                     }
                     ///in some kind of comment
-                    else if ((input[index] == (CHAR)92) &&
-                             ((input[index+1] == (CHAR)42) || //  multiline comment "\*"
-                              (input[index+1] == (CHAR)92)))  //single line comment "\\"
+                    else if ((input->at(index) == (CHAR)92) &&
+                             ((input->at(index+1) == (CHAR)42) || //  multiline comment "\*"
+                              (input->at(index+1) == (CHAR)92)))  //single line comment "\\"
                     {
                         newIdent = ident::NONE;
                         in_comment = true;
 
-                        multiline_comment = (input[index+1] == (CHAR)42);
+                        multiline_comment = (input->at(index+1) == (CHAR)42);
 
                         if (current_ident.type)
                         {
                             current_ident.meta = addToSymTable(&current_symbol);
-                            identifiers.add(current_ident);
+                            identifiers->add(current_ident);
                         }
 
                         current_symbol.clear();
@@ -258,68 +257,68 @@ namespace z
                 if (!in_string && !in_comment)
                 {
                     //white space
-                    if (core::is_white_space(input[index]))
+                    if (core::is_white_space(input->at(index)))
                     {
                         newIdent = ident::NONE;
                     }
                     //generic identifiers
-                    else if (core::is_alphanumeric(input[index]) ||
-                             (input[index] == (CHAR)95))
+                    else if (core::is_alphanumeric(input->at(index)) ||
+                             (input->at(index) == (CHAR)95))
                     {
                         if ((newIdent != ident::NUMERIC_LITERAL) &&
                             (newIdent != ident::IDENTIFIER))
                         {
-                            if (core::is_numeric(input[index]))
+                            if (core::is_numeric(input->at(index)))
                                 newIdent = ident::NUMERIC_LITERAL;
                             else
                                 newIdent = ident::IDENTIFIER;
                         }
                     }
                     //period
-                    else if (input[index] == (CHAR)46)
+                    else if (input->at(index) == (CHAR)46)
                     {
                         //if a decimal point precedes a number
                         //and no alphanumeric character directly precedes it,
                         //we can assume we have a number (e.g. ".10")
-                        if (!newIdent && core::is_numeric(input[index+1]))
+                        if (!newIdent && core::is_numeric(input->at(index+1)))
                             newIdent = ident::NUMERIC_LITERAL;
                         else if (newIdent != ident::NUMERIC_LITERAL)
                             newIdent = ident::PERIOD;
                     }
                     //parentheses
-                    else if (input[index] == (CHAR)40)
+                    else if (input->at(index) == (CHAR)40)
                     {
                         newIdent = ident::LPARENTH;
                     }
-                    else if (input[index] == (CHAR)41)
+                    else if (input->at(index) == (CHAR)41)
                     {
                         newIdent = ident::RPARENTH;
                     }
                     //brackets
-                    else if (input[index] == (CHAR)91)
+                    else if (input->at(index) == (CHAR)91)
                     {
                         newIdent = ident::LBRACKET;
                     }
-                    else if (input[index] == (CHAR)93)
+                    else if (input->at(index) == (CHAR)93)
                     {
                         newIdent = ident::RBRACKET;
                     }
                     //curly braces
-                    else if (input[index] == (CHAR)123)
+                    else if (input->at(index) == (CHAR)123)
                     {
                         newIdent = ident::LBRACE;
                     }
-                    else if (input[index] == (CHAR)125)
+                    else if (input->at(index) == (CHAR)125)
                     {
                         newIdent = ident::RBRACE;
                     }
                     //comma
-                    else if (input[index] == (CHAR)44)
+                    else if (input->at(index) == (CHAR)44)
                     {
                         newIdent = ident::LBRACE;
                     }
                     //semicolon
-                    else if (input[index] == (CHAR)59)
+                    else if (input->at(index) == (CHAR)59)
                     {
                         newIdent = ident::SEMICOLON;
                     }
@@ -334,7 +333,7 @@ namespace z
                     {
                         if (current_ident.type == ident::UNKNOWN)
                         {
-                            list_opers(current_symbol, identifiers);
+                            list_opers(current_symbol);
                         }
                         else if (current_ident.type)
                         {
@@ -362,7 +361,7 @@ namespace z
 
                             if (addmeta)
                                 current_ident.meta = addToSymTable(&current_symbol);
-                            identifiers.add(current_ident);
+                            identifiers->add(current_ident);
                         }
 
                         current_symbol.clear();
@@ -375,12 +374,12 @@ namespace z
                         current_ident.meta = NULL;
 
                         if (current_ident.type)
-                            current_symbol += input[index];
+                            current_symbol += input->at(index);
 
                         if ((current_ident.type >= ident::LPARENTH) &&
                             (current_ident.type <= ident::ASSIGNMENT))
                         {
-                            identifiers.add(current_ident);
+                            identifiers->add(current_ident);
                             current_symbol.clear();
 
                             current_ident.type = ident::NONE;
@@ -389,14 +388,14 @@ namespace z
                     }
                     else if (current_ident.type)
                     {
-                        current_symbol += input[index];
+                        current_symbol += input->at(index);
                     }
                 }
 
                 //update current line and column
-                if (input.foundAt(NL, index))
+                if (input->foundAt(NL, index))
                 {
-                    if (input.foundAt(CR, index+1))
+                    if (input->foundAt(CR, index+1))
                         index++;
 
                     line++;
@@ -405,9 +404,9 @@ namespace z
                     if (in_comment && !multiline_comment)
                         in_comment = false;
                 }
-                else if (input.foundAt(CR, index))
+                else if (input->foundAt(CR, index))
                 {
-                    if (input.foundAt(NL, index+1))
+                    if (input->foundAt(NL, index+1))
                         index++;
 
                     line++;
@@ -426,7 +425,7 @@ namespace z
             }
 
 
-            done = (index >= input.length());
+            done = (index >= input->length());
 
 
             found_error = !no_errors;
@@ -435,7 +434,7 @@ namespace z
             {
                 if (current_ident.type == ident::UNKNOWN)
                 {
-                    list_opers(current_symbol, identifiers);
+                    list_opers(current_symbol);
                 }
                 else if (current_ident.type)
                 {
@@ -463,7 +462,7 @@ namespace z
 
                     if (addmeta)
                         current_ident.meta = addToSymTable(&current_symbol);
-                    identifiers.add(current_ident);
+                    identifiers->add(current_ident);
                 }
             }
 
@@ -477,8 +476,7 @@ namespace z
         ///the string must contain ONLY operators and NO spaces
         //returns false if an error was found.
         template <typename CHAR>
-        bool scanner<CHAR>::list_opers(core::string<CHAR>& input,
-                                       core::array< ident_t<CHAR> >& output)
+        bool scanner<CHAR>::list_opers(core::string<CHAR>& input)
         {
             error_flag oper_error = error::NONE;
 
@@ -488,8 +486,8 @@ namespace z
             core::string<CHAR> curr_oper;
 
             int x_offset = 0;
-            int line = output[output.size()-1].line;
-            int column = output[output.size()-1].column;
+            int line = identifiers->at(identifiers->size()-1).line;
+            int column = identifiers->at(identifiers->size()-1).column;
 
 
             while ((x_offset < input.length()) && !oper_error && operators)
@@ -533,7 +531,7 @@ namespace z
             {
                 for (int i=0; i<temp_opers.size(); i++)
                 {
-                    output.add(temp_opers[i]);
+                    identifiers->add(temp_opers[i]);
                 }
             }
             else
@@ -549,10 +547,10 @@ namespace z
                     this_type = ident::UNKNOWN;
                 }
 
-                int line = output[output.size()-1].line;
-                int column = output[output.size()-1].column;
+                int line = identifiers->at(identifiers->size()-1).line;
+                int column = identifiers->at(identifiers->size()-1).column;
 
-                output.add(ident_t<CHAR>(this_type, line, column,
+                identifiers->add(ident_t<CHAR>(this_type, line, column,
                                          addToSymTable(&input), oper_error));
             }
 

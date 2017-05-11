@@ -28,6 +28,7 @@ namespace z
                 NONE = 0,
 
                 INVALID_IDENTIFIER,
+                INVALID_NUMBER,
                 UNKNOWN_ESCAPE,
 
                 UNKNOWN_OPERATOR,

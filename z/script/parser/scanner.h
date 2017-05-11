@@ -357,7 +357,7 @@ namespace z
                                 addmeta = !check_this_number();
 
                                 if (addmeta)
-                                    current_ident.err = error::INVALID_IDENTIFIER;
+                                    current_ident.err = error::INVALID_NUMBER;
                             }
 
                             if (addmeta)
@@ -458,7 +458,7 @@ namespace z
                         addmeta = !check_this_number();
 
                         if (addmeta)
-                            current_ident.err = error::INVALID_IDENTIFIER;
+                            current_ident.err = error::INVALID_NUMBER;
                     }
 
                     if (addmeta)

@@ -8,7 +8,7 @@
  *
  * Author:          Zachary Westerman
  * Email:           zacharywesterman@yahoo.com
- * Last modified:   6 Mar. 2017
+ * Last modified:   14 May 2017
 **/
 
 
@@ -28,9 +28,9 @@ namespace z
         class phrase
         {
         public:
-            core::array<phrase*> children;
+            ident_t<CHAR> data;
 
-            ident_t data;
+            core::array<phrase> children;
         };
     }
 }

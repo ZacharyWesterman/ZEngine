@@ -146,7 +146,7 @@ namespace z
             }
 
 
-            bool scan(const core::timeout&);
+            bool build(const core::timeout&);
 
             inline bool error() {return found_error;}
         };
@@ -159,7 +159,7 @@ namespace z
         //returns 1 if done scanning.
         //returns 0 otherwise.
         template <typename CHAR>
-        bool includeIterator<CHAR>::scan(const core::timeout& time)
+        bool includeIterator<CHAR>::build(const core::timeout& time)
         {
             while ((working_node < node_list.size()) && !time.timedOut())
             {
@@ -167,33 +167,16 @@ namespace z
 
                 if (progress == PROG_NONE)
                 {
+
                     core::string<char> file = node_list[working_node].directory;
                     if (file.length())
                         file += '\\';
                     file += node_list[working_node].filename;
 
                     fLoader.clear();
+                    fLoader.setFileName(file);
 
-                    bool exists = false;
-                    for (int i=0; i<node_list.size(); i++)
-                        if ((node_list[working_node].directory == node_list[i].directory) &&
-                            (node_list[working_node].filename == node_list[i].filename))
-                        {
-                            exists = true;
-                            break;
-                        }
-
-                    if (exists)
-                    {
-                        fLoader.setFileName(file);
-
-                        node_list[working_node].progress = PROG_LOADING;
-                    }
-                    else
-                    {
-                        node_list[working_node].progress = PROG_DONE;
-                    }
-
+                    node_list[working_node].progress = PROG_LOADING;
                 }
                 else if (progress == PROG_LOADING)
                 {
@@ -231,7 +214,7 @@ namespace z
                 }
                 else if (progress == PROG_SCANNED)
                 {
-                    /*for (int i=0; i<node_list[working_node].identities.size(); i++)
+                    for (int i=0; i<node_list[working_node].identities.size(); i++)
                     {
                         core::string<CHAR>* symbol = (core::string<CHAR>*)(node_list[working_node].identities[i].meta);
 
@@ -245,7 +228,7 @@ namespace z
                         cout << ")\t[" << node_list[working_node].identities[i].line;
                         cout << ',' << node_list[working_node].identities[i].column << "]";
                         cout << " {" << node_list[working_node].identities[i].err << "}\n";
-                    }*/
+                    }
 
 
                     for(int i=0; i<node_list[working_node].identities.size()-1; i++)
@@ -269,7 +252,30 @@ namespace z
                                 node.directory = file::shorten(full_fname.substr(0, pos-1));
                                 node.filename = full_fname.substr(pos+1, full_fname.length()-1);
 
-                                node_list.add(node);
+
+                                core::string<char> file = node_list[working_node].directory;
+
+
+                                bool exists = false;
+                                for (int i=0; i<node_list.size(); i++)
+                                    if ((node_list[i].directory == node.directory) &&
+                                        (node_list[i].filename == node.filename))
+                                    {
+                                        exists = true;
+                                        break;
+                                    }
+
+                                if (exists)
+                                {
+                                    cout << "["<< node.directory.str() << ", ";
+                                    cout << node.filename.str() << "]\n";
+                                }
+                                else
+                                {
+                                    node_list.add(node);
+                                }
+
+
                             }
                             else
                             {

@@ -1,7 +1,7 @@
 #include <z/core.h>
 #include <z/math.h>
 
-#include "z/script/parser/scanner.h"
+#include "z/script/parser/scan_iterator.h"
 
 //#include "z/script/load_operators.h"
 
@@ -46,19 +46,20 @@ int main(int argc, char* argv[])
     core::array< z::script::ident_t<char> > identifiers;
 
     //test the scanner
-    z::script::scanner<char>* S;
-    S = new z::script::scanner<char>(&symbol_table, &operators, &commands, &functions);
+    z::script::includeIterator<char>* iiter;
+    iiter = new z::script::includeIterator<char>(&symbol_table, &operators, &commands, &functions);
 
 
+    iiter->setInput("file1.txt", true);
 
-    z::core::string<char> input = "print  ten 0c1.1 and log 0b1.1";
-    S->setInput(input);
-    S->setOutput(identifiers);
+    //z::core::string<char> input = "print  ten 0c1.1 and log 0b1.1";
+    //S->setInput(input);
+    //S->setOutput(identifiers);
 
     z::core::timeout time (100);
 
     int iter = 1;
-    while (!S->scan(time))
+    while (!iiter->scan(time))
     {
         iter++;
         time.reset();
@@ -67,6 +68,9 @@ int main(int argc, char* argv[])
     //S->clean();
 
     cout << "Scanned in " << iter << " iterations.\n";
+
+    iiter->error() ? (cout << "Found error(s)" << endl) : (cout << "No errors." << endl);
+    /*
 
     //symbol_table.find(&input);
 
@@ -89,9 +93,9 @@ int main(int argc, char* argv[])
     }
 
     for (int i=0; i<symbol_table.size(); i++)
-        delete symbol_table[i];
+        delete symbol_table[i];*/
 
-    delete S;
+    delete iiter;
 
 
 

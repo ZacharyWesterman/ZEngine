@@ -358,6 +358,10 @@ namespace z
                                 if (addmeta)
                                     current_ident.err = error::INVALID_NUMBER;
                             }
+                            else if (current_ident.type == ident::STRING_LITERAL)
+                            {
+                                addmeta = true;
+                            }
 
                             if (addmeta)
                                 current_ident.meta = addToSymTable(&current_symbol);
@@ -458,6 +462,10 @@ namespace z
 
                         if (addmeta)
                             current_ident.err = error::INVALID_NUMBER;
+                    }
+                    else if (current_ident.type == ident::STRING_LITERAL)
+                    {
+                        addmeta = true;
                     }
 
                     if (addmeta)

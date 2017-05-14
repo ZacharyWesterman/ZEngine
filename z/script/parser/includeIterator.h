@@ -12,12 +12,12 @@
  *
  * Author:          Zachary Westerman
  * Email:           zacharywesterman@yahoo.com
- * Last modified:   11 Mar. 2017
+ * Last modified:   14 May. 2017
 **/
 
 #pragma once
-#ifndef SCAN_ITERATOR_H_INCLUDED
-#define SCAN_ITERATOR_H_INCLUDED
+#ifndef INCLUDEITERATOR_H_INCLUDED
+#define INCLUDEITERATOR_H_INCLUDED
 
 #include <z/core/array.h>
 #include <z/file/loadFileTimeout.h>
@@ -296,4 +296,4 @@ namespace z
     }
 }
 
-#endif // SCAN_ITERATOR_H_INCLUDED
+#endif // INCLUDEITERATOR_H_INCLUDED

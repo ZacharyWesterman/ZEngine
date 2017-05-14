@@ -192,24 +192,56 @@ namespace z
                         }
                     }
                 }
-                else if (in_comment)
+
+                if (in_comment)
                 {
-                    if (input->foundAt("*\\", index))
+                    if (input->foundAt("}/", index))
                     {
                         in_comment = false;
+                        multiline_comment = false;
                         index+=2;
                     }
                 }
-                else
+
+                if (!in_string && !in_comment)
                 {
                     if (input->at(index) == (CHAR)34)
                     {
                         newIdent = ident::STRING_LITERAL;
                         in_string = true;
+                        in_comment = false;
+                        multiline_comment = false;
 
                         if (current_ident.type)
                         {
-                            current_ident.meta = addToSymTable(&current_symbol);
+                            bool addmeta = false;
+
+                            if (current_ident.type == ident::IDENTIFIER)
+                            {
+                                get_this_keyword();
+                                get_this_operator();
+                                get_this_function();
+                                get_this_command();
+
+                                addmeta = (current_ident.type == ident::IDENTIFIER) ||
+                                          (current_ident.type == ident::OPERATOR) ||
+                                          (current_ident.type == ident::FUNCTION) ||
+                                          (current_ident.type == ident::COMMAND);
+                            }
+                            else if (current_ident.type == ident::NUMERIC_LITERAL)
+                            {
+                                addmeta = !check_this_number();
+
+                                if (addmeta)
+                                    current_ident.err = error::INVALID_NUMBER;
+                            }
+                            else if (current_ident.type == ident::STRING_LITERAL)
+                            {
+                                addmeta = true;
+                            }
+
+                            if (addmeta)
+                                current_ident.meta = addToSymTable(&current_symbol);
                             identifiers->add(current_ident);
                         }
 
@@ -224,18 +256,45 @@ namespace z
                         current_ident.meta = NULL;
                     }
                     ///in some kind of comment
-                    else if ((input->at(index) == (CHAR)92) &&
-                             ((input->at(index+1) == (CHAR)42) || //  multiline comment "\*"
-                              (input->at(index+1) == (CHAR)92)))  //single line comment "\\"
+                    else if (input->foundAt("/{", index) || //  multiline comment "\{"
+                             input->foundAt("//", index))  //single line comment "\\"
                     {
                         newIdent = ident::NONE;
                         in_comment = true;
+                        in_string = false;
 
-                        multiline_comment = (input->at(index+1) == (CHAR)42);
+                        multiline_comment = input->foundAt("/{",index);
 
                         if (current_ident.type)
                         {
-                            current_ident.meta = addToSymTable(&current_symbol);
+                            bool addmeta = false;
+
+                            if (current_ident.type == ident::IDENTIFIER)
+                            {
+                                get_this_keyword();
+                                get_this_operator();
+                                get_this_function();
+                                get_this_command();
+
+                                addmeta = (current_ident.type == ident::IDENTIFIER) ||
+                                          (current_ident.type == ident::OPERATOR) ||
+                                          (current_ident.type == ident::FUNCTION) ||
+                                          (current_ident.type == ident::COMMAND);
+                            }
+                            else if (current_ident.type == ident::NUMERIC_LITERAL)
+                            {
+                                addmeta = !check_this_number();
+
+                                if (addmeta)
+                                    current_ident.err = error::INVALID_NUMBER;
+                            }
+                            else if (current_ident.type == ident::STRING_LITERAL)
+                            {
+                                addmeta = true;
+                            }
+
+                            if (addmeta)
+                                current_ident.meta = addToSymTable(&current_symbol);
                             identifiers->add(current_ident);
                         }
 
@@ -249,7 +308,7 @@ namespace z
 
                         current_ident.meta = NULL;
 
-                        index++;
+                        //index++;
                     }
                 }
 
@@ -405,8 +464,7 @@ namespace z
                     line++;
                     column = 0;
 
-                    if (in_comment && !multiline_comment)
-                        in_comment = false;
+                    in_comment = multiline_comment;
                 }
                 else if (input->foundAt(CR, index))
                 {
@@ -416,8 +474,7 @@ namespace z
                     line++;
                     column = 0;
 
-                    if (in_comment && !multiline_comment)
-                        in_comment = false;
+                    in_comment = multiline_comment;
                 }
                 else
                 {

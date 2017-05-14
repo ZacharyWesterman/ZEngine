@@ -20,102 +20,278 @@
 #define SCAN_ITERATOR_H_INCLUDED
 
 #include <z/core/array.h>
-#include <z/file/loadFileToMemory.h>
+#include <z/file/loadFileTimeout.h>
+#include <z/file/directoryOperations.h>
+#include <z/core/timeout.h>
 
 #include "scanner.h"
+
+
+#include <iostream>
 
 namespace z
 {
     namespace script
     {
-        template <typename CHAR>
-        class scan_iterator
+        enum NODE_PROGRESS
         {
-        private:
-            scanner<CHAR>* _scanner;
+            PROG_NONE = 0,
+            PROG_LOADING,
+            PROG_LOADED,
+            PROG_SCANNING,
+            PROG_SCANNED,
 
-            bool found_error;
+            PROG_DONE
+        };
 
+        template <typename CHAR>
+        class s_iter_node
+        {
         public:
-            core::array< ident_t<CHAR> > identifiers;
 
+            core::string<char> directory;
+            core::string<char> filename;
 
-            scan_iterator(core::sorted_array< core::string<CHAR> >* opers = NULL,
-                          core::sorted_array< core::string<CHAR> >* cmds = NULL,
-                          core::sorted_array< core::string<CHAR> >* funcs = NULL)
+            core::string<CHAR> contents;
+
+            core::array< ident_t<CHAR> > identities;
+
+            int insert_index;
+            int progress;
+
+            error_flag generic_error;
+
+            s_iter_node()
             {
-                _scanner = new scanner<CHAR>(opers, cmds, funcs);
-
-                found_error = false;
+                progress = PROG_NONE;
+                insert_index = -1;
+                generic_error = error::NONE;
             }
 
-            ~scan_iterator()
+            bool operator==(const s_iter_node& other) const
             {
-                delete _scanner;
+                return ((directory == other.directory) &&
+                        (filename == other.filename) &&
+                        (contents == other.contents));
             }
-
-
-            void set(const core::string<CHAR>&);
-
-
-            bool scan();
-
-            bool error();
         };
 
 
-        ///set the input string for the scan iterator
-        ///and scan that input (does not replace includes).
         template <typename CHAR>
-        void scan_iterator<CHAR>::set(const core::string<CHAR>& input)
+        class includeIterator
         {
-            identifiers.clear();
+        private:
+            core::string<CHAR>* full_output;
 
-            found_error = _scanner->scan(input);
-            found_error |= _scanner->clean();
+            file::loader<CHAR> fLoader;
+            scanner<CHAR> fScanner;
 
-            identifiers = _scanner->identifiers;
-        }
+
+            bool found_error;
+
+            core::array< s_iter_node<CHAR> > node_list;
+
+            int working_node;
+
+        public:
+
+
+            includeIterator(core::sorted_ref_array< core::string<CHAR>* >* symbol_table,
+                            core::sorted_array< core::string<CHAR> >* opers = NULL,
+                            core::sorted_array< core::string<CHAR> >* cmds = NULL,
+                            core::sorted_array< core::string<CHAR> >* funcs = NULL) :
+                            fScanner(symbol_table, opers, cmds, funcs)
+            {
+                full_output = NULL;
+
+                found_error = false;
+
+                working_node = 0;
+            }
+
+            ~includeIterator()
+            {
+
+            }
+
+
+            ///set the input string for the scan iterator
+            void setInput(const core::string<CHAR>& input,
+                          bool is_file = false)
+            {
+                node_list.clear();
+                working_node = 0;
+
+                if (is_file)
+                {
+                    s_iter_node<CHAR> node;
+
+                    int pos = input.findLast("/");
+                    if (pos < 0)
+                        pos = input.findLast("\\");
+
+                    node.directory = file::shorten(input.substr(0, pos-1));
+                    node.filename = input.substr(pos+1, input.length()-1);
+
+                    node_list.add(node);
+                }
+                else
+                {
+                    s_iter_node<CHAR> node;
+                    node.contents = input;
+                    node.progress = PROG_LOADED;
+
+                    node_list.add(node);
+                }
+            }
+
+
+            bool scan(const core::timeout&);
+
+            inline bool error() {return found_error;}
+        };
+
 
 
         ///template for iterator scanner. Scans the loaded
         ///input and replaces all includes in the script
         ///with the contents of the referenced file.
-        //returns false if done scanning or unable to load
-        //an included file, true otherwise.
+        //returns 1 if done scanning.
+        //returns 0 otherwise.
         template <typename CHAR>
-        bool scan_iterator<CHAR>::scan()
+        bool includeIterator<CHAR>::scan(const core::timeout& time)
         {
-            for (int i=0; i<identifiers.size(); i++)
-                if (identifiers[i].type == ident::KEYWORD_INCLUDE)
+            while ((working_node < node_list.size()) && !time.timedOut())
+            {
+                int progress = node_list[working_node].progress;
+
+                if (progress == PROG_NONE)
                 {
-                    //include directories must exist and be a string literal.
-                    if (identifiers.is_valid(i+1) &&
-                        identifiers[i+1].type == ident::STRING_LITERAL)
+                    core::string<char> file = node_list[working_node].directory;
+                    if (file.length())
+                        file += '\\';
+                    file += node_list[working_node].filename;
+
+                    fLoader.clear();
+
+                    bool exists = false;
+                    for (int i=0; i<node_list.size(); i++)
+                        if ((node_list[working_node].directory == node_list[i].directory) &&
+                            (node_list[working_node].filename == node_list[i].filename))
+                        {
+                            exists = true;
+                            break;
+                        }
+
+                    if (exists)
                     {
-                        core::string<CHAR> include_script;
+                        fLoader.setFileName(file);
 
-                        //if the include file exists, load it.
-                        if (false && file::loadFileToMemory(identifiers[i+1].name, include_script))
-                        {
-
-                        }
-                        else
-                        {
-
-                        }
-
+                        node_list[working_node].progress = PROG_LOADING;
                     }
                     else
                     {
-                        found_error = true;
-
-                        identifiers[i].err = error::INVALID_INCLUDE;
+                        node_list[working_node].progress = PROG_DONE;
                     }
 
                 }
+                else if (progress == PROG_LOADING)
+                {
+                    int loadmsg = fLoader.load(time);
 
-            return false;
+                    if (loadmsg == -1)
+                    {
+                        node_list[working_node].progress = PROG_DONE;
+
+                        node_list[working_node].generic_error = error::INCLUDE_LOAD_FAILED;
+                        found_error = true;
+                    }
+                    else if (loadmsg == 1)
+                    {
+                        node_list[working_node].progress = PROG_LOADED;
+                    }
+                }
+                else if (progress == PROG_LOADED)
+                {
+                    node_list[working_node].contents = fLoader.getContents();
+                    fLoader.clear();
+
+                    fScanner.clear();
+                    fScanner.setInput(node_list[working_node].contents);
+                    fScanner.setOutput(node_list[working_node].identities);
+
+                    node_list[working_node].progress = PROG_SCANNING;
+
+                    //cout << node_list[working_node].contents.str() << endl;
+                }
+                else if (progress == PROG_SCANNING)
+                {
+                    if (fScanner.scan(time))
+                        node_list[working_node].progress = PROG_SCANNED;
+                }
+                else if (progress == PROG_SCANNED)
+                {
+                    /*for (int i=0; i<node_list[working_node].identities.size(); i++)
+                    {
+                        core::string<CHAR>* symbol = (core::string<CHAR>*)(node_list[working_node].identities[i].meta);
+
+                        if (symbol)
+                            cout << symbol->str();
+                        else if (node_list[working_node].identities[i].type == z::script::ident::NUMERIC_LITERAL)
+                            cout << "#" << node_list[working_node].identities[i].value;
+                        else
+                            cout << "NULL";
+                        cout << "\t(" << node_list[working_node].identities[i].type;
+                        cout << ")\t[" << node_list[working_node].identities[i].line;
+                        cout << ',' << node_list[working_node].identities[i].column << "]";
+                        cout << " {" << node_list[working_node].identities[i].err << "}\n";
+                    }*/
+
+
+                    for(int i=0; i<node_list[working_node].identities.size()-1; i++)
+                    {
+                        if (node_list[working_node].identities[i].type == ident::KEYWORD_INCLUDE)
+                        {
+                            if (node_list[working_node].identities[i+1].type == ident::STRING_LITERAL)
+                            {
+                                core::string<char> full_fname = node_list[working_node].directory;
+                                if (full_fname.length())
+                                    full_fname += '\\';
+                                full_fname += *(node_list[working_node].identities[i+1].meta);
+
+
+                                s_iter_node<CHAR> node;
+
+                                int pos = full_fname.findLast("/");
+                                if (pos < 0)
+                                    pos = full_fname.findLast("\\");
+
+                                node.directory = file::shorten(full_fname.substr(0, pos-1));
+                                node.filename = full_fname.substr(pos+1, full_fname.length()-1);
+
+                                node_list.add(node);
+                            }
+                            else
+                            {
+                                node_list[working_node].identities[i].err = error::INVALID_INCLUDE;
+
+                                found_error = true;
+                            }
+                        }
+                    }
+
+                    node_list[working_node].progress = PROG_DONE;
+                }
+                else if (progress == PROG_DONE)
+                {
+                    //cout << node_list[working_node].contents.str() << endl;
+
+                    working_node++;
+                }
+            }
+
+
+            return !time.timedOut();
         }
     }
 }

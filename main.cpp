@@ -1,7 +1,7 @@
 #include <z/core.h>
 #include <z/math.h>
 
-#include "z/script/parser/scan_iterator.h"
+#include "z/script/parser/includeIterator.h"
 
 //#include "z/script/load_operators.h"
 
@@ -59,7 +59,7 @@ int main(int argc, char* argv[])
     z::core::timeout time (100);
 
     int iter = 1;
-    while (!iiter->scan(time))
+    while (!iiter->build(time))
     {
         iter++;
         time.reset();

@@ -53,11 +53,10 @@
 		<Unit filename="z/script/operators/oper_t.h" />
 		<Unit filename="z/script/parser/escape_sequences.h" />
 		<Unit filename="z/script/parser/identity.h" />
+		<Unit filename="z/script/parser/includeIterator.h" />
 		<Unit filename="z/script/parser/lexer.h" />
 		<Unit filename="z/script/parser/phrase.h" />
-		<Unit filename="z/script/parser/scan_iterator.h" />
 		<Unit filename="z/script/parser/scanner.h" />
-		<Unit filename="z/script/parser/scanner_include_tree.h" />
 		<Unit filename="z/script/scriptParser.h" />
 		<Unit filename="z/script/split_parameters.h" />
 		<Unit filename="z/script/split_script_into_commands.h" />

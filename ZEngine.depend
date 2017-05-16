@@ -2193,10 +2193,11 @@
 
 1489353285 c:\users\zachary\documents\github\zengine\\z\script\errors.h
 
-1494431249 source:/home/zwesterman/GitHub/ZEngine/main.cpp
+1494807112 source:/home/zwesterman/GitHub/ZEngine/main.cpp
 	<z/core.h>
 	<z/math.h>
 	"z/script/parser/scanner.h"
+	"z/script/parser/lexer.h"
 	<iostream>
 
 1492802325 /home/zwesterman/GitHub/zLibraries/z/core.h
@@ -2223,7 +2224,7 @@
 	"string/string_upper.h"
 	"string/string_remove_whiteSpace.h"
 
-1492792552 /home/zwesterman/GitHub/zLibraries/z/core/string/string.h
+1494798489 /home/zwesterman/GitHub/zLibraries/z/core/string/string.h
 	<type_traits>
 	"convert_char_type.h"
 
@@ -2301,7 +2302,7 @@
 
 1491800855 /home/zwesterman/GitHub/zLibraries/z/math/matrix.h
 
-1494432815 /home/zwesterman/GitHub/ZEngine/z/script/parser/scanner.h
+1494802936 /home/zwesterman/GitHub/ZEngine/z/script/parser/scanner.h
 	<z/core/sorted_array.h>
 	<z/core/string.h>
 	<z/core/timeout.h>
@@ -2316,8 +2317,39 @@
 	<z/core/string.h>
 	"../errors.h"
 
-1494429326 /home/zwesterman/GitHub/ZEngine/z/script/errors.h
+1494542347 /home/zwesterman/GitHub/ZEngine/z/script/errors.h
 
 1492812797 /home/zwesterman/GitHub/zLibraries/z/core/timeout.h
 	"timer.h"
+
+1494795639 /home/zwesterman/GitHub/ZEngine/z/script/parser/scan_iterator.h
+	<z/core/array.h>
+	<z/file/loadFileTimeout.h>
+	<z/file/directoryOperations.h>
+	<z/core/timeout.h>
+	"scanner.h"
+	<iostream>
+
+1494798539 /home/zwesterman/GitHub/zLibraries/z/file/loadFileTimeout.h
+	<z/core/string.h>
+	<z/core/timeout.h>
+	<fstream>
+
+1494798455 /home/zwesterman/GitHub/zLibraries/z/file/directoryOperations.h
+	<z/core/string.h>
+
+1494799546 /home/zwesterman/GitHub/ZEngine/z/script/parser/includeIterator.h
+	<z/core/array.h>
+	<z/file/loadFileTimeout.h>
+	<z/file/directoryOperations.h>
+	<z/core/timeout.h>
+	"scanner.h"
+	<iostream>
+
+1494429326 /home/zwesterman/GitHub/ZEngine/z/script/parser/lexer.h
+	"phrase.h"
+
+1494807106 /home/zwesterman/GitHub/ZEngine/z/script/parser/phrase.h
+	<z/core/array.h>
+	"identity.h"
 

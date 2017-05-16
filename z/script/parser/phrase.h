@@ -24,13 +24,36 @@ namespace z
 {
     namespace script
     {
+        namespace phrase
+        {
+            enum phrase_enum
+            {
+                NONE = 0,
+
+                LITERAL,
+
+                LIST,
+            };
+        }
+
         template <typename CHAR>
-        class phrase
+        class phrase_t
         {
         public:
-            ident_t<CHAR> data;
+            phrase::phrase_enum type;
 
-            core::array<phrase> children;
+            int ident_begin;
+            int ident_end;
+
+            core::array<phrase_t> children;
+
+            phrase_t()
+            {
+                ident_begin = -1;
+                ident_end = -1;
+
+                type = phrase::NONE;
+            }
         };
     }
 }

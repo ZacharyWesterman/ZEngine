@@ -1,7 +1,8 @@
 #include <z/core.h>
 #include <z/math.h>
 
-#include "z/script/parser/includeIterator.h"
+#include "z/script/parser/scanner.h"
+#include "z/script/parser/lexer.h"
 
 //#include "z/script/load_operators.h"
 
@@ -46,20 +47,17 @@ int main(int argc, char* argv[])
     core::array< z::script::ident_t<char> > identifiers;
 
     //test the scanner
-    z::script::includeIterator<char>* iiter;
-    iiter = new z::script::includeIterator<char>(&symbol_table, &operators, &commands, &functions);
+    z::script::scanner<char> sscan(&symbol_table, &operators, &commands, &functions);
 
 
-    iiter->setInput("file1.txt", true);
-
-    //z::core::string<char> input = "print  ten 0c1.1 and log 0b1.1";
-    //S->setInput(input);
-    //S->setOutput(identifiers);
+    z::core::string<char> input = "{1, 10, 15, -127.4}";
+    sscan.setInput(input);
+    sscan.setOutput(identifiers);
 
     z::core::timeout time (100);
 
     int iter = 1;
-    while (!iiter->build(time))
+    while (!sscan.scan(time))
     {
         iter++;
         time.reset();
@@ -69,33 +67,23 @@ int main(int argc, char* argv[])
 
     cout << "Scanned in " << iter << " iterations.\n";
 
-    iiter->error() ? (cout << "Found error(s)" << endl) : (cout << "No errors." << endl);
-    /*
+    sscan.error() ? (cout << "Found error(s)" << endl) : (cout << "No errors." << endl);
 
-    //symbol_table.find(&input);
 
-    cout << input.str() << "\n\n";
+    z::script::lexer<char> llexr;
 
-    for (int i=0; i<identifiers.size(); i++)
+    iter = 1;
+    while (!llexr.lex(time))
     {
-        core::string<char>* symbol = (core::string<char>*)(identifiers[i].meta);
-
-        if (symbol)
-            cout << symbol->str();
-        else if (identifiers[i].type == z::script::ident::NUMERIC_LITERAL)
-            cout << "#" << identifiers[i].value;
-        else
-            cout << "NULL";
-        cout << "\t(" << identifiers[i].type;
-        cout << ")\t[" << identifiers[i].line;
-        cout << ',' << identifiers[i].column << "]";
-        cout << " {" << identifiers[i].err << "}\n";
+        iter++;
+        time.reset();
     }
 
-    for (int i=0; i<symbol_table.size(); i++)
-        delete symbol_table[i];*/
+    //S->clean();
 
-    delete iiter;
+    cout << "Lexed in " << iter << " iterations.\n";
+
+    llexr.error() ? (cout << "Found error(s)" << endl) : (cout << "No errors." << endl);
 
 
 

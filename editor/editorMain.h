@@ -11,15 +11,14 @@
 #define EDITORMAIN_H
 
 //(*Headers(editorFrame)
-#include <wx/notebook.h>
 #include <wx/sizer.h>
-#include <wx/menu.h>
-#include <wx/tglbtn.h>
-#include <wx/panel.h>
-#include <wx/richtext/richtextctrl.h>
+#include <wx/notebook.h>
 #include <wx/button.h>
-#include <wx/frame.h>
+#include <wx/menu.h>
+#include <wx/panel.h>
 #include <wx/statusbr.h>
+#include <wx/frame.h>
+#include <wx/tglbtn.h>
 //*)
 
 class editorFrame: public wxFrame
@@ -37,7 +36,6 @@ class editorFrame: public wxFrame
         //*)
 
         //(*Identifiers(editorFrame)
-        static const long ID_RICHTEXTCTRL1;
         static const long ID_PANEL4;
         static const long ID_NOTEBOOK1;
         static const long ID_BUTTON1;
@@ -53,17 +51,16 @@ class editorFrame: public wxFrame
         //*)
 
         //(*Declarations(editorFrame)
-        wxNotebook* Notebook1;
-        wxPanel* Panel4;
-        wxRichTextCtrl* RichTextCtrl1;
-        wxButton* Button1;
         wxToggleButton* ToggleButton1;
         wxPanel* Panel1;
-        wxButton* Button2;
-        wxPanel* Panel3;
-        wxButton* Button3;
         wxStatusBar* StatusBar1;
+        wxButton* Button1;
+        wxButton* Button2;
+        wxButton* Button3;
         wxPanel* Panel2;
+        wxPanel* Panel4;
+        wxPanel* Panel3;
+        wxNotebook* Notebook1;
         //*)
 
         DECLARE_EVENT_TABLE()

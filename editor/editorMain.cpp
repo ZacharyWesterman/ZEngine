@@ -12,9 +12,8 @@
 #include <wx/msgdlg.h>
 
 //(*InternalHeaders(editorFrame)
-#include <wx/font.h>
-#include <wx/intl.h>
 #include <wx/string.h>
+#include <wx/intl.h>
 //*)
 
 //helper functions
@@ -44,7 +43,6 @@ wxString wxbuildinfo(wxbuildinfoformat format)
 }
 
 //(*IdInit(editorFrame)
-const long editorFrame::ID_RICHTEXTCTRL1 = wxNewId();
 const long editorFrame::ID_PANEL4 = wxNewId();
 const long editorFrame::ID_NOTEBOOK1 = wxNewId();
 const long editorFrame::ID_BUTTON1 = wxNewId();
@@ -68,16 +66,16 @@ editorFrame::editorFrame(wxWindow* parent,wxWindowID id)
 {
     //(*Initialize(editorFrame)
     wxMenuItem* MenuItem2;
-    wxFlexGridSizer* FlexGridSizer3;
     wxMenuItem* MenuItem1;
+    wxFlexGridSizer* FlexGridSizer1;
     wxFlexGridSizer* FlexGridSizer2;
-    wxBoxSizer* BoxSizer2;
+    wxBoxSizer* BoxSizer3;
     wxMenu* Menu1;
+    wxBoxSizer* BoxSizer2;
     wxStaticBoxSizer* StaticBoxSizer3;
+    wxFlexGridSizer* FlexGridSizer3;
     wxBoxSizer* BoxSizer1;
     wxMenuBar* MenuBar1;
-    wxFlexGridSizer* FlexGridSizer1;
-    wxBoxSizer* BoxSizer3;
     wxMenu* Menu2;
 
     Create(parent, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxDEFAULT_FRAME_STYLE, _T("wxID_ANY"));
@@ -92,17 +90,6 @@ editorFrame::editorFrame(wxWindow* parent,wxWindowID id)
     Notebook1 = new wxNotebook(Panel1, ID_NOTEBOOK1, wxDefaultPosition, wxSize(400,-1), 0, _T("ID_NOTEBOOK1"));
     Panel4 = new wxPanel(Notebook1, ID_PANEL4, wxPoint(178,50), wxDefaultSize, wxTAB_TRAVERSAL, _T("ID_PANEL4"));
     BoxSizer3 = new wxBoxSizer(wxHORIZONTAL);
-    RichTextCtrl1 = new wxRichTextCtrl(Panel4, ID_RICHTEXTCTRL1, _("/* Sample script */"), wxDefaultPosition, wxDefaultSize, wxRE_MULTILINE, wxDefaultValidator, _T("ID_RICHTEXTCTRL1"));
-    wxRichTextAttr rchtxtAttr_1;
-    rchtxtAttr_1.SetBulletStyle(wxTEXT_ATTR_BULLET_STYLE_ALIGN_LEFT);
-    wxFont Font_1(11,wxFONTFAMILY_SWISS,wxFONTSTYLE_NORMAL,wxFONTWEIGHT_NORMAL,false,_T("Consolas"),wxFONTENCODING_DEFAULT);
-    rchtxtAttr_1.SetFontFaceName(Font_1.GetFaceName());
-    rchtxtAttr_1.SetFontSize(Font_1.GetPointSize());
-    rchtxtAttr_1.SetFontStyle(Font_1.GetStyle());
-    rchtxtAttr_1.SetFontUnderlined(Font_1.GetUnderlined());
-    rchtxtAttr_1.SetFontWeight(Font_1.GetWeight());
-    RichTextCtrl1->SetBasicStyle(rchtxtAttr_1);
-    BoxSizer3->Add(RichTextCtrl1, 1, wxALL|wxEXPAND, 5);
     Panel4->SetSizer(BoxSizer3);
     BoxSizer3->Fit(Panel4);
     BoxSizer3->SetSizeHints(Panel4);

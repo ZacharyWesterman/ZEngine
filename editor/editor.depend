@@ -3925,3 +3925,10 @@
 1495052724 /usr/local/include/wx-3.0/wx/gtk/tglbtn.h
 	"wx/bitmap.h"
 
+1495057261 source:/home/zwesterman/GitHub/ZEngine/editor/editorMain.cpp
+	"wx_pch.h"
+	"editorMain.h"
+	<wx/msgdlg.h>
+	<wx/string.h>
+	<wx/intl.h>
+

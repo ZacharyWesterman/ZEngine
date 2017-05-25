@@ -2338,15 +2338,16 @@
 1494798455 /home/zwesterman/GitHub/zLibraries/z/file/directoryOperations.h
 	<z/core/string.h>
 
-1495742410 /home/zwesterman/GitHub/ZEngine/z/script/parser/includeIterator.h
+1495747107 /home/zwesterman/GitHub/ZEngine/z/script/parser/includeIterator.h
 	<z/core/array.h>
 	<z/file/loadFileTimeout.h>
 	<z/file/directoryOperations.h>
 	<z/core/timeout.h>
 	"scanner.h"
+	"lexer.h"
 	<iostream>
 
-1495740368 /home/zwesterman/GitHub/ZEngine/z/script/parser/lexer.h
+1495747051 /home/zwesterman/GitHub/ZEngine/z/script/parser/lexer.h
 	<z/core/timeout.h>
 	<z/core/array.h>
 	"phrase.h"

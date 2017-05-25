@@ -77,7 +77,7 @@ namespace z
 
                     index++;
 
-                    if (index >= input_ident.size())
+                    if (index >= input_ident->size())
                         initial_scan = false;
                 }
                 else

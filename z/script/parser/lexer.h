@@ -73,7 +73,7 @@ namespace z
                 if (initial_scan)
                 {
                     phrase_list.add(phrase_t<CHAR>());
-                    phrase_list[index].data = input_ident[index];
+                    phrase_list[index].data = input_ident->at(index);
 
                     index++;
 

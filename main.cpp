@@ -1,8 +1,8 @@
 #include <z/core.h>
 #include <z/math.h>
 
-#include "z/script/parser/scanner.h"
-#include "z/script/parser/lexer.h"
+#include "z/script/parser/includeIterator.h"
+//#include "z/script/parser/lexer.h"
 
 //#include "z/script/load_operators.h"
 
@@ -11,7 +11,7 @@
 //#include "z/script/parser/scan_iterator.h"
 
 #include <iostream>
-using namespace std;
+//using namespace std;
 
 using namespace z;
 
@@ -24,12 +24,12 @@ using namespace z;
 int main(int argc, char* argv[])
 {
 
-    core::sorted_array< core::string<char> > operators;
+    /*core::sorted_array< core::string<char> > operators;
     operators.add("+");
     operators.add("-");
     operators.add("*");
     operators.add("/");
-    operators.add("and");
+    operators.add("and");*/
 
     core::sorted_array< core::string<char> > commands;
     commands.add("print");
@@ -44,51 +44,51 @@ int main(int argc, char* argv[])
 
     //z::script::scanner<char> S(&symbol_table, &operators, &commands, &functions);
 
-    core::array< z::script::ident_t<char> > identifiers;
+    //core::array< z::script::ident_t<char> > identifiers;
 
-    //test the scanner
-    z::script::scanner<char> sscan(&symbol_table, &operators, &commands, &functions);
+    //test the include iterator
+    z::script::includeIterator<char> sscan(&symbol_table, &commands, &functions);
 
 
-    z::core::string<char> input = "{1, 10, 15, -127.4}";
-    sscan.setInput(input);
-    sscan.setOutput(identifiers);
+    z::core::string<char> input = "10 =+- 12 - 42";
+    sscan.setInput(input, false);
+    //sscan.setOutput(identifiers);
 
-    z::core::timeout time (100);
+    z::core::timeout time (-1);
+
+    std::cout << "HELLO\n";
 
     int iter = 1;
-    while (!sscan.scan(time))
+    while (!sscan.build(time))
     {
         iter++;
         time.reset();
     }
 
+    std::cout << "\nDone.\n";
+
     //S->clean();
 
-    cout << "Scanned in " << iter << " iterations.\n";
+    //cout << "Scanned in " << iter << " iterations.\n";
 
-    sscan.error() ? (cout << "Found error(s)" << endl) : (cout << "No errors." << endl);
+    //sscan.error() ? (cout << "Found error(s)" << endl) : (cout << "No errors." << endl);
 
 
-    z::script::lexer<char> llexr;
+    /*z::script::lexer<char> llexr;
 
     iter = 1;
     while (!llexr.lex(time))
     {
         iter++;
         time.reset();
-    }
+    }*/
 
     //S->clean();
 
-    cout << "Lexed in " << iter << " iterations.\n";
+    //cout << "Lexed in " << iter << " iterations.\n";
 
-    llexr.error() ? (cout << "Found error(s)" << endl) : (cout << "No errors." << endl);
+    //llexr.error() ? (cout << "Found error(s)" << endl) : (cout << "No errors." << endl);
 
-
-
-
-    cout << "\nDone.\n";
 
     /*cout << endl;
     cout << "( " << (int)'(' << ':' << (int)L'(' << endl;

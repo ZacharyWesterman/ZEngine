@@ -25,6 +25,7 @@
 #include <z/core/timeout.h>
 
 #include "scanner.h"
+#include "lexer.h"
 
 
 #include <iostream>
@@ -41,6 +42,9 @@ namespace z
             PROG_SCAN_READY,
             PROG_SCANNING,
             PROG_SCANNED,
+            PROG_LEX_READY,
+            PROG_LEXING,
+            PROG_LEXED,
 
             PROG_DONE
         };
@@ -85,8 +89,9 @@ namespace z
             core::string<CHAR>* full_output;
 
             file::loader<CHAR> fLoader;
-            scanner<CHAR> fScanner;
 
+            scanner<CHAR> fScanner;
+            lexer<CHAR>   fLexer;
 
             bool found_error;
 
@@ -216,7 +221,8 @@ namespace z
                 }
                 else if (progress == PROG_SCANNED)
                 {
-                    for (int i=0; i<node_list[working_node].identities.size(); i++)
+                    {
+                    /*for (int i=0; i<node_list[working_node].identities.size(); i++)
                     {
                         core::string<CHAR>* symbol = (core::string<CHAR>*)(node_list[working_node].identities[i].meta);
 
@@ -230,6 +236,7 @@ namespace z
                         cout << ")\t[" << node_list[working_node].identities[i].line;
                         cout << ',' << node_list[working_node].identities[i].column << "]";
                         cout << " {" << node_list[working_node].identities[i].err << "}\n";
+                    }*/
                     }
 
 
@@ -288,6 +295,20 @@ namespace z
                         }
                     }
 
+                    node_list[working_node].progress = PROG_DONE;
+                }
+                else if (progress == PROG_LEX_READY)
+                {
+                    fLexer.setInput(node_list[working_node].identities);
+
+                    node_list[working_node].progress = PROG_LEXING;
+                }
+                else if (progress == PROG_LEXING)
+                {
+                    node_list[working_node].progress = PROG_LEXED;
+                }
+                else if (progress == PROG_LEXED)
+                {
                     node_list[working_node].progress = PROG_DONE;
                 }
                 else if (progress == PROG_DONE)

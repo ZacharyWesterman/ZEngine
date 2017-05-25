@@ -30,58 +30,97 @@ namespace z
             {
                 NONE = 0,
 
-                LPARENTH,//1
-                RPARENTH,//2
+                LPARENTH,       //1
+                RPARENTH,       //2
 
-                LBRACE,//3
-                RBRACE,//4
+                LBRACE,         //3
+                RBRACE,         //4
 
-                LBRACKET,//5
-                RBRACKET,//6
+                LBRACKET,       //5
+                RBRACKET,       //6
 
-                COMMA,//7
-                SEMICOLON,//8
-                PERIOD,//9
+                COMMA,          //7
+                SEMICOLON,      //8
+                PERIOD,         //9
 
-                ASSIGNMENT,//10
+                STRING_LITERAL, //10
 
-                STRING_LITERAL,//11
+                NUMERIC_LITERAL,//11
 
-                NUMERIC_LITERAL,//12
+                IDENTIFIER,     //12
 
-                IDENTIFIER,//13
-                OPERATOR,//14
+                FUNCTION,       //13
+                COMMAND,        //14
 
-                FUNCTION,//15
-                COMMAND,//16
+                KEYWORD_MAIN,   //15
 
-                KEYWORD_MAIN,//17
+                KEYWORD_IF,     //16
+                KEYWORD_ELSE,   //17
 
-                KEYWORD_IF,//18
-                KEYWORD_ELSE,//19
+                KEYWORD_FOR,    //18
+                KEYWORD_DO,     //19
+                KEYWORD_LOOP,   //20
+                KEYWORD_WHILE,  //21
 
-                KEYWORD_FOR,//20
-                KEYWORD_DO,//21
-                KEYWORD_LOOP,//22
-                KEYWORD_WHILE,//23
+                KEYWORD_GOTO,   //22
+                KEYWORD_GOSUB,  //23
 
-                KEYWORD_GOTO,//24
-                KEYWORD_GOSUB,//25
+                KEYWORD_RUN,    //24
+                KEYWORD_INCLUDE,//25
 
-                KEYWORD_RUN,//26
-                KEYWORD_INCLUDE,//27
+                KEYWORD_BREAK,  //26
+                KEYWORD_RETURN, //27
 
-                KEYWORD_BREAK,//28
-                KEYWORD_RETURN,//29
+                KEYWORD_EXIT,   //28
 
-                KEYWORD_EXIT, //30
+                KEYWORD_WAIT,   //29
 
-                KEYWORD_WAIT,//31
+                KEYWORD_TYPE,   //30
 
-                KEYWORD_TYPE,//32
+                KEYWORD_GLOBAL, //31
+                KEYWORD_EXTERNAL,//32
 
-                KEYWORD_GLOBAL,//33
-                KEYWORD_EXTERNAL,//34
+                OPER_ASSIGN,    //33
+
+                OPER_ADD,       //34
+                OPER_SUB,       //35
+
+                OPER_ADD1,      //36
+                OPER_SUB1,      //37
+
+                OPER_MUL,       //38
+                OPER_DIV,       //39
+                OPER_IDIV,      //40
+                OPER_MOD,       //41
+
+                OPER_POW,       //42
+                OPER_FAC,       //43
+
+                OPER_AND_LGCL,  //44
+                OPER_AND_BITW,  //45
+
+                OPER_OR_LGCL,   //46
+                OPER_OR_BITW,   //47
+
+                OPER_XOR_LGCL,  //48
+                OPER_XOR_BITW,  //49
+
+                OPER_NOT_LGCL,  //50
+                OPER_NOT_BITW,  //51
+
+                OPER_NAND_LGCL, //52
+                OPER_NAND_BITW, //53
+
+                OPER_NOR_LGCL,  //54
+                OPER_NOR_BITW,  //55
+
+                OPER_EQ,        //56
+                OPER_NOT_EQ,    //57
+                OPER_GT,        //58
+                OPER_GT_EQ,     //59
+                OPER_LT,        //60
+                OPER_LT_EQ,     //61
+
 
                 UNKNOWN = -1
             };

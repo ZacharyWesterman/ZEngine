@@ -38,6 +38,7 @@ namespace z
             PROG_NONE = 0,
             PROG_LOADING,
             PROG_LOADED,
+            PROG_SCAN_READY,
             PROG_SCANNING,
             PROG_SCANNED,
 
@@ -97,10 +98,9 @@ namespace z
 
 
             includeIterator(core::sorted_ref_array< core::string<CHAR>* >* symbol_table,
-                            core::sorted_array< core::string<CHAR> >* opers = NULL,
                             core::sorted_array< core::string<CHAR> >* cmds = NULL,
                             core::sorted_array< core::string<CHAR> >* funcs = NULL) :
-                            fScanner(symbol_table, opers, cmds, funcs)
+                            fScanner(symbol_table, cmds, funcs)
             {
                 full_output = NULL;
 
@@ -139,7 +139,7 @@ namespace z
                 {
                     s_iter_node<CHAR> node;
                     node.contents = input;
-                    node.progress = PROG_LOADED;
+                    node.progress = PROG_SCAN_READY;
 
                     node_list.add(node);
                 }
@@ -199,13 +199,15 @@ namespace z
                     node_list[working_node].contents = fLoader.getContents();
                     fLoader.clear();
 
+                    std::cout << node_list[working_node].contents.str() << std::endl;
+                }
+                else if (progress == PROG_SCAN_READY)
+                {
                     fScanner.clear();
                     fScanner.setInput(node_list[working_node].contents);
                     fScanner.setOutput(node_list[working_node].identities);
 
                     node_list[working_node].progress = PROG_SCANNING;
-
-                    //cout << node_list[working_node].contents.str() << endl;
                 }
                 else if (progress == PROG_SCANNING)
                 {

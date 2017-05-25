@@ -59,7 +59,6 @@ namespace z
             bool found_error;
 
 
-            core::sorted_array< core::string<CHAR> >* operators;
             core::sorted_array< core::string<CHAR> >* commands;
             core::sorted_array< core::string<CHAR> >* functions;
 
@@ -68,7 +67,6 @@ namespace z
         public:
             //constructor allows operators, commands, and functions be set
             scanner(core::sorted_ref_array< core::string<CHAR>* >* symbol_table,
-                    core::sorted_array< core::string<CHAR> >* opers = NULL,
                     core::sorted_array< core::string<CHAR> >* cmds = NULL,
                     core::sorted_array< core::string<CHAR> >* funcs = NULL)
             {
@@ -77,7 +75,6 @@ namespace z
 
                 sym_table = symbol_table;
 
-                operators = opers;
                 commands = cmds;
                 functions = funcs;
 
@@ -224,7 +221,6 @@ namespace z
                                 get_this_command();
 
                                 addmeta = (current_ident.type == ident::IDENTIFIER) ||
-                                          (current_ident.type == ident::OPERATOR) ||
                                           (current_ident.type == ident::FUNCTION) ||
                                           (current_ident.type == ident::COMMAND);
                             }
@@ -277,7 +273,6 @@ namespace z
                                 get_this_command();
 
                                 addmeta = (current_ident.type == ident::IDENTIFIER) ||
-                                          (current_ident.type == ident::OPERATOR) ||
                                           (current_ident.type == ident::FUNCTION) ||
                                           (current_ident.type == ident::COMMAND);
                             }
@@ -406,7 +401,6 @@ namespace z
                                 get_this_command();
 
                                 addmeta = (current_ident.type == ident::IDENTIFIER) ||
-                                          (current_ident.type == ident::OPERATOR) ||
                                           (current_ident.type == ident::FUNCTION) ||
                                           (current_ident.type == ident::COMMAND);
                             }
@@ -440,7 +434,7 @@ namespace z
                             current_symbol += input->at(index);
 
                         if ((current_ident.type >= ident::LPARENTH) &&
-                            (current_ident.type <= ident::ASSIGNMENT))
+                            (current_ident.type <= ident::PERIOD))
                         {
                             identifiers->add(current_ident);
                             current_symbol.clear();
@@ -509,7 +503,6 @@ namespace z
                         get_this_command();
 
                         addmeta = (current_ident.type == ident::IDENTIFIER) ||
-                                  (current_ident.type == ident::OPERATOR) ||
                                   (current_ident.type == ident::FUNCTION) ||
                                   (current_ident.type == ident::COMMAND);
                     }
@@ -548,43 +541,138 @@ namespace z
             core::array< ident_t<CHAR> > temp_opers;
 
 
-            core::string<CHAR> curr_oper;
+            ident::ident_enum curr_oper;
 
             int x_offset = 0;
             int line = identifiers->at(identifiers->size()-1).line;
             int column = identifiers->at(identifiers->size()-1).column;
 
 
-            while ((x_offset < input.length()) && !oper_error && operators)
+            while ((x_offset < input.length()) && !oper_error)
             {
-                bool found = false;
+                bool found = true;
+                int oper_length;
 
-                for (int i=0; i<(operators->size()); i++)
+                if (input.foundAt("==", x_offset))
                 {
-                    if (input.foundAt(operators->at(i), x_offset))
-                    {
-                        curr_oper = operators->at(i);
-                        found = true;
-                    }
+                    curr_oper = ident::OPER_EQ;
+                    oper_length = 2;
+                }
+                else if (input.foundAt("=", x_offset))
+                {
+                    curr_oper = ident::OPER_ASSIGN;
+                    oper_length = 1;
+                }
+                else if (input.foundAt("<>", x_offset))
+                {
+                    curr_oper = ident::OPER_NOT_EQ;
+                    oper_length = 2;
+                }
+                else if (input.foundAt("<=", x_offset))
+                {
+                    curr_oper = ident::OPER_LT_EQ;
+                    oper_length = 2;
+                }
+                else if (input.foundAt("<", x_offset))
+                {
+                    curr_oper = ident::OPER_LT;
+                    oper_length = 1;
+                }
+                else if (input.foundAt(">=", x_offset))
+                {
+                    curr_oper = ident::OPER_GT_EQ;
+                    oper_length = 2;
+                }
+                else if (input.foundAt(">", x_offset))
+                {
+                    curr_oper = ident::OPER_GT;
+                    oper_length = 1;
+                }
+                else if (input.foundAt("+", x_offset))
+                {
+                    curr_oper = ident::OPER_ADD;
+                    oper_length = 1;
+                }
+                else if (input.foundAt("-", x_offset))
+                {
+                    curr_oper = ident::OPER_SUB;
+                    oper_length = 1;
+                }
+                else if (input.foundAt("*", x_offset))
+                {
+                    curr_oper = ident::OPER_MUL;
+                    oper_length = 1;
+                }
+                else if (input.foundAt("//", x_offset))
+                {
+                    curr_oper = ident::OPER_IDIV;
+                    oper_length = 2;
+                }
+                else if (input.foundAt("/", x_offset))
+                {
+                    curr_oper = ident::OPER_DIV;
+                    oper_length = 1;
+                }
+                else if (input.foundAt("%", x_offset))
+                {
+                    curr_oper = ident::OPER_MOD;
+                    oper_length = 1;
+                }
+                else if (input.foundAt("^", x_offset))
+                {
+                    curr_oper = ident::OPER_POW;
+                    oper_length = 1;
+                }
+                else if (input.foundAt("!", x_offset))
+                {
+                    curr_oper = ident::OPER_FAC;
+                    oper_length = 1;
+                }
+                else if (input.foundAt("~&", x_offset))
+                {
+                    curr_oper = ident::OPER_NAND_BITW;
+                    oper_length = 2;
+                }
+                else if (input.foundAt("~|", x_offset))
+                {
+                    curr_oper = ident::OPER_NOR_BITW;
+                    oper_length = 2;
+                }
+                else if (input.foundAt("~", x_offset))
+                {
+                    curr_oper = ident::OPER_NOT_BITW;
+                    oper_length = 1;
+                }
+                else if (input.foundAt("&", x_offset))
+                {
+                    curr_oper = ident::OPER_AND_BITW;
+                    oper_length = 1;
+                }
+                else if (input.foundAt("|", x_offset))
+                {
+                    curr_oper = ident::OPER_OR_BITW;
+                    oper_length = 1;
+                }
+                else if (input.foundAt(":", x_offset))
+                {
+                    curr_oper = ident::OPER_XOR_BITW;
+                    oper_length = 1;
+                }
+                else
+                {
+                    found = false;
                 }
 
 
                 if (found)
                 {
-                    temp_opers.add(ident_t<CHAR>(ident::OPERATOR, line, column + x_offset,
-                                             addToSymTable(&curr_oper)));
+                    temp_opers.add(ident_t<CHAR>(curr_oper, line, column + x_offset, null));
 
-                    x_offset += curr_oper.length();
+                    x_offset += oper_length;
                 }
                 else //that operator was not found
                 {
-                    //assignment
-                    if (input[x_offset] == (CHAR)61)//'='
-                    {
-                        temp_opers.add(ident_t<CHAR>(ident::ASSIGNMENT, line, column+x_offset, NULL));
-                        x_offset++;
-                    }
-                    else if (x_offset > 0)
+                    if (x_offset > 0)
                         oper_error = error::AMBIGUOUS_EXPR;
                     else
                         oper_error = error::UNKNOWN_OPERATOR;
@@ -592,7 +680,7 @@ namespace z
             }
 
 
-            if ((oper_error == error::NONE) && operators)
+            if (oper_error == error::NONE)
             {
                 for (int i=0; i<temp_opers.size(); i++)
                 {
@@ -605,7 +693,7 @@ namespace z
 
                 if (oper_error == error::AMBIGUOUS_EXPR)
                 {
-                    this_type = ident::OPERATOR;
+                    this_type = ident::UNKNOWN;
                 }
                 else
                 {
@@ -755,10 +843,38 @@ namespace z
         template <typename CHAR>
         void scanner<CHAR>::get_this_operator()
         {
-            if (operators && (current_ident.type == ident::IDENTIFIER))
+            if ((current_ident.type == ident::IDENTIFIER) && current_ident.meta)
             {
-                if (operators->find(current_symbol) > -1)
-                    current_ident.type = ident::OPERATOR;
+                if (*(current_ident.meta) == "and")
+                {
+                    current_ident.type = ident::OPER_AND_LGCL;
+                    current_ident.meta = null;
+                }
+                else if (*(current_ident.meta) == "or")
+                {
+                    current_ident.type = ident::OPER_OR_LGCL;
+                    current_ident.meta = null;
+                }
+                else if (*(current_ident.meta) == "xor")
+                {
+                    current_ident.type = ident::OPER_XOR_LGCL;
+                    current_ident.meta = null;
+                }
+                else if (*(current_ident.meta) == "nand")
+                {
+                    current_ident.type = ident::OPER_NAND_LGCL;
+                    current_ident.meta = null;
+                }
+                else if (*(current_ident.meta) == "nor")
+                {
+                    current_ident.type = ident::OPER_NOR_LGCL;
+                    current_ident.meta = null;
+                }
+                else if (*(current_ident.meta) == "not")
+                {
+                    current_ident.type = ident::OPER_NOT_LGCL;
+                    current_ident.meta = null;
+                }
             }
         }
 

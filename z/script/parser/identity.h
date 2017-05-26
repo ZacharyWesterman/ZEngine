@@ -52,74 +52,76 @@ namespace z
                 FUNCTION,       //13
                 COMMAND,        //14
 
-                KEYWORD_MAIN,   //15
-
                 KEYWORD_IF,     //16
                 KEYWORD_ELSE,   //17
 
                 KEYWORD_FOR,    //18
-                KEYWORD_DO,     //19
-                KEYWORD_LOOP,   //20
-                KEYWORD_WHILE,  //21
+                KEYWORD_EACH,   //19
+                KEYWORD_DO,     //20
+                KEYWORD_LOOP,   //21
+                KEYWORD_WHILE,  //22
 
-                KEYWORD_GOTO,   //22
-                KEYWORD_GOSUB,  //23
+                KEYWORD_GOTO,   //23
+                KEYWORD_GOSUB,  //24
 
-                KEYWORD_RUN,    //24
-                KEYWORD_INCLUDE,//25
+                KEYWORD_RUN,    //25
+                KEYWORD_INCLUDE,//26
 
-                KEYWORD_BREAK,  //26
-                KEYWORD_RETURN, //27
+                KEYWORD_BREAK,  //27
+                KEYWORD_RETURN, //28
 
-                KEYWORD_EXIT,   //28
+                KEYWORD_EXIT,   //29
 
-                KEYWORD_WAIT,   //29
+                KEYWORD_WAIT,   //30
+                KEYWORD_UNTIL,  //31
 
-                KEYWORD_TYPE,   //30
+                KEYWORD_TYPE,   //32
 
-                KEYWORD_GLOBAL, //31
-                KEYWORD_EXTERNAL,//32
+                KEYWORD_GLOBAL, //33
+                KEYWORD_EXTERNAL,//34
 
-                OPER_ASSIGN,    //33
+                OPER_ASSIGN,    //35
 
-                OPER_ADD,       //34
-                OPER_SUB,       //35
+                OPER_ADD,       //36
+                OPER_SUB,       //37
 
-                OPER_ADD1,      //36
-                OPER_SUB1,      //37
+                OPER_ADD1,      //38
+                OPER_SUB1,      //39
 
-                OPER_MUL,       //38
-                OPER_DIV,       //39
-                OPER_IDIV,      //40
-                OPER_MOD,       //41
+                OPER_MUL,       //40
+                OPER_DIV,       //41
+                OPER_IDIV,      //42
+                OPER_MOD,       //43
 
-                OPER_POW,       //42
-                OPER_FAC,       //43
+                OPER_POW,       //44
+                OPER_FAC,       //45
 
-                OPER_AND_LGCL,  //44
-                OPER_AND_BITW,  //45
+                OPER_AND_LGCL,  //46
+                OPER_AND_BITW,  //47
 
-                OPER_OR_LGCL,   //46
-                OPER_OR_BITW,   //47
+                OPER_OR_LGCL,   //48
+                OPER_OR_BITW,   //49
 
-                OPER_XOR_LGCL,  //48
-                OPER_XOR_BITW,  //49
+                OPER_XOR_LGCL,  //50
+                OPER_XOR_BITW,  //51
 
-                OPER_NOT_LGCL,  //50
-                OPER_NOT_BITW,  //51
+                OPER_NOT_LGCL,  //52
+                OPER_NOT_BITW,  //53
 
-                OPER_NAND_LGCL, //52
-                OPER_NAND_BITW, //53
+                OPER_NAND_LGCL, //54
+                OPER_NAND_BITW, //55
 
-                OPER_NOR_LGCL,  //54
-                OPER_NOR_BITW,  //55
+                OPER_NOR_LGCL,  //56
+                OPER_NOR_BITW,  //57
 
-                OPER_EQ,        //56
-                OPER_NOT_EQ,    //57
-                OPER_GT,        //58
-                OPER_GT_EQ,     //59
-                OPER_LT,        //60
-                OPER_LT_EQ,     //61
+                OPER_XNOR_LGCL, //58
+
+                OPER_EQ,        //59
+                OPER_NOT_EQ,    //60
+                OPER_GT,        //61
+                OPER_GT_EQ,     //62
+                OPER_LT,        //63
+                OPER_LT_EQ,     //64
 
 
                 UNKNOWN = -1

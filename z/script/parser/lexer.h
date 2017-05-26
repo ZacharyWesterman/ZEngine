@@ -23,10 +23,68 @@
 
 #include "phrase.h"
 
+#include <iostream>
+
 namespace z
 {
     namespace script
     {
+        ///debug
+        const char* nodeTypeStr[] =
+        {
+            "none",
+            "literal",
+            "add_expr",
+            "list"
+        };
+
+        ///debug
+        const char* symTypeStr[] =
+        {
+            "none",
+            "(",")",
+            "[","]",
+            "{","}",
+            ",",";",".",
+            "#str","#num",
+            "id",
+            "func","cmd",
+            "if","else",
+            "for","each","do","loop","while",
+            "goto","gosub",
+            "run","include",
+            "break","return",
+            "exit",
+            "wait","until",
+            "type",
+            "global","external",
+            "=",
+            "+","-",
+            "++","--",
+            "*","/","//","%",
+            "^","!",
+            "and","&",
+            "or","|",
+            "xor",":",
+            "not","~",
+            "nand","~&",
+            "nor","~|",
+            "xnor",
+            "==","<>",">",">=","<","<="
+        };
+
+        namespace lex
+        {
+            enum progress
+            {
+                NONE = 0,
+                GET_ADD_EXPRS,
+                GET_MUL_EXPRS,
+                DONE
+            };
+        }
+
+
         template <typename CHAR>
         class lexer
         {
@@ -35,18 +93,23 @@ namespace z
 
             core::array< phrase_t<CHAR> > phrase_list;
 
-            bool initial_scan;
-
             int index;
             bool found_error;
+
+            lex::progress progress;
+
+            ///debug
+            void print_lex_ast();
+            void print_lx_ch(int, phrase_t<CHAR>*);
 
         public:
             lexer()
             {
                 input_ident = NULL;
-                initial_scan = true;
+                progress = lex::NONE;
 
                 index = 0;
+                found_error = false;
             }
 
             void setInput(core::array< ident_t<CHAR> >& identifiers)
@@ -54,9 +117,10 @@ namespace z
                 input_ident = &identifiers;
                 phrase_list.clear();
 
-                initial_scan = true;
+                progress = lex::NONE;
 
                 index = 0;
+                found_error = false;
             }
 
             bool lex(const core::timeout&);
@@ -68,9 +132,9 @@ namespace z
         template <typename CHAR>
         bool lexer<CHAR>::lex(const core::timeout& time)
         {
-            while (!time.timedOut())
+            while (!time.timedOut() && (progress != lex::DONE))
             {
-                if (initial_scan)
+                if (progress == lex::NONE)
                 {
                     phrase_list.add(phrase_t<CHAR>());
                     phrase_list[index].data = input_ident->at(index);
@@ -78,15 +142,65 @@ namespace z
                     index++;
 
                     if (index >= input_ident->size())
-                        initial_scan = false;
+                    {
+                        progress = lex::GET_MUL_EXPRS;
+                        index = 0;
+                    }
                 }
-                else
+                else if (progress == lex::GET_MUL_EXPRS)
                 {
+                    index++;
 
+                    if (index >= phrase_list.size())
+                    {
+                        progress = lex::GET_ADD_EXPRS;
+                        index = 0;
+                    }
+                }
+                else if (progress == lex::GET_ADD_EXPRS)
+                {
+                    index++;
+
+                    if (index >= phrase_list.size())
+                    {
+                        progress = lex::DONE;
+                        index = 0;
+                    }
                 }
             }
 
+            ///debug
+            if (progress == lex::DONE)
+                print_lex_ast();
+
             return !time.timedOut();
+        }
+
+
+        ///debug
+        template <typename CHAR>
+        void lexer<CHAR>::print_lex_ast()
+        {
+            for (int n=0; n<phrase_list.size(); n++)
+            {
+                print_lx_ch(0, &phrase_list[n]);
+            }
+        }
+
+        ///debug
+        template <typename CHAR>
+        void lexer<CHAR>::print_lx_ch(int level, phrase_t<CHAR>* node)
+        {
+            for (int i=0; i<level; i++)
+                std::cout << "  ";
+
+            if (node->type)
+                std::cout << nodeTypeStr[node->type] << "\n";
+            else
+                std::cout << "@ " << symTypeStr[node->data.type] << "\n";
+
+            for (int i=0; i<(node->children.size()); i++)
+                print_lx_ch(level+1, &(node->children[i]));
         }
     }
 }

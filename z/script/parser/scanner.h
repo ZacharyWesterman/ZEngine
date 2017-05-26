@@ -717,14 +717,14 @@ namespace z
         {
             if (current_ident.type == ident::IDENTIFIER)
             {
-                if (current_symbol == "main")
-                    current_ident.type = ident::KEYWORD_MAIN;
-                else if (current_symbol == "if")
+                if (current_symbol == "if")
                     current_ident.type = ident::KEYWORD_IF;
                 else if (current_symbol == "else")
                     current_ident.type = ident::KEYWORD_ELSE;
                 else if (current_symbol == "for")
                     current_ident.type = ident::KEYWORD_FOR;
+                else if (current_symbol == "each")
+                    current_ident.type = ident::KEYWORD_EACH;
                 else if (current_symbol == "do")
                     current_ident.type = ident::KEYWORD_DO;
                 else if (current_symbol == "loop")
@@ -747,6 +747,8 @@ namespace z
                     current_ident.type = ident::KEYWORD_EXIT;
                 else if (current_symbol == "wait")
                     current_ident.type = ident::KEYWORD_WAIT;
+                else if (current_symbol == "until")
+                    current_ident.type = ident::KEYWORD_UNTIL;
                 else if (current_symbol == "type")
                     current_ident.type = ident::KEYWORD_TYPE;
                 else if (current_symbol == "global")
@@ -858,6 +860,11 @@ namespace z
                 else if (*(current_ident.meta) == "xor")
                 {
                     current_ident.type = ident::OPER_XOR_LGCL;
+                    current_ident.meta = null;
+                }
+                else if (*(current_ident.meta) == "xnor")
+                {
+                    current_ident.type = ident::OPER_XNOR_LGCL;
                     current_ident.meta = null;
                 }
                 else if (*(current_ident.meta) == "nand")

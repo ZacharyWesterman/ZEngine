@@ -34,7 +34,7 @@ namespace z
 {
     namespace script
     {
-        enum NODE_PROGRESS
+        enum iter_progress
         {
             PROG_NONE = 0,
             PROG_LOADING,
@@ -62,7 +62,7 @@ namespace z
             core::array< ident_t<CHAR> > identities;
 
             int insert_index;
-            int progress;
+            iter_progress progress;
 
             error_flag generic_error;
 

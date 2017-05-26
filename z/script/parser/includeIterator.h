@@ -274,7 +274,12 @@ namespace z
                         }
                     }
 
-                    node_list[working_node].progress = PROG_DONE;
+                    found_error |= fScanner.error();
+
+                    if (found_error)
+                        node_list[working_node].progress = PROG_DONE;
+                    else
+                        node_list[working_node].progress = PROG_LEX_READY;
                 }
                 else if (progress == PROG_LEX_READY)
                 {
@@ -284,11 +289,17 @@ namespace z
                 }
                 else if (progress == PROG_LEXING)
                 {
-                    node_list[working_node].progress = PROG_LEXED;
+                    if (fLexer.lex(time))
+                        node_list[working_node].progress = PROG_LEXED;
                 }
                 else if (progress == PROG_LEXED)
                 {
-                    node_list[working_node].progress = PROG_DONE;
+                    found_error |= fLexer.error();
+
+                    if (found_error)
+                        node_list[working_node].progress = PROG_DONE;
+                    else
+                        node_list[working_node].progress = PROG_DONE;
                 }
                 else if (progress == PROG_DONE)
                 {

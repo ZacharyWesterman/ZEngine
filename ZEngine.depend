@@ -2193,7 +2193,7 @@
 
 1489353285 c:\users\zachary\documents\github\zengine\\z\script\errors.h
 
-1495743186 source:/home/zwesterman/GitHub/ZEngine/main.cpp
+1495763498 source:/home/zwesterman/GitHub/ZEngine/main.cpp
 	<z/core.h>
 	<z/math.h>
 	"z/script/parser/includeIterator.h"
@@ -2302,7 +2302,7 @@
 
 1491800855 /home/zwesterman/GitHub/zLibraries/z/math/matrix.h
 
-1495744630 /home/zwesterman/GitHub/ZEngine/z/script/parser/scanner.h
+1495765813 /home/zwesterman/GitHub/ZEngine/z/script/parser/scanner.h
 	<z/core/sorted_array.h>
 	<z/core/string.h>
 	<z/core/timeout.h>
@@ -2313,7 +2313,7 @@
 	<stdint.h>
 	<z/core/string.h>
 
-1495743442 /home/zwesterman/GitHub/ZEngine/z/script/parser/identity.h
+1495765789 /home/zwesterman/GitHub/ZEngine/z/script/parser/identity.h
 	<z/core/string.h>
 	"../errors.h"
 
@@ -2338,7 +2338,7 @@
 1494798455 /home/zwesterman/GitHub/zLibraries/z/file/directoryOperations.h
 	<z/core/string.h>
 
-1495747107 /home/zwesterman/GitHub/ZEngine/z/script/parser/includeIterator.h
+1495763105 /home/zwesterman/GitHub/ZEngine/z/script/parser/includeIterator.h
 	<z/core/array.h>
 	<z/file/loadFileTimeout.h>
 	<z/file/directoryOperations.h>
@@ -2347,12 +2347,13 @@
 	"lexer.h"
 	<iostream>
 
-1495747051 /home/zwesterman/GitHub/ZEngine/z/script/parser/lexer.h
+1495766209 /home/zwesterman/GitHub/ZEngine/z/script/parser/lexer.h
 	<z/core/timeout.h>
 	<z/core/array.h>
 	"phrase.h"
+	<iostream>
 
-1495061246 /home/zwesterman/GitHub/ZEngine/z/script/parser/phrase.h
+1495766002 /home/zwesterman/GitHub/ZEngine/z/script/parser/phrase.h
 	<z/core/array.h>
 	"identity.h"
 

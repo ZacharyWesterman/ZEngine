@@ -32,6 +32,9 @@ namespace z
 
                 LITERAL,
 
+                ADD_EXPR,
+                MUL_EXPR,
+
                 LIST,
             };
         }

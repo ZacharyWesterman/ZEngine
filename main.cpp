@@ -50,13 +50,11 @@ int main(int argc, char* argv[])
     z::script::includeIterator<char> sscan(&symbol_table, &commands, &functions);
 
 
-    z::core::string<char> input = "10 =+- 12 - 42";
+    z::core::string<char> input = "12 - 42 * 8 + 4";
     sscan.setInput(input, false);
     //sscan.setOutput(identifiers);
 
     z::core::timeout time (-1);
-
-    std::cout << "HELLO\n";
 
     int iter = 1;
     while (!sscan.build(time))

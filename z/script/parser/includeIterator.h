@@ -203,8 +203,6 @@ namespace z
                 {
                     node_list[working_node].contents = fLoader.getContents();
                     fLoader.clear();
-
-                    std::cout << node_list[working_node].contents.str() << std::endl;
                 }
                 else if (progress == PROG_SCAN_READY)
                 {
@@ -221,25 +219,6 @@ namespace z
                 }
                 else if (progress == PROG_SCANNED)
                 {
-                    {
-                    /*for (int i=0; i<node_list[working_node].identities.size(); i++)
-                    {
-                        core::string<CHAR>* symbol = (core::string<CHAR>*)(node_list[working_node].identities[i].meta);
-
-                        if (symbol)
-                            cout << symbol->str();
-                        else if (node_list[working_node].identities[i].type == z::script::ident::NUMERIC_LITERAL)
-                            cout << "#" << node_list[working_node].identities[i].value;
-                        else
-                            cout << "NULL";
-                        cout << "\t(" << node_list[working_node].identities[i].type;
-                        cout << ")\t[" << node_list[working_node].identities[i].line;
-                        cout << ',' << node_list[working_node].identities[i].column << "]";
-                        cout << " {" << node_list[working_node].identities[i].err << "}\n";
-                    }*/
-                    }
-
-
                     for(int i=0; i<node_list[working_node].identities.size()-1; i++)
                     {
                         if (node_list[working_node].identities[i].type == ident::KEYWORD_INCLUDE)

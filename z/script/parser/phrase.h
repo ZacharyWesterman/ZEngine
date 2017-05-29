@@ -28,51 +28,72 @@ namespace z
         {
             enum phrase_enum
             {
-                NONE = 0,
-
-                LITERAL,
-
-                ADD_EXPR,
+                ADD_EXPR = ident::ID_COUNT,
                 MUL_EXPR,
 
                 LIST,
+
+                LX_COUNT
             };
         }
+
+
 
         template <typename CHAR>
         class phrase_t
         {
         public:
-            phrase::phrase_enum type;
+            int type;
 
-            int line_begin;
-            int column_begin;
-
-            int line_end;
-            int column_end;
+            int line;
+            int column;
 
             error_flag err;
 
-            ident_t<CHAR> data;
+            //optional data
+            void* meta;
+            double value;
 
-            core::array<phrase_t> children;
 
-            phrase_t(phrase::phrase_enum p_type = phrase::NONE)
+            phrase_t* parent;
+            core::array<phrase_t*> children;
+
+            //empty constructor
+            phrase_t()
             {
-                type = p_type;
+                type = ident::NONE;
 
-                line_begin = -1;
-                column_begin = -1;
-
-                line_end = -1;
-                column_end = -1;
+                line = -1;
+                column = -1;
 
                 err = error::NONE;
+
+                meta = NULL;
+                value = 0;
+
+                parent = NULL;
             }
+
+            //constructor from ident_t
+            phrase_t(const ident_t<CHAR>& token)
+            {
+                type = phrase::phrase_enum(token.type);
+
+                line = token.line;
+                column = token.column;
+
+                err = error::NONE;
+
+                meta = token.meta;
+                value = token.value;
+
+                parent = NULL;
+            }
+
 
             inline bool operator==(const phrase_t& other) const
             {
-                return (type == other.type) && (data == other.data);
+                return (type == other.type) && (meta == other.meta);
             }
         };
     }

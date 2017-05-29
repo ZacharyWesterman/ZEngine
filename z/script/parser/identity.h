@@ -124,7 +124,9 @@ namespace z
                 OPER_LT_EQ,     //64
 
 
-                UNKNOWN = -1
+                UNKNOWN,        //65
+
+                ID_COUNT
             };
 
         }
@@ -133,7 +135,7 @@ namespace z
         class ident_t
         {
         public:
-            ident::ident_enum type;
+            int type;
 
             int line;
             int column;

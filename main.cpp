@@ -23,6 +23,11 @@ using namespace z;
 
 int main(int argc, char* argv[])
 {
+    char c_in[128];
+
+    cout << "Input:\n\n";
+
+    cin >> c_in;
 
     /*core::sorted_array< core::string<char> > operators;
     operators.add("+");
@@ -50,7 +55,12 @@ int main(int argc, char* argv[])
     z::script::includeIterator<char> sscan(&symbol_table, &commands, &functions);
 
 
-    z::core::string<char> input = "12 - 42 * 8 + 4";
+    z::core::string<char> input = c_in;//"12 - 42 * 8 / 3 + \"text\"";
+
+    ///debug
+    cout << "\n------------------------------------\n\n";
+    cout << "Syntax Tree:\n\n";
+
     sscan.setInput(input, false);
     //sscan.setOutput(identifiers);
 
@@ -63,7 +73,7 @@ int main(int argc, char* argv[])
         time.reset();
     }
 
-    std::cout << "\nDone.\n";
+    //std::cout << "\nDone.\n";
 
     //S->clean();
 

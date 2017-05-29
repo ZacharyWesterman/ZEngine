@@ -30,15 +30,6 @@ namespace z
     namespace script
     {
         ///debug
-        const char* nodeTypeStr[] =
-        {
-            "none",
-            "literal",
-            "add_expr",
-            "list"
-        };
-
-        ///debug
         const char* symTypeStr[] =
         {
             "none",
@@ -70,7 +61,12 @@ namespace z
             "nand","~&",
             "nor","~|",
             "xnor",
-            "==","<>",">",">=","<","<="
+            "==","<>",">",">=","<","<=",
+            "unknown",
+
+            "add_expr",
+            "mul_expr",
+            "list"
         };
 
         namespace lex
@@ -181,9 +177,9 @@ namespace z
         template <typename CHAR>
         void lexer<CHAR>::print_lex_ast()
         {
-            for (int n=0; n<phrase_list.size(); n++)
+            for (int n=0; n<phrase_nodes.size(); n++)
             {
-                print_lx_ch(0, &phrase_list[n]);
+                print_lx_ch(0, phrase_nodes[n]);
             }
         }
 
@@ -192,15 +188,21 @@ namespace z
         void lexer<CHAR>::print_lx_ch(int level, phrase_t<CHAR>* node)
         {
             for (int i=0; i<level; i++)
-                std::cout << "  ";
+                std::cout << "    ";
 
-            if (node->type)
-                std::cout << nodeTypeStr[node->type] << "\n";
+
+
+            if (node->type == ident::STRING_LITERAL)
+                std::cout << "<" << ((core::string<CHAR>*)(node->meta))->str() << ">";
+            else if (node->type == ident::NUMERIC_LITERAL)
+                std::cout << "<" << node->value << ">";
             else
-                std::cout << "@ " << symTypeStr[node->data.type] << "\n";
+                std::cout << symTypeStr[node->type];
+
+            std::cout << std::endl;
 
             for (int i=0; i<(node->children.size()); i++)
-                print_lx_ch(level+1, &(node->children[i]));
+                print_lx_ch(level+1, node->children[i]);
         }
     }
 }

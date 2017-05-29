@@ -192,7 +192,7 @@ namespace z
 
                 if (in_comment)
                 {
-                    if (input->foundAt("}/", index))
+                    if (input->foundAt("}\\", index))
                     {
                         in_comment = false;
                         multiline_comment = false;
@@ -252,14 +252,14 @@ namespace z
                         current_ident.meta = NULL;
                     }
                     ///in some kind of comment
-                    else if (input->foundAt("/{", index) || //  multiline comment "\{"
-                             input->foundAt("//", index))  //single line comment "\\"
+                    else if (input->foundAt("\\{", index) || //  multiline comment "\{"
+                             input->foundAt("\\\\", index))  //single line comment "\\"
                     {
                         newIdent = ident::NONE;
                         in_comment = true;
                         in_string = false;
 
-                        multiline_comment = input->foundAt("/{",index);
+                        multiline_comment = input->foundAt("\\{",index);
 
                         if (current_ident.type)
                         {

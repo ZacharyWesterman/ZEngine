@@ -64,9 +64,13 @@ namespace z
             "==","<>",">",">=","<","<=",
             "unknown",
 
-            "add_expr",
-            "mul_expr",
-            "list"
+            "index",
+            "list",
+            "varindex",
+            "typevar",
+            "var",
+            "operand",
+            "parenthexpr"
         };
 
         namespace lex
@@ -75,6 +79,7 @@ namespace z
             {
                 NONE = 0,
                 LEXICALS,
+                TREE_CLEANUP,
                 DONE
             };
         }
@@ -91,9 +96,11 @@ namespace z
             phrase_t<CHAR>* current_node;
 
             int index;
+            bool did_concat;
+
             bool found_error;
 
-            lex::progress progress;
+            int progress;
             bool input_in_use;
 
             ///debug
@@ -110,14 +117,9 @@ namespace z
                 delete root;
             }
 
-
             ///phrase detection
-            bool found_mul_expr();
-            bool found_add_expr();
-
-            ///phrase concatenation
-            void concat_mul_expr();
-            void concat_add_expr();
+            bool concat_operand();
+            bool concat_parenthexpr();
 
         public:
             lexer()
@@ -129,6 +131,8 @@ namespace z
                 found_error = false;
 
                 input_in_use = true;
+
+                did_concat = false;
             }
 
             ~lexer()
@@ -149,6 +153,8 @@ namespace z
 
                 index = 0;
                 found_error = false;
+
+                did_concat = false;
             }
 
 
@@ -167,10 +173,6 @@ namespace z
             {
                 if (progress == lex::NONE)
                 {
-                    phrase_nodes.add(new phrase_t<CHAR>(input_ident->at(index)));
-
-                    index++;
-
                     if (index >= input_ident->size())
                     {
                         progress = lex::LEXICALS;
@@ -178,21 +180,55 @@ namespace z
 
                         input_in_use = false;
                     }
+                    else
+                    {
+                        phrase_nodes.add(new phrase_t<CHAR>(input_ident->at(index)));
+
+                        index++;
+                    }
                 }
                 else if (progress == lex::LEXICALS)
                 {
                     if (index >= phrase_nodes.size())
                     {
-                        progress = lex::DONE;
+                        if (!did_concat)
+                            progress = lex::TREE_CLEANUP;
+
                         index = 0;
+                        did_concat = false;
                     }
-                    else if (found_mul_expr())
-                        concat_mul_expr();
-                    else if (found_add_expr())
-                        concat_add_expr();
+
+                    else if (concat_operand())
+                        did_concat = true;
+                    else if (concat_parenthexpr())
+                        did_concat = true;
                     else
                         index++;
+
+                    //cout << index << endl;
                 }
+                else if (progress == lex::TREE_CLEANUP)
+                {
+                    if (index >= phrase_nodes.size())
+                        progress = lex::DONE;
+                    else
+                    {
+                        if (!current_node)
+                        {
+                            current_node = phrase_nodes[0];
+                            index = 0;
+                        }
+
+                        //if (index >= (current_node->children.size()))
+                        {
+                            //if (!current_node.parent)
+                        }
+
+                        index++;
+                    }
+                }
+
+
             }
 
             ///debug
@@ -203,83 +239,63 @@ namespace z
         }
 
 
-
         ///phrase detection
 
         template <typename CHAR>
-        bool lexer<CHAR>::found_mul_expr()
+        bool lexer<CHAR>::concat_operand()
         {
-            if ((index+2) >= phrase_nodes.size())
-                return false;
+            if ((phrase_nodes[index]->type == ident::NUMERIC_LITERAL) ||
+                (phrase_nodes[index]->type == ident::STRING_LITERAL))
+            {
+                phrase_t<CHAR>* node = new phrase_t<CHAR>();
+
+                node->type = phrase::OPERAND;
+
+                node->line = phrase_nodes[index]->line;
+                node->column = phrase_nodes[index]->column;
+
+                phrase_nodes[index]->parent = node;
+
+                node->children.add(phrase_nodes[index]);
+
+                node->err = error::NONE;
+                node->shed_on_cleanup = true;
+
+                phrase_nodes[index] = node;
+
+                return true;
+            }
             else
-                return (phrase_nodes[index+1]->type == ident::OPER_MUL) ||
-                       (phrase_nodes[index+1]->type == ident::OPER_DIV) ||
-                       (phrase_nodes[index+1]->type == ident::OPER_IDIV) ||
-                       (phrase_nodes[index+1]->type == ident::OPER_MOD);
-        }
-
-        template <typename CHAR>
-        bool lexer<CHAR>::found_add_expr()
-        {
-            if ((index+2) >= phrase_nodes.size())
                 return false;
+        }
+
+        template <typename CHAR>
+        bool lexer<CHAR>::concat_parenthexpr()
+        {
+            if ((phrase_nodes[index]->type == phrase::OPERAND))
+            {
+                phrase_t<CHAR>* node = new phrase_t<CHAR>();
+
+                node->type = phrase::PARENTHEXPR;
+
+                node->line = phrase_nodes[index]->line;
+                node->column = phrase_nodes[index]->column;
+
+                phrase_nodes[index]->parent = node;
+
+                node->children.add(phrase_nodes[index]);
+
+                node->err = error::NONE;
+                node->shed_on_cleanup = true;
+
+                phrase_nodes[index] = node;
+
+                return true;
+            }
             else
-                return (phrase_nodes[index+1]->type == ident::OPER_ADD) ||
-                       (phrase_nodes[index+1]->type == ident::OPER_SUB);
+                return false;
         }
 
-
-        ///phrase concatenation
-
-        template <typename CHAR>
-        void lexer<CHAR>::concat_mul_expr()
-        {
-            phrase_t<CHAR>* mul_node = new phrase_t<CHAR>();
-
-            mul_node->type = phrase::MUL_EXPR;
-
-            mul_node->line = phrase_nodes[index]->line;
-            mul_node->column = phrase_nodes[index]->column;
-
-            phrase_nodes[index]->parent = mul_node;
-            phrase_nodes[index+1]->parent = mul_node;
-            phrase_nodes[index+2]->parent = mul_node;
-
-            mul_node->children.add(phrase_nodes[index]);
-            mul_node->children.add(phrase_nodes[index+1]);
-            mul_node->children.add(phrase_nodes[index+2]);
-
-            phrase_nodes.replace(index, index+2, mul_node);
-
-            mul_node->err = error::NONE;
-
-            index = 0;
-        }
-
-        template <typename CHAR>
-        void lexer<CHAR>::concat_add_expr()
-        {
-            phrase_t<CHAR>* add_node = new phrase_t<CHAR>();
-
-            add_node->type = phrase::ADD_EXPR;
-
-            add_node->line = phrase_nodes[index]->line;
-            add_node->column = phrase_nodes[index]->column;
-
-            phrase_nodes[index]->parent = add_node;
-            phrase_nodes[index+1]->parent = add_node;
-            phrase_nodes[index+2]->parent = add_node;
-
-            add_node->children.add(phrase_nodes[index]);
-            add_node->children.add(phrase_nodes[index+1]);
-            add_node->children.add(phrase_nodes[index+2]);
-
-            phrase_nodes.replace(index, index+2, add_node);
-
-            add_node->err = error::NONE;
-
-            index = 0;
-        }
 
 
 

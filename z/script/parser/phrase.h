@@ -108,6 +108,27 @@ namespace z
             }
 
 
+            //copy data from other phrase, maintain current parent
+            const phrase_t& operator=(const phrase_t& other)
+            {
+                type = other.type;
+
+                line = other.line;
+                column = other.column;
+
+                err = other.err;
+
+                meta = other.meta;
+                value = other.value;
+
+                shed_on_cleanup = other.shed_on_cleanup;
+
+                children = other.children;
+
+                return *this;
+            }
+
+
             inline bool operator==(const phrase_t& other) const
             {
                 return (type == other.type) && (meta == other.meta);

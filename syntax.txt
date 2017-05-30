@@ -1,6 +1,10 @@
 index		: [ expression ]
 
-varindex	: IDENTIFIER index+
+list		: { }
+		| { expression }
+		| { expression , expression ... }
+
+varindex	: IDENTIFIER index ...
 
 typevar		: IDENTIFIER . IDENTIFIER
 		| IDENTIFIER . varindex

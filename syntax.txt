@@ -1,0 +1,59 @@
+index		: [ expression ]
+
+varindex	: IDENTIFIER index+
+
+typevar		: IDENTIFIER . IDENTIFIER
+		| IDENTIFIER . varindex
+
+var		: ID
+		| varindex
+		| typevar
+
+operand		: var
+		| NUMERIC_LITERAL
+		| STRING_LITERAL
+		| builtin_funccall
+		| user_funccall
+		| list
+
+parenthexpr	: ( expression )
+		| operand
+
+factorialexpr	: parenthexpr !
+		| parenthexpr
+
+negatexpr	: - factorialexpr
+		| factorialexpr
+
+powerexpr	: negatexpr ^ negatexpr
+		| negatexpr
+
+multiplyexpr	: powerexpr *  powerexpr
+		| powerexpr /  powerexpr
+		| powerexpr // powerexpr
+		| powerexpr %  powerexpr
+		| powerexpr
+
+addexpr		: multiplyexpr + multiplyexpr
+		| multiplyexpr - multiplyexpr
+		| multiplyexpr
+
+expression	: "not" addexpr
+		| addexpr "and"  addexpr
+		| addexpr "or"   addexpr
+		| addexpr "xor"  addexpr
+		| addexpr "nand" addexpr
+		| addexpr "nor"  addexpr
+		| ~ addexpr
+		| addexpr &  addexpr
+		| addexpr |  addexpr
+		| addexpr :  addexpr
+		| addexpr ~& addexpr
+		| addexpr ~| addexpr
+		| addexpr
+
+assignexpr	: var = expression
+
+generalexpr	: assignexpr
+		| expression
+

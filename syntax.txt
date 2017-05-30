@@ -4,6 +4,14 @@ list		: { }
 		| { expression }
 		| { expression , expression ... }
 
+arglist		: ( )
+		| ( expression )
+		| ( expression , expression ... )
+
+user_funccall	: IDENTIFIER arglist
+
+builtin_funccall: FUNCTION arglist
+
 varindex	: IDENTIFIER index ...
 
 typevar		: IDENTIFIER . IDENTIFIER

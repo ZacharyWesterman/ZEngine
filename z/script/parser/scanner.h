@@ -544,8 +544,19 @@ namespace z
             ident::ident_enum curr_oper;
 
             int x_offset = 0;
-            int line = identifiers->at(identifiers->size()-1).line;
-            int column = identifiers->at(identifiers->size()-1).column;
+            int line;
+            int column;
+
+            if (identifiers->size())
+            {
+                line = identifiers->at(identifiers->size()-1).line;
+                column = identifiers->at(identifiers->size()-1).column;
+            }
+            else
+            {
+               line = 0;
+               column = 0;
+            }
 
 
             while ((x_offset < input.length()) && !oper_error)

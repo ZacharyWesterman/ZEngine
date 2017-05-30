@@ -220,15 +220,13 @@ namespace z
                 }
                 else if (progress == lex::TREE_CLEANUP)
                 {
-                    if ((index >= phrase_nodes.size()) ||
-                        (phrase_nodes.size() == 0))
+                    if (phrase_nodes.size() == 0)
                         progress = lex::DONE;
                     else
                     {
                         if (!current_node)
                         {
                             current_node = phrase_nodes[0];
-                            cleanup_stack.push(1);
                             index = 0;
                         }
                         else if (index >= current_node->children.size())
@@ -250,8 +248,9 @@ namespace z
                             }
                             else
                             {
-                                if (cleanup_stack.pop(index) &&
-                                    (index < phrase_nodes.size()))
+                                cleanup_stack.pop(index);
+
+                                if (index < phrase_nodes.size())
                                 {
                                     current_node = phrase_nodes[index];
                                     cleanup_stack.push(index+1);
@@ -398,7 +397,7 @@ namespace z
                 if ( (phrase_nodes.is_valid(index-1) &&
                       (phrase_nodes[index-1]->type == ident::OPER_SUB)) &&
                     !(phrase_nodes.is_valid(index-2) &&
-                      (phrase_nodes[index-2]->type == phrase::FACTORIALEXPR)))
+                      (phrase_nodes[index-2]->type == phrase::NEGATEXPR)))
                 {
                     node->shed_on_cleanup = false;
                     phrase_nodes.replace(index-1, index, node);

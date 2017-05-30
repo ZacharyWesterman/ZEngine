@@ -71,7 +71,9 @@ namespace z
             "typevar",
             "var",
             "operand",
-            "parenthexpr"
+            "parenthexpr",
+            "factorialexpr",
+            "negatexpr"
         };
 
         namespace lex
@@ -123,6 +125,8 @@ namespace z
             ///phrase detection
             bool operand();
             bool parenthexpr();
+            bool factorialexpr();
+            bool negatexpr();
 
         public:
             lexer()
@@ -204,6 +208,10 @@ namespace z
                     else if (operand())
                         did_concat = true;
                     else if (parenthexpr())
+                        did_concat = true;
+                    else if (factorialexpr())
+                        did_concat = true;
+                    else if (negatexpr())
                         did_concat = true;
                     else
                         index++;
@@ -326,6 +334,80 @@ namespace z
                 node->shed_on_cleanup = true;
 
                 phrase_nodes[index] = node;
+
+                return true;
+            }
+            else
+                return false;
+        }
+
+        template <typename CHAR>
+        bool lexer<CHAR>::factorialexpr()
+        {
+            if ((phrase_nodes[index]->type == phrase::PARENTHEXPR))
+            {
+                phrase_t<CHAR>* node = new phrase_t<CHAR>();
+
+                node->type = phrase::FACTORIALEXPR;
+
+                node->line = phrase_nodes[index]->line;
+                node->column = phrase_nodes[index]->column;
+
+                node->children.add(phrase_nodes[index]);
+
+                node->err = error::NONE;
+
+                phrase_nodes[index]->parent = node;
+
+                if ( (phrase_nodes.is_valid(index+1) &&
+                      (phrase_nodes[index+1]->type == ident::OPER_FAC)))
+                {
+                    node->shed_on_cleanup = false;
+                    phrase_nodes.replace(index, index+1, node);
+                }
+                else
+                {
+                    node->shed_on_cleanup = true;
+                    phrase_nodes[index] = node;
+                }
+
+                return true;
+            }
+            else
+                return false;
+        }
+
+        template <typename CHAR>
+        bool lexer<CHAR>::negatexpr()
+        {
+            if ((phrase_nodes[index]->type == phrase::FACTORIALEXPR))
+            {
+                phrase_t<CHAR>* node = new phrase_t<CHAR>();
+
+                node->type = phrase::NEGATEXPR;
+
+                node->line = phrase_nodes[index]->line;
+                node->column = phrase_nodes[index]->column;
+
+                node->children.add(phrase_nodes[index]);
+
+                node->err = error::NONE;
+
+                phrase_nodes[index]->parent = node;
+
+                if ( (phrase_nodes.is_valid(index-1) &&
+                      (phrase_nodes[index-1]->type == ident::OPER_SUB)) &&
+                    !(phrase_nodes.is_valid(index-2) &&
+                      (phrase_nodes[index-2]->type == phrase::FACTORIALEXPR)))
+                {
+                    node->shed_on_cleanup = false;
+                    phrase_nodes.replace(index-1, index, node);
+                }
+                else
+                {
+                    node->shed_on_cleanup = true;
+                    phrase_nodes[index] = node;
+                }
 
                 return true;
             }

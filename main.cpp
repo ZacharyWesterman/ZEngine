@@ -27,7 +27,7 @@ int main(int argc, char* argv[])
 
     cout << "Input:\n\n";
 
-    cin >> c_in;
+    //cin >> c_in;
 
     /*core::sorted_array< core::string<char> > operators;
     operators.add("+");
@@ -55,7 +55,8 @@ int main(int argc, char* argv[])
     z::script::includeIterator<char> sscan(&symbol_table, &commands, &functions);
 
 
-    z::core::string<char> input = c_in;//"12 - 42 * 8 / 3 + \"text\"";
+    z::core::string<char> input = "12 \"string\" 127.4";
+    cout << input.str() << endl;
 
     ///debug
     cout << "\n------------------------------------\n\n";

@@ -20,6 +20,7 @@
 
 #include <z/core/timeout.h>
 #include <z/core/array.h>
+#include <z/core/dynamicStack.h>
 
 #include "phrase.h"
 
@@ -102,6 +103,8 @@ namespace z
 
             int progress;
             bool input_in_use;
+
+            core::dynamic_stack<int> cleanup_stack;
 
             ///debug
             void print_lex_ast();
@@ -209,22 +212,56 @@ namespace z
                 }
                 else if (progress == lex::TREE_CLEANUP)
                 {
-                    if (index >= phrase_nodes.size())
+                    if ((index >= phrase_nodes.size()) ||
+                        (phrase_nodes.size() == 0))
                         progress = lex::DONE;
                     else
                     {
                         if (!current_node)
                         {
                             current_node = phrase_nodes[0];
+                            cleanup_stack.push(1);
                             index = 0;
                         }
-
-                        //if (index >= (current_node->children.size()))
+                        else if (index >= current_node->children.size())
                         {
-                            //if (!current_node.parent)
-                        }
+                            if (current_node->shed_on_cleanup)
+                            {
+                                phrase_t<CHAR>* delnode = current_node->children[0];
 
-                        index++;
+                                (*current_node) = (*current_node->children[0]);
+
+                                delete delnode;
+                            }
+
+                            if (current_node->parent)
+                            {
+                                cleanup_stack.pop(index);
+                                current_node = current_node->parent;
+
+                            }
+                            else
+                            {
+                                if (cleanup_stack.pop(index) &&
+                                    (index < phrase_nodes.size()))
+                                {
+                                    current_node = phrase_nodes[index];
+                                    cleanup_stack.push(index+1);
+
+                                    index = 0;
+                                }
+                                else
+                                    progress = lex::DONE;
+                            }
+                        }
+                        else
+                        {
+                            cleanup_stack.push(index+1);
+
+                            current_node = current_node->children[index];
+
+                            index = 0;
+                        }
                     }
                 }
 

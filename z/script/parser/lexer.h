@@ -121,8 +121,8 @@ namespace z
             }
 
             ///phrase detection
-            bool concat_operand();
-            bool concat_parenthexpr();
+            bool operand();
+            bool parenthexpr();
 
         public:
             lexer()
@@ -201,9 +201,9 @@ namespace z
                         did_concat = false;
                     }
 
-                    else if (concat_operand())
+                    else if (operand())
                         did_concat = true;
-                    else if (concat_parenthexpr())
+                    else if (parenthexpr())
                         did_concat = true;
                     else
                         index++;
@@ -279,7 +279,7 @@ namespace z
         ///phrase detection
 
         template <typename CHAR>
-        bool lexer<CHAR>::concat_operand()
+        bool lexer<CHAR>::operand()
         {
             if ((phrase_nodes[index]->type == ident::NUMERIC_LITERAL) ||
                 (phrase_nodes[index]->type == ident::STRING_LITERAL))
@@ -307,7 +307,7 @@ namespace z
         }
 
         template <typename CHAR>
-        bool lexer<CHAR>::concat_parenthexpr()
+        bool lexer<CHAR>::parenthexpr()
         {
             if ((phrase_nodes[index]->type == phrase::OPERAND))
             {

@@ -28,10 +28,21 @@ namespace z
         {
             enum phrase_enum
             {
-                ADD_EXPR = ident::ID_COUNT,
-                MUL_EXPR,
-
+                INDEX = ident::ID_COUNT,
                 LIST,
+                VARINDEX,
+                TYPEVAR,
+                VAR,
+                OPERAND,
+                PARENTHEXPR,
+                FACTORIALEXPR,
+                NEGATEXPR,
+                POWEREXPR,
+                MULTIPLYEXPR,
+                ADDEXPR,
+                EXPRESSION,
+                ASSIGNEXPR,
+                GENERALEXPR,
 
                 LX_COUNT
             };
@@ -49,6 +60,8 @@ namespace z
             int column;
 
             error_flag err;
+
+            bool shed_on_cleanup;
 
             //optional data
             void* meta;
@@ -72,6 +85,8 @@ namespace z
                 value = 0;
 
                 parent = NULL;
+
+                shed_on_cleanup = false;
             }
 
             //constructor from ident_t
@@ -88,6 +103,8 @@ namespace z
                 value = token.value;
 
                 parent = NULL;
+
+                shed_on_cleanup = false;
             }
 
 

@@ -782,7 +782,10 @@ namespace z
         bool scanner<CHAR>::check_this_number()
         {
             if (current_symbol.endsWith("i"))
+            {
                 current_ident.type = ident::COMPLEX_LITERAL;
+                current_symbol.remove(current_symbol.length()-1, current_symbol.length());
+            }
 
             if (current_symbol.beginsWith("0b"))
             {

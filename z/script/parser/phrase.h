@@ -34,7 +34,7 @@ namespace z
                 LIST,           //69
                 VARINDEX,       //70
                 TYPEVAR,        //71
-                VAR,            //72
+                VARIABLE,       //72
                 OPERAND,        //73
                 PARENTHEXPR,    //74
                 FACTORIALEXPR,  //75

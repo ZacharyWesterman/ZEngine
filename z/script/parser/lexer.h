@@ -66,6 +66,7 @@ namespace z
             "unknown",
 
             "index",
+            "indexlist",
             "exprlist",
             "list",
             "varindex",
@@ -130,6 +131,8 @@ namespace z
             }
 
             ///phrase detection
+            bool _index();
+            bool indexlist();
             bool exprlist();
             bool _list();
             bool operand();
@@ -219,25 +222,17 @@ namespace z
                         did_concat = false;
                     }
 
-                    else if (exprlist())
-                        did_concat = true;
-                    else if (_list())
-                        did_concat = true;
-                    else if (operand())
-                        did_concat = true;
-                    else if (parenthexpr())
-                        did_concat = true;
-                    else if (factorialexpr())
-                        did_concat = true;
-                    else if (negatexpr())
-                        did_concat = true;
-                    else if (powerexpr())
-                        did_concat = true;
-                    else if (multiplyexpr())
-                        did_concat = true;
-                    else if (addexpr())
-                        did_concat = true;
-                    else if (boolexpr())
+                    else if (_index()       ||
+                             indexlist()    ||
+                             _list()        ||
+                             operand()      ||
+                             parenthexpr()  ||
+                             factorialexpr()||
+                             negatexpr()    ||
+                             powerexpr()    ||
+                             multiplyexpr() ||
+                             addexpr()      ||
+                             boolexpr() )
                         did_concat = true;
                     else
                         index++;
@@ -313,6 +308,68 @@ namespace z
 
 
         ///phrase detection
+
+        template <typename CHAR>
+        bool lexer<CHAR>::_index()
+        {
+            if (phrase_nodes.is_valid(index+2) &&
+                (phrase_nodes[index+1]->type == phrase::BOOLEXPR) &&
+                (phrase_nodes[index]->type == ident::LBRACKET) &&
+                (phrase_nodes[index+2]->type == ident::RBRACKET))
+            {
+                phrase_t<CHAR>* node = new phrase_t<CHAR>();
+
+                node->type = phrase::INDEX;
+
+                node->line = phrase_nodes[index]->line;
+                node->column = phrase_nodes[index]->column;
+
+                phrase_nodes[index+1]->parent = node;
+
+                node->children.add(phrase_nodes[index+1]);
+
+                node->err = error::NONE;
+                node->shed_on_cleanup = false;
+
+                phrase_nodes.replace(index, index+2, node);
+
+                return true;
+            }
+            else
+                return false;
+        }
+
+        template <typename CHAR>
+        bool lexer<CHAR>::indexlist()
+        {
+            if (phrase_nodes.is_valid(index+1) &&
+                ((phrase_nodes[index]->type == phrase::INDEX) ||
+                 (phrase_nodes[index]->type == phrase::INDEXLIST)) &&
+                (phrase_nodes[index+1]->type == phrase::INDEX))
+            {
+                phrase_t<CHAR>* node = new phrase_t<CHAR>();
+
+                node->type = phrase::INDEXLIST;
+
+                node->line = phrase_nodes[index]->line;
+                node->column = phrase_nodes[index]->column;
+
+                phrase_nodes[index]->parent = node;
+                phrase_nodes[index+1]->parent = node;
+
+                node->children.add(phrase_nodes[index]);
+                node->children.add(phrase_nodes[index+1]);
+
+                node->err = error::NONE;
+                node->shed_on_cleanup = false;
+
+                phrase_nodes.replace(index, index+1, node);
+
+                return true;
+            }
+            else
+                return false;
+        }
 
         template <typename CHAR>
         bool lexer<CHAR>::exprlist()
@@ -516,7 +573,7 @@ namespace z
         template <typename CHAR>
         bool lexer<CHAR>::negatexpr()
         {
-            if ((phrase_nodes[index]->type == phrase::FACTORIALEXPR))
+            if (phrase_nodes[index]->type == phrase::FACTORIALEXPR)
             {
 
                 phrase_t<CHAR>* node = new phrase_t<CHAR>();

@@ -29,6 +29,7 @@ namespace z
             enum phrase_enum
             {
                 INDEX = ident::ID_COUNT, //67
+                INDEXLIST,
                 EXPRLIST,       //68
                 LIST,           //69
                 VARINDEX,       //70

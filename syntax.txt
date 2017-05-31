@@ -18,7 +18,7 @@ user_funccall	: IDENTIFIER arglist
 
 builtin_funccall: FUNCTION arglist
 
-varindex	: IDENTIFIER index ...
+varindex	: IDENTIFIER indexlist
 
 typevar		: IDENTIFIER . IDENTIFIER
 		| IDENTIFIER . varindex

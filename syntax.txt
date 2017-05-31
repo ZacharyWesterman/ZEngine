@@ -1,12 +1,18 @@
-index		: [ expression ]
+index		: [ boolexpr ]
+
+indexlist	: index
+		| indexlist index
+
+exprlist	: boolexpr , boolexpr
+		| exprlist , boolexpr
 
 list		: { }
-		| { expression }
-		| { expression , expression ... }
+		| { boolexpr }
+		| { exprlist }
 
 arglist		: ( )
-		| ( expression )
-		| ( expression , expression ... )
+		| ( boolexpr )
+		| ( boolexpr , boolexpr ... )
 
 user_funccall	: IDENTIFIER arglist
 
@@ -28,7 +34,7 @@ operand		: var
 		| user_funccall
 		| list
 
-parenthexpr	: ( expression )
+parenthexpr	: ( boolexpr )
 		| operand
 
 factorialexpr	: parenthexpr !
@@ -50,7 +56,7 @@ addexpr		: multiplyexpr + multiplyexpr
 		| multiplyexpr - multiplyexpr
 		| multiplyexpr
 
-expression	: "not" addexpr
+boolexpr	: "not" addexpr
 		| addexpr "and"  addexpr
 		| addexpr "or"   addexpr
 		| addexpr "xor"  addexpr
@@ -64,8 +70,8 @@ expression	: "not" addexpr
 		| addexpr ~| addexpr
 		| addexpr
 
-assignexpr	: var = expression
+assignexpr	: var = boolexpr
 
 generalexpr	: assignexpr
-		| expression
+		| boolexpr
 

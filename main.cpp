@@ -55,7 +55,7 @@ int main(int argc, char* argv[])
     z::script::includeIterator<char> sscan(&symbol_table, &commands, &functions);
 
 
-    z::core::string<char> input = "12 \"string\" 127.4";
+    z::core::string<char> input = "5*4-3";
     cout << input.str() << endl;
 
     ///debug

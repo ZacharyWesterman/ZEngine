@@ -208,8 +208,8 @@ namespace z
                     if (index >= phrase_nodes.size())
                     {
                         if (!did_concat)
-                            //progress = lex::TREE_CLEANUP;
-                            progress = lex::DONE;
+                            progress = lex::TREE_CLEANUP;
+                            //progress = lex::DONE;
 
                         index = 0;
                         did_concat = false;
@@ -225,10 +225,10 @@ namespace z
                         did_concat = true;
                     else if (powerexpr())
                         did_concat = true;
-                    //else if (multiplyexpr())
-                      //  did_concat = true;
-                    //else if (addexpr())
-                      //  did_concat = true;
+                    else if (multiplyexpr())
+                        did_concat = true;
+                    else if (addexpr())
+                        did_concat = true;
                     else
                         index++;
 

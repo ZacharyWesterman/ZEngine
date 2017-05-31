@@ -38,7 +38,7 @@ namespace z
             "{","}",
             "[","]",
             ",",";",".",
-            "#str","#num",
+            "#str","#num", "#compl",
             "id",
             "func","cmd",
             "if","else",
@@ -401,6 +401,7 @@ namespace z
         bool lexer<CHAR>::operand()
         {
             if ((phrase_nodes[index]->type == ident::NUMERIC_LITERAL) ||
+                (phrase_nodes[index]->type == ident::COMPLEX_LITERAL) ||
                 (phrase_nodes[index]->type == ident::STRING_LITERAL) ||
                 (phrase_nodes[index]->type == phrase::LIST))
             {
@@ -837,6 +838,8 @@ namespace z
                 std::cout << "<" << ((core::string<CHAR>*)(node->meta))->str() << ">";
             else if (node->type == ident::NUMERIC_LITERAL)
                 std::cout << "<" << node->value << ">";
+            else if (node->type == ident::COMPLEX_LITERAL)
+                std::cout << "<" << node->value << "i>";
             else
                 std::cout << symTypeStr[node->type];
 

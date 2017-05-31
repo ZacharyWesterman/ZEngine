@@ -135,6 +135,7 @@ namespace z
             bool negatexpr();
             bool powerexpr();
             bool multiplyexpr();
+            bool addexpr();
 
         public:
             lexer()
@@ -207,8 +208,8 @@ namespace z
                     if (index >= phrase_nodes.size())
                     {
                         if (!did_concat)
-                            progress = lex::TREE_CLEANUP;
-                            //progress = lex::DONE;
+                            //progress = lex::TREE_CLEANUP;
+                            progress = lex::DONE;
 
                         index = 0;
                         did_concat = false;
@@ -224,8 +225,10 @@ namespace z
                         did_concat = true;
                     else if (powerexpr())
                         did_concat = true;
-                    else if (multiplyexpr())
-                        did_concat = true;
+                    //else if (multiplyexpr())
+                      //  did_concat = true;
+                    //else if (addexpr())
+                      //  did_concat = true;
                     else
                         index++;
 
@@ -397,6 +400,7 @@ namespace z
         {
             if ((phrase_nodes[index]->type == phrase::FACTORIALEXPR))
             {
+
                 phrase_t<CHAR>* node = new phrase_t<CHAR>();
 
                 node->type = phrase::NEGATEXPR;
@@ -523,16 +527,83 @@ namespace z
 
                 return true;
             }
-            //otherwise, if a power operator is detected
+            //otherwise, if a multiplication operator is detected
             else if (phrase_nodes.is_valid(index+2) &&
                      ((phrase_nodes[index]->type == phrase::POWEREXPR) ||
                       (phrase_nodes[index]->type == phrase::MULTIPLYEXPR)) &&
-                     (phrase_nodes[index+1]->type == ident::OPER_MUL) &&
+                     (phrase_nodes[index+1]->type >= ident::OPER_MUL) &&
+                     (phrase_nodes[index+1]->type <= ident::OPER_MOD) &&
                      (phrase_nodes[index+2]->type == phrase::POWEREXPR))
             {
                 phrase_t<CHAR>* node = new phrase_t<CHAR>();
 
                 node->type = phrase::MULTIPLYEXPR;
+
+                node->line = phrase_nodes[index]->line;
+                node->column = phrase_nodes[index]->column;
+
+                node->err = error::NONE;
+
+                phrase_nodes[index]->parent = node;
+                phrase_nodes[index+1]->parent = node;
+                phrase_nodes[index+2]->parent = node;
+
+                node->children.add(phrase_nodes[index]);
+                node->children.add(phrase_nodes[index+1]);
+                node->children.add(phrase_nodes[index+2]);
+
+                node->shed_on_cleanup = false;
+                phrase_nodes.replace(index, index+2, node);
+
+                return true;
+            }
+            else
+                return false;
+        }
+
+        template <typename CHAR>
+        bool lexer<CHAR>::addexpr()
+        {
+            //if no detected addition operators, continue to the next phase
+            if ((phrase_nodes[index]->type == phrase::MULTIPLYEXPR) &&
+                !(phrase_nodes.is_valid(index+1) &&
+                  (phrase_nodes[index+1]->type >= ident::OPER_ADD) &&
+                  (phrase_nodes[index+1]->type <= ident::OPER_SUB)) &&
+                !(phrase_nodes.is_valid(index-1) &&
+                  (phrase_nodes[index-1]->type >= ident::OPER_ADD) &&
+                  (phrase_nodes[index-1]->type <= ident::OPER_SUB)))
+            {
+                phrase_t<CHAR>* node = new phrase_t<CHAR>();
+
+                node->type = phrase::ADDEXPR;
+
+                node->line = phrase_nodes[index]->line;
+                node->column = phrase_nodes[index]->column;
+
+                node->err = error::NONE;
+
+                phrase_nodes[index]->parent = node;
+
+
+                node->children.add(phrase_nodes[index]);
+
+                node->shed_on_cleanup = true;
+                phrase_nodes[index] = node;
+
+
+                return true;
+            }
+            //otherwise, if an addition operator is detected
+            else if (phrase_nodes.is_valid(index+2) &&
+                     ((phrase_nodes[index]->type == phrase::MULTIPLYEXPR) ||
+                      (phrase_nodes[index]->type == phrase::ADDEXPR)) &&
+                     (phrase_nodes[index+1]->type >= ident::OPER_ADD) &&
+                     (phrase_nodes[index+1]->type <= ident::OPER_SUB) &&
+                     (phrase_nodes[index+2]->type == phrase::MULTIPLYEXPR))
+            {
+                phrase_t<CHAR>* node = new phrase_t<CHAR>();
+
+                node->type = phrase::ADDEXPR;
 
                 node->line = phrase_nodes[index]->line;
                 node->column = phrase_nodes[index]->column;

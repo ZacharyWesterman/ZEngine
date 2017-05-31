@@ -230,6 +230,7 @@ namespace z
                              _list()        ||
                              varindex()     ||
                              typevar()      ||
+                             variable()     ||
                              operand()      ||
                              parenthexpr()  ||
                              factorialexpr()||
@@ -529,11 +530,64 @@ namespace z
                 return false;
         }
 
+        template <typename CHAR>
+        bool lexer<CHAR>::variable()
+        {
+            if ((phrase_nodes[index]->type == phrase::TYPEVAR) ||
+                (phrase_nodes[index]->type == phrase::VARINDEX))
+            {
+                phrase_t<CHAR>* node = new phrase_t<CHAR>();
+
+                node->type = phrase::VARIABLE;
+
+                node->line = phrase_nodes[index]->line;
+                node->column = phrase_nodes[index]->column;
+
+                phrase_nodes[index]->parent = node;
+
+                node->children.add(phrase_nodes[index]);
+
+                node->err = error::NONE;
+                node->shed_on_cleanup = true;
+
+                phrase_nodes[index] = node;
+
+                return true;
+            }
+            else if ((phrase_nodes[index]->type == ident::IDENTIFIER) &&
+                     !(phrase_nodes.is_valid(index+1) &&
+                       ((phrase_nodes[index+1]->type == ident::PERIOD) ||
+                       (phrase_nodes[index+1]->type == ident::LBRACKET) ||
+                       (phrase_nodes[index+1]->type == ident::LPARENTH))))
+            {
+                phrase_t<CHAR>* node = new phrase_t<CHAR>();
+
+                node->type = phrase::VARIABLE;
+
+                node->line = phrase_nodes[index]->line;
+                node->column = phrase_nodes[index]->column;
+
+                phrase_nodes[index]->parent = node;
+
+                node->children.add(phrase_nodes[index]);
+
+                node->err = error::NONE;
+                node->shed_on_cleanup = false;
+
+                phrase_nodes[index] = node;
+
+                return true;
+            }
+            else
+                return false;
+        }
+
 
         template <typename CHAR>
         bool lexer<CHAR>::operand()
         {
-            if ((phrase_nodes[index]->type == ident::NUMERIC_LITERAL) ||
+            if ((phrase_nodes[index]->type == phrase::VARIABLE) ||
+                (phrase_nodes[index]->type == ident::NUMERIC_LITERAL) ||
                 (phrase_nodes[index]->type == ident::COMPLEX_LITERAL) ||
                 (phrase_nodes[index]->type == ident::STRING_LITERAL) ||
                 (phrase_nodes[index]->type == phrase::LIST))

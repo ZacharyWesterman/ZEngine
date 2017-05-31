@@ -24,7 +24,9 @@ varindex	: IDENTIFIER indexlist
 typevar		: IDENTIFIER . IDENTIFIER ![ !(
 		| IDENTIFIER . varindex
 
-variable	: ID
+typefunccall	: IDENTIFIER . IDENTIFIER arglist
+
+variable	: ID !( ![ !.
 		| varindex
 		| typevar
 

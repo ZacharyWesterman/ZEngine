@@ -29,20 +29,21 @@ namespace z
             enum phrase_enum
             {
                 INDEX = ident::ID_COUNT, //67
-                LIST,           //68
-                VARINDEX,       //69
-                TYPEVAR,        //70
-                VAR,            //71
-                OPERAND,        //72
-                PARENTHEXPR,    //73
-                FACTORIALEXPR,  //74
-                NEGATEXPR,      //75
-                POWEREXPR,      //76
-                MULTIPLYEXPR,   //77
-                ADDEXPR,        //78
-                EXPRESSION,     //79
-                ASSIGNEXPR,     //80
-                GENERALEXPR,    //81
+                EXPRLIST,       //68
+                LIST,           //69
+                VARINDEX,       //70
+                TYPEVAR,        //71
+                VAR,            //72
+                OPERAND,        //73
+                PARENTHEXPR,    //74
+                FACTORIALEXPR,  //75
+                NEGATEXPR,      //76
+                POWEREXPR,      //77
+                MULTIPLYEXPR,   //78
+                ADDEXPR,        //79
+                BOOLEXPR,       //80
+                ASSIGNEXPR,     //81
+                GENERALEXPR,    //82
 
                 LX_COUNT
             };

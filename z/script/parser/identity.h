@@ -114,17 +114,18 @@ namespace z
                 OPER_NOR_LGCL,  //56
                 OPER_NOR_BITW,  //57
 
-                OPER_XNOR_LGCL, //58
+                OPER_NXOR_LGCL, //58
+                OPER_NXOR_BITW, //59
 
-                OPER_EQ,        //59
-                OPER_NOT_EQ,    //60
-                OPER_GT,        //61
-                OPER_GT_EQ,     //62
-                OPER_LT,        //63
-                OPER_LT_EQ,     //64
+                OPER_EQ,        //60
+                OPER_NOT_EQ,    //61
+                OPER_GT,        //62
+                OPER_GT_EQ,     //63
+                OPER_LT,        //64
+                OPER_LT_EQ,     //65
 
 
-                UNKNOWN,        //65
+                UNKNOWN,        //66
 
                 ID_COUNT
             };

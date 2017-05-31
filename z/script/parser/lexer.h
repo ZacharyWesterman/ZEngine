@@ -73,7 +73,13 @@ namespace z
             "operand",
             "parenthexpr",
             "factorialexpr",
-            "negatexpr"
+            "negatexpr",
+            "powerexpr",
+            "multiplyexpr",
+            "addexpr",
+            "expression",
+            "assignexpr",
+            "generalexpr"
         };
 
         namespace lex
@@ -127,6 +133,8 @@ namespace z
             bool parenthexpr();
             bool factorialexpr();
             bool negatexpr();
+            bool powerexpr();
+            bool multiplyexpr();
 
         public:
             lexer()
@@ -200,6 +208,7 @@ namespace z
                     {
                         if (!did_concat)
                             progress = lex::TREE_CLEANUP;
+                            //progress = lex::DONE;
 
                         index = 0;
                         did_concat = false;
@@ -213,6 +222,10 @@ namespace z
                         did_concat = true;
                     else if (negatexpr())
                         did_concat = true;
+                    else if (powerexpr())
+                        did_concat = true;
+                    else if (multiplyexpr())
+                        did_concat = true;
                     else
                         index++;
 
@@ -220,17 +233,20 @@ namespace z
                 }
                 else if (progress == lex::TREE_CLEANUP)
                 {
-                    if (phrase_nodes.size() == 0)
+                    if (!phrase_nodes.size())
                         progress = lex::DONE;
                     else
                     {
                         if (!current_node)
                         {
+                            cleanup_stack.push(1);
                             current_node = phrase_nodes[0];
                             index = 0;
                         }
                         else if (index >= current_node->children.size())
                         {
+                            //std::cout << symTypeStr[current_node->type] << std::endl;
+
                             if (current_node->shed_on_cleanup)
                             {
                                 phrase_t<CHAR>* delnode = current_node->children[0];
@@ -414,6 +430,131 @@ namespace z
                 return false;
         }
 
+        template <typename CHAR>
+        bool lexer<CHAR>::powerexpr()
+        {
+            //if no detected power operators, continue to the next phase
+            if ((phrase_nodes[index]->type == phrase::NEGATEXPR) &&
+                !(phrase_nodes.is_valid(index+1) &&
+                  (phrase_nodes[index+1]->type == ident::OPER_POW)) &&
+                !(phrase_nodes.is_valid(index-1) &&
+                  (phrase_nodes[index-1]->type == ident::OPER_POW)))
+            {
+                phrase_t<CHAR>* node = new phrase_t<CHAR>();
+
+                node->type = phrase::POWEREXPR;
+
+                node->line = phrase_nodes[index]->line;
+                node->column = phrase_nodes[index]->column;
+
+                node->err = error::NONE;
+
+                phrase_nodes[index]->parent = node;
+
+
+                node->children.add(phrase_nodes[index]);
+
+                node->shed_on_cleanup = true;
+                phrase_nodes[index] = node;
+
+
+                return true;
+            }
+            //otherwise, if a power operator is detected
+            else if (phrase_nodes.is_valid(index+2) &&
+                     ((phrase_nodes[index]->type == phrase::NEGATEXPR) ||
+                      (phrase_nodes[index]->type == phrase::POWEREXPR)) &&
+                     (phrase_nodes[index+1]->type == ident::OPER_POW) &&
+                     (phrase_nodes[index+2]->type == phrase::NEGATEXPR))
+            {
+                phrase_t<CHAR>* node = new phrase_t<CHAR>();
+
+                node->type = phrase::POWEREXPR;
+
+                node->line = phrase_nodes[index]->line;
+                node->column = phrase_nodes[index]->column;
+
+                node->err = error::NONE;
+
+                phrase_nodes[index]->parent = node;
+                phrase_nodes[index+2]->parent = node;
+
+                node->children.add(phrase_nodes[index]);
+                node->children.add(phrase_nodes[index+2]);
+
+                node->shed_on_cleanup = false;
+                phrase_nodes.replace(index, index+2, node);
+
+                return true;
+            }
+            else
+                return false;
+        }
+
+        template <typename CHAR>
+        bool lexer<CHAR>::multiplyexpr()
+        {
+            //if no detected multiplication operators, continue to the next phase
+            if ((phrase_nodes[index]->type == phrase::POWEREXPR) &&
+                !(phrase_nodes.is_valid(index+1) &&
+                  (phrase_nodes[index+1]->type >= ident::OPER_MUL) &&
+                  (phrase_nodes[index+1]->type <= ident::OPER_MOD)) &&
+                !(phrase_nodes.is_valid(index-1) &&
+                  (phrase_nodes[index-1]->type >= ident::OPER_MUL) &&
+                  (phrase_nodes[index-1]->type <= ident::OPER_MOD)))
+            {
+                phrase_t<CHAR>* node = new phrase_t<CHAR>();
+
+                node->type = phrase::MULTIPLYEXPR;
+
+                node->line = phrase_nodes[index]->line;
+                node->column = phrase_nodes[index]->column;
+
+                node->err = error::NONE;
+
+                phrase_nodes[index]->parent = node;
+
+
+                node->children.add(phrase_nodes[index]);
+
+                node->shed_on_cleanup = true;
+                phrase_nodes[index] = node;
+
+
+                return true;
+            }
+            //otherwise, if a power operator is detected
+            else if (phrase_nodes.is_valid(index+2) &&
+                     ((phrase_nodes[index]->type == phrase::POWEREXPR) ||
+                      (phrase_nodes[index]->type == phrase::MULTIPLYEXPR)) &&
+                     (phrase_nodes[index+1]->type == ident::OPER_MUL) &&
+                     (phrase_nodes[index+2]->type == phrase::POWEREXPR))
+            {
+                phrase_t<CHAR>* node = new phrase_t<CHAR>();
+
+                node->type = phrase::MULTIPLYEXPR;
+
+                node->line = phrase_nodes[index]->line;
+                node->column = phrase_nodes[index]->column;
+
+                node->err = error::NONE;
+
+                phrase_nodes[index]->parent = node;
+                phrase_nodes[index+1]->parent = node;
+                phrase_nodes[index+2]->parent = node;
+
+                node->children.add(phrase_nodes[index]);
+                node->children.add(phrase_nodes[index+1]);
+                node->children.add(phrase_nodes[index+2]);
+
+                node->shed_on_cleanup = false;
+                phrase_nodes.replace(index, index+2, node);
+
+                return true;
+            }
+            else
+                return false;
+        }
 
 
 

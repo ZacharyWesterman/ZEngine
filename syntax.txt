@@ -21,7 +21,7 @@ builtin_funccall: FUNCTION arglist
 varindex	: IDENTIFIER indexlist
 		| IDENTIFIER index
 
-typevar		: IDENTIFIER . IDENTIFIER
+typevar		: IDENTIFIER . IDENTIFIER ![ !(
 		| IDENTIFIER . varindex
 
 variable	: ID

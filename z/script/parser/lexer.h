@@ -229,6 +229,7 @@ namespace z
                              indexlist()    ||
                              _list()        ||
                              varindex()     ||
+                             typevar()      ||
                              operand()      ||
                              parenthexpr()  ||
                              factorialexpr()||
@@ -312,39 +313,6 @@ namespace z
 
 
         ///phrase detection
-
-        template <typename CHAR>
-        bool lexer<CHAR>::varindex()
-        {
-            if (phrase_nodes.is_valid(index+1) &&
-                (phrase_nodes[index]->type == ident::IDENTIFIER) &&
-                ((phrase_nodes[index+1]->type == phrase::INDEX) ||
-                 (phrase_nodes[index+1]->type == phrase::INDEXLIST))
-                )
-            {
-                phrase_t<CHAR>* node = new phrase_t<CHAR>();
-
-                node->type = phrase::VARINDEX;
-
-                node->line = phrase_nodes[index]->line;
-                node->column = phrase_nodes[index]->column;
-
-                phrase_nodes[index]->parent = node;
-                phrase_nodes[index+1]->parent = node;
-
-                node->children.add(phrase_nodes[index]);
-                node->children.add(phrase_nodes[index+1]);
-
-                node->err = error::NONE;
-                node->shed_on_cleanup = false;
-
-                phrase_nodes.replace(index, index+1, node);
-
-                return true;
-            }
-            else
-                return false;
-        }
 
         template <typename CHAR>
         bool lexer<CHAR>::_index()
@@ -441,7 +409,6 @@ namespace z
                 return false;
         }
 
-
         template <typename CHAR>
         bool lexer<CHAR>::_list()
         {
@@ -490,6 +457,78 @@ namespace z
             else
                 return false;
         }
+
+        template <typename CHAR>
+        bool lexer<CHAR>::varindex()
+        {
+            if (phrase_nodes.is_valid(index+1) &&
+                (phrase_nodes[index]->type == ident::IDENTIFIER) &&
+                ((phrase_nodes[index+1]->type == phrase::INDEX) ||
+                 (phrase_nodes[index+1]->type == phrase::INDEXLIST))
+                )
+            {
+                phrase_t<CHAR>* node = new phrase_t<CHAR>();
+
+                node->type = phrase::VARINDEX;
+
+                node->line = phrase_nodes[index]->line;
+                node->column = phrase_nodes[index]->column;
+
+                phrase_nodes[index]->parent = node;
+                phrase_nodes[index+1]->parent = node;
+
+                node->children.add(phrase_nodes[index]);
+                node->children.add(phrase_nodes[index+1]);
+
+                node->err = error::NONE;
+                node->shed_on_cleanup = false;
+
+                phrase_nodes.replace(index, index+1, node);
+
+                return true;
+            }
+            else
+                return false;
+        }
+
+        template <typename CHAR>
+        bool lexer<CHAR>::typevar()
+        {
+            if (phrase_nodes.is_valid(index+2) &&
+                (phrase_nodes[index]->type == ident::IDENTIFIER) &&
+                (phrase_nodes[index+1]->type == ident::PERIOD) &&
+                ((phrase_nodes[index+2]->type == phrase::VARINDEX) ||
+                 ((phrase_nodes[index+2]->type == ident::IDENTIFIER) &&
+                  !(phrase_nodes.is_valid(index+3) &&
+                    ((phrase_nodes[index+3]->type == ident::LBRACKET) ||
+                     (phrase_nodes[index+3]->type == ident::LPARENTH) ||
+                     (phrase_nodes[index+3]->type == phrase::INDEXLIST) ||
+                     (phrase_nodes[index+3]->type == phrase::INDEX) )))))
+            {
+                phrase_t<CHAR>* node = new phrase_t<CHAR>();
+
+                node->type = phrase::TYPEVAR;
+
+                node->line = phrase_nodes[index]->line;
+                node->column = phrase_nodes[index]->column;
+
+                phrase_nodes[index]->parent = node;
+                phrase_nodes[index+2]->parent = node;
+
+                node->children.add(phrase_nodes[index]);
+                node->children.add(phrase_nodes[index+2]);
+
+                node->err = error::NONE;
+                node->shed_on_cleanup = false;
+
+                phrase_nodes.replace(index, index+2, node);
+
+                return true;
+            }
+            else
+                return false;
+        }
+
 
         template <typename CHAR>
         bool lexer<CHAR>::operand()

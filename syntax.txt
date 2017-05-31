@@ -29,6 +29,7 @@ var		: ID
 
 operand		: var
 		| NUMERIC_LITERAL
+		| COMPLEX_LITERAL
 		| STRING_LITERAL
 		| builtin_funccall
 		| user_funccall

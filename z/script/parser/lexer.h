@@ -130,6 +130,8 @@ namespace z
             }
 
             ///phrase detection
+            bool exprlist();
+            bool _list();
             bool operand();
             bool parenthexpr();
             bool factorialexpr();
@@ -137,6 +139,7 @@ namespace z
             bool powerexpr();
             bool multiplyexpr();
             bool addexpr();
+            bool boolexpr();
 
         public:
             lexer()
@@ -216,6 +219,10 @@ namespace z
                         did_concat = false;
                     }
 
+                    else if (exprlist())
+                        did_concat = true;
+                    else if (_list())
+                        did_concat = true;
                     else if (operand())
                         did_concat = true;
                     else if (parenthexpr())
@@ -229,6 +236,8 @@ namespace z
                     else if (multiplyexpr())
                         did_concat = true;
                     else if (addexpr())
+                        did_concat = true;
+                    else if (boolexpr())
                         did_concat = true;
                     else
                         index++;
@@ -306,10 +315,94 @@ namespace z
         ///phrase detection
 
         template <typename CHAR>
+        bool lexer<CHAR>::exprlist()
+        {
+            if (phrase_nodes.is_valid(index+2) &&
+                ((phrase_nodes[index]->type == phrase::BOOLEXPR) ||
+                 (phrase_nodes[index]->type == phrase::EXPRLIST)) &&
+                (phrase_nodes[index+1]->type == ident::COMMA) &&
+                (phrase_nodes[index+2]->type == phrase::BOOLEXPR))
+            {
+                phrase_t<CHAR>* node = new phrase_t<CHAR>();
+
+                node->type = phrase::EXPRLIST;
+
+                node->line = phrase_nodes[index]->line;
+                node->column = phrase_nodes[index]->column;
+
+                phrase_nodes[index]->parent = node;
+                phrase_nodes[index+2]->parent = node;
+
+                node->children.add(phrase_nodes[index]);
+                node->children.add(phrase_nodes[index+2]);
+
+                node->err = error::NONE;
+                node->shed_on_cleanup = false;
+
+                phrase_nodes.replace(index, index+2, node);
+
+                return true;
+            }
+            else
+                return false;
+        }
+
+
+        template <typename CHAR>
+        bool lexer<CHAR>::_list()
+        {
+            if (phrase_nodes.is_valid(index+2) &&
+                ((phrase_nodes[index+1]->type == phrase::BOOLEXPR) ||
+                 (phrase_nodes[index+1]->type == phrase::EXPRLIST)) &&
+                (phrase_nodes[index]->type == ident::LBRACE) &&
+                (phrase_nodes[index+2]->type == ident::RBRACE))
+            {
+                phrase_t<CHAR>* node = new phrase_t<CHAR>();
+
+                node->type = phrase::LIST;
+
+                node->line = phrase_nodes[index]->line;
+                node->column = phrase_nodes[index]->column;
+
+                phrase_nodes[index+1]->parent = node;
+
+                node->children.add(phrase_nodes[index+1]);
+
+                node->err = error::NONE;
+                node->shed_on_cleanup = false;
+
+                phrase_nodes.replace(index, index+2, node);
+
+                return true;
+            }
+            else if (phrase_nodes.is_valid(index+1) &&
+                (phrase_nodes[index]->type == ident::LBRACE) &&
+                (phrase_nodes[index+1]->type == ident::RBRACE))
+            {
+                phrase_t<CHAR>* node = new phrase_t<CHAR>();
+
+                node->type = phrase::LIST;
+
+                node->line = phrase_nodes[index]->line;
+                node->column = phrase_nodes[index]->column;
+
+                node->err = error::NONE;
+                node->shed_on_cleanup = false;
+
+                phrase_nodes.replace(index, index+1, node);
+
+                return true;
+            }
+            else
+                return false;
+        }
+
+        template <typename CHAR>
         bool lexer<CHAR>::operand()
         {
             if ((phrase_nodes[index]->type == ident::NUMERIC_LITERAL) ||
-                (phrase_nodes[index]->type == ident::STRING_LITERAL))
+                (phrase_nodes[index]->type == ident::STRING_LITERAL) ||
+                (phrase_nodes[index]->type == phrase::LIST))
             {
                 phrase_t<CHAR>* node = new phrase_t<CHAR>();
 
@@ -336,7 +429,7 @@ namespace z
         template <typename CHAR>
         bool lexer<CHAR>::parenthexpr()
         {
-            if ((phrase_nodes[index]->type == phrase::OPERAND))
+            if (phrase_nodes[index]->type == phrase::OPERAND)
             {
                 phrase_t<CHAR>* node = new phrase_t<CHAR>();
 
@@ -353,6 +446,29 @@ namespace z
                 node->shed_on_cleanup = true;
 
                 phrase_nodes[index] = node;
+
+                return true;
+            }
+            else if (phrase_nodes.is_valid(index+2) &&
+                     (phrase_nodes[index]->type == ident::LPARENTH) &&
+                     (phrase_nodes[index+2]->type == ident::RPARENTH) &&
+                     (phrase_nodes[index+1]->type == phrase::BOOLEXPR))
+            {
+                phrase_t<CHAR>* node = new phrase_t<CHAR>();
+
+                node->type = phrase::PARENTHEXPR;
+
+                node->line = phrase_nodes[index+1]->line;
+                node->column = phrase_nodes[index+1]->column;
+
+                phrase_nodes[index+1]->parent = node;
+
+                node->children.add(phrase_nodes[index+1]);
+
+                node->err = error::NONE;
+                node->shed_on_cleanup = true;
+
+                phrase_nodes.replace(index, index+2, node);
 
                 return true;
             }
@@ -607,6 +723,72 @@ namespace z
                 phrase_t<CHAR>* node = new phrase_t<CHAR>();
 
                 node->type = phrase::ADDEXPR;
+
+                node->line = phrase_nodes[index]->line;
+                node->column = phrase_nodes[index]->column;
+
+                node->err = error::NONE;
+
+                phrase_nodes[index]->parent = node;
+                phrase_nodes[index+1]->parent = node;
+                phrase_nodes[index+2]->parent = node;
+
+                node->children.add(phrase_nodes[index]);
+                node->children.add(phrase_nodes[index+1]);
+                node->children.add(phrase_nodes[index+2]);
+
+                node->shed_on_cleanup = false;
+                phrase_nodes.replace(index, index+2, node);
+
+                return true;
+            }
+            else
+                return false;
+        }
+
+        template <typename CHAR>
+        bool lexer<CHAR>::boolexpr()
+        {
+            //if no detected addition operators, continue to the next phase
+            if ((phrase_nodes[index]->type == phrase::ADDEXPR) &&
+                !(phrase_nodes.is_valid(index+1) &&
+                  (phrase_nodes[index+1]->type >= ident::OPER_AND_LGCL) &&
+                  (phrase_nodes[index+1]->type <= ident::OPER_LT_EQ)) &&
+                !(phrase_nodes.is_valid(index-1) &&
+                  (phrase_nodes[index-1]->type >= ident::OPER_AND_LGCL) &&
+                  (phrase_nodes[index-1]->type <= ident::OPER_LT_EQ)))
+            {
+                phrase_t<CHAR>* node = new phrase_t<CHAR>();
+
+                node->type = phrase::BOOLEXPR;
+
+                node->line = phrase_nodes[index]->line;
+                node->column = phrase_nodes[index]->column;
+
+                node->err = error::NONE;
+
+                phrase_nodes[index]->parent = node;
+
+
+                node->children.add(phrase_nodes[index]);
+
+                node->shed_on_cleanup = true;
+                phrase_nodes[index] = node;
+
+
+                return true;
+            }
+            //otherwise, if an addition operator is detected
+            else if (phrase_nodes.is_valid(index+2) &&
+                     ((phrase_nodes[index]->type == phrase::ADDEXPR) ||
+                      (phrase_nodes[index]->type == phrase::BOOLEXPR)) &&
+                     (phrase_nodes[index+1]->type >= ident::OPER_AND_LGCL) &&
+                     (phrase_nodes[index+1]->type <= ident::OPER_LT_EQ) &&
+                     (phrase_nodes[index+2]->type == phrase::ADDEXPR))
+            {
+                phrase_t<CHAR>* node = new phrase_t<CHAR>();
+
+                node->type = phrase::BOOLEXPR;
 
                 node->line = phrase_nodes[index]->line;
                 node->column = phrase_nodes[index]->column;

@@ -35,8 +35,8 @@ namespace z
         {
             "none",
             "(",")",
-            "[","]",
             "{","}",
+            "[","]",
             ",",";",".",
             "#str","#num",
             "id",
@@ -61,11 +61,12 @@ namespace z
             "not","~",
             "nand","~&",
             "nor","~|",
-            "xnor",
+            "xnor", "~:",
             "==","<>",">",">=","<","<=",
             "unknown",
 
             "index",
+            "exprlist",
             "list",
             "varindex",
             "typevar",
@@ -77,7 +78,7 @@ namespace z
             "powerexpr",
             "multiplyexpr",
             "addexpr",
-            "expression",
+            "boolexpr",
             "assignexpr",
             "generalexpr"
         };

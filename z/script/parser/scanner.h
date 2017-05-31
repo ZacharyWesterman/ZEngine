@@ -781,6 +781,9 @@ namespace z
         template <typename CHAR>
         bool scanner<CHAR>::check_this_number()
         {
+            if (current_symbol.endsWith("i"))
+                current_ident.type = ident::COMPLEX_LITERAL;
+
             if (current_symbol.beginsWith("0b"))
             {
                 //Error check for binary numbers

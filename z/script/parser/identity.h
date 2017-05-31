@@ -46,11 +46,12 @@ namespace z
                 STRING_LITERAL, //10
 
                 NUMERIC_LITERAL,//11
+                COMPLEX_LITERAL,//12
 
-                IDENTIFIER,     //12
+                IDENTIFIER,     //13
 
-                FUNCTION,       //13
-                COMMAND,        //14
+                FUNCTION,       //14
+                COMMAND,        //15
 
                 KEYWORD_IF,     //16
                 KEYWORD_ELSE,   //17

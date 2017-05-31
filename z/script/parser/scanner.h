@@ -369,7 +369,7 @@ namespace z
                     //comma
                     else if (input->at(index) == (CHAR)44)
                     {
-                        newIdent = ident::LBRACE;
+                        newIdent = ident::COMMA;
                     }
                     //semicolon
                     else if (input->at(index) == (CHAR)59)

@@ -1,6 +1,6 @@
 index		: [ boolexpr ]
 
-indexlist	: index
+indexlist	: index index
 		| indexlist index
 
 exprlist	: boolexpr , boolexpr
@@ -19,15 +19,16 @@ user_funccall	: IDENTIFIER arglist
 builtin_funccall: FUNCTION arglist
 
 varindex	: IDENTIFIER indexlist
+		| IDENTIFIER index
 
 typevar		: IDENTIFIER . IDENTIFIER
 		| IDENTIFIER . varindex
 
-var		: ID
+variable	: ID
 		| varindex
 		| typevar
 
-operand		: var
+operand		: variable
 		| NUMERIC_LITERAL
 		| COMPLEX_LITERAL
 		| STRING_LITERAL

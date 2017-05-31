@@ -669,6 +669,11 @@ namespace z
                     curr_oper = ident::OPER_XOR_BITW;
                     oper_length = 1;
                 }
+                else if (input.foundAt("~:", x_offset))
+                {
+                    curr_oper = ident::OPER_NXOR_BITW;
+                    oper_length = 1;
+                }
                 else
                 {
                     found = false;
@@ -873,9 +878,9 @@ namespace z
                     current_ident.type = ident::OPER_XOR_LGCL;
                     current_ident.meta = null;
                 }
-                else if (*(current_ident.meta) == "xnor")
+                else if (*(current_ident.meta) == "nxor")
                 {
-                    current_ident.type = ident::OPER_XNOR_LGCL;
+                    current_ident.type = ident::OPER_NXOR_LGCL;
                     current_ident.meta = null;
                 }
                 else if (*(current_ident.meta) == "nand")

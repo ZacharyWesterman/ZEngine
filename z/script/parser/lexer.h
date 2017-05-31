@@ -417,8 +417,10 @@ namespace z
                 if ( (phrase_nodes.is_valid(index-1) &&
                       (phrase_nodes[index-1]->type == ident::OPER_SUB)) &&
                     !(phrase_nodes.is_valid(index-2) &&
-                      (phrase_nodes[index-2]->type == phrase::NEGATEXPR)))
+                      (phrase_nodes[index-2]->type >= phrase::NEGATEXPR)))
                 {
+                    //cout << symTypeStr[phrase_nodes[index-2]->type] << "#" << endl;
+
                     node->shed_on_cleanup = false;
                     phrase_nodes.replace(index-1, index, node);
                 }

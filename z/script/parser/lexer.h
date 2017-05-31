@@ -146,6 +146,7 @@ namespace z
             bool multiplyexpr();
             bool addexpr();
             bool boolexpr();
+            bool assignexpr();
 
         public:
             lexer()
@@ -238,7 +239,8 @@ namespace z
                              powerexpr()    ||
                              multiplyexpr() ||
                              addexpr()      ||
-                             boolexpr() )
+                             boolexpr()     ||
+                             assignexpr() )
                         did_concat = true;
                     else
                         index++;
@@ -993,6 +995,40 @@ namespace z
 
                 node->shed_on_cleanup = false;
                 phrase_nodes.replace(index, index+2, node);
+
+                return true;
+            }
+            else
+                return false;
+        }
+
+        template <typename CHAR>
+        bool lexer<CHAR>::assignexpr()
+        {
+            if (phrase_nodes.is_valid(index-2) &&
+                (phrase_nodes[index-2]->type == phrase::VARIABLE) ||
+                (phrase_nodes[index-1]->type == 0) /*&&
+                (phrase_nodes[index]->type == phrase::BOOLEXPR)*/)
+            {
+                phrase_t<CHAR>* node = new phrase_t<CHAR>();
+
+                node->type = phrase::ASSIGNEXPR;
+
+                node->line = phrase_nodes[index]->line;
+                node->column = phrase_nodes[index]->column;
+
+                node->err = error::NONE;
+
+                phrase_nodes[index-2]->parent = node;
+                phrase_nodes[index]->parent = node;
+
+
+                node->children.add(phrase_nodes[index-2]);
+                node->children.add(phrase_nodes[index]);
+
+                node->shed_on_cleanup = false;
+                phrase_nodes.replace(index-2, index, node);
+
 
                 return true;
             }

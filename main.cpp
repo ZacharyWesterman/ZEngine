@@ -15,11 +15,6 @@
 
 using namespace z;
 
-/*void charstream(const core::stream<char>& input)
-{
-    for (int i=0; i<input.length(); i++)
-        cout << (int)input.str()[i] << endl;
-}*/
 
 int main(int argc, char* argv[])
 {
@@ -43,6 +38,8 @@ int main(int argc, char* argv[])
 
     core::sorted_array< core::string<char> > functions;
     functions.add("log");
+    functions.add("ln");
+    functions.add("sum");
 
 
     core::sorted_ref_array< core::string<char>* > symbol_table;

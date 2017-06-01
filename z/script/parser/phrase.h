@@ -57,13 +57,12 @@ namespace z
         {
         public:
             int type;
+            int orig_type;
 
             int line;
             int column;
 
             error_flag err;
-
-            bool shed_on_cleanup;
 
             //optional data
             void* meta;
@@ -77,6 +76,7 @@ namespace z
             phrase_t()
             {
                 type = ident::NONE;
+                orig_type = ident::NONE;
 
                 line = -1;
                 column = -1;
@@ -87,14 +87,13 @@ namespace z
                 value = 0;
 
                 parent = NULL;
-
-                shed_on_cleanup = false;
             }
 
             //constructor from ident_t
             phrase_t(const ident_t<CHAR>& token)
             {
                 type = phrase::phrase_enum(token.type);
+                orig_type = ident::NONE;
 
                 line = token.line;
                 column = token.column;
@@ -105,8 +104,6 @@ namespace z
                 value = token.value;
 
                 parent = NULL;
-
-                shed_on_cleanup = false;
             }
 
 
@@ -122,8 +119,6 @@ namespace z
 
                 meta = other.meta;
                 value = other.value;
-
-                shed_on_cleanup = other.shed_on_cleanup;
 
                 children = other.children;
 

@@ -264,13 +264,10 @@ namespace z
                         {
                             //std::cout << symTypeStr[current_node->type] << std::endl;
 
-                            if (current_node->shed_on_cleanup)
+                            if (current_node->orig_type)
                             {
-                                phrase_t<CHAR>* delnode = current_node->children[0];
-
-                                (*current_node) = (*current_node->children[0]);
-
-                                delete delnode;
+                                current_node->type = current_node->orig_type;
+                                current_node->orig_type = ident::NONE;
                             }
 
                             if (current_node->parent)
@@ -338,7 +335,6 @@ namespace z
                 node->children.add(phrase_nodes[index+1]);
 
                 node->err = error::NONE;
-                node->shed_on_cleanup = false;
 
                 phrase_nodes.replace(index, index+2, node);
 
@@ -370,7 +366,6 @@ namespace z
                 node->children.add(phrase_nodes[index]);
 
                 node->err = error::NONE;
-                node->shed_on_cleanup = false;
 
                 phrase_nodes.replace(index-1, index, node);
 
@@ -403,7 +398,6 @@ namespace z
                 node->children.add(phrase_nodes[index+2]);
 
                 node->err = error::NONE;
-                node->shed_on_cleanup = false;
 
                 phrase_nodes.replace(index, index+2, node);
 
@@ -434,7 +428,6 @@ namespace z
                 node->children.add(phrase_nodes[index+1]);
 
                 node->err = error::NONE;
-                node->shed_on_cleanup = false;
 
                 phrase_nodes.replace(index, index+2, node);
 
@@ -452,7 +445,6 @@ namespace z
                 node->column = phrase_nodes[index]->column;
 
                 node->err = error::NONE;
-                node->shed_on_cleanup = false;
 
                 phrase_nodes.replace(index, index+1, node);
 
@@ -485,7 +477,6 @@ namespace z
                 node->children.add(phrase_nodes[index+1]);
 
                 node->err = error::NONE;
-                node->shed_on_cleanup = false;
 
                 phrase_nodes.replace(index, index+1, node);
 
@@ -523,7 +514,6 @@ namespace z
                 node->children.add(phrase_nodes[index+2]);
 
                 node->err = error::NONE;
-                node->shed_on_cleanup = false;
 
                 phrase_nodes.replace(index, index+2, node);
 
@@ -537,47 +527,16 @@ namespace z
         bool lexer<CHAR>::variable()
         {
             if ((phrase_nodes[index]->type == phrase::TYPEVAR) ||
-                (phrase_nodes[index]->type == phrase::VARINDEX))
-            {
-                phrase_t<CHAR>* node = new phrase_t<CHAR>();
-
-                node->type = phrase::VARIABLE;
-
-                node->line = phrase_nodes[index]->line;
-                node->column = phrase_nodes[index]->column;
-
-                phrase_nodes[index]->parent = node;
-
-                node->children.add(phrase_nodes[index]);
-
-                node->err = error::NONE;
-                node->shed_on_cleanup = true;
-
-                phrase_nodes[index] = node;
-
-                return true;
-            }
-            else if ((phrase_nodes[index]->type == ident::IDENTIFIER) &&
+                (phrase_nodes[index]->type == phrase::VARINDEX) ||
+                ((phrase_nodes[index]->type == ident::IDENTIFIER) &&
                      !(phrase_nodes.is_valid(index+1) &&
                        ((phrase_nodes[index+1]->type == ident::PERIOD) ||
                        (phrase_nodes[index+1]->type == ident::LBRACKET) ||
-                       (phrase_nodes[index+1]->type == ident::LPARENTH))))
+                       (phrase_nodes[index+1]->type == ident::LPARENTH)))))
             {
-                phrase_t<CHAR>* node = new phrase_t<CHAR>();
-
-                node->type = phrase::VARIABLE;
-
-                node->line = phrase_nodes[index]->line;
-                node->column = phrase_nodes[index]->column;
-
-                phrase_nodes[index]->parent = node;
-
-                node->children.add(phrase_nodes[index]);
-
-                node->err = error::NONE;
-                node->shed_on_cleanup = false;
-
-                phrase_nodes[index] = node;
+                if (phrase_nodes[index]->orig_type == ident::NONE)
+                    phrase_nodes[index]->orig_type = phrase_nodes[index]->type;
+                phrase_nodes[index]->type = phrase::VARIABLE;
 
                 return true;
             }
@@ -597,21 +556,9 @@ namespace z
                 (phrase_nodes[index]->type == ident::STRING_LITERAL) ||
                 (phrase_nodes[index]->type == phrase::LIST))
             {
-                phrase_t<CHAR>* node = new phrase_t<CHAR>();
-
-                node->type = phrase::OPERAND;
-
-                node->line = phrase_nodes[index]->line;
-                node->column = phrase_nodes[index]->column;
-
-                phrase_nodes[index]->parent = node;
-
-                node->children.add(phrase_nodes[index]);
-
-                node->err = error::NONE;
-                node->shed_on_cleanup = true;
-
-                phrase_nodes[index] = node;
+                if (phrase_nodes[index]->orig_type == ident::NONE)
+                    phrase_nodes[index]->orig_type = phrase_nodes[index]->type;
+                phrase_nodes[index]->type = phrase::OPERAND;
 
                 return true;
             }
@@ -624,21 +571,9 @@ namespace z
         {
             if (phrase_nodes[index]->type == phrase::OPERAND)
             {
-                phrase_t<CHAR>* node = new phrase_t<CHAR>();
-
-                node->type = phrase::PARENTHEXPR;
-
-                node->line = phrase_nodes[index]->line;
-                node->column = phrase_nodes[index]->column;
-
-                phrase_nodes[index]->parent = node;
-
-                node->children.add(phrase_nodes[index]);
-
-                node->err = error::NONE;
-                node->shed_on_cleanup = true;
-
-                phrase_nodes[index] = node;
+                if (phrase_nodes[index]->orig_type == ident::NONE)
+                    phrase_nodes[index]->orig_type = phrase_nodes[index]->type;
+                phrase_nodes[index]->type = phrase::PARENTHEXPR;
 
                 return true;
             }
@@ -647,21 +582,12 @@ namespace z
                      (phrase_nodes[index+2]->type == ident::RPARENTH) &&
                      (phrase_nodes[index+1]->type == phrase::BOOLEXPR))
             {
-                phrase_t<CHAR>* node = new phrase_t<CHAR>();
+                if (phrase_nodes[index+1]->orig_type == ident::NONE)
+                    phrase_nodes[index+1]->orig_type = phrase_nodes[index]->type;
+                phrase_nodes[index+1]->type = phrase::PARENTHEXPR;
 
-                node->type = phrase::PARENTHEXPR;
-
-                node->line = phrase_nodes[index+1]->line;
-                node->column = phrase_nodes[index+1]->column;
-
-                phrase_nodes[index+1]->parent = node;
-
-                node->children.add(phrase_nodes[index+1]);
-
-                node->err = error::NONE;
-                node->shed_on_cleanup = true;
-
-                phrase_nodes.replace(index, index+2, node);
+                phrase_nodes.remove(index+2);
+                phrase_nodes.remove(index);
 
                 return true;
             }
@@ -672,7 +598,9 @@ namespace z
         template <typename CHAR>
         bool lexer<CHAR>::factorialexpr()
         {
-            if ((phrase_nodes[index]->type == phrase::PARENTHEXPR))
+            if ((phrase_nodes[index]->type == phrase::PARENTHEXPR) &&
+                (phrase_nodes.is_valid(index+1) &&
+                      (phrase_nodes[index+1]->type == ident::OPER_FAC)))
             {
                 phrase_t<CHAR>* node = new phrase_t<CHAR>();
 
@@ -687,17 +615,15 @@ namespace z
 
                 phrase_nodes[index]->parent = node;
 
-                if ( (phrase_nodes.is_valid(index+1) &&
-                      (phrase_nodes[index+1]->type == ident::OPER_FAC)))
-                {
-                    node->shed_on_cleanup = false;
-                    phrase_nodes.replace(index, index+1, node);
-                }
-                else
-                {
-                    node->shed_on_cleanup = true;
-                    phrase_nodes[index] = node;
-                }
+                phrase_nodes.replace(index, index+1, node);
+
+                return true;
+            }
+            else if (phrase_nodes[index]->type == phrase::PARENTHEXPR)
+            {
+                if (phrase_nodes[index]->orig_type == ident::NONE)
+                    phrase_nodes[index]->orig_type = phrase_nodes[index]->type;
+                phrase_nodes[index]->type = phrase::FACTORIALEXPR;
 
                 return true;
             }
@@ -708,7 +634,11 @@ namespace z
         template <typename CHAR>
         bool lexer<CHAR>::negatexpr()
         {
-            if (phrase_nodes[index]->type == phrase::FACTORIALEXPR)
+            if ((phrase_nodes[index]->type == phrase::FACTORIALEXPR) &&
+                (phrase_nodes.is_valid(index-1) &&
+                      (phrase_nodes[index-1]->type == ident::OPER_SUB)) &&
+                    !(phrase_nodes.is_valid(index-2) &&
+                      (phrase_nodes[index-2]->type >= phrase::NEGATEXPR)))
             {
 
                 phrase_t<CHAR>* node = new phrase_t<CHAR>();
@@ -724,21 +654,15 @@ namespace z
 
                 phrase_nodes[index]->parent = node;
 
-                if ( (phrase_nodes.is_valid(index-1) &&
-                      (phrase_nodes[index-1]->type == ident::OPER_SUB)) &&
-                    !(phrase_nodes.is_valid(index-2) &&
-                      (phrase_nodes[index-2]->type >= phrase::NEGATEXPR)))
-                {
-                    //cout << symTypeStr[phrase_nodes[index-2]->type] << "#" << endl;
+                phrase_nodes.replace(index-1, index, node);
 
-                    node->shed_on_cleanup = false;
-                    phrase_nodes.replace(index-1, index, node);
-                }
-                else
-                {
-                    node->shed_on_cleanup = true;
-                    phrase_nodes[index] = node;
-                }
+                return true;
+            }
+            else if (phrase_nodes[index]->type == phrase::FACTORIALEXPR)
+            {
+                if (phrase_nodes[index]->orig_type == ident::NONE)
+                    phrase_nodes[index]->orig_type = phrase_nodes[index]->type;
+                phrase_nodes[index]->type = phrase::NEGATEXPR;
 
                 return true;
             }
@@ -756,23 +680,9 @@ namespace z
                 !(phrase_nodes.is_valid(index-1) &&
                   (phrase_nodes[index-1]->type == ident::OPER_POW)))
             {
-                phrase_t<CHAR>* node = new phrase_t<CHAR>();
-
-                node->type = phrase::POWEREXPR;
-
-                node->line = phrase_nodes[index]->line;
-                node->column = phrase_nodes[index]->column;
-
-                node->err = error::NONE;
-
-                phrase_nodes[index]->parent = node;
-
-
-                node->children.add(phrase_nodes[index]);
-
-                node->shed_on_cleanup = true;
-                phrase_nodes[index] = node;
-
+                if (phrase_nodes[index]->orig_type == ident::NONE)
+                    phrase_nodes[index]->orig_type = phrase_nodes[index]->type;
+                phrase_nodes[index]->type = phrase::POWEREXPR;
 
                 return true;
             }
@@ -798,7 +708,6 @@ namespace z
                 node->children.add(phrase_nodes[index]);
                 node->children.add(phrase_nodes[index+2]);
 
-                node->shed_on_cleanup = false;
                 phrase_nodes.replace(index, index+2, node);
 
                 return true;
@@ -819,23 +728,9 @@ namespace z
                   (phrase_nodes[index-1]->type >= ident::OPER_MUL) &&
                   (phrase_nodes[index-1]->type <= ident::OPER_MOD)))
             {
-                phrase_t<CHAR>* node = new phrase_t<CHAR>();
-
-                node->type = phrase::MULTIPLYEXPR;
-
-                node->line = phrase_nodes[index]->line;
-                node->column = phrase_nodes[index]->column;
-
-                node->err = error::NONE;
-
-                phrase_nodes[index]->parent = node;
-
-
-                node->children.add(phrase_nodes[index]);
-
-                node->shed_on_cleanup = true;
-                phrase_nodes[index] = node;
-
+                if (phrase_nodes[index]->orig_type == ident::NONE)
+                    phrase_nodes[index]->orig_type = phrase_nodes[index]->type;
+                phrase_nodes[index]->type = phrase::MULTIPLYEXPR;
 
                 return true;
             }
@@ -864,7 +759,6 @@ namespace z
                 node->children.add(phrase_nodes[index+1]);
                 node->children.add(phrase_nodes[index+2]);
 
-                node->shed_on_cleanup = false;
                 phrase_nodes.replace(index, index+2, node);
 
                 return true;
@@ -885,23 +779,9 @@ namespace z
                   (phrase_nodes[index-1]->type >= ident::OPER_ADD) &&
                   (phrase_nodes[index-1]->type <= ident::OPER_SUB)))
             {
-                phrase_t<CHAR>* node = new phrase_t<CHAR>();
-
-                node->type = phrase::ADDEXPR;
-
-                node->line = phrase_nodes[index]->line;
-                node->column = phrase_nodes[index]->column;
-
-                node->err = error::NONE;
-
-                phrase_nodes[index]->parent = node;
-
-
-                node->children.add(phrase_nodes[index]);
-
-                node->shed_on_cleanup = true;
-                phrase_nodes[index] = node;
-
+                if (phrase_nodes[index]->orig_type == ident::NONE)
+                    phrase_nodes[index]->orig_type = phrase_nodes[index]->type;
+                phrase_nodes[index]->type = phrase::ADDEXPR;
 
                 return true;
             }
@@ -930,7 +810,6 @@ namespace z
                 node->children.add(phrase_nodes[index+1]);
                 node->children.add(phrase_nodes[index+2]);
 
-                node->shed_on_cleanup = false;
                 phrase_nodes.replace(index, index+2, node);
 
                 return true;
@@ -951,23 +830,9 @@ namespace z
                   (phrase_nodes[index-1]->type >= ident::OPER_AND_LGCL) &&
                   (phrase_nodes[index-1]->type <= ident::OPER_LT_EQ)))
             {
-                phrase_t<CHAR>* node = new phrase_t<CHAR>();
-
-                node->type = phrase::BOOLEXPR;
-
-                node->line = phrase_nodes[index]->line;
-                node->column = phrase_nodes[index]->column;
-
-                node->err = error::NONE;
-
-                phrase_nodes[index]->parent = node;
-
-
-                node->children.add(phrase_nodes[index]);
-
-                node->shed_on_cleanup = true;
-                phrase_nodes[index] = node;
-
+                if (phrase_nodes[index]->orig_type == ident::NONE)
+                    phrase_nodes[index]->orig_type = phrase_nodes[index]->type;
+                phrase_nodes[index]->type = phrase::BOOLEXPR;
 
                 return true;
             }
@@ -996,7 +861,6 @@ namespace z
                 node->children.add(phrase_nodes[index+1]);
                 node->children.add(phrase_nodes[index+2]);
 
-                node->shed_on_cleanup = false;
                 phrase_nodes.replace(index, index+2, node);
 
                 return true;
@@ -1028,7 +892,6 @@ namespace z
                 node->children.add(phrase_nodes[index]);
                 node->children.add(phrase_nodes[index+2]);
 
-                node->shed_on_cleanup = false;
                 phrase_nodes.replace(index, index+2, node);
 
                 return true;

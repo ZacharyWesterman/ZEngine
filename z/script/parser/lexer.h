@@ -588,7 +588,9 @@ namespace z
         template <typename CHAR>
         bool lexer<CHAR>::operand()
         {
-            if ((phrase_nodes[index]->type == phrase::VARIABLE) ||
+            if (((phrase_nodes[index]->type == phrase::VARIABLE) &&
+                 !(phrase_nodes.is_valid(index+1) &&
+                   (phrase_nodes[index+1]->type == ident::OPER_ASSIGN))) ||
                 (phrase_nodes[index]->type == ident::NUMERIC_LITERAL) ||
                 (phrase_nodes[index]->type == ident::COMPLEX_LITERAL) ||
                 (phrase_nodes[index]->type == ident::STRING_LITERAL) ||
@@ -1005,10 +1007,10 @@ namespace z
         template <typename CHAR>
         bool lexer<CHAR>::assignexpr()
         {
-            if (phrase_nodes.is_valid(index-2) &&
-                (phrase_nodes[index-2]->type == phrase::VARIABLE) ||
-                (phrase_nodes[index-1]->type == 0) /*&&
-                (phrase_nodes[index]->type == phrase::BOOLEXPR)*/)
+            if (phrase_nodes.is_valid(index+2) &&
+                (phrase_nodes[index]->type == phrase::VARIABLE) &&
+                (phrase_nodes[index+1]->type == ident::OPER_ASSIGN) &&
+                (phrase_nodes[index+2]->type == phrase::BOOLEXPR))
             {
                 phrase_t<CHAR>* node = new phrase_t<CHAR>();
 
@@ -1019,16 +1021,14 @@ namespace z
 
                 node->err = error::NONE;
 
-                phrase_nodes[index-2]->parent = node;
                 phrase_nodes[index]->parent = node;
+                phrase_nodes[index+2]->parent = node;
 
-
-                node->children.add(phrase_nodes[index-2]);
                 node->children.add(phrase_nodes[index]);
+                node->children.add(phrase_nodes[index+2]);
 
                 node->shed_on_cleanup = false;
-                phrase_nodes.replace(index-2, index, node);
-
+                phrase_nodes.replace(index, index+2, node);
 
                 return true;
             }

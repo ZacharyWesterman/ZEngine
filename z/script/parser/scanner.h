@@ -409,7 +409,10 @@ namespace z
                                 addmeta = !check_this_number();
 
                                 if (addmeta)
+                                {
                                     current_ident.err = error::INVALID_NUMBER;
+                                    found_error = true;
+                                }
                             }
                             else if (current_ident.type == ident::STRING_LITERAL)
                             {
@@ -511,7 +514,10 @@ namespace z
                         addmeta = !check_this_number();
 
                         if (addmeta)
+                        {
                             current_ident.err = error::INVALID_NUMBER;
+                            found_error = true;
+                        }
                     }
                     else if (current_ident.type == ident::STRING_LITERAL)
                     {
@@ -787,6 +793,8 @@ namespace z
                 current_symbol.remove(current_symbol.length()-1, current_symbol.length());
             }
 
+            bool found_decimal = false;
+
             if (current_symbol.beginsWith("0b"))
             {
                 //Error check for binary numbers
@@ -799,6 +807,12 @@ namespace z
                         (_char != (CHAR)46)) //not a decimal point
                     {
                         return false;
+                    }
+                    else if (_char == (CHAR)46)
+                    {
+                        if (found_decimal)
+                            return false;
+                        found_decimal = true;
                     }
                 }
 
@@ -817,6 +831,12 @@ namespace z
                          (_char > (CHAR)55)))
                     {
                         return false;
+                    }
+                    else if (_char == (CHAR)46)
+                    {
+                        if (found_decimal)
+                            return false;
+                        found_decimal = true;
                     }
                 }
 
@@ -839,6 +859,12 @@ namespace z
                     {
                         return false;
                     }
+                    else if (_char == (CHAR)46)
+                    {
+                        if (found_decimal)
+                            return false;
+                        found_decimal = true;
+                    }
                 }
 
                 current_ident.value = eval_hexadecimal_str(&current_symbol);
@@ -848,10 +874,18 @@ namespace z
                 //Error check for decimal numbers
                 for (int e=0; e<(current_symbol.length()); e++)
                 {
-                    if (core::is_alpha(current_symbol.at(e)) || //any letter
-                        ((current_symbol.at(e)) == (CHAR)95)) //'_'
+                    CHAR _char = current_symbol.at(e);
+
+                    if (core::is_alpha(_char) || //any letter
+                        (_char == (CHAR)95)) //'_'
                     {
                         return false;
+                    }
+                    else if (_char == (CHAR)46)
+                    {
+                        if (found_decimal)
+                            return false;
+                        found_decimal = true;
                     }
                 }
 

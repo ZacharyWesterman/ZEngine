@@ -69,6 +69,8 @@ namespace z
             "indexlist",
             "exprlist",
             "list",
+            "user_funccall",
+            "builtin_funccall",
             "varindex",
             "typevar",
             "variable",
@@ -135,6 +137,8 @@ namespace z
             bool indexlist();
             bool exprlist();
             bool _list();
+            bool user_funccall();
+            bool builtin_funccall();
             bool varindex();
             bool typevar();
             bool variable();
@@ -147,6 +151,7 @@ namespace z
             bool addexpr();
             bool boolexpr();
             bool assignexpr();
+            bool generalexpr();
 
         public:
             lexer()
@@ -219,8 +224,11 @@ namespace z
                     if (index >= phrase_nodes.size())
                     {
                         if (!did_concat)
+                        {
                             progress = lex::TREE_CLEANUP;
                             //progress = lex::DONE;
+                            current_node = 0;
+                        }
 
                         index = 0;
                         did_concat = false;
@@ -230,6 +238,8 @@ namespace z
                              indexlist()    ||
                              exprlist()     ||
                              _list()        ||
+                             user_funccall()||
+                             builtin_funccall()||
                              varindex()     ||
                              typevar()      ||
                              variable()     ||
@@ -241,16 +251,17 @@ namespace z
                              multiplyexpr() ||
                              addexpr()      ||
                              boolexpr()     ||
-                             assignexpr() )
+                             assignexpr()   ||
+                             generalexpr()
+                             )
                         did_concat = true;
                     else
                         index++;
 
-                    //cout << index << endl;
                 }
                 else if (progress == lex::TREE_CLEANUP)
                 {
-                    if (!phrase_nodes.size())
+                    if (phrase_nodes.size() == 0)
                         progress = lex::DONE;
                     else
                     {
@@ -262,9 +273,7 @@ namespace z
                         }
                         else if (index >= current_node->children.size())
                         {
-                            //std::cout << symTypeStr[current_node->type] << std::endl;
-
-                            if (current_node->orig_type)
+                            if (current_node->orig_type != ident::NONE)
                             {
                                 current_node->type = current_node->orig_type;
                                 current_node->orig_type = ident::NONE;
@@ -455,6 +464,117 @@ namespace z
         }
 
         template <typename CHAR>
+        bool lexer<CHAR>::user_funccall()
+        {
+            if (phrase_nodes.is_valid(index+3) &&
+                (phrase_nodes[index]->type == ident::IDENTIFIER) &&
+                ((phrase_nodes[index+2]->type == phrase::BOOLEXPR) ||
+                 (phrase_nodes[index+2]->type == phrase::EXPRLIST)) &&
+                (phrase_nodes[index+1]->type == ident::LPARENTH) &&
+                (phrase_nodes[index+3]->type == ident::RPARENTH))
+            {
+                phrase_t<CHAR>* node = new phrase_t<CHAR>();
+
+                node->type = phrase::USER_FUNCCALL;
+
+                node->line = phrase_nodes[index]->line;
+                node->column = phrase_nodes[index]->column;
+
+                phrase_nodes[index]->parent = node;
+                phrase_nodes[index+2]->parent = node;
+
+                node->children.add(phrase_nodes[index]);
+                node->children.add(phrase_nodes[index+2]);
+
+                node->err = error::NONE;
+
+                phrase_nodes.replace(index, index+3, node);
+
+                return true;
+            }
+            else if (phrase_nodes.is_valid(index+2) &&
+                (phrase_nodes[index]->type == ident::IDENTIFIER) &&
+                (phrase_nodes[index+1]->type == ident::LPARENTH) &&
+                (phrase_nodes[index+2]->type == ident::RPARENTH))
+            {
+                phrase_t<CHAR>* node = new phrase_t<CHAR>();
+
+                node->type = phrase::USER_FUNCCALL;
+
+                node->line = phrase_nodes[index]->line;
+                node->column = phrase_nodes[index]->column;
+
+                phrase_nodes[index]->parent = node;
+
+                node->children.add(phrase_nodes[index]);
+
+                node->err = error::NONE;
+
+                phrase_nodes.replace(index, index+2, node);
+
+                return true;
+            }
+            else
+                return false;
+        }
+
+        template <typename CHAR>
+        bool lexer<CHAR>::builtin_funccall()
+        {
+            if (phrase_nodes.is_valid(index+3) &&
+                (phrase_nodes[index]->type == ident::FUNCTION) &&
+                ((phrase_nodes[index+2]->type == phrase::BOOLEXPR) ||
+                 (phrase_nodes[index+2]->type == phrase::EXPRLIST)) &&
+                (phrase_nodes[index+1]->type == ident::LPARENTH) &&
+                (phrase_nodes[index+3]->type == ident::RPARENTH))
+            {
+                phrase_t<CHAR>* node = new phrase_t<CHAR>();
+
+                node->type = phrase::BUILTIN_FUNCCALL;
+
+                node->line = phrase_nodes[index]->line;
+                node->column = phrase_nodes[index]->column;
+
+                phrase_nodes[index]->parent = node;
+                phrase_nodes[index+2]->parent = node;
+
+                node->children.add(phrase_nodes[index]);
+                node->children.add(phrase_nodes[index+2]);
+
+                node->err = error::NONE;
+
+                phrase_nodes.replace(index, index+3, node);
+
+                return true;
+            }
+            else if (phrase_nodes.is_valid(index+2) &&
+                (phrase_nodes[index]->type == ident::FUNCTION) &&
+                (phrase_nodes[index+1]->type == ident::LPARENTH) &&
+                (phrase_nodes[index+2]->type == ident::RPARENTH))
+            {
+                phrase_t<CHAR>* node = new phrase_t<CHAR>();
+
+                node->type = phrase::BUILTIN_FUNCCALL;
+
+                node->line = phrase_nodes[index]->line;
+                node->column = phrase_nodes[index]->column;
+
+                phrase_nodes[index]->parent = node;
+
+                node->children.add(phrase_nodes[index]);
+
+                node->err = error::NONE;
+
+                phrase_nodes.replace(index, index+2, node);
+
+                return true;
+            }
+            else
+                return false;
+        }
+
+
+        template <typename CHAR>
         bool lexer<CHAR>::varindex()
         {
             if (phrase_nodes.is_valid(index+1) &&
@@ -544,7 +664,6 @@ namespace z
                 return false;
         }
 
-
         template <typename CHAR>
         bool lexer<CHAR>::operand()
         {
@@ -554,6 +673,8 @@ namespace z
                 (phrase_nodes[index]->type == ident::NUMERIC_LITERAL) ||
                 (phrase_nodes[index]->type == ident::COMPLEX_LITERAL) ||
                 (phrase_nodes[index]->type == ident::STRING_LITERAL) ||
+                (phrase_nodes[index]->type == phrase::USER_FUNCCALL) ||
+                (phrase_nodes[index]->type == phrase::BUILTIN_FUNCCALL) ||
                 (phrase_nodes[index]->type == phrase::LIST))
             {
                 if (phrase_nodes[index]->orig_type == ident::NONE)
@@ -580,7 +701,10 @@ namespace z
             else if (phrase_nodes.is_valid(index+2) &&
                      (phrase_nodes[index]->type == ident::LPARENTH) &&
                      (phrase_nodes[index+2]->type == ident::RPARENTH) &&
-                     (phrase_nodes[index+1]->type == phrase::BOOLEXPR))
+                     (phrase_nodes[index+1]->type == phrase::BOOLEXPR) &&
+                     !(phrase_nodes.is_valid(index-1) &&
+                       ((phrase_nodes[index-1]->type == ident::IDENTIFIER) ||
+                        (phrase_nodes[index-1]->type == ident::FUNCTION))))
             {
                 if (phrase_nodes[index+1]->orig_type == ident::NONE)
                     phrase_nodes[index+1]->orig_type = phrase_nodes[index]->type;
@@ -900,6 +1024,23 @@ namespace z
                 return false;
         }
 
+        template <typename CHAR>
+        bool lexer<CHAR>::generalexpr()
+        {
+            if (((phrase_nodes[index]->type == phrase::ASSIGNEXPR) ||
+                 ((phrase_nodes[index]->type == phrase::BOOLEXPR) &&
+                  !(phrase_nodes.is_valid(index-1) &&
+                   (phrase_nodes[index-1]->type == ident::OPER_ASSIGN)))))
+            {
+                if (phrase_nodes[index]->orig_type == ident::NONE)
+                    phrase_nodes[index]->orig_type = phrase_nodes[index]->type;
+                phrase_nodes[index]->type = phrase::GENERALEXPR;
+
+                return true;
+            }
+            else
+                return false;
+        }
 
 
         ///debug
@@ -927,6 +1068,11 @@ namespace z
                 std::cout << "<" << node->value << ">";
             else if (node->type == ident::COMPLEX_LITERAL)
                 std::cout << "<" << node->value << "i>";
+            else if ((node->type == ident::IDENTIFIER) ||
+                     (node->type == ident::FUNCTION) ||
+                     (node->type == ident::COMMAND))
+                std::cout << symTypeStr[node->type] << " : {"\
+                 << ((core::string<CHAR>*)(node->meta))->str() << "}";
             else
                 std::cout << symTypeStr[node->type];
 

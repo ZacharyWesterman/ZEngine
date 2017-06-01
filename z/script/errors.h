@@ -29,7 +29,7 @@ namespace z
 
                 INVALID_IDENTIFIER,
                 INVALID_NUMBER,
-                UNKNOWN_ESCAPE,
+                UNKNOWN_ESCAPE_SEQUENCE,
 
                 UNKNOWN_OPERATOR,
                 AMBIGUOUS_EXPR,

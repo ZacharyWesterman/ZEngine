@@ -185,7 +185,7 @@ namespace z
                             current_symbol += input->at(index);
 
                             if (input->at(index) == (CHAR)92) //we have some unknown escape sequence
-                                current_ident.err = error::UNKNOWN_ESCAPE;
+                                current_ident.err = error::UNKNOWN_ESCAPE_SEQUENCE;
                         }
                     }
                 }

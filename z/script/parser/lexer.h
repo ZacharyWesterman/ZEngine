@@ -228,6 +228,7 @@ namespace z
 
                     else if (_index()       ||
                              indexlist()    ||
+                             exprlist()     ||
                              _list()        ||
                              varindex()     ||
                              typevar()      ||

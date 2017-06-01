@@ -747,6 +747,8 @@ namespace z
                     current_ident.type = ident::KEYWORD_FOR;
                 else if (current_symbol == "each")
                     current_ident.type = ident::KEYWORD_EACH;
+                else if (current_symbol == "in")
+                    current_ident.type = ident::KEYWORD_IN;
                 else if (current_symbol == "do")
                     current_ident.type = ident::KEYWORD_DO;
                 else if (current_symbol == "loop")

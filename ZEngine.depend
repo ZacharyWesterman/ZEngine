@@ -2193,7 +2193,7 @@
 
 1489353285 c:\users\zachary\documents\github\zengine\\z\script\errors.h
 
-1496200489 source:/home/zwesterman/GitHub/ZEngine/main.cpp
+1496283405 source:/home/zwesterman/GitHub/ZEngine/main.cpp
 	<z/core.h>
 	<z/math.h>
 	"z/script/parser/includeIterator.h"
@@ -2347,7 +2347,7 @@
 	"lexer.h"
 	<iostream>
 
-1496255153 /home/zwesterman/GitHub/ZEngine/z/script/parser/lexer.h
+1496283526 /home/zwesterman/GitHub/ZEngine/z/script/parser/lexer.h
 	<z/core/timeout.h>
 	<z/core/array.h>
 	<z/core/dynamicStack.h>

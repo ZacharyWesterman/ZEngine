@@ -88,7 +88,7 @@ command		: IDENTIFIER list ;
 statementlist	: statement statement
 		| statementlist statement
 
-variable_decl	: IDENTIFIER ;
+variable_decl	: "var" IDENTIFIER ;
 
 typevar_decl	: IDENTIFIER IDENTIFIER ;
 
@@ -152,16 +152,19 @@ run_statement	: "run" boolexpr ;
 
 return_statement: "return" variable ;
 
-declaration	: typedecl
+ext_declaration	: typedecl
 		| externaldecl
-		| typevar_decl
-		| variable_decl
+		| globaldecl
 
 decllist	: declaration declaration
 		| decllist declaration
 		| declaration
 
-typedecl	: "type" IDENTIFIER { decllist }
+int_declaration	: variable_decl
+		| typevar_decl
+		| function_decl
+
+typedecl	: "type" IDENTIFIER { intype_decllist }
 
 globaldecl	: "global" assignexpr ;
 		| "global" variable ;

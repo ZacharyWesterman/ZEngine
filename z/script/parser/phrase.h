@@ -35,6 +35,7 @@ namespace z
                 EXPRLIST,
                 LIST,
                 FUNCCALL,
+                TYPE_FUNCCALL,
                 VARINDEX,
                 TYPEVAR,
                 VARIABLE,

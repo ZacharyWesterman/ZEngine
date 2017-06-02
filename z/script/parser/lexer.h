@@ -71,6 +71,7 @@ namespace z
             "exprlist",
             "list",
             "funccall",
+            "type_funccall",
             "varindex",
             "typevar",
             "variable",
@@ -140,6 +141,7 @@ namespace z
             bool exprlist();
             bool _list();
             bool funccall();
+            bool type_funccall();
             bool varindex();
             bool typevar();
             bool variable();
@@ -152,7 +154,6 @@ namespace z
             bool addexpr();
             bool boolexpr();
             bool assignexpr();
-            bool generalexpr();
 
         public:
             lexer()
@@ -242,6 +243,7 @@ namespace z
                              exprlist()     ||
                              _list()        ||
                              funccall()     ||
+                             type_funccall()||
                              varindex()     ||
                              typevar()      ||
                              variable()     ||
@@ -346,7 +348,7 @@ namespace z
 
                 node->err = error::NONE;
 
-                phrase_nodes.replace(index, index+1, node);
+                phrase_nodes.replace(index, index+2, node);
 
                 return true;
             }
@@ -579,6 +581,36 @@ namespace z
                 return false;
         }
 
+        template <typename CHAR>
+        bool lexer<CHAR>::type_funccall()
+        {
+            if (phrase_nodes.is_valid(index+2) &&
+                (phrase_nodes[index]->type == ident::IDENTIFIER) &&
+                (phrase_nodes[index+1]->type == ident::PERIOD) &&
+                (phrase_nodes[index+2]->type == phrase::FUNCCALL))
+            {
+                phrase_t<CHAR>* node = new phrase_t<CHAR>();
+
+                node->type = phrase::TYPE_FUNCCALL;
+
+                node->line = phrase_nodes[index]->line;
+                node->column = phrase_nodes[index]->column;
+
+                node->err = error::NONE;
+
+                phrase_nodes[index]->parent = node;
+                phrase_nodes[index+2]->parent = node;
+
+                node->children.add(phrase_nodes[index]);
+                node->children.add(phrase_nodes[index+2]);
+
+                phrase_nodes.replace(index, index+2, node);
+
+                return true;
+            }
+            else
+                return false;
+        }
 
         template <typename CHAR>
         bool lexer<CHAR>::varindex()
@@ -679,8 +711,11 @@ namespace z
                 (phrase_nodes[index]->type == ident::NUMERIC_LITERAL) ||
                 (phrase_nodes[index]->type == ident::COMPLEX_LITERAL) ||
                 (phrase_nodes[index]->type == ident::STRING_LITERAL) ||
-                (phrase_nodes[index]->type == phrase::FUNCCALL) ||
-                (phrase_nodes[index]->type == phrase::LIST))
+                (phrase_nodes[index]->type == phrase::LIST) ||
+                (phrase_nodes[index]->type == phrase::TYPE_FUNCCALL) ||
+                ((phrase_nodes[index]->type == phrase::FUNCCALL) &&
+                 !(phrase_nodes.is_valid(index-1) &&
+                   (phrase_nodes[index-1]->type == ident::PERIOD))))
             {
                 if (phrase_nodes[index]->orig_type == ident::NONE)
                     phrase_nodes[index]->orig_type = phrase_nodes[index]->type;
@@ -1023,24 +1058,6 @@ namespace z
                 node->children.add(phrase_nodes[index+2]);
 
                 phrase_nodes.replace(index, index+2, node);
-
-                return true;
-            }
-            else
-                return false;
-        }
-
-        template <typename CHAR>
-        bool lexer<CHAR>::generalexpr()
-        {
-            if (((phrase_nodes[index]->type == phrase::ASSIGNEXPR) ||
-                 ((phrase_nodes[index]->type == phrase::BOOLEXPR) &&
-                  !(phrase_nodes.is_valid(index-1) &&
-                   (phrase_nodes[index-1]->type == ident::OPER_ASSIGN)))))
-            {
-                if (phrase_nodes[index]->orig_type == ident::NONE)
-                    phrase_nodes[index]->orig_type = phrase_nodes[index]->type;
-                phrase_nodes[index]->type = phrase::GENERALEXPR;
 
                 return true;
             }

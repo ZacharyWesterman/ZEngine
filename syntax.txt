@@ -1,96 +1,13 @@
-index		: [ boolexpr ]
-
-indexlist	: index index
-		| indexlist index
-
-exprlist	: boolexpr , boolexpr
-		| exprlist , boolexpr
-
-list		: { }
-		| { boolexpr }
-		| { exprlist }
-
-type_funccall	: IDENTIFIER . user_funccall
-
-funccall	: IDENTIFIER ( )
-		| IDENTIFIER ( boolexpr )
-		| IDENTIFIER ( exprlist )
-
-varindex	: IDENTIFIER indexlist
-		| IDENTIFIER index
-
-typevar		: IDENTIFIER . IDENTIFIER ![ !(
-		| IDENTIFIER . varindex
-
-typefunccall	: IDENTIFIER . IDENTIFIER arglist
-
-variable	: IDENTIFIER !( ![ !.
-		| varindex
-		| typevar
-
-operand		: variable
-		| NUMERIC_LITERAL
-		| COMPLEX_LITERAL
-		| STRING_LITERAL
-		| type_funccall
-		| funccall
-		| list
-
-parenthexpr	: !IDENTIFIER ( boolexpr )
-		| operand
-
-factorialexpr	: parenthexpr !
-		| parenthexpr
-
-negatexpr	: - factorialexpr
-		| factorialexpr
-
-powerexpr	: negatexpr ^ negatexpr
-		| negatexpr
-
-multiplyexpr	: powerexpr *  powerexpr
-		| powerexpr /  powerexpr
-		| powerexpr // powerexpr
-		| powerexpr %  powerexpr
-		| powerexpr
-
-addexpr		: multiplyexpr + multiplyexpr
-		| multiplyexpr - multiplyexpr
-		| multiplyexpr
-
-boolexpr	: "not" addexpr
-		| addexpr "and"  addexpr
-		| addexpr "or"   addexpr
-		| addexpr "xor"  addexpr
-		| addexpr "nand" addexpr
-		| addexpr "nor"  addexpr
-		| addexpr "xnor"  addexpr
-		| ~ addexpr
-		| addexpr &  addexpr
-		| addexpr |  addexpr
-		| addexpr :  addexpr
-		| addexpr ~& addexpr
-		| addexpr ~| addexpr
-		| addexpr ~: addexpr
-		| addexpr
-
-assignexpr	: var = boolexpr
-
-generalexpr	: assignexpr
-		| boolexpr
+type_funccall	: IDENTIFIER . funccall
 
 identifierlist	: IDENTIFIER IDENTIFIER !;
-		| commandphrase IDENTIFIER
+		| identifierlist IDENTIFIER
 
 command		: IDENTIFIER list ;
 		: identifierlist list ;
 
 statementlist	: statement statement
 		| statementlist statement
-
-variable_decl	: "var" IDENTIFIER ;
-
-typevar_decl	: IDENTIFIER IDENTIFIER ;
 
 statement	: generalexpr ;
 		| command ;
@@ -164,17 +81,30 @@ int_declaration	: variable_decl
 		| typevar_decl
 		| function_decl
 
-typedecl	: "type" IDENTIFIER { intype_decllist }
+int_decllist	: int_declaration int_declaration
+		| int_decllist int_declaration
+
+typedecl	: "type" IDENTIFIER { int_declaration }
+		| "type" IDENTIFIER { int_decllist }
 
 globaldecl	: "global" assignexpr ;
 		| "global" variable ;
 
 externaldecl	: "external" variable ;
 
-formaldecl	: ( IDENTIFIER , IDENTIFIER
-		| formaldecl , IDENTIFIER
+formalvardecl	: if#"function" IDENTIFIER (# "var" IDENTIFIER
+		| if#formalvardecl ,# "var" IDENTIFIER
+		| if#formaltypedecl ,# "var" IDENTIFIER
 
-function_decl	: IDENTIFIER (  ) { decllist }
-		| IDENTIFIER ( IDENTIFIER ) { decllist }
-		| IDENTIFIER formaldecl ) { decllist }
+formaltypedecl	: if#"function" IDENTIFIER (# IDENTIFIER IDENTIFIER
+		| if#formalvardecl ,# IDENTIFIER IDENTIFIER
+		| if#formaltypedecl ,# IDENTIFIER IDENTIFIER
+		
+formaldecllist	: (formalvardecl or formaltypedecl) , (formalvardecl or formaltypedecl)
+		| formaldecllist , (formalvardecl or formaltypedecl)
+		
+function_decl	: "function" IDENTIFIER (  ) { (statementlist or statement) }
+		| "function" IDENTIFIER ( formalvardecl ) { (statementlist or statement) }
+		| "function" IDENTIFIER ( formaltypedecl ) { (statementlist or statement) }
+		| "function" IDENTIFIER ( formaldecllist ) { (statementlist or statement) }
 

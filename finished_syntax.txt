@@ -1,0 +1,79 @@
+index		: [ boolexpr ]
+
+indexlist	: index index
+		| indexlist index
+
+exprlist	: boolexpr , boolexpr
+		| exprlist , boolexpr
+
+list		: { }
+		| { boolexpr }
+		| { exprlist }
+
+parenthexpr	: !IDENTIFIER ( boolexpr )
+		| operand
+
+factorialexpr	: parenthexpr !
+		| parenthexpr
+
+negatexpr	: - factorialexpr
+		| factorialexpr
+
+powerexpr	: negatexpr ^ negatexpr
+		| negatexpr
+
+multiplyexpr	: powerexpr *  powerexpr
+		| powerexpr /  powerexpr
+		| powerexpr // powerexpr
+		| powerexpr %  powerexpr
+		| powerexpr
+
+addexpr		: multiplyexpr + multiplyexpr
+		| multiplyexpr - multiplyexpr
+		| multiplyexpr
+
+boolexpr	: "not" addexpr
+		| addexpr "and"  addexpr
+		| addexpr "or"   addexpr
+		| addexpr "xor"  addexpr
+		| addexpr "nand" addexpr
+		| addexpr "nor"  addexpr
+		| addexpr "xnor"  addexpr
+		| ~ addexpr
+		| addexpr &  addexpr
+		| addexpr |  addexpr
+		| addexpr :  addexpr
+		| addexpr ~& addexpr
+		| addexpr ~| addexpr
+		| addexpr ~: addexpr
+		| addexpr
+
+assignexpr	: var = boolexpr
+
+variable_decl	: "var" IDENTIFIER ;
+
+typevar_decl	: IDENTIFIER IDENTIFIER ;
+
+funccall	: IDENTIFIER ( )
+		| IDENTIFIER ( boolexpr )
+		| IDENTIFIER ( exprlist )
+
+type_funccall	: IDENTIFIER . funccall
+
+varindex	: IDENTIFIER indexlist
+		| IDENTIFIER index
+
+typevar		: IDENTIFIER . IDENTIFIER ![ !(
+		| IDENTIFIER . varindex
+
+variable	: IDENTIFIER !( ![ !.
+		| varindex
+		| typevar
+
+operand		: variable
+		| NUMERIC_LITERAL
+		| COMPLEX_LITERAL
+		| STRING_LITERAL
+		| type_funccall
+		| funccall
+		| list

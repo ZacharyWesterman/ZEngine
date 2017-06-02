@@ -10,13 +10,13 @@ list		: { }
 		| { boolexpr }
 		| { exprlist }
 
-arglist		: ( )
-		| ( boolexpr )
-		| ( boolexpr , boolexpr ... )
+user_funccall	: IDENTIFIER ( )
+		| IDENTIFIER ( boolexpr )
+		| IDENTIFIER ( exprlist )
 
-user_funccall	: IDENTIFIER arglist
-
-builtin_funccall: FUNCTION arglist
+builtin_funccall: FUNCTION ( )
+		| FUNCTION ( boolexpr )
+		| FUNCTION ( exprlist )
 
 varindex	: IDENTIFIER indexlist
 		| IDENTIFIER index
@@ -26,7 +26,7 @@ typevar		: IDENTIFIER . IDENTIFIER ![ !(
 
 typefunccall	: IDENTIFIER . IDENTIFIER arglist
 
-variable	: ID !( ![ !.
+variable	: IDENTIFIER !( ![ !.
 		| varindex
 		| typevar
 
@@ -38,7 +38,7 @@ operand		: variable
 		| user_funccall
 		| list
 
-parenthexpr	: ( boolexpr )
+parenthexpr	: !IDENTIFIER !FUNCTION ( boolexpr )
 		| operand
 
 factorialexpr	: parenthexpr !
@@ -66,16 +66,80 @@ boolexpr	: "not" addexpr
 		| addexpr "xor"  addexpr
 		| addexpr "nand" addexpr
 		| addexpr "nor"  addexpr
+		| addexpr "xnor"  addexpr
 		| ~ addexpr
 		| addexpr &  addexpr
 		| addexpr |  addexpr
 		| addexpr :  addexpr
 		| addexpr ~& addexpr
 		| addexpr ~| addexpr
+		| addexpr ~: addexpr
 		| addexpr
 
 assignexpr	: var = boolexpr
 
 generalexpr	: assignexpr
 		| boolexpr
+
+commandphrase	: COMMAND COMMAND
+		| commandphrase COMMAND
+		| COMMAND
+
+command		: commandphrase boolexpr
+		| commandphrase exprlist
+
+statementlist	: statement statement
+		| statementlist statement
+
+statement	: generalexpr ;
+		| command ;
+		| if_statement
+		| else_statement
+		| for_statement
+		| foreach_statement
+		| loop_statement
+		| while_pre_stmt
+		| while_post_stmt
+
+if_statement	: "if" ( boolexpr ) statement
+		| "if" ( boolexpr ) { statement }
+		| "if" ( boolexpr ) { statementlist }
+		| "if" ( boolexpr ) { }
+		| "if" ( boolexpr ) ;
+
+else_statement	: "else" statement
+		| "else" { statement }
+		| "else" { statementlist }
+		| "else" { }
+		| "else" ;
+
+for_statement	: "for" ( assignexpr ; boolexpr ; assignexpr ) statement
+		| "for" ( assignexpr ; boolexpr ; assignexpr ) { statement }
+		| "for" ( assignexpr ; boolexpr ; assignexpr ) { statementlist }
+		| "for" ( assignexpr ; boolexpr ; assignexpr ) { }
+		| "for" ( assignexpr ; boolexpr ; assignexpr ) ;
+
+foreach_statement:"for" "each" variable "in" variable statement
+		| "for" "each" variable "in" variable { statement }
+		| "for" "each" variable "in" variable { statementlist }
+		| "for" "each" variable "in" variable { }
+		| "for" "each" variable "in" variable ;
+
+loop_statement	: "loop" statement
+		| "loop" { statement }
+		| "loop" { statementlist }
+		| "loop" { }
+		| "loop" ;
+
+while_pre_stmt	: "loop" "while" ( boolexpr ) statement
+		| "loop" "while" ( boolexpr ) { statement }
+		| "loop" "while" ( boolexpr ) { statementlist }
+		| "loop" "while" ( boolexpr ) { }
+		| "loop" "while" ( boolexpr ) ;
+
+while_post_stmt	: "loop" statement "while" ( boolexpr )
+		| "loop" { statement } "while" ( boolexpr )
+		| "loop" { statementlist } "while" ( boolexpr )
+		| "loop" { } "while" ( boolexpr )
+		| "loop" ; "while" ( boolexpr )
 

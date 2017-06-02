@@ -47,7 +47,7 @@ namespace z
             "break","return",
             "exit",
             "wait","until",
-            "type",
+            "var","type","function",
             "global","external",
             "=",
             "+","-",
@@ -64,6 +64,8 @@ namespace z
             "==","<>",">",">=","<","<=",
             "unknown",
 
+            "variable_decl",
+            "typevar_decl",
             "index",
             "indexlist",
             "exprlist",
@@ -131,6 +133,8 @@ namespace z
             }
 
             ///phrase detection
+            bool variable_decl();
+            bool typevar_decl();
             bool _index();
             bool indexlist();
             bool exprlist();
@@ -231,7 +235,9 @@ namespace z
                         did_concat = false;
                     }
 
-                    else if (_index()       ||
+                    else if (variable_decl()||
+                             typevar_decl() ||
+                             _index()       ||
                              indexlist()    ||
                              exprlist()     ||
                              _list()        ||
@@ -247,8 +253,7 @@ namespace z
                              multiplyexpr() ||
                              addexpr()      ||
                              boolexpr()     ||
-                             assignexpr()   ||
-                             generalexpr()
+                             assignexpr()
                              )
                         did_concat = true;
                     else
@@ -319,6 +324,66 @@ namespace z
 
 
         ///phrase detection
+
+        template <typename CHAR>
+        bool lexer<CHAR>::variable_decl()
+        {
+            if (phrase_nodes.is_valid(index+2) &&
+                (phrase_nodes[index]->type == ident::KEYWORD_VAR) &&
+                (phrase_nodes[index+1]->type == ident::IDENTIFIER) &&
+                (phrase_nodes[index+2]->type == ident::SEMICOLON))
+            {
+                phrase_t<CHAR>* node = new phrase_t<CHAR>();
+
+                node->type = phrase::VARIABLE_DECL;
+
+                node->line = phrase_nodes[index]->line;
+                node->column = phrase_nodes[index]->column;
+
+                phrase_nodes[index]->parent = node;
+
+                node->children.add(phrase_nodes[index]);
+
+                node->err = error::NONE;
+
+                phrase_nodes.replace(index, index+1, node);
+
+                return true;
+            }
+            else
+                return false;
+        }
+
+        template <typename CHAR>
+        bool lexer<CHAR>::typevar_decl()
+        {
+            if (phrase_nodes.is_valid(index+2) &&
+                (phrase_nodes[index]->type == ident::IDENTIFIER) &&
+                (phrase_nodes[index+1]->type == ident::IDENTIFIER) &&
+                (phrase_nodes[index+2]->type == ident::SEMICOLON))
+            {
+                phrase_t<CHAR>* node = new phrase_t<CHAR>();
+
+                node->type = phrase::TYPEVAR_DECL;
+
+                node->line = phrase_nodes[index]->line;
+                node->column = phrase_nodes[index]->column;
+
+                phrase_nodes[index]->parent = node;
+                phrase_nodes[index+1]->parent = node;
+
+                node->children.add(phrase_nodes[index]);
+                node->children.add(phrase_nodes[index+1]);
+
+                node->err = error::NONE;
+
+                phrase_nodes.replace(index, index+2, node);
+
+                return true;
+            }
+            else
+                return false;
+        }
 
         template <typename CHAR>
         bool lexer<CHAR>::_index()
@@ -468,7 +533,7 @@ namespace z
                  (phrase_nodes[index+2]->type == phrase::EXPRLIST)) &&
                 (phrase_nodes[index+1]->type == ident::LPARENTH) &&
                 (phrase_nodes[index+3]->type == ident::RPARENTH))
-            {cout << "!";
+            {
                 phrase_t<CHAR>* node = new phrase_t<CHAR>();
 
                 node->type = phrase::FUNCCALL;
@@ -630,27 +695,29 @@ namespace z
         template <typename CHAR>
         bool lexer<CHAR>::parenthexpr()
         {
-            if (phrase_nodes[index]->type == phrase::OPERAND)
+
+            if (phrase_nodes.is_valid(index+1) &&
+                phrase_nodes.is_valid(index-1) &&
+                (phrase_nodes[index-1]->type == ident::LPARENTH) &&
+                (phrase_nodes[index+1]->type == ident::RPARENTH) &&
+                (phrase_nodes[index]->type == phrase::BOOLEXPR) &&
+                     !(phrase_nodes.is_valid(index-2) &&
+                       ((phrase_nodes[index-2]->type == ident::IDENTIFIER))))
             {
                 if (phrase_nodes[index]->orig_type == ident::NONE)
                     phrase_nodes[index]->orig_type = phrase_nodes[index]->type;
                 phrase_nodes[index]->type = phrase::PARENTHEXPR;
 
+                phrase_nodes.remove(index+1);
+                phrase_nodes.remove(index-1);
+
                 return true;
             }
-            else if (phrase_nodes.is_valid(index+2) &&
-                     (phrase_nodes[index]->type == ident::LPARENTH) &&
-                     (phrase_nodes[index+2]->type == ident::RPARENTH) &&
-                     (phrase_nodes[index+1]->type == phrase::BOOLEXPR) &&
-                     !(phrase_nodes.is_valid(index-1) &&
-                       ((phrase_nodes[index-1]->type == ident::IDENTIFIER))))
+            else if (phrase_nodes[index]->type == phrase::OPERAND)
             {
-                if (phrase_nodes[index+1]->orig_type == ident::NONE)
-                    phrase_nodes[index+1]->orig_type = phrase_nodes[index]->type;
-                phrase_nodes[index+1]->type = phrase::PARENTHEXPR;
-
-                phrase_nodes.remove(index+2);
-                phrase_nodes.remove(index);
+                if (phrase_nodes[index]->orig_type == ident::NONE)
+                    phrase_nodes[index]->orig_type = phrase_nodes[index]->type;
+                phrase_nodes[index]->type = phrase::PARENTHEXPR;
 
                 return true;
             }

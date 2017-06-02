@@ -73,7 +73,9 @@ namespace z
                 KEYWORD_WAIT,   //31
                 KEYWORD_UNTIL,  //32
 
+                KEYWORD_VAR,
                 KEYWORD_TYPE,   //33
+                KEYWORD_FUNCTION,
 
                 KEYWORD_GLOBAL, //34
                 KEYWORD_EXTERNAL,//35

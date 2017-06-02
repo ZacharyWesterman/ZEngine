@@ -33,7 +33,6 @@ namespace z
                 EXPRLIST,
                 LIST,
                 FUNCCALL,
-                BUILTIN_FUNCCALL,
                 VARINDEX,
                 TYPEVAR,
                 VARIABLE,

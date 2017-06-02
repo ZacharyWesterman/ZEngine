@@ -50,16 +50,12 @@ namespace z
 
                 IDENTIFIER,     //13
 
-                FUNCTION,       //14
-                COMMAND,        //15
-
                 KEYWORD_IF,     //16
                 KEYWORD_ELSE,   //17
 
                 KEYWORD_FOR,    //18
                 KEYWORD_EACH,   //19
                 KEYWORD_IN,     //20
-                KEYWORD_DO,     //21
                 KEYWORD_LOOP,   //22
                 KEYWORD_WHILE,  //23
 

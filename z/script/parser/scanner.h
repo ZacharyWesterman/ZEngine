@@ -209,9 +209,7 @@ namespace z
                                 //get_this_function();
                                 //get_this_command();
 
-                                addmeta = (current_ident.type == ident::IDENTIFIER) ||
-                                          (current_ident.type == ident::FUNCTION) ||
-                                          (current_ident.type == ident::COMMAND);
+                                addmeta = (current_ident.type == ident::IDENTIFIER);
                             }
                             else if (current_ident.type == ident::NUMERIC_LITERAL)
                             {
@@ -261,9 +259,7 @@ namespace z
                                 //get_this_function();
                                 //get_this_command();
 
-                                addmeta = (current_ident.type == ident::IDENTIFIER) ||
-                                          (current_ident.type == ident::FUNCTION) ||
-                                          (current_ident.type == ident::COMMAND);
+                                addmeta = (current_ident.type == ident::IDENTIFIER);
                             }
                             else if (current_ident.type == ident::NUMERIC_LITERAL)
                             {
@@ -389,9 +385,7 @@ namespace z
                                 //get_this_function();
                                 //get_this_command();
 
-                                addmeta = (current_ident.type == ident::IDENTIFIER) ||
-                                          (current_ident.type == ident::FUNCTION) ||
-                                          (current_ident.type == ident::COMMAND);
+                                addmeta = (current_ident.type == ident::IDENTIFIER);
                             }
                             else if (current_ident.type == ident::NUMERIC_LITERAL)
                             {
@@ -494,9 +488,7 @@ namespace z
                         //get_this_function();
                         //get_this_command();
 
-                        addmeta = (current_ident.type == ident::IDENTIFIER) ||
-                                  (current_ident.type == ident::FUNCTION) ||
-                                  (current_ident.type == ident::COMMAND);
+                        addmeta = (current_ident.type == ident::IDENTIFIER);
                     }
                     else if (current_ident.type == ident::NUMERIC_LITERAL)
                     {
@@ -517,6 +509,9 @@ namespace z
                         current_ident.meta = addToSymTable(&current_symbol);
                     identifiers->add(current_ident);
                 }
+
+                //for (int i=0; i<identifiers->size(); i++)
+                    //cout << identifiers->at(i).type << endl;
             }
 
 
@@ -738,8 +733,6 @@ namespace z
                     current_ident.type = ident::KEYWORD_EACH;
                 else if (current_symbol == "in")
                     current_ident.type = ident::KEYWORD_IN;
-                else if (current_symbol == "do")
-                    current_ident.type = ident::KEYWORD_DO;
                 else if (current_symbol == "loop")
                     current_ident.type = ident::KEYWORD_LOOP;
                 else if (current_symbol == "while")

@@ -10,13 +10,11 @@ list		: { }
 		| { boolexpr }
 		| { exprlist }
 
-user_funccall	: IDENTIFIER ( )
+type_funccall	: IDENTIFIER . user_funccall
+
+funccall	: IDENTIFIER ( )
 		| IDENTIFIER ( boolexpr )
 		| IDENTIFIER ( exprlist )
-
-builtin_funccall: FUNCTION ( )
-		| FUNCTION ( boolexpr )
-		| FUNCTION ( exprlist )
 
 varindex	: IDENTIFIER indexlist
 		| IDENTIFIER index
@@ -34,11 +32,11 @@ operand		: variable
 		| NUMERIC_LITERAL
 		| COMPLEX_LITERAL
 		| STRING_LITERAL
-		| builtin_funccall
-		| user_funccall
+		| type_funccall
+		| funccall
 		| list
 
-parenthexpr	: !IDENTIFIER !FUNCTION ( boolexpr )
+parenthexpr	: !IDENTIFIER ( boolexpr )
 		| operand
 
 factorialexpr	: parenthexpr !
@@ -81,15 +79,18 @@ assignexpr	: var = boolexpr
 generalexpr	: assignexpr
 		| boolexpr
 
-commandphrase	: COMMAND COMMAND
-		| commandphrase COMMAND
-		| COMMAND
+identifierlist	: IDENTIFIER IDENTIFIER !;
+		| commandphrase IDENTIFIER
 
-command		: commandphrase boolexpr
-		| commandphrase exprlist
+command		: IDENTIFIER list ;
+		: identifierlist list ;
 
 statementlist	: statement statement
 		| statementlist statement
+
+variable_decl	: IDENTIFIER ;
+
+typevar_decl	: IDENTIFIER IDENTIFIER ;
 
 statement	: generalexpr ;
 		| command ;
@@ -100,6 +101,10 @@ statement	: generalexpr ;
 		| loop_statement
 		| while_pre_stmt
 		| while_post_stmt
+		| run_statement
+		| typevar_decl
+		| variable_decl
+		| return_statement
 
 if_statement	: "if" ( boolexpr ) statement
 		| "if" ( boolexpr ) { statement }
@@ -142,4 +147,31 @@ while_post_stmt	: "loop" statement "while" ( boolexpr )
 		| "loop" { statementlist } "while" ( boolexpr )
 		| "loop" { } "while" ( boolexpr )
 		| "loop" ; "while" ( boolexpr )
+
+run_statement	: "run" boolexpr ;
+
+return_statement: "return" variable ;
+
+declaration	: typedecl
+		| externaldecl
+		| typevar_decl
+		| variable_decl
+
+decllist	: declaration declaration
+		| decllist declaration
+		| declaration
+
+typedecl	: "type" IDENTIFIER { decllist }
+
+globaldecl	: "global" assignexpr ;
+		| "global" variable ;
+
+externaldecl	: "external" variable ;
+
+formaldecl	: ( IDENTIFIER , IDENTIFIER
+		| formaldecl , IDENTIFIER
+
+function_decl	: IDENTIFIER (  ) { decllist }
+		| IDENTIFIER ( IDENTIFIER ) { decllist }
+		| IDENTIFIER formaldecl ) { decllist }
 

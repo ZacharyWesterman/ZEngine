@@ -32,7 +32,7 @@ namespace z
                 INDEXLIST,
                 EXPRLIST,
                 LIST,
-                USER_FUNCCALL,
+                FUNCCALL,
                 BUILTIN_FUNCCALL,
                 VARINDEX,
                 TYPEVAR,

@@ -69,7 +69,7 @@ namespace z
             "indexlist",
             "exprlist",
             "list",
-            "user_funccall",
+            "funccall",
             "builtin_funccall",
             "varindex",
             "typevar",
@@ -137,7 +137,7 @@ namespace z
             bool indexlist();
             bool exprlist();
             bool _list();
-            bool user_funccall();
+            bool funccall();
             bool builtin_funccall();
             bool varindex();
             bool typevar();
@@ -238,7 +238,7 @@ namespace z
                              indexlist()    ||
                              exprlist()     ||
                              _list()        ||
-                             user_funccall()||
+                             funccall()||
                              builtin_funccall()||
                              varindex()     ||
                              typevar()      ||
@@ -464,7 +464,7 @@ namespace z
         }
 
         template <typename CHAR>
-        bool lexer<CHAR>::user_funccall()
+        bool lexer<CHAR>::funccall()
         {
             if (phrase_nodes.is_valid(index+3) &&
                 (phrase_nodes[index]->type == ident::IDENTIFIER) &&
@@ -475,7 +475,7 @@ namespace z
             {
                 phrase_t<CHAR>* node = new phrase_t<CHAR>();
 
-                node->type = phrase::USER_FUNCCALL;
+                node->type = phrase::FUNCCALL;
 
                 node->line = phrase_nodes[index]->line;
                 node->column = phrase_nodes[index]->column;
@@ -499,7 +499,7 @@ namespace z
             {
                 phrase_t<CHAR>* node = new phrase_t<CHAR>();
 
-                node->type = phrase::USER_FUNCCALL;
+                node->type = phrase::FUNCCALL;
 
                 node->line = phrase_nodes[index]->line;
                 node->column = phrase_nodes[index]->column;
@@ -673,7 +673,7 @@ namespace z
                 (phrase_nodes[index]->type == ident::NUMERIC_LITERAL) ||
                 (phrase_nodes[index]->type == ident::COMPLEX_LITERAL) ||
                 (phrase_nodes[index]->type == ident::STRING_LITERAL) ||
-                (phrase_nodes[index]->type == phrase::USER_FUNCCALL) ||
+                (phrase_nodes[index]->type == phrase::FUNCCALL) ||
                 (phrase_nodes[index]->type == phrase::BUILTIN_FUNCCALL) ||
                 (phrase_nodes[index]->type == phrase::LIST))
             {

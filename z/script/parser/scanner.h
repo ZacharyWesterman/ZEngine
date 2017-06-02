@@ -58,25 +58,16 @@ namespace z
 
             bool found_error;
 
-
-            core::sorted_array< core::string<CHAR> >* commands;
-            core::sorted_array< core::string<CHAR> >* functions;
-
             core::sorted_ref_array< core::string<CHAR>* >* sym_table;
 
         public:
             //constructor allows operators, commands, and functions be set
-            scanner(core::sorted_ref_array< core::string<CHAR>* >* symbol_table,
-                    core::sorted_array< core::string<CHAR> >* cmds = NULL,
-                    core::sorted_array< core::string<CHAR> >* funcs = NULL)
+            scanner(core::sorted_ref_array< core::string<CHAR>* >* symbol_table)
             {
                 input = NULL;
                 identifiers = NULL;
 
                 sym_table = symbol_table;
-
-                commands = cmds;
-                functions = funcs;
 
                 clear();
             }
@@ -124,8 +115,6 @@ namespace z
 
             void get_this_keyword();
             void get_this_operator();
-            void get_this_function();
-            void get_this_command();
 
             bool check_this_number();
 
@@ -217,8 +206,8 @@ namespace z
                             {
                                 get_this_keyword();
                                 get_this_operator();
-                                get_this_function();
-                                get_this_command();
+                                //get_this_function();
+                                //get_this_command();
 
                                 addmeta = (current_ident.type == ident::IDENTIFIER) ||
                                           (current_ident.type == ident::FUNCTION) ||
@@ -269,8 +258,8 @@ namespace z
                             {
                                 get_this_keyword();
                                 get_this_operator();
-                                get_this_function();
-                                get_this_command();
+                                //get_this_function();
+                                //get_this_command();
 
                                 addmeta = (current_ident.type == ident::IDENTIFIER) ||
                                           (current_ident.type == ident::FUNCTION) ||
@@ -397,8 +386,8 @@ namespace z
                             {
                                 get_this_keyword();
                                 get_this_operator();
-                                get_this_function();
-                                get_this_command();
+                                //get_this_function();
+                                //get_this_command();
 
                                 addmeta = (current_ident.type == ident::IDENTIFIER) ||
                                           (current_ident.type == ident::FUNCTION) ||
@@ -502,8 +491,8 @@ namespace z
                     {
                         get_this_keyword();
                         get_this_operator();
-                        get_this_function();
-                        get_this_command();
+                        //get_this_function();
+                        //get_this_command();
 
                         addmeta = (current_ident.type == ident::IDENTIFIER) ||
                                   (current_ident.type == ident::FUNCTION) ||
@@ -940,32 +929,6 @@ namespace z
                     current_ident.type = ident::OPER_NOT_LGCL;
                     current_ident.meta = null;
                 }
-            }
-        }
-
-
-        ///If any identifiers match a command, change the type to COMMAND.
-        //does not produce any errors, so always returns true.
-        template <typename CHAR>
-        void scanner<CHAR>::get_this_command()
-        {
-            if (commands && (current_ident.type == ident::IDENTIFIER))
-            {
-                if (commands->find(current_symbol) > -1)
-                    current_ident.type = ident::COMMAND;
-            }
-        }
-
-
-        ///If any identifiers match a function, change the type to FUNCTION.
-        //does not produce any errors, so always returns true.
-        template <typename CHAR>
-        void scanner<CHAR>::get_this_function()
-        {
-            if (functions && (current_ident.type == ident::IDENTIFIER))
-            {
-                if (functions->find(current_symbol) > -1)
-                    current_ident.type = ident::FUNCTION;
             }
         }
 

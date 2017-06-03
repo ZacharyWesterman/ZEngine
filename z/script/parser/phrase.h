@@ -29,6 +29,9 @@ namespace z
             enum phrase_enum
             {
                 IDENTIFIERLIST = ident::ID_COUNT,
+                COMMAND,
+                STATEMENTLIST,
+                STATEMENT,
                 VARIABLE_DECL,
                 TYPEVAR_DECL,
                 INDEX,

@@ -65,6 +65,9 @@ namespace z
             "unknown",
 
             "identifierlist",
+            "command",
+            "statementlist",
+            "statement",
             "variable_decl",
             "typevar_decl",
             "index",
@@ -136,6 +139,9 @@ namespace z
 
             ///phrase detection
             bool identifierlist();
+            bool _command();
+            bool statementlist();
+            bool statement();
             bool variable_decl();
             bool typevar_decl();
             bool _index();
@@ -239,6 +245,7 @@ namespace z
                     }
 
                     else if (identifierlist()||
+                             _command()     ||
                              variable_decl()||
                              typevar_decl() ||
                              _index()       ||
@@ -329,11 +336,13 @@ namespace z
 
 
         ///phrase detection
+
         template <typename CHAR>
         bool lexer<CHAR>::identifierlist()
         {
             if (phrase_nodes.is_valid(index+1) &&
-                (phrase_nodes[index]->type == ident::IDENTIFIER) &&
+                ((phrase_nodes[index]->type == ident::IDENTIFIER) ||
+                 (phrase_nodes[index]->type == phrase::IDENTIFIERLIST)) &&
                 (phrase_nodes[index+1]->type == ident::IDENTIFIER) &&
                 !(phrase_nodes.is_valid(index+2) &&
                   (phrase_nodes[index+2]->type == ident::SEMICOLON)))
@@ -354,6 +363,45 @@ namespace z
                 node->err = error::NONE;
 
                 phrase_nodes.replace(index, index+1, node);
+
+                return true;
+            }
+            else if (phrase_nodes.is_valid(index+1) &&
+                     (phrase_nodes[index]->type == ident::IDENTIFIER) &&
+                     (phrase_nodes[index+1]->type == ident::LBRACE))
+            {
+                if (phrase_nodes[index]->orig_type == ident::NONE)
+                    phrase_nodes[index]->orig_type = phrase_nodes[index]->type;
+                phrase_nodes[index]->type = phrase::IDENTIFIERLIST;
+            }
+            else
+                return false;
+        }
+
+        template <typename CHAR>
+        bool lexer<CHAR>::_command()
+        {
+            if (phrase_nodes.is_valid(index+2) &&
+                (phrase_nodes[index]->type == phrase::IDENTIFIERLIST) &&
+                (phrase_nodes[index+1]->type == phrase::LIST) &&
+                (phrase_nodes[index+2]->type == ident::SEMICOLON))
+            {
+                phrase_t<CHAR>* node = new phrase_t<CHAR>();
+
+                node->type = phrase::COMMAND;
+
+                node->line = phrase_nodes[index]->line;
+                node->column = phrase_nodes[index]->column;
+
+                phrase_nodes[index]->parent = node;
+                phrase_nodes[index+1]->parent = node;
+
+                node->children.add(phrase_nodes[index]);
+                node->children.add(phrase_nodes[index+1]);
+
+                node->err = error::NONE;
+
+                phrase_nodes.replace(index, index+2, node);
 
                 return true;
             }
@@ -745,7 +793,10 @@ namespace z
                 (phrase_nodes[index]->type == ident::NUMERIC_LITERAL) ||
                 (phrase_nodes[index]->type == ident::COMPLEX_LITERAL) ||
                 (phrase_nodes[index]->type == ident::STRING_LITERAL) ||
-                (phrase_nodes[index]->type == phrase::LIST) ||
+                ((phrase_nodes[index]->type == phrase::LIST) &&
+                  !(phrase_nodes.is_valid(index-1) &&
+                   ((phrase_nodes[index-1]->type == phrase::IDENTIFIERLIST) ||
+                    (phrase_nodes[index-1]->type == ident::IDENTIFIER)))) ||
                 (phrase_nodes[index]->type == phrase::TYPE_FUNCCALL) ||
                 ((phrase_nodes[index]->type == phrase::FUNCCALL) &&
                  !(phrase_nodes.is_valid(index-1) &&

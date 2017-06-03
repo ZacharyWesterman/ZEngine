@@ -1,6 +1,3 @@
-command		: IDENTIFIER list ;
-		: identifierlist list ;
-
 statementlist	: statement statement
 		| statementlist statement
 

@@ -80,3 +80,6 @@ operand		: variable
 
 identifierlist	: IDENTIFIER IDENTIFIER !;
 		| identifierlist IDENTIFIER
+
+command		: IDENTIFIER list ;
+		: identifierlist list ;

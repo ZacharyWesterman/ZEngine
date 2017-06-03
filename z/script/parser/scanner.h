@@ -639,6 +639,11 @@ namespace z
                     curr_oper = ident::OPER_NOR_BITW;
                     oper_length = 2;
                 }
+                else if (input.foundAt("~:", x_offset))
+                {
+                    curr_oper = ident::OPER_NXOR_BITW;
+                    oper_length = 2;
+                }
                 else if (input.foundAt("~", x_offset))
                 {
                     curr_oper = ident::OPER_NOT_BITW;
@@ -657,11 +662,6 @@ namespace z
                 else if (input.foundAt(":", x_offset))
                 {
                     curr_oper = ident::OPER_XOR_BITW;
-                    oper_length = 1;
-                }
-                else if (input.foundAt("~:", x_offset))
-                {
-                    curr_oper = ident::OPER_NXOR_BITW;
                     oper_length = 1;
                 }
                 else
@@ -889,42 +889,35 @@ namespace z
         template <typename CHAR>
         void scanner<CHAR>::get_this_operator()
         {
-            if ((current_ident.type == ident::IDENTIFIER) && current_ident.meta)
+            if (current_ident.type == ident::IDENTIFIER)
             {
-                if (*(current_ident.meta) == "and")
+                if (current_symbol == "and")
                 {
                     current_ident.type = ident::OPER_AND_LGCL;
-                    current_ident.meta = null;
                 }
-                else if (*(current_ident.meta) == "or")
+                else if (current_symbol == "or")
                 {
                     current_ident.type = ident::OPER_OR_LGCL;
-                    current_ident.meta = null;
                 }
-                else if (*(current_ident.meta) == "xor")
+                else if (current_symbol == "xor")
                 {
                     current_ident.type = ident::OPER_XOR_LGCL;
-                    current_ident.meta = null;
                 }
-                else if (*(current_ident.meta) == "nxor")
+                else if (current_symbol == "nxor")
                 {
                     current_ident.type = ident::OPER_NXOR_LGCL;
-                    current_ident.meta = null;
                 }
-                else if (*(current_ident.meta) == "nand")
+                else if (current_symbol == "nand")
                 {
                     current_ident.type = ident::OPER_NAND_LGCL;
-                    current_ident.meta = null;
                 }
-                else if (*(current_ident.meta) == "nor")
+                else if (current_symbol == "nor")
                 {
                     current_ident.type = ident::OPER_NOR_LGCL;
-                    current_ident.meta = null;
                 }
-                else if (*(current_ident.meta) == "not")
+                else if (current_symbol == "not")
                 {
                     current_ident.type = ident::OPER_NOT_LGCL;
-                    current_ident.meta = null;
                 }
             }
         }

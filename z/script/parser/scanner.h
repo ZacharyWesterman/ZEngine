@@ -765,6 +765,8 @@ namespace z
                     current_ident.type = ident::KEYWORD_GLOBAL;
                 else if (current_symbol == "external")
                     current_ident.type = ident::KEYWORD_EXTERNAL;
+                else if (current_symbol == "shared")
+                    current_ident.type = ident::KEYWORD_SHARED;
             }
         }
 

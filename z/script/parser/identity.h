@@ -79,6 +79,7 @@ namespace z
 
                 KEYWORD_GLOBAL, //34
                 KEYWORD_EXTERNAL,//35
+                KEYWORD_SHARED,
 
                 OPER_ASSIGN,    //36
 

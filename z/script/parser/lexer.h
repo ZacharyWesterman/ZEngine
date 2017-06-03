@@ -48,7 +48,7 @@ namespace z
             "exit",
             "wait","until",
             "var","type","function",
-            "global","external",
+            "global","external","shared",
             "=",
             "+","-",
             "++","--",
@@ -438,7 +438,9 @@ namespace z
                 !(phrase_nodes.is_valid(index-2) &&
                   (phrase_nodes[index-2]->type == ident::KEYWORD_FOR)) &&
                 !(phrase_nodes.is_valid(index-4) &&
-                  (phrase_nodes[index-4]->type == ident::KEYWORD_FOR)))
+                  (phrase_nodes[index-4]->type == ident::KEYWORD_FOR)) &&
+                !(phrase_nodes.is_valid(index-6) &&
+                  (phrase_nodes[index-6]->type == ident::KEYWORD_FOR)))
             {
                 if (phrase_nodes[index]->orig_type == ident::NONE)
                     phrase_nodes[index]->orig_type = phrase_nodes[index]->type;
@@ -698,33 +700,151 @@ namespace z
                 (phrase_nodes[index+4]->type == phrase::BOOLEXPR) &&
                 (phrase_nodes[index+5]->type == ident::SEMICOLON) &&
                 (phrase_nodes[index+6]->type == phrase::ASSIGNEXPR) &&
-                (phrase_nodes[index+7]->type == ident::RPARENTH))
+                ((phrase_nodes[index+7]->type == ident::RPARENTH) ||
+                 (phrase_nodes.is_valid(index+8) &&
+                  (phrase_nodes[index+7]->type == ident::SEMICOLON) &&
+                  (phrase_nodes[index+8]->type == ident::RPARENTH))))
             {
-                phrase_t<CHAR>* node = new phrase_t<CHAR>();
+                if (phrase_nodes[index+7]->type == ident::SEMICOLON)
+                {
+                    delete phrase_nodes[index+7];
+                    phrase_nodes.remove(index+7);
+                }
 
-                node->type = phrase::FOR_STATEMENT;
+                if (phrase_nodes.is_valid(index+10) &&
+                    (phrase_nodes[index+8]->type == ident::LBRACE) &&
+                    ((phrase_nodes[index+9]->type == phrase::STATEMENT) ||
+                     (phrase_nodes[index+9]->type == phrase::STATEMENTLIST)) &&
+                    (phrase_nodes[index+10]->type == ident::RBRACE))
+                {
+                    phrase_t<CHAR>* node = new phrase_t<CHAR>();
 
-                node->line = phrase_nodes[index]->line;
-                node->column = phrase_nodes[index]->column;
+                    node->type = phrase::FOR_STATEMENT;
 
-                phrase_nodes[index+2]->parent = node;
-                phrase_nodes[index+4]->parent = node;
-                phrase_nodes[index+6]->parent = node;
+                    node->line = phrase_nodes[index]->line;
+                    node->column = phrase_nodes[index]->column;
 
-                node->children.add(phrase_nodes[index+2]);
-                node->children.add(phrase_nodes[index+4]);
-                node->children.add(phrase_nodes[index+6]);
+                    phrase_nodes[index+2]->parent = node;
+                    phrase_nodes[index+4]->parent = node;
+                    phrase_nodes[index+6]->parent = node;
+                    phrase_nodes[index+9]->parent = node;
 
-                node->err = error::NONE;
+                    node->children.add(phrase_nodes[index+2]);
+                    node->children.add(phrase_nodes[index+4]);
+                    node->children.add(phrase_nodes[index+6]);
+                    node->children.add(phrase_nodes[index+9]);
 
-                delete phrase_nodes[index];
-                delete phrase_nodes[index+1];
-                delete phrase_nodes[index+3];
-                delete phrase_nodes[index+5];
-                delete phrase_nodes[index+7];
-                phrase_nodes.replace(index, index+7, node);
+                    node->err = error::NONE;
 
-                return true;
+                    delete phrase_nodes[index];
+                    delete phrase_nodes[index+1];
+                    delete phrase_nodes[index+3];
+                    delete phrase_nodes[index+5];
+                    delete phrase_nodes[index+7];
+                    delete phrase_nodes[index+8];
+                    delete phrase_nodes[index+10];
+                    phrase_nodes.replace(index, index+10, node);
+
+                    return true;
+                }
+                else if (phrase_nodes.is_valid(index+9) &&
+                    (phrase_nodes[index+8]->type == ident::LBRACE) &&
+                    (phrase_nodes[index+9]->type == ident::RBRACE))
+                {
+                    phrase_t<CHAR>* node = new phrase_t<CHAR>();
+
+                    node->type = phrase::FOR_STATEMENT;
+
+                    node->line = phrase_nodes[index]->line;
+                    node->column = phrase_nodes[index]->column;
+
+                    phrase_nodes[index+2]->parent = node;
+                    phrase_nodes[index+4]->parent = node;
+                    phrase_nodes[index+6]->parent = node;
+
+                    node->children.add(phrase_nodes[index+2]);
+                    node->children.add(phrase_nodes[index+4]);
+                    node->children.add(phrase_nodes[index+6]);
+
+                    node->err = error::NONE;
+
+                    delete phrase_nodes[index];
+                    delete phrase_nodes[index+1];
+                    delete phrase_nodes[index+3];
+                    delete phrase_nodes[index+5];
+                    delete phrase_nodes[index+7];
+                    delete phrase_nodes[index+8];
+                    delete phrase_nodes[index+9];
+                    phrase_nodes.replace(index, index+9, node);
+
+                    return true;
+                }
+                if (phrase_nodes.is_valid(index+8))
+                {
+                    if (phrase_nodes[index+8]->type == phrase::STATEMENT)
+                    {
+                        phrase_t<CHAR>* node = new phrase_t<CHAR>();
+
+                        node->type = phrase::FOR_STATEMENT;
+
+                        node->line = phrase_nodes[index]->line;
+                        node->column = phrase_nodes[index]->column;
+
+                        phrase_nodes[index+2]->parent = node;
+                        phrase_nodes[index+4]->parent = node;
+                        phrase_nodes[index+6]->parent = node;
+                        phrase_nodes[index+8]->parent = node;
+
+                        node->children.add(phrase_nodes[index+2]);
+                        node->children.add(phrase_nodes[index+4]);
+                        node->children.add(phrase_nodes[index+6]);
+                        node->children.add(phrase_nodes[index+8]);
+
+                        node->err = error::NONE;
+
+                        delete phrase_nodes[index];
+                        delete phrase_nodes[index+1];
+                        delete phrase_nodes[index+3];
+                        delete phrase_nodes[index+5];
+                        delete phrase_nodes[index+7];
+                        phrase_nodes.replace(index, index+8, node);
+
+                        return true;
+                    }
+                    else if (phrase_nodes[index+8]->type == ident::SEMICOLON)
+                    {
+                        phrase_t<CHAR>* node = new phrase_t<CHAR>();
+
+                        node->type = phrase::FOR_STATEMENT;
+
+                        node->line = phrase_nodes[index]->line;
+                        node->column = phrase_nodes[index]->column;
+
+                        phrase_nodes[index+2]->parent = node;
+                        phrase_nodes[index+4]->parent = node;
+                        phrase_nodes[index+6]->parent = node;
+
+                        node->children.add(phrase_nodes[index+2]);
+                        node->children.add(phrase_nodes[index+4]);
+                        node->children.add(phrase_nodes[index+6]);
+
+                        node->err = error::NONE;
+
+                        delete phrase_nodes[index];
+                        delete phrase_nodes[index+1];
+                        delete phrase_nodes[index+3];
+                        delete phrase_nodes[index+5];
+                        delete phrase_nodes[index+7];
+                        delete phrase_nodes[index+8];
+                        phrase_nodes.replace(index, index+8, node);
+
+                        return true;
+                    }
+                    else
+                        return false;
+                }
+                else
+                    return false;
             }
             else
                 return false;

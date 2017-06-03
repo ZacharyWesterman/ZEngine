@@ -15,12 +15,6 @@ statement	: boolexpr ;
 		| variable_decl
 		| return_statement
 
-for_statement	: "for" ( assignexpr ; boolexpr ; assignexpr ) statement
-		| "for" ( assignexpr ; boolexpr ; assignexpr ) { statement }
-		| "for" ( assignexpr ; boolexpr ; assignexpr ) { statementlist }
-		| "for" ( assignexpr ; boolexpr ; assignexpr ) { }
-		| "for" ( assignexpr ; boolexpr ; assignexpr ) ;
-
 foreach_statement:"for" "each" variable "in" variable statement
 		| "for" "each" variable "in" variable { statement }
 		| "for" "each" variable "in" variable { statementlist }
@@ -71,6 +65,8 @@ globaldecl	: "global" assignexpr ;
 		| "global" variable ;
 
 externaldecl	: "external" variable ;
+
+shareddecl	: "shared" variable ;
 
 formalvardecl	: if#"function" IDENTIFIER (# "var" IDENTIFIER
 		| if#formalvardecl ,# "var" IDENTIFIER

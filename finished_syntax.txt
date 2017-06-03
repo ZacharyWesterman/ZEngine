@@ -96,3 +96,9 @@ else_statement	: "else" statement
 		| "else" { statementlist }
 		| "else" { }
 		| "else" ;
+
+for_statement	: "for" ( assignexpr ; boolexpr ; assignexpr ) statement
+		| "for" ( assignexpr ; boolexpr ; assignexpr ) { statement }
+		| "for" ( assignexpr ; boolexpr ; assignexpr ) { statementlist }
+		| "for" ( assignexpr ; boolexpr ; assignexpr ) { }
+		| "for" ( assignexpr ; boolexpr ; assignexpr ) ;

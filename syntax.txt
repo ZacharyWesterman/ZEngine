@@ -1,9 +1,3 @@
-foreach_statement:"for" "each" variable "in" variable statement
-		| "for" "each" variable "in" variable { statement }
-		| "for" "each" variable "in" variable { statementlist }
-		| "for" "each" variable "in" variable { }
-		| "for" "each" variable "in" variable ;
-
 loop_statement	: "loop" statement
 		| "loop" { statement }
 		| "loop" { statementlist }

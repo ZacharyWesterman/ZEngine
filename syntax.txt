@@ -3,7 +3,7 @@ statementlist	: statement statement
 
 statement	: boolexpr ;
 		| assignexpr ;
-		| command ;
+		| command
 		| if_statement
 		| else_statement
 		| for_statement
@@ -15,12 +15,6 @@ statement	: boolexpr ;
 		| typevar_decl
 		| variable_decl
 		| return_statement
-
-if_statement	: "if" ( boolexpr ) statement
-		| "if" ( boolexpr ) { statement }
-		| "if" ( boolexpr ) { statementlist }
-		| "if" ( boolexpr ) { }
-		| "if" ( boolexpr ) ;
 
 else_statement	: "else" statement
 		| "else" { statement }
@@ -60,7 +54,7 @@ while_post_stmt	: "loop" statement "while" ( boolexpr )
 
 run_statement	: "run" boolexpr ;
 
-return_statement: "return" variable ;
+return_statement: "return" boolexpr ;
 
 ext_declaration	: typedecl
 		| externaldecl

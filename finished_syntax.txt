@@ -83,3 +83,9 @@ identifierlist	: IDENTIFIER IDENTIFIER !;
 
 command		: IDENTIFIER list ;
 		: identifierlist list ;
+
+if_statement	: "if" ( boolexpr ) statement
+		| "if" ( boolexpr ) { statement }
+		| "if" ( boolexpr ) { statementlist }
+		| "if" ( boolexpr ) { }
+		| "if" ( boolexpr ) ;

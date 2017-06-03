@@ -151,6 +151,7 @@ namespace z
             bool statementlist();
             bool statement();
             bool if_statement();
+            bool for_statement();
             bool variable_decl();
             bool typevar_decl();
             bool _index();
@@ -258,6 +259,7 @@ namespace z
                              if_statement() ||
                              statement()    ||
                              statementlist()||
+                             for_statement()||
                              variable_decl()||
                              typevar_decl() ||
                              _index()       ||
@@ -432,7 +434,11 @@ namespace z
                    !(phrase_nodes.is_valid(index-1) &&
                      (phrase_nodes[index-1]->type == ident::OPER_ASSIGN))) ||
                   (phrase_nodes[index]->type == phrase::ASSIGNEXPR)) &&
-                (phrase_nodes[index+1]->type == ident::SEMICOLON))
+                (phrase_nodes[index+1]->type == ident::SEMICOLON) &&
+                !(phrase_nodes.is_valid(index-2) &&
+                  (phrase_nodes[index-2]->type == ident::KEYWORD_FOR)) &&
+                !(phrase_nodes.is_valid(index-4) &&
+                  (phrase_nodes[index-4]->type == ident::KEYWORD_FOR)))
             {
                 if (phrase_nodes[index]->orig_type == ident::NONE)
                     phrase_nodes[index]->orig_type = phrase_nodes[index]->type;
@@ -445,6 +451,13 @@ namespace z
             }
             else if ((phrase_nodes[index]->type == phrase::COMMAND) ||
                      (phrase_nodes[index]->type == phrase::IF_STATEMENT) ||
+                     (phrase_nodes[index]->type == phrase::FOR_STATEMENT) ||
+                     (phrase_nodes[index]->type == phrase::FOREACH_STATEMENT) ||
+                     (phrase_nodes[index]->type == phrase::LOOP_STATEMENT) ||
+                     (phrase_nodes[index]->type == phrase::WHILE_PRE_STMT) ||
+                     (phrase_nodes[index]->type == phrase::WHILE_POST_STMT) ||
+                     (phrase_nodes[index]->type == phrase::RUN_STATEMENT) ||
+                     (phrase_nodes[index]->type == phrase::RETURN_STATEMENT) ||
                      (phrase_nodes[index]->type == phrase::VARIABLE_DECL) ||
                      (phrase_nodes[index]->type == phrase::TYPEVAR_DECL))
             {
@@ -669,6 +682,49 @@ namespace z
                 }
                 else
                     return false;
+            }
+            else
+                return false;
+        }
+
+        template <typename CHAR>
+        bool lexer<CHAR>::for_statement()
+        {
+            if (phrase_nodes.is_valid(index+7) &&
+                (phrase_nodes[index]->type == ident::KEYWORD_FOR) &&
+                (phrase_nodes[index+1]->type == ident::LPARENTH) &&
+                (phrase_nodes[index+2]->type == phrase::ASSIGNEXPR) &&
+                (phrase_nodes[index+3]->type == ident::SEMICOLON) &&
+                (phrase_nodes[index+4]->type == phrase::BOOLEXPR) &&
+                (phrase_nodes[index+5]->type == ident::SEMICOLON) &&
+                (phrase_nodes[index+6]->type == phrase::ASSIGNEXPR) &&
+                (phrase_nodes[index+7]->type == ident::RPARENTH))
+            {
+                phrase_t<CHAR>* node = new phrase_t<CHAR>();
+
+                node->type = phrase::FOR_STATEMENT;
+
+                node->line = phrase_nodes[index]->line;
+                node->column = phrase_nodes[index]->column;
+
+                phrase_nodes[index+2]->parent = node;
+                phrase_nodes[index+4]->parent = node;
+                phrase_nodes[index+6]->parent = node;
+
+                node->children.add(phrase_nodes[index+2]);
+                node->children.add(phrase_nodes[index+4]);
+                node->children.add(phrase_nodes[index+6]);
+
+                node->err = error::NONE;
+
+                delete phrase_nodes[index];
+                delete phrase_nodes[index+1];
+                delete phrase_nodes[index+3];
+                delete phrase_nodes[index+5];
+                delete phrase_nodes[index+7];
+                phrase_nodes.replace(index, index+7, node);
+
+                return true;
             }
             else
                 return false;

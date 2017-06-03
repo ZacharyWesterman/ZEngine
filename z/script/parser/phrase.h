@@ -61,6 +61,7 @@ namespace z
                 BOOLEXPR,
                 ASSIGNEXPR,
                 GENERALEXPR,
+                DIMENSIONEXPR,
 
                 LX_COUNT
             };

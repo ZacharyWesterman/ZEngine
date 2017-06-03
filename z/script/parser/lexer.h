@@ -45,7 +45,7 @@ namespace z
             "goto","gosub",
             "run","include",
             "break","return",
-            "exit",
+            "dim","exit",
             "wait","until",
             "var","type","function",
             "global","external","shared",
@@ -96,7 +96,8 @@ namespace z
             "addexpr",
             "boolexpr",
             "assignexpr",
-            "generalexpr"
+            "generalexpr",
+            "dimensionexpr",
         };
 
         namespace lex
@@ -172,6 +173,7 @@ namespace z
             bool addexpr();
             bool boolexpr();
             bool assignexpr();
+            bool dimensionexpr();
 
         public:
             lexer()
@@ -257,7 +259,6 @@ namespace z
                     else if (identifierlist()||
                              _command()     ||
                              if_statement() ||
-                             statement()    ||
                              statementlist()||
                              for_statement()||
                              variable_decl()||
@@ -279,7 +280,9 @@ namespace z
                              multiplyexpr() ||
                              addexpr()      ||
                              boolexpr()     ||
-                             assignexpr()
+                             assignexpr()   ||
+                             dimensionexpr()||
+                             statement()
                              )
                         did_concat = true;
                     else
@@ -1591,7 +1594,8 @@ namespace z
             if (phrase_nodes.is_valid(index+2) &&
                 (phrase_nodes[index]->type == phrase::VARIABLE) &&
                 (phrase_nodes[index+1]->type == ident::OPER_ASSIGN) &&
-                (phrase_nodes[index+2]->type == phrase::BOOLEXPR))
+                ((phrase_nodes[index+2]->type == phrase::BOOLEXPR) ||
+                 (phrase_nodes[index+2]->type == phrase::DIMENSIONEXPR)))
             {
                 phrase_t<CHAR>* node = new phrase_t<CHAR>();
 
@@ -1617,6 +1621,34 @@ namespace z
                 return false;
         }
 
+        template <typename CHAR>
+        bool lexer<CHAR>::dimensionexpr()
+        {
+            if (phrase_nodes.is_valid(index-1) &&
+                (phrase_nodes[index-1]->type == ident::KEYWORD_DIM) &&
+                (phrase_nodes[index]->type == phrase::BOOLEXPR))
+            {
+                phrase_t<CHAR>* node = new phrase_t<CHAR>();
+
+                node->type = phrase::DIMENSIONEXPR;
+
+                node->line = phrase_nodes[index]->line;
+                node->column = phrase_nodes[index]->column;
+
+                node->err = error::NONE;
+
+                phrase_nodes[index]->parent = node;
+
+                node->children.add(phrase_nodes[index]);
+
+                delete phrase_nodes[index-1];
+                phrase_nodes.replace(index-1, index, node);
+
+                return true;
+            }
+            else
+                return false;
+        }
 
         ///debug
         template <typename CHAR>

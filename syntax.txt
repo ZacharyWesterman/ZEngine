@@ -1,20 +1,3 @@
-statementlist	: statement statement
-		| statementlist statement
-
-statement	: boolexpr ;
-		| assignexpr ;
-		| command
-		| if_statement
-		| for_statement
-		| foreach_statement
-		| loop_statement
-		| while_pre_stmt
-		| while_post_stmt
-		| run_statement
-		| typevar_decl
-		| variable_decl
-		| return_statement
-
 foreach_statement:"for" "each" variable "in" variable statement
 		| "for" "each" variable "in" variable { statement }
 		| "for" "each" variable "in" variable { statementlist }

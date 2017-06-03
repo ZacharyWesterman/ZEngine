@@ -749,6 +749,8 @@ namespace z
                     current_ident.type = ident::KEYWORD_BREAK;
                 else if (current_symbol == "return")
                     current_ident.type = ident::KEYWORD_RETURN;
+                else if (current_symbol == "dim")
+                    current_ident.type = ident::KEYWORD_DIM;
                 else if (current_symbol == "exit")
                     current_ident.type = ident::KEYWORD_EXIT;
                 else if (current_symbol == "wait")

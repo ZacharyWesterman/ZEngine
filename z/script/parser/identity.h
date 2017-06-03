@@ -68,6 +68,7 @@ namespace z
                 KEYWORD_BREAK,  //28
                 KEYWORD_RETURN, //29
 
+                KEYWORD_DIM,
                 KEYWORD_EXIT,   //30
 
                 KEYWORD_WAIT,   //31

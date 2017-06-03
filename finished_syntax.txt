@@ -49,6 +49,7 @@ boolexpr	: "not" addexpr
 		| addexpr
 
 assignexpr	: var = boolexpr
+		| var = dimensionexpr
 
 variable_decl	: "var" IDENTIFIER ;
 
@@ -102,3 +103,22 @@ for_statement	: "for" ( assignexpr ; boolexpr ; assignexpr ) statement
 		| "for" ( assignexpr ; boolexpr ; assignexpr ) { statementlist }
 		| "for" ( assignexpr ; boolexpr ; assignexpr ) { }
 		| "for" ( assignexpr ; boolexpr ; assignexpr ) ;
+
+statement	: boolexpr ;
+		| assignexpr ;
+		| command
+		| if_statement
+		| for_statement
+		| foreach_statement
+		| loop_statement
+		| while_pre_stmt
+		| while_post_stmt
+		| run_statement
+		| typevar_decl
+		| variable_decl
+		| return_statement
+
+statementlist	: statement statement
+		| statementlist statement
+
+dimensionexpr	: "dim" boolexpr

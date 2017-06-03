@@ -22,7 +22,7 @@ int main(int argc, char* argv[])
 
     cout << "Input:\n\n";
 
-    cin >> c_in;
+    cin.getline(c_in, 128, '\n');
 
     /*core::sorted_array< core::string<char> > operators;
     operators.add("+");

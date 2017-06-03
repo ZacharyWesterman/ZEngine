@@ -401,6 +401,7 @@ namespace z
 
                 node->err = error::NONE;
 
+                delete phrase_nodes[index+2];
                 phrase_nodes.replace(index, index+2, node);
 
                 return true;
@@ -424,12 +425,14 @@ namespace z
                 node->line = phrase_nodes[index]->line;
                 node->column = phrase_nodes[index]->column;
 
-                phrase_nodes[index]->parent = node;
+                phrase_nodes[index+1]->parent = node;
 
-                node->children.add(phrase_nodes[index]);
+                node->children.add(phrase_nodes[index+1]);
 
                 node->err = error::NONE;
 
+                delete phrase_nodes[index];
+                delete phrase_nodes[index+2];
                 phrase_nodes.replace(index, index+2, node);
 
                 return true;
@@ -461,6 +464,7 @@ namespace z
 
                 node->err = error::NONE;
 
+                delete phrase_nodes[index+2];
                 phrase_nodes.replace(index, index+2, node);
 
                 return true;
@@ -490,6 +494,8 @@ namespace z
 
                 node->err = error::NONE;
 
+                delete phrase_nodes[index];
+                delete phrase_nodes[index+2];
                 phrase_nodes.replace(index, index+2, node);
 
                 return true;
@@ -553,6 +559,7 @@ namespace z
 
                 node->err = error::NONE;
 
+                delete phrase_nodes[index+1];
                 phrase_nodes.replace(index, index+2, node);
 
                 return true;
@@ -583,13 +590,17 @@ namespace z
 
                 node->err = error::NONE;
 
+                delete phrase_nodes[index];
+                delete phrase_nodes[index+2];
                 phrase_nodes.replace(index, index+2, node);
 
                 return true;
             }
             else if (phrase_nodes.is_valid(index+1) &&
                 (phrase_nodes[index]->type == ident::LBRACE) &&
-                (phrase_nodes[index+1]->type == ident::RBRACE))
+                (phrase_nodes[index+1]->type == ident::RBRACE) &&
+                !(phrase_nodes.is_valid(index-1) &&
+                  (phrase_nodes[index-1]->type == ident::RPARENTH)))
             {
                 phrase_t<CHAR>* node = new phrase_t<CHAR>();
 
@@ -600,6 +611,8 @@ namespace z
 
                 node->err = error::NONE;
 
+                delete phrase_nodes[index];
+                delete phrase_nodes[index+1];
                 phrase_nodes.replace(index, index+1, node);
 
                 return true;
@@ -633,6 +646,8 @@ namespace z
 
                 node->err = error::NONE;
 
+                delete phrase_nodes[index+1];
+                delete phrase_nodes[index+3];
                 phrase_nodes.replace(index, index+3, node);
 
                 return true;
@@ -655,6 +670,8 @@ namespace z
 
                 node->err = error::NONE;
 
+                delete phrase_nodes[index+1];
+                delete phrase_nodes[index+2];
                 phrase_nodes.replace(index, index+2, node);
 
                 return true;
@@ -686,6 +703,7 @@ namespace z
                 node->children.add(phrase_nodes[index]);
                 node->children.add(phrase_nodes[index+2]);
 
+                delete phrase_nodes[index+1];
                 phrase_nodes.replace(index, index+2, node);
 
                 return true;
@@ -755,6 +773,7 @@ namespace z
 
                 node->err = error::NONE;
 
+                delete phrase_nodes[index+1];
                 phrase_nodes.replace(index, index+2, node);
 
                 return true;
@@ -816,20 +835,23 @@ namespace z
         bool lexer<CHAR>::parenthexpr()
         {
 
-            if (phrase_nodes.is_valid(index+1) &&
-                phrase_nodes.is_valid(index-1) &&
-                (phrase_nodes[index-1]->type == ident::LPARENTH) &&
-                (phrase_nodes[index+1]->type == ident::RPARENTH) &&
-                (phrase_nodes[index]->type == phrase::BOOLEXPR) &&
-                     !(phrase_nodes.is_valid(index-2) &&
-                       ((phrase_nodes[index-2]->type == ident::IDENTIFIER))))
+            if (phrase_nodes.is_valid(index+2) &&
+                (phrase_nodes[index]->type == ident::LPARENTH) &&
+                (phrase_nodes[index+2]->type == ident::RPARENTH) &&
+                (phrase_nodes[index+1]->type == phrase::BOOLEXPR) &&
+                     !(phrase_nodes.is_valid(index-1) &&
+                       ((phrase_nodes[index-1]->type == ident::IDENTIFIER) ||
+                        (phrase_nodes[index-1]->type == ident::KEYWORD_IF) ||
+                        (phrase_nodes[index-1]->type == ident::KEYWORD_WHILE))))
             {
-                if (phrase_nodes[index]->orig_type == ident::NONE)
-                    phrase_nodes[index]->orig_type = phrase_nodes[index]->type;
-                phrase_nodes[index]->type = phrase::PARENTHEXPR;
+                if (phrase_nodes[index+1]->orig_type == ident::NONE)
+                    phrase_nodes[index+1]->orig_type = phrase_nodes[index]->type;
+                phrase_nodes[index+1]->type = phrase::PARENTHEXPR;
 
-                phrase_nodes.remove(index+1);
-                phrase_nodes.remove(index-1);
+                delete phrase_nodes[index];
+                delete phrase_nodes[index+2];
+                phrase_nodes.remove(index+2);
+                phrase_nodes.remove(index);
 
                 return true;
             }
@@ -865,6 +887,7 @@ namespace z
 
                 phrase_nodes[index]->parent = node;
 
+                delete phrase_nodes[index+1];
                 phrase_nodes.replace(index, index+1, node);
 
                 return true;
@@ -904,6 +927,7 @@ namespace z
 
                 phrase_nodes[index]->parent = node;
 
+                delete phrase_nodes[index-1];
                 phrase_nodes.replace(index-1, index, node);
 
                 return true;
@@ -958,6 +982,7 @@ namespace z
                 node->children.add(phrase_nodes[index]);
                 node->children.add(phrase_nodes[index+2]);
 
+                delete phrase_nodes[index+1];
                 phrase_nodes.replace(index, index+2, node);
 
                 return true;
@@ -1142,6 +1167,7 @@ namespace z
                 node->children.add(phrase_nodes[index]);
                 node->children.add(phrase_nodes[index+2]);
 
+                delete phrase_nodes[index+1];
                 phrase_nodes.replace(index, index+2, node);
 
                 return true;

@@ -69,8 +69,13 @@ namespace z
             "statementlist",
             "statement",
             "if_statement",
-            "else_statement",
             "for_statement",
+            "foreach_statement",
+            "loop_statement",
+            "while_pre_stmt",
+            "while_post_stmt",
+            "run_statement",
+            "return_statement",
             "variable_decl",
             "typevar_decl",
             "index",
@@ -250,9 +255,9 @@ namespace z
 
                     else if (identifierlist()||
                              _command()     ||
+                             if_statement() ||
                              statement()    ||
                              statementlist()||
-                             if_statement() ||
                              variable_decl()||
                              typevar_decl() ||
                              _index()       ||
@@ -604,6 +609,67 @@ namespace z
                 else
                     return false;
             }
+            else if (phrase_nodes.is_valid(index+2) &&
+                     (phrase_nodes[index]->type == phrase::IF_STATEMENT) &&
+                     (phrase_nodes[index+1]->type == ident::KEYWORD_ELSE))
+            {
+                if (phrase_nodes.is_valid(index+4) &&
+                    (phrase_nodes[index+2]->type == ident::LBRACE) &&
+                    ((phrase_nodes[index+3]->type == phrase::STATEMENT) ||
+                     (phrase_nodes[index+3]->type == phrase::STATEMENTLIST)) &&
+                    (phrase_nodes[index+4]->type == ident::RBRACE))
+                {
+                    phrase_nodes[index+3]->parent = phrase_nodes[index];
+
+                    phrase_nodes[index]->children.add(phrase_nodes[index+3]);
+
+                    delete phrase_nodes[index+1];
+                    delete phrase_nodes[index+2];
+                    delete phrase_nodes[index+4];
+                    phrase_nodes.remove(index+4);
+                    phrase_nodes.remove(index+3);
+                    phrase_nodes.remove(index+2);
+                    phrase_nodes.remove(index+1);
+
+                    return true;
+                }
+                else if (phrase_nodes.is_valid(index+3) &&
+                         (phrase_nodes[index+2]->type == ident::LBRACE) &&
+                         (phrase_nodes[index+3]->type == ident::RBRACE))
+                {
+                    delete phrase_nodes[index+1];
+                    delete phrase_nodes[index+2];
+                    delete phrase_nodes[index+3];
+                    phrase_nodes.remove(index+3);
+                    phrase_nodes.remove(index+2);
+                    phrase_nodes.remove(index+1);
+
+                    return true;
+                }
+                else if (phrase_nodes[index+2]->type == phrase::STATEMENT)
+                {
+                    phrase_nodes[index+2]->parent = phrase_nodes[index];
+
+                    phrase_nodes[index]->children.add(phrase_nodes[index+2]);
+
+                    delete phrase_nodes[index+1];
+                    phrase_nodes.remove(index+2);
+                    phrase_nodes.remove(index+1);
+
+                    return true;
+                }
+                else if (phrase_nodes[index+2]->type == ident::SEMICOLON)
+                {
+                    delete phrase_nodes[index+1];
+                    delete phrase_nodes[index+2];
+                    phrase_nodes.remove(index+2);
+                    phrase_nodes.remove(index+1);
+
+                    return true;
+                }
+                else
+                    return false;
+            }
             else
                 return false;
         }
@@ -798,7 +864,8 @@ namespace z
                 (phrase_nodes[index]->type == ident::LBRACE) &&
                 (phrase_nodes[index+1]->type == ident::RBRACE) &&
                 !(phrase_nodes.is_valid(index-1) &&
-                  (phrase_nodes[index-1]->type == ident::RPARENTH)))
+                  ((phrase_nodes[index-1]->type == ident::RPARENTH) ||
+                   (phrase_nodes[index-1]->type == ident::KEYWORD_ELSE))))
             {
                 phrase_t<CHAR>* node = new phrase_t<CHAR>();
 

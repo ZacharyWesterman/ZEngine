@@ -5,7 +5,6 @@ statement	: boolexpr ;
 		| assignexpr ;
 		| command
 		| if_statement
-		| else_statement
 		| for_statement
 		| foreach_statement
 		| loop_statement
@@ -15,12 +14,6 @@ statement	: boolexpr ;
 		| typevar_decl
 		| variable_decl
 		| return_statement
-
-else_statement	: "else" statement
-		| "else" { statement }
-		| "else" { statementlist }
-		| "else" { }
-		| "else" ;
 
 for_statement	: "for" ( assignexpr ; boolexpr ; assignexpr ) statement
 		| "for" ( assignexpr ; boolexpr ; assignexpr ) { statement }

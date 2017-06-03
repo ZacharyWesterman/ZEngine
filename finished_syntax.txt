@@ -77,3 +77,6 @@ operand		: variable
 		| type_funccall
 		| funccall
 		| list
+
+identifierlist	: IDENTIFIER IDENTIFIER !;
+		| identifierlist IDENTIFIER

@@ -28,7 +28,8 @@ namespace z
         {
             enum phrase_enum
             {
-                VARIABLE_DECL = ident::ID_COUNT,
+                IDENTIFIERLIST = ident::ID_COUNT,
+                VARIABLE_DECL,
                 TYPEVAR_DECL,
                 INDEX,
                 INDEXLIST,

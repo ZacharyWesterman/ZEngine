@@ -1,15 +1,11 @@
-type_funccall	: IDENTIFIER . funccall
-
-identifierlist	: IDENTIFIER IDENTIFIER !;
-		| identifierlist IDENTIFIER
-
 command		: IDENTIFIER list ;
 		: identifierlist list ;
 
 statementlist	: statement statement
 		| statementlist statement
 
-statement	: generalexpr ;
+statement	: boolexpr ;
+		| assignexpr ;
 		| command ;
 		| if_statement
 		| else_statement

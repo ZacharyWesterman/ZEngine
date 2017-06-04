@@ -504,7 +504,10 @@ namespace z
                      (phrase_nodes[index]->type == phrase::WAIT_STATEMENT) ||
                      (phrase_nodes[index]->type == phrase::UNTIL_STATEMENT) ||
                      (phrase_nodes[index]->type == phrase::VARIABLE_DECL) ||
-                     (phrase_nodes[index]->type == phrase::TYPEVAR_DECL))
+                     (phrase_nodes[index]->type == phrase::TYPEVAR_DECL) ||
+                     (phrase_nodes[index]->type == phrase::LABEL_STATEMENT) ||
+                     (phrase_nodes[index]->type == phrase::GOTO_STATEMENT) ||
+                     (phrase_nodes[index]->type == phrase::GOSUB_STATEMENT))
             {
                 if (phrase_nodes[index]->orig_type == ident::NONE)
                     phrase_nodes[index]->orig_type = phrase_nodes[index]->type;

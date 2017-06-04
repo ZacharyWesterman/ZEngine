@@ -120,6 +120,9 @@ statement	: boolexpr ;
 		| typevar_decl
 		| variable_decl
 		| return_statement
+		| label_statement
+		| goto_statement
+		| gosub_statement
 
 statementlist	: statement statement
 		| statementlist statement

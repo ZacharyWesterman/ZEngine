@@ -2302,10 +2302,11 @@
 
 1491800855 /home/zwesterman/GitHub/zLibraries/z/math/matrix.h
 
-1496534919 /home/zwesterman/GitHub/ZEngine/z/script/parser/scanner.h
+1496550013 /home/zwesterman/GitHub/ZEngine/z/script/parser/scanner.h
 	<z/core/sorted_array.h>
 	<z/core/string.h>
 	<z/core/timeout.h>
+	<z/core/dynamicStack.h>
 	"escape_sequences.h"
 	"identity.h"
 
@@ -2317,7 +2318,7 @@
 	<z/core/string.h>
 	"../errors.h"
 
-1496355351 /home/zwesterman/GitHub/ZEngine/z/script/errors.h
+1496549877 /home/zwesterman/GitHub/ZEngine/z/script/errors.h
 
 1492812797 /home/zwesterman/GitHub/zLibraries/z/core/timeout.h
 	"timer.h"
@@ -2347,14 +2348,14 @@
 	"lexer.h"
 	<iostream>
 
-1496535326 /home/zwesterman/GitHub/ZEngine/z/script/parser/lexer.h
+1496550892 /home/zwesterman/GitHub/ZEngine/z/script/parser/lexer.h
 	<z/core/timeout.h>
 	<z/core/array.h>
 	<z/core/dynamicStack.h>
 	"phrase.h"
 	<iostream>
 
-1496535032 /home/zwesterman/GitHub/ZEngine/z/script/parser/phrase.h
+1496548261 /home/zwesterman/GitHub/ZEngine/z/script/parser/phrase.h
 	<z/core/array.h>
 	"identity.h"
 

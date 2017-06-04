@@ -155,6 +155,7 @@ namespace z
             bool if_statement();
             bool for_statement();
             bool foreach_statement();
+            bool loop_statement();
             bool variable_decl();
             bool typevar_decl();
             bool _index();
@@ -264,6 +265,7 @@ namespace z
                              statementlist()||
                              for_statement()||
                              foreach_statement()||
+                             loop_statement()||
                              variable_decl()||
                              typevar_decl() ||
                              _index()       ||
@@ -383,7 +385,7 @@ namespace z
                     node->children.add(phrase_nodes[index]);
                     node->children.add(phrase_nodes[index+1]);
 
-                    node->err = error::NONE;
+
 
                     phrase_nodes.replace(index, index+1, node);
 
@@ -425,7 +427,7 @@ namespace z
                 node->children.add(phrase_nodes[index]);
                 node->children.add(phrase_nodes[index+1]);
 
-                node->err = error::NONE;
+
 
                 delete phrase_nodes[index+2];
                 phrase_nodes.replace(index, index+2, node);
@@ -504,7 +506,7 @@ namespace z
                 node->children.add(phrase_nodes[index]);
                 node->children.add(phrase_nodes[index+1]);
 
-                node->err = error::NONE;
+
 
                 phrase_nodes.replace(index, index+1, node);
 
@@ -542,7 +544,7 @@ namespace z
                     node->children.add(phrase_nodes[index+2]);
                     node->children.add(phrase_nodes[index+5]);
 
-                    node->err = error::NONE;
+
 
                     delete phrase_nodes[index];
                     delete phrase_nodes[index+1];
@@ -568,7 +570,7 @@ namespace z
 
                     node->children.add(phrase_nodes[index+2]);
 
-                    node->err = error::NONE;
+
 
                     delete phrase_nodes[index];
                     delete phrase_nodes[index+1];
@@ -596,7 +598,7 @@ namespace z
                         node->children.add(phrase_nodes[index+2]);
                         node->children.add(phrase_nodes[index+4]);
 
-                        node->err = error::NONE;
+
 
                         delete phrase_nodes[index];
                         delete phrase_nodes[index+1];
@@ -618,7 +620,7 @@ namespace z
 
                         node->children.add(phrase_nodes[index+2]);
 
-                        node->err = error::NONE;
+
 
                         delete phrase_nodes[index];
                         delete phrase_nodes[index+1];
@@ -744,7 +746,7 @@ namespace z
                     node->children.add(phrase_nodes[index+6]);
                     node->children.add(phrase_nodes[index+9]);
 
-                    node->err = error::NONE;
+
 
                     delete phrase_nodes[index];
                     delete phrase_nodes[index+1];
@@ -776,7 +778,7 @@ namespace z
                     node->children.add(phrase_nodes[index+4]);
                     node->children.add(phrase_nodes[index+6]);
 
-                    node->err = error::NONE;
+
 
                     delete phrase_nodes[index];
                     delete phrase_nodes[index+1];
@@ -810,7 +812,7 @@ namespace z
                         node->children.add(phrase_nodes[index+6]);
                         node->children.add(phrase_nodes[index+8]);
 
-                        node->err = error::NONE;
+
 
                         delete phrase_nodes[index];
                         delete phrase_nodes[index+1];
@@ -838,7 +840,7 @@ namespace z
                         node->children.add(phrase_nodes[index+4]);
                         node->children.add(phrase_nodes[index+6]);
 
-                        node->err = error::NONE;
+
 
                         delete phrase_nodes[index];
                         delete phrase_nodes[index+1];
@@ -886,7 +888,7 @@ namespace z
                     node->children.add(phrase_nodes[index+2]);
                     node->children.add(phrase_nodes[index+4]);
 
-                    node->err = error::NONE;
+
 
                     delete phrase_nodes[index];
                     delete phrase_nodes[index+1];
@@ -913,7 +915,7 @@ namespace z
                     node->children.add(phrase_nodes[index+4]);
                     node->children.add(phrase_nodes[index+5]);
 
-                    node->err = error::NONE;
+
 
                     delete phrase_nodes[index];
                     delete phrase_nodes[index+1];
@@ -939,7 +941,7 @@ namespace z
                     node->children.add(phrase_nodes[index+2]);
                     node->children.add(phrase_nodes[index+4]);
 
-                    node->err = error::NONE;
+
 
                     delete phrase_nodes[index];
                     delete phrase_nodes[index+1];
@@ -971,7 +973,7 @@ namespace z
                     node->children.add(phrase_nodes[index+4]);
                     node->children.add(phrase_nodes[index+6]);
 
-                    node->err = error::NONE;
+
 
                     delete phrase_nodes[index];
                     delete phrase_nodes[index+1];
@@ -979,6 +981,110 @@ namespace z
                     delete phrase_nodes[index+5];
                     delete phrase_nodes[index+7];
                     phrase_nodes.replace(index, index+7, node);
+
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        template <typename CHAR>
+        bool lexer<CHAR>::loop_statement()
+        {
+            if (phrase_nodes.is_valid(index+3) &&
+                (phrase_nodes[index]->type == ident::KEYWORD_LOOP) &&
+                (phrase_nodes[index+1]->type == ident::LBRACE) &&
+                ((phrase_nodes[index+2]->type == phrase::STATEMENT) ||
+                 (phrase_nodes[index+2]->type == phrase::STATEMENTLIST)) &&
+                (phrase_nodes[index+3]->type == ident::RBRACE) &&
+                !(phrase_nodes.is_valid(index+4) &&
+                  (phrase_nodes[index+4]->type == ident::KEYWORD_WHILE)))
+            {
+                phrase_t<CHAR>* node = new phrase_t<CHAR>();
+
+                node->type = phrase::LOOP_STATEMENT;
+
+                node->line = phrase_nodes[index]->line;
+                node->column = phrase_nodes[index]->column;
+
+                phrase_nodes[index+2]->parent = node;
+
+                node->children.add(phrase_nodes[index+2]);
+
+
+
+                delete phrase_nodes[index];
+                delete phrase_nodes[index+1];
+                delete phrase_nodes[index+3];
+                phrase_nodes.replace(index, index+3, node);
+
+                return true;
+
+            }
+            else if (phrase_nodes.is_valid(index+2) &&
+                (phrase_nodes[index]->type == ident::KEYWORD_LOOP) &&
+                (phrase_nodes[index+1]->type == ident::LBRACE) &&
+                (phrase_nodes[index+2]->type == ident::RBRACE) &&
+                !(phrase_nodes.is_valid(index+3) &&
+                  (phrase_nodes[index+3]->type == ident::KEYWORD_WHILE)))
+            {
+                phrase_t<CHAR>* node = new phrase_t<CHAR>();
+
+                node->type = phrase::LOOP_STATEMENT;
+
+                node->line = phrase_nodes[index]->line;
+                node->column = phrase_nodes[index]->column;
+
+
+
+                delete phrase_nodes[index];
+                delete phrase_nodes[index+1];
+                delete phrase_nodes[index+2];
+                phrase_nodes.replace(index, index+2, node);
+
+                return true;
+
+            }
+            else if (phrase_nodes.is_valid(index+1) &&
+                (phrase_nodes[index]->type == ident::KEYWORD_LOOP) &&
+                !(phrase_nodes.is_valid(index+2) &&
+                  (phrase_nodes[index+2]->type == ident::KEYWORD_WHILE)))
+            {
+                if (phrase_nodes[index+1]->type == ident::SEMICOLON)
+                {
+                    phrase_t<CHAR>* node = new phrase_t<CHAR>();
+
+                    node->type = phrase::LOOP_STATEMENT;
+
+                    node->line = phrase_nodes[index]->line;
+                    node->column = phrase_nodes[index]->column;
+
+
+
+                    delete phrase_nodes[index];
+                    delete phrase_nodes[index+1];
+                    phrase_nodes.replace(index, index+1, node);
+
+                    return true;
+                }
+                else if (phrase_nodes[index+1]->type == phrase::STATEMENT)
+                {
+                    phrase_t<CHAR>* node = new phrase_t<CHAR>();
+
+                    node->type = phrase::LOOP_STATEMENT;
+
+                    node->line = phrase_nodes[index]->line;
+                    node->column = phrase_nodes[index]->column;
+
+                    phrase_nodes[index+1]->parent = node;
+
+                    node->children.add(phrase_nodes[index+1]);
+
+
+
+                    delete phrase_nodes[index];
+                    phrase_nodes.replace(index, index+1, node);
 
                     return true;
                 }
@@ -1006,7 +1112,7 @@ namespace z
 
                 node->children.add(phrase_nodes[index+1]);
 
-                node->err = error::NONE;
+
 
                 delete phrase_nodes[index];
                 delete phrase_nodes[index+2];
@@ -1039,7 +1145,7 @@ namespace z
                 node->children.add(phrase_nodes[index]);
                 node->children.add(phrase_nodes[index+1]);
 
-                node->err = error::NONE;
+
 
                 delete phrase_nodes[index+2];
                 phrase_nodes.replace(index, index+2, node);
@@ -1069,7 +1175,7 @@ namespace z
 
                 node->children.add(phrase_nodes[index+1]);
 
-                node->err = error::NONE;
+
 
                 delete phrase_nodes[index];
                 delete phrase_nodes[index+2];
@@ -1102,7 +1208,7 @@ namespace z
                 node->children.add(phrase_nodes[index-1]);
                 node->children.add(phrase_nodes[index]);
 
-                node->err = error::NONE;
+
 
                 phrase_nodes.replace(index-1, index, node);
 
@@ -1134,7 +1240,7 @@ namespace z
                 node->children.add(phrase_nodes[index]);
                 node->children.add(phrase_nodes[index+2]);
 
-                node->err = error::NONE;
+
 
                 delete phrase_nodes[index+1];
                 phrase_nodes.replace(index, index+2, node);
@@ -1168,7 +1274,7 @@ namespace z
 
                     node->children.add(phrase_nodes[index+1]);
 
-                    node->err = error::NONE;
+
 
                     delete phrase_nodes[index];
                     delete phrase_nodes[index+2];
@@ -1191,7 +1297,7 @@ namespace z
                     node->line = phrase_nodes[index]->line;
                     node->column = phrase_nodes[index]->column;
 
-                    node->err = error::NONE;
+
 
                     delete phrase_nodes[index];
                     delete phrase_nodes[index+1];
@@ -1227,7 +1333,7 @@ namespace z
                 node->children.add(phrase_nodes[index]);
                 node->children.add(phrase_nodes[index+2]);
 
-                node->err = error::NONE;
+
 
                 delete phrase_nodes[index+1];
                 delete phrase_nodes[index+3];
@@ -1251,7 +1357,7 @@ namespace z
 
                 node->children.add(phrase_nodes[index]);
 
-                node->err = error::NONE;
+
 
                 delete phrase_nodes[index+1];
                 delete phrase_nodes[index+2];
@@ -1278,7 +1384,7 @@ namespace z
                 node->line = phrase_nodes[index]->line;
                 node->column = phrase_nodes[index]->column;
 
-                node->err = error::NONE;
+
 
                 phrase_nodes[index]->parent = node;
                 phrase_nodes[index+2]->parent = node;
@@ -1317,7 +1423,7 @@ namespace z
                 node->children.add(phrase_nodes[index]);
                 node->children.add(phrase_nodes[index+1]);
 
-                node->err = error::NONE;
+
 
                 phrase_nodes.replace(index, index+1, node);
 
@@ -1354,7 +1460,7 @@ namespace z
                 node->children.add(phrase_nodes[index]);
                 node->children.add(phrase_nodes[index+2]);
 
-                node->err = error::NONE;
+
 
                 delete phrase_nodes[index+1];
                 phrase_nodes.replace(index, index+2, node);
@@ -1472,7 +1578,7 @@ namespace z
 
                 node->children.add(phrase_nodes[index]);
 
-                node->err = error::NONE;
+
 
                 phrase_nodes[index]->parent = node;
 
@@ -1512,7 +1618,7 @@ namespace z
 
                 node->children.add(phrase_nodes[index]);
 
-                node->err = error::NONE;
+
 
                 phrase_nodes[index]->parent = node;
 
@@ -1563,7 +1669,7 @@ namespace z
                 node->line = phrase_nodes[index]->line;
                 node->column = phrase_nodes[index]->column;
 
-                node->err = error::NONE;
+
 
                 phrase_nodes[index]->parent = node;
                 phrase_nodes[index+2]->parent = node;
@@ -1613,7 +1719,7 @@ namespace z
                 node->line = phrase_nodes[index]->line;
                 node->column = phrase_nodes[index]->column;
 
-                node->err = error::NONE;
+
 
                 phrase_nodes[index]->parent = node;
                 phrase_nodes[index+1]->parent = node;
@@ -1664,7 +1770,7 @@ namespace z
                 node->line = phrase_nodes[index]->line;
                 node->column = phrase_nodes[index]->column;
 
-                node->err = error::NONE;
+
 
                 phrase_nodes[index]->parent = node;
                 phrase_nodes[index+1]->parent = node;
@@ -1715,7 +1821,7 @@ namespace z
                 node->line = phrase_nodes[index]->line;
                 node->column = phrase_nodes[index]->column;
 
-                node->err = error::NONE;
+
 
                 phrase_nodes[index]->parent = node;
                 phrase_nodes[index+1]->parent = node;
@@ -1749,7 +1855,7 @@ namespace z
                 node->line = phrase_nodes[index]->line;
                 node->column = phrase_nodes[index]->column;
 
-                node->err = error::NONE;
+
 
                 phrase_nodes[index]->parent = node;
                 phrase_nodes[index+2]->parent = node;
@@ -1780,7 +1886,7 @@ namespace z
                 node->line = phrase_nodes[index]->line;
                 node->column = phrase_nodes[index]->column;
 
-                node->err = error::NONE;
+
 
                 phrase_nodes[index]->parent = node;
 

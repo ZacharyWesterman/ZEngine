@@ -130,4 +130,8 @@ foreach_statement:"for" "each" variable "in" variable statement
 		| "for" "each" variable "in" variable { }
 		| "for" "each" variable "in" variable ;
 
-
+loop_statement	: "loop" statement !"while"
+		| "loop" { statement } !"while"
+		| "loop" { statementlist } !"while"
+		| "loop" { } !"while"
+		| "loop" ; !"while"

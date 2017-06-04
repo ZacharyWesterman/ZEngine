@@ -1,9 +1,3 @@
-loop_statement	: "loop" statement
-		| "loop" { statement }
-		| "loop" { statementlist }
-		| "loop" { }
-		| "loop" ;
-
 while_pre_stmt	: "loop" "while" ( boolexpr ) statement
 		| "loop" "while" ( boolexpr ) { statement }
 		| "loop" "while" ( boolexpr ) { statementlist }

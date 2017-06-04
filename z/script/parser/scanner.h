@@ -896,33 +896,21 @@ namespace z
             if (current_ident.type == ident::IDENTIFIER)
             {
                 if (current_symbol == "and")
-                {
                     current_ident.type = ident::OPER_AND_LGCL;
-                }
                 else if (current_symbol == "or")
-                {
                     current_ident.type = ident::OPER_OR_LGCL;
-                }
                 else if (current_symbol == "xor")
-                {
                     current_ident.type = ident::OPER_XOR_LGCL;
-                }
                 else if (current_symbol == "nxor")
-                {
                     current_ident.type = ident::OPER_NXOR_LGCL;
-                }
                 else if (current_symbol == "nand")
-                {
                     current_ident.type = ident::OPER_NAND_LGCL;
-                }
                 else if (current_symbol == "nor")
-                {
                     current_ident.type = ident::OPER_NOR_LGCL;
-                }
                 else if (current_symbol == "not")
-                {
                     current_ident.type = ident::OPER_NOT_LGCL;
-                }
+                else if (current_symbol == "sizeof")
+                    current_ident.type = ident::OPER_SIZEOF;
             }
         }
 

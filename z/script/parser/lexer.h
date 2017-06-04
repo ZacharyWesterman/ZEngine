@@ -52,6 +52,7 @@ namespace z
             "=",
             "+","-",
             "++","--",
+            "sizeof",
             "*","/","//","%",
             "^","!",
             "and","&",
@@ -96,8 +97,8 @@ namespace z
             "addexpr",
             "boolexpr",
             "assignexpr",
-            "generalexpr",
             "dimensionexpr",
+            "sizeofexpr"
         };
 
         namespace lex
@@ -1178,7 +1179,8 @@ namespace z
                     (phrase_nodes[index+1]->type == ident::RBRACE) &&
                     !(phrase_nodes.is_valid(index-1) &&
                       ((phrase_nodes[index-1]->type == ident::RPARENTH) ||
-                       (phrase_nodes[index-1]->type == ident::KEYWORD_ELSE))))
+                       (phrase_nodes[index-1]->type == ident::KEYWORD_ELSE) ||
+                       (phrase_nodes[index-1]->type == ident::KEYWORD_LOOP))))
                 {
                     phrase_t<CHAR>* node = new phrase_t<CHAR>();
 
@@ -1439,7 +1441,8 @@ namespace z
 
                 return true;
             }
-            else if (phrase_nodes[index]->type == phrase::OPERAND)
+            else if ((phrase_nodes[index]->type == phrase::OPERAND) ||
+                     (phrase_nodes[index]->type == phrase::SIZEOFEXPR))
             {
                 if (phrase_nodes[index]->orig_type == ident::NONE)
                     phrase_nodes[index]->orig_type = phrase_nodes[index]->type;

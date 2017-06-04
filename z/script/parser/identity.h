@@ -90,6 +90,8 @@ namespace z
                 OPER_ADD1,      //39
                 OPER_SUB1,      //40
 
+                OPER_SIZEOF,
+
                 OPER_MUL,       //41
                 OPER_DIV,       //42
                 OPER_IDIV,      //43

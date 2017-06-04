@@ -61,3 +61,9 @@ function_decl	: "function" IDENTIFIER (  ) { (statementlist or statement) }
 		| "function" IDENTIFIER ( formaltypedecl ) { (statementlist or statement) }
 		| "function" IDENTIFIER ( formaldecllist ) { (statementlist or statement) }
 
+wait_statement	: "wait" boolexpr ;
+
+until_statement	: "wait" "until" boolexpr ;
+
+sizeofexpr	: "sizeof" ( boolexpr )
+

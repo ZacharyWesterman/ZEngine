@@ -60,8 +60,8 @@ namespace z
                 ADDEXPR,
                 BOOLEXPR,
                 ASSIGNEXPR,
-                GENERALEXPR,
                 DIMENSIONEXPR,
+                SIZEOFEXPR,
 
                 LX_COUNT
             };

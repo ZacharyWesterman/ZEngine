@@ -14,13 +14,21 @@ run_statement	: "run" boolexpr ;
 
 return_statement: "return" boolexpr ;
 
-ext_declaration	: typedecl
+wait_statement	: "wait" boolexpr ;
+
+until_statement	: "wait" "until" boolexpr ;
+
+sizeofexpr	: "sizeof" ( boolexpr )
+
+
+ext_declaration	: function_decl
+		| typedecl
 		| externaldecl
 		| globaldecl
+		| shareddecl
 
-decllist	: declaration declaration
-		| decllist declaration
-		| declaration
+ext_decllist	: ext_declaration ext_declaration
+		| ext_decllist ext_declaration
 
 int_declaration	: variable_decl
 		| typevar_decl
@@ -37,7 +45,8 @@ globaldecl	: "global" assignexpr ;
 
 externaldecl	: "external" variable ;
 
-shareddecl	: "shared" variable ;
+shareddecl	: "shared" assignexpr ;
+		| "shared" variable ;
 
 formalvardecl	: if#"function" IDENTIFIER (# "var" IDENTIFIER
 		| if#formalvardecl ,# "var" IDENTIFIER
@@ -54,10 +63,5 @@ function_decl	: "function" IDENTIFIER (  ) { (statementlist or statement) }
 		| "function" IDENTIFIER ( formalvardecl ) { (statementlist or statement) }
 		| "function" IDENTIFIER ( formaltypedecl ) { (statementlist or statement) }
 		| "function" IDENTIFIER ( formaldecllist ) { (statementlist or statement) }
-
-wait_statement	: "wait" boolexpr ;
-
-until_statement	: "wait" "until" boolexpr ;
-
-sizeofexpr	: "sizeof" ( boolexpr )
+		| "function" IDENTIFIER ( ) { }
 

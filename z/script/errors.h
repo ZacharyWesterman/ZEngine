@@ -37,12 +37,19 @@ namespace z
                 INVALID_INCLUDE,
                 INCLUDE_LOAD_FAILED,
 
+                MISSING_L_PARENTH,
+                MISSING_R_PARENTH,
+
+                MISSING_L_BRACKET,
+                MISSING_R_BRACKET,
+
+                MISSING_L_BRACE,
+                MISSING_R_BRACE,
+
                 DIV_BY_ZERO,
                 INVALID_CHARACTER,
                 MISSING_OPERAND,
                 INVALID_OPERATION,
-                MISSING_L_PARENTH,
-                MISSING_R_PARENTH,
                 TOO_FEW_PARAMS,
                 TOO_MANY_PARAMS,
                 INVALID_PARAM,

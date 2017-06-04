@@ -21,6 +21,7 @@
 #include <z/core/string.h>
 
 #include <z/core/timeout.h>
+#include <z/core/dynamicStack.h>
 
 #include "escape_sequences.h"
 #include "identity.h"
@@ -39,6 +40,8 @@ namespace z
         private:
             core::string<CHAR>* input;
             core::array< ident_t<CHAR> >* identifiers;
+
+            core::dynamic_stack< int > open_symbol_indices;
 
             int index;
 
@@ -87,6 +90,7 @@ namespace z
             void clear()
             {
                 current_symbol.clear();
+                open_symbol_indices.dump();
 
                 index = 0;
 
@@ -328,28 +332,85 @@ namespace z
                     else if (input->at(index) == (CHAR)40)
                     {
                         newIdent = ident::LPARENTH;
+
+                        open_symbol_indices.push(index);
                     }
                     else if (input->at(index) == (CHAR)41)
                     {
                         newIdent = ident::RPARENTH;
+
+                        int i;
+                        if (!open_symbol_indices.pop(i))
+                        {
+                            current_ident.err = error::MISSING_L_PARENTH;
+                            found_error = true;
+                        }
+                        else if (input->at(i) == (CHAR)91)
+                        {
+                            current_ident.err = error::MISSING_R_BRACKET;
+                            found_error = true;
+                        }
+                        else if (input->at(i) == (CHAR)123)
+                        {
+                            current_ident.err = error::MISSING_R_BRACE;
+                            found_error = true;
+                        }
                     }
                     //brackets
                     else if (input->at(index) == (CHAR)91)
                     {
                         newIdent = ident::LBRACKET;
+
+                        open_symbol_indices.push(index);
                     }
                     else if (input->at(index) == (CHAR)93)
                     {
                         newIdent = ident::RBRACKET;
+
+                        int i;
+                        if (!open_symbol_indices.pop(i))
+                        {
+                            current_ident.err = error::MISSING_L_BRACKET;
+                            found_error = true;
+                        }
+                        else if (input->at(i) == (CHAR)40)
+                        {
+                            current_ident.err = error::MISSING_R_PARENTH;
+                            found_error = true;
+                        }
+                        else if (input->at(i) == (CHAR)123)
+                        {
+                            current_ident.err = error::MISSING_R_BRACE;
+                            found_error = true;
+                        }
                     }
                     //curly braces
                     else if (input->at(index) == (CHAR)123)
                     {
                         newIdent = ident::LBRACE;
+
+                        open_symbol_indices.push(index);
                     }
                     else if (input->at(index) == (CHAR)125)
                     {
                         newIdent = ident::RBRACE;
+
+                        int i;
+                        if (!open_symbol_indices.pop(i))
+                        {
+                            current_ident.err = error::MISSING_L_BRACE;
+                            found_error = true;
+                        }
+                        else if (input->at(i) == (CHAR)91)
+                        {
+                            current_ident.err = error::MISSING_R_BRACKET;
+                            found_error = true;
+                        }
+                        else if (input->at(i) == (CHAR)40)
+                        {
+                            current_ident.err = error::MISSING_R_PARENTH;
+                            found_error = true;
+                        }
                     }
                     //comma
                     else if (input->at(index) == (CHAR)44)
@@ -473,6 +534,27 @@ namespace z
 
             if (done)
             {
+                int i;
+                if (open_symbol_indices.pop(i))
+                {
+                    if (input->at(i) == (CHAR)40)
+                    {
+                        current_ident.err = error::MISSING_R_PARENTH;
+                        found_error = true;
+                    }
+                    else if (input->at(i) == (CHAR)91)
+                    {
+                        current_ident.err = error::MISSING_R_BRACKET;
+                        found_error = true;
+                    }
+                    else if (input->at(i) == (CHAR)123)
+                    {
+                        current_ident.err = error::MISSING_R_BRACE;
+                        found_error = true;
+                    }
+                }
+
+
                 if (current_ident.type == ident::UNKNOWN)
                 {
                     list_opers(current_symbol);

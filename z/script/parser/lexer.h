@@ -77,6 +77,8 @@ namespace z
             "while_post_stmt",
             "run_statement",
             "return_statement",
+            "wait_statement",
+            "until_statement",
             "variable_decl",
             "typevar_decl",
             "index",
@@ -150,24 +152,37 @@ namespace z
             ///phrase detection
             bool identifierlist();
             bool _command();
+
             bool statementlist();
             bool statement();
             bool if_statement();
             bool for_statement();
             bool foreach_statement();
             bool loop_statement();
+            bool while_pre_stmt();
+            bool while_post_stmt();
+            bool run_statement();
+            bool return_statement();
+            bool wait_statement();
+            bool until_statement();
+
             bool variable_decl();
             bool typevar_decl();
+
             bool _index();
             bool indexlist();
+
             bool exprlist();
             bool _list();
+
             bool funccall();
             bool type_funccall();
+
             bool varindex();
             bool typevar();
             bool variable();
             bool operand();
+
             bool parenthexpr();
             bool factorialexpr();
             bool negatexpr();
@@ -177,6 +192,18 @@ namespace z
             bool boolexpr();
             bool assignexpr();
             bool dimensionexpr();
+            bool sizeofexpr();
+
+            bool globaldecl();
+            bool externaldecl();
+            bool shareddecl();
+
+            bool formalvardecl();
+            bool formaltypedecl();
+            bool formaldecllist();
+
+            bool function_decl();
+            bool typedecl();
 
         public:
             lexer()

@@ -30,6 +30,7 @@ namespace z
             {
                 IDENTIFIERLIST = ident::ID_COUNT,
                 COMMAND,
+
                 STATEMENTLIST,
                 STATEMENT,
                 IF_STATEMENT,
@@ -42,18 +43,24 @@ namespace z
                 RETURN_STATEMENT,
                 WAIT_STATEMENT,
                 UNTIL_STATEMENT,
+
                 VARIABLE_DECL,
                 TYPEVAR_DECL,
+
                 INDEX,
                 INDEXLIST,
+
                 EXPRLIST,
                 LIST,
+
                 FUNCCALL,
                 TYPE_FUNCCALL,
+
                 VARINDEX,
                 TYPEVAR,
                 VARIABLE,
                 OPERAND,
+
                 PARENTHEXPR,
                 FACTORIALEXPR,
                 NEGATEXPR,
@@ -64,6 +71,17 @@ namespace z
                 ASSIGNEXPR,
                 DIMENSIONEXPR,
                 SIZEOFEXPR,
+
+                GLOBALDECL,
+                EXTERNALDECL,
+                SHAREDDECL,
+
+                FORMALVARDECL,
+                FORMALTYPEDECL,
+                FORMALDECLLIST,
+
+                FUNCTION_DECL,
+                TYPEDECL,
 
                 LX_COUNT
             };

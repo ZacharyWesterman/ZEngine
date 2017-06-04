@@ -43,6 +43,9 @@ namespace z
                 RETURN_STATEMENT,
                 WAIT_STATEMENT,
                 UNTIL_STATEMENT,
+                LABEL_STATEMENT,
+                GOTO_STATEMENT,
+                GOSUB_STATEMENT,
 
                 VARIABLE_DECL,
                 TYPEVAR_DECL,

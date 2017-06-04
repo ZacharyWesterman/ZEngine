@@ -61,6 +61,8 @@ namespace z
 
                 KEYWORD_GOTO,   //24
                 KEYWORD_GOSUB,  //25
+                KEYWORD_LABEL,
+                KEYWORD_SUB,
 
                 KEYWORD_RUN,    //26
                 KEYWORD_INCLUDE,//27

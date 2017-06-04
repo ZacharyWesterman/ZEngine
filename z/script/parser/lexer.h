@@ -468,6 +468,8 @@ namespace z
                      (phrase_nodes[index]->type == phrase::WHILE_POST_STMT) ||
                      (phrase_nodes[index]->type == phrase::RUN_STATEMENT) ||
                      (phrase_nodes[index]->type == phrase::RETURN_STATEMENT) ||
+                     (phrase_nodes[index]->type == phrase::WAIT_STATEMENT) ||
+                     (phrase_nodes[index]->type == phrase::UNTIL_STATEMENT) ||
                      (phrase_nodes[index]->type == phrase::VARIABLE_DECL) ||
                      (phrase_nodes[index]->type == phrase::TYPEVAR_DECL))
             {

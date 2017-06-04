@@ -40,6 +40,8 @@ namespace z
                 WHILE_POST_STMT,
                 RUN_STATEMENT,
                 RETURN_STATEMENT,
+                WAIT_STATEMENT,
+                UNTIL_STATEMENT,
                 VARIABLE_DECL,
                 TYPEVAR_DECL,
                 INDEX,

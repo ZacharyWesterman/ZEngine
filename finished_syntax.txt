@@ -52,6 +52,8 @@ boolexpr	: "not" addexpr
 assignexpr	: var = boolexpr
 		| var = dimensionexpr
 
+sizeofexpr	: "sizeof" ( boolexpr )
+
 variable_decl	: "var" IDENTIFIER ;
 
 typevar_decl	: IDENTIFIER IDENTIFIER ;
@@ -135,3 +137,5 @@ loop_statement	: "loop" statement !"while"
 		| "loop" { statementlist } !"while"
 		| "loop" { } !"while"
 		| "loop" ; !"while"
+
+

@@ -314,6 +314,7 @@ namespace z
                              boolexpr()     ||
                              assignexpr()   ||
                              dimensionexpr()||
+                             sizeofexpr()   ||
                              statement()
                              )
                         did_concat = true;
@@ -1927,6 +1928,38 @@ namespace z
             else
                 return false;
         }
+
+        template <typename CHAR>
+        bool lexer<CHAR>::sizeofexpr()
+        {
+            if (phrase_nodes.is_valid(index+3) &&
+                (phrase_nodes[index]->type == ident::OPER_SIZEOF) &&
+                (phrase_nodes[index+1]->type == ident::LPARENTH) &&
+                (phrase_nodes[index+2]->type == phrase::BOOLEXPR) &&
+                (phrase_nodes[index+3]->type == ident::RPARENTH))
+            {
+                phrase_t<CHAR>* node = new phrase_t<CHAR>();
+
+                node->type = phrase::SIZEOFEXPR;
+
+                node->line = phrase_nodes[index]->line;
+                node->column = phrase_nodes[index]->column;
+
+                phrase_nodes[index+2]->parent = node;
+
+                node->children.add(phrase_nodes[index+2]);
+
+                delete phrase_nodes[index];
+                delete phrase_nodes[index+1];
+                delete phrase_nodes[index+3];
+                phrase_nodes.replace(index, index+3, node);
+
+                return true;
+            }
+            else
+                return false;
+        }
+
 
         ///debug
         template <typename CHAR>

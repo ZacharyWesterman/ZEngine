@@ -18,8 +18,6 @@ wait_statement	: "wait" boolexpr ;
 
 until_statement	: "wait" "until" boolexpr ;
 
-sizeofexpr	: "sizeof" ( boolexpr )
-
 
 ext_declaration	: function_decl
 		| typedecl

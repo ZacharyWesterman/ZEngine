@@ -147,8 +147,6 @@ namespace z
             int line;
             int column;
 
-            error_flag err;
-
             core::string<CHAR>* meta;
 
             double value;
@@ -156,14 +154,12 @@ namespace z
 
             ///full constructor
             ident_t (ident::ident_enum t = ident::NONE, int lin = 0, int col = 0,
-                     core::string<CHAR>* symbol_ptr = NULL, error_flag _error = error::NONE)
+                     core::string<CHAR>* symbol_ptr = NULL)
             {
                 type = t;
 
                 line = lin;
                 column = col;
-
-                err = _error;
 
                 meta = symbol_ptr;
 

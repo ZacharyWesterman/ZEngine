@@ -71,6 +71,8 @@ int main(int argc, char* argv[])
         time.reset();
     }
 
+    sscan.printErrors();
+
     //std::cout << "\nDone.\n";
 
     //S->clean();

@@ -61,6 +61,8 @@ namespace z
 
             core::array< ident_t<CHAR> > identities;
 
+            core::array< parser_error<CHAR> > error_buffer;
+
             int insert_index;
             iter_progress progress;
 
@@ -154,6 +156,8 @@ namespace z
             bool build(const core::timeout&);
 
             inline bool error() {return found_error;}
+
+            void printErrors();
         };
 
 
@@ -267,7 +271,10 @@ namespace z
                             }
                             else
                             {
-                                node_list[working_node].identities[i].err = error::INVALID_INCLUDE;
+                                node_list[working_node].error_buffer.add(
+                                    parser_error<CHAR>(node_list[working_node].identities[i].line,
+                                                       node_list[working_node].identities[i].column,
+                                                       error::INVALID_INCLUDE));
 
                                 found_error = true;
                             }
@@ -277,7 +284,11 @@ namespace z
                     found_error |= fScanner.error();
 
                     if (found_error)
+                    {
+                        node_list[working_node].error_buffer.add(fScanner.error_buffer);
+
                         node_list[working_node].progress = PROG_DONE;
+                    }
                     else
                         node_list[working_node].progress = PROG_LEX_READY;
                 }
@@ -312,6 +323,64 @@ namespace z
 
             return !time.timedOut();
         }
+
+
+        ///debug
+        template <typename CHAR>
+        void includeIterator<CHAR>::printErrors()
+        {
+            if (found_error)
+            {
+                for (int i=0; i<node_list.size(); i++)
+                {
+                    for (int e=0; e<node_list[i].error_buffer.size(); e++)
+                    {
+                        parser_error<CHAR> perr = node_list[i].error_buffer[e];
+
+                        cout << "Error ";
+
+                        if(node_list[i].filename.length())
+                        {
+                            cout << "in \"";
+                            if (node_list[i].directory.length())
+                                cout << core::string<char>(node_list[i].directory).str() << "/";
+                            cout << core::string<char>(node_list[i].filename).str()
+                             << "\" ";
+                        }
+
+                        cout << "at line " << perr.line
+                             << ", column " << perr.column
+                             << " : ";
+
+
+                        switch (perr.err)
+                        {
+                        case error::INVALID_IDENTIFIER:
+                            cout << "The symbol \"" << perr.extra_data.str() <<
+                            "\" contains illegal characters.";
+                            break;
+
+                        case error::UNKNOWN_OPERATOR:
+                            cout << "Unknown operator \"" << perr.extra_data.str() <<
+                            "\".";
+                            break;
+
+                        case error::AMBIGUOUS_EXPR:
+                            cout << "The expression \"" << perr.extra_data.str() <<
+                            "\" contains illegal characters.";
+                            break;
+
+                        default:
+                            cout << "Unhandled error.";
+                        }
+
+                        cout << endl;
+                    }
+                }
+            }
+        }
+
+
     }
 }
 

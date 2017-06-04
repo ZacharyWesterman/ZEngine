@@ -15,6 +15,8 @@
 #define SCRIPT_ERRORS_H_INCLUDED
 
 
+#include <z/core/string.h>
+
 namespace z
 {
     namespace script
@@ -28,7 +30,11 @@ namespace z
                 NONE = 0,
 
                 INVALID_IDENTIFIER,
-                INVALID_NUMBER,
+                INVALID_NUMBER_BASE2,
+                INVALID_NUMBER_BASE8,
+                INVALID_NUMBER_BASE10,
+                INVALID_NUMBER_BASE16,
+                NUMBER_EXCESS_DECIMALS,
                 UNKNOWN_ESCAPE_SEQUENCE,
 
                 UNKNOWN_OPERATOR,
@@ -69,6 +75,72 @@ namespace z
                 UNKNOWN_SUBROUTINE,
             };
         }
+
+        template <typename CHAR>
+        class parser_error
+        {
+        public:
+            int line;
+            int column;
+
+            error_flag err;
+
+            core::string<CHAR> extra_data;
+
+            parser_error()
+            {
+                line = 0;
+                column = 0;
+
+                err = error::NONE;
+            }
+
+            parser_error(int Line, int Column, error_flag Error,
+                         const core::string<CHAR>& extra)
+            {
+                line = Line;
+                column = Column;
+
+                err = Error;
+
+                extra_data = extra;
+            }
+
+            parser_error(int Line, int Column, error_flag Error)
+            {
+                line = Line;
+                column = Column;
+
+                err = Error;
+            }
+
+            parser_error(const parser_error& other)
+            {
+                line = other.line;
+                column = other.column;
+
+                err = other.err;
+
+                extra_data = other.extra_data;
+            }
+
+            const parser_error& operator=(const parser_error& other)
+            {
+                line = other.line;
+                column = other.column;
+
+                err = other.err;
+
+                extra_data = other.extra_data;
+
+                return *this;
+            }
+
+            inline bool operator==(const parser_error& other) const
+            {
+                return err == other.err;
+            }
+        };
     }
 }
 

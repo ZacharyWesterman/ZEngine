@@ -22,6 +22,8 @@
 #include <z/core/array.h>
 #include <z/core/dynamicStack.h>
 
+#include "../errors.h"
+
 #include "phrase.h"
 
 #include <iostream>
@@ -50,6 +52,8 @@ namespace z
             "var","type","function",
             "global","external","shared",
             "=",
+            "+=","-=",
+            "*=","/=","//=","%=",
             "+","-",
             "++","--",
             "sizeof",
@@ -131,8 +135,6 @@ namespace z
             int index;
             bool did_concat;
 
-            bool found_error;
-
             int progress;
             bool input_in_use;
 
@@ -196,6 +198,7 @@ namespace z
             bool assignexpr();
             bool dimensionexpr();
             bool sizeofexpr();
+            bool expression();
 
             bool globaldecl();
             bool externaldecl();
@@ -209,13 +212,14 @@ namespace z
             bool typedecl();
 
         public:
+            core::array< parser_error<CHAR> > error_buffer;
+
             lexer()
             {
                 input_ident = NULL;
                 progress = lex::NONE;
 
                 index = 0;
-                found_error = false;
 
                 input_in_use = true;
 
@@ -239,7 +243,8 @@ namespace z
                 progress = lex::NONE;
 
                 index = 0;
-                found_error = false;
+
+                error_buffer.clear();
 
                 did_concat = false;
             }
@@ -247,7 +252,7 @@ namespace z
 
             bool lex(const core::timeout&);
 
-            inline bool error() {return found_error;}
+            inline bool error() {return error_buffer.size() > 0;}
 
             inline bool usingInput() {return input_in_use;}
         };
@@ -280,8 +285,8 @@ namespace z
                     {
                         if (!did_concat)
                         {
-                            progress = lex::TREE_CLEANUP;
-                            //progress = lex::DONE;
+                            //progress = lex::TREE_CLEANUP;
+                            progress = lex::DONE;
                             current_node = 0;
                         }
 
@@ -381,7 +386,7 @@ namespace z
             }
 
             ///debug
-            if (progress == lex::DONE)
+            //if (progress == lex::DONE)
                 print_lex_ast();
 
             return !time.timedOut();
@@ -473,10 +478,10 @@ namespace z
         bool lexer<CHAR>::statement()
         {
             if (phrase_nodes.is_valid(index+1) &&
-                 (((phrase_nodes[index]->type == phrase::BOOLEXPR) &&
+                 ((phrase_nodes[index]->type == phrase::BOOLEXPR) &&
                    !(phrase_nodes.is_valid(index-1) &&
-                     (phrase_nodes[index-1]->type == ident::OPER_ASSIGN))) ||
-                  (phrase_nodes[index]->type == phrase::ASSIGNEXPR)) &&
+                     (phrase_nodes[index-1]->type >= ident::OPER_ASSIGN) &&
+                     (phrase_nodes[index-1]->type <= ident::OPER_MOD_ASSIGN))) &&
                 (phrase_nodes[index+1]->type == ident::SEMICOLON) &&
                 !(phrase_nodes.is_valid(index-2) &&
                   (phrase_nodes[index-2]->type == ident::KEYWORD_FOR)) &&
@@ -741,11 +746,11 @@ namespace z
             if (phrase_nodes.is_valid(index+7) &&
                 (phrase_nodes[index]->type == ident::KEYWORD_FOR) &&
                 (phrase_nodes[index+1]->type == ident::LPARENTH) &&
-                (phrase_nodes[index+2]->type == phrase::ASSIGNEXPR) &&
+                (phrase_nodes[index+2]->type == phrase::BOOLEXPR) &&
                 (phrase_nodes[index+3]->type == ident::SEMICOLON) &&
                 (phrase_nodes[index+4]->type == phrase::BOOLEXPR) &&
                 (phrase_nodes[index+5]->type == ident::SEMICOLON) &&
-                (phrase_nodes[index+6]->type == phrase::ASSIGNEXPR) &&
+                (phrase_nodes[index+6]->type == phrase::BOOLEXPR) &&
                 ((phrase_nodes[index+7]->type == ident::RPARENTH) ||
                  (phrase_nodes.is_valid(index+8) &&
                   (phrase_nodes[index+7]->type == ident::SEMICOLON) &&
@@ -1534,11 +1539,17 @@ namespace z
                     (phrase_nodes[index-1]->type == ident::KEYWORD_IN))))
             {
                 if (((phrase_nodes[index]->type == phrase::VARIABLE) &&
-                     !(phrase_nodes.is_valid(index+1) &&
-                       (phrase_nodes[index+1]->type == ident::OPER_ASSIGN))) ||
+                     (!(phrase_nodes.is_valid(index+1) &&
+                       (phrase_nodes[index+1]->type >= ident::OPER_ASSIGN) &&
+                       (phrase_nodes[index+1]->type <= ident::OPER_MOD_ASSIGN)) ||
+                      (phrase_nodes.is_valid(index-1) &&
+                       (phrase_nodes[index-1]->type >= ident::OPER_ASSIGN) &&
+                       (phrase_nodes[index-1]->type <= ident::OPER_LT_EQ)))) ||
                     (phrase_nodes[index]->type == ident::NUMERIC_LITERAL) ||
                     (phrase_nodes[index]->type == ident::COMPLEX_LITERAL) ||
                     (phrase_nodes[index]->type == ident::STRING_LITERAL) ||
+                    (phrase_nodes[index]->type == phrase::DIMENSIONEXPR) ||
+                    (phrase_nodes[index]->type == phrase::SIZEOFEXPR) ||
                     ((phrase_nodes[index]->type == phrase::LIST) &&
                       !(phrase_nodes.is_valid(index-1) &&
                        ((phrase_nodes[index-1]->type == phrase::IDENTIFIERLIST) ||
@@ -1825,14 +1836,15 @@ namespace z
         template <typename CHAR>
         bool lexer<CHAR>::boolexpr()
         {
-            //if no detected addition operators, continue to the next phase
-            if ((phrase_nodes[index]->type == phrase::ADDEXPR) &&
+            //if no detected boolean operators, continue to the next phase
+            if ((phrase_nodes[index]->type == phrase::ASSIGNEXPR) ||
+                ((phrase_nodes[index]->type == phrase::ADDEXPR) &&
                 !(phrase_nodes.is_valid(index+1) &&
                   (phrase_nodes[index+1]->type >= ident::OPER_AND_LGCL) &&
                   (phrase_nodes[index+1]->type <= ident::OPER_LT_EQ)) &&
                 !(phrase_nodes.is_valid(index-1) &&
                   (phrase_nodes[index-1]->type >= ident::OPER_AND_LGCL) &&
-                  (phrase_nodes[index-1]->type <= ident::OPER_LT_EQ)))
+                  (phrase_nodes[index-1]->type <= ident::OPER_LT_EQ))))
             {
                 if (phrase_nodes[index]->orig_type == ident::NONE)
                     phrase_nodes[index]->orig_type = phrase_nodes[index]->type;
@@ -1840,7 +1852,7 @@ namespace z
 
                 return true;
             }
-            //otherwise, if an addition operator is detected
+            //otherwise, if a boolean operator is detected
             else if (phrase_nodes.is_valid(index+2) &&
                      ((phrase_nodes[index]->type == phrase::ADDEXPR) ||
                       (phrase_nodes[index]->type == phrase::BOOLEXPR)) &&
@@ -1878,9 +1890,9 @@ namespace z
         {
             if (phrase_nodes.is_valid(index+2) &&
                 (phrase_nodes[index]->type == phrase::VARIABLE) &&
-                (phrase_nodes[index+1]->type == ident::OPER_ASSIGN) &&
-                ((phrase_nodes[index+2]->type == phrase::BOOLEXPR) ||
-                 (phrase_nodes[index+2]->type == phrase::DIMENSIONEXPR)))
+                (phrase_nodes[index+1]->type >= ident::OPER_ASSIGN) &&
+                (phrase_nodes[index+1]->type <= ident::OPER_MOD_ASSIGN) &&
+                (phrase_nodes[index+2]->type == phrase::BOOLEXPR))
             {
                 phrase_t<CHAR>* node = new phrase_t<CHAR>();
 
@@ -1889,15 +1901,14 @@ namespace z
                 node->line = phrase_nodes[index]->line;
                 node->column = phrase_nodes[index]->column;
 
-
-
                 phrase_nodes[index]->parent = node;
+                phrase_nodes[index+1]->parent = node;
                 phrase_nodes[index+2]->parent = node;
 
                 node->children.add(phrase_nodes[index]);
+                node->children.add(phrase_nodes[index+1]);
                 node->children.add(phrase_nodes[index+2]);
 
-                delete phrase_nodes[index+1];
                 phrase_nodes.replace(index, index+2, node);
 
                 return true;

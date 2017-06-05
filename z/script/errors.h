@@ -52,27 +52,11 @@ namespace z
                 MISSING_L_BRACE,
                 MISSING_R_BRACE,
 
+                UNEXPECTED_ASSIGNMENT,
+
                 DIV_BY_ZERO,
-                INVALID_CHARACTER,
-                MISSING_OPERAND,
-                INVALID_OPERATION,
-                TOO_FEW_PARAMS,
-                TOO_MANY_PARAMS,
-                INVALID_PARAM,
-                NON_REAL_NUMBER,
-                OUT_OF_BOUNDS,
-                UNKNOWN_VARIABLE,
-                WRONG_VAR_TYPE,
-                BAD_FORMATTING,
-                MISSING_OPERATOR,
-                UNKNOWN_COMMAND,
-                BAD_REDEFINITION,
-                NO_ENTRY_POINT,
-                BAD_SCOPING,
-                UNEXP_COMMAND,
-                UNEXP_END_OF_SCRIPT,
-                UNKNOWN_LABEL,
-                UNKNOWN_SUBROUTINE,
+
+                ERROR_COUNT
             };
         }
 

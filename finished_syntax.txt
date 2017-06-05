@@ -48,9 +48,15 @@ boolexpr	: "not" addexpr
 		| addexpr ~| addexpr
 		| addexpr ~: addexpr
 		| addexpr
+		| assignexpr
 
 assignexpr	: var = boolexpr
-		| var = dimensionexpr
+		| var += boolexpr
+		| var -= boolexpr
+		| var *= boolexpr
+		| var /= boolexpr
+		| var //= boolexpr
+		| var %= boolexpr
 
 sizeofexpr	: "sizeof" ( boolexpr )
 
@@ -78,6 +84,8 @@ operand		: variable
 		| NUMERIC_LITERAL
 		| COMPLEX_LITERAL
 		| STRING_LITERAL
+		| sizeofexpr
+		| dimensionexpr
 		| type_funccall
 		| funccall
 		| list
@@ -101,14 +109,13 @@ else_statement	: "else" statement
 		| "else" { }
 		| "else" ;
 
-for_statement	: "for" ( assignexpr ; boolexpr ; assignexpr ) statement
-		| "for" ( assignexpr ; boolexpr ; assignexpr ) { statement }
-		| "for" ( assignexpr ; boolexpr ; assignexpr ) { statementlist }
-		| "for" ( assignexpr ; boolexpr ; assignexpr ) { }
-		| "for" ( assignexpr ; boolexpr ; assignexpr ) ;
+for_statement	: "for" ( boolexpr ; boolexpr ; boolexpr ) statement
+		| "for" ( boolexpr ; boolexpr ; boolexpr ) { statement }
+		| "for" ( boolexpr ; boolexpr ; boolexpr ) { statementlist }
+		| "for" ( boolexpr ; boolexpr ; boolexpr ) { }
+		| "for" ( boolexpr ; boolexpr ; boolexpr ) ;
 
 statement	: boolexpr ;
-		| assignexpr ;
 		| command
 		| if_statement
 		| for_statement

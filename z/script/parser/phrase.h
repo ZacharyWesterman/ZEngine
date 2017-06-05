@@ -102,8 +102,6 @@ namespace z
             int line;
             int column;
 
-            error_flag err;
-
             //optional data
             void* meta;
             double value;
@@ -121,8 +119,6 @@ namespace z
                 line = -1;
                 column = -1;
 
-                err = error::NONE;
-
                 meta = NULL;
                 value = 0;
 
@@ -138,8 +134,6 @@ namespace z
                 line = token.line;
                 column = token.column;
 
-                err = error::NONE;
-
                 meta = token.meta;
                 value = token.value;
 
@@ -154,8 +148,6 @@ namespace z
 
                 line = other.line;
                 column = other.column;
-
-                err = other.err;
 
                 meta = other.meta;
                 value = other.value;

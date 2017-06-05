@@ -652,30 +652,70 @@ namespace z
                     curr_oper = ident::OPER_GT;
                     oper_length = 1;
                 }
+                else if (input.foundAt("++", x_offset))
+                {
+                    curr_oper = ident::OPER_ADD1;
+                    oper_length = 2;
+                }
+                else if (input.foundAt("+=", x_offset))
+                {
+                    curr_oper = ident::OPER_ADD_ASSIGN;
+                    oper_length = 2;
+                }
                 else if (input.foundAt("+", x_offset))
                 {
                     curr_oper = ident::OPER_ADD;
                     oper_length = 1;
+                }
+                else if (input.foundAt("--", x_offset))
+                {
+                    curr_oper = ident::OPER_SUB1;
+                    oper_length = 2;
+                }
+                else if (input.foundAt("-=", x_offset))
+                {
+                    curr_oper = ident::OPER_SUB_ASSIGN;
+                    oper_length = 2;
                 }
                 else if (input.foundAt("-", x_offset))
                 {
                     curr_oper = ident::OPER_SUB;
                     oper_length = 1;
                 }
+                else if (input.foundAt("*=", x_offset))
+                {
+                    curr_oper = ident::OPER_MUL_ASSIGN;
+                    oper_length = 2;
+                }
                 else if (input.foundAt("*", x_offset))
                 {
                     curr_oper = ident::OPER_MUL;
                     oper_length = 1;
+                }
+                else if (input.foundAt("//=", x_offset))
+                {
+                    curr_oper = ident::OPER_IDIV_ASSIGN;
+                    oper_length = 3;
                 }
                 else if (input.foundAt("//", x_offset))
                 {
                     curr_oper = ident::OPER_IDIV;
                     oper_length = 2;
                 }
+                else if (input.foundAt("/=", x_offset))
+                {
+                    curr_oper = ident::OPER_DIV_ASSIGN;
+                    oper_length = 2;
+                }
                 else if (input.foundAt("/", x_offset))
                 {
                     curr_oper = ident::OPER_DIV;
                     oper_length = 1;
+                }
+                else if (input.foundAt("%=", x_offset))
+                {
+                    curr_oper = ident::OPER_MOD_ASSIGN;
+                    oper_length = 2;
                 }
                 else if (input.foundAt("%", x_offset))
                 {

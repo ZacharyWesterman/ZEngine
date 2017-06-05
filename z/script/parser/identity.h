@@ -86,6 +86,14 @@ namespace z
 
                 OPER_ASSIGN,    //36
 
+                OPER_ADD_ASSIGN,
+                OPER_SUB_ASSIGN,
+
+                OPER_MUL_ASSIGN,
+                OPER_DIV_ASSIGN,
+                OPER_IDIV_ASSIGN,
+                OPER_MOD_ASSIGN,
+
                 OPER_ADD,       //37
                 OPER_SUB,       //38
 

@@ -2,20 +2,28 @@
 <CodeBlocks_layout_file>
 	<FileVersion major="1" minor="0" />
 	<ActiveTarget name="Debug" />
-	<File name="z/script/parser/identity.h" open="1" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="z/script/variables/datatype.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="1796" topLine="49" />
+			<Cursor1 position="268" topLine="57" />
 		</Cursor>
 	</File>
-	<File name="z/script/load_operators.h" open="0" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="z/script/parser/scanner.h" open="0" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="3619" topLine="102" />
+			<Cursor1 position="25993" topLine="55" />
 		</Cursor>
+		<Folding>
+			<Collapse line="90" />
+			<Collapse line="877" />
+			<Collapse line="1055" />
+		</Folding>
 	</File>
-	<File name="z/script/errors.h" open="0" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="z/script/parser/includeIterator.h" open="0" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="846" topLine="21" />
+			<Cursor1 position="5336" topLine="181" />
 		</Cursor>
+		<Folding>
+			<Collapse line="226" />
+		</Folding>
 	</File>
 	<File name="z/script/variables/var_struct.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
@@ -24,73 +32,7 @@
 	</File>
 	<File name="main.cpp" open="1" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="433" topLine="13" />
-		</Cursor>
-	</File>
-	<File name="z/script/parser/scanner.h" open="1" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="19278" topLine="330" />
-		</Cursor>
-		<Folding>
-			<Collapse line="90" />
-			<Collapse line="152" />
-			<Collapse line="186" />
-			<Collapse line="196" />
-			<Collapse line="338" />
-			<Collapse line="366" />
-		</Folding>
-	</File>
-	<File name="z/script/commands.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="1065" topLine="51" />
-		</Cursor>
-	</File>
-	<File name="z/script/parser/lexer.h" open="1" top="1" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="16175" topLine="280" />
-		</Cursor>
-		<Folding>
-			<Collapse line="109" />
-			<Collapse line="145" />
-			<Collapse line="212" />
-			<Collapse line="225" />
-			<Collapse line="231" />
-			<Collapse line="261" />
-			<Collapse line="328" />
-			<Collapse line="394" />
-			<Collapse line="441" />
-			<Collapse line="473" />
-			<Collapse line="523" />
-			<Collapse line="554" />
-			<Collapse line="739" />
-			<Collapse line="900" />
-			<Collapse line="1027" />
-			<Collapse line="1131" />
-			<Collapse line="1162" />
-			<Collapse line="1194" />
-			<Collapse line="1225" />
-			<Collapse line="1256" />
-			<Collapse line="1289" />
-			<Collapse line="1348" />
-			<Collapse line="1407" />
-			<Collapse line="1439" />
-			<Collapse line="1471" />
-			<Collapse line="1509" />
-			<Collapse line="1530" />
-			<Collapse line="1563" />
-			<Collapse line="1600" />
-			<Collapse line="1637" />
-			<Collapse line="1677" />
-			<Collapse line="1724" />
-			<Collapse line="1775" />
-			<Collapse line="1826" />
-			<Collapse line="1877" />
-			<Collapse line="1910" />
-		</Folding>
-	</File>
-	<File name="z/script/parser/escape_sequences.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="611" topLine="42" />
+			<Cursor1 position="432" topLine="8" />
 		</Cursor>
 	</File>
 	<File name="z/script/operators/oper_t.h" open="0" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
@@ -103,20 +45,78 @@
 	</File>
 	<File name="z/script/parser/phrase.h" open="1" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="1172" topLine="28" />
+			<Cursor1 position="1582" topLine="47" />
 		</Cursor>
 	</File>
-	<File name="z/script/parser/includeIterator.h" open="0" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="z/script/parser/escape_sequences.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="2705" topLine="50" />
+			<Cursor1 position="611" topLine="42" />
+		</Cursor>
+	</File>
+	<File name="z/script/errors.h" open="1" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="1284" topLine="27" />
+		</Cursor>
+	</File>
+	<File name="z/script/commands.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="1065" topLine="51" />
+		</Cursor>
+	</File>
+	<File name="z/script/parser/identity.h" open="1" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="2386" topLine="108" />
+		</Cursor>
+	</File>
+	<File name="z/script/parser/lexer.h" open="1" top="1" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="59395" topLine="400" />
 		</Cursor>
 		<Folding>
-			<Collapse line="53" />
+			<Collapse line="114" />
+			<Collapse line="148" />
+			<Collapse line="231" />
+			<Collapse line="268" />
+			<Collapse line="336" />
+			<Collapse line="402" />
+			<Collapse line="449" />
+			<Collapse line="481" />
+			<Collapse line="531" />
+			<Collapse line="562" />
+			<Collapse line="747" />
+			<Collapse line="772" />
+			<Collapse line="806" />
+			<Collapse line="838" />
+			<Collapse line="868" />
+			<Collapse line="908" />
+			<Collapse line="1035" />
+			<Collapse line="1139" />
+			<Collapse line="1170" />
+			<Collapse line="1202" />
+			<Collapse line="1233" />
+			<Collapse line="1264" />
+			<Collapse line="1297" />
+			<Collapse line="1356" />
+			<Collapse line="1415" />
+			<Collapse line="1447" />
+			<Collapse line="1479" />
+			<Collapse line="1517" />
+			<Collapse line="1538" />
+			<Collapse line="1577" />
+			<Collapse line="1614" />
+			<Collapse line="1651" />
+			<Collapse line="1711" />
+			<Collapse line="1751" />
+			<Collapse line="1798" />
+			<Collapse line="1849" />
+			<Collapse line="1900" />
+			<Collapse line="1984" />
+			<Collapse line="2013" />
 		</Folding>
 	</File>
-	<File name="z/script/variables/datatype.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="z/script/load_operators.h" open="0" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="268" topLine="57" />
+			<Cursor1 position="3619" topLine="102" />
 		</Cursor>
 	</File>
 </CodeBlocks_layout_file>

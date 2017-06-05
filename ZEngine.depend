@@ -2193,7 +2193,7 @@
 
 1489353285 c:\users\zachary\documents\github\zengine\\z\script\errors.h
 
-1496445826 source:/home/zwesterman/GitHub/ZEngine/main.cpp
+1496620330 source:/home/zwesterman/GitHub/ZEngine/main.cpp
 	<z/core.h>
 	<z/math.h>
 	"z/script/parser/includeIterator.h"
@@ -2258,7 +2258,7 @@
 	<type_traits>
 	"string.h"
 
-1496357299 /home/zwesterman/GitHub/zLibraries/z/core/array.h
+1496607062 /home/zwesterman/GitHub/zLibraries/z/core/array.h
 	<vector>
 	"stream.h"
 
@@ -2302,7 +2302,7 @@
 
 1491800855 /home/zwesterman/GitHub/zLibraries/z/math/matrix.h
 
-1496550013 /home/zwesterman/GitHub/ZEngine/z/script/parser/scanner.h
+1496618494 /home/zwesterman/GitHub/ZEngine/z/script/parser/scanner.h
 	<z/core/sorted_array.h>
 	<z/core/string.h>
 	<z/core/timeout.h>
@@ -2314,11 +2314,12 @@
 	<stdint.h>
 	<z/core/string.h>
 
-1496534906 /home/zwesterman/GitHub/ZEngine/z/script/parser/identity.h
+1496620642 /home/zwesterman/GitHub/ZEngine/z/script/parser/identity.h
 	<z/core/string.h>
 	"../errors.h"
 
-1496549877 /home/zwesterman/GitHub/ZEngine/z/script/errors.h
+1496619589 /home/zwesterman/GitHub/ZEngine/z/script/errors.h
+	<z/core/string.h>
 
 1492812797 /home/zwesterman/GitHub/zLibraries/z/core/timeout.h
 	"timer.h"
@@ -2339,7 +2340,7 @@
 1494798455 /home/zwesterman/GitHub/zLibraries/z/file/directoryOperations.h
 	<z/core/string.h>
 
-1496362980 /home/zwesterman/GitHub/ZEngine/z/script/parser/includeIterator.h
+1496617694 /home/zwesterman/GitHub/ZEngine/z/script/parser/includeIterator.h
 	<z/core/array.h>
 	<z/file/loadFileTimeout.h>
 	<z/file/directoryOperations.h>
@@ -2348,14 +2349,15 @@
 	"lexer.h"
 	<iostream>
 
-1496550892 /home/zwesterman/GitHub/ZEngine/z/script/parser/lexer.h
+1496623443 /home/zwesterman/GitHub/ZEngine/z/script/parser/lexer.h
 	<z/core/timeout.h>
 	<z/core/array.h>
 	<z/core/dynamicStack.h>
+	"../errors.h"
 	"phrase.h"
 	<iostream>
 
-1496548261 /home/zwesterman/GitHub/ZEngine/z/script/parser/phrase.h
+1496622760 /home/zwesterman/GitHub/ZEngine/z/script/parser/phrase.h
 	<z/core/array.h>
 	"identity.h"
 

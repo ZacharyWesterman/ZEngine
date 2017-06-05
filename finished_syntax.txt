@@ -17,8 +17,14 @@ parenthexpr	: !IDENTIFIER ( boolexpr )
 factorialexpr	: parenthexpr !
 		| parenthexpr
 
-negatexpr	: - factorialexpr
+add1expr	: factorialexpr ++
+		| ++ factorialexpr
+		| factorialexpr --
+		| -- factorialexpr
 		| factorialexpr
+
+negatexpr	: - add1expr
+		| add1expr
 
 powerexpr	: negatexpr ^ negatexpr
 		| negatexpr

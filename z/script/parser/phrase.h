@@ -66,6 +66,7 @@ namespace z
 
                 PARENTHEXPR,
                 FACTORIALEXPR,
+                ADD1EXPR,
                 NEGATEXPR,
                 POWEREXPR,
                 MULTIPLYEXPR,

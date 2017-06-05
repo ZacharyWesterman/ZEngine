@@ -100,6 +100,7 @@ namespace z
             "operand",
             "parenthexpr",
             "factorialexpr",
+            "add1expr",
             "negatexpr",
             "powerexpr",
             "multiplyexpr",
@@ -190,6 +191,7 @@ namespace z
 
             bool parenthexpr();
             bool factorialexpr();
+            bool add1expr();
             bool negatexpr();
             bool powerexpr();
             bool multiplyexpr();
@@ -285,8 +287,8 @@ namespace z
                     {
                         if (!did_concat)
                         {
-                            //progress = lex::TREE_CLEANUP;
-                            progress = lex::DONE;
+                            progress = lex::TREE_CLEANUP;
+                            //progress = lex::DONE;
                             current_node = 0;
                         }
 
@@ -315,6 +317,7 @@ namespace z
                              operand()      ||
                              parenthexpr()  ||
                              factorialexpr()||
+                             add1expr()     ||
                              negatexpr()    ||
                              powerexpr()    ||
                              multiplyexpr() ||
@@ -1645,9 +1648,69 @@ namespace z
         }
 
         template <typename CHAR>
+        bool lexer<CHAR>::add1expr()
+        {
+            if (phrase_nodes[index]->type == phrase::FACTORIALEXPR)
+            {
+                if (phrase_nodes.is_valid(index+1) &&
+                    ((phrase_nodes[index+1]->type == ident::OPER_ADD1) ||
+                     (phrase_nodes[index+1]->type == ident::OPER_SUB1)))
+                {
+                    phrase_t<CHAR>* node = new phrase_t<CHAR>();
+
+                    node->type = phrase::ADD1EXPR;
+
+                    node->line = phrase_nodes[index]->line;
+                    node->column = phrase_nodes[index]->column;
+
+                    node->children.add(phrase_nodes[index]);
+                    node->children.add(phrase_nodes[index+1]);
+
+                    phrase_nodes[index]->parent = node;
+                    phrase_nodes[index+1]->parent = node;
+
+                    phrase_nodes.replace(index, index+1, node);
+
+                    return true;
+                }
+                else if (phrase_nodes.is_valid(index-1) &&
+                         ((phrase_nodes[index-1]->type == ident::OPER_ADD1) ||
+                          (phrase_nodes[index-1]->type == ident::OPER_SUB1)))
+                {
+                    phrase_t<CHAR>* node = new phrase_t<CHAR>();
+
+                    node->type = phrase::ADD1EXPR;
+
+                    node->line = phrase_nodes[index]->line;
+                    node->column = phrase_nodes[index]->column;
+
+                    node->children.add(phrase_nodes[index-1]);
+                    node->children.add(phrase_nodes[index]);
+
+                    phrase_nodes[index-1]->parent = node;
+                    phrase_nodes[index]->parent = node;
+
+                    phrase_nodes.replace(index-1, index, node);
+
+                    return true;
+                }
+                else
+                {
+                    if (phrase_nodes[index]->orig_type == ident::NONE)
+                        phrase_nodes[index]->orig_type = phrase_nodes[index]->type;
+                    phrase_nodes[index]->type = phrase::ADD1EXPR;
+
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        template <typename CHAR>
         bool lexer<CHAR>::negatexpr()
         {
-            if ((phrase_nodes[index]->type == phrase::FACTORIALEXPR) &&
+            if ((phrase_nodes[index]->type == phrase::ADD1EXPR) &&
                 (phrase_nodes.is_valid(index-1) &&
                       (phrase_nodes[index-1]->type == ident::OPER_SUB)) &&
                     !(phrase_nodes.is_valid(index-2) &&
@@ -1672,7 +1735,7 @@ namespace z
 
                 return true;
             }
-            else if (phrase_nodes[index]->type == phrase::FACTORIALEXPR)
+            else if (phrase_nodes[index]->type == phrase::ADD1EXPR)
             {
                 if (phrase_nodes[index]->orig_type == ident::NONE)
                     phrase_nodes[index]->orig_type = phrase_nodes[index]->type;

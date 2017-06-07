@@ -1,14 +1,14 @@
 /**
  * File:            datatype.h
- * Namespace:       z::script::var
+ * Namespace:       z::script
  *
- * Description:     A template controller class for single variables.
+ * Description:     A template controller class for the generic datatype.
  *
  *
  *
  * Author:          Zachary Westerman
  * Email:           zacharywesterman@yahoo.com
- * Last modified:   4 Mar. 2017
+ * Last modified:   7 Jun. 2017
 **/
 
 
@@ -18,32 +18,36 @@
 
 #include <type_traits>
 
-#include "var_struct.h"
+#include "data_t.h"
 
 namespace z
 {
     namespace script
     {
-        namespace var
+        template <typename CHAR>
+        class datatype
         {
-            template <typename CHAR>
-            class datatype
+        private:
+            int type;
+
+            data_t<CHAR> gen_data;
+
+        public:
+            datatype() {type = data::NONE;}
+
+            ~datatype() {}
+
+            ///Set the contained data to a character (just convert to string)
+            /*const datatype& operator=(CHAR character)
             {
-            private:
-                var_t<CHAR> data;
+                data.string = character;
 
-            public:
-                ///Set the contained data to a character (just convert to string)
-                const datatype& operator=(CHAR character)
-                {
-                    data.string = character;
+                data.value = 0.0;
 
-                    data.value = 0.0;
+                data.type = VAR_STRING;
 
-                    data.type = VAR_STRING;
-
-                    return *this;
-                }
+                return *this;
+            }
 
                 ///Set the contained data to any numerical value
                 template<
@@ -113,9 +117,8 @@ namespace z
                 const double value() const
                 {
                     return data.value;
-                }
+                }*/
             };
-        }
     }
 }
 

@@ -14,7 +14,7 @@
  *
  * Author:          Zachary Westerman
  * Email:           zacharywesterman@yahoo.com
- * Last modified:   7 Jun. 2017
+ * Last modified:   9 Jun. 2017
 **/
 
 #pragma once
@@ -37,8 +37,7 @@ namespace z
             {
                 NONE = 0,
 
-                REAL,
-                COMPLEX,
+                VALUE,
                 STRING,
                 ARRAY,
 
@@ -53,9 +52,7 @@ namespace z
         public:
             int d_type;
 
-            double d_real;
-
-            std::complex<double> d_complex;
+            std::complex<double> d_value;
 
             core::string<CHAR> d_string;
 
@@ -67,33 +64,7 @@ namespace z
 
             ~data_t() {}
 
-            const bool operator==(const data_t& other) const
-            {
-                if (d_type != other.d_type)
-                    return false;
-
-                switch (d_type)
-                {
-                case (data::REAL):
-                    return d_real == other.d_real;
-                    break;
-
-                case (data::COMPLEX):
-                    return d_complex == other.d_complex;
-                    break;
-
-                case (data::STRING):
-                    return d_string == other.d_string;
-                    break;
-
-                case (data::ARRAY):
-                    return d_array == other.d_array;
-                    break;
-
-                default:
-                    return true;
-                }
-            }
+            const bool operator==(const data_t& other) const;
 
             inline const bool operator!=(const data_t& other) const
             {
@@ -101,38 +72,66 @@ namespace z
             }
 
 
-            const data_t& operator=(const data_t& other)
-            {
-                d_string.clear();
-                d_array.clear();
+            const data_t& operator=(const data_t& other);
 
-                d_type = other.d_type;
-
-                switch (d_type)
-                {
-                case (data::REAL):
-                    d_real = other.d_real;
-                    break;
-
-                case (data::COMPLEX):
-                    d_complex = other.d_complex;
-                    break;
-
-                case (data::STRING):
-                    d_string = other.d_string;
-                    break;
-
-                case (data::ARRAY):
-                    d_array = other.d_array;
-                    break;
-                }
-
-                return *this;
-            }
-
-
+            inline int type() const {return type;}
 
         };
+
+
+        template <typename CHAR>
+        const bool data_t<CHAR>::operator==(const data_t<CHAR>& other) const
+        {
+            if (d_type != other.d_type)
+                return false;
+
+            switch (d_type)
+            {
+            case (data::VALUE):
+                return d_value == other.d_value;
+                break;
+
+            case (data::STRING):
+                return d_string == other.d_string;
+                break;
+
+            case (data::ARRAY):
+                return d_array == other.d_array;
+                break;
+
+            default:
+                return true;
+            }
+        }
+
+
+        template <typename CHAR>
+        const data_t<CHAR>& data_t<CHAR>::operator=(const data_t<CHAR>& other)
+        {
+            d_string.clear();
+            d_array.clear();
+
+            d_type = other.d_type;
+
+            switch (d_type)
+            {
+            case (data::VALUE):
+                d_value = other.d_value;
+                break;
+
+            case (data::STRING):
+                d_string = other.d_string;
+                break;
+
+            case (data::ARRAY):
+                d_array = other.d_array;
+                break;
+            }
+
+            return *this;
+        }
+
+
     }
 }
 

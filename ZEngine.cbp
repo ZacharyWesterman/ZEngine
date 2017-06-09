@@ -62,8 +62,8 @@
 		<Unit filename="z/script/split_script_into_commands.h" />
 		<Unit filename="z/script/variable.h" />
 		<Unit filename="z/script/variableTree.h" />
+		<Unit filename="z/script/variables/data_t.h" />
 		<Unit filename="z/script/variables/datatype.h" />
-		<Unit filename="z/script/variables/var_struct.h" />
 		<Extensions>
 			<code_completion />
 			<envvars />

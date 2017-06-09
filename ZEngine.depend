@@ -2193,10 +2193,11 @@
 
 1489353285 c:\users\zachary\documents\github\zengine\\z\script\errors.h
 
-1496620330 source:/home/zwesterman/GitHub/ZEngine/main.cpp
+1497029685 source:/home/zwesterman/GitHub/ZEngine/main.cpp
 	<z/core.h>
 	<z/math.h>
 	"z/script/parser/includeIterator.h"
+	"z/script/variables/data_t.h"
 	<iostream>
 
 1492802325 /home/zwesterman/GitHub/zLibraries/z/core.h
@@ -2223,10 +2224,11 @@
 	"string/string_upper.h"
 	"string/string_remove_whiteSpace.h"
 
-1495590622 /home/zwesterman/GitHub/zLibraries/z/core/string/string.h
+1497030944 /home/zwesterman/GitHub/zLibraries/z/core/string/string.h
 	<type_traits>
 	<complex>
 	"convert_char_type.h"
+	<iostream>
 
 1491800855 /home/zwesterman/GitHub/zLibraries/z/core/string/convert_char_type.h
 
@@ -2258,7 +2260,7 @@
 	<type_traits>
 	"string.h"
 
-1496607062 /home/zwesterman/GitHub/zLibraries/z/core/array.h
+1496625258 /home/zwesterman/GitHub/zLibraries/z/core/array.h
 	<vector>
 	"stream.h"
 
@@ -2314,11 +2316,11 @@
 	<stdint.h>
 	<z/core/string.h>
 
-1496620642 /home/zwesterman/GitHub/ZEngine/z/script/parser/identity.h
+1496857431 /home/zwesterman/GitHub/ZEngine/z/script/parser/identity.h
 	<z/core/string.h>
 	"../errors.h"
 
-1496619589 /home/zwesterman/GitHub/ZEngine/z/script/errors.h
+1496857433 /home/zwesterman/GitHub/ZEngine/z/script/errors.h
 	<z/core/string.h>
 
 1492812797 /home/zwesterman/GitHub/zLibraries/z/core/timeout.h
@@ -2349,7 +2351,7 @@
 	"lexer.h"
 	<iostream>
 
-1496623443 /home/zwesterman/GitHub/ZEngine/z/script/parser/lexer.h
+1496857439 /home/zwesterman/GitHub/ZEngine/z/script/parser/lexer.h
 	<z/core/timeout.h>
 	<z/core/array.h>
 	<z/core/dynamicStack.h>
@@ -2357,7 +2359,13 @@
 	"phrase.h"
 	<iostream>
 
-1496622760 /home/zwesterman/GitHub/ZEngine/z/script/parser/phrase.h
+1496857415 /home/zwesterman/GitHub/ZEngine/z/script/parser/phrase.h
 	<z/core/array.h>
 	"identity.h"
+
+1497027430 /home/zwesterman/GitHub/ZEngine/z/script/variables/data_t.h
+	<z/core/string.h>
+	<z/core/array.h>
+	<complex>
+	<type_traits>
 

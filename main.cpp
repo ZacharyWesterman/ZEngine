@@ -2,13 +2,8 @@
 #include <z/math.h>
 
 #include "z/script/parser/includeIterator.h"
-//#include "z/script/parser/lexer.h"
 
-//#include "z/script/load_operators.h"
-
-//#include "z/script/variables/datatype.h"
-
-//#include "z/script/parser/scan_iterator.h"
+#include "z/script/variables/data_t.h"
 
 #include <iostream>
 //using namespace std;
@@ -18,18 +13,20 @@ using namespace z;
 
 int main(int argc, char* argv[])
 {
-    char c_in[128];
+    script::data_t<char> data;
+
+    data.d_value = std::complex<double>(0.9999999995, 1);
+
+    cout << core::string<char>(data.d_value).str() << endl;
+
+    data.d_string = core::string<char>("Hello");
+    cout << data.d_string.str() << endl;
+
+    /*char c_in[128];
 
     cout << "Input:\n\n";
 
     cin.getline(c_in, 128, '\n');
-
-    /*core::sorted_array< core::string<char> > operators;
-    operators.add("+");
-    operators.add("-");
-    operators.add("*");
-    operators.add("/");
-    operators.add("and");*/
 
     core::sorted_array< core::string<char> > commands;
     commands.add("print");
@@ -71,7 +68,7 @@ int main(int argc, char* argv[])
         time.reset();
     }
 
-    sscan.printErrors();
+    sscan.printErrors();*.
 
     //std::cout << "\nDone.\n";
 
@@ -82,20 +79,11 @@ int main(int argc, char* argv[])
     //sscan.error() ? (cout << "Found error(s)" << endl) : (cout << "No errors." << endl);
 
 
-    /*z::script::lexer<char> llexr;
-
-    iter = 1;
-    while (!llexr.lex(time))
-    {
-        iter++;
-        time.reset();
-    }*/
-
     //S->clean();
 
     //cout << "Lexed in " << iter << " iterations.\n";
 
-    //llexr.error() ? (cout << "Found error(s)" << endl) : (cout << "No errors." << endl);
+    //llexr.error() ? (cout << "Found error(s)" << endl) : (cout << "No errors." << endl);*/
 
 
     /*cout << endl;

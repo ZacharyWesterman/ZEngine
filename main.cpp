@@ -15,12 +15,25 @@ int main(int argc, char* argv[])
 {
     script::data_t<char> data;
 
-    data.d_value = std::complex<double>(0.9999999996, 1);
+    data.setType(script::data::ARRAY);
 
-    cout << core::string<char>(data.d_value).str() << endl;
+    data.array().add(10);
+    data.array().add(core::string<char>("Hello"));
 
-    data.d_string = core::string<char>("Hello");
-    cout << data.d_string.str() << endl;
+    script::data_t<char> tmp;
+    tmp.setType(script::data::ARRAY);
+    tmp.array().add(1);
+    tmp.array().add(2);
+    tmp.array().add(3);
+
+    data.array().add(tmp);
+
+    cout << data.array().size() << endl;
+
+    cout << data.string().str() << endl;
+
+    //data.d_string = core::string<char>("Hello");
+    //cout << data.d_string.str() << endl;
 
     /*char c_in[128];
 
@@ -85,8 +98,8 @@ int main(int argc, char* argv[])
 
     //llexr.error() ? (cout << "Found error(s)" << endl) : (cout << "No errors." << endl);*/
 
-
-    /*cout << endl;
+    /*
+    cout << endl;
     cout << "( " << (int)'(' << ':' << (int)L'(' << endl;
     cout << ") " << (int)')' << ':' << (int)L')' << endl;
     cout << "[ " << (int)'[' << ':' << (int)L'[' << endl;
@@ -108,6 +121,7 @@ int main(int argc, char* argv[])
     cout << "7 "<< (int)'7'<< ':' << (int)L'7'<< endl;
     cout << "9 "<< (int)'9'<< ':' << (int)L'9'<< endl;
     cout << "a "<< (int)'a'<< ':' << (int)L'a'<< endl;
+    cout << "i "<< (int)'i'<< ':' << (int)L'i'<< endl;
     cout << "f "<< (int)'f'<< ':' << (int)L'f'<< endl;
     cout << "z "<< (int)'z'<< ':' << (int)L'z'<< endl;
     cout << "A "<< (int)'A'<< ':' << (int)L'A'<< endl;

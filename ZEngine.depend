@@ -2193,7 +2193,7 @@
 
 1489353285 c:\users\zachary\documents\github\zengine\\z\script\errors.h
 
-1497029685 source:/home/zwesterman/GitHub/ZEngine/main.cpp
+1497066594 source:/home/zwesterman/GitHub/ZEngine/main.cpp
 	<z/core.h>
 	<z/math.h>
 	"z/script/parser/includeIterator.h"
@@ -2224,11 +2224,10 @@
 	"string/string_upper.h"
 	"string/string_remove_whiteSpace.h"
 
-1497030944 /home/zwesterman/GitHub/zLibraries/z/core/string/string.h
+1497067478 /home/zwesterman/GitHub/zLibraries/z/core/string/string.h
 	<type_traits>
 	<complex>
 	"convert_char_type.h"
-	<iostream>
 
 1491800855 /home/zwesterman/GitHub/zLibraries/z/core/string/convert_char_type.h
 

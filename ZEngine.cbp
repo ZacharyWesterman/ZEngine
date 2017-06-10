@@ -63,7 +63,6 @@
 		<Unit filename="z/script/variable.h" />
 		<Unit filename="z/script/variableTree.h" />
 		<Unit filename="z/script/variables/data_t.h" />
-		<Unit filename="z/script/variables/datatype.h" />
 		<Extensions>
 			<code_completion />
 			<envvars />

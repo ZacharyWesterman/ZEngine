@@ -15,7 +15,7 @@ int main(int argc, char* argv[])
 {
     script::data_t<char> data;
 
-    data.d_value = std::complex<double>(0.9999999995, 1);
+    data.d_value = std::complex<double>(0.9999999996, 1);
 
     cout << core::string<char>(data.d_value).str() << endl;
 

@@ -60,7 +60,19 @@ namespace z
 
 
         public:
-            data_t() {d_type = data::NONE;}
+            data_t()
+            {
+                d_string = core::string<CHAR>();
+                d_array = core::array< data_t<CHAR> >();
+
+                d_type = data::NONE;
+            }
+
+            data_t(const double& _real);
+            data_t(const std::complex<double>& _complex);
+            data_t(const core::string<CHAR>& _string);
+            data_t(const core::array< data_t<CHAR> >& _array);
+
 
             ~data_t() {}
 
@@ -74,8 +86,19 @@ namespace z
 
             const data_t& operator=(const data_t& other);
 
+
             inline int type() const {return type;}
 
+            inline void setType(const data::DATA_TYPE new_type)
+            { d_type = new_type; }
+
+            const core::string<CHAR> string() const;
+            const std::complex<double> complex() const;
+            const double real() const;
+            const double imag() const;
+
+            inline core::array< data_t<CHAR> >& array()
+            { return d_array; }
         };
 
 
@@ -132,6 +155,63 @@ namespace z
         }
 
 
+        template <typename CHAR>
+        data_t<CHAR>::data_t(const double& _real)
+        {
+            d_type = data::VALUE;
+            d_value = _real;
+        }
+
+        template <typename CHAR>
+        data_t<CHAR>::data_t(const std::complex<double>& _complex)
+        {
+            d_type = data::VALUE;
+            d_value = _complex;
+        }
+
+        template <typename CHAR>
+        data_t<CHAR>::data_t(const core::string<CHAR>& _string)
+        {
+            d_type = data::STRING;
+            d_string = _string;
+        }
+
+        template <typename CHAR>
+        data_t<CHAR>::data_t(const core::array< data_t<CHAR> >& _array)
+        {
+            d_type = data::ARRAY;
+            d_array = _array;
+        }
+
+
+
+        template <typename CHAR>
+        const core::string<CHAR> data_t<CHAR>::string() const
+        {
+            if (d_type == data::VALUE)
+                return core::string<CHAR>(d_value);
+            else if (d_type == data::STRING)
+                return d_string;
+            else if (d_type == data::ARRAY)
+            {
+                core::string<CHAR> r_string = "{";
+
+                for (int i=0; i<d_array.size(); i++)
+                {
+                    if (i > 0)
+                        r_string += ",";
+
+                    r_string += d_array[i].string();
+                }
+
+                r_string += "}";
+
+                return r_string;
+            }
+            else
+                return core::string<CHAR>();
+
+        }
     }
 }
 

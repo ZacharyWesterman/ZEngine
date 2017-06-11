@@ -68,15 +68,22 @@ namespace z
                 d_type = data::NONE;
             }
 
-            data_t(const double& _real);
-            data_t(const std::complex<double>& _complex);
-            data_t(const core::string<CHAR>& _string);
-            data_t(const core::array< data_t<CHAR> >& _array);
+            data_t(const double&);
+            data_t(const std::complex<double>&);
+            data_t(const core::string<CHAR>&);
+            data_t(const core::array< data_t<CHAR> >&);
+
+            template <typename CHAR_2>
+            data_t(const CHAR_2* cstring)
+            {
+                d_type = data::STRING;
+                d_string = cstring;
+            }
 
 
             ~data_t() {}
 
-            const bool operator==(const data_t& other) const;
+            const bool operator==(const data_t&) const;
 
             inline const bool operator!=(const data_t& other) const
             {
@@ -84,7 +91,7 @@ namespace z
             }
 
 
-            const data_t& operator=(const data_t& other);
+            const data_t& operator=(const data_t&);
 
 
             inline int type() const {return type;}
@@ -131,25 +138,13 @@ namespace z
         template <typename CHAR>
         const data_t<CHAR>& data_t<CHAR>::operator=(const data_t<CHAR>& other)
         {
-            d_string.clear();
-            d_array.clear();
-
             d_type = other.d_type;
 
-            switch (d_type)
-            {
-            case (data::VALUE):
-                d_value = other.d_value;
-                break;
+            d_value = other.d_value;
+            d_string = other.d_string;
 
-            case (data::STRING):
-                d_string = other.d_string;
-                break;
+            d_array = other.d_array;
 
-            case (data::ARRAY):
-                d_array = other.d_array;
-                break;
-            }
 
             return *this;
         }
@@ -211,6 +206,41 @@ namespace z
             else
                 return core::string<CHAR>();
 
+        }
+
+
+        template <typename CHAR>
+        const std::complex<double> data_t<CHAR>::complex() const
+        {
+            if (d_type == data::VALUE)
+                return d_value;
+            else if (d_type == data::STRING)
+                return core::complexValue(d_string);
+            else
+                return std::complex<double>();
+        }
+
+
+        template <typename CHAR>
+        const double data_t<CHAR>::real() const
+        {
+            if (d_type == data::VALUE)
+                return d_value.real();
+            else if (d_type == data::STRING)
+                return core::complexValue(d_string).real();
+            else
+                return 0;
+        }
+
+        template <typename CHAR>
+        const double data_t<CHAR>::imag() const
+        {
+            if (d_type == data::VALUE)
+                return d_value.imag();
+            else if (d_type == data::STRING)
+                return core::complexValue(d_string).imag();
+            else
+                return 0;
         }
     }
 }

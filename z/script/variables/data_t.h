@@ -68,8 +68,26 @@ namespace z
                 d_type = data::NONE;
             }
 
-            data_t(const double&);
-            data_t(const std::complex<double>&);
+            template<
+                typename T, //numeric type
+                typename = typename std::enable_if<std::is_arithmetic<T>::value, T>::type
+            >
+            data_t(const T& _real)
+            {
+                d_type = data::VALUE;
+                d_value = (double)_real;
+            }
+
+            template<
+                typename T, //numeric type
+                typename = typename std::enable_if<std::is_arithmetic<T>::value, T>::type
+            >
+            data_t(const std::complex<T>& _complex)
+            {
+                d_type = data::VALUE;
+                d_value = std::complex<double>(_complex);
+            }
+
             data_t(const core::string<CHAR>&);
             data_t(const core::array< data_t<CHAR> >&);
 
@@ -150,19 +168,6 @@ namespace z
         }
 
 
-        template <typename CHAR>
-        data_t<CHAR>::data_t(const double& _real)
-        {
-            d_type = data::VALUE;
-            d_value = _real;
-        }
-
-        template <typename CHAR>
-        data_t<CHAR>::data_t(const std::complex<double>& _complex)
-        {
-            d_type = data::VALUE;
-            d_value = _complex;
-        }
 
         template <typename CHAR>
         data_t<CHAR>::data_t(const core::string<CHAR>& _string)

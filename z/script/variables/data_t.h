@@ -14,7 +14,7 @@
  *
  * Author:          Zachary Westerman
  * Email:           zacharywesterman@yahoo.com
- * Last modified:   9 Jun. 2017
+ * Last modified:   11 Jun. 2017
 **/
 
 #pragma once
@@ -26,6 +26,8 @@
 
 #include <complex>
 #include <type_traits>
+
+using std::complex;
 
 namespace z
 {

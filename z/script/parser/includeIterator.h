@@ -29,6 +29,7 @@
 
 
 #include <iostream>
+using namespace std;
 
 namespace z
 {
@@ -104,9 +105,7 @@ namespace z
         public:
 
 
-            includeIterator(core::sorted_ref_array< core::string<CHAR>* >* symbol_table,
-                            core::sorted_array< core::string<CHAR> >* cmds = NULL,
-                            core::sorted_array< core::string<CHAR> >* funcs = NULL) :
+            includeIterator(core::sorted_ref_array< core::string<CHAR>* >* symbol_table) :
                             fScanner(symbol_table)
             {
                 full_output = NULL;

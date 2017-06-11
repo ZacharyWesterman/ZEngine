@@ -11,45 +11,23 @@
 using namespace z;
 using namespace script;
 
+using std::cout;
+using std::endl;
 
 int main(int argc, char* argv[])
 {
-    data_t<char> data;
 
-    data = "12.3";
-
-    //cout << data.array().size() << endl;
-
-    cout << data.imag() << endl;
-
-    //data.d_string = core::string<char>("Hello");
-    //cout << data.d_string.str() << endl;
-
-    /*char c_in[128];
+    char c_in[128];
 
     cout << "Input:\n\n";
 
     cin.getline(c_in, 128, '\n');
 
-    core::sorted_array< core::string<char> > commands;
-    commands.add("print");
-    commands.add("exit");
-    commands.add("delay");
-
-    core::sorted_array< core::string<char> > functions;
-    functions.add("log");
-    functions.add("ln");
-    functions.add("sum");
-
 
     core::sorted_ref_array< core::string<char>* > symbol_table;
 
-    //z::script::scanner<char> S(&symbol_table, &operators, &commands, &functions);
-
-    //core::array< z::script::ident_t<char> > identifiers;
-
     //test the include iterator
-    z::script::includeIterator<char> sscan(&symbol_table, &commands, &functions);
+    z::script::includeIterator<char> sscan(&symbol_table);
 
 
     z::core::string<char> input = c_in;
@@ -71,7 +49,7 @@ int main(int argc, char* argv[])
         time.reset();
     }
 
-    sscan.printErrors();*.
+    sscan.printErrors();
 
     //std::cout << "\nDone.\n";
 

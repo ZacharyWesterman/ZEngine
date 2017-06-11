@@ -9,28 +9,18 @@
 //using namespace std;
 
 using namespace z;
+using namespace script;
 
 
 int main(int argc, char* argv[])
 {
-    script::data_t<char> data;
+    data_t<char> data;
 
-    data.setType(script::data::ARRAY);
+    data = "12.3";
 
-    data.array().add(10);
-    data.array().add(core::string<char>("Hello"));
+    //cout << data.array().size() << endl;
 
-    script::data_t<char> tmp;
-    tmp.setType(script::data::ARRAY);
-    tmp.array().add(1);
-    tmp.array().add(2);
-    tmp.array().add(3);
-
-    data.array().add(tmp);
-
-    cout << data.array().size() << endl;
-
-    cout << data.string().str() << endl;
+    cout << data.imag() << endl;
 
     //data.d_string = core::string<char>("Hello");
     //cout << data.d_string.str() << endl;

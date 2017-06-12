@@ -840,6 +840,8 @@ namespace z
                     current_ident.type = ident::KEYWORD_GOSUB;
                 else if (current_symbol == "label")
                     current_ident.type = ident::KEYWORD_LABEL;
+                else if (current_symbol == "sub")
+                    current_ident.type = ident::KEYWORD_SUB;
                 else if (current_symbol == "run")
                     current_ident.type = ident::KEYWORD_RUN;
                 else if (current_symbol == "include")

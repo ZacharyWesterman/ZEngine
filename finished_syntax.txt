@@ -160,4 +160,8 @@ goto_statement	: "goto" IDENTIFIER ;
 
 gosub_statement : "gosub" IDENTIFIER ;
 
+subroutine_decl : "sub" IDENTIFIER { }
+		| "sub" IDENTIFIER { statement }
+		| "sub" IDENTIFIER { statementlist }
+
 

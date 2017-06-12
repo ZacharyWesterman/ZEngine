@@ -301,7 +301,6 @@ namespace z
                         index = 0;
                         did_concat = false;
                     }
-
                     else if (identifierlist()||
                              _command()     ||
 
@@ -310,6 +309,7 @@ namespace z
                              for_statement()||
                              foreach_statement()||
                              loop_statement()||
+                             while_pre_stmt()||
                              label_statement()||
                              goto_statement()||
                              gosub_statement()||
@@ -1150,6 +1150,125 @@ namespace z
 
             return false;
         }
+
+        template <typename CHAR>
+        bool lexer<CHAR>::while_pre_stmt()
+        {
+            if (phrase_nodes.is_valid(index+5) &&
+                (phrase_nodes[index]->type == ident::KEYWORD_LOOP) &&
+                (phrase_nodes[index+1]->type == ident::KEYWORD_WHILE) &&
+                (phrase_nodes[index+2]->type == ident::LPARENTH) &&
+                (phrase_nodes[index+3]->type == phrase::BOOLEXPR) &&
+                (phrase_nodes[index+4]->type == ident::RPARENTH))
+            {
+                if (phrase_nodes.is_valid(index+7) &&
+                    (phrase_nodes[index+5]->type == ident::LBRACE) &&
+                    ((phrase_nodes[index+6]->type == phrase::STATEMENT) ||
+                     (phrase_nodes[index+6]->type == phrase::STATEMENTLIST)) &&
+                    (phrase_nodes[index+7]->type == ident::RBRACE))
+                {
+                    phrase_t<CHAR>* node = new phrase_t<CHAR>();
+
+                    node->type = phrase::WHILE_PRE_STMT;
+
+                    node->line = phrase_nodes[index]->line;
+                    node->column = phrase_nodes[index]->column;
+
+                    phrase_nodes[index+3]->parent = node;
+                    phrase_nodes[index+6]->parent = node;
+
+                    node->children.add(phrase_nodes[index+3]);
+                    node->children.add(phrase_nodes[index+6]);
+
+
+                    delete phrase_nodes[index];
+                    delete phrase_nodes[index+1];
+                    delete phrase_nodes[index+2];
+                    delete phrase_nodes[index+4];
+                    delete phrase_nodes[index+5];
+                    delete phrase_nodes[index+7];
+                    phrase_nodes.replace(index, index+7, node);
+
+                    return true;
+                }
+                else if (phrase_nodes.is_valid(index+6) &&
+                    (phrase_nodes[index+5]->type == ident::LBRACE) &&
+                    (phrase_nodes[index+6]->type == ident::RBRACE))
+                {
+                    phrase_t<CHAR>* node = new phrase_t<CHAR>();
+
+                    node->type = phrase::WHILE_PRE_STMT;
+
+                    node->line = phrase_nodes[index]->line;
+                    node->column = phrase_nodes[index]->column;
+
+                    phrase_nodes[index+3]->parent = node;
+
+                    node->children.add(phrase_nodes[index+3]);
+
+
+                    delete phrase_nodes[index];
+                    delete phrase_nodes[index+1];
+                    delete phrase_nodes[index+2];
+                    delete phrase_nodes[index+4];
+                    delete phrase_nodes[index+5];
+                    delete phrase_nodes[index+6];
+                    phrase_nodes.replace(index, index+6, node);
+
+                    return true;
+                }
+                else if (phrase_nodes[index+5]->type == phrase::STATEMENT)
+                {
+                    phrase_t<CHAR>* node = new phrase_t<CHAR>();
+
+                    node->type = phrase::WHILE_PRE_STMT;
+
+                    node->line = phrase_nodes[index]->line;
+                    node->column = phrase_nodes[index]->column;
+
+                    phrase_nodes[index+3]->parent = node;
+                    phrase_nodes[index+5]->parent = node;
+
+                    node->children.add(phrase_nodes[index+3]);
+                    node->children.add(phrase_nodes[index+5]);
+
+
+                    delete phrase_nodes[index];
+                    delete phrase_nodes[index+1];
+                    delete phrase_nodes[index+2];
+                    delete phrase_nodes[index+4];
+                    phrase_nodes.replace(index, index+5, node);
+
+                    return true;
+                }
+                else if (phrase_nodes[index+5]->type == ident::SEMICOLON)
+                {
+                    phrase_t<CHAR>* node = new phrase_t<CHAR>();
+
+                    node->type = phrase::WHILE_PRE_STMT;
+
+                    node->line = phrase_nodes[index]->line;
+                    node->column = phrase_nodes[index]->column;
+
+                    phrase_nodes[index+3]->parent = node;
+
+                    node->children.add(phrase_nodes[index+3]);
+
+
+                    delete phrase_nodes[index];
+                    delete phrase_nodes[index+1];
+                    delete phrase_nodes[index+2];
+                    delete phrase_nodes[index+4];
+                    delete phrase_nodes[index+5];
+                    phrase_nodes.replace(index, index+5, node);
+
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
 
         template <typename CHAR>
         bool lexer<CHAR>::label_statement()

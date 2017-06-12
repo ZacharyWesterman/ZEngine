@@ -1,8 +1,4 @@
-while_pre_stmt	: "loop" "while" ( boolexpr ) statement
-		| "loop" "while" ( boolexpr ) { statement }
-		| "loop" "while" ( boolexpr ) { statementlist }
-		| "loop" "while" ( boolexpr ) { }
-		| "loop" "while" ( boolexpr ) ;
+
 
 while_post_stmt	: "loop" statement "while" ( boolexpr )
 		| "loop" { statement } "while" ( boolexpr )

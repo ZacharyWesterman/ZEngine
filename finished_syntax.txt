@@ -164,4 +164,10 @@ subroutine_decl : "sub" IDENTIFIER { }
 		| "sub" IDENTIFIER { statement }
 		| "sub" IDENTIFIER { statementlist }
 
+while_pre_stmt	: "loop" "while" ( boolexpr ) statement
+		| "loop" "while" ( boolexpr ) { statement }
+		| "loop" "while" ( boolexpr ) { statementlist }
+		| "loop" "while" ( boolexpr ) { }
+		| "loop" "while" ( boolexpr ) ;
+
 

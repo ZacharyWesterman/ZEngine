@@ -47,6 +47,8 @@ namespace z
                 GOTO_STATEMENT,
                 GOSUB_STATEMENT,
 
+                SUBROUTINE_DECL,
+
                 VARIABLE_DECL,
                 TYPEVAR_DECL,
 

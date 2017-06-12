@@ -154,4 +154,10 @@ loop_statement	: "loop" statement !"while"
 		| "loop" { } !"while"
 		| "loop" ; !"while"
 
+label_statement	: "label" IDENTIFIER ;
+
+goto_statement	: "goto" IDENTIFIER ;
+
+gosub_statement : "gosub" IDENTIFIER ;
+
 

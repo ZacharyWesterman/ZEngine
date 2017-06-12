@@ -86,6 +86,7 @@ namespace z
             "label_statement",
             "goto_statement",
             "gosub_statement",
+            "subroutine_decl",
             "variable_decl",
             "typevar_decl",
             "index",
@@ -171,6 +172,11 @@ namespace z
             bool return_statement();
             bool wait_statement();
             bool until_statement();
+            bool label_statement();
+            bool goto_statement();
+            bool gosub_statement();
+
+            bool subroutine_decl();
 
             bool variable_decl();
             bool typevar_decl();
@@ -298,11 +304,16 @@ namespace z
 
                     else if (identifierlist()||
                              _command()     ||
+
                              if_statement() ||
                              statementlist()||
                              for_statement()||
                              foreach_statement()||
                              loop_statement()||
+                             label_statement()||
+                             goto_statement()||
+                             gosub_statement()||
+
                              variable_decl()||
                              typevar_decl() ||
                              _index()       ||
@@ -311,10 +322,12 @@ namespace z
                              _list()        ||
                              funccall()     ||
                              type_funccall()||
+
                              varindex()     ||
                              typevar()      ||
                              variable()     ||
                              operand()      ||
+
                              parenthexpr()  ||
                              factorialexpr()||
                              add1expr()     ||
@@ -326,6 +339,7 @@ namespace z
                              assignexpr()   ||
                              dimensionexpr()||
                              sizeofexpr()   ||
+
                              statement()
                              )
                         did_concat = true;
@@ -1134,6 +1148,95 @@ namespace z
 
             return false;
         }
+
+        template <typename CHAR>
+        bool lexer<CHAR>::label_statement()
+        {
+            if (phrase_nodes.is_valid(index+2) &&
+                (phrase_nodes[index]->type == ident::KEYWORD_LABEL) &&
+                (phrase_nodes[index+1]->type == ident::IDENTIFIER) &&
+                (phrase_nodes[index+2]->type == ident::SEMICOLON))
+            {
+                phrase_t<CHAR>* node = new phrase_t<CHAR>();
+
+                node->type = phrase::LABEL_STATEMENT;
+
+                node->line = phrase_nodes[index]->line;
+                node->column = phrase_nodes[index]->column;
+
+                phrase_nodes[index+1]->parent = node;
+
+                node->children.add(phrase_nodes[index+1]);
+
+                delete phrase_nodes[index];
+                delete phrase_nodes[index+2];
+                phrase_nodes.replace(index, index+2, node);
+
+                return true;
+            }
+            else
+                return false;
+        }
+
+        template <typename CHAR>
+        bool lexer<CHAR>::goto_statement()
+        {
+            if (phrase_nodes.is_valid(index+2) &&
+                (phrase_nodes[index]->type == ident::KEYWORD_GOTO) &&
+                (phrase_nodes[index+1]->type == ident::IDENTIFIER) &&
+                (phrase_nodes[index+2]->type == ident::SEMICOLON))
+            {
+                phrase_t<CHAR>* node = new phrase_t<CHAR>();
+
+                node->type = phrase::GOTO_STATEMENT;
+
+                node->line = phrase_nodes[index]->line;
+                node->column = phrase_nodes[index]->column;
+
+                phrase_nodes[index+1]->parent = node;
+
+                node->children.add(phrase_nodes[index+1]);
+
+                delete phrase_nodes[index];
+                delete phrase_nodes[index+2];
+                phrase_nodes.replace(index, index+2, node);
+
+                return true;
+            }
+            else
+                return false;
+        }
+
+        template <typename CHAR>
+        bool lexer<CHAR>::gosub_statement()
+        {
+            if (phrase_nodes.is_valid(index+2) &&
+                (phrase_nodes[index]->type == ident::KEYWORD_GOSUB) &&
+                (phrase_nodes[index+1]->type == ident::IDENTIFIER) &&
+                (phrase_nodes[index+2]->type == ident::SEMICOLON))
+            {
+                phrase_t<CHAR>* node = new phrase_t<CHAR>();
+
+                node->type = phrase::GOSUB_STATEMENT;
+
+                node->line = phrase_nodes[index]->line;
+                node->column = phrase_nodes[index]->column;
+
+                phrase_nodes[index+1]->parent = node;
+
+                node->children.add(phrase_nodes[index+1]);
+
+                delete phrase_nodes[index];
+                delete phrase_nodes[index+2];
+                phrase_nodes.replace(index, index+2, node);
+
+                return true;
+            }
+            else
+                return false;
+        }
+
+
 
         template <typename CHAR>
         bool lexer<CHAR>::variable_decl()

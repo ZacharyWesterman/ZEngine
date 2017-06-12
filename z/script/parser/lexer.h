@@ -5,7 +5,7 @@
  *                  takes the list of tokens generated
  *                  by the scanner and groups them into
  *                  functional phrases (e.g. expression,
- *                  scope, etc.)
+ *                  if statement, etc.)
  *
  *
  * Author:          Zachary Westerman

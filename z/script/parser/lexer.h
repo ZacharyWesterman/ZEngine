@@ -518,7 +518,9 @@ namespace z
                 return true;
             }
             else if ((phrase_nodes[index]->type == phrase::COMMAND) ||
-                     (phrase_nodes[index]->type == phrase::IF_STATEMENT) ||
+                     ((phrase_nodes[index]->type == phrase::IF_STATEMENT) &&
+                      !(phrase_nodes.is_valid(index+1) &&
+                        phrase_nodes[index+1]->type == ident::KEYWORD_ELSE)) ||
                      (phrase_nodes[index]->type == phrase::FOR_STATEMENT) ||
                      (phrase_nodes[index]->type == phrase::FOREACH_STATEMENT) ||
                      (phrase_nodes[index]->type == phrase::LOOP_STATEMENT) ||
@@ -1679,9 +1681,12 @@ namespace z
         {
             if (phrase_nodes.is_valid(index+2) &&
                 ((phrase_nodes[index]->type == phrase::BOOLEXPR) ||
-                 (phrase_nodes[index]->type == phrase::EXPRLIST)) &&
+                 (phrase_nodes[index]->type == phrase::EXPRLIST) ||
+                 (phrase_nodes[index]->type == phrase::LIST)) &&
                 (phrase_nodes[index+1]->type == ident::COMMA) &&
-                (phrase_nodes[index+2]->type == phrase::BOOLEXPR))
+                ((phrase_nodes[index+2]->type == phrase::BOOLEXPR) ||
+                 (phrase_nodes[index+2]->type == phrase::EXPRLIST) ||
+                 (phrase_nodes[index+2]->type == phrase::LIST)))
             {
                 phrase_t<CHAR>* node = new phrase_t<CHAR>();
 

@@ -1945,9 +1945,18 @@ namespace z
                        (phrase_nodes[index+1]->type == ident::LBRACKET) ||
                        (phrase_nodes[index+1]->type == ident::LPARENTH)))))
             {
-                if (phrase_nodes[index]->orig_type == ident::NONE)
-                    phrase_nodes[index]->orig_type = phrase_nodes[index]->type;
-                phrase_nodes[index]->type = phrase::VARIABLE;
+                phrase_t<CHAR>* node = new phrase_t<CHAR>();
+
+                node->type = phrase::VARIABLE;
+
+                node->line = phrase_nodes[index]->line;
+                node->column = phrase_nodes[index]->column;
+
+                phrase_nodes[index]->parent = node;
+
+                node->children.add(phrase_nodes[index]);
+
+                phrase_nodes[index] = node;
 
                 return true;
             }

@@ -1,8 +1,3 @@
-wait_statement	: "wait" boolexpr ;
-
-until_statement	: "wait" "until" boolexpr ;
-
-
 ext_declaration	: function_decl
 		| typedecl
 		| externaldecl

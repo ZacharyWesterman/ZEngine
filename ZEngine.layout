@@ -2,21 +2,6 @@
 <CodeBlocks_layout_file>
 	<FileVersion major="1" minor="0" />
 	<ActiveTarget name="Debug" />
-	<File name="z/script/parser/lexer.h" open="1" top="1" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="7465" topLine="210" />
-		</Cursor>
-		<Folding>
-			<Collapse line="36" />
-			<Collapse line="587" />
-			<Collapse line="1866" />
-		</Folding>
-	</File>
-	<File name="z/script/parser/phrase.h" open="1" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="367" topLine="0" />
-		</Cursor>
-	</File>
 	<File name="z/script/variables/data_t.h" open="0" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
 			<Cursor1 position="619" topLine="0" />
@@ -33,9 +18,9 @@
 			<Collapse line="38" />
 		</Folding>
 	</File>
-	<File name="z/script/parser/includeIterator.h" open="1" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="main.cpp" open="1" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="2567" topLine="93" />
+			<Cursor1 position="367" topLine="29" />
 		</Cursor>
 	</File>
 	<File name="z/script/parser/identity.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
@@ -43,9 +28,55 @@
 			<Cursor1 position="0" topLine="36" />
 		</Cursor>
 	</File>
-	<File name="main.cpp" open="1" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="z/script/parser/phrase.h" open="1" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="367" topLine="29" />
+			<Cursor1 position="367" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="z/script/parser/lexer.h" open="1" top="1" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="56415" topLine="335" />
+		</Cursor>
+		<Folding>
+			<Collapse line="36" />
+			<Collapse line="149" />
+			<Collapse line="225" />
+			<Collapse line="237" />
+			<Collapse line="243" />
+			<Collapse line="274" />
+			<Collapse line="356" />
+			<Collapse line="422" />
+			<Collapse line="470" />
+			<Collapse line="502" />
+			<Collapse line="558" />
+			<Collapse line="589" />
+			<Collapse line="774" />
+			<Collapse line="935" />
+			<Collapse line="1062" />
+			<Collapse line="1166" />
+			<Collapse line="1284" />
+			<Collapse line="1415" />
+			<Collapse line="1444" />
+			<Collapse line="1473" />
+			<Collapse line="1502" />
+			<Collapse line="1531" />
+			<Collapse line="1560" />
+			<Collapse line="1589" />
+			<Collapse line="1621" />
+			<Collapse line="1681" />
+			<Collapse line="1712" />
+			<Collapse line="1744" />
+			<Collapse line="1775" />
+			<Collapse line="1806" />
+			<Collapse line="1842" />
+			<Collapse line="1901" />
+			<Collapse line="1960" />
+			<Collapse line="2062" />
+		</Folding>
+	</File>
+	<File name="z/script/parser/includeIterator.h" open="1" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="2567" topLine="93" />
 		</Cursor>
 	</File>
 </CodeBlocks_layout_file>

@@ -179,3 +179,7 @@ while_post_stmt	: "loop" statement "while" ( boolexpr )
 run_statement	: "run" boolexpr ;
 
 return_statement: "return" boolexpr ;
+
+wait_statement	: "wait" boolexpr ;
+
+until_statement	: "wait" "until" boolexpr ;

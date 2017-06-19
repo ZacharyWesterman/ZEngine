@@ -176,4 +176,6 @@ while_post_stmt	: "loop" statement "while" ( boolexpr )
 		| "loop" { } "while" ( boolexpr )
 		| "loop" ; "while" ( boolexpr )
 
+run_statement	: "run" boolexpr ;
 
+return_statement: "return" boolexpr ;

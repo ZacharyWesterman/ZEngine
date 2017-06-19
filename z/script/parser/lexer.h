@@ -301,46 +301,48 @@ namespace z
                         index = 0;
                         did_concat = false;
                     }
-                    else if (identifierlist()||
-                             _command()     ||
+                    else if (identifierlist()   ||
+                             _command()         ||
 
-                             if_statement() ||
-                             statementlist()||
-                             for_statement()||
+                             if_statement()     ||
+                             statementlist()    ||
+                             for_statement()    ||
                              foreach_statement()||
-                             loop_statement()||
-                             while_pre_stmt()||
-                             while_post_stmt()||
-                             label_statement()||
-                             goto_statement()||
-                             gosub_statement()||
+                             loop_statement()   ||
+                             while_pre_stmt()   ||
+                             while_post_stmt()  ||
+                             label_statement()  ||
+                             goto_statement()   ||
+                             gosub_statement()  ||
+                             run_statement()    ||
+                             return_statement() ||
 
-                             subroutine_decl()||
-                             variable_decl()||
-                             typevar_decl() ||
-                             _index()       ||
-                             indexlist()    ||
-                             exprlist()     ||
-                             _list()        ||
-                             funccall()     ||
-                             type_funccall()||
+                             subroutine_decl()  ||
+                             variable_decl()    ||
+                             typevar_decl()     ||
+                             _index()           ||
+                             indexlist()        ||
+                             exprlist()         ||
+                             _list()            ||
+                             funccall()         ||
+                             type_funccall()    ||
 
-                             varindex()     ||
-                             typevar()      ||
-                             variable()     ||
-                             operand()      ||
+                             varindex()         ||
+                             typevar()          ||
+                             variable()         ||
+                             operand()          ||
 
-                             parenthexpr()  ||
-                             factorialexpr()||
-                             add1expr()     ||
-                             negatexpr()    ||
-                             powerexpr()    ||
-                             multiplyexpr() ||
-                             addexpr()      ||
-                             boolexpr()     ||
-                             assignexpr()   ||
-                             dimensionexpr()||
-                             sizeofexpr()   ||
+                             parenthexpr()      ||
+                             factorialexpr()    ||
+                             add1expr()         ||
+                             negatexpr()        ||
+                             powerexpr()        ||
+                             multiplyexpr()     ||
+                             addexpr()          ||
+                             boolexpr()         ||
+                             assignexpr()       ||
+                             dimensionexpr()    ||
+                             sizeofexpr()       ||
 
                              statement()
                              )
@@ -500,8 +502,12 @@ namespace z
             if (phrase_nodes.is_valid(index+1) &&
                  ((phrase_nodes[index]->type == phrase::BOOLEXPR) &&
                    !(phrase_nodes.is_valid(index-1) &&
-                     (phrase_nodes[index-1]->type >= ident::OPER_ASSIGN) &&
-                     (phrase_nodes[index-1]->type <= ident::OPER_MOD_ASSIGN))) &&
+                     (((phrase_nodes[index-1]->type >= ident::OPER_ASSIGN) &&
+                       (phrase_nodes[index-1]->type <= ident::OPER_MOD_ASSIGN)) ||
+                      (phrase_nodes[index-1]->type == ident::KEYWORD_RUN) ||
+                      (phrase_nodes[index-1]->type == ident::KEYWORD_RETURN) ||
+                      (phrase_nodes[index-1]->type == ident::KEYWORD_WAIT) ||
+                      (phrase_nodes[index-1]->type == ident::KEYWORD_UNTIL)))) &&
                 (phrase_nodes[index+1]->type == ident::SEMICOLON) &&
                 !(phrase_nodes.is_valid(index-2) &&
                   (phrase_nodes[index-2]->type == ident::KEYWORD_FOR)) &&
@@ -1490,6 +1496,63 @@ namespace z
                 return false;
         }
 
+        template <typename CHAR>
+        bool lexer<CHAR>::run_statement()
+        {
+            if (phrase_nodes.is_valid(index+2) &&
+                (phrase_nodes[index]->type == ident::KEYWORD_RUN) &&
+                (phrase_nodes[index+1]->type == phrase::BOOLEXPR) &&
+                (phrase_nodes[index+2]->type == ident::SEMICOLON))
+            {
+                phrase_t<CHAR>* node = new phrase_t<CHAR>();
+
+                node->type = phrase::RUN_STATEMENT;
+
+                node->line = phrase_nodes[index]->line;
+                node->column = phrase_nodes[index]->column;
+
+                phrase_nodes[index+1]->parent = node;
+
+                node->children.add(phrase_nodes[index+1]);
+
+                delete phrase_nodes[index];
+                delete phrase_nodes[index+2];
+                phrase_nodes.replace(index, index+2, node);
+
+                return true;
+            }
+            else
+                return false;
+        }
+
+        template <typename CHAR>
+        bool lexer<CHAR>::return_statement()
+        {
+            if (phrase_nodes.is_valid(index+2) &&
+                (phrase_nodes[index]->type == ident::KEYWORD_RETURN) &&
+                (phrase_nodes[index+1]->type == phrase::BOOLEXPR) &&
+                (phrase_nodes[index+2]->type == ident::SEMICOLON))
+            {
+                phrase_t<CHAR>* node = new phrase_t<CHAR>();
+
+                node->type = phrase::RETURN_STATEMENT;
+
+                node->line = phrase_nodes[index]->line;
+                node->column = phrase_nodes[index]->column;
+
+                phrase_nodes[index+1]->parent = node;
+
+                node->children.add(phrase_nodes[index+1]);
+
+                delete phrase_nodes[index];
+                delete phrase_nodes[index+2];
+                phrase_nodes.replace(index, index+2, node);
+
+                return true;
+            }
+            else
+                return false;
+        }
 
         template <typename CHAR>
         bool lexer<CHAR>::subroutine_decl()

@@ -408,9 +408,14 @@ namespace z
 
             }
 
+
             ///debug
-            //if (progress == lex::DONE)
+            if (progress == lex::DONE)
+            {
+                if (phrase_nodes.size() > 1)
+                    error_buffer.add(parser_error<CHAR>(-1, -1, error::SYNTAX_ERROR, -1));
                 print_lex_ast();
+            }
 
             return !time.timedOut();
         }

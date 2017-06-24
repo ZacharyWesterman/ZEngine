@@ -62,6 +62,9 @@ namespace z
             core::sorted_ref_array< core::string<CHAR>* >* sym_table;
 
         public:
+            //keep track of the current file
+            int file;
+
             core::array< parser_error<CHAR> > error_buffer;
 
             //constructor allows operators, commands, and functions be set
@@ -73,6 +76,8 @@ namespace z
                 sym_table = symbol_table;
 
                 clear();
+
+                file = -1;
             }
 
             inline void setInput(core::string<CHAR>& string_input)
@@ -107,6 +112,8 @@ namespace z
 
                 error_buffer.clear();
                 done = false;
+
+                file = -1;
             }
 
             inline bool error()
@@ -181,7 +188,7 @@ namespace z
                                      parser_error<CHAR>(current_ident.line,
                                                         current_ident.column,
                                                         error::UNKNOWN_ESCAPE_SEQUENCE,
-                                                        bad_esc_str));
+                                                        bad_esc_str, file));
                             }
                         }
                     }
@@ -240,6 +247,8 @@ namespace z
                         current_ident.column = column;
 
                         current_ident.meta = NULL;
+
+                        current_ident.file = file;
                     }
                     ///in some kind of comment
                     else if (input->foundAt("\\{", index) || //  multiline comment "\{"
@@ -285,6 +294,8 @@ namespace z
                         current_ident.column = column;
 
                         current_ident.meta = NULL;
+
+                        current_ident.file = file;
 
                         //index++;
                     }
@@ -339,19 +350,19 @@ namespace z
                         if (!open_symbol_indices.pop(op_sym))
                         {
                             error_buffer.add(parser_error<CHAR>(line, column,
-                                                          error::MISSING_L_PARENTH));
+                                                          error::MISSING_L_PARENTH, file));
                         }
                         else if (op_sym.type == ident::LBRACKET)
                         {
                             error_buffer.add(parser_error<CHAR>(op_sym.line,
                                                           op_sym.column,
-                                                          error::MISSING_R_BRACKET));
+                                                          error::MISSING_R_BRACKET, file));
                         }
                         else if (op_sym.type == ident::LBRACE)
                         {
                             error_buffer.add(parser_error<CHAR>(op_sym.line,
                                                           op_sym.column,
-                                                          error::MISSING_R_BRACE));
+                                                          error::MISSING_R_BRACE, file));
                         }
                     }
                     //brackets
@@ -371,19 +382,19 @@ namespace z
                         if (!open_symbol_indices.pop(op_sym))
                         {
                             error_buffer.add(parser_error<CHAR>(line, column,
-                                                          error::MISSING_L_BRACKET));
+                                                          error::MISSING_L_BRACKET, file));
                         }
                         else if (op_sym.type == ident::LPARENTH)
                         {
                             error_buffer.add(parser_error<CHAR>(op_sym.line,
                                                           op_sym.column,
-                                                          error::MISSING_R_PARENTH));
+                                                          error::MISSING_R_PARENTH, file));
                         }
                         else if (op_sym.type == ident::LBRACE)
                         {
                             error_buffer.add(parser_error<CHAR>(op_sym.line,
                                                           op_sym.column,
-                                                          error::MISSING_R_BRACE));
+                                                          error::MISSING_R_BRACE, file));
                         }
                     }
                     //curly braces
@@ -403,19 +414,19 @@ namespace z
                         if (!open_symbol_indices.pop(op_sym))
                         {
                             error_buffer.add(parser_error<CHAR>(line, column,
-                                                          error::MISSING_L_BRACE));
+                                                          error::MISSING_L_BRACE, file));
                         }
                         else if (op_sym.type == ident::LBRACKET)
                         {
                             error_buffer.add(parser_error<CHAR>(op_sym.line,
                                                           op_sym.column,
-                                                          error::MISSING_R_BRACKET));
+                                                          error::MISSING_R_BRACKET, file));
                         }
                         else if (op_sym.type == ident::LPARENTH)
                         {
                             error_buffer.add(parser_error<CHAR>(op_sym.line,
                                                           op_sym.column,
-                                                          error::MISSING_R_PARENTH));
+                                                          error::MISSING_R_PARENTH, file));
                         }
                     }
                     //comma
@@ -475,6 +486,8 @@ namespace z
                         current_ident.column = column;
 
                         current_ident.meta = NULL;
+
+                        current_ident.file = file;
 
                         if (current_ident.type)
                             current_symbol += input->at(index);
@@ -538,19 +551,19 @@ namespace z
                     {
                         error_buffer.add(parser_error<CHAR>(op_sym.line,
                                                     op_sym.column,
-                                                    error::MISSING_R_PARENTH));
+                                                    error::MISSING_R_PARENTH, file));
                     }
                     else if (op_sym.type == ident::LBRACKET)
                     {
                         error_buffer.add(parser_error<CHAR>(op_sym.line,
                                                     op_sym.column,
-                                                    error::MISSING_R_BRACKET));
+                                                    error::MISSING_R_BRACKET, file));
                     }
                     else if (op_sym.type == ident::LBRACE)
                     {
                         error_buffer.add(parser_error<CHAR>(op_sym.line,
                                                     op_sym.column,
-                                                    error::MISSING_R_BRACE));
+                                                    error::MISSING_R_BRACE, file));
                     }
                 }
 
@@ -775,7 +788,8 @@ namespace z
 
                 if (found)
                 {
-                    temp_opers.add(ident_t<CHAR>(curr_oper, line, column + x_offset, null));
+                    temp_opers.add(ident_t<CHAR>(curr_oper, line, column + x_offset,
+                                                 null, file));
 
                     x_offset += oper_length;
                 }
@@ -807,7 +821,7 @@ namespace z
                                                line, column-input.length()));
 
                 error_buffer.add(parser_error<CHAR>(line, column-input.length(),
-                                              oper_error, input));
+                                              oper_error, input, file));
             }
 
             return (oper_error != error::NONE);
@@ -905,7 +919,7 @@ namespace z
                                 parser_error<CHAR>(current_ident.line,
                                              current_ident.column,
                                              error::INVALID_NUMBER_BASE2,
-                                             current_symbol));
+                                             current_symbol, file));
 
                         return_good = false;
                     }
@@ -917,7 +931,7 @@ namespace z
                                     parser_error<CHAR>(current_ident.line,
                                                  current_ident.column,
                                                  error::NUMBER_EXCESS_DECIMALS,
-                                                 current_symbol));
+                                                 current_symbol, file));
 
                             return_good = false;
                         }
@@ -945,7 +959,7 @@ namespace z
                                 parser_error<CHAR>(current_ident.line,
                                              current_ident.column,
                                              error::INVALID_NUMBER_BASE8,
-                                             current_symbol));
+                                             current_symbol, file));
 
                         return_good = false;
                     }
@@ -957,7 +971,7 @@ namespace z
                                     parser_error<CHAR>(current_ident.line,
                                                  current_ident.column,
                                                  error::NUMBER_EXCESS_DECIMALS,
-                                                 current_symbol));
+                                                 current_symbol, file));
 
                             return_good = false;
                         }
@@ -988,7 +1002,7 @@ namespace z
                                 parser_error<CHAR>(current_ident.line,
                                              current_ident.column,
                                              error::INVALID_NUMBER_BASE16,
-                                             current_symbol));
+                                             current_symbol, file));
 
                         return_good = false;
                     }
@@ -1000,7 +1014,7 @@ namespace z
                                     parser_error<CHAR>(current_ident.line,
                                                  current_ident.column,
                                                  error::NUMBER_EXCESS_DECIMALS,
-                                                 current_symbol));
+                                                 current_symbol, file));
 
                             return_good = false;
                         }
@@ -1026,7 +1040,7 @@ namespace z
                                 parser_error<CHAR>(current_ident.line,
                                              current_ident.column,
                                              error::INVALID_NUMBER_BASE10,
-                                             current_symbol));
+                                             current_symbol, file));
 
                         return_good = false;
                     }
@@ -1038,7 +1052,7 @@ namespace z
                                     parser_error<CHAR>(current_ident.line,
                                                  current_ident.column,
                                                  error::NUMBER_EXCESS_DECIMALS,
-                                                 current_symbol));
+                                                 current_symbol, file));
 
                             return_good = false;
                         }

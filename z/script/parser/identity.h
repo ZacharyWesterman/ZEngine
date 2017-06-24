@@ -159,10 +159,12 @@ namespace z
 
             double value;
 
+            //keep track of the current file
+            int file;
 
             ///full constructor
             ident_t (ident::ident_enum t = ident::NONE, int lin = 0, int col = 0,
-                     core::string<CHAR>* symbol_ptr = NULL)
+                     core::string<CHAR>* symbol_ptr = NULL, int fileID = -1)
             {
                 type = t;
 
@@ -172,6 +174,8 @@ namespace z
                 meta = symbol_ptr;
 
                 value = 0;
+
+                file = fileID;
             }
 
 

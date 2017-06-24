@@ -69,18 +69,38 @@ namespace z
 
             error_flag generic_error;
 
+            //index of this node's file
+            int file;
+
             s_iter_node()
             {
                 progress = PROG_NONE;
                 insert_index = -1;
                 generic_error = error::NONE;
+
+                file = -1;
             }
 
             bool operator==(const s_iter_node& other) const
             {
                 return ((directory == other.directory) &&
                         (filename == other.filename) &&
-                        (contents == other.contents));
+                        (contents == other.contents) &&
+                        (file == other.file));
+            }
+
+            core::string<CHAR> fullFileName()
+            {
+                core::string<CHAR> fullFName;
+                if (directory.length())
+                    fullFName = directory + '\\';
+
+                if (filename.length())
+                    fullFName += filename;
+                else
+                    fullFName += '.';
+
+                return fullFName;
             }
         };
 
@@ -89,6 +109,8 @@ namespace z
         class includeIterator
         {
         private:
+            core::array< core::string<CHAR> > file_list;
+
             core::string<CHAR>* full_output;
 
             file::loader<CHAR> fLoader;
@@ -126,6 +148,7 @@ namespace z
                           bool is_file = false)
             {
                 node_list.clear();
+                file_list.clear();
                 working_node = 0;
 
                 if (is_file)
@@ -138,6 +161,9 @@ namespace z
 
                     node.directory = file::shorten(input.substr(0, pos-1));
                     node.filename = input.substr(pos+1, input.length()-1);
+
+                    node.file = file_list.size();
+                    file_list.add(node.fullFileName());
 
                     node_list.add(node);
                 }
@@ -176,10 +202,7 @@ namespace z
                 if (progress == PROG_NONE)
                 {
 
-                    core::string<char> file = node_list[working_node].directory;
-                    if (file.length())
-                        file += '\\';
-                    file += node_list[working_node].filename;
+                    core::string<char> file = node_list[working_node].fullFileName();
 
                     fLoader.clear();
                     fLoader.setFileName(file);
@@ -210,6 +233,7 @@ namespace z
                 else if (progress == PROG_SCAN_READY)
                 {
                     fScanner.clear();
+                    fScanner.file = file_list.size() - 1;
                     fScanner.setInput(node_list[working_node].contents);
                     fScanner.setOutput(node_list[working_node].identities);
 
@@ -273,7 +297,7 @@ namespace z
                                 node_list[working_node].error_buffer.add(
                                     parser_error<CHAR>(node_list[working_node].identities[i].line,
                                                        node_list[working_node].identities[i].column,
-                                                       error::INVALID_INCLUDE));
+                                                       error::INVALID_INCLUDE, node_list[working_node].file));
 
                                 found_error = true;
                             }
@@ -307,7 +331,12 @@ namespace z
                     found_error |= fLexer.error();
 
                     if (found_error)
+                    {
+                        node_list[working_node].error_buffer.add(fLexer.error_buffer);
+                        found_error = true;
+
                         node_list[working_node].progress = PROG_DONE;
+                    }
                     else
                         node_list[working_node].progress = PROG_DONE;
                 }
@@ -338,14 +367,11 @@ namespace z
 
                         cout << "Error ";
 
-                        if(node_list[i].filename.length())
-                        {
-                            cout << "in \"";
-                            if (node_list[i].directory.length())
-                                cout << core::string<char>(node_list[i].directory).str() << "/";
-                            cout << core::string<char>(node_list[i].filename).str()
-                             << "\" ";
-                        }
+                        if (node_list[i].error_buffer[e].file > -1)
+                            cout << "in \""
+                                 << file_list[node_list[i].error_buffer[e].file].str()
+                                 << "\" ";
+
 
                         cout << "at line " << perr.line
                              << ", column " << perr.column
@@ -367,6 +393,10 @@ namespace z
                         case error::AMBIGUOUS_EXPR:
                             cout << "The expression \"" << perr.extra_data.str() <<
                             "\" contains illegal characters.";
+                            break;
+
+                        case error::SYNTAX_ERROR:
+                            cout << "Syntax error.";
                             break;
 
                         default:

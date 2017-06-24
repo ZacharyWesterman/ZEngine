@@ -113,6 +113,9 @@ namespace z
             phrase_t* parent;
             core::array<phrase_t*> children;
 
+            //keep track of what file this is
+            int file;
+
             //empty constructor
             phrase_t()
             {
@@ -126,6 +129,8 @@ namespace z
                 value = 0;
 
                 parent = NULL;
+
+                file = -1;
             }
 
             //constructor from ident_t
@@ -141,6 +146,8 @@ namespace z
                 value = token.value;
 
                 parent = NULL;
+
+                file = token.file;
             }
 
 

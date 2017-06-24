@@ -52,6 +52,8 @@ namespace z
                 MISSING_L_BRACE,
                 MISSING_R_BRACE,
 
+                SYNTAX_ERROR,
+
                 UNEXPECTED_ASSIGNMENT,
 
                 DIV_BY_ZERO,
@@ -69,6 +71,8 @@ namespace z
 
             error_flag err;
 
+            int file;
+
             core::string<CHAR> extra_data;
 
             parser_error()
@@ -77,10 +81,12 @@ namespace z
                 column = 0;
 
                 err = error::NONE;
+
+                file = -1;
             }
 
             parser_error(int Line, int Column, error_flag Error,
-                         const core::string<CHAR>& extra)
+                         const core::string<CHAR>& extra, int fileID)
             {
                 line = Line;
                 column = Column;
@@ -88,14 +94,18 @@ namespace z
                 err = Error;
 
                 extra_data = extra;
+
+                file = fileID;
             }
 
-            parser_error(int Line, int Column, error_flag Error)
+            parser_error(int Line, int Column, error_flag Error, int fileID)
             {
                 line = Line;
                 column = Column;
 
                 err = Error;
+
+                file = fileID;
             }
 
             parser_error(const parser_error& other)
@@ -106,6 +116,8 @@ namespace z
                 err = other.err;
 
                 extra_data = other.extra_data;
+
+                file = other.file;
             }
 
             const parser_error& operator=(const parser_error& other)
@@ -116,6 +128,8 @@ namespace z
                 err = other.err;
 
                 extra_data = other.extra_data;
+
+                file = other.file;
 
                 return *this;
             }

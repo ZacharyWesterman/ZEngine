@@ -43,6 +43,7 @@ namespace z
             PROG_SCAN_READY,
             PROG_SCANNING,
             PROG_SCANNED,
+            PROG_MERGE_READY,
             PROG_LEX_READY,
             PROG_LEXING,
             PROG_LEXED,
@@ -124,6 +125,10 @@ namespace z
 
             int working_node;
 
+            core::array< ident_t<CHAR> > full_ident_list;
+
+            bool done;
+
         public:
 
 
@@ -135,6 +140,10 @@ namespace z
                 found_error = false;
 
                 working_node = 0;
+
+                fLexer.setInput(&full_ident_list);
+
+                done = false;
             }
 
             ~includeIterator()
@@ -151,6 +160,8 @@ namespace z
                 file_list.clear();
                 working_node = 0;
 
+                done = false;
+
                 if (is_file)
                 {
                     s_iter_node<CHAR> node;
@@ -161,9 +172,6 @@ namespace z
 
                     node.directory = file::shorten(input.substr(0, pos-1));
                     node.filename = input.substr(pos+1, input.length()-1);
-
-                    node.file = file_list.size();
-                    file_list.add(node.fullFileName());
 
                     node_list.add(node);
                 }
@@ -195,8 +203,11 @@ namespace z
         template <typename CHAR>
         bool includeIterator<CHAR>::build(const core::timeout& time)
         {
-            while ((working_node < node_list.size()) && !time.timedOut())
+            while (!done && !time.timedOut())
             {
+                if (working_node >= node_list.size())
+                    working_node = 0;
+
                 int progress = node_list[working_node].progress;
 
                 if (progress == PROG_NONE)
@@ -206,6 +217,9 @@ namespace z
 
                     fLoader.clear();
                     fLoader.setFileName(file);
+
+                    node_list[working_node].file = file_list.size();
+                    file_list.add(file);
 
                     node_list[working_node].progress = PROG_LOADING;
                 }
@@ -267,6 +281,7 @@ namespace z
                                 node.directory = file::shorten(full_fname.substr(0, pos-1));
                                 node.filename = full_fname.substr(pos+1, full_fname.length()-1);
 
+                                node.insert_index = i;
 
                                 core::string<char> file = node_list[working_node].directory;
 
@@ -313,11 +328,15 @@ namespace z
                         node_list[working_node].progress = PROG_DONE;
                     }
                     else
-                        node_list[working_node].progress = PROG_LEX_READY;
+                        node_list[working_node].progress = PROG_MERGE_READY;
+                }
+                else if (progress = PROG_MERGE_READY)
+                {
+                    working_node++;
                 }
                 else if (progress == PROG_LEX_READY)
                 {
-                    fLexer.setInput(node_list[working_node].identities);
+
 
                     node_list[working_node].progress = PROG_LEXING;
                 }
@@ -345,6 +364,9 @@ namespace z
                     //cout << node_list[working_node].contents.str() << endl;
 
                     working_node++;
+
+                    if (working_node >= node_list.size())
+                        done = true;
                 }
             }
 

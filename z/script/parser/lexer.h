@@ -266,6 +266,8 @@ namespace z
         };
 
 
+        ///template for lexing function. Attempts to parse identifiers into
+        ///valid syntax. Returns true if done, false otherwise.
         template <typename CHAR>
         bool lexer<CHAR>::lex(const core::timeout& time)
         {

@@ -2332,7 +2332,7 @@
 	"scanner.h"
 	<iostream>
 
-1494798539 /home/zwesterman/GitHub/zLibraries/z/file/loadFileTimeout.h
+1498779565 /home/zwesterman/GitHub/zLibraries/z/file/loadFileTimeout.h
 	<z/core/string.h>
 	<z/core/timeout.h>
 	<fstream>
@@ -2340,16 +2340,17 @@
 1494798455 /home/zwesterman/GitHub/zLibraries/z/file/directoryOperations.h
 	<z/core/string.h>
 
-1498325910 /home/zwesterman/GitHub/ZEngine/z/script/parser/includeIterator.h
+1498796333 /home/zwesterman/GitHub/ZEngine/z/script/parser/includeIterator.h
 	<z/core/array.h>
 	<z/file/loadFileTimeout.h>
 	<z/file/directoryOperations.h>
+	<z/file/exists.h>
 	<z/core/timeout.h>
 	"scanner.h"
 	"lexer.h"
 	<iostream>
 
-1498325877 /home/zwesterman/GitHub/ZEngine/z/script/parser/lexer.h
+1498796242 /home/zwesterman/GitHub/ZEngine/z/script/parser/lexer.h
 	<z/core/timeout.h>
 	<z/core/array.h>
 	<z/core/dynamicStack.h>
@@ -2366,4 +2367,8 @@
 	<z/core/array.h>
 	<complex>
 	<type_traits>
+
+1498779953 /home/zwesterman/GitHub/zLibraries/z/file/exists.h
+	<z/core/string.h>
+	<fstream>
 

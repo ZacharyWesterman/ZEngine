@@ -34,3 +34,6 @@ function_decl	: "function" IDENTIFIER (  ) { (statementlist or statement) }
 		| "function" IDENTIFIER ( formaldecllist ) { (statementlist or statement) }
 		| "function" IDENTIFIER ( ) { }
 
+range		: boolexpr -> boolexpr
+
+rangeindex	: if#[# boolexpr -> boolexpr ; boolexpr ]

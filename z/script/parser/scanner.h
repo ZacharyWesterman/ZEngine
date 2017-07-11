@@ -640,6 +640,11 @@ namespace z
                     curr_oper = ident::OPER_ASSIGN;
                     oper_length = 1;
                 }
+                else if (input.foundAt("<-", x_offset))
+                {
+                    curr_oper = ident::OPER_L_ARROW;
+                    oper_length = 2;
+                }
                 else if (input.foundAt("<>", x_offset))
                 {
                     curr_oper = ident::OPER_NOT_EQ;
@@ -679,6 +684,11 @@ namespace z
                 {
                     curr_oper = ident::OPER_ADD;
                     oper_length = 1;
+                }
+                else if (input.foundAt("->", x_offset))
+                {
+                    curr_oper = ident::OPER_R_ARROW;
+                    oper_length = 2;
                 }
                 else if (input.foundAt("--", x_offset))
                 {

@@ -138,8 +138,10 @@ namespace z
                 OPER_LT,        //65
                 OPER_LT_EQ,     //66
 
+                OPER_R_ARROW,   //67
+                OPER_L_ARROW,   //68
 
-                UNKNOWN,        //67
+                UNKNOWN,        //69
 
                 ID_COUNT
             };

@@ -67,6 +67,7 @@ namespace z
             "nor","~|",
             "nxor", "~:",
             "==","<>",">",">=","<","<=",
+            "->", "<-",
             "unknown",
 
             "identifierlist",

@@ -2220,9 +2220,7 @@ namespace z
         template <typename CHAR>
         bool lexer<CHAR>::variable()
         {
-            if ((phrase_nodes[index]->type == phrase::TYPEVAR) ||
-                (phrase_nodes[index]->type == phrase::VARINDEX) ||
-                ((phrase_nodes[index]->type == ident::IDENTIFIER) &&
+            if (((phrase_nodes[index]->type == ident::IDENTIFIER) &&
                      !(phrase_nodes.is_valid(index-1) &&
                        (phrase_nodes[index-1]->type == ident::KEYWORD_SUB)) &&
                      !(phrase_nodes.is_valid(index+1) &&
@@ -2246,6 +2244,13 @@ namespace z
                 phrase_nodes[index] = node;
 
                 return true;
+            }
+            else if ((phrase_nodes[index]->type == phrase::TYPEVAR) ||
+                     (phrase_nodes[index]->type == phrase::VARINDEX))
+            {
+                if (phrase_nodes[index]->orig_type == ident::NONE)
+                    phrase_nodes[index]->orig_type = phrase_nodes[index]->type;
+                phrase_nodes[index]->type = phrase::VARIABLE;
             }
             else
                 return false;

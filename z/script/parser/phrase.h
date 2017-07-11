@@ -78,7 +78,6 @@ namespace z
                 DIMENSIONEXPR,
                 SIZEOFEXPR,
 
-                GLOBALDECL,
                 EXTERNALDECL,
                 SHAREDDECL,
 

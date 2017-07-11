@@ -17,14 +17,6 @@ int_decllist	: int_declaration int_declaration
 typedecl	: "type" IDENTIFIER { int_declaration }
 		| "type" IDENTIFIER { int_decllist }
 
-globaldecl	: "global" assignexpr ;
-		| "global" variable ;
-
-externaldecl	: "external" variable ;
-
-shareddecl	: "shared" assignexpr ;
-		| "shared" variable ;
-
 formalvardecl	: if#"function" IDENTIFIER (# "var" IDENTIFIER
 		| if#formalvardecl ,# "var" IDENTIFIER
 		| if#formaltypedecl ,# "var" IDENTIFIER

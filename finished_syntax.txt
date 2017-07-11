@@ -1,5 +1,3 @@
-index		: [ boolexpr ]
-
 indexlist	: index index
 		| indexlist index
 
@@ -187,3 +185,14 @@ until_statement	: "wait" "until" boolexpr ;
 externaldecl	: "external" variable ;
 
 shareddecl	: "shared" variable ;
+
+range		: boolexpr -> boolexpr
+		| boolexpr <- boolexpr
+
+rangelist	: if#[# (range OR boolexpr) ;			-> [ rangelist ...
+		| if#[# rangelist (range OR boolexpr) ;		-> [ rangelist ...
+		| if#[# rangelist (range OR boolexpr) if#]#	-> [ rangelist ]
+
+index		: [ boolexpr ]
+		| [ rangelist ]
+		| [ range ]

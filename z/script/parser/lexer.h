@@ -528,7 +528,11 @@ namespace z
                       (phrase_nodes[index-1]->type == ident::KEYWORD_RUN) ||
                       (phrase_nodes[index-1]->type == ident::KEYWORD_RETURN) ||
                       (phrase_nodes[index-1]->type == ident::KEYWORD_WAIT) ||
-                      (phrase_nodes[index-1]->type == ident::KEYWORD_UNTIL)))) &&
+                      (phrase_nodes[index-1]->type == ident::KEYWORD_UNTIL) ||
+                      (phrase_nodes[index-1]->type == ident::LBRACKET) ||
+                      (phrase_nodes[index-1]->type == phrase::RANGELIST) ||
+                      (phrase_nodes[index-1]->type == ident::OPER_R_ARROW) ||
+                      (phrase_nodes[index-1]->type == ident::OPER_L_ARROW)))) &&
                 (phrase_nodes[index+1]->type == ident::SEMICOLON) &&
                 !(phrase_nodes.is_valid(index-2) &&
                   (phrase_nodes[index-2]->type == ident::KEYWORD_FOR)) &&
@@ -1828,10 +1832,14 @@ namespace z
         template <typename CHAR>
         bool lexer<CHAR>::rangelist()
         {
-            /*if (phrase_nodes.is_valid(index+2) &&
-                (phrase_nodes[index]->type == ident::LBRACKET) &&
-                (phrase_nodes[index+1]->type == phrase::BOOLEXPR) &&
-                (phrase_nodes[index+2]->type == ident::RBRACKET))
+            if (phrase_nodes.is_valid(index+2) &&
+                phrase_nodes.is_valid(index-1) &&
+                (phrase_nodes[index-1]->type == ident::LBRACKET) &&
+                (phrase_nodes[index]->type == phrase::RANGELIST) &&
+                ((phrase_nodes[index+1]->type == phrase::RANGE) ||
+                 (phrase_nodes[index+1]->type == phrase::BOOLEXPR)) &&
+                ((phrase_nodes[index+2]->type == ident::SEMICOLON) ||
+                 (phrase_nodes[index+2]->type == ident::RBRACKET)))
             {
                 phrase_t<CHAR>* node = new phrase_t<CHAR>();
 
@@ -1840,19 +1848,52 @@ namespace z
                 node->line = phrase_nodes[index]->line;
                 node->column = phrase_nodes[index]->column;
 
+                phrase_nodes[index]->parent = node;
                 phrase_nodes[index+1]->parent = node;
 
+                node->children.add(phrase_nodes[index]);
                 node->children.add(phrase_nodes[index+1]);
 
                 node->file = phrase_nodes[index]->file;
 
-                delete phrase_nodes[index];
-                delete phrase_nodes[index+2];
-                phrase_nodes.replace(index, index+2, node);
+                if (phrase_nodes[index+2]->type == ident::SEMICOLON)
+                {
+                    delete phrase_nodes[index+2];
+                    phrase_nodes.replace(index, index+2, node);
+                }
+                else
+                {
+                    phrase_nodes.replace(index, index+1, node);
+                }
 
                 return true;
             }
-            else*/
+            else if (phrase_nodes.is_valid(index+1) &&
+                phrase_nodes.is_valid(index-1) &&
+                (phrase_nodes[index-1]->type == ident::LBRACKET) &&
+                ((phrase_nodes[index]->type == phrase::RANGE) ||
+                 (phrase_nodes[index]->type == phrase::BOOLEXPR)) &&
+                (phrase_nodes[index+1]->type == ident::SEMICOLON))
+            {
+                phrase_t<CHAR>* node = new phrase_t<CHAR>();
+
+                node->type = phrase::RANGELIST;
+
+                node->line = phrase_nodes[index]->line;
+                node->column = phrase_nodes[index]->column;
+
+                phrase_nodes[index]->parent = node;
+
+                node->children.add(phrase_nodes[index]);
+
+                node->file = phrase_nodes[index]->file;
+
+                delete phrase_nodes[index+1];
+                phrase_nodes.replace(index, index+1, node);
+
+                return true;
+            }
+            else
                 return false;
         }
 

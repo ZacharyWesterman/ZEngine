@@ -52,6 +52,8 @@ namespace z
                 VARIABLE_DECL,
                 TYPEVAR_DECL,
 
+                RANGE,
+                RANGELIST,
                 INDEX,
                 INDEXLIST,
 

@@ -35,5 +35,13 @@ function_decl	: "function" IDENTIFIER (  ) { (statementlist or statement) }
 		| "function" IDENTIFIER ( ) { }
 
 range		: boolexpr -> boolexpr
+		| boolexpr <- boolexpr
 
-rangeindex	: if#[# boolexpr -> boolexpr ; boolexpr ]
+rangelist	: if#[# (range OR boolexpr) ; (range OR boolexpr) if#]#
+		| if#[# rangelist ; (range OR boolexpr) ;
+
+index		: [ boolexpr ]
+		| [ rangelist ]
+		| [ range ]
+
+

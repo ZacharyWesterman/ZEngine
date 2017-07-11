@@ -90,6 +90,8 @@ namespace z
             "subroutine_decl",
             "variable_decl",
             "typevar_decl",
+            "range",
+            "rangelist",
             "index",
             "indexlist",
             "exprlist",
@@ -184,6 +186,8 @@ namespace z
             bool variable_decl();
             bool typevar_decl();
 
+            bool _range();
+            bool rangelist();
             bool _index();
             bool indexlist();
 
@@ -330,6 +334,8 @@ namespace z
                              subroutine_decl()  ||
                              variable_decl()    ||
                              typevar_decl()     ||
+                             _range()           ||
+                             rangelist()        ||
                              _index()           ||
                              indexlist()        ||
                              exprlist()         ||
@@ -458,7 +464,7 @@ namespace z
                     node->children.add(phrase_nodes[index]);
                     node->children.add(phrase_nodes[index+1]);
 
-                    node->file = phrase_nodes[index].file;
+                    node->file = phrase_nodes[index]->file;
 
                     phrase_nodes.replace(index, index+1, node);
 
@@ -500,7 +506,7 @@ namespace z
                 node->children.add(phrase_nodes[index]);
                 node->children.add(phrase_nodes[index+1]);
 
-                node->file = phrase_nodes[index].file;
+                node->file = phrase_nodes[index]->file;
 
                 delete phrase_nodes[index+2];
                 phrase_nodes.replace(index, index+2, node);
@@ -588,7 +594,7 @@ namespace z
                 node->children.add(phrase_nodes[index]);
                 node->children.add(phrase_nodes[index+1]);
 
-                node->file = phrase_nodes[index].file;
+                node->file = phrase_nodes[index]->file;
 
                 phrase_nodes.replace(index, index+1, node);
 
@@ -626,7 +632,7 @@ namespace z
                     node->children.add(phrase_nodes[index+2]);
                     node->children.add(phrase_nodes[index+5]);
 
-                    node->file = phrase_nodes[index].file;
+                    node->file = phrase_nodes[index]->file;
 
                     delete phrase_nodes[index];
                     delete phrase_nodes[index+1];
@@ -828,7 +834,7 @@ namespace z
                     node->children.add(phrase_nodes[index+6]);
                     node->children.add(phrase_nodes[index+9]);
 
-                    node->file = phrase_nodes[index].file;
+                    node->file = phrase_nodes[index]->file;
 
                     delete phrase_nodes[index];
                     delete phrase_nodes[index+1];
@@ -970,7 +976,7 @@ namespace z
                     node->children.add(phrase_nodes[index+2]);
                     node->children.add(phrase_nodes[index+4]);
 
-                    node->file = phrase_nodes[index].file;
+                    node->file = phrase_nodes[index]->file;
 
                     delete phrase_nodes[index];
                     delete phrase_nodes[index+1];
@@ -1094,7 +1100,7 @@ namespace z
 
                 node->children.add(phrase_nodes[index+2]);
 
-                node->file = phrase_nodes[index].file;
+                node->file = phrase_nodes[index]->file;
 
                 delete phrase_nodes[index];
                 delete phrase_nodes[index+1];
@@ -1204,7 +1210,7 @@ namespace z
                     node->children.add(phrase_nodes[index+3]);
                     node->children.add(phrase_nodes[index+6]);
 
-                    node->file = phrase_nodes[index].file;
+                    node->file = phrase_nodes[index]->file;
 
                     delete phrase_nodes[index];
                     delete phrase_nodes[index+1];
@@ -1231,7 +1237,7 @@ namespace z
 
                     node->children.add(phrase_nodes[index+3]);
 
-                    node->file = phrase_nodes[index].file;
+                    node->file = phrase_nodes[index]->file;
 
                     delete phrase_nodes[index];
                     delete phrase_nodes[index+1];
@@ -1258,7 +1264,7 @@ namespace z
                     node->children.add(phrase_nodes[index+3]);
                     node->children.add(phrase_nodes[index+5]);
 
-                    node->file = phrase_nodes[index].file;
+                    node->file = phrase_nodes[index]->file;
 
                     delete phrase_nodes[index];
                     delete phrase_nodes[index+1];
@@ -1281,7 +1287,7 @@ namespace z
 
                     node->children.add(phrase_nodes[index+3]);
 
-                    node->file = phrase_nodes[index].file;
+                    node->file = phrase_nodes[index]->file;
 
                     delete phrase_nodes[index];
                     delete phrase_nodes[index+1];
@@ -1324,7 +1330,7 @@ namespace z
                 node->children.add(phrase_nodes[index+2]);
                 node->children.add(phrase_nodes[index+6]);
 
-                node->file = phrase_nodes[index].file;
+                node->file = phrase_nodes[index]->file;
 
                 delete phrase_nodes[index];
                 delete phrase_nodes[index+1];
@@ -1357,7 +1363,7 @@ namespace z
 
                 node->children.add(phrase_nodes[index+5]);
 
-                node->file = phrase_nodes[index].file;
+                node->file = phrase_nodes[index]->file;
 
                 delete phrase_nodes[index];
                 delete phrase_nodes[index+1];
@@ -1392,7 +1398,7 @@ namespace z
                     node->children.add(phrase_nodes[index+1]);
                     node->children.add(phrase_nodes[index+4]);
 
-                    node->file = phrase_nodes[index].file;
+                    node->file = phrase_nodes[index]->file;
 
                     delete phrase_nodes[index];
                     delete phrase_nodes[index+2];
@@ -1450,7 +1456,7 @@ namespace z
 
                 node->children.add(phrase_nodes[index+1]);
 
-                node->file = phrase_nodes[index].file;
+                node->file = phrase_nodes[index]->file;
 
                 delete phrase_nodes[index];
                 delete phrase_nodes[index+2];
@@ -1481,7 +1487,7 @@ namespace z
 
                 node->children.add(phrase_nodes[index+1]);
 
-                node->file = phrase_nodes[index].file;
+                node->file = phrase_nodes[index]->file;
 
                 delete phrase_nodes[index];
                 delete phrase_nodes[index+2];
@@ -1512,7 +1518,7 @@ namespace z
 
                 node->children.add(phrase_nodes[index+1]);
 
-                node->file = phrase_nodes[index].file;
+                node->file = phrase_nodes[index]->file;
 
                 delete phrase_nodes[index];
                 delete phrase_nodes[index+2];
@@ -1543,7 +1549,7 @@ namespace z
 
                 node->children.add(phrase_nodes[index+1]);
 
-                node->file = phrase_nodes[index].file;
+                node->file = phrase_nodes[index]->file;
 
                 delete phrase_nodes[index];
                 delete phrase_nodes[index+2];
@@ -1574,7 +1580,7 @@ namespace z
 
                 node->children.add(phrase_nodes[index+1]);
 
-                node->file = phrase_nodes[index].file;
+                node->file = phrase_nodes[index]->file;
 
                 delete phrase_nodes[index];
                 delete phrase_nodes[index+2];
@@ -1605,7 +1611,7 @@ namespace z
 
                 node->children.add(phrase_nodes[index+1]);
 
-                node->file = phrase_nodes[index].file;
+                node->file = phrase_nodes[index]->file;
 
                 delete phrase_nodes[index];
                 delete phrase_nodes[index+2];
@@ -1637,7 +1643,7 @@ namespace z
 
                 node->children.add(phrase_nodes[index+2]);
 
-                node->file = phrase_nodes[index].file;
+                node->file = phrase_nodes[index]->file;
 
                 delete phrase_nodes[index];
                 delete phrase_nodes[index+1];
@@ -1675,7 +1681,7 @@ namespace z
                 node->children.add(phrase_nodes[index+1]);
                 node->children.add(phrase_nodes[index+3]);
 
-                node->file = phrase_nodes[index].file;
+                node->file = phrase_nodes[index]->file;
 
                 delete phrase_nodes[index];
                 delete phrase_nodes[index+2];
@@ -1701,7 +1707,7 @@ namespace z
 
                 node->children.add(phrase_nodes[index+1]);
 
-                node->file = phrase_nodes[index].file;
+                node->file = phrase_nodes[index]->file;
 
                 delete phrase_nodes[index];
                 delete phrase_nodes[index+2];
@@ -1734,7 +1740,7 @@ namespace z
 
                 node->children.add(phrase_nodes[index+1]);
 
-                node->file = phrase_nodes[index].file;
+                node->file = phrase_nodes[index]->file;
 
                 delete phrase_nodes[index];
                 delete phrase_nodes[index+2];
@@ -1767,7 +1773,7 @@ namespace z
                 node->children.add(phrase_nodes[index]);
                 node->children.add(phrase_nodes[index+1]);
 
-                node->file = phrase_nodes[index].file;
+                node->file = phrase_nodes[index]->file;
 
                 delete phrase_nodes[index+2];
                 phrase_nodes.replace(index, index+2, node);
@@ -1779,11 +1785,85 @@ namespace z
         }
 
         template <typename CHAR>
+        bool lexer<CHAR>::_range()
+        {
+            if (phrase_nodes.is_valid(index+2) &&
+                (phrase_nodes[index]->type == phrase::BOOLEXPR) &&
+                ((phrase_nodes[index+1]->type == ident::OPER_R_ARROW) ||
+                 (phrase_nodes[index+1]->type == ident::OPER_L_ARROW)) &&
+                (phrase_nodes[index+2]->type == phrase::BOOLEXPR))
+            {
+                phrase_t<CHAR>* node = new phrase_t<CHAR>();
+
+                node->type = phrase::RANGE;
+
+                node->line = phrase_nodes[index]->line;
+                node->column = phrase_nodes[index]->column;
+
+                phrase_nodes[index]->parent = node;
+                phrase_nodes[index+2]->parent = node;
+
+                if (phrase_nodes[index+1]->type == ident::OPER_R_ARROW)
+                {
+                    node->children.add(phrase_nodes[index]);
+                    node->children.add(phrase_nodes[index+2]);
+                }
+                else
+                {
+                    node->children.add(phrase_nodes[index+2]);
+                    node->children.add(phrase_nodes[index]);
+                }
+
+                node->file = phrase_nodes[index]->file;
+
+                delete phrase_nodes[index+1];
+                phrase_nodes.replace(index, index+2, node);
+
+                return true;
+            }
+            else
+                return false;
+        }
+
+        template <typename CHAR>
+        bool lexer<CHAR>::rangelist()
+        {
+            /*if (phrase_nodes.is_valid(index+2) &&
+                (phrase_nodes[index]->type == ident::LBRACKET) &&
+                (phrase_nodes[index+1]->type == phrase::BOOLEXPR) &&
+                (phrase_nodes[index+2]->type == ident::RBRACKET))
+            {
+                phrase_t<CHAR>* node = new phrase_t<CHAR>();
+
+                node->type = phrase::RANGELIST;
+
+                node->line = phrase_nodes[index]->line;
+                node->column = phrase_nodes[index]->column;
+
+                phrase_nodes[index+1]->parent = node;
+
+                node->children.add(phrase_nodes[index+1]);
+
+                node->file = phrase_nodes[index]->file;
+
+                delete phrase_nodes[index];
+                delete phrase_nodes[index+2];
+                phrase_nodes.replace(index, index+2, node);
+
+                return true;
+            }
+            else*/
+                return false;
+        }
+
+        template <typename CHAR>
         bool lexer<CHAR>::_index()
         {
             if (phrase_nodes.is_valid(index+2) &&
-                (phrase_nodes[index+1]->type == phrase::BOOLEXPR) &&
                 (phrase_nodes[index]->type == ident::LBRACKET) &&
+                ((phrase_nodes[index+1]->type == phrase::BOOLEXPR) ||
+                 (phrase_nodes[index+1]->type == phrase::RANGE) ||
+                 (phrase_nodes[index+1]->type == phrase::RANGELIST)) &&
                 (phrase_nodes[index+2]->type == ident::RBRACKET))
             {
                 phrase_t<CHAR>* node = new phrase_t<CHAR>();
@@ -1797,7 +1877,7 @@ namespace z
 
                 node->children.add(phrase_nodes[index+1]);
 
-                node->file = phrase_nodes[index].file;
+                node->file = phrase_nodes[index]->file;
 
                 delete phrase_nodes[index];
                 delete phrase_nodes[index+2];
@@ -1830,7 +1910,7 @@ namespace z
                 node->children.add(phrase_nodes[index-1]);
                 node->children.add(phrase_nodes[index]);
 
-                node->file = phrase_nodes[index-1].file;
+                node->file = phrase_nodes[index-1]->file;
 
                 phrase_nodes.replace(index-1, index, node);
 
@@ -1865,7 +1945,7 @@ namespace z
                 node->children.add(phrase_nodes[index]);
                 node->children.add(phrase_nodes[index+2]);
 
-                node->file = phrase_nodes[index].file;
+                node->file = phrase_nodes[index]->file;
 
                 delete phrase_nodes[index+1];
                 phrase_nodes.replace(index, index+2, node);
@@ -1899,7 +1979,7 @@ namespace z
 
                     node->children.add(phrase_nodes[index+1]);
 
-                    node->file = phrase_nodes[index].file;
+                    node->file = phrase_nodes[index]->file;
 
                     delete phrase_nodes[index];
                     delete phrase_nodes[index+2];
@@ -1922,7 +2002,7 @@ namespace z
                     node->line = phrase_nodes[index]->line;
                     node->column = phrase_nodes[index]->column;
 
-                    node->file = phrase_nodes[index].file;
+                    node->file = phrase_nodes[index]->file;
 
                     delete phrase_nodes[index];
                     delete phrase_nodes[index+1];
@@ -1958,7 +2038,7 @@ namespace z
                 node->children.add(phrase_nodes[index]);
                 node->children.add(phrase_nodes[index+2]);
 
-                node->file = phrase_nodes[index].file;
+                node->file = phrase_nodes[index]->file;
 
                 delete phrase_nodes[index+1];
                 delete phrase_nodes[index+3];
@@ -1982,7 +2062,7 @@ namespace z
 
                 node->children.add(phrase_nodes[index]);
 
-                node->file = phrase_nodes[index].file;
+                node->file = phrase_nodes[index]->file;
 
                 delete phrase_nodes[index+1];
                 delete phrase_nodes[index+2];
@@ -2009,7 +2089,7 @@ namespace z
                 node->line = phrase_nodes[index]->line;
                 node->column = phrase_nodes[index]->column;
 
-                node->file = phrase_nodes[index].file;
+                node->file = phrase_nodes[index]->file;
 
                 phrase_nodes[index]->parent = node;
                 phrase_nodes[index+2]->parent = node;
@@ -2048,7 +2128,7 @@ namespace z
                 node->children.add(phrase_nodes[index]);
                 node->children.add(phrase_nodes[index+1]);
 
-                node->file = phrase_nodes[index].file;
+                node->file = phrase_nodes[index]->file;
 
                 phrase_nodes.replace(index, index+1, node);
 
@@ -2085,7 +2165,7 @@ namespace z
                 node->children.add(phrase_nodes[index]);
                 node->children.add(phrase_nodes[index+2]);
 
-                node->file = phrase_nodes[index].file;
+                node->file = phrase_nodes[index]->file;
 
                 delete phrase_nodes[index+1];
                 phrase_nodes.replace(index, index+2, node);
@@ -2120,7 +2200,7 @@ namespace z
 
                 node->children.add(phrase_nodes[index]);
 
-                node->file = phrase_nodes[index].file;
+                node->file = phrase_nodes[index]->file;
 
                 phrase_nodes[index] = node;
 
@@ -2224,7 +2304,7 @@ namespace z
 
                 phrase_nodes[index]->parent = node;
 
-                node->file = phrase_nodes[index].file;
+                node->file = phrase_nodes[index]->file;
 
                 delete phrase_nodes[index+1];
                 phrase_nodes.replace(index, index+1, node);
@@ -2265,7 +2345,7 @@ namespace z
                     phrase_nodes[index]->parent = node;
                     phrase_nodes[index+1]->parent = node;
 
-                    node->file = phrase_nodes[index].file;
+                    node->file = phrase_nodes[index]->file;
 
                     phrase_nodes.replace(index, index+1, node);
 
@@ -2326,7 +2406,7 @@ namespace z
 
                 phrase_nodes[index]->parent = node;
 
-                node->file = phrase_nodes[index].file;
+                node->file = phrase_nodes[index]->file;
 
                 delete phrase_nodes[index-1];
                 phrase_nodes.replace(index-1, index, node);
@@ -2381,7 +2461,7 @@ namespace z
                 node->children.add(phrase_nodes[index]);
                 node->children.add(phrase_nodes[index+2]);
 
-                node->file = phrase_nodes[index].file;
+                node->file = phrase_nodes[index]->file;
 
                 delete phrase_nodes[index+1];
                 phrase_nodes.replace(index, index+2, node);
@@ -2433,7 +2513,7 @@ namespace z
                 node->children.add(phrase_nodes[index+1]);
                 node->children.add(phrase_nodes[index+2]);
 
-                node->file = phrase_nodes[index].file;
+                node->file = phrase_nodes[index]->file;
 
                 phrase_nodes.replace(index, index+2, node);
 
@@ -2484,7 +2564,7 @@ namespace z
                 node->children.add(phrase_nodes[index+1]);
                 node->children.add(phrase_nodes[index+2]);
 
-                node->file = phrase_nodes[index].file;
+                node->file = phrase_nodes[index]->file;
 
                 phrase_nodes.replace(index, index+2, node);
 
@@ -2536,7 +2616,7 @@ namespace z
                 node->children.add(phrase_nodes[index+1]);
                 node->children.add(phrase_nodes[index+2]);
 
-                node->file = phrase_nodes[index].file;
+                node->file = phrase_nodes[index]->file;
 
                 phrase_nodes.replace(index, index+2, node);
 
@@ -2570,7 +2650,7 @@ namespace z
                 node->children.add(phrase_nodes[index+1]);
                 node->children.add(phrase_nodes[index+2]);
 
-                node->file = phrase_nodes[index].file;
+                node->file = phrase_nodes[index]->file;
 
                 phrase_nodes.replace(index, index+2, node);
 
@@ -2598,7 +2678,7 @@ namespace z
 
                 node->children.add(phrase_nodes[index]);
 
-                node->file = phrase_nodes[index].file;
+                node->file = phrase_nodes[index]->file;
 
                 delete phrase_nodes[index-1];
                 phrase_nodes.replace(index-1, index, node);
@@ -2629,7 +2709,7 @@ namespace z
 
                 node->children.add(phrase_nodes[index+2]);
 
-                node->file = phrase_nodes[index].file;
+                node->file = phrase_nodes[index]->file;
 
                 delete phrase_nodes[index];
                 delete phrase_nodes[index+1];
@@ -2663,7 +2743,7 @@ namespace z
 
                 node->children.add(phrase_nodes[index]);
 
-                node->file = phrase_nodes[index-1].file;
+                node->file = phrase_nodes[index-1]->file;
 
                 delete phrase_nodes[index-1];
                 delete phrase_nodes[index+1];
@@ -2696,7 +2776,7 @@ namespace z
 
                 node->children.add(phrase_nodes[index]);
 
-                node->file = phrase_nodes[index-1].file;
+                node->file = phrase_nodes[index-1]->file;
 
                 delete phrase_nodes[index-1];
                 delete phrase_nodes[index+1];

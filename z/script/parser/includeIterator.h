@@ -137,6 +137,8 @@ namespace z
 
             int overall_progress;
 
+            void mergeIncludes();
+
         public:
 
 
@@ -270,90 +272,7 @@ namespace z
                     }
                     else if (progress == PROG_SCANNED)
                     {
-                        for(int i=0; i<node_list[working_node].identities.size(); i++)
-                        {
-                            if (node_list[working_node].identities[i].type == ident::KEYWORD_INCLUDE)
-                            {
-                                if (node_list[working_node].identities.is_valid(i+1) &&
-                                    (node_list[working_node].identities[i+1].type == ident::STRING_LITERAL))
-                                {
-                                    core::string<char> full_fname = node_list[working_node].directory;
-                                    if (full_fname.length())
-                                        full_fname += '\\';
-                                    full_fname += *(node_list[working_node].identities[i+1].meta);
-
-
-                                    s_iter_node<CHAR> node;
-
-                                    int pos = full_fname.findLast("/");
-                                    if (pos < 0)
-                                        pos = full_fname.findLast("\\");
-
-                                    node.directory = file::shorten(full_fname.substr(0, pos-1));
-                                    node.filename = full_fname.substr(pos+1, full_fname.length()-1);
-
-                                    node.insert_index = i;
-                                    node.parent = working_node;
-
-                                    core::string<char> file = node_list[working_node].directory;
-
-
-                                    bool exists = false;
-
-                                    for (int j=0; j<node_list.size(); j++)
-                                    {
-                                        if ((node_list[j].directory == node.directory) &&
-                                            (node_list[j].filename == node.filename))
-                                        {
-                                            exists = true;
-                                            break;
-                                        }
-                                    }
-
-                                    if (exists)
-                                    {
-                                        node_list[working_node].identities.remove(i+1);
-                                        node_list[working_node].identities.remove(i);
-                                        i--;
-                                    }
-                                    else
-                                    {
-                                        if (file::exists(full_fname))
-                                        {
-                                            node_list.add(node);
-                                            i++;
-                                        }
-                                        else
-                                        {
-                                            node_list[working_node].error_buffer.add(
-                                                parser_error<CHAR>(node_list[working_node].identities[i+1].line,
-                                                                   node_list[working_node].identities[i+1].column,
-                                                                   error::INCLUDE_LOAD_FAILED,
-                                                                   node_list[working_node].file));
-                                            found_error = true;
-
-                                            node_list[working_node].identities.remove(i+1);
-                                            node_list[working_node].identities.remove(i);
-                                            i--;
-                                        }
-                                    }
-
-
-                                }
-                                else
-                                {
-                                    node_list[working_node].error_buffer.add(
-                                        parser_error<CHAR>(node_list[working_node].identities[i].line,
-                                                           node_list[working_node].identities[i].column,
-                                                           error::INVALID_INCLUDE, node_list[working_node].file));
-
-                                    found_error = true;
-
-                                    node_list[working_node].identities.remove(i);
-                                    i--;
-                                }
-                            }
-                        }
+                        mergeIncludes();
 
                         found_error |= fScanner.error();
 
@@ -436,6 +355,97 @@ namespace z
             return !time.timedOut();
         }
 
+
+        template <typename CHAR>
+        void includeIterator<CHAR>::mergeIncludes()
+        {
+            for(int i=0; i<node_list[working_node].identities.size(); i++)
+            {
+                if (node_list[working_node].identities[i].type == ident::KEYWORD_INCLUDE)
+                {
+                    if (node_list[working_node].identities.is_valid(i+1) &&
+                        (node_list[working_node].identities[i+1].type == ident::STRING_LITERAL))
+                    {
+                        core::string<char> full_fname = node_list[working_node].directory;
+                        if (full_fname.length())
+                            full_fname += '\\';
+                        full_fname += *(node_list[working_node].identities[i+1].meta);
+
+
+                        s_iter_node<CHAR> node;
+
+                        int pos = full_fname.findLast("/");
+                        if (pos < 0)
+                            pos = full_fname.findLast("\\");
+
+                        node.directory = file::shorten(full_fname.substr(0, pos-1));
+                        node.filename = full_fname.substr(pos+1, full_fname.length()-1);
+
+                        node.insert_index = i;
+                        node.parent = working_node;
+
+                        core::string<char> file = node_list[working_node].directory;
+
+
+                        bool exists = false;
+
+                        for (int j=0; j<node_list.size(); j++)
+                        {
+                            if ((node_list[j].directory == node.directory) &&
+                                (node_list[j].filename == node.filename))
+                            {
+                                exists = true;
+                                break;
+                            }
+                        }
+
+                        if (exists)
+                        {
+                            node_list[working_node].identities.remove(i+1);
+                            node_list[working_node].identities.remove(i);
+                            i--;
+                        }
+                        else
+                        {
+                            if (file::exists(full_fname))
+                            {
+                                node_list.add(node);
+                                i++;
+                            }
+                            else
+                            {
+                                node_list[working_node].error_buffer.add(
+                                    parser_error<CHAR>(node_list[working_node].identities[i+1].line,
+                                                        node_list[working_node].identities[i+1].column,
+                                                        error::INCLUDE_LOAD_FAILED,
+                                                        node_list[working_node].file));
+                                found_error = true;
+
+                                node_list[working_node].identities.remove(i+1);
+                                node_list[working_node].identities.remove(i);
+                                i--;
+                            }
+                        }
+
+
+                    }
+                    else
+                    {
+                        node_list[working_node].error_buffer.add(
+                            parser_error<CHAR>(node_list[working_node].identities[i].line,
+                                                node_list[working_node].identities[i].column,
+                                                error::INVALID_INCLUDE,
+                                                node_list[working_node].file));
+
+                        found_error = true;
+
+                        node_list[working_node].identities.remove(i);
+                        i--;
+                    }
+                }
+            }
+
+        }
 
         ///debug
         template <typename CHAR>

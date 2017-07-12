@@ -1600,6 +1600,25 @@ namespace z
 
                 return true;
             }
+            else if (phrase_nodes.is_valid(index+1) &&
+                (phrase_nodes[index]->type == ident::KEYWORD_RETURN) &&
+                (phrase_nodes[index+1]->type == ident::SEMICOLON))
+            {
+                phrase_t<CHAR>* node = new phrase_t<CHAR>();
+
+                node->type = phrase::RETURN_STATEMENT;
+
+                node->line = phrase_nodes[index]->line;
+                node->column = phrase_nodes[index]->column;
+
+                node->file = phrase_nodes[index]->file;
+
+                delete phrase_nodes[index];
+                delete phrase_nodes[index+1];
+                phrase_nodes.replace(index, index+1, node);
+
+                return true;
+            }
             else
                 return false;
         }

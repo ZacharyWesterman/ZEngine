@@ -215,3 +215,16 @@ function_decl	: "function" IDENTIFIER (  ) { (statementlist or statement) }
 		| "function" IDENTIFIER ( formaldecllist ) { (statementlist or statement) }
 		| "function" IDENTIFIER ( ... ) { }
 		| "function" IDENTIFIER ( ) { }
+
+PSEUDO:
+int_declaration	: variable_decl
+		| typevar_decl
+		| function_decl
+
+int_decllist	: if#"type" IDENTIFIER {# int_declaration int_declaration
+		| int_decllist int_declaration
+
+typedecl	: "type" IDENTIFIER { variable_decl }
+		| "type" IDENTIFIER { typevar_decl }
+		| "type" IDENTIFIER { function_decl }
+		| "type" IDENTIFIER { int_decllist }

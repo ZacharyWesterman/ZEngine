@@ -6,16 +6,3 @@ ext_declaration	: function_decl
 
 ext_decllist	: ext_declaration ext_declaration
 		| ext_decllist ext_declaration
-
-PSEUDO:
-int_declaration	: variable_decl
-		| typevar_decl
-		| function_decl
-
-int_decllist	: if#"type" IDENTIFIER {# int_declaration int_declaration
-		| int_decllist int_declaration
-
-typedecl	: "type" IDENTIFIER { variable_decl }
-		| "type" IDENTIFIER { typevar_decl }
-		| "type" IDENTIFIER { function_decl }
-		| "type" IDENTIFIER { int_decllist }

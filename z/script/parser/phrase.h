@@ -86,8 +86,9 @@ namespace z
                 FORMALVARDECL,
                 FORMALTYPEDECL,
                 FORMALDECLLIST,
-
                 FUNCTION_DECL,
+
+                INT_DECLLIST,
                 TYPEDECL,
 
                 LX_COUNT

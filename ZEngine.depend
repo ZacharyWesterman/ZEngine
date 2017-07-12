@@ -2350,7 +2350,7 @@
 	"lexer.h"
 	<iostream>
 
-1499893306 /home/zwesterman/GitHub/ZEngine/z/script/parser/lexer.h
+1499898867 /home/zwesterman/GitHub/ZEngine/z/script/parser/lexer.h
 	<z/core/timeout.h>
 	<z/core/array.h>
 	<z/core/dynamicStack.h>
@@ -2358,7 +2358,7 @@
 	"phrase.h"
 	<iostream>
 
-1499742989 /home/zwesterman/GitHub/ZEngine/z/script/parser/phrase.h
+1499894663 /home/zwesterman/GitHub/ZEngine/z/script/parser/phrase.h
 	<z/core/array.h>
 	"identity.h"
 

@@ -65,8 +65,10 @@ assignexpr	: var = boolexpr
 sizeofexpr	: "sizeof" ( boolexpr )
 
 variable_decl	: "var" IDENTIFIER ;
+		| "var" IDENTIFIER = boolexpr ;
 
 typevar_decl	: IDENTIFIER IDENTIFIER ;
+		| IDENTIFIER IDENTIFIER  = list ;
 
 funccall	: IDENTIFIER ( )
 		| IDENTIFIER ( boolexpr )

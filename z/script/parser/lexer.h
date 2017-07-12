@@ -3014,8 +3014,33 @@ namespace z
                 (phrase_nodes[index+1]->type == ident::IDENTIFIER) &&
                 (phrase_nodes[index+2]->type == ident::LPARENTH))
             {
+                if ((phrase_nodes[index+3]->type == ident::RPARENTH) &&
+                         (phrase_nodes[index+4]->type == ident::LBRACE) &&
+                         (phrase_nodes[index+5]->type == ident::RBRACE))
+                {
+                    phrase_t<CHAR>* node = new phrase_t<CHAR>();
 
-                if (phrase_nodes.is_valid(index+7) &&
+                    node->type = phrase::FUNCTION_DECL;
+
+                    node->line = phrase_nodes[index]->line;
+                    node->column = phrase_nodes[index]->column;
+
+                    phrase_nodes[index+1]->parent = node;
+
+                    node->children.add(phrase_nodes[index+1]);
+
+                    node->file = phrase_nodes[index]->file;
+
+                    delete phrase_nodes[index];
+                    delete phrase_nodes[index+2];
+                    delete phrase_nodes[index+3];
+                    delete phrase_nodes[index+4];
+                    delete phrase_nodes[index+5];
+                    phrase_nodes.replace(index, index+5, node);
+
+                    return true;
+                }
+                else if (phrase_nodes.is_valid(index+7) &&
                     ((phrase_nodes[index+3]->type == phrase::FORMALVARDECL) ||
                      (phrase_nodes[index+3]->type == phrase::FORMALTYPEDECL) ||
                      (phrase_nodes[index+3]->type == phrase::FORMALDECLLIST)) &&

@@ -2,20 +2,13 @@
 <CodeBlocks_layout_file>
 	<FileVersion major="1" minor="0" />
 	<ActiveTarget name="Debug" />
-	<File name="z/script/parser/identity.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="z/script/parser/scanner.h" open="0" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="3651" topLine="109" />
+			<Cursor1 position="23277" topLine="610" />
 		</Cursor>
-	</File>
-	<File name="main.cpp" open="1" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="830" topLine="29" />
-		</Cursor>
-	</File>
-	<File name="z/script/errors.h" open="1" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="1938" topLine="75" />
-		</Cursor>
+		<Folding>
+			<Collapse line="95" />
+		</Folding>
 	</File>
 	<File name="z/script/variables/data_t.h" open="0" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
@@ -25,15 +18,40 @@
 			<Collapse line="36" />
 		</Folding>
 	</File>
+	<File name="z/script/parser/identity.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="3651" topLine="109" />
+		</Cursor>
+	</File>
+	<File name="z/script/parser/includeIterator.h" open="1" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="10084" topLine="230" />
+		</Cursor>
+		<Folding>
+			<Collapse line="57" />
+			<Collapse line="167" />
+		</Folding>
+	</File>
+	<File name="z/script/parser/phrase.h" open="1" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="1320" topLine="24" />
+		</Cursor>
+		<Folding>
+			<Collapse line="29" />
+		</Folding>
+	</File>
+	<File name="z/script/errors.h" open="1" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="1938" topLine="63" />
+		</Cursor>
+	</File>
 	<File name="z/script/parser/lexer.h" open="1" top="1" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="67476" topLine="176" />
+			<Cursor1 position="81482" topLine="416" />
 		</Cursor>
 		<Folding>
 			<Collapse line="36" />
 			<Collapse line="154" />
-			<Collapse line="250" />
-			<Collapse line="283" />
 			<Collapse line="370" />
 			<Collapse line="441" />
 			<Collapse line="489" />
@@ -66,46 +84,25 @@
 			<Collapse line="2151" />
 			<Collapse line="2183" />
 			<Collapse line="2221" />
-			<Collapse line="2255" />
-			<Collapse line="2294" />
-			<Collapse line="2331" />
-			<Collapse line="2368" />
-			<Collapse line="2430" />
-			<Collapse line="2470" />
-			<Collapse line="2517" />
-			<Collapse line="2568" />
-			<Collapse line="2619" />
-			<Collapse line="2671" />
-			<Collapse line="2705" />
-			<Collapse line="2734" />
-			<Collapse line="2768" />
-			<Collapse line="2801" />
+			<Collapse line="2260" />
+			<Collapse line="2299" />
+			<Collapse line="2336" />
+			<Collapse line="2373" />
+			<Collapse line="2435" />
+			<Collapse line="2475" />
+			<Collapse line="2522" />
+			<Collapse line="2573" />
+			<Collapse line="2624" />
+			<Collapse line="2676" />
+			<Collapse line="2710" />
+			<Collapse line="2739" />
+			<Collapse line="2773" />
+			<Collapse line="2806" />
 		</Folding>
 	</File>
-	<File name="z/script/parser/includeIterator.h" open="1" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="main.cpp" open="1" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="10084" topLine="230" />
+			<Cursor1 position="830" topLine="29" />
 		</Cursor>
-		<Folding>
-			<Collapse line="57" />
-			<Collapse line="167" />
-			<Collapse line="360" />
-		</Folding>
-	</File>
-	<File name="z/script/parser/scanner.h" open="0" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="23277" topLine="610" />
-		</Cursor>
-		<Folding>
-			<Collapse line="95" />
-		</Folding>
-	</File>
-	<File name="z/script/parser/phrase.h" open="1" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="1320" topLine="24" />
-		</Cursor>
-		<Folding>
-			<Collapse line="29" />
-		</Folding>
 	</File>
 </CodeBlocks_layout_file>

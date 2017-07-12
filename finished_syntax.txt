@@ -196,3 +196,7 @@ rangelist	: if#[# (range OR boolexpr) ;			-> [ rangelist ...
 index		: [ boolexpr ]
 		| [ rangelist ]
 		| [ range ]
+
+formalvardecl	: if#"function" IDENTIFIER (# "var" IDENTIFIER
+		| if#formalvardecl ,# "var" IDENTIFIER
+		| if#formaltypedecl ,# "var" IDENTIFIER

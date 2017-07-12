@@ -114,7 +114,12 @@ namespace z
             "dimensionexpr",
             "sizeofexpr",
             "externaldecl",
-            "shareddecl"
+            "shareddecl",
+            "formalvardecl",
+            "formaltypedecl",
+            "formaldecllist",
+            "functiondecl",
+            "typedecl"
         };
 
         namespace lex
@@ -215,7 +220,6 @@ namespace z
             bool sizeofexpr();
             bool expression();
 
-            bool globaldecl();
             bool externaldecl();
             bool shareddecl();
 
@@ -310,7 +314,8 @@ namespace z
                         index = 0;
                         did_concat = false;
                     }
-                    else if (externaldecl()     ||
+                    else if (formalvardecl()    ||
+                             externaldecl()     ||
                              shareddecl()       ||
 
                              identifierlist()   ||
@@ -2059,60 +2064,64 @@ namespace z
         template <typename CHAR>
         bool lexer<CHAR>::funccall()
         {
-            if (phrase_nodes.is_valid(index+3) &&
-                (phrase_nodes[index]->type == ident::IDENTIFIER) &&
-                ((phrase_nodes[index+2]->type == phrase::BOOLEXPR) ||
-                 (phrase_nodes[index+2]->type == phrase::EXPRLIST)) &&
-                (phrase_nodes[index+1]->type == ident::LPARENTH) &&
-                (phrase_nodes[index+3]->type == ident::RPARENTH))
+            if (!(phrase_nodes.is_valid(index-1) &&
+                  phrase_nodes[index-1]->type == ident::KEYWORD_FUNCTION))
             {
-                phrase_t<CHAR>* node = new phrase_t<CHAR>();
+                if (phrase_nodes.is_valid(index+3) &&
+                    (phrase_nodes[index]->type == ident::IDENTIFIER) &&
+                    ((phrase_nodes[index+2]->type == phrase::BOOLEXPR) ||
+                     (phrase_nodes[index+2]->type == phrase::EXPRLIST)) &&
+                    (phrase_nodes[index+1]->type == ident::LPARENTH) &&
+                    (phrase_nodes[index+3]->type == ident::RPARENTH))
+                {
+                    phrase_t<CHAR>* node = new phrase_t<CHAR>();
 
-                node->type = phrase::FUNCCALL;
+                    node->type = phrase::FUNCCALL;
 
-                node->line = phrase_nodes[index]->line;
-                node->column = phrase_nodes[index]->column;
+                    node->line = phrase_nodes[index]->line;
+                    node->column = phrase_nodes[index]->column;
 
-                phrase_nodes[index]->parent = node;
-                phrase_nodes[index+2]->parent = node;
+                    phrase_nodes[index]->parent = node;
+                    phrase_nodes[index+2]->parent = node;
 
-                node->children.add(phrase_nodes[index]);
-                node->children.add(phrase_nodes[index+2]);
+                    node->children.add(phrase_nodes[index]);
+                    node->children.add(phrase_nodes[index+2]);
 
-                node->file = phrase_nodes[index]->file;
+                    node->file = phrase_nodes[index]->file;
 
-                delete phrase_nodes[index+1];
-                delete phrase_nodes[index+3];
-                phrase_nodes.replace(index, index+3, node);
+                    delete phrase_nodes[index+1];
+                    delete phrase_nodes[index+3];
+                    phrase_nodes.replace(index, index+3, node);
 
-                return true;
+                    return true;
+                }
+                else if (phrase_nodes.is_valid(index+2) &&
+                    (phrase_nodes[index]->type == ident::IDENTIFIER) &&
+                    (phrase_nodes[index+1]->type == ident::LPARENTH) &&
+                    (phrase_nodes[index+2]->type == ident::RPARENTH))
+                {
+                    phrase_t<CHAR>* node = new phrase_t<CHAR>();
+
+                    node->type = phrase::FUNCCALL;
+
+                    node->line = phrase_nodes[index]->line;
+                    node->column = phrase_nodes[index]->column;
+
+                    phrase_nodes[index]->parent = node;
+
+                    node->children.add(phrase_nodes[index]);
+
+                    node->file = phrase_nodes[index]->file;
+
+                    delete phrase_nodes[index+1];
+                    delete phrase_nodes[index+2];
+                    phrase_nodes.replace(index, index+2, node);
+
+                    return true;
+                }
             }
-            else if (phrase_nodes.is_valid(index+2) &&
-                (phrase_nodes[index]->type == ident::IDENTIFIER) &&
-                (phrase_nodes[index+1]->type == ident::LPARENTH) &&
-                (phrase_nodes[index+2]->type == ident::RPARENTH))
-            {
-                phrase_t<CHAR>* node = new phrase_t<CHAR>();
 
-                node->type = phrase::FUNCCALL;
-
-                node->line = phrase_nodes[index]->line;
-                node->column = phrase_nodes[index]->column;
-
-                phrase_nodes[index]->parent = node;
-
-                node->children.add(phrase_nodes[index]);
-
-                node->file = phrase_nodes[index]->file;
-
-                delete phrase_nodes[index+1];
-                delete phrase_nodes[index+2];
-                phrase_nodes.replace(index, index+2, node);
-
-                return true;
-            }
-            else
-                return false;
+            return false;
         }
 
         template <typename CHAR>
@@ -2832,6 +2841,68 @@ namespace z
             }
             else
                 return false;
+        }
+
+
+        template <typename CHAR>
+        bool lexer<CHAR>::formalvardecl()
+        {
+            if ((phrase_nodes.is_valid(index-3) &&
+                 (phrase_nodes[index-3]->type == ident::KEYWORD_FUNCTION) &&
+                 (phrase_nodes[index-2]->type == ident::IDENTIFIER) &&
+                 (phrase_nodes[index-1]->type == ident::LPARENTH)) ||
+                (phrase_nodes.is_valid(index-2) &&
+                 ((phrase_nodes[index-2]->type == phrase::FORMALVARDECL) ||
+                  (phrase_nodes[index-2]->type == phrase::FORMALTYPEDECL)) &&
+                 (phrase_nodes[index-1]->type == ident::COMMA)))
+            {
+
+                if (phrase_nodes.is_valid(index+1) &&
+                    (phrase_nodes[index]->type == ident::KEYWORD_VAR) &&
+                    (phrase_nodes[index+1]->type == ident::IDENTIFIER))
+                {
+                    phrase_t<CHAR>* node = new phrase_t<CHAR>();
+
+                    node->type = phrase::FORMALVARDECL;
+
+                    node->line = phrase_nodes[index]->line;
+                    node->column = phrase_nodes[index]->column;
+
+                    phrase_nodes[index+1]->parent = node;
+
+                    node->children.add(phrase_nodes[index+1]);
+
+                    node->file = phrase_nodes[index]->file;
+
+                    delete phrase_nodes[index];
+                    phrase_nodes.replace(index, index+1, node);
+
+                    return true;
+                }
+                else if ((phrase_nodes[index]->type == ident::IDENTIFIER) &&
+                         !(phrase_nodes.is_valid(index+1) &&
+                          (phrase_nodes[index+1]->type == ident::IDENTIFIER)))
+                {
+                    phrase_t<CHAR>* node = new phrase_t<CHAR>();
+
+                    node->type = phrase::FORMALVARDECL;
+
+                    node->line = phrase_nodes[index]->line;
+                    node->column = phrase_nodes[index]->column;
+
+                    phrase_nodes[index]->parent = node;
+
+                    node->children.add(phrase_nodes[index]);
+
+                    node->file = phrase_nodes[index]->file;
+
+                    phrase_nodes[index] = node;
+
+                    return true;
+                }
+            }
+
+            return false;
         }
 
 

@@ -17,10 +17,6 @@ int_decllist	: int_declaration int_declaration
 typedecl	: "type" IDENTIFIER { int_declaration }
 		| "type" IDENTIFIER { int_decllist }
 
-formalvardecl	: if#"function" IDENTIFIER (# "var" IDENTIFIER
-		| if#formalvardecl ,# "var" IDENTIFIER
-		| if#formaltypedecl ,# "var" IDENTIFIER
-
 formaltypedecl	: if#"function" IDENTIFIER (# IDENTIFIER IDENTIFIER
 		| if#formalvardecl ,# IDENTIFIER IDENTIFIER
 		| if#formaltypedecl ,# IDENTIFIER IDENTIFIER

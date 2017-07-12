@@ -204,3 +204,6 @@ formalvardecl	: if#"function" IDENTIFIER (# "var" IDENTIFIER
 formaltypedecl	: if#"function" IDENTIFIER (# IDENTIFIER IDENTIFIER
 		| if#formalvardecl ,# IDENTIFIER IDENTIFIER
 		| if#formaltypedecl ,# IDENTIFIER IDENTIFIER
+
+formaldecllist	: (formalvardecl or formaltypedecl) , (formalvardecl or formaltypedecl)
+		| formaldecllist , (formalvardecl or formaltypedecl)

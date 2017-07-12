@@ -316,6 +316,8 @@ namespace z
                     }
                     else if (formalvardecl()    ||
                              formaltypedecl()   ||
+                             formaldecllist()   ||
+
                              externaldecl()     ||
                              shareddecl()       ||
 
@@ -2261,6 +2263,8 @@ namespace z
                 if (phrase_nodes[index]->orig_type == ident::NONE)
                     phrase_nodes[index]->orig_type = phrase_nodes[index]->type;
                 phrase_nodes[index]->type = phrase::VARIABLE;
+
+                return true;
             }
             else
                 return false;
@@ -2947,6 +2951,40 @@ namespace z
             return false;
         }
 
+        template <typename CHAR>
+        bool lexer<CHAR>::formaldecllist()
+        {
+            if (phrase_nodes.is_valid(index+2) &&
+                 ((phrase_nodes[index]->type == phrase::FORMALVARDECL) ||
+                  (phrase_nodes[index]->type == phrase::FORMALTYPEDECL) ||
+                  (phrase_nodes[index]->type == phrase::FORMALDECLLIST)) &&
+                 (phrase_nodes[index+1]->type == ident::COMMA) &&
+                ((phrase_nodes[index+2]->type == phrase::FORMALVARDECL) ||
+                  (phrase_nodes[index+2]->type == phrase::FORMALTYPEDECL)))
+            {
+                phrase_t<CHAR>* node = new phrase_t<CHAR>();
+
+                node->type = phrase::FORMALDECLLIST;
+
+                node->line = phrase_nodes[index]->line;
+                node->column = phrase_nodes[index]->column;
+
+                phrase_nodes[index]->parent = node;
+                phrase_nodes[index+2]->parent = node;
+
+                node->children.add(phrase_nodes[index]);
+                node->children.add(phrase_nodes[index+2]);
+
+                node->file = phrase_nodes[index]->file;
+
+                delete phrase_nodes[index+1];
+                phrase_nodes.replace(index, index+2, node);
+
+                return true;
+            }
+            else
+                return false;
+        }
 
 
         ///debug

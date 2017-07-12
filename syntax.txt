@@ -16,9 +16,3 @@ int_decllist	: int_declaration int_declaration
 
 typedecl	: "type" IDENTIFIER { int_declaration }
 		| "type" IDENTIFIER { int_decllist }
-		
-function_decl	: "function" IDENTIFIER (  ) { (statementlist or statement) }
-		| "function" IDENTIFIER ( formalvardecl ) { (statementlist or statement) }
-		| "function" IDENTIFIER ( formaltypedecl ) { (statementlist or statement) }
-		| "function" IDENTIFIER ( formaldecllist ) { (statementlist or statement) }
-		| "function" IDENTIFIER ( ) { }

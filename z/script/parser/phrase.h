@@ -91,6 +91,8 @@ namespace z
                 INT_DECLLIST,
                 TYPEDECL,
 
+                PROGRAM,
+
                 LX_COUNT
             };
         }

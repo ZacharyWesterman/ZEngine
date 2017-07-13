@@ -46,6 +46,8 @@
 		<Unit filename="z/script/parser/identity.h" />
 		<Unit filename="z/script/parser/includeIterator.h" />
 		<Unit filename="z/script/parser/lexer.h" />
+		<Unit filename="z/script/parser/lexerErrorCheck.h" />
+		<Unit filename="z/script/parser/lexerPhraseDetection.h" />
 		<Unit filename="z/script/parser/phrase.h" />
 		<Unit filename="z/script/parser/scanner.h" />
 		<Unit filename="z/script/variable.h" />

@@ -464,7 +464,7 @@ namespace z
                 {
                     if (index >= phrase_nodes.size())
                     {
-                        progress = lex::TREE_CLEANUP;
+                        progress = lex::DONE;
 
                         current_node = 0;
 
@@ -479,7 +479,7 @@ namespace z
             }
 
 
-            ///debug
+            ///debug, REMEMBER TO REMOVE
             if (progress == lex::DONE)
             {
                 if (phrase_nodes.size() > 1)

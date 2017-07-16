@@ -10,7 +10,7 @@
  *
  * Author:          Zachary Westerman
  * Email:           zacharywesterman@yahoo.com
- * Last modified:   12 Jul. 2017
+ * Last modified:   15 Jul. 2017
 **/
 
 
@@ -534,8 +534,58 @@ namespace z
 }
 
 
-#include "lexerPhraseDetection.h"
-#include "lexerErrorCheck.h"
+#include "syntaxRules/identifierlist.h"
+#include "syntaxRules/command.h"
+#include "syntaxRules/statement.h"
+#include "syntaxRules/statementlist.h"
+#include "syntaxRules/if_statement.h"
+#include "syntaxRules/for_statement.h"
+#include "syntaxRules/foreach_statement.h"
+#include "syntaxRules/loop_statement.h"
+#include "syntaxRules/while_pre_stmt.h"
+#include "syntaxRules/while_post_stmt.h"
+#include "syntaxRules/label_statement.h"
+#include "syntaxRules/goto_statement.h"
+#include "syntaxRules/gosub_statement.h"
+#include "syntaxRules/run_statement.h"
+#include "syntaxRules/return_statement.h"
+#include "syntaxRules/wait_statement.h"
+#include "syntaxRules/until_statement.h"
+#include "syntaxRules/subroutine_decl.h"
+#include "syntaxRules/variable_decl.h"
+#include "syntaxRules/typevar_decl.h"
+#include "syntaxRules/range.h"
+#include "syntaxRules/rangelist.h"
+#include "syntaxRules/index.h"
+#include "syntaxRules/indexlist.h"
+#include "syntaxRules/exprlist.h"
+#include "syntaxRules/list.h"
+#include "syntaxRules/funccall.h"
+#include "syntaxRules/type_funccall.h"
+#include "syntaxRules/varindex.h"
+#include "syntaxRules/typevar.h"
+#include "syntaxRules/variable.h"
+#include "syntaxRules/operand.h"
+#include "syntaxRules/parenthexpr.h"
+#include "syntaxRules/factorialexpr.h"
+#include "syntaxRules/add1expr.h"
+#include "syntaxRules/negatexpr.h"
+#include "syntaxRules/powerexpr.h"
+#include "syntaxRules/multiplyexpr.h"
+#include "syntaxRules/addexpr.h"
+#include "syntaxRules/boolexpr.h"
+#include "syntaxRules/assignexpr.h"
+#include "syntaxRules/dimensionexpr.h"
+#include "syntaxRules/sizeofexpr.h"
+#include "syntaxRules/externaldecl.h"
+#include "syntaxRules/shareddecl.h"
+#include "syntaxRules/formalvardecl.h"
+#include "syntaxRules/formaltypedecl.h"
+#include "syntaxRules/formaldecllist.h"
+#include "syntaxRules/function_decl.h"
+#include "syntaxRules/int_decllist.h"
+#include "syntaxRules/typedecl.h"
+#include "syntaxRules/program.h"
 
 
 #endif // LEXER_H_INCLUDED

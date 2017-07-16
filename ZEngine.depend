@@ -2350,16 +2350,67 @@
 	"lexer.h"
 	<iostream>
 
-1499916544 /home/zwesterman/GitHub/ZEngine/z/script/parser/lexer.h
+1500179999 /home/zwesterman/GitHub/ZEngine/z/script/parser/lexer.h
 	<z/core/timeout.h>
 	<z/core/array.h>
 	<z/core/dynamicStack.h>
 	"../errors.h"
 	"phrase.h"
 	<iostream>
-	"lexerPhraseDetection.h"
+	"syntaxRules/identifierlist.h"
+	"syntaxRules/command.h"
+	"syntaxRules/statement.h"
+	"syntaxRules/statementlist.h"
+	"syntaxRules/if_statement.h"
+	"syntaxRules/for_statement.h"
+	"syntaxRules/foreach_statement.h"
+	"syntaxRules/loop_statement.h"
+	"syntaxRules/while_pre_stmt.h"
+	"syntaxRules/while_post_stmt.h"
+	"syntaxRules/label_statement.h"
+	"syntaxRules/goto_statement.h"
+	"syntaxRules/gosub_statement.h"
+	"syntaxRules/run_statement.h"
+	"syntaxRules/return_statement.h"
+	"syntaxRules/wait_statement.h"
+	"syntaxRules/until_statement.h"
+	"syntaxRules/subroutine_decl.h"
+	"syntaxRules/variable_decl.h"
+	"syntaxRules/typevar_decl.h"
+	"syntaxRules/range.h"
+	"syntaxRules/rangelist.h"
+	"syntaxRules/index.h"
+	"syntaxRules/indexlist.h"
+	"syntaxRules/exprlist.h"
+	"syntaxRules/list.h"
+	"syntaxRules/funccall.h"
+	"syntaxRules/type_funccall.h"
+	"syntaxRules/varindex.h"
+	"syntaxRules/typevar.h"
+	"syntaxRules/variable.h"
+	"syntaxRules/operand.h"
+	"syntaxRules/parenthexpr.h"
+	"syntaxRules/factorialexpr.h"
+	"syntaxRules/add1expr.h"
+	"syntaxRules/negatexpr.h"
+	"syntaxRules/powerexpr.h"
+	"syntaxRules/multiplyexpr.h"
+	"syntaxRules/addexpr.h"
+	"syntaxRules/boolexpr.h"
+	"syntaxRules/assignexpr.h"
+	"syntaxRules/dimensionexpr.h"
+	"syntaxRules/sizeofexpr.h"
+	"syntaxRules/externaldecl.h"
+	"syntaxRules/shareddecl.h"
+	"syntaxRules/formalvardecl.h"
+	"syntaxRules/formaltypedecl.h"
+	"syntaxRules/formaldecllist.h"
+	"syntaxRules/function_decl.h"
+	"syntaxRules/int_decllist.h"
+	"syntaxRules/typedecl.h"
+	"syntaxRules/program.h"
 
-1499902023 /home/zwesterman/GitHub/ZEngine/z/script/parser/phrase.h
+1499916592 /home/zwesterman/GitHub/ZEngine/z/script/parser/phrase.h
 	<z/core/array.h>
 	"identity.h"
 
@@ -2374,4 +2425,108 @@
 	<fstream>
 
 1499916514 /home/zwesterman/GitHub/ZEngine/z/script/parser/lexerPhraseDetection.h
+
+1500171892 /home/zwesterman/GitHub/ZEngine/z/script/parser/syntaxRules/identifierlist.h
+
+1500172010 /home/zwesterman/GitHub/ZEngine/z/script/parser/syntaxRules/command.h
+
+1500172140 /home/zwesterman/GitHub/ZEngine/z/script/parser/syntaxRules/statement.h
+
+1500174094 /home/zwesterman/GitHub/ZEngine/z/script/parser/syntaxRules/statementlist.h
+
+1500174199 /home/zwesterman/GitHub/ZEngine/z/script/parser/syntaxRules/if_statement.h
+
+1500174468 /home/zwesterman/GitHub/ZEngine/z/script/parser/syntaxRules/for_statement.h
+
+1500174632 /home/zwesterman/GitHub/ZEngine/z/script/parser/syntaxRules/foreach_statement.h
+
+1500174846 /home/zwesterman/GitHub/ZEngine/z/script/parser/syntaxRules/loop_statement.h
+
+1500175056 /home/zwesterman/GitHub/ZEngine/z/script/parser/syntaxRules/while_pre_stmt.h
+
+1500175190 /home/zwesterman/GitHub/ZEngine/z/script/parser/syntaxRules/while_post_stmt.h
+
+1500175348 /home/zwesterman/GitHub/ZEngine/z/script/parser/syntaxRules/label_statement.h
+
+1500175522 /home/zwesterman/GitHub/ZEngine/z/script/parser/syntaxRules/goto_statement.h
+
+1500175676 /home/zwesterman/GitHub/ZEngine/z/script/parser/syntaxRules/gosub_statement.h
+
+1500175908 /home/zwesterman/GitHub/ZEngine/z/script/parser/syntaxRules/run_statement.h
+
+1500175929 /home/zwesterman/GitHub/ZEngine/z/script/parser/syntaxRules/return_statement.h
+
+1500176256 /home/zwesterman/GitHub/ZEngine/z/script/parser/syntaxRules/subroutine_decl.h
+
+1500176318 /home/zwesterman/GitHub/ZEngine/z/script/parser/syntaxRules/variable_decl.h
+
+1500176463 /home/zwesterman/GitHub/ZEngine/z/script/parser/syntaxRules/typevar_decl.h
+
+1500176517 /home/zwesterman/GitHub/ZEngine/z/script/parser/syntaxRules/range.h
+
+1500176611 /home/zwesterman/GitHub/ZEngine/z/script/parser/syntaxRules/rangelist.h
+
+1500176787 /home/zwesterman/GitHub/ZEngine/z/script/parser/syntaxRules/index.h
+
+1500176805 /home/zwesterman/GitHub/ZEngine/z/script/parser/syntaxRules/indexlist.h
+
+1500176896 /home/zwesterman/GitHub/ZEngine/z/script/parser/syntaxRules/exprlist.h
+
+1500176916 /home/zwesterman/GitHub/ZEngine/z/script/parser/syntaxRules/list.h
+
+1500177280 /home/zwesterman/GitHub/ZEngine/z/script/parser/syntaxRules/funccall.h
+
+1500177312 /home/zwesterman/GitHub/ZEngine/z/script/parser/syntaxRules/type_funccall.h
+
+1500177353 /home/zwesterman/GitHub/ZEngine/z/script/parser/syntaxRules/varindex.h
+
+1500177378 /home/zwesterman/GitHub/ZEngine/z/script/parser/syntaxRules/typevar.h
+
+1500177437 /home/zwesterman/GitHub/ZEngine/z/script/parser/syntaxRules/variable.h
+
+1500177534 /home/zwesterman/GitHub/ZEngine/z/script/parser/syntaxRules/operand.h
+
+1500178575 /home/zwesterman/GitHub/ZEngine/z/script/parser/syntaxRules/parenthexpr.h
+
+1500178597 /home/zwesterman/GitHub/ZEngine/z/script/parser/syntaxRules/factorialexpr.h
+
+1500178628 /home/zwesterman/GitHub/ZEngine/z/script/parser/syntaxRules/add1expr.h
+
+1500178652 /home/zwesterman/GitHub/ZEngine/z/script/parser/syntaxRules/negatexpr.h
+
+1500178673 /home/zwesterman/GitHub/ZEngine/z/script/parser/syntaxRules/powerexpr.h
+
+1500178704 /home/zwesterman/GitHub/ZEngine/z/script/parser/syntaxRules/multiplyexpr.h
+
+1500178844 /home/zwesterman/GitHub/ZEngine/z/script/parser/syntaxRules/addexpr.h
+
+1500178942 /home/zwesterman/GitHub/ZEngine/z/script/parser/syntaxRules/boolexpr.h
+
+1500178981 /home/zwesterman/GitHub/ZEngine/z/script/parser/syntaxRules/assignexpr.h
+
+1500179000 /home/zwesterman/GitHub/ZEngine/z/script/parser/syntaxRules/dimensionexpr.h
+
+1500179021 /home/zwesterman/GitHub/ZEngine/z/script/parser/syntaxRules/sizeofexpr.h
+
+1500179130 /home/zwesterman/GitHub/ZEngine/z/script/parser/syntaxRules/externaldecl.h
+
+1500179148 /home/zwesterman/GitHub/ZEngine/z/script/parser/syntaxRules/shareddecl.h
+
+1500179336 /home/zwesterman/GitHub/ZEngine/z/script/parser/syntaxRules/formalvardecl.h
+
+1500179352 /home/zwesterman/GitHub/ZEngine/z/script/parser/syntaxRules/formaltypedecl.h
+
+1500179366 /home/zwesterman/GitHub/ZEngine/z/script/parser/syntaxRules/formaldecllist.h
+
+1500179695 /home/zwesterman/GitHub/ZEngine/z/script/parser/syntaxRules/function_decl.h
+
+1500179781 /home/zwesterman/GitHub/ZEngine/z/script/parser/syntaxRules/int_decllist.h
+
+1500179822 /home/zwesterman/GitHub/ZEngine/z/script/parser/syntaxRules/typedecl.h
+
+1500179841 /home/zwesterman/GitHub/ZEngine/z/script/parser/syntaxRules/program.h
+
+1500176048 /home/zwesterman/GitHub/ZEngine/z/script/parser/syntaxRules/wait_statement.h
+
+1500176061 /home/zwesterman/GitHub/ZEngine/z/script/parser/syntaxRules/until_statement.h
 

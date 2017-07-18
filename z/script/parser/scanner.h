@@ -41,7 +41,7 @@ namespace z
             core::string<CHAR>* input;
             core::array< ident_t<CHAR> >* identifiers;
 
-            core::dynamic_stack< ident_t<CHAR> > open_symbol_indices;
+            core::dynamicStack< ident_t<CHAR> > open_symbol_indices;
 
             int index;
 

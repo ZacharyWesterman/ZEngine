@@ -3,7 +3,7 @@
 
 #include "z/script/parser/includeIterator.h"
 
-//#include "z/script/variables/data_t.h"
+#include "z/script/parser/constantFolder.h"
 
 #include <iostream>
 //using namespace std;
@@ -33,10 +33,6 @@ int main(int argc, char* argv[])
     z::core::string<char> input = c_in;
     //cout << input.str() << endl;
 
-    ///debug
-    cout << "\n------------------------------------\n\n";
-    cout << "Syntax Tree:\n\n";
-
     sscan.setInput(input, false);
     //sscan.setOutput(identifiers);
 
@@ -51,16 +47,31 @@ int main(int argc, char* argv[])
 
     sscan.printErrors();
 
+    cout << "\n------------------------------------\n\n";
+    cout << "AST before folding:\n\n";
 
-    cout << "\"good\" syntax:--------------------\n";
     z::script::phrase_t<char>* AST = sscan.moveResultAST();
 
     z::script::print_lex_ast(0, AST);
 
+    cout << "\n------------------------------------\n\n";
+    cout << "AST after folding:\n\n";
+
+    z::script::constantFolder cFolder;
+
+    cFolder.setInput(AST);
+
+    time.reset();
+    while (!cFolder.fold(time))
+    {
+        iter++;
+        time.reset();
+    }
+
     if (AST)
         delete AST;
 
-    //std::cout << "\nDone.\n";
+    std::cout << "\nDone in " << iter << " iterations.\n";
 
     //S->clean();
 

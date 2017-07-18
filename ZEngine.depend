@@ -2193,7 +2193,7 @@
 
 1489353285 c:\users\zachary\documents\github\zengine\\z\script\errors.h
 
-1500411565 source:/home/zwesterman/GitHub/ZEngine/main.cpp
+1500417873 source:/home/zwesterman/GitHub/ZEngine/main.cpp
 	<z/core.h>
 	<z/math.h>
 	"z/script/parser/includeIterator.h"
@@ -2268,7 +2268,7 @@
 1491800855 /home/zwesterman/GitHub/zLibraries/z/core/sorted_ref_array.h
 	"array.h"
 
-1492395135 /home/zwesterman/GitHub/zLibraries/z/core/dynamicStack.h
+1500419449 /home/zwesterman/GitHub/zLibraries/z/core/dynamicStack.h
 
 1497217876 /home/zwesterman/GitHub/zLibraries/z/core/circular_number.h
 	<iostream>
@@ -2301,7 +2301,7 @@
 
 1491800855 /home/zwesterman/GitHub/zLibraries/z/math/matrix.h
 
-1500413279 /home/zwesterman/GitHub/ZEngine/z/script/parser/scanner.h
+1500419539 /home/zwesterman/GitHub/ZEngine/z/script/parser/scanner.h
 	<z/core/sorted_array.h>
 	<z/core/string.h>
 	<z/core/timeout.h>
@@ -2350,7 +2350,7 @@
 	"lexer.h"
 	<iostream>
 
-1500416316 /home/zwesterman/GitHub/ZEngine/z/script/parser/lexer.h
+1500419550 /home/zwesterman/GitHub/ZEngine/z/script/parser/lexer.h
 	<z/core/timeout.h>
 	<z/core/array.h>
 	<z/core/dynamicStack.h>

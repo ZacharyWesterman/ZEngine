@@ -170,7 +170,7 @@ namespace z
             int progress;
             bool input_in_use;
 
-            core::dynamic_stack<int> cleanup_stack;
+            core::dynamicStack<int> cleanup_stack;
 
             ///phrase detection
             bool identifierlist();

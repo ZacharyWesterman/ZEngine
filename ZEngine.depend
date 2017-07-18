@@ -2223,7 +2223,7 @@
 	"string/string_upper.h"
 	"string/string_remove_whiteSpace.h"
 
-1497071544 /home/zwesterman/GitHub/zLibraries/z/core/string/string.h
+1500414845 /home/zwesterman/GitHub/zLibraries/z/core/string/string.h
 	<type_traits>
 	<complex>
 	"convert_char_type.h"
@@ -2301,7 +2301,7 @@
 
 1491800855 /home/zwesterman/GitHub/zLibraries/z/math/matrix.h
 
-1500412983 /home/zwesterman/GitHub/ZEngine/z/script/parser/scanner.h
+1500413279 /home/zwesterman/GitHub/ZEngine/z/script/parser/scanner.h
 	<z/core/sorted_array.h>
 	<z/core/string.h>
 	<z/core/timeout.h>
@@ -2340,7 +2340,7 @@
 1494798455 /home/zwesterman/GitHub/zLibraries/z/file/directoryOperations.h
 	<z/core/string.h>
 
-1499737364 /home/zwesterman/GitHub/ZEngine/z/script/parser/includeIterator.h
+1500416119 /home/zwesterman/GitHub/ZEngine/z/script/parser/includeIterator.h
 	<z/core/array.h>
 	<z/file/loadFileTimeout.h>
 	<z/file/directoryOperations.h>
@@ -2350,7 +2350,7 @@
 	"lexer.h"
 	<iostream>
 
-1500412641 /home/zwesterman/GitHub/ZEngine/z/script/parser/lexer.h
+1500416316 /home/zwesterman/GitHub/ZEngine/z/script/parser/lexer.h
 	<z/core/timeout.h>
 	<z/core/array.h>
 	<z/core/dynamicStack.h>
@@ -2484,7 +2484,7 @@
 
 1500177437 /home/zwesterman/GitHub/ZEngine/z/script/parser/syntaxRules/variable.h
 
-1500177534 /home/zwesterman/GitHub/ZEngine/z/script/parser/syntaxRules/operand.h
+1500413556 /home/zwesterman/GitHub/ZEngine/z/script/parser/syntaxRules/operand.h
 
 1500178575 /home/zwesterman/GitHub/ZEngine/z/script/parser/syntaxRules/parenthexpr.h
 

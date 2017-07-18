@@ -1,18 +1,19 @@
 /**
- * File:            scan_iterator.h
+ * File:            includeIterator.h
  * Namespace:       z::script
- * Description:     A controller for the scanner that
- *                  replaces "include" statements with
+ * Description:     A partial script compiler that includes up
+ *                  to scanning and lexical analysis. Additionally,
+ *                  it replaces "include" statements with
  *                  the script in the specified file.
  *                  This process is performed in increments
  *                  so that scripts can be compiled during
- *                  runtime without making the program
+ *                  run-time without making the program
  *                  unresponsive.
  *
  *
  * Author:          Zachary Westerman
  * Email:           zacharywesterman@yahoo.com
- * Last modified:   14 May. 2017
+ * Last modified:   18 Jul. 2017
 **/
 
 #pragma once
@@ -118,7 +119,7 @@ namespace z
 
             core::array< core::string<CHAR> > file_list;
 
-            core::string<CHAR>* full_output;
+            //core::string<CHAR>* full_output;
 
             file::loader<CHAR> fLoader;
 
@@ -133,7 +134,7 @@ namespace z
 
             core::array< ident_t<CHAR> > full_ident_list;
 
-            bool done;
+            bool is_done;
 
             int overall_progress;
 
@@ -145,13 +146,13 @@ namespace z
             includeIterator(core::sorted_ref_array< core::string<CHAR>* >* symbol_table) :
                             fScanner(symbol_table)
             {
-                full_output = NULL;
+                //full_output = NULL;
 
                 found_error = false;
 
                 working_node = 0;
 
-                done = false;
+                is_done = false;
 
                 overall_progress = PROG_NONE;
             }
@@ -172,7 +173,7 @@ namespace z
 
                 working_node = 0;
 
-                done = false;
+                is_done = false;
                 overall_progress = PROG_NONE;
 
                 if (is_file)
@@ -204,6 +205,10 @@ namespace z
             inline bool error() {return found_error;}
 
             void printErrors();
+
+            inline bool done() {return is_done;}
+
+            inline phrase_t<CHAR>* moveResultAST() {return fLexer.moveResultAST();}
         };
 
 
@@ -216,7 +221,7 @@ namespace z
         template <typename CHAR>
         bool includeIterator<CHAR>::build(const core::timeout& time)
         {
-            while (!done && !time.timedOut())
+            while (!is_done && !time.timedOut())
             {
                 if (overall_progress == PROG_NONE)
                 {
@@ -333,6 +338,9 @@ namespace z
                 {
                     if (fLexer.lex(time))
                         overall_progress = PROG_LEXED;
+
+                    if (node_list.size() && !fLexer.usingInput())
+                        node_list.clear();
                 }
                 else if (overall_progress == PROG_LEXED)
                 {
@@ -347,7 +355,7 @@ namespace z
                 }
                 else if (overall_progress == PROG_DONE)
                 {
-                    done = true;
+                    is_done = true;
                 }
             }
 

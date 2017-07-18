@@ -28,6 +28,10 @@
 
 #include <iostream>
 
+#ifndef NULL
+    #define NULL 0
+#endif // NULL
+
 namespace z
 {
     namespace script
@@ -139,6 +143,18 @@ namespace z
 
 
         template <typename CHAR>
+        void delete_ast(phrase_t<CHAR>* root)
+        {
+            for (int i=0; i<(root->children.size()); i++)
+            {
+                delete_ast(root->children[i]);
+            }
+
+            delete root;
+        }
+
+
+        template <typename CHAR>
         class lexer
         {
         private:
@@ -155,20 +171,6 @@ namespace z
             bool input_in_use;
 
             core::dynamic_stack<int> cleanup_stack;
-
-            ///debug
-            void print_lex_ast();
-            void print_lx_ch(int, phrase_t<CHAR>*);
-
-            void del_nodes(phrase_t<CHAR>* root)
-            {
-                for (int i=0; i<(root->children.size()); i++)
-                {
-                    del_nodes(root->children[i]);
-                }
-
-                delete root;
-            }
 
             ///phrase detection
             bool identifierlist();
@@ -238,7 +240,6 @@ namespace z
             bool program();
 
 
-            ///error checking
 
         public:
             core::array< parser_error<CHAR> > error_buffer;
@@ -258,7 +259,7 @@ namespace z
             ~lexer()
             {
                 for (int i=0; i<phrase_nodes.size(); i++)
-                    del_nodes(phrase_nodes[i]);
+                    delete_ast(phrase_nodes[i]);
             }
 
             void setInput(core::array< ident_t<CHAR> >& identifiers)
@@ -266,7 +267,7 @@ namespace z
                 input_ident = &identifiers;
 
                 for (int i=0; i<phrase_nodes.size(); i++)
-                    del_nodes(phrase_nodes[i]);
+                    delete_ast(phrase_nodes[i]);
                 phrase_nodes.clear();
 
                 progress = lex::NONE;
@@ -284,6 +285,24 @@ namespace z
             inline bool error() {return error_buffer.size() > 0;}
 
             inline bool usingInput() {return input_in_use;}
+
+            inline bool done() {return (progress == lex::DONE);}
+
+
+            phrase_t<CHAR>* moveResultAST()
+            {
+                if ((progress == lex::DONE) &&
+                    !error_buffer.size() &&
+                    (phrase_nodes.size() == 1))
+                {
+                    phrase_t<CHAR>* result = phrase_nodes[0];
+                    phrase_nodes.remove(0);
+
+                    return result;
+                }
+                else
+                    return NULL;
+            }
         };
 
 
@@ -317,7 +336,7 @@ namespace z
                         if (!did_concat)
                         {
                             progress = lex::PROGRAM;
-                            current_node = 0;
+                            current_node = NULL;
                         }
 
                         index = 0;
@@ -394,7 +413,7 @@ namespace z
                         if (!did_concat)
                         {
                             progress = lex::TREE_CLEANUP;
-                            current_node = 0;
+                            current_node = NULL;
                         }
 
                         index = 0;
@@ -466,7 +485,7 @@ namespace z
                     {
                         progress = lex::DONE;
 
-                        current_node = 0;
+                        current_node = NULL;
 
                         index = 0;
                     }
@@ -483,8 +502,14 @@ namespace z
             if (progress == lex::DONE)
             {
                 if (phrase_nodes.size() > 1)
+                {
                     error_buffer.add(parser_error<CHAR>(-1, -1, error::SYNTAX_ERROR, -1));
-                print_lex_ast();
+
+                    for (int n=0; n<phrase_nodes.size(); n++)
+                    {
+                        print_lex_ast(0, phrase_nodes[n]);
+                    }
+                }
             }
 
             return !time.timedOut();
@@ -492,47 +517,38 @@ namespace z
 
 
 
-
-
         ///debug
         template <typename CHAR>
-        void lexer<CHAR>::print_lex_ast()
+        void print_lex_ast(int level, phrase_t<CHAR>* node)
         {
-            for (int n=0; n<phrase_nodes.size(); n++)
+            if (node)
             {
-                print_lx_ch(0, phrase_nodes[n]);
+                for (int i=0; i<level; i++)
+                    std::cout << "    ";
+
+
+
+                if (node->type == ident::STRING_LITERAL)
+                    std::cout << "<" << node->value.string().str() << ">";
+                else if (node->type == ident::NUMERIC_LITERAL)
+                    std::cout << "<" << node->value.string().str() << ">";
+                else if (node->type == ident::COMPLEX_LITERAL)
+                    std::cout << "<" << node->value.string().str() << "i>";
+                else if (node->type == ident::CONSTANT_LITERAL)
+                    std::cout << "#const<" << node->value.string().str() << ">";
+                else if (node->type == ident::UNKNOWN)
+                    std::cout << "#unkn<" << ((core::string<CHAR>*)(node->meta))->str() << ">";
+                else if (node->type == ident::IDENTIFIER)
+                    std::cout << symTypeStr[node->type] << " : {"\
+                     << ((core::string<CHAR>*)(node->meta))->str() << "}";
+                else
+                    std::cout << symTypeStr[node->type];
+
+                std::cout << std::endl;
+
+                for (int i=0; i<(node->children.size()); i++)
+                    print_lex_ast(level+1, node->children[i]);
             }
-        }
-
-        ///debug
-        template <typename CHAR>
-        void lexer<CHAR>::print_lx_ch(int level, phrase_t<CHAR>* node)
-        {
-            for (int i=0; i<level; i++)
-                std::cout << "    ";
-
-
-
-            if (node->type == ident::STRING_LITERAL)
-                std::cout << "<" << node->value.string().str() << ">";
-            else if (node->type == ident::NUMERIC_LITERAL)
-                std::cout << "<" << node->value.string().str() << ">";
-            else if (node->type == ident::COMPLEX_LITERAL)
-                std::cout << "<" << node->value.string().str() << "i>";
-            else if (node->type == ident::CONSTANT_LITERAL)
-                std::cout << "#const<" << node->value.string().str() << ">";
-            else if (node->type == ident::UNKNOWN)
-                std::cout << "#unkn<" << ((core::string<CHAR>*)(node->meta))->str() << ">";
-            else if (node->type == ident::IDENTIFIER)
-                std::cout << symTypeStr[node->type] << " : {"\
-                 << ((core::string<CHAR>*)(node->meta))->str() << "}";
-            else
-                std::cout << symTypeStr[node->type];
-
-            std::cout << std::endl;
-
-            for (int i=0; i<(node->children.size()); i++)
-                print_lx_ch(level+1, node->children[i]);
         }
     }
 }

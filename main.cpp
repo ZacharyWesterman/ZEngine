@@ -51,6 +51,15 @@ int main(int argc, char* argv[])
 
     sscan.printErrors();
 
+
+    cout << "\"good\" syntax:--------------------\n";
+    z::script::phrase_t<char>* AST = sscan.moveResultAST();
+
+    z::script::print_lex_ast(0, AST);
+
+    if (AST)
+        delete AST;
+
     //std::cout << "\nDone.\n";
 
     //S->clean();

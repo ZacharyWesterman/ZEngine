@@ -87,9 +87,7 @@ variable	: IDENTIFIER !( ![ !.
 		| typevar
 
 operand		: variable
-		| NUMERIC_LITERAL
-		| COMPLEX_LITERAL
-		| STRING_LITERAL
+		| CONSTANT_LITERAL
 		| sizeofexpr
 		| dimensionexpr
 		| type_funccall

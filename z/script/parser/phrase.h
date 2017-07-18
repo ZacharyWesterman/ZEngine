@@ -8,7 +8,7 @@
  *
  * Author:          Zachary Westerman
  * Email:           zacharywesterman@yahoo.com
- * Last modified:   12 Jul. 2017
+ * Last modified:   18 Jul. 2017
 **/
 
 
@@ -111,7 +111,7 @@ namespace z
 
             //optional data
             void* meta;
-            double value;
+            data_t<CHAR> value;
 
 
             phrase_t* parent;

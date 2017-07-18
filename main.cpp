@@ -3,7 +3,7 @@
 
 #include "z/script/parser/includeIterator.h"
 
-#include "z/script/variables/data_t.h"
+//#include "z/script/variables/data_t.h"
 
 #include <iostream>
 //using namespace std;

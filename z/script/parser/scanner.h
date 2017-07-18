@@ -213,7 +213,11 @@ namespace z
                         in_comment = false;
                         multiline_comment = false;
 
-                        if (current_ident.type)
+                        if (current_ident.type == ident::UNKNOWN)
+                        {
+                            list_opers(current_symbol);
+                        }
+                        else if (current_ident.type)
                         {
                             bool addmeta = false;
 
@@ -229,10 +233,12 @@ namespace z
                             else if (current_ident.type == ident::NUMERIC_LITERAL)
                             {
                                check_this_number();
+                               current_ident.type = ident::CONSTANT_LITERAL;
                             }
                             else if (current_ident.type == ident::STRING_LITERAL)
                             {
-                                addmeta = true;
+                                current_ident.type = ident::CONSTANT_LITERAL;
+                                current_ident.value = current_symbol;
                             }
 
                             if (addmeta)
@@ -260,7 +266,11 @@ namespace z
 
                         multiline_comment = input->foundAt("\\{",index);
 
-                        if (current_ident.type)
+                        if (current_ident.type == ident::UNKNOWN)
+                        {
+                            list_opers(current_symbol);
+                        }
+                        else if (current_ident.type)
                         {
                             bool addmeta = false;
 
@@ -275,11 +285,13 @@ namespace z
                             }
                             else if (current_ident.type == ident::NUMERIC_LITERAL)
                             {
-                                check_this_number();
+                               check_this_number();
+                               current_ident.type = ident::CONSTANT_LITERAL;
                             }
                             else if (current_ident.type == ident::STRING_LITERAL)
                             {
-                                addmeta = true;
+                                current_ident.type = ident::CONSTANT_LITERAL;
+                                current_ident.value = current_symbol;
                             }
 
                             if (addmeta)
@@ -467,11 +479,13 @@ namespace z
                             }
                             else if (current_ident.type == ident::NUMERIC_LITERAL)
                             {
-                                check_this_number();
+                               check_this_number();
+                               current_ident.type = ident::CONSTANT_LITERAL;
                             }
                             else if (current_ident.type == ident::STRING_LITERAL)
                             {
-                                addmeta = true;
+                                current_ident.type = ident::CONSTANT_LITERAL;
+                                current_ident.value = current_symbol;
                             }
 
                             if (addmeta)
@@ -588,10 +602,12 @@ namespace z
                     else if (current_ident.type == ident::NUMERIC_LITERAL)
                     {
                         check_this_number();
+                        current_ident.type = ident::CONSTANT_LITERAL;
                     }
                     else if (current_ident.type == ident::STRING_LITERAL)
                     {
-                        addmeta = true;
+                        current_ident.type = ident::CONSTANT_LITERAL;
+                        current_ident.value = current_symbol;
                     }
 
                     if (addmeta)
@@ -905,10 +921,11 @@ namespace z
         void scanner<CHAR>::check_this_number()
         {
             bool return_good = true;
+            bool is_complex = false;
 
             if (current_symbol.endsWith("i"))
             {
-                current_ident.type = ident::COMPLEX_LITERAL;
+                is_complex = true;
                 current_symbol.remove(current_symbol.length()-1, current_symbol.length());
             }
 
@@ -951,7 +968,12 @@ namespace z
                 }
 
                 if (return_good)
-                    current_ident.value = eval_binary_str(&current_symbol);
+                {
+                    if (is_complex)
+                        current_ident.value = std::complex<double>(0,eval_binary_str(&current_symbol));
+                    else
+                        current_ident.value = eval_binary_str(&current_symbol);
+                }
             }
             else if (current_symbol.beginsWith("0c") ||
                      current_symbol.beginsWith("0o"))
@@ -991,7 +1013,12 @@ namespace z
                 }
 
                 if (return_good)
-                    current_ident.value = eval_octal_str(&current_symbol);
+                {
+                    if (is_complex)
+                        current_ident.value = std::complex<double>(0,eval_octal_str(&current_symbol));
+                    else
+                        current_ident.value = eval_octal_str(&current_symbol);
+                }
             }
             else if (current_symbol.beginsWith("0h") ||
                      current_symbol.beginsWith("0x"))
@@ -1034,7 +1061,12 @@ namespace z
                 }
 
                 if (return_good)
-                    current_ident.value = eval_hexadecimal_str(&current_symbol);
+                {
+                    if (is_complex)
+                        current_ident.value = std::complex<double>(0,eval_hexadecimal_str(&current_symbol));
+                    else
+                        current_ident.value = eval_hexadecimal_str(&current_symbol);
+                }
             }
             else
             {
@@ -1071,8 +1103,13 @@ namespace z
                     }
                 }
 
-                if(return_good)
-                    current_ident.value = core::value(current_symbol);
+                if (return_good)
+                {
+                    if (is_complex)
+                        current_ident.value = std::complex<double>(0,core::value(current_symbol));
+                    else
+                        current_ident.value = core::value(current_symbol);
+                }
             }
         }
 

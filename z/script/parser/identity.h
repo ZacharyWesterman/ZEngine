@@ -10,7 +10,7 @@
  *
  * Author:          Zachary Westerman
  * Email:           zacharywesterman@yahoo.com
- * Last modified:   5 Jun. 2017
+ * Last modified:   18 Jul. 2017
 **/
 
 #pragma once
@@ -18,6 +18,8 @@
 #define IDENTITY_H_INCLUDED
 
 #include <z/core/string.h>
+
+#include "../data_t.h"
 #include "../errors.h"
 
 namespace z
@@ -47,6 +49,8 @@ namespace z
 
                 NUMERIC_LITERAL,//11
                 COMPLEX_LITERAL,//12
+
+                CONSTANT_LITERAL,
 
                 IDENTIFIER,     //13
 
@@ -159,7 +163,7 @@ namespace z
 
             core::string<CHAR>* meta;
 
-            double value;
+            data_t<CHAR> value;
 
             //keep track of the current file
             int file;
@@ -175,7 +179,7 @@ namespace z
 
                 meta = symbol_ptr;
 
-                value = 0;
+                //value = 0;
 
                 file = fileID;
             }

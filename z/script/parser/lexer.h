@@ -40,7 +40,7 @@ namespace z
             "{","}",
             "[","]",
             ",",";",".",
-            "#str","#num", "#compl",
+            "#str","#num", "#compl", "#const",
             "id",
             "if","else",
             "for","each","in","loop","while",
@@ -514,11 +514,15 @@ namespace z
 
 
             if (node->type == ident::STRING_LITERAL)
-                std::cout << "<" << ((core::string<CHAR>*)(node->meta))->str() << ">";
+                std::cout << "<" << node->value.string().str() << ">";
             else if (node->type == ident::NUMERIC_LITERAL)
-                std::cout << "<" << node->value << ">";
+                std::cout << "<" << node->value.string().str() << ">";
             else if (node->type == ident::COMPLEX_LITERAL)
-                std::cout << "<" << node->value << "i>";
+                std::cout << "<" << node->value.string().str() << "i>";
+            else if (node->type == ident::CONSTANT_LITERAL)
+                std::cout << "#const<" << node->value.string().str() << ">";
+            else if (node->type == ident::UNKNOWN)
+                std::cout << "#unkn<" << ((core::string<CHAR>*)(node->meta))->str() << ">";
             else if (node->type == ident::IDENTIFIER)
                 std::cout << symTypeStr[node->type] << " : {"\
                  << ((core::string<CHAR>*)(node->meta))->str() << "}";

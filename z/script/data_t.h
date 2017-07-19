@@ -151,6 +151,8 @@ namespace z
 
             //operators
             const data_t& operator-();
+            const data_t operator+(const data_t&) const;
+            const data_t operator-(const data_t&) const;
         };
 
 
@@ -237,9 +239,9 @@ namespace z
                 return r_string;
             }
             else if (d_type == data::ERROR)
-            {
-                return core::string<CHAR>("ERR:")+core::string<CHAR>(d_error);
-            }
+                return core::string<CHAR>("[ERR_")+
+                        core::string<CHAR>(d_error)+
+                        core::string<CHAR>("]");
             else
                 return core::string<CHAR>();
 
@@ -282,7 +284,10 @@ namespace z
 
 
 
+
         ///Operators
+
+        //negation
         template <typename CHAR>
         const data_t<CHAR>& data_t<CHAR>::operator-()
         {
@@ -302,6 +307,60 @@ namespace z
             return *this;
         }
 
+        //addition
+        template <typename CHAR>
+        const data_t<CHAR> data_t<CHAR>::operator+(const data_t<CHAR>& other) const
+        {
+            data_t<CHAR> result;
+
+            if ((d_type == data::ARRAY) || (other.d_type == data::ARRAY))
+            {
+                result.d_type = data::ERROR;
+                result.d_error = error::INVALID_OPER_ARRAY;
+            }
+            else if ((d_type == data::STRING) || (other.d_type == data::STRING))
+            {
+                if (d_type == data::STRING)
+                    result = d_string;
+                else
+                    result = this->string();
+
+                if (other.d_type == data::STRING)
+                    result += other.d_string;
+                else
+                    result = other.string();
+            }
+            else if ((d_type == data::VALUE) && (other.d_type == data::VALUE))
+            {
+                result = d_value + other.d_value;
+            }
+
+            return result;
+        }
+
+        //subtraction
+        template <typename CHAR>
+        const data_t<CHAR> data_t<CHAR>::operator-(const data_t<CHAR>& other) const
+        {
+            data_t<CHAR> result;
+
+            if ((d_type == data::ARRAY) || (other.d_type == data::ARRAY))
+            {
+                result.d_type = data::ERROR;
+                result.d_error = error::INVALID_OPER_ARRAY;
+            }
+            else if ((d_type == data::STRING) || (other.d_type == data::STRING))
+            {
+                result.d_type = data::ERROR;
+                result.d_error = error::INVALID_OPER_STRING;
+            }
+            else if ((d_type == data::VALUE) && (other.d_type == data::VALUE))
+            {
+                result = d_value - other.d_value;
+            }
+
+            return result;
+        }
     }
 }
 

@@ -2314,12 +2314,12 @@
 	<stdint.h>
 	<z/core/string.h>
 
-1500424574 /home/zwesterman/GitHub/ZEngine/z/script/parser/identity.h
+1500444118 /home/zwesterman/GitHub/ZEngine/z/script/parser/identity.h
 	<z/core/string.h>
 	"../data_t.h"
 	"../errors.h"
 
-1500428214 /home/zwesterman/GitHub/ZEngine/z/script/errors.h
+1500428296 /home/zwesterman/GitHub/ZEngine/z/script/errors.h
 	<z/core/string.h>
 
 1492812797 /home/zwesterman/GitHub/zLibraries/z/core/timeout.h
@@ -2351,7 +2351,7 @@
 	"lexer.h"
 	<iostream>
 
-1500424628 /home/zwesterman/GitHub/ZEngine/z/script/parser/lexer.h
+1500444295 /home/zwesterman/GitHub/ZEngine/z/script/parser/lexer.h
 	<z/core/timeout.h>
 	<z/core/array.h>
 	<z/core/dynamicStack.h>
@@ -2499,9 +2499,9 @@
 
 1500178704 /home/zwesterman/GitHub/ZEngine/z/script/parser/syntaxRules/multiplyexpr.h
 
-1500178844 /home/zwesterman/GitHub/ZEngine/z/script/parser/syntaxRules/addexpr.h
+1500444195 /home/zwesterman/GitHub/ZEngine/z/script/parser/syntaxRules/addexpr.h
 
-1500178942 /home/zwesterman/GitHub/ZEngine/z/script/parser/syntaxRules/boolexpr.h
+1500444131 /home/zwesterman/GitHub/ZEngine/z/script/parser/syntaxRules/boolexpr.h
 
 1500178981 /home/zwesterman/GitHub/ZEngine/z/script/parser/syntaxRules/assignexpr.h
 
@@ -2531,14 +2531,14 @@
 
 1500176061 /home/zwesterman/GitHub/ZEngine/z/script/parser/syntaxRules/until_statement.h
 
-1500428208 /home/zwesterman/GitHub/ZEngine/z/script/data_t.h
+1500442936 /home/zwesterman/GitHub/ZEngine/z/script/data_t.h
 	<z/core/string.h>
 	<z/core/array.h>
 	"errors.h"
 	<complex>
 	<type_traits>
 
-1500427598 /home/zwesterman/GitHub/ZEngine/z/script/parser/constantFolder.h
+1500442892 /home/zwesterman/GitHub/ZEngine/z/script/parser/constantFolder.h
 	<z/core/dynamicStack.h>
 	<z/core/timeout.h>
 	"../errors.h"

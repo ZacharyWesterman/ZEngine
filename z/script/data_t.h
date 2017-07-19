@@ -326,9 +326,9 @@ namespace z
                     result = this->string();
 
                 if (other.d_type == data::STRING)
-                    result += other.d_string;
+                    result.d_string += other.d_string;
                 else
-                    result = other.string();
+                    result.d_string += other.string();
             }
             else if ((d_type == data::VALUE) && (other.d_type == data::VALUE))
             {

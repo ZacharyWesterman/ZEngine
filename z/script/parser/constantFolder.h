@@ -52,6 +52,10 @@ namespace z
 
             void append_oper_error();
 
+
+            void operate_negatexpr();
+            void operate_addexpr();
+
         public:
             constantFolder()
             {
@@ -90,21 +94,9 @@ namespace z
             while (!is_done && !time.timedOut())
             {
                 if (root->type == phrase::NEGATEXPR)
-                {
-                    if (root->children[0]->type == ident::LITERAL)
-                    {
-                        root->value = -(root->children[0]->value);
-
-                        set_node_constant();
-                        append_oper_error();
-
-                        exit_node();
-                    }
-                    else if (index < 1)
-                        enter_node(0);
-                    else
-                        exit_node();
-                }
+                    operate_negatexpr();
+                else if (root->type == phrase::ADDEXPR)
+                    operate_addexpr();
                 else
                 {
                     if (index >= (root->children).size())
@@ -162,6 +154,53 @@ namespace z
                                         root->column,
                                         root->value.error(),
                                         root->file));
+        }
+
+
+
+        template <typename CHAR>
+        void constantFolder<CHAR>::operate_negatexpr()
+        {
+            if (root->children[0]->type == ident::LITERAL)
+            {
+                root->value = -(root->children[0]->value);
+
+                set_node_constant();
+                append_oper_error();
+
+                exit_node();
+            }
+            else if (index < 1)
+                enter_node(0);
+            else
+                exit_node();
+        }
+
+
+        template <typename CHAR>
+        void constantFolder<CHAR>::operate_addexpr()
+        {
+            if ((root->children[0]->type == ident::LITERAL) &&
+                (root->children[2]->type == ident::LITERAL))
+            {
+                if (root->children[1]->type == ident::OPER_ADD)
+                    root->value = (root->children[0]->value) +
+                                  (root->children[2]->value);
+                else
+                    root->value = (root->children[0]->value) -
+                                  (root->children[2]->value);
+
+                set_node_constant();
+                append_oper_error();
+
+                exit_node();
+            }
+            else if (index < 1)
+                enter_node(0);
+            else if (index < 3)
+                enter_node(2);
+            else
+                exit_node();
         }
     }
 }

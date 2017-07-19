@@ -147,6 +147,10 @@ namespace z
                 else
                     return error::NONE;
             }
+
+
+            //operators
+            const data_t& operator-();
         };
 
 
@@ -232,6 +236,10 @@ namespace z
 
                 return r_string;
             }
+            else if (d_type == data::ERROR)
+            {
+                return core::string<CHAR>("ERR:")+core::string<CHAR>(d_error);
+            }
             else
                 return core::string<CHAR>();
 
@@ -273,8 +281,26 @@ namespace z
         }
 
 
-        ///Operators
 
+        ///Operators
+        template <typename CHAR>
+        const data_t<CHAR>& data_t<CHAR>::operator-()
+        {
+            if (d_type == data::VALUE)
+                d_value = -d_value;
+            else if (d_type == data::STRING)
+            {
+                d_type = data::ERROR;
+                d_error = error::INVALID_OPER_STRING;
+            }
+            else if (d_type == data::ARRAY)
+            {
+                d_type = data::ERROR;
+                d_error = error::INVALID_OPER_ARRAY;
+            }
+
+            return *this;
+        }
 
     }
 }

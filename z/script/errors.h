@@ -50,11 +50,16 @@ namespace z
                 MISSING_R_BRACKET,
 
                 MISSING_L_BRACE,
-                MISSING_R_BRACE,
+                MISSING_R_BRACE, //16
 
                 SYNTAX_ERROR,
 
                 UNEXPECTED_ASSIGNMENT,
+
+
+
+                INVALID_OPER_STRING,
+                INVALID_OPER_ARRAY,
 
                 DIV_BY_ZERO,
 

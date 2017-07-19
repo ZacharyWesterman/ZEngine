@@ -48,7 +48,9 @@ namespace z
             void enter_node(int);
             void exit_node();
 
-            void set_node_constant(phrase_t<CHAR>*);
+            void set_node_constant();
+
+            void append_oper_error();
 
         public:
             constantFolder()
@@ -91,9 +93,10 @@ namespace z
                 {
                     if (root->children[0]->type == ident::LITERAL)
                     {
-                        root->value = -(root->children[0]->value.complex());
+                        root->value = -(root->children[0]->value);
 
-                        set_node_constant(root);
+                        set_node_constant();
+                        append_oper_error();
 
                         exit_node();
                     }
@@ -138,15 +141,27 @@ namespace z
         }
 
         template <typename CHAR>
-        void constantFolder<CHAR>::set_node_constant(phrase_t<CHAR>* node)
+        void constantFolder<CHAR>::set_node_constant()
         {
-            node->type = ident::LITERAL;
-            node->meta = NULL;
+            root->type = ident::LITERAL;
+            root->meta = NULL;
 
-            for (int i=0; i<(node->children).size(); i++)
-                delete_ast(node->children[i]);
+            for (int i=0; i<(root->children).size(); i++)
+                delete_ast(root->children[i]);
 
-            node->children.clear();
+            root->children.clear();
+        }
+
+
+        template <typename CHAR>
+        void constantFolder<CHAR>::append_oper_error()
+        {
+            if (root->value.type() == data::ERROR)
+                error_buffer.add(parser_error<CHAR>(
+                                        root->line,
+                                        root->column,
+                                        root->value.error(),
+                                        root->file));
         }
     }
 }

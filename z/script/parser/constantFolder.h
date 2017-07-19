@@ -56,6 +56,8 @@ namespace z
             void operate_negatexpr();
             void operate_addexpr();
             void operate_multiplyexpr();
+            void operate_powerexpr();
+            void operate_factorialexpr();
 
         public:
             constantFolder()
@@ -100,6 +102,10 @@ namespace z
                     operate_addexpr();
                 else if (root->type == phrase::MULTIPLYEXPR)
                     operate_multiplyexpr();
+                else if (root->type == phrase::POWEREXPR)
+                    operate_powerexpr();
+                else if (root->type == phrase::FACTORIALEXPR)
+                    operate_factorialexpr();
                 else
                 {
                     if (index >= (root->children).size())
@@ -238,6 +244,49 @@ namespace z
             else
                 exit_node();
         }
+
+
+        template <typename CHAR>
+        void constantFolder<CHAR>::operate_powerexpr()
+        {
+            if ((root->children[0]->type == ident::LITERAL) &&
+                (root->children[1]->type == ident::LITERAL))
+            {
+                root->value = (root->children[0]->value) ^
+                              (root->children[1]->value);
+
+                set_node_constant();
+                append_oper_error();
+
+                exit_node();
+            }
+            else if (index < 1)
+                enter_node(0);
+            else if (index < 2)
+                enter_node(1);
+            else
+                exit_node();
+        }
+
+
+        template <typename CHAR>
+        void constantFolder<CHAR>::operate_factorialexpr()
+        {
+            if (root->children[0]->type == ident::LITERAL)
+            {
+                root->value = (root->children[0]->value).factorial();
+
+                set_node_constant();
+                append_oper_error();
+
+                exit_node();
+            }
+            else if (index < 1)
+                enter_node(0);
+            else
+                exit_node();
+        }
+
     }
 }
 

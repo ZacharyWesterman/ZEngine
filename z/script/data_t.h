@@ -157,6 +157,8 @@ namespace z
             const data_t operator/(const data_t&) const;
             const data_t operator%(const data_t&) const;
             const data_t int_divide(const data_t&) const;
+            const data_t operator^(const data_t&) const;
+            const data_t factorial() const;
 
             const data_t floor() const;
             const data_t ceil() const;
@@ -372,6 +374,7 @@ namespace z
             return result;
         }
 
+        //multiplication
         template <typename CHAR>
         const data_t<CHAR> data_t<CHAR>::operator*(const data_t<CHAR>& other) const
         {
@@ -395,6 +398,7 @@ namespace z
             return result;
         }
 
+        //floating-point division
         template <typename CHAR>
         const data_t<CHAR> data_t<CHAR>::operator/(const data_t<CHAR>& other) const
         {
@@ -425,6 +429,7 @@ namespace z
             return result;
         }
 
+        //remainder of integer division
         template <typename CHAR>
         const data_t<CHAR> data_t<CHAR>::operator%(const data_t<CHAR>& other) const
         {
@@ -457,6 +462,7 @@ namespace z
             return result;
         }
 
+        //integer division
         template <typename CHAR>
         const data_t<CHAR> data_t<CHAR>::int_divide(const data_t<CHAR>& other) const
         {
@@ -485,6 +491,71 @@ namespace z
                     result.d_error = error::DIV_BY_ZERO;
                 }
 
+            }
+
+            return result;
+        }
+
+        //power
+        template <typename CHAR>
+        const data_t<CHAR> data_t<CHAR>::operator^(const data_t<CHAR>& other) const
+        {
+            data_t<CHAR> result;
+
+            if ((d_type == data::ARRAY) || (other.d_type == data::ARRAY))
+            {
+                result.d_type = data::ERROR;
+                result.d_error = error::INVALID_OPER_ARRAY;
+            }
+            else if ((d_type == data::STRING) || (other.d_type == data::STRING))
+            {
+                result.d_type = data::ERROR;
+                result.d_error = error::INVALID_OPER_STRING;
+            }
+            else if ((d_type == data::VALUE) && (other.d_type == data::VALUE))
+            {
+                result = pow(d_value,other.d_value);
+
+            }
+
+            return result;
+        }
+
+        //factorial
+        template <typename CHAR>
+        const data_t<CHAR> data_t<CHAR>::factorial() const
+        {
+            data_t<CHAR> result;
+
+            if (d_type == data::ARRAY)
+            {
+                result.d_type = data::ERROR;
+                result.d_error = error::INVALID_OPER_ARRAY;
+            }
+            else if (d_type == data::STRING)
+            {
+                result.d_type = data::ERROR;
+                result.d_error = error::INVALID_OPER_STRING;
+            }
+            else if (d_type == data::VALUE)
+            {
+                if (d_value.imag() != 0)
+                {
+                    result.d_type = data::ERROR;
+                    result.d_error = error::FACTORIAL_COMPLEX;
+                }
+                else if (d_value.real() < 0)
+                {
+                    result.d_type = data::ERROR;
+                    result.d_error = error::FACTORIAL_NEGATIVE;
+                }
+                else if (d_value.real() > FACTORIAL_MAX_INPUT_DBL)
+                {
+                    result.d_type = data::ERROR;
+                    result.d_error = error::FACTORIAL_OVERFLOW;
+                }
+                else
+                    result = math::factorial(d_value.real());
             }
 
             return result;

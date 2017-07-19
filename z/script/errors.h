@@ -7,7 +7,7 @@
  *
  * Author:          Zachary Westerman
  * Email:           zacharywesterman@yahoo.com
- * Last modified:   5 Jun. 2017
+ * Last modified:   19 Jul. 2017
 **/
 
 #pragma once
@@ -52,16 +52,18 @@ namespace z
                 MISSING_L_BRACE,
                 MISSING_R_BRACE, //16
 
+
                 SYNTAX_ERROR,
-
-                UNEXPECTED_ASSIGNMENT,
-
 
 
                 INVALID_OPER_STRING,
                 INVALID_OPER_ARRAY,
 
                 DIV_BY_ZERO,
+
+                FACTORIAL_OVERFLOW,
+                FACTORIAL_NEGATIVE,
+                FACTORIAL_COMPLEX,
 
                 ERROR_COUNT
             };

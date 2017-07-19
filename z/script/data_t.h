@@ -23,13 +23,13 @@
 
 #include <z/core/string.h>
 #include <z/core/array.h>
+#include <z/math/remainder.h>
 
 #include "errors.h"
 
 #include <complex>
 #include <type_traits>
 
-using std::complex;
 
 namespace z
 {
@@ -100,7 +100,7 @@ namespace z
             data_t(const std::complex<T>& _complex)
             {
                 d_type = data::VALUE;
-                d_value = std::complex<double>(_complex);
+                d_value = _complex;
             }
 
             data_t(const core::string<CHAR>&);
@@ -150,9 +150,12 @@ namespace z
 
 
             //operators
-            const data_t& operator-();
+            const data_t operator-();
             const data_t operator+(const data_t&) const;
             const data_t operator-(const data_t&) const;
+            const data_t operator*(const data_t&) const;
+            const data_t operator/(const data_t&) const;
+            const data_t operator%(const data_t&) const;
         };
 
 
@@ -289,22 +292,24 @@ namespace z
 
         //negation
         template <typename CHAR>
-        const data_t<CHAR>& data_t<CHAR>::operator-()
+        const data_t<CHAR> data_t<CHAR>::operator-()
         {
+            data_t<CHAR> result;
+
             if (d_type == data::VALUE)
-                d_value = -d_value;
+                result = -d_value;
             else if (d_type == data::STRING)
             {
-                d_type = data::ERROR;
-                d_error = error::INVALID_OPER_STRING;
+                result.d_type = data::ERROR;
+                result.d_error = error::INVALID_OPER_STRING;
             }
             else if (d_type == data::ARRAY)
             {
-                d_type = data::ERROR;
-                d_error = error::INVALID_OPER_ARRAY;
+                result.d_type = data::ERROR;
+                result.d_error = error::INVALID_OPER_ARRAY;
             }
 
-            return *this;
+            return result;
         }
 
         //addition
@@ -357,6 +362,91 @@ namespace z
             else if ((d_type == data::VALUE) && (other.d_type == data::VALUE))
             {
                 result = d_value - other.d_value;
+            }
+
+            return result;
+        }
+
+        template <typename CHAR>
+        const data_t<CHAR> data_t<CHAR>::operator*(const data_t<CHAR>& other) const
+        {
+            data_t<CHAR> result;
+
+            if ((d_type == data::ARRAY) || (other.d_type == data::ARRAY))
+            {
+                result.d_type = data::ERROR;
+                result.d_error = error::INVALID_OPER_ARRAY;
+            }
+            else if ((d_type == data::STRING) || (other.d_type == data::STRING))
+            {
+                result.d_type = data::ERROR;
+                result.d_error = error::INVALID_OPER_STRING;
+            }
+            else if ((d_type == data::VALUE) && (other.d_type == data::VALUE))
+            {
+                result = d_value * other.d_value;
+            }
+
+            return result;
+        }
+
+        template <typename CHAR>
+        const data_t<CHAR> data_t<CHAR>::operator/(const data_t<CHAR>& other) const
+        {
+            data_t<CHAR> result;
+
+            if ((d_type == data::ARRAY) || (other.d_type == data::ARRAY))
+            {
+                result.d_type = data::ERROR;
+                result.d_error = error::INVALID_OPER_ARRAY;
+            }
+            else if ((d_type == data::STRING) || (other.d_type == data::STRING))
+            {
+                result.d_type = data::ERROR;
+                result.d_error = error::INVALID_OPER_STRING;
+            }
+            else if ((d_type == data::VALUE) && (other.d_type == data::VALUE))
+            {
+                if (other.d_value.real() || other.d_value.imag())
+                    result = d_value / other.d_value;
+                else
+                {
+                    result.d_type = data::ERROR;
+                    result.d_error = error::DIV_BY_ZERO;
+                }
+
+            }
+
+            return result;
+        }
+
+        template <typename CHAR>
+        const data_t<CHAR> data_t<CHAR>::operator%(const data_t<CHAR>& other) const
+        {
+            data_t<CHAR> result;
+
+            if ((d_type == data::ARRAY) || (other.d_type == data::ARRAY))
+            {
+                result.d_type = data::ERROR;
+                result.d_error = error::INVALID_OPER_ARRAY;
+            }
+            else if ((d_type == data::STRING) || (other.d_type == data::STRING))
+            {
+                result.d_type = data::ERROR;
+                result.d_error = error::INVALID_OPER_STRING;
+            }
+            else if ((d_type == data::VALUE) && (other.d_type == data::VALUE))
+            {
+                if (other.d_value.real() || other.d_value.imag())
+                {
+                    result = math::remainder(d_value, other.d_value);
+                }
+                else
+                {
+                    result.d_type = data::ERROR;
+                    result.d_error = error::DIV_BY_ZERO;
+                }
+
             }
 
             return result;

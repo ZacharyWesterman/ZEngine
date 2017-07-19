@@ -55,6 +55,7 @@ namespace z
 
             void operate_negatexpr();
             void operate_addexpr();
+            void operate_multiplyexpr();
 
         public:
             constantFolder()
@@ -97,6 +98,8 @@ namespace z
                     operate_negatexpr();
                 else if (root->type == phrase::ADDEXPR)
                     operate_addexpr();
+                else if (root->type == phrase::MULTIPLYEXPR)
+                    operate_multiplyexpr();
                 else
                 {
                     if (index >= (root->children).size())
@@ -188,6 +191,36 @@ namespace z
                                   (root->children[2]->value);
                 else
                     root->value = (root->children[0]->value) -
+                                  (root->children[2]->value);
+
+                set_node_constant();
+                append_oper_error();
+
+                exit_node();
+            }
+            else if (index < 1)
+                enter_node(0);
+            else if (index < 3)
+                enter_node(2);
+            else
+                exit_node();
+        }
+
+
+        template <typename CHAR>
+        void constantFolder<CHAR>::operate_multiplyexpr()
+        {
+            if ((root->children[0]->type == ident::LITERAL) &&
+                (root->children[2]->type == ident::LITERAL))
+            {
+                if (root->children[1]->type == ident::OPER_MUL)
+                    root->value = (root->children[0]->value) *
+                                  (root->children[2]->value);
+                else if (root->children[1]->type == ident::OPER_DIV)
+                    root->value = (root->children[0]->value) /
+                                  (root->children[2]->value);
+                else if (root->children[1]->type == ident::OPER_MOD)
+                    root->value = (root->children[0]->value) %
                                   (root->children[2]->value);
 
                 set_node_constant();

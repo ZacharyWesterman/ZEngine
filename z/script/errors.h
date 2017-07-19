@@ -21,7 +21,7 @@ namespace z
 {
     namespace script
     {
-        typedef uint32_t error_flag;
+        typedef uint8_t error_flag; //error range [0, 255]
 
         namespace error
         {

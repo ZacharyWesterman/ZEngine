@@ -233,11 +233,11 @@ namespace z
                             else if (current_ident.type == ident::NUMERIC_LITERAL)
                             {
                                check_this_number();
-                               current_ident.type = ident::CONSTANT_LITERAL;
+                               current_ident.type = ident::LITERAL;
                             }
                             else if (current_ident.type == ident::STRING_LITERAL)
                             {
-                                current_ident.type = ident::CONSTANT_LITERAL;
+                                current_ident.type = ident::LITERAL;
                                 current_ident.value = current_symbol;
                             }
 
@@ -286,11 +286,11 @@ namespace z
                             else if (current_ident.type == ident::NUMERIC_LITERAL)
                             {
                                check_this_number();
-                               current_ident.type = ident::CONSTANT_LITERAL;
+                               current_ident.type = ident::LITERAL;
                             }
                             else if (current_ident.type == ident::STRING_LITERAL)
                             {
-                                current_ident.type = ident::CONSTANT_LITERAL;
+                                current_ident.type = ident::LITERAL;
                                 current_ident.value = current_symbol;
                             }
 
@@ -480,11 +480,11 @@ namespace z
                             else if (current_ident.type == ident::NUMERIC_LITERAL)
                             {
                                check_this_number();
-                               current_ident.type = ident::CONSTANT_LITERAL;
+                               current_ident.type = ident::LITERAL;
                             }
                             else if (current_ident.type == ident::STRING_LITERAL)
                             {
-                                current_ident.type = ident::CONSTANT_LITERAL;
+                                current_ident.type = ident::LITERAL;
                                 current_ident.value = current_symbol;
                             }
 
@@ -602,11 +602,11 @@ namespace z
                     else if (current_ident.type == ident::NUMERIC_LITERAL)
                     {
                         check_this_number();
-                        current_ident.type = ident::CONSTANT_LITERAL;
+                        current_ident.type = ident::LITERAL;
                     }
                     else if (current_ident.type == ident::STRING_LITERAL)
                     {
-                        current_ident.type = ident::CONSTANT_LITERAL;
+                        current_ident.type = ident::LITERAL;
                         current_ident.value = current_symbol;
                     }
 

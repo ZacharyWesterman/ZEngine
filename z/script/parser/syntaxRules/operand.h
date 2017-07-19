@@ -36,7 +36,7 @@ namespace z
                       (phrase_nodes.is_valid(index-1) &&
                        (phrase_nodes[index-1]->type >= ident::OPER_ASSIGN) &&
                        (phrase_nodes[index-1]->type <= ident::OPER_LT_EQ)))) ||
-                    (phrase_nodes[index]->type == ident::CONSTANT_LITERAL) ||
+                    (phrase_nodes[index]->type == ident::LITERAL) ||
                     (phrase_nodes[index]->type == phrase::DIMENSIONEXPR) ||
                     (phrase_nodes[index]->type == phrase::SIZEOFEXPR) ||
                     ((phrase_nodes[index]->type == phrase::LIST) &&

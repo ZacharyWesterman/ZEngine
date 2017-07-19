@@ -50,7 +50,7 @@ namespace z
                 NUMERIC_LITERAL,//11
                 COMPLEX_LITERAL,//12
 
-                CONSTANT_LITERAL,
+                LITERAL,
 
                 IDENTIFIER,     //13
 

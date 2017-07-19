@@ -24,6 +24,8 @@
 #include <z/core/string.h>
 #include <z/core/array.h>
 
+#include "errors.h"
+
 #include <complex>
 #include <type_traits>
 
@@ -39,6 +41,8 @@ namespace z
             {
                 NONE = 0,
 
+                ERROR,
+
                 VALUE,
                 STRING,
                 ARRAY,
@@ -53,6 +57,7 @@ namespace z
         {
         public:
             int d_type;
+            error_flag d_error;
 
             std::complex<double> d_value;
 
@@ -64,10 +69,18 @@ namespace z
         public:
             data_t()
             {
-                d_string = core::string<CHAR>();
-                d_array = core::array< data_t<CHAR> >();
-
                 d_type = data::NONE;
+
+                d_value = 0;
+                d_error = 0;
+            }
+
+            data_t(error_flag new_error)
+            {
+
+                d_type = data::ERROR;
+
+                d_error = new_error;
             }
 
             template<
@@ -114,7 +127,7 @@ namespace z
             const data_t& operator=(const data_t&);
 
 
-            inline int type() const {return type;}
+            inline const int type() const {return d_type;}
 
             inline void setType(const data::DATA_TYPE new_type)
             { d_type = new_type; }
@@ -126,6 +139,14 @@ namespace z
 
             inline core::array< data_t<CHAR> >& array()
             { return d_array; }
+
+            error_flag error() const
+            {
+                if (d_type == data::ERROR)
+                    return d_error;
+                else
+                    return error::NONE;
+            }
         };
 
 
@@ -150,7 +171,7 @@ namespace z
                 break;
 
             default:
-                return true;
+                return false;
             }
         }
 
@@ -159,12 +180,13 @@ namespace z
         const data_t<CHAR>& data_t<CHAR>::operator=(const data_t<CHAR>& other)
         {
             d_type = other.d_type;
+            d_error = other.d_error;
 
             d_value = other.d_value;
+
             d_string = other.d_string;
 
             d_array = other.d_array;
-
 
             return *this;
         }
@@ -249,6 +271,11 @@ namespace z
             else
                 return 0;
         }
+
+
+        ///Operators
+
+
     }
 }
 

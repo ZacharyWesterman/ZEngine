@@ -41,16 +41,22 @@ namespace z
             phrase_t<CHAR>* root;
 
             int index;
-
-            core::dynamic_stack<int> index_stack;
+            core::dynamicStack<int> index_stack;
 
             bool is_done;
+
+            void enter_node(int);
+            void exit_node();
+
+            void set_node_constant(phrase_t<CHAR>*);
 
         public:
             constantFolder()
             {
                 index = 0;
                 root = NULL;
+
+                is_done = true;
             };
 
             ~constantFolder(){};
@@ -62,15 +68,86 @@ namespace z
 
                 index = 0;
                 root = new_root;
+
+                is_done = (root == NULL);
             }
 
             inline bool error() {return (error_buffer.size() > 0);}
 
-            inline bool done() {return (is_done || !root);}
+            inline bool done() {return is_done;}
 
 
-            bool fold(const core::timeout& time);
+            bool fold(const core::timeout&);
         };
+
+
+
+        template <typename CHAR>
+        bool constantFolder<CHAR>::fold(const core::timeout& time)
+        {
+            while (!is_done && !time.timedOut())
+            {
+                if (root->type == phrase::NEGATEXPR)
+                {
+                    if (root->children[0]->type == ident::LITERAL)
+                    {
+                        root->value = -(root->children[0]->value.complex());
+
+                        set_node_constant(root);
+
+                        exit_node();
+                    }
+                    else if (index < 1)
+                        enter_node(0);
+                    else
+                        exit_node();
+                }
+                else
+                {
+                    if (index >= (root->children).size())
+                    {
+                        exit_node();
+                    }
+                    else
+                    {
+                        enter_node(index);
+                    }
+                }
+            }
+
+            return is_done;
+        }
+
+
+        template <typename CHAR>
+        void constantFolder<CHAR>::enter_node(int entry)
+        {
+            root = root->children[entry];
+            index_stack.push(entry+1);
+
+            index = 0;
+        }
+
+        template <typename CHAR>
+        void constantFolder<CHAR>::exit_node()
+        {
+            if (!index_stack.pop(index))
+                is_done = true;
+            else
+                root = root->parent;
+        }
+
+        template <typename CHAR>
+        void constantFolder<CHAR>::set_node_constant(phrase_t<CHAR>* node)
+        {
+            node->type = ident::LITERAL;
+            node->meta = NULL;
+
+            for (int i=0; i<(node->children).size(); i++)
+                delete_ast(node->children[i]);
+
+            node->children.clear();
+        }
     }
 }
 

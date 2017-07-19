@@ -512,7 +512,7 @@ namespace z
                 }
             }
 
-            return !time.timedOut();
+            return (progress == lex::DONE);
         }
 
 
@@ -534,7 +534,7 @@ namespace z
                     std::cout << "<" << node->value.string().str() << ">";
                 else if (node->type == ident::COMPLEX_LITERAL)
                     std::cout << "<" << node->value.string().str() << "i>";
-                else if (node->type == ident::CONSTANT_LITERAL)
+                else if (node->type == ident::LITERAL)
                     std::cout << "#const<" << node->value.string().str() << ">";
                 else if (node->type == ident::UNKNOWN)
                     std::cout << "#unkn<" << ((core::string<CHAR>*)(node->meta))->str() << ">";

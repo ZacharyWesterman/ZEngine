@@ -25,14 +25,14 @@ namespace z
         template <typename CHAR>
         bool lexer<CHAR>::boolexpr()
         {
-            //if no detected boolean operators, continue to the next phase
+            //if no detected boolean(or add.) operators, continue to the next phase
             if ((phrase_nodes[index]->type == phrase::ASSIGNEXPR) ||
                 ((phrase_nodes[index]->type == phrase::ADDEXPR) &&
                 !(phrase_nodes.is_valid(index+1) &&
-                  (phrase_nodes[index+1]->type >= ident::OPER_AND_LGCL) &&
+                  (phrase_nodes[index+1]->type >= ident::OPER_ADD) &&
                   (phrase_nodes[index+1]->type <= ident::OPER_LT_EQ)) &&
                 !(phrase_nodes.is_valid(index-1) &&
-                  (phrase_nodes[index-1]->type >= ident::OPER_AND_LGCL) &&
+                  (phrase_nodes[index-1]->type >= ident::OPER_ADD) &&
                   (phrase_nodes[index-1]->type <= ident::OPER_LT_EQ))))
             {
                 if (phrase_nodes[index]->orig_type == ident::NONE)

@@ -25,14 +25,14 @@ namespace z
         template <typename CHAR>
         bool lexer<CHAR>::addexpr()
         {
-            //if no detected addition operators, continue to the next phase
+            //if no detected addition(or mul.) operators, continue to the next phase
             if ((phrase_nodes[index]->type == phrase::MULTIPLYEXPR) &&
                 !(phrase_nodes.is_valid(index+1) &&
                   (phrase_nodes[index+1]->type >= ident::OPER_ADD) &&
-                  (phrase_nodes[index+1]->type <= ident::OPER_SUB)) &&
+                  (phrase_nodes[index+1]->type <= ident::OPER_MOD)) &&
                 !(phrase_nodes.is_valid(index-1) &&
                   (phrase_nodes[index-1]->type >= ident::OPER_ADD) &&
-                  (phrase_nodes[index-1]->type <= ident::OPER_SUB)))
+                  (phrase_nodes[index-1]->type <= ident::OPER_MOD)))
             {
                 if (phrase_nodes[index]->orig_type == ident::NONE)
                     phrase_nodes[index]->orig_type = phrase_nodes[index]->type;
@@ -40,13 +40,14 @@ namespace z
 
                 return true;
             }
-            //otherwise, if an addition operator is detected
+             //otherwise, if an addition operator is detected
             else if (phrase_nodes.is_valid(index+2) &&
                      ((phrase_nodes[index]->type == phrase::MULTIPLYEXPR) ||
                       (phrase_nodes[index]->type == phrase::ADDEXPR)) &&
-                     (phrase_nodes[index+1]->type >= ident::OPER_ADD) &&
-                     (phrase_nodes[index+1]->type <= ident::OPER_SUB) &&
-                     (phrase_nodes[index+2]->type == phrase::MULTIPLYEXPR))
+                     ((phrase_nodes[index+1]->type == ident::OPER_ADD) ||
+                      (phrase_nodes[index+1]->type == ident::OPER_SUB)) &&
+                     ((phrase_nodes[index+2]->type == phrase::MULTIPLYEXPR) ||
+                      (phrase_nodes[index+2]->type == phrase::ADDEXPR)))
             {
                 phrase_t<CHAR>* node = new phrase_t<CHAR>();
 

@@ -98,21 +98,21 @@ namespace z
                 OPER_IDIV_ASSIGN,
                 OPER_MOD_ASSIGN,
 
-                OPER_ADD,       //37
-                OPER_SUB,       //38
-
                 OPER_ADD1,      //39
                 OPER_SUB1,      //40
 
                 OPER_SIZEOF,
 
+                OPER_POW,       //45
+                OPER_FAC,       //46
+
+                OPER_ADD,       //37
+                OPER_SUB,       //38
+
                 OPER_MUL,       //41
                 OPER_DIV,       //42
                 OPER_IDIV,      //43
                 OPER_MOD,       //44
-
-                OPER_POW,       //45
-                OPER_FAC,       //46
 
                 OPER_AND_LGCL,  //47
                 OPER_AND_BITW,  //48

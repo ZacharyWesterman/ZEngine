@@ -222,6 +222,9 @@ namespace z
                 else if (root->children[1]->type == ident::OPER_MOD)
                     root->value = (root->children[0]->value) %
                                   (root->children[2]->value);
+                else
+                    root->value = (root->children[0]->value).int_divide\
+                                  (root->children[2]->value);
 
                 set_node_constant();
                 append_oper_error();

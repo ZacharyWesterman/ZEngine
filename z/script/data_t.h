@@ -156,6 +156,11 @@ namespace z
             const data_t operator*(const data_t&) const;
             const data_t operator/(const data_t&) const;
             const data_t operator%(const data_t&) const;
+            const data_t int_divide(const data_t&) const;
+
+            const data_t floor() const;
+            const data_t ceil() const;
+            const data_t round() const;
         };
 
 
@@ -451,6 +456,40 @@ namespace z
 
             return result;
         }
+
+        template <typename CHAR>
+        const data_t<CHAR> data_t<CHAR>::int_divide(const data_t<CHAR>& other) const
+        {
+            data_t<CHAR> result;
+
+            if ((d_type == data::ARRAY) || (other.d_type == data::ARRAY))
+            {
+                result.d_type = data::ERROR;
+                result.d_error = error::INVALID_OPER_ARRAY;
+            }
+            else if ((d_type == data::STRING) || (other.d_type == data::STRING))
+            {
+                result.d_type = data::ERROR;
+                result.d_error = error::INVALID_OPER_STRING;
+            }
+            else if ((d_type == data::VALUE) && (other.d_type == data::VALUE))
+            {
+                if (other.d_value.real() || other.d_value.imag())
+                {
+                    result = std::complex<long>(d_value) /
+                             std::complex<long>(other.d_value);
+                }
+                else
+                {
+                    result.d_type = data::ERROR;
+                    result.d_error = error::DIV_BY_ZERO;
+                }
+
+            }
+
+            return result;
+        }
+
     }
 }
 

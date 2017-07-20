@@ -58,6 +58,7 @@ namespace z
             void operate_multiplyexpr();
             void operate_powerexpr();
             void operate_factorialexpr();
+            void operate_boolexpr();
 
         public:
             constantFolder()
@@ -106,6 +107,8 @@ namespace z
                     operate_powerexpr();
                 else if (root->type == phrase::FACTORIALEXPR)
                     operate_factorialexpr();
+                else if (root->type == phrase::BOOLEXPR)
+                    operate_boolexpr();
                 else
                 {
                     if (index >= (root->children).size())
@@ -283,6 +286,33 @@ namespace z
             }
             else if (index < 1)
                 enter_node(0);
+            else
+                exit_node();
+        }
+
+
+        template <typename CHAR>
+        void constantFolder<CHAR>::operate_boolexpr()
+        {
+            if ((root->children[0]->type == ident::LITERAL) &&
+                (root->children[2]->type == ident::LITERAL))
+            {
+                if (root->children[1]->type == ident::OPER_AND_LGCL)
+                    root->value = (root->children[0]->value) &
+                                  (root->children[2]->value);
+                else if (root->children[1]->type == ident::OPER_AND_BITW)
+                    root->value = (root->children[0]->value) &&
+                                  (root->children[2]->value);
+
+                set_node_constant();
+                append_oper_error();
+
+                exit_node();
+            }
+            else if (index < 1)
+                enter_node(0);
+            else if (index < 3)
+                enter_node(2);
             else
                 exit_node();
         }

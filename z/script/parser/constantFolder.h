@@ -298,10 +298,10 @@ namespace z
                 (root->children[2]->type == ident::LITERAL))
             {
                 if (root->children[1]->type == ident::OPER_AND_LGCL)
-                    root->value = (root->children[0]->value) &
+                    root->value = (root->children[0]->value) &&
                                   (root->children[2]->value);
                 else if (root->children[1]->type == ident::OPER_AND_BITW)
-                    root->value = (root->children[0]->value) &&
+                    root->value = (root->children[0]->value) &
                                   (root->children[2]->value);
 
                 set_node_constant();

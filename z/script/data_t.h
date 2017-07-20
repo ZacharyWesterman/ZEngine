@@ -565,7 +565,7 @@ namespace z
 
         //logical AND
         template <typename CHAR>
-        const data_t<CHAR> data_t<CHAR>::operator&(const data_t<CHAR>& other) const
+        const data_t<CHAR> data_t<CHAR>::operator&&(const data_t<CHAR>& other) const
         {
             data_t<CHAR> result;
 
@@ -591,7 +591,7 @@ namespace z
 
         //bitwise AND
         template <typename CHAR>
-        const data_t<CHAR> data_t<CHAR>::operator&&(const data_t<CHAR>& other) const
+        const data_t<CHAR> data_t<CHAR>::operator&(const data_t<CHAR>& other) const
         {
             data_t<CHAR> result;
 

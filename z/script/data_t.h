@@ -161,6 +161,8 @@ namespace z
             const data_t factorial() const;
             const data_t operator&(const data_t&) const;
             const data_t operator&&(const data_t&) const;
+            const data_t operator|(const data_t&) const;
+            const data_t operator||(const data_t&) const;
 
             const data_t floor() const;
             const data_t ceil() const;
@@ -614,6 +616,57 @@ namespace z
             return result;
         }
 
+
+        //logical OR
+        template <typename CHAR>
+        const data_t<CHAR> data_t<CHAR>::operator||(const data_t<CHAR>& other) const
+        {
+            data_t<CHAR> result;
+
+            if ((d_type == data::ARRAY) || (other.d_type == data::ARRAY))
+            {
+                result.d_type = data::ERROR;
+                result.d_error = error::INVALID_OPER_ARRAY;
+            }
+            else if ((d_type == data::STRING) || (other.d_type == data::STRING))
+            {
+                result.d_type = data::ERROR;
+                result.d_error = error::INVALID_OPER_STRING;
+            }
+            else if ((d_type == data::VALUE) && (other.d_type == data::VALUE))
+            {
+                result = ( ((d_value.real() != 0) || (d_value.imag() != 0)) ||
+                           ((other.d_value.real() != 0) || (other.d_value.imag() != 0)) );
+            }
+
+            return result;
+        }
+
+
+        //bitwise OR
+        template <typename CHAR>
+        const data_t<CHAR> data_t<CHAR>::operator|(const data_t<CHAR>& other) const
+        {
+            data_t<CHAR> result;
+
+            if ((d_type == data::ARRAY) || (other.d_type == data::ARRAY))
+            {
+                result.d_type = data::ERROR;
+                result.d_error = error::INVALID_OPER_ARRAY;
+            }
+            else if ((d_type == data::STRING) || (other.d_type == data::STRING))
+            {
+                result.d_type = data::ERROR;
+                result.d_error = error::INVALID_OPER_STRING;
+            }
+            else if ((d_type == data::VALUE) && (other.d_type == data::VALUE))
+            {
+                result = std::complex<double>(((long)d_value.real() | (long)other.d_value.real()),
+                                              ((long)d_value.imag() | (long)other.d_value.imag()));
+            }
+
+            return result;
+        }
     }
 }
 

@@ -10,7 +10,7 @@
  *
  * Author:          Zachary Westerman
  * Email:           zacharywesterman@yahoo.com
- * Last modified:   19 Jul. 2017
+ * Last modified:   21 Jul. 2017
 **/
 
 
@@ -66,11 +66,11 @@ namespace z
             "and","&",
             "or","|",
             "xor",":",
-            "not","~",
             "nand","~&",
             "nor","~|",
             "nxor", "~:",
             "==","<>",">",">=","<","<=",
+            "not","~",
             "->", "<-",
             "unknown",
 

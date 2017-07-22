@@ -10,7 +10,7 @@
  *
  * Author:          Zachary Westerman
  * Email:           zacharywesterman@yahoo.com
- * Last modified:   19 Jul. 2017
+ * Last modified:   21 Jul. 2017
 **/
 
 #pragma once
@@ -123,9 +123,6 @@ namespace z
                 OPER_XOR_LGCL,  //51
                 OPER_XOR_BITW,  //52
 
-                OPER_NOT_LGCL,  //53
-                OPER_NOT_BITW,  //54
-
                 OPER_NAND_LGCL, //55
                 OPER_NAND_BITW, //56
 
@@ -141,6 +138,9 @@ namespace z
                 OPER_GT_EQ,     //64
                 OPER_LT,        //65
                 OPER_LT_EQ,     //66
+
+                OPER_NOT_LGCL,  //53
+                OPER_NOT_BITW,  //54
 
                 OPER_R_ARROW,   //67
                 OPER_L_ARROW,   //68

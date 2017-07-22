@@ -11,7 +11,7 @@
  *
  * Author:          Zachary Westerman
  * Email:           zacharywesterman@yahoo.com
- * Last modified:   19 Jul. 2017
+ * Last modified:   21 Jul. 2017
 **/
 
 #pragma once
@@ -41,7 +41,7 @@ namespace z
 
                 return true;
             }
-            //otherwise, if a boolean operator is detected
+            //otherwise, if a binary boolean operator is detected
             else if (phrase_nodes.is_valid(index+2) &&
                      ((phrase_nodes[index]->type == phrase::ADDEXPR) ||
                       (phrase_nodes[index]->type == phrase::BOOLEXPR)) &&
@@ -67,6 +67,32 @@ namespace z
                 node->file = phrase_nodes[index]->file;
 
                 phrase_nodes.replace(index, index+2, node);
+
+                return true;
+            }
+            //or a unary boolean operator
+            else if (phrase_nodes.is_valid(index+1) &&
+                     ((phrase_nodes[index+1]->type == phrase::ADDEXPR) ||
+                      (phrase_nodes[index+1]->type == phrase::BOOLEXPR)) &&
+                     ((phrase_nodes[index]->type == ident::OPER_NOT_LGCL) ||
+                      (phrase_nodes[index]->type == ident::OPER_NOT_BITW)))
+            {
+                phrase_t<CHAR>* node = new phrase_t<CHAR>();
+
+                node->type = phrase::BOOLEXPR;
+
+                node->line = phrase_nodes[index]->line;
+                node->column = phrase_nodes[index]->column;
+
+                phrase_nodes[index+1]->parent = node;
+                phrase_nodes[index]->parent = node;
+
+                node->children.add(phrase_nodes[index+1]);
+                node->children.add(phrase_nodes[index]);
+
+                node->file = phrase_nodes[index]->file;
+
+                phrase_nodes.replace(index, index+1, node);
 
                 return true;
             }

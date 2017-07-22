@@ -507,7 +507,7 @@ namespace z
                     break;
 
                 default:
-                    cout << "Unhandled error.";
+                    cout << "Unhandled error " << (int)perr.err << ".";
                 }
 
                 cout << endl;

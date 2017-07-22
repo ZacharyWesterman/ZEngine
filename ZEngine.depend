@@ -2224,10 +2224,11 @@
 	"string/string_upper.h"
 	"string/string_remove_whiteSpace.h"
 
-1500445113 /home/zwesterman/GitHub/zLibraries/z/core/string/string.h
+1500690515 /home/zwesterman/GitHub/zLibraries/z/core/string/string.h
 	<type_traits>
 	<complex>
 	"convert_char_type.h"
+	<iostream>
 
 1491800855 /home/zwesterman/GitHub/zLibraries/z/core/string/convert_char_type.h
 
@@ -2238,7 +2239,7 @@
 1491800855 /home/zwesterman/GitHub/zLibraries/z/core/string/dePad_string.h
 	"string.h"
 
-1495592394 /home/zwesterman/GitHub/zLibraries/z/core/string/eval_string.h
+1500692096 /home/zwesterman/GitHub/zLibraries/z/core/string/eval_string.h
 	"string.h"
 	"char_is_alphanumeric.h"
 
@@ -2305,7 +2306,9 @@
 
 1491800855 /home/zwesterman/GitHub/zLibraries/z/math/matrix.h
 
-1500424611 /home/zwesterman/GitHub/ZEngine/z/script/parser/scanner.h
+1500694029 /home/zwesterman/GitHub/ZEngine/z/script/parser/scanner.h
+	<iostream>
+	<limits>
 	<z/core/sorted_array.h>
 	<z/core/string.h>
 	<z/core/timeout.h>
@@ -2344,7 +2347,7 @@
 1494798455 /home/zwesterman/GitHub/zLibraries/z/file/directoryOperations.h
 	<z/core/string.h>
 
-1500416119 /home/zwesterman/GitHub/ZEngine/z/script/parser/includeIterator.h
+1500693297 /home/zwesterman/GitHub/ZEngine/z/script/parser/includeIterator.h
 	<z/core/array.h>
 	<z/file/loadFileTimeout.h>
 	<z/file/directoryOperations.h>

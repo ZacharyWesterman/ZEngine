@@ -10,12 +10,15 @@
  *
  * Author:          Zachary Westerman
  * Email:           zacharywesterman@yahoo.com
- * Last modified:   18 Jul. 2017
+ * Last modified:   21 Jul. 2017
 **/
 
 #pragma once
 #ifndef SCANNER_H_INCLUDED
 #define SCANNER_H_INCLUDED
+
+#include <iostream>
+#include <limits>
 
 #include <z/core/sorted_array.h>
 #include <z/core/string.h>
@@ -320,6 +323,14 @@ namespace z
                     if (core::is_white_space(input->at(index)))
                     {
                         newIdent = ident::NONE;
+                    }
+                    //allow 'E-' symbols if in a number
+                    else if ((newIdent == ident::NUMERIC_LITERAL) &&
+                             input->foundAt("E-", index))
+                    {
+                        current_symbol += input->at(index);
+                        index++;
+                        //exponent
                     }
                     //generic identifiers
                     else if (core::is_alphanumeric(input->at(index)) ||
@@ -1075,18 +1086,8 @@ namespace z
                 {
                     CHAR _char = current_symbol.at(e);
 
-                    if (core::is_alpha(_char) || //any letter
-                        (_char == (CHAR)95)) //'_'
-                    {
-                        error_buffer.add(
-                                parser_error<CHAR>(current_ident.line,
-                                             current_ident.column,
-                                             error::INVALID_NUMBER_BASE10,
-                                             current_symbol, file));
 
-                        return_good = false;
-                    }
-                    else if (_char == (CHAR)46)
+                    if (_char == (CHAR)46)
                     {
                         if (found_decimal)
                         {
@@ -1101,6 +1102,21 @@ namespace z
 
                         found_decimal = true;
                     }
+                    else if (_char == (CHAR)69) //exponent
+                    {
+                        if (current_symbol.at(e+1) == (CHAR)45)
+                            e++;
+                    }
+                    else if (!core::is_numeric(_char)) //non-numeric characters
+                    {
+                        error_buffer.add(
+                                parser_error<CHAR>(current_ident.line,
+                                             current_ident.column,
+                                             error::INVALID_NUMBER_BASE10,
+                                             current_symbol, file));
+
+                        return_good = false;
+                    }
                 }
 
                 if (return_good)
@@ -1109,11 +1125,14 @@ namespace z
                         current_ident.value = std::complex<double>(0,core::value(current_symbol));
                     else
                         current_ident.value = core::value(current_symbol);
+
+                    std::cout << current_symbol.str() << std::endl;
+                    std::cout << current_ident.value.complex() << std::endl;
                 }
             }
         }
 
-        ///Some operators may have alphanumeric characters in them.
+        ///Some operators have alphanumeric characters in them.
         ///if the current identifier matches an operator, change the type to OPERATOR.
         //does not produce any errors, so always returns true.
         template <typename CHAR>
@@ -1185,17 +1204,27 @@ namespace z
                 }
                 else
                 {
+                    double newResult;
+
+
                     if (!reached_decimal)
                     {
-                        result *= 2;
+                        newResult = (result * 2) + (input->at(i) - 48);
 
-                        result += (input->at(i) - 48);
+                        std::cout << newResult << std::endl;
+
+                        if (newResult == std::numeric_limits<double>::infinity())
+                            break;
+
+                        result += newResult;
                     }
                     else
                     {
                         frac_mul /= 2;
 
-                        result += frac_mul * (input->at(i) - 48);
+                        newResult = result + frac_mul * (input->at(i) - 48);
+
+                        result = newResult;
                     }
 
                 }
@@ -1275,6 +1304,8 @@ namespace z
                     if (!reached_decimal)
                     {
                         result *= 16;
+
+                        std::cout << result << std::endl;
 
                         result += char_val;
                     }

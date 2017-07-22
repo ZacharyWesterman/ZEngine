@@ -294,7 +294,8 @@ namespace z
         template <typename CHAR>
         void constantFolder<CHAR>::operate_boolexpr()
         {
-            if ((root->children[0]->type == ident::LITERAL) &&
+            if ((root->children.size() > 2) &&
+                (root->children[0]->type == ident::LITERAL) &&
                 (root->children[2]->type == ident::LITERAL))
             {
                 if (root->children[1]->type == ident::OPER_AND_LGCL)
@@ -315,9 +316,21 @@ namespace z
 
                 exit_node();
             }
+            else if (root->children[0]->type == ident::LITERAL)
+            {
+                if (root->children[1]->type == ident::OPER_NOT_BITW)
+                    root->value = ~(root->children[0]->value);
+                else
+                    root->value = !(root->children[0]->value);
+
+                set_node_constant();
+                append_oper_error();
+
+                exit_node();
+            }
             else if (index < 1)
                 enter_node(0);
-            else if (index < 3)
+            else if (index < (root->children.size() - 1))
                 enter_node(2);
             else
                 exit_node();

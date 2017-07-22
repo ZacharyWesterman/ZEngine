@@ -163,6 +163,8 @@ namespace z
             const data_t operator&&(const data_t&) const;
             const data_t operator|(const data_t&) const;
             const data_t operator||(const data_t&) const;
+            const data_t operator!() const;
+            const data_t operator~() const;
 
             const data_t floor() const;
             const data_t ceil() const;
@@ -663,6 +665,52 @@ namespace z
             {
                 result = std::complex<double>(((long)d_value.real() | (long)other.d_value.real()),
                                               ((long)d_value.imag() | (long)other.d_value.imag()));
+            }
+
+            return result;
+        }
+
+
+        //logical NOT
+        template <typename CHAR>
+        const data_t<CHAR> data_t<CHAR>::operator!() const
+        {
+            data_t<CHAR> result;
+
+            if (d_type == data::VALUE)
+                result = std::complex<double>(!(long)d_value.real(), d_value.imag());
+            else if (d_type == data::STRING)
+            {
+                result.d_type = data::ERROR;
+                result.d_error = error::INVALID_OPER_STRING;
+            }
+            else if (d_type == data::ARRAY)
+            {
+                result.d_type = data::ERROR;
+                result.d_error = error::INVALID_OPER_ARRAY;
+            }
+
+            return result;
+        }
+
+
+        //bitwise NOT
+        template <typename CHAR>
+        const data_t<CHAR> data_t<CHAR>::operator~() const
+        {
+            data_t<CHAR> result;
+
+            if (d_type == data::VALUE)
+                result = std::complex<double>(~(long)d_value.real(), 0);
+            else if (d_type == data::STRING)
+            {
+                result.d_type = data::ERROR;
+                result.d_error = error::INVALID_OPER_STRING;
+            }
+            else if (d_type == data::ARRAY)
+            {
+                result.d_type = data::ERROR;
+                result.d_error = error::INVALID_OPER_ARRAY;
             }
 
             return result;

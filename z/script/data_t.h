@@ -577,7 +577,11 @@ namespace z
         {
             data_t<CHAR> result;
 
-            if ((d_type == data::ARRAY) || (other.d_type == data::ARRAY))
+            if ((d_type == data::VALUE) && (other.d_type == data::VALUE))
+            {
+                result = (long)d_value.real() && (long)other.d_value.real();
+            }
+            else if ((d_type == data::ARRAY) || (other.d_type == data::ARRAY))
             {
                 result.d_type = data::ERROR;
                 result.d_error = error::INVALID_OPER_ARRAY;
@@ -586,10 +590,6 @@ namespace z
             {
                 result.d_type = data::ERROR;
                 result.d_error = error::INVALID_OPER_STRING;
-            }
-            else if ((d_type == data::VALUE) && (other.d_type == data::VALUE))
-            {
-                result = (long)d_value.real() && (long)other.d_value.real();
             }
 
             return result;
@@ -602,7 +602,11 @@ namespace z
         {
             data_t<CHAR> result;
 
-            if ((d_type == data::ARRAY) || (other.d_type == data::ARRAY))
+            if ((d_type == data::VALUE) && (other.d_type == data::VALUE))
+            {
+                result = (long)d_value.real() & (long)other.d_value.real();
+            }
+            else if ((d_type == data::ARRAY) || (other.d_type == data::ARRAY))
             {
                 result.d_type = data::ERROR;
                 result.d_error = error::INVALID_OPER_ARRAY;
@@ -611,10 +615,6 @@ namespace z
             {
                 result.d_type = data::ERROR;
                 result.d_error = error::INVALID_OPER_STRING;
-            }
-            else if ((d_type == data::VALUE) && (other.d_type == data::VALUE))
-            {
-                result = (long)d_value.real() & (long)other.d_value.real();
             }
 
             return result;
@@ -627,7 +627,11 @@ namespace z
         {
             data_t<CHAR> result;
 
-            if ((d_type == data::ARRAY) || (other.d_type == data::ARRAY))
+            if ((d_type == data::VALUE) && (other.d_type == data::VALUE))
+            {
+                result = (long)d_value.real() || (long)other.d_value.real();
+            }
+            else if ((d_type == data::ARRAY) || (other.d_type == data::ARRAY))
             {
                 result.d_type = data::ERROR;
                 result.d_error = error::INVALID_OPER_ARRAY;
@@ -636,10 +640,6 @@ namespace z
             {
                 result.d_type = data::ERROR;
                 result.d_error = error::INVALID_OPER_STRING;
-            }
-            else if ((d_type == data::VALUE) && (other.d_type == data::VALUE))
-            {
-                result = (long)d_value.real() || (long)other.d_value.real();
             }
 
             return result;
@@ -652,7 +652,11 @@ namespace z
         {
             data_t<CHAR> result;
 
-            if ((d_type == data::ARRAY) || (other.d_type == data::ARRAY))
+            if ((d_type == data::VALUE) && (other.d_type == data::VALUE))
+            {
+                result = (long)d_value.real() | (long)other.d_value.real();
+            }
+            else if ((d_type == data::ARRAY) || (other.d_type == data::ARRAY))
             {
                 result.d_type = data::ERROR;
                 result.d_error = error::INVALID_OPER_ARRAY;
@@ -661,10 +665,6 @@ namespace z
             {
                 result.d_type = data::ERROR;
                 result.d_error = error::INVALID_OPER_STRING;
-            }
-            else if ((d_type == data::VALUE) && (other.d_type == data::VALUE))
-            {
-                result = (long)d_value.real() | (long)other.d_value.real();
             }
 
             return result;
@@ -814,6 +814,8 @@ namespace z
 
             return result;
         }
+
+
     }
 }
 

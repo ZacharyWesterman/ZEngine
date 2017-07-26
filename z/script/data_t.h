@@ -589,8 +589,7 @@ namespace z
             }
             else if ((d_type == data::VALUE) && (other.d_type == data::VALUE))
             {
-                result = ( ((d_value.real() != 0) || (d_value.imag() != 0)) &&
-                           ((other.d_value.real() != 0) || (other.d_value.imag() != 0)) );
+                result = (long)d_value.real() && (long)other.d_value.real();
             }
 
             return result;
@@ -615,8 +614,7 @@ namespace z
             }
             else if ((d_type == data::VALUE) && (other.d_type == data::VALUE))
             {
-                result = std::complex<double>(((long)d_value.real() & (long)other.d_value.real()),
-                                              ((long)d_value.imag() & (long)other.d_value.imag()));
+                result = (long)d_value.real() & (long)other.d_value.real();
             }
 
             return result;
@@ -641,8 +639,7 @@ namespace z
             }
             else if ((d_type == data::VALUE) && (other.d_type == data::VALUE))
             {
-                result = ( ((d_value.real() != 0) || (d_value.imag() != 0)) ||
-                           ((other.d_value.real() != 0) || (other.d_value.imag() != 0)) );
+                result = (long)d_value.real() || (long)other.d_value.real();
             }
 
             return result;
@@ -667,8 +664,7 @@ namespace z
             }
             else if ((d_type == data::VALUE) && (other.d_type == data::VALUE))
             {
-                result = std::complex<double>(((long)d_value.real() | (long)other.d_value.real()),
-                                              ((long)d_value.imag() | (long)other.d_value.imag()));
+                result = (long)d_value.real() | (long)other.d_value.real();
             }
 
             return result;
@@ -682,7 +678,7 @@ namespace z
             data_t<CHAR> result;
 
             if (d_type == data::VALUE)
-                result = std::complex<double>(!(long)d_value.real(), d_value.imag());
+                result = !(long)d_value.real();
             else if (d_type == data::STRING)
             {
                 result.d_type = data::ERROR;
@@ -705,7 +701,7 @@ namespace z
             data_t<CHAR> result;
 
             if (d_type == data::VALUE)
-                result = std::complex<double>(~(long)d_value.real(), 0);
+                result = ~(long)d_value.real();
             else if (d_type == data::STRING)
             {
                 result.d_type = data::ERROR;
@@ -728,8 +724,7 @@ namespace z
 
             if ((d_type == data::VALUE) && (other.d_type == data::VALUE))
             {
-                result = ((long)d_value.real() && (long)d_value.imag()) !=
-                         ((long)other.d_value.real() && (long)other.d_value.imag());
+                result = !(long)d_value.real() != !(long)other.d_value.real();
             }
             else if ((d_type == data::ARRAY) || (other.d_type == data::ARRAY))
             {
@@ -754,8 +749,7 @@ namespace z
 
             if ((d_type == data::VALUE) && (other.d_type == data::VALUE))
             {
-                result = std::complex<double>(((long)d_value.real() ^ (long)other.d_value.real()),
-                                              ((long)d_value.imag() ^ (long)other.d_value.imag()));
+                result = (long)d_value.real() ^ (long)other.d_value.real();
             }
             else if ((d_type == data::ARRAY) || (other.d_type == data::ARRAY))
             {
@@ -780,8 +774,7 @@ namespace z
 
             if ((d_type == data::VALUE) && (other.d_type == data::VALUE))
             {
-                result = !( ((d_value.real() != 0) || (d_value.imag() != 0)) &&
-                            ((other.d_value.real() != 0) || (other.d_value.imag() != 0)) );
+                result = !((long)d_value.real() && (long)other.d_value.real());
             }
             else if ((d_type == data::ARRAY) || (other.d_type == data::ARRAY))
             {
@@ -806,8 +799,7 @@ namespace z
 
             if ((d_type == data::VALUE) && (other.d_type == data::VALUE))
             {
-                result = std::complex<double>(~((long)d_value.real() & (long)other.d_value.real()),
-                                              ~((long)d_value.imag() & (long)other.d_value.imag()));
+                result = ~((long)d_value.real() & (long)other.d_value.real());
             }
             else if ((d_type == data::ARRAY) || (other.d_type == data::ARRAY))
             {

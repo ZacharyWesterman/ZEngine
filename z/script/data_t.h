@@ -169,6 +169,10 @@ namespace z
             const data_t xor_logical(const data_t&) const;
             const data_t nand_bitwise(const data_t&) const;
             const data_t nand_logical(const data_t&) const;
+            const data_t nor_bitwise(const data_t&) const;
+            const data_t nor_logical(const data_t&) const;
+            const data_t nxor_bitwise(const data_t&) const;
+            const data_t nxor_logical(const data_t&) const;
 
             const data_t floor() const;
             const data_t ceil() const;
@@ -816,6 +820,104 @@ namespace z
         }
 
 
+        //logical NOR
+        template <typename CHAR>
+        const data_t<CHAR> data_t<CHAR>::nor_logical(const data_t<CHAR>& other) const
+        {
+            data_t<CHAR> result;
+
+            if ((d_type == data::VALUE) && (other.d_type == data::VALUE))
+            {
+                result = !((long)d_value.real() || (long)other.d_value.real());
+            }
+            else if ((d_type == data::ARRAY) || (other.d_type == data::ARRAY))
+            {
+                result.d_type = data::ERROR;
+                result.d_error = error::INVALID_OPER_ARRAY;
+            }
+            else if ((d_type == data::STRING) || (other.d_type == data::STRING))
+            {
+                result.d_type = data::ERROR;
+                result.d_error = error::INVALID_OPER_STRING;
+            }
+
+            return result;
+        }
+
+
+        //bitwise NOR
+        template <typename CHAR>
+        const data_t<CHAR> data_t<CHAR>::nor_bitwise(const data_t<CHAR>& other) const
+        {
+            data_t<CHAR> result;
+
+            if ((d_type == data::VALUE) && (other.d_type == data::VALUE))
+            {
+                result = ~((long)d_value.real() | (long)other.d_value.real());
+            }
+            else if ((d_type == data::ARRAY) || (other.d_type == data::ARRAY))
+            {
+                result.d_type = data::ERROR;
+                result.d_error = error::INVALID_OPER_ARRAY;
+            }
+            else if ((d_type == data::STRING) || (other.d_type == data::STRING))
+            {
+                result.d_type = data::ERROR;
+                result.d_error = error::INVALID_OPER_STRING;
+            }
+
+            return result;
+        }
+
+
+        //logical NXOR
+        template <typename CHAR>
+        const data_t<CHAR> data_t<CHAR>::nxor_logical(const data_t<CHAR>& other) const
+        {
+            data_t<CHAR> result;
+
+            if ((d_type == data::VALUE) && (other.d_type == data::VALUE))
+            {
+                result = !(long)d_value.real() == !(long)other.d_value.real();
+            }
+            else if ((d_type == data::ARRAY) || (other.d_type == data::ARRAY))
+            {
+                result.d_type = data::ERROR;
+                result.d_error = error::INVALID_OPER_ARRAY;
+            }
+            else if ((d_type == data::STRING) || (other.d_type == data::STRING))
+            {
+                result.d_type = data::ERROR;
+                result.d_error = error::INVALID_OPER_STRING;
+            }
+
+            return result;
+        }
+
+
+        //bitwise NXOR
+        template <typename CHAR>
+        const data_t<CHAR> data_t<CHAR>::nxor_bitwise(const data_t<CHAR>& other) const
+        {
+            data_t<CHAR> result;
+
+            if ((d_type == data::VALUE) && (other.d_type == data::VALUE))
+            {
+                result = ~((long)d_value.real() ^ (long)other.d_value.real());
+            }
+            else if ((d_type == data::ARRAY) || (other.d_type == data::ARRAY))
+            {
+                result.d_type = data::ERROR;
+                result.d_error = error::INVALID_OPER_ARRAY;
+            }
+            else if ((d_type == data::STRING) || (other.d_type == data::STRING))
+            {
+                result.d_type = data::ERROR;
+                result.d_error = error::INVALID_OPER_STRING;
+            }
+
+            return result;
+        }
     }
 }
 

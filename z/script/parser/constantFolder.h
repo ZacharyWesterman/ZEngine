@@ -310,6 +310,12 @@ namespace z
                 else if (root->children[1]->type == ident::OPER_OR_BITW)
                     root->value = (root->children[0]->value) |
                                   (root->children[2]->value);
+                else if (root->children[1]->type == ident::OPER_XOR_LGCL)
+                    root->value = (root->children[0]->value).xor_logical\
+                                  (root->children[2]->value);
+                else if (root->children[1]->type == ident::OPER_XOR_BITW)
+                    root->value = (root->children[0]->value).xor_bitwise\
+                                  (root->children[2]->value);
 
                 set_node_constant();
                 append_oper_error();

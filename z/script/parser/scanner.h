@@ -980,10 +980,12 @@ namespace z
 
                 if (return_good)
                 {
+                    current_symbol.remove(0,1);
+
                     if (is_complex)
-                        current_ident.value = std::complex<double>(0,eval_binary_str(&current_symbol));
+                        current_ident.value = std::complex<double>(0, core::value(current_symbol, 2));
                     else
-                        current_ident.value = eval_binary_str(&current_symbol);
+                        current_ident.value = core::value(current_symbol, 2);
                 }
             }
             else if (current_symbol.beginsWith("0c") ||
@@ -1025,10 +1027,12 @@ namespace z
 
                 if (return_good)
                 {
+                    current_symbol.remove(0,1);
+
                     if (is_complex)
-                        current_ident.value = std::complex<double>(0,eval_octal_str(&current_symbol));
+                        current_ident.value = std::complex<double>(0, core::value(current_symbol, 8));
                     else
-                        current_ident.value = eval_octal_str(&current_symbol);
+                        current_ident.value = core::value(current_symbol, 8);
                 }
             }
             else if (current_symbol.beginsWith("0h") ||
@@ -1073,10 +1077,12 @@ namespace z
 
                 if (return_good)
                 {
+                    current_symbol.remove(0,1);
+
                     if (is_complex)
-                        current_ident.value = std::complex<double>(0,eval_hexadecimal_str(&current_symbol));
+                        current_ident.value = std::complex<double>(0, core::value(current_symbol, 16));
                     else
-                        current_ident.value = eval_hexadecimal_str(&current_symbol);
+                        current_ident.value = core::value(current_symbol, 16);
                 }
             }
             else
@@ -1184,6 +1190,12 @@ namespace z
         }
 
 
+
+        ///
+        ///
+        ///DEPRECATED
+        ///
+        ///
 
         ///function to evaluate binary strings
         //assumes strings begin with "0b"

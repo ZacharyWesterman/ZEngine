@@ -165,6 +165,10 @@ namespace z
             const data_t operator||(const data_t&) const;
             const data_t operator!() const;
             const data_t operator~() const;
+            const data_t xor_bitwise(const data_t&) const;
+            const data_t xor_logical(const data_t&) const;
+            const data_t nand_bitwise(const data_t&) const;
+            const data_t nand_logical(const data_t&) const;
 
             const data_t floor() const;
             const data_t ceil() const;
@@ -711,6 +715,109 @@ namespace z
             {
                 result.d_type = data::ERROR;
                 result.d_error = error::INVALID_OPER_ARRAY;
+            }
+
+            return result;
+        }
+
+        //logical XOR
+        template <typename CHAR>
+        const data_t<CHAR> data_t<CHAR>::xor_logical(const data_t<CHAR>& other) const
+        {
+            data_t<CHAR> result;
+
+            if ((d_type == data::VALUE) && (other.d_type == data::VALUE))
+            {
+                result = ((long)d_value.real() && (long)d_value.imag()) !=
+                         ((long)other.d_value.real() && (long)other.d_value.imag());
+            }
+            else if ((d_type == data::ARRAY) || (other.d_type == data::ARRAY))
+            {
+                result.d_type = data::ERROR;
+                result.d_error = error::INVALID_OPER_ARRAY;
+            }
+            else if ((d_type == data::STRING) || (other.d_type == data::STRING))
+            {
+                result.d_type = data::ERROR;
+                result.d_error = error::INVALID_OPER_STRING;
+            }
+
+            return result;
+        }
+
+
+        //bitwise XOR
+        template <typename CHAR>
+        const data_t<CHAR> data_t<CHAR>::xor_bitwise(const data_t<CHAR>& other) const
+        {
+            data_t<CHAR> result;
+
+            if ((d_type == data::VALUE) && (other.d_type == data::VALUE))
+            {
+                result = std::complex<double>(((long)d_value.real() ^ (long)other.d_value.real()),
+                                              ((long)d_value.imag() ^ (long)other.d_value.imag()));
+            }
+            else if ((d_type == data::ARRAY) || (other.d_type == data::ARRAY))
+            {
+                result.d_type = data::ERROR;
+                result.d_error = error::INVALID_OPER_ARRAY;
+            }
+            else if ((d_type == data::STRING) || (other.d_type == data::STRING))
+            {
+                result.d_type = data::ERROR;
+                result.d_error = error::INVALID_OPER_STRING;
+            }
+
+            return result;
+        }
+
+
+        //logical NAND
+        template <typename CHAR>
+        const data_t<CHAR> data_t<CHAR>::nand_logical(const data_t<CHAR>& other) const
+        {
+            data_t<CHAR> result;
+
+            if ((d_type == data::VALUE) && (other.d_type == data::VALUE))
+            {
+                result = !( ((d_value.real() != 0) || (d_value.imag() != 0)) &&
+                            ((other.d_value.real() != 0) || (other.d_value.imag() != 0)) );
+            }
+            else if ((d_type == data::ARRAY) || (other.d_type == data::ARRAY))
+            {
+                result.d_type = data::ERROR;
+                result.d_error = error::INVALID_OPER_ARRAY;
+            }
+            else if ((d_type == data::STRING) || (other.d_type == data::STRING))
+            {
+                result.d_type = data::ERROR;
+                result.d_error = error::INVALID_OPER_STRING;
+            }
+
+            return result;
+        }
+
+
+        //bitwise NAND
+        template <typename CHAR>
+        const data_t<CHAR> data_t<CHAR>::nand_bitwise(const data_t<CHAR>& other) const
+        {
+            data_t<CHAR> result;
+
+            if ((d_type == data::VALUE) && (other.d_type == data::VALUE))
+            {
+                result = std::complex<double>(~((long)d_value.real() & (long)other.d_value.real()),
+                                              ~((long)d_value.imag() & (long)other.d_value.imag()));
+            }
+            else if ((d_type == data::ARRAY) || (other.d_type == data::ARRAY))
+            {
+                result.d_type = data::ERROR;
+                result.d_error = error::INVALID_OPER_ARRAY;
+            }
+            else if ((d_type == data::STRING) || (other.d_type == data::STRING))
+            {
+                result.d_type = data::ERROR;
+                result.d_error = error::INVALID_OPER_STRING;
             }
 
             return result;

@@ -56,7 +56,6 @@ namespace z
                 else if ((phrase_nodes[index]->type == phrase::EXPRLIST) &&
                          (phrase_nodes[index+1]->type == ident::COMMA) &&
                          ((phrase_nodes[index+2]->type == phrase::BOOLEXPR) ||
-                          (phrase_nodes[index+2]->type == phrase::EXPRLIST) ||
                           (phrase_nodes[index+2]->type == phrase::LIST)))
                 {
                     //phrase_t<CHAR>* node = new phrase_t<CHAR>();
@@ -74,6 +73,34 @@ namespace z
 
                     //node->file = phrase_nodes[index]->file;
 
+                    delete phrase_nodes[index+1];
+                    //phrase_nodes.replace(index, index+2, node);
+                    phrase_nodes.remove(index+2);
+                    phrase_nodes.remove(index+1);
+
+                    return true;
+                }
+                else if ((phrase_nodes[index]->type == phrase::EXPRLIST) &&
+                         (phrase_nodes[index+1]->type == ident::COMMA) &&
+                          (phrase_nodes[index+2]->type == phrase::EXPRLIST))
+                {
+                    //phrase_t<CHAR>* node = new phrase_t<CHAR>();
+
+                    //node->type = phrase::EXPRLIST;
+
+                    //node->line = phrase_nodes[index]->line;
+                    //node->column = phrase_nodes[index]->column;
+
+                    //phrase_nodes[index]->parent = node;
+                    for (int i=0; i<(phrase_nodes[index+2]->children.size()); i++)
+                        phrase_nodes[index+2]->children[i]->parent = phrase_nodes[index];
+
+                    //node->children.add(phrase_nodes[index]);
+                    phrase_nodes[index]->children.add(phrase_nodes[index+2]->children);
+
+                    //node->file = phrase_nodes[index]->file;
+
+                    delete phrase_nodes[index+2];
                     delete phrase_nodes[index+1];
                     //phrase_nodes.replace(index, index+2, node);
                     phrase_nodes.remove(index+2);

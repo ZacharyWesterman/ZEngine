@@ -57,7 +57,7 @@ int main(int argc, char* argv[])
     cout << "\n------------------------------------\n\n";
     cout << "AST after folding:\n\n";
 
-    /*z::script::constantFolder<char> cFolder;
+    z::script::constantFolder<char> cFolder;
 
     cFolder.setInput(AST);
 
@@ -70,7 +70,7 @@ int main(int argc, char* argv[])
 
 
     z::script::print_lex_ast(0, AST);
-    */
+
 
     if (AST)
         delete AST;

@@ -113,8 +113,8 @@ namespace z
                     operate_boolexpr();
                 else if (root->type == phrase::LIST)
                     operate_list();
-                else if (root->type == phrase::EXPRLIST)
-                    operate_exprlist();
+                //else if (root->type == phrase::EXPRLIST)
+                  //  operate_exprlist();
                 else
                 {
                     if (index >= (root->children).size())
@@ -388,22 +388,30 @@ namespace z
         template <typename CHAR>
         void constantFolder<CHAR>::operate_list()
         {
-            if (root->children.size() == 1)
+            if (root->children.size() > 0)
             {
-                if (root->children[0]->type == ident::LITERAL)
+                bool found_nonliteral = false;
+                for(int i=index; i<(root->children.size()); i++)
+                    if (root->children[i]->type != ident::LITERAL)
+                    {
+                        found_nonliteral = true;
+                        break;
+                    }
+
+                if (!found_nonliteral)
                 {
-                    if (index < 1)
-                        root->value = core::array< data_t<CHAR> > {root->children[0]->value};
-                    else
-                        root->value = root->children[0]->value;
+                    root->value = core::array< data_t<CHAR> > {root->children[0]->value};
+
+                    for(int i=1; i<(root->children.size()); i++)
+                        root->value.array().add(root->children[i]->value);
 
                     set_node_constant();
                     append_oper_error();
 
                     exit_node();
                 }
-                else if (index < 1)
-                    enter_node(0);
+                else if (index < (root->children.size()))
+                    enter_node(index);
                 else
                     exit_node();
             }

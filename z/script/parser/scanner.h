@@ -17,7 +17,6 @@
 #ifndef SCANNER_H_INCLUDED
 #define SCANNER_H_INCLUDED
 
-#include <iostream>
 #include <limits>
 
 #include <z/core/sorted_array.h>
@@ -626,8 +625,6 @@ namespace z
                     identifiers->add(current_ident);
                 }
 
-                //for (int i=0; i<identifiers->size(); i++)
-                    //cout << identifiers->at(i).type << endl;
             }
 
 
@@ -1131,9 +1128,6 @@ namespace z
                         current_ident.value = std::complex<double>(0,core::value(current_symbol));
                     else
                         current_ident.value = core::value(current_symbol);
-
-                    std::cout << current_symbol.str() << std::endl;
-                    std::cout << current_ident.value.complex() << std::endl;
                 }
             }
         }
@@ -1197,6 +1191,7 @@ namespace z
         ///
         ///
 
+        /*
         ///function to evaluate binary strings
         //assumes strings begin with "0b"
         template <typename CHAR>
@@ -1332,6 +1327,7 @@ namespace z
 
             return result;
         }
+        */
     }
 }
 

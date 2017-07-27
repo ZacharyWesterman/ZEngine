@@ -2306,8 +2306,7 @@
 
 1491800855 /home/zwesterman/GitHub/zLibraries/z/math/matrix.h
 
-1501104711 /home/zwesterman/GitHub/ZEngine/z/script/parser/scanner.h
-	<iostream>
+1501179953 /home/zwesterman/GitHub/ZEngine/z/script/parser/scanner.h
 	<limits>
 	<z/core/sorted_array.h>
 	<z/core/string.h>
@@ -2357,7 +2356,7 @@
 	"lexer.h"
 	<iostream>
 
-1500682779 /home/zwesterman/GitHub/ZEngine/z/script/parser/lexer.h
+1501180091 /home/zwesterman/GitHub/ZEngine/z/script/parser/lexer.h
 	<z/core/timeout.h>
 	<z/core/array.h>
 	<z/core/dynamicStack.h>

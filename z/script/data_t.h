@@ -35,6 +35,36 @@ namespace z
 {
     namespace script
     {
+        //some equality operators for complex numbers
+        template <typename T>
+        const bool operator>(const std::complex<T>& arg1, const std::complex<T>& arg2)
+        {
+            T norm1 = arg1.real()*arg1.real() + arg1.imag()*arg1.imag();
+            T norm2 = arg2.real()*arg2.real() + arg2.imag()*arg2.imag();
+
+            return norm1 > norm2;
+        }
+
+        template <typename T>
+        const bool operator<(const std::complex<T>& arg1, const std::complex<T>& arg2)
+        {
+            T norm1 = arg1.real()*arg1.real() + arg1.imag()*arg1.imag();
+            T norm2 = arg2.real()*arg2.real() + arg2.imag()*arg2.imag();
+
+            return norm1 < norm2;
+        }
+
+        template <typename T>
+        inline const bool operator>=(const std::complex<T>& arg1, const std::complex<T>& arg2)
+        { return !operator<(arg1, arg2); }
+
+        template <typename T>
+        inline const bool operator<=(const std::complex<T>& arg1, const std::complex<T>& arg2)
+        { return !operator>(arg1, arg2); }
+
+
+
+
         namespace data
         {
             enum DATA_TYPE
@@ -119,9 +149,16 @@ namespace z
             const bool operator==(const data_t&) const;
 
             inline const bool operator!=(const data_t& other) const
-            {
-                return !operator==(other);
-            }
+            { return !operator==(other); }
+
+            const bool operator>(const data_t&) const;
+            const bool operator<(const data_t&) const;
+
+            inline const bool operator>=(const data_t& other) const
+            { return !operator<(other); }
+
+            inline const bool operator<=(const data_t& other) const
+            { return !operator>(other); }
 
 
             const data_t& operator=(const data_t&);
@@ -177,8 +214,6 @@ namespace z
             const data_t nxor_bitwise(const data_t&) const;
             const data_t nxor_logical(const data_t&) const;
 
-
-
             const data_t floor() const;
             const data_t ceil() const;
             const data_t round() const;
@@ -203,6 +238,56 @@ namespace z
 
             case (data::ARRAY):
                 return d_array == other.d_array;
+                break;
+
+            default:
+                return false;
+            }
+        }
+
+        template <typename CHAR>
+        const bool data_t<CHAR>::operator>(const data_t<CHAR>& other) const
+        {
+            if (d_type != other.d_type)
+                return (d_type > other.d_type);
+
+            switch (d_type)
+            {
+            case (data::VALUE):
+                return d_value > other.d_value;
+                break;
+
+            case (data::STRING):
+                return d_string > other.d_string;
+                break;
+
+            case (data::ARRAY):
+                return d_array > other.d_array;
+                break;
+
+            default:
+                return false;
+            }
+        }
+
+        template <typename CHAR>
+        const bool data_t<CHAR>::operator<(const data_t<CHAR>& other) const
+        {
+            if (d_type != other.d_type)
+                return (d_type < other.d_type);
+
+            switch (d_type)
+            {
+            case (data::VALUE):
+                return d_value < other.d_value;
+                break;
+
+            case (data::STRING):
+                return d_string < other.d_string;
+                break;
+
+            case (data::ARRAY):
+                return d_array < other.d_array;
                 break;
 
             default:

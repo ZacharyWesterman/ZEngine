@@ -11,7 +11,7 @@
  *
  * Author:          Zachary Westerman
  * Email:           zacharywesterman@yahoo.com
- * Last modified:   19 Jul. 2017
+ * Last modified:   27 Jul. 2017
 **/
 
 #pragma once
@@ -304,6 +304,18 @@ namespace z
                 else if (root->children[1]->type == ident::OPER_NOT_EQ)
                     root->value = (root->children[0]->value) !=
                                   (root->children[2]->value);
+                else if (root->children[1]->type == ident::OPER_GT)
+                    root->value = (root->children[0]->value) >
+                                  (root->children[2]->value);
+                else if (root->children[1]->type == ident::OPER_GT_EQ)
+                    root->value = (root->children[0]->value) >=
+                                  (root->children[2]->value);
+                else if (root->children[1]->type == ident::OPER_LT)
+                    root->value = (root->children[0]->value) <
+                                  (root->children[2]->value);
+                else if (root->children[1]->type == ident::OPER_LT_EQ)
+                    root->value = (root->children[0]->value) <=
+                                  (root->children[2]->value);
                 else if (root->children[1]->type == ident::OPER_AND_LGCL)
                     root->value = (root->children[0]->value) &&
                                   (root->children[2]->value);
@@ -321,6 +333,24 @@ namespace z
                                   (root->children[2]->value);
                 else if (root->children[1]->type == ident::OPER_XOR_BITW)
                     root->value = (root->children[0]->value).xor_bitwise\
+                                  (root->children[2]->value);
+                else if (root->children[1]->type == ident::OPER_NAND_LGCL)
+                    root->value = (root->children[0]->value).nand_logical\
+                                  (root->children[2]->value);
+                else if (root->children[1]->type == ident::OPER_NAND_BITW)
+                    root->value = (root->children[0]->value).nand_bitwise\
+                                  (root->children[2]->value);
+                else if (root->children[1]->type == ident::OPER_NOR_LGCL)
+                    root->value = (root->children[0]->value).nor_logical\
+                                  (root->children[2]->value);
+                else if (root->children[1]->type == ident::OPER_NOR_BITW)
+                    root->value = (root->children[0]->value).nor_bitwise\
+                                  (root->children[2]->value);
+                else if (root->children[1]->type == ident::OPER_NXOR_LGCL)
+                    root->value = (root->children[0]->value).nxor_logical\
+                                  (root->children[2]->value);
+                else if (root->children[1]->type == ident::OPER_NXOR_BITW)
+                    root->value = (root->children[0]->value).nxor_bitwise\
                                   (root->children[2]->value);
 
                 set_node_constant();

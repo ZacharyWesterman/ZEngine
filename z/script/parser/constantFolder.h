@@ -59,6 +59,8 @@ namespace z
             void operate_powerexpr();
             void operate_factorialexpr();
             void operate_boolexpr();
+            void operate_list();
+            void operate_exprlist();
 
         public:
             constantFolder()
@@ -109,6 +111,10 @@ namespace z
                     operate_factorialexpr();
                 else if (root->type == phrase::BOOLEXPR)
                     operate_boolexpr();
+                else if (root->type == phrase::LIST)
+                    operate_list();
+                else if (root->type == phrase::EXPRLIST)
+                    operate_exprlist();
                 else
                 {
                     if (index >= (root->children).size())
@@ -378,6 +384,62 @@ namespace z
                 exit_node();
         }
 
+
+        template <typename CHAR>
+        void constantFolder<CHAR>::operate_list()
+        {
+            if (root->children.size() == 1)
+            {
+                if (root->children[0]->type == ident::LITERAL)
+                {
+                    if (index < 1)
+                        root->value = core::array< data_t<CHAR> > {root->children[0]->value};
+                    else
+                        root->value = root->children[0]->value;
+
+                    set_node_constant();
+                    append_oper_error();
+
+                    exit_node();
+                }
+                else if (index < 1)
+                    enter_node(0);
+                else
+                    exit_node();
+            }
+            else
+            {
+                root->value = core::array< data_t<CHAR> >{};
+
+                set_node_constant();
+                append_oper_error();
+
+                exit_node();
+            }
+        }
+
+
+        template <typename CHAR>
+        void constantFolder<CHAR>::operate_exprlist()
+        {
+            if ((root->children[0]->type == ident::LITERAL) &&
+                (root->children[1]->type == ident::LITERAL))
+            {
+                root->value = core::array< data_t<CHAR> > {root->children[0]->value};
+                root->value.array().add(root->children[1]->value);
+
+                set_node_constant();
+                append_oper_error();
+
+                exit_node();
+            }
+            else if (index < 1)
+                enter_node(0);
+            else if (index < 2)
+                enter_node(1);
+            else
+                exit_node();
+        }
     }
 }
 

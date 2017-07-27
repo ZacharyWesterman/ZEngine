@@ -29,29 +29,48 @@ namespace z
                   (phrase_nodes[index-2]->type == ident::KEYWORD_IN)))
             {
                 if (phrase_nodes.is_valid(index+2) &&
-                    ((phrase_nodes[index+1]->type == phrase::BOOLEXPR) ||
-                     (phrase_nodes[index+1]->type == phrase::EXPRLIST)) &&
                     (phrase_nodes[index]->type == ident::LBRACE) &&
                     (phrase_nodes[index+2]->type == ident::RBRACE))
                 {
-                    phrase_t<CHAR>* node = new phrase_t<CHAR>();
+                    if (phrase_nodes[index+1]->type == phrase::BOOLEXPR)
+                    {
+                        phrase_t<CHAR>* node = new phrase_t<CHAR>();
 
-                    node->type = phrase::LIST;
+                        node->type = phrase::LIST;
 
-                    node->line = phrase_nodes[index]->line;
-                    node->column = phrase_nodes[index]->column;
+                        node->line = phrase_nodes[index]->line;
+                        node->column = phrase_nodes[index]->column;
 
-                    phrase_nodes[index+1]->parent = node;
+                        node->file = phrase_nodes[index]->file;
 
-                    node->children.add(phrase_nodes[index+1]);
 
-                    node->file = phrase_nodes[index]->file;
+                        phrase_nodes[index+1]->parent = node;
 
-                    delete phrase_nodes[index];
-                    delete phrase_nodes[index+2];
-                    phrase_nodes.replace(index, index+2, node);
+                        node->children.add(phrase_nodes[index+1]);
 
-                    return true;
+
+                        delete phrase_nodes[index];
+                        delete phrase_nodes[index+2];
+                        phrase_nodes.replace(index, index+2, node);
+
+                        return true;
+                    }
+                    else if (phrase_nodes[index+1]->type == phrase::EXPRLIST)
+                    {
+                        phrase_nodes[index+1]->type = phrase::LIST;
+
+                        phrase_nodes[index+1]->line = phrase_nodes[index]->line;
+                        phrase_nodes[index+1]->column = phrase_nodes[index]->column;
+
+                        phrase_nodes[index+1]->file = phrase_nodes[index]->file;
+
+                        delete phrase_nodes[index];
+                        delete phrase_nodes[index+2];
+                        phrase_nodes.remove(index+2);
+                        phrase_nodes.remove(index);
+
+                        return true;
+                    }
                 }
                 else if (phrase_nodes.is_valid(index+1) &&
                     (phrase_nodes[index]->type == ident::LBRACE) &&

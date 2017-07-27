@@ -2193,7 +2193,7 @@
 
 1489353285 c:\users\zachary\documents\github\zengine\\z\script\errors.h
 
-1501104541 source:/home/zwesterman/GitHub/ZEngine/main.cpp
+1501190971 source:/home/zwesterman/GitHub/ZEngine/main.cpp
 	<z/core.h>
 	<z/math.h>
 	"z/script/parser/includeIterator.h"
@@ -2476,9 +2476,9 @@
 
 1500176805 /home/zwesterman/GitHub/ZEngine/z/script/parser/syntaxRules/indexlist.h
 
-1500176896 /home/zwesterman/GitHub/ZEngine/z/script/parser/syntaxRules/exprlist.h
+1501190578 /home/zwesterman/GitHub/ZEngine/z/script/parser/syntaxRules/exprlist.h
 
-1500176916 /home/zwesterman/GitHub/ZEngine/z/script/parser/syntaxRules/list.h
+1501191447 /home/zwesterman/GitHub/ZEngine/z/script/parser/syntaxRules/list.h
 
 1500177280 /home/zwesterman/GitHub/ZEngine/z/script/parser/syntaxRules/funccall.h
 
@@ -2544,7 +2544,7 @@
 	<complex>
 	<type_traits>
 
-1501179154 /home/zwesterman/GitHub/ZEngine/z/script/parser/constantFolder.h
+1501189845 /home/zwesterman/GitHub/ZEngine/z/script/parser/constantFolder.h
 	<z/core/dynamicStack.h>
 	<z/core/timeout.h>
 	"../errors.h"

@@ -153,12 +153,15 @@ namespace z
             const data_t operator-();
             const data_t operator+(const data_t&) const;
             const data_t operator-(const data_t&) const;
+
             const data_t operator*(const data_t&) const;
             const data_t operator/(const data_t&) const;
             const data_t operator%(const data_t&) const;
             const data_t int_divide(const data_t&) const;
+
             const data_t operator^(const data_t&) const;
             const data_t factorial() const;
+
             const data_t operator&(const data_t&) const;
             const data_t operator&&(const data_t&) const;
             const data_t operator|(const data_t&) const;
@@ -173,6 +176,8 @@ namespace z
             const data_t nor_logical(const data_t&) const;
             const data_t nxor_bitwise(const data_t&) const;
             const data_t nxor_logical(const data_t&) const;
+
+
 
             const data_t floor() const;
             const data_t ceil() const;

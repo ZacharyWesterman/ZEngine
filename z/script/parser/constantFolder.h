@@ -388,8 +388,8 @@ namespace z
         template <typename CHAR>
         void constantFolder<CHAR>::operate_list()
         {
-            if ((index >= (root->children.size())) &&
-                     (root->children.size() > 0))
+            if ((index < (root->children.size())) &&
+                (root->children.size() > 0))
             {
                 int found_nonliteral = -1;
                 for(int i=index; i<(root->children.size()); i++)
@@ -414,7 +414,7 @@ namespace z
                 else
                     enter_node(found_nonliteral);
             }
-            else if (root->children.size() == 0)
+            else if (root->children.size() <= 0)
             {
                 root->value = core::array< data_t<CHAR> >{};
 

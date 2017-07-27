@@ -2476,9 +2476,9 @@
 
 1500176805 /home/zwesterman/GitHub/ZEngine/z/script/parser/syntaxRules/indexlist.h
 
-1501193441 /home/zwesterman/GitHub/ZEngine/z/script/parser/syntaxRules/exprlist.h
+1501193582 /home/zwesterman/GitHub/ZEngine/z/script/parser/syntaxRules/exprlist.h
 
-1501191447 /home/zwesterman/GitHub/ZEngine/z/script/parser/syntaxRules/list.h
+1501193592 /home/zwesterman/GitHub/ZEngine/z/script/parser/syntaxRules/list.h
 
 1500177280 /home/zwesterman/GitHub/ZEngine/z/script/parser/syntaxRules/funccall.h
 
@@ -2544,7 +2544,7 @@
 	<complex>
 	<type_traits>
 
-1501193135 /home/zwesterman/GitHub/ZEngine/z/script/parser/constantFolder.h
+1501193746 /home/zwesterman/GitHub/ZEngine/z/script/parser/constantFolder.h
 	<z/core/dynamicStack.h>
 	<z/core/timeout.h>
 	"../errors.h"

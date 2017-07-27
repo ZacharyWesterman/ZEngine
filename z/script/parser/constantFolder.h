@@ -388,17 +388,18 @@ namespace z
         template <typename CHAR>
         void constantFolder<CHAR>::operate_list()
         {
-            if (root->children.size() > 0)
+            if ((index >= (root->children.size())) &&
+                     (root->children.size() > 0))
             {
-                bool found_nonliteral = false;
+                int found_nonliteral = -1;
                 for(int i=index; i<(root->children.size()); i++)
                     if (root->children[i]->type != ident::LITERAL)
                     {
-                        found_nonliteral = true;
+                        found_nonliteral = i;
                         break;
                     }
 
-                if (!found_nonliteral)
+                if (found_nonliteral == -1)
                 {
                     root->value = core::array< data_t<CHAR> > {root->children[0]->value};
 
@@ -410,12 +411,10 @@ namespace z
 
                     exit_node();
                 }
-                else if (index < (root->children.size()))
-                    enter_node(index);
                 else
-                    exit_node();
+                    enter_node(found_nonliteral);
             }
-            else
+            else if (root->children.size() == 0)
             {
                 root->value = core::array< data_t<CHAR> >{};
 
@@ -424,6 +423,8 @@ namespace z
 
                 exit_node();
             }
+            else
+                exit_node();
         }
 
 

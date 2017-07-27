@@ -298,7 +298,13 @@ namespace z
                 (root->children[0]->type == ident::LITERAL) &&
                 (root->children[2]->type == ident::LITERAL))
             {
-                if (root->children[1]->type == ident::OPER_AND_LGCL)
+                if (root->children[1]->type == ident::OPER_EQ)
+                    root->value = (root->children[0]->value) ==
+                                  (root->children[2]->value);
+                else if (root->children[1]->type == ident::OPER_NOT_EQ)
+                    root->value = (root->children[0]->value) !=
+                                  (root->children[2]->value);
+                else if (root->children[1]->type == ident::OPER_AND_LGCL)
                     root->value = (root->children[0]->value) &&
                                   (root->children[2]->value);
                 else if (root->children[1]->type == ident::OPER_AND_BITW)

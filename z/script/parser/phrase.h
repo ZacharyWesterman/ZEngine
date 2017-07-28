@@ -8,7 +8,7 @@
  *
  * Author:          Zachary Westerman
  * Email:           zacharywesterman@yahoo.com
- * Last modified:   18 Jul. 2017
+ * Last modified:   27 Jul. 2017
 **/
 
 
@@ -40,6 +40,7 @@ namespace z
                 WHILE_PRE_STMT,
                 WHILE_POST_STMT,
                 RUN_STATEMENT,
+                STOP_STATEMENT,
                 RETURN_STATEMENT,
                 WAIT_STATEMENT,
                 UNTIL_STATEMENT,

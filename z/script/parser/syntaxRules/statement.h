@@ -11,7 +11,7 @@
  *
  * Author:          Zachary Westerman
  * Email:           zacharywesterman@yahoo.com
- * Last modified:   15 Jul. 2017
+ * Last modified:   27 Jul. 2017
 **/
 
 #pragma once
@@ -34,6 +34,7 @@ namespace z
                        !(((phrase_nodes[index-1]->type >= ident::OPER_ASSIGN) &&
                            (phrase_nodes[index-1]->type <= ident::OPER_MOD_ASSIGN)) ||
                           (phrase_nodes[index-1]->type == ident::KEYWORD_RUN) ||
+                          (phrase_nodes[index-1]->type == ident::KEYWORD_STOP) ||
                           (phrase_nodes[index-1]->type == ident::KEYWORD_RETURN) ||
                           (phrase_nodes[index-1]->type == ident::KEYWORD_WAIT) ||
                           (phrase_nodes[index-1]->type == ident::KEYWORD_UNTIL) ||
@@ -66,6 +67,7 @@ namespace z
                          (phrase_nodes[index]->type == phrase::WHILE_PRE_STMT) ||
                          (phrase_nodes[index]->type == phrase::WHILE_POST_STMT) ||
                          (phrase_nodes[index]->type == phrase::RUN_STATEMENT) ||
+                         (phrase_nodes[index]->type == phrase::STOP_STATEMENT) ||
                          (phrase_nodes[index]->type == phrase::RETURN_STATEMENT) ||
                          (phrase_nodes[index]->type == phrase::WAIT_STATEMENT) ||
                          (phrase_nodes[index]->type == phrase::UNTIL_STATEMENT) ||

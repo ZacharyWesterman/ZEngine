@@ -10,7 +10,7 @@
  *
  * Author:          Zachary Westerman
  * Email:           zacharywesterman@yahoo.com
- * Last modified:   21 Jul. 2017
+ * Last modified:   27 Jul. 2017
 **/
 
 
@@ -49,9 +49,9 @@ namespace z
             "if","else",
             "for","each","in","loop","while",
             "goto","gosub","label","sub",
-            "run","include",
+            "run","stop","include",
             "break","return",
-            "dim","exit",
+            "dim",
             "wait","until",
             "var","type","function",
             "global","external","shared",
@@ -85,6 +85,7 @@ namespace z
             "while_pre_stmt",
             "while_post_stmt",
             "run_statement",
+            "stop_statement",
             "return_statement",
             "wait_statement",
             "until_statement",
@@ -185,6 +186,7 @@ namespace z
             bool while_pre_stmt();
             bool while_post_stmt();
             bool run_statement();
+            bool stop_statement();
             bool return_statement();
             bool wait_statement();
             bool until_statement();
@@ -366,6 +368,7 @@ namespace z
                              goto_statement()   ||
                              gosub_statement()  ||
                              run_statement()    ||
+                             stop_statement()   ||
                              return_statement() ||
                              wait_statement()   ||
                              until_statement()  ||
@@ -606,6 +609,7 @@ namespace z
 #include "syntaxRules/int_decllist.h"
 #include "syntaxRules/typedecl.h"
 #include "syntaxRules/program.h"
+#include "syntaxRules/stop_statement.h"
 
 
 #endif // LEXER_H_INCLUDED

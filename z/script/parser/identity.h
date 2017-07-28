@@ -10,7 +10,7 @@
  *
  * Author:          Zachary Westerman
  * Email:           zacharywesterman@yahoo.com
- * Last modified:   21 Jul. 2017
+ * Last modified:   27 Jul. 2017
 **/
 
 #pragma once
@@ -69,13 +69,13 @@ namespace z
                 KEYWORD_SUB,
 
                 KEYWORD_RUN,    //26
+                KEYWORD_STOP,
                 KEYWORD_INCLUDE,//27
 
                 KEYWORD_BREAK,  //28
                 KEYWORD_RETURN, //29
 
                 KEYWORD_DIM,
-                KEYWORD_EXIT,   //30
 
                 KEYWORD_WAIT,   //31
                 KEYWORD_UNTIL,  //32

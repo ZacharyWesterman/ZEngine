@@ -2306,7 +2306,7 @@
 
 1491800855 /home/zwesterman/GitHub/zLibraries/z/math/matrix.h
 
-1501179953 /home/zwesterman/GitHub/ZEngine/z/script/parser/scanner.h
+1501197990 /home/zwesterman/GitHub/ZEngine/z/script/parser/scanner.h
 	<limits>
 	<z/core/sorted_array.h>
 	<z/core/string.h>
@@ -2319,7 +2319,7 @@
 	<stdint.h>
 	<z/core/string.h>
 
-1500682803 /home/zwesterman/GitHub/ZEngine/z/script/parser/identity.h
+1501197979 /home/zwesterman/GitHub/ZEngine/z/script/parser/identity.h
 	<z/core/string.h>
 	"../data_t.h"
 	"../errors.h"
@@ -2356,7 +2356,7 @@
 	"lexer.h"
 	<iostream>
 
-1501180091 /home/zwesterman/GitHub/ZEngine/z/script/parser/lexer.h
+1501206687 /home/zwesterman/GitHub/ZEngine/z/script/parser/lexer.h
 	<z/core/timeout.h>
 	<z/core/array.h>
 	<z/core/dynamicStack.h>
@@ -2415,8 +2415,9 @@
 	"syntaxRules/int_decllist.h"
 	"syntaxRules/typedecl.h"
 	"syntaxRules/program.h"
+	"syntaxRules/stop_statement.h"
 
-1500682828 /home/zwesterman/GitHub/ZEngine/z/script/parser/phrase.h
+1501206658 /home/zwesterman/GitHub/ZEngine/z/script/parser/phrase.h
 	<z/core/array.h>
 	"identity.h"
 
@@ -2436,7 +2437,7 @@
 
 1500172010 /home/zwesterman/GitHub/ZEngine/z/script/parser/syntaxRules/command.h
 
-1500172140 /home/zwesterman/GitHub/ZEngine/z/script/parser/syntaxRules/statement.h
+1501206774 /home/zwesterman/GitHub/ZEngine/z/script/parser/syntaxRules/statement.h
 
 1500174094 /home/zwesterman/GitHub/ZEngine/z/script/parser/syntaxRules/statementlist.h
 
@@ -2555,4 +2556,6 @@
 
 1500458036 /home/zwesterman/GitHub/zLibraries/z/math/remainder.h
 	<complex>
+
+1501206633 /home/zwesterman/GitHub/ZEngine/z/script/parser/syntaxRules/stop_statement.h
 

@@ -129,6 +129,7 @@ statement	: boolexpr ;
 		| while_pre_stmt
 		| while_post_stmt
 		| run_statement
+		| stop_statement
 		| typevar_decl
 		| variable_decl
 		| return_statement
@@ -240,3 +241,5 @@ ext_decl	: variable_decl
 
 program		: ext_decl ext_decl ... $EOF
 		| ext_decl $EOF
+
+stop_statement	: "stop" boolexpr ;

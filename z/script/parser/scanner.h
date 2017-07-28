@@ -10,7 +10,7 @@
  *
  * Author:          Zachary Westerman
  * Email:           zacharywesterman@yahoo.com
- * Last modified:   21 Jul. 2017
+ * Last modified:   27 Jul. 2017
 **/
 
 #pragma once
@@ -900,8 +900,8 @@ namespace z
                     current_ident.type = ident::KEYWORD_RETURN;
                 else if (current_symbol == "dim")
                     current_ident.type = ident::KEYWORD_DIM;
-                else if (current_symbol == "exit")
-                    current_ident.type = ident::KEYWORD_EXIT;
+                else if (current_symbol == "stop")
+                    current_ident.type = ident::KEYWORD_STOP;
                 else if (current_symbol == "wait")
                     current_ident.type = ident::KEYWORD_WAIT;
                 else if (current_symbol == "until")

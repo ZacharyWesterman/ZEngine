@@ -61,6 +61,7 @@ namespace z
             void operate_boolexpr();
             void operate_list();
             void operate_exprlist();
+            void operate_add1expr();
 
         public:
             constantFolder()
@@ -113,8 +114,8 @@ namespace z
                     operate_boolexpr();
                 else if (root->type == phrase::LIST)
                     operate_list();
-                //else if (root->type == phrase::EXPRLIST)
-                  //  operate_exprlist();
+                else if (root->type == phrase::ADD1EXPR)
+                    operate_add1expr();
                 else
                 {
                     if (index >= (root->children).size())
@@ -429,13 +430,26 @@ namespace z
 
 
         template <typename CHAR>
-        void constantFolder<CHAR>::operate_exprlist()
+        void constantFolder<CHAR>::operate_add1expr()
         {
-            if ((root->children[0]->type == ident::LITERAL) &&
-                (root->children[1]->type == ident::LITERAL))
+            if (root->children[0]->type == ident::LITERAL)
             {
-                root->value = core::array< data_t<CHAR> > {root->children[0]->value};
-                root->value.array().add(root->children[1]->value);
+                if (root->children[1]->type == ident::OPER_ADD1)
+                    root->value = ++(root->children[0]->value);
+                else
+                    root->value = --(root->children[0]->value);
+
+                set_node_constant();
+                append_oper_error();
+
+                exit_node();
+            }
+            else if (root->children[1]->type == ident::LITERAL)
+            {
+                if (root->children[0]->type == ident::OPER_ADD1)
+                    root->value = ++(root->children[1]->value);
+                else
+                    root->value = --(root->children[1]->value);
 
                 set_node_constant();
                 append_oper_error();

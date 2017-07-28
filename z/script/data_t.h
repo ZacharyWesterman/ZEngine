@@ -187,7 +187,12 @@ namespace z
 
 
             //operators
-            const data_t operator-();
+            const data_t& operator++();
+            const data_t& operator--();
+            const data_t operator++(int);
+            const data_t operator--(int);
+
+            const data_t operator-() const;
             const data_t operator+(const data_t&) const;
             const data_t operator-(const data_t&) const;
 
@@ -218,6 +223,98 @@ namespace z
             const data_t ceil() const;
             const data_t round() const;
         };
+
+
+        template <typename CHAR>
+        const data_t<CHAR>& data_t<CHAR>::operator++()
+        {
+            if (d_type == data::VALUE)
+            {
+                d_value = d_value + 1.0;
+            }
+            else if (d_type == data::ARRAY)
+            {
+                d_type = data::ERROR;
+                d_error = error::INVALID_OPER_ARRAY;
+            }
+            else if (d_type == data::STRING)
+            {
+                d_type = data::ERROR;
+                d_error = error::INVALID_OPER_STRING;
+            }
+
+            return *this;
+        }
+
+        template <typename CHAR>
+        const data_t<CHAR>& data_t<CHAR>::operator--()
+        {
+            if (d_type == data::VALUE)
+            {
+                d_value = d_value - 1.0;
+            }
+            else if (d_type == data::ARRAY)
+            {
+                d_type = data::ERROR;
+                d_error = error::INVALID_OPER_ARRAY;
+            }
+            else if (d_type == data::STRING)
+            {
+                d_type = data::ERROR;
+                d_error = error::INVALID_OPER_STRING;
+            }
+
+            return *this;
+        }
+
+
+        template <typename CHAR>
+        const data_t<CHAR> data_t<CHAR>::operator++(int)
+        {
+            data_t<CHAR> result;
+
+            if (d_type == data::VALUE)
+            {
+                result = *this;
+                d_value = d_value + 1.0;
+            }
+            else if (d_type == data::ARRAY)
+            {
+                result.d_type = data::ERROR;
+                result.d_error = error::INVALID_OPER_ARRAY;
+            }
+            else if (d_type == data::STRING)
+            {
+                result.d_type = data::ERROR;
+                result.d_error = error::INVALID_OPER_STRING;
+            }
+
+            return result;
+        }
+
+        template <typename CHAR>
+        const data_t<CHAR> data_t<CHAR>::operator--(int)
+        {
+            data_t<CHAR> result;
+
+            if (d_type == data::VALUE)
+            {
+                result = *this;
+                d_value = d_value - 1.0;
+            }
+            else if (d_type == data::ARRAY)
+            {
+                result.d_type = data::ERROR;
+                result.d_error = error::INVALID_OPER_ARRAY;
+            }
+            else if (d_type == data::STRING)
+            {
+                result.d_type = data::ERROR;
+                result.d_error = error::INVALID_OPER_STRING;
+            }
+
+            return result;
+        }
 
 
         template <typename CHAR>
@@ -403,7 +500,7 @@ namespace z
 
         //negation
         template <typename CHAR>
-        const data_t<CHAR> data_t<CHAR>::operator-()
+        const data_t<CHAR> data_t<CHAR>::operator-() const
         {
             data_t<CHAR> result;
 

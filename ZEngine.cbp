@@ -90,6 +90,7 @@
 		<Unit filename="z/script/parser/syntaxRules/sizeofexpr.h" />
 		<Unit filename="z/script/parser/syntaxRules/statement.h" />
 		<Unit filename="z/script/parser/syntaxRules/statementlist.h" />
+		<Unit filename="z/script/parser/syntaxRules/stop_statement.h" />
 		<Unit filename="z/script/parser/syntaxRules/subroutine_decl.h" />
 		<Unit filename="z/script/parser/syntaxRules/type_funccall.h" />
 		<Unit filename="z/script/parser/syntaxRules/typedecl.h" />

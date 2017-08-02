@@ -17,19 +17,51 @@ using std::cout;
 using std::endl;
 
 
-class func_sin
+class func_sin : public function_t<char>
 {
 public:
-    func_sin : function_t<char>("sin", 1, 1, true) {}
+    func_sin() : function_t<char>("sin", 1, 1, true) {}
+    ~func_sin() {}
 
 
+    error_flag addParam(const data_t<char>& next_param)
+    {
+        if (next_param.type() != data::VALUE)
+            return error::PARAM_MUST_VALUE;
+
+        params.add(next_param);
+
+        return error::NONE;
+    }
+
+
+    bool call(const core::timeout& time)
+    {
+        if (params.size())
+            return_value = sin(params[0].complex());
+
+        return true;
+    }
 };
 
 
 int main(int argc, char* argv[])
 {
-    func_sin func;
+    function_t<char>* f;
 
+    f = new func_sin;
+
+    for (double x = 0; x < math::pi*2; x += 0.01*math::pi)
+    {
+        f->addParam(x);
+        f->call(-1);
+
+        cout << f->result().string().str() << endl;
+
+        f->clear();
+    }
+
+    delete f;
 
     /*char c_in[128];
 

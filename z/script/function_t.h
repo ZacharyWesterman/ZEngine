@@ -36,6 +36,7 @@ namespace z
 
             bool is_constant;
 
+        protected:
             core::array< data_t<CHAR> > params;
             data_t<CHAR> return_value;
 
@@ -61,10 +62,11 @@ namespace z
             ~function_t() {}
 
 
-            virtual error_flag addParam(const data_t<CHAR>& next_param) = 0;
+            virtual error_flag addParam(const data_t<CHAR>&) = 0;
 
-            //call this script function (with timeout)
-            virtual bool call(const core::array< data_t<CHAR> >&, const core::timeout&) = 0;
+            //call this script function (with timeout).
+            //should return true if finished, false otherwise
+            virtual bool call(const core::timeout&) = 0;
 
 
             void clear()
@@ -89,6 +91,51 @@ namespace z
 
             inline const data_t<CHAR>& result() const
             { return return_value; }
+
+
+            error_flag paramCountError() const
+            {
+                if (params_max < 0)
+                    return error::NONE;
+
+                if (params.size() > params_max)
+                    return error::FUNC_TOO_MANY_PARAMS;
+                else if (params.size() < params_min)
+                    return error::FUNC_TOO_FEW_PARAMS;
+                else
+                    return error::NONE;
+            }
+
+
+            bool operator==(const function_t<CHAR>& other) const
+            {
+                return (params_max == other.params_max) &&
+                       (params_min == other.params_min) &&
+                       (func_name == other.func_name);
+            }
+
+            inline bool operator!=(const function_t<CHAR>& other) const
+            { return !operator==(other); }
+
+            bool operator>(const function_t<CHAR>& other) const
+            {
+                return (func_name > other.func_name) ||
+                       (params_max > other.params_max) ||
+                       (params_min > other.params_min);
+            }
+
+            inline bool operator<=(const function_t<CHAR>& other) const
+            { return !operator>(other); }
+
+            bool operator<(const function_t<CHAR>& other) const
+            {
+                return (func_name < other.func_name) ||
+                       (params_max < other.params_max) ||
+                       (params_min < other.params_min);
+            }
+
+            inline bool operator>=(const function_t<CHAR>& other) const
+            { return !operator<(other); }
         };
 
 

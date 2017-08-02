@@ -5,6 +5,8 @@
 
 #include "z/script/parser/constantFolder.h"
 
+#include "z/script/function_t.h"
+
 #include <iostream>
 //using namespace std;
 
@@ -16,8 +18,10 @@ using std::endl;
 
 int main(int argc, char* argv[])
 {
+    script::function_t<char> func ("sin", 1, 1, true);
 
-    char c_in[128];
+
+    /*char c_in[128];
 
     cout << "Input:\n\n";
 
@@ -75,7 +79,7 @@ int main(int argc, char* argv[])
     if (AST)
         delete AST;
 
-    std::cout << "\nDone in " << iter << " iterations.\n";
+    std::cout << "\nDone in " << iter << " iterations.\n";*/
 
     //S->clean();
 

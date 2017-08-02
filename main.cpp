@@ -44,19 +44,52 @@ public:
     }
 };
 
+class func_log : public function_t<char>
+{
+public:
+    func_log() : function_t<char>("log", 1, 2, true) {}
+    ~func_log() {}
+
+
+    error_flag addParam(const data_t<char>& next_param)
+    {
+        if (next_param.type() != data::VALUE)
+            return error::PARAM_MUST_VALUE;
+        else if ((next_param.real() < 0) || (next_param.imag() < 0))
+            return error::PARAM_MUST_POSITIVE;
+
+        params.add(next_param);
+
+        return error::NONE;
+    }
+
+
+    bool call(const core::timeout& time)
+    {
+        if (params.size() == 1)
+            return_value = log10(params[0].complex());
+        else if (params.size() == 2)
+            return_value = log(params[0].complex()) /
+                           log(params[1].complex());
+
+        return true;
+    }
+};
+
 
 int main(int argc, char* argv[])
 {
     function_t<char>* f;
 
-    f = new func_sin;
+    f = new func_log;
 
-    for (double x = 0; x < math::pi*2; x += 0.01*math::pi)
+    for (double x = 1; x < 30; x *= math::e)
     {
         f->addParam(x);
+        f->addParam(math::e);
         f->call(-1);
 
-        cout << f->result().string().str() << endl;
+        cout << (f->result().string().str()) << " : " << x << endl;
 
         f->clear();
     }

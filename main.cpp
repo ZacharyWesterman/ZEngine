@@ -79,6 +79,8 @@ public:
 
 int main(int argc, char* argv[])
 {
+    //core::sortedArray
+
     function_t<char>* f;
 
     f = new func_log;
@@ -103,7 +105,7 @@ int main(int argc, char* argv[])
     cin.getline(c_in, 128, '\n');
 
 
-    core::sorted_ref_array< core::string<char>* > symbol_table;
+    core::sortedRefArray< core::string<char>* > symbol_table;
 
     //test the include iterator
     z::script::includeIterator<char> sscan(&symbol_table);

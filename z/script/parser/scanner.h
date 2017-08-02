@@ -10,7 +10,7 @@
  *
  * Author:          Zachary Westerman
  * Email:           zacharywesterman@yahoo.com
- * Last modified:   27 Jul. 2017
+ * Last modified:   2 Aug. 2017
 **/
 
 #pragma once
@@ -19,7 +19,7 @@
 
 #include <limits>
 
-#include <z/core/sorted_array.h>
+#include <z/core/sortedArray.h>
 #include <z/core/string.h>
 
 #include <z/core/timeout.h>
@@ -61,7 +61,7 @@ namespace z
 
             bool done;
 
-            core::sorted_ref_array< core::string<CHAR>* >* sym_table;
+            core::sortedRefArray< core::string<CHAR>* >* sym_table;
 
         public:
             //keep track of the current file
@@ -70,7 +70,7 @@ namespace z
             core::array< parser_error<CHAR> > error_buffer;
 
             //constructor allows operators, commands, and functions be set
-            scanner(core::sorted_ref_array< core::string<CHAR>* >* symbol_table)
+            scanner(core::sortedRefArray< core::string<CHAR>* >* symbol_table)
             {
                 input = NULL;
                 identifiers = NULL;

@@ -13,7 +13,7 @@
  *
  * Author:          Zachary Westerman
  * Email:           zacharywesterman@yahoo.com
- * Last modified:   18 Jul. 2017
+ * Last modified:   2 Aug. 2017
 **/
 
 #pragma once
@@ -143,7 +143,7 @@ namespace z
         public:
 
 
-            includeIterator(core::sorted_ref_array< core::string<CHAR>* >* symbol_table) :
+            includeIterator(core::sortedRefArray< core::string<CHAR>* >* symbol_table) :
                             fScanner(symbol_table)
             {
                 //full_output = NULL;

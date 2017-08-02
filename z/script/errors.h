@@ -96,6 +96,10 @@ namespace z
                 PARAM_MUST_ARRAY_VALUE,
                 PARAM_MUST_ARRAY_STRING,
 
+
+                FUNCTION_REQ_GRAPHICAL,
+                COMMAND_REQ_GRAPHICAL,
+
                 ERROR_COUNT
             };
         }

@@ -20,6 +20,7 @@
 
 #include "data_t.h"
 
+
 namespace z
 {
     namespace script
@@ -29,6 +30,8 @@ namespace z
         class function_t
         {
         private:
+            void* graphics_engine;
+
             core::string<CHAR> func_name;
 
             int params_min;
@@ -45,7 +48,8 @@ namespace z
             function_t(core::string<CHAR> _name,
                        int min_params = 0,
                        int max_params = 0,
-                       bool _constant = false)
+                       bool _constant = false,
+                       void* _engine = NULL)
             {
                 func_name = _name;
 
@@ -55,6 +59,8 @@ namespace z
                 params_min = min_params;
                 params_max = max_params;
                 is_constant = _constant;
+
+                graphics_engine = _engine;
             }
 
             virtual ~function_t() {}

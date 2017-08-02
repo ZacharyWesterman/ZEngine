@@ -73,13 +73,17 @@ namespace z
 
                 PARAM_MUST_BOOLEAN,
                 PARAM_MUST_INTEGER,
-                PARAM_MUST_POS_INTEGER,
-                PARAM_MUST_NEG_INTEGER,
                 PARAM_OUT_OF_BOUNDS,
                 PARAM_MUST_REAL,
                 PARAM_MUST_COMPLEX,
                 PARAM_MUST_VALUE,
                 PARAM_MUST_STRING,
+
+                PARAM_MUST_POSITIVE,
+                PARAM_MUST_NEGATIVE,
+                PARAM_MUST_NONZERO,
+                PARAM_MUST_NONPOSITIVE,
+                PARAM_MUST_NONNEGATIVE,
 
                 PARAM_CANNOT_VALUE,
                 PARAM_CANNOT_STRING,
@@ -87,18 +91,14 @@ namespace z
 
                 PARAM_MUST_ARRAY,
                 PARAM_MUST_ARRAY_SAME_TYPE,
-                PARAM_MUST_ARRAY_BOOLEAN,
-                PARAM_MUST_ARRAY_INTEGER,
-                PARAM_MUST_ARRAY_POS_INTEGER,
-                PARAM_MUST_ARRAY_NEG_INTEGER,
-                PARAM_MUST_ARRAY_REAL,
-                PARAM_MUST_ARRAY_COMPLEX,
-                PARAM_MUST_ARRAY_VALUE,
-                PARAM_MUST_ARRAY_STRING,
 
 
                 FUNCTION_REQ_GRAPHICAL,
                 COMMAND_REQ_GRAPHICAL,
+
+
+
+                UNDEFINED_ERROR,
 
                 ERROR_COUNT
             };

@@ -78,7 +78,12 @@ namespace z
                 PARAM_OUT_OF_BOUNDS,
                 PARAM_MUST_REAL,
                 PARAM_MUST_COMPLEX,
+                PARAM_MUST_VALUE,
                 PARAM_MUST_STRING,
+
+                PARAM_CANNOT_VALUE,
+                PARAM_CANNOT_STRING,
+                PARAM_CANNOT_ARRAY,
 
                 PARAM_MUST_ARRAY,
                 PARAM_MUST_ARRAY_SAME_TYPE,
@@ -88,6 +93,7 @@ namespace z
                 PARAM_MUST_ARRAY_NEG_INTEGER,
                 PARAM_MUST_ARRAY_REAL,
                 PARAM_MUST_ARRAY_COMPLEX,
+                PARAM_MUST_ARRAY_VALUE,
                 PARAM_MUST_ARRAY_STRING,
 
                 ERROR_COUNT

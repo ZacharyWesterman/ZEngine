@@ -42,8 +42,6 @@ namespace z
 
         public:
 
-
-
             function_t(core::string<CHAR> _name,
                        int min_params = 0,
                        int max_params = 0,

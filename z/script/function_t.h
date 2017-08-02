@@ -59,7 +59,7 @@ namespace z
                 is_constant = _constant;
             }
 
-            ~function_t() {}
+            virtual ~function_t() {}
 
 
             virtual error_flag addParam(const data_t<CHAR>&) = 0;

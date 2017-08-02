@@ -7,7 +7,7 @@
  *
  * Author:          Zachary Westerman
  * Email:           zacharywesterman@yahoo.com
- * Last modified:   19 Jul. 2017
+ * Last modified:   2 Aug. 2017
 **/
 
 #pragma once
@@ -64,6 +64,31 @@ namespace z
                 FACTORIAL_OVERFLOW,
                 FACTORIAL_NEGATIVE,
                 FACTORIAL_COMPLEX,
+
+
+                FUNC_TOO_MANY_PARAMS,
+                FUNC_TOO_FEW_PARAMS,
+
+                ARRAY_OUT_OF_BOUNDS,
+
+                PARAM_MUST_BOOLEAN,
+                PARAM_MUST_INTEGER,
+                PARAM_MUST_POS_INTEGER,
+                PARAM_MUST_NEG_INTEGER,
+                PARAM_OUT_OF_BOUNDS,
+                PARAM_MUST_REAL,
+                PARAM_MUST_COMPLEX,
+                PARAM_MUST_STRING,
+
+                PARAM_MUST_ARRAY,
+                PARAM_MUST_ARRAY_SAME_TYPE,
+                PARAM_MUST_ARRAY_BOOLEAN,
+                PARAM_MUST_ARRAY_INTEGER,
+                PARAM_MUST_ARRAY_POS_INTEGER,
+                PARAM_MUST_ARRAY_NEG_INTEGER,
+                PARAM_MUST_ARRAY_REAL,
+                PARAM_MUST_ARRAY_COMPLEX,
+                PARAM_MUST_ARRAY_STRING,
 
                 ERROR_COUNT
             };

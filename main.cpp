@@ -16,9 +16,19 @@ using namespace script;
 using std::cout;
 using std::endl;
 
+
+class func_sin
+{
+public:
+    func_sin : function_t<char>("sin", 1, 1, true) {}
+
+
+};
+
+
 int main(int argc, char* argv[])
 {
-    script::function_t<char> func ("sin", 1, 1, true);
+    func_sin func;
 
 
     /*char c_in[128];

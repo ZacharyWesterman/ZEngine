@@ -66,8 +66,8 @@ namespace z
                 FACTORIAL_COMPLEX,
 
 
-                FUNC_TOO_MANY_PARAMS,
-                FUNC_TOO_FEW_PARAMS,
+                TOO_MANY_PARAMS,
+                TOO_FEW_PARAMS,
 
                 ARRAY_OUT_OF_BOUNDS,
 

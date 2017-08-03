@@ -66,12 +66,22 @@ namespace z
             virtual ~function_t() {}
 
 
-            virtual error_flag addParam(const data_t<CHAR>&) = 0;
+            virtual error_flag addParam(const data_t<CHAR>& next_param)
+            {
+                params.add(next_param);
+
+                return error::NONE;
+            }
 
             //call this script function (with timeout).
             //should return true if finished, false otherwise
             virtual bool call(const core::timeout&) = 0;
 
+
+            inline void setEngine(void* _engine)
+            {
+                graphics_engine = _engine;
+            }
 
             void clear()
             {
@@ -103,9 +113,9 @@ namespace z
                     return error::NONE;
 
                 if (params.size() > params_max)
-                    return error::FUNC_TOO_MANY_PARAMS;
+                    return error::TOO_MANY_PARAMS;
                 else if (params.size() < params_min)
-                    return error::FUNC_TOO_FEW_PARAMS;
+                    return error::TOO_FEW_PARAMS;
                 else
                     return error::NONE;
             }

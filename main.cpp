@@ -6,6 +6,7 @@
 #include "z/script/parser/constantFolder.h"
 
 #include "z/script/function_t.h"
+#include "z/script/command_t.h"
 
 #include <iostream>
 //using namespace std;
@@ -77,11 +78,30 @@ public:
 };
 
 
+
+class cmd_vsync_enable : public command_t<char>
+{
+    public:
+    cmd_vsync_enable() : command_t<char>({"enable","vsync"}, 0, 0) {}
+    ~cmd_vsync_enable() {}
+
+
+    bool call(const core::timeout& time)
+    {
+        return true;
+    }
+};
+
 int main(int argc, char* argv[])
 {
-    //core::sortedArray
+    /*cmd_vsync_enable cmd;
 
-    function_t<char>* f;
+
+    for( int i=0; i<(cmd.name().size()); i++)
+        cout << cmd.name().at(i).str() << " ";
+    cout << endl;*/
+
+    /*function_t<char>* f;
 
     f = new func_log;
 
@@ -96,9 +116,9 @@ int main(int argc, char* argv[])
         f->clear();
     }
 
-    delete f;
+    delete f;*/
 
-    /*char c_in[128];
+    char c_in[128];
 
     cout << "Input:\n\n";
 
@@ -156,7 +176,7 @@ int main(int argc, char* argv[])
     if (AST)
         delete AST;
 
-    std::cout << "\nDone in " << iter << " iterations.\n";*/
+    std::cout << "\nDone in " << iter << " iterations.\n";
 
     //S->clean();
 

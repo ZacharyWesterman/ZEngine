@@ -2193,22 +2193,23 @@
 
 1489353285 c:\users\zachary\documents\github\zengine\\z\script\errors.h
 
-1501716259 source:/home/zwesterman/GitHub/ZEngine/main.cpp
+1501734254 source:/home/zwesterman/GitHub/ZEngine/main.cpp
 	<z/core.h>
 	<z/math.h>
 	"z/script/parser/includeIterator.h"
 	"z/script/parser/constantFolder.h"
 	"z/script/function_t.h"
+	"z/script/command_t.h"
 	<iostream>
 
-1497217894 /home/zwesterman/GitHub/zLibraries/z/core.h
+1501717461 /home/zwesterman/GitHub/zLibraries/z/core.h
 	"core/string.h"
 	"core/stream.h"
 	"core/array.h"
-	"core/sorted_array.h"
-	"core/sorted_ref_array.h"
+	"core/sortedArray.h"
+	"core/sortedRefArray.h"
 	"core/dynamicStack.h"
-	"core/circular_number.h"
+	"core/circularNumber.h"
 	"core/timer.h"
 	"core/timeout.h"
 	"core/pause.h"
@@ -2307,9 +2308,9 @@
 
 1491800855 /home/zwesterman/GitHub/zLibraries/z/math/matrix.h
 
-1501197990 /home/zwesterman/GitHub/ZEngine/z/script/parser/scanner.h
+1501717913 /home/zwesterman/GitHub/ZEngine/z/script/parser/scanner.h
 	<limits>
-	<z/core/sorted_array.h>
+	<z/core/sortedArray.h>
 	<z/core/string.h>
 	<z/core/timeout.h>
 	<z/core/dynamicStack.h>
@@ -2325,7 +2326,7 @@
 	"../data_t.h"
 	"../errors.h"
 
-1501715767 /home/zwesterman/GitHub/ZEngine/z/script/errors.h
+1501733077 /home/zwesterman/GitHub/ZEngine/z/script/errors.h
 	<z/core/string.h>
 
 1492812797 /home/zwesterman/GitHub/zLibraries/z/core/timeout.h
@@ -2347,7 +2348,7 @@
 1494798455 /home/zwesterman/GitHub/zLibraries/z/file/directoryOperations.h
 	<z/core/string.h>
 
-1500693297 /home/zwesterman/GitHub/ZEngine/z/script/parser/includeIterator.h
+1501717900 /home/zwesterman/GitHub/ZEngine/z/script/parser/includeIterator.h
 	<z/core/array.h>
 	<z/file/loadFileTimeout.h>
 	<z/file/directoryOperations.h>
@@ -2434,11 +2435,11 @@
 
 1499916514 /home/zwesterman/GitHub/ZEngine/z/script/parser/lexerPhraseDetection.h
 
-1500171892 /home/zwesterman/GitHub/ZEngine/z/script/parser/syntaxRules/identifierlist.h
+1501735766 /home/zwesterman/GitHub/ZEngine/z/script/parser/syntaxRules/identifierlist.h
 
-1500172010 /home/zwesterman/GitHub/ZEngine/z/script/parser/syntaxRules/command.h
+1501735355 /home/zwesterman/GitHub/ZEngine/z/script/parser/syntaxRules/command.h
 
-1501206774 /home/zwesterman/GitHub/ZEngine/z/script/parser/syntaxRules/statement.h
+1501735348 /home/zwesterman/GitHub/ZEngine/z/script/parser/syntaxRules/statement.h
 
 1500174094 /home/zwesterman/GitHub/ZEngine/z/script/parser/syntaxRules/statementlist.h
 
@@ -2555,12 +2556,27 @@
 1500457010 /home/zwesterman/GitHub/zLibraries/z/math/gcd.h
 	<complex>
 
-1500458036 /home/zwesterman/GitHub/zLibraries/z/math/remainder.h
+1501731734 /home/zwesterman/GitHub/zLibraries/z/math/remainder.h
 	<complex>
 
 1501206633 /home/zwesterman/GitHub/ZEngine/z/script/parser/syntaxRules/stop_statement.h
 
-1501715422 /home/zwesterman/GitHub/ZEngine/z/script/function_t.h
+1501733822 /home/zwesterman/GitHub/ZEngine/z/script/function_t.h
+	<z/core/string.h>
+	<z/core/array.h>
+	<z/core/timeout.h>
+	"data_t.h"
+
+1501717584 /home/zwesterman/GitHub/zLibraries/z/core/sortedArray.h
+	"./array.h"
+
+1501717575 /home/zwesterman/GitHub/zLibraries/z/core/sortedRefArray.h
+	"array.h"
+
+1501717764 /home/zwesterman/GitHub/zLibraries/z/core/circularNumber.h
+	<iostream>
+
+1501733827 /home/zwesterman/GitHub/ZEngine/z/script/command_t.h
 	<z/core/string.h>
 	<z/core/array.h>
 	<z/core/timeout.h>

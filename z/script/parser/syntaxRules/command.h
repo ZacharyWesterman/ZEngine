@@ -11,7 +11,7 @@
  *
  * Author:          Zachary Westerman
  * Email:           zacharywesterman@yahoo.com
- * Last modified:   15 Jul. 2017
+ * Last modified:   2 Aug. 2017
 **/
 
 #pragma once
@@ -25,10 +25,12 @@ namespace z
         template <typename CHAR>
         bool lexer<CHAR>::_command()
         {
-            if (phrase_nodes.is_valid(index+2) &&
+            if (phrase_nodes.is_valid(index+3) &&
                 (phrase_nodes[index]->type == phrase::IDENTIFIERLIST) &&
-                (phrase_nodes[index+1]->type == phrase::LIST) &&
-                (phrase_nodes[index+2]->type == ident::SEMICOLON))
+                (phrase_nodes[index+1]->type == ident::LBRACE) &&
+                ((phrase_nodes[index+2]->type == phrase::EXPRLIST) ||
+                 (phrase_nodes[index+2]->type == phrase::BOOLEXPR)) &&
+                (phrase_nodes[index+3]->type == ident::RBRACE))
             {
                 phrase_t<CHAR>* node = new phrase_t<CHAR>();
 
@@ -38,13 +40,38 @@ namespace z
                 node->column = phrase_nodes[index]->column;
 
                 phrase_nodes[index]->parent = node;
-                phrase_nodes[index+1]->parent = node;
+                phrase_nodes[index+2]->parent = node;
 
                 node->children.add(phrase_nodes[index]);
-                node->children.add(phrase_nodes[index+1]);
+                node->children.add(phrase_nodes[index+2]);
 
                 node->file = phrase_nodes[index]->file;
 
+                delete phrase_nodes[index+1];
+                delete phrase_nodes[index+3];
+                phrase_nodes.replace(index, index+3, node);
+
+                return true;
+            }
+            else if (phrase_nodes.is_valid(index+2) &&
+                (phrase_nodes[index]->type == phrase::IDENTIFIERLIST) &&
+                (phrase_nodes[index+1]->type == ident::LBRACE) &&
+                (phrase_nodes[index+2]->type == ident::RBRACE))
+            {
+                phrase_t<CHAR>* node = new phrase_t<CHAR>();
+
+                node->type = phrase::COMMAND;
+
+                node->line = phrase_nodes[index]->line;
+                node->column = phrase_nodes[index]->column;
+
+                phrase_nodes[index]->parent = node;
+
+                node->children.add(phrase_nodes[index]);
+
+                node->file = phrase_nodes[index]->file;
+
+                delete phrase_nodes[index+1];
                 delete phrase_nodes[index+2];
                 phrase_nodes.replace(index, index+2, node);
 

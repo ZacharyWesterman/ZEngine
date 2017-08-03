@@ -97,8 +97,12 @@ operand		: variable
 identifierlist	: IDENTIFIER IDENTIFIER !;
 		| identifierlist IDENTIFIER
 
-command		: IDENTIFIER list ;
-		: identifierlist list ;
+command		: IDENTIFIER { exprlist }
+		| identifierlist { exprlist }
+		| IDENTIFIER { boolexpr }
+		| identifierlist { boolexpr }
+		| IDENTIFIER { }
+		| identifierlist { }
 
 if_statement	: "if" ( boolexpr ) statement opt#else_statement
 		| "if" ( boolexpr ) { statement } opt#else_statement
@@ -121,7 +125,7 @@ for_statement	: "for" ( boolexpr ; boolexpr ; boolexpr ) statement
 
 REQ: if#{# OR if#statement#
 statement	: boolexpr ;
-		| command
+		| command ;
 		| if_statement
 		| for_statement
 		| foreach_statement

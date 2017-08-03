@@ -39,6 +39,7 @@
 			<Add option="-fexceptions" />
 		</Compiler>
 		<Unit filename="main.cpp" />
+		<Unit filename="z/script/command_t.h" />
 		<Unit filename="z/script/data_t.h" />
 		<Unit filename="z/script/errors.h" />
 		<Unit filename="z/script/function_t.h" />

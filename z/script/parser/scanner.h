@@ -10,7 +10,7 @@
  *
  * Author:          Zachary Westerman
  * Email:           zacharywesterman@yahoo.com
- * Last modified:   2 Aug. 2017
+ * Last modified:   8 Aug. 2017
 **/
 
 #pragma once
@@ -822,12 +822,13 @@ namespace z
 
                 if (found)
                 {
-                    temp_opers.add(ident_t<CHAR>(curr_oper, line, column + x_offset,
+                    temp_opers.add(ident_t<CHAR>(curr_oper, line,
+                                                 column+x_offset-input.length(),
                                                  null, file));
 
                     x_offset += oper_length;
                 }
-                else //that operator was not found
+                else //an operator was not found
                 {
                     if (x_offset > 0)
                         oper_error = error::AMBIGUOUS_EXPR;

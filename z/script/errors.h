@@ -29,6 +29,7 @@ namespace z
             {
                 NONE = 0,
 
+                //scanner errors
                 INVALID_IDENTIFIER,
                 INVALID_NUMBER_BASE2,
                 INVALID_NUMBER_BASE8,
@@ -50,14 +51,16 @@ namespace z
                 MISSING_R_BRACKET,
 
                 MISSING_L_BRACE,
-                MISSING_R_BRACE, //16
+                MISSING_R_BRACE,
 
 
+                //lexer errors
                 SYNTAX_ERROR,
                 UNEXPECTED_OPERATOR,
                 STMT_OUTSIDE_FUNCTION,
 
 
+                //operation errors
                 INVALID_OPER_STRING,
                 INVALID_OPER_ARRAY,
 
@@ -66,6 +69,7 @@ namespace z
                 FACTORIAL_OVERFLOW,
                 FACTORIAL_NEGATIVE,
                 FACTORIAL_COMPLEX,
+
 
 
                 TOO_MANY_PARAMS,

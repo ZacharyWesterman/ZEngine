@@ -2,72 +2,14 @@
 <CodeBlocks_layout_file>
 	<FileVersion major="1" minor="0" />
 	<ActiveTarget name="Debug" />
-	<File name="z/script/errors.h" open="1" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="1569" topLine="63" />
-		</Cursor>
-	</File>
-	<File name="z/script/parser/syntaxRules/program.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="1588" topLine="0" />
-		</Cursor>
-	</File>
-	<File name="z/script/parser/constantFolder.h" open="0" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="954" topLine="20" />
-		</Cursor>
-	</File>
-	<File name="z/script/parser/scanner.h" open="0" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="463" topLine="0" />
-		</Cursor>
-	</File>
-	<File name="z/script/command_t.h" open="1" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="791" topLine="25" />
-		</Cursor>
-	</File>
-	<File name="z/script/parser/syntaxRules/statement.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="488" topLine="3" />
-		</Cursor>
-	</File>
-	<File name="z/script/parser/syntaxRules/identifierlist.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="491" topLine="0" />
-		</Cursor>
-	</File>
-	<File name="z/script/parser/lexer.h" open="0" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="2308" topLine="0" />
-		</Cursor>
-	</File>
-	<File name="z/script/parser/syntaxRules/list.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="480" topLine="6" />
-		</Cursor>
-	</File>
-	<File name="z/script/parser/syntaxRules/function_decl.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="1181" topLine="15" />
-		</Cursor>
-	</File>
 	<File name="z/script/parser/syntaxRules/operand.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
 			<Cursor1 position="1466" topLine="6" />
 		</Cursor>
 	</File>
-	<File name="main.cpp" open="1" top="1" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="z/script/parser/syntaxRules/exprlist.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="1843" topLine="50" />
-		</Cursor>
-		<Folding>
-			<Collapse line="21" />
-		</Folding>
-	</File>
-	<File name="z/script/parser/syntaxRules/addexpr.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="483" topLine="0" />
+			<Cursor1 position="484" topLine="36" />
 		</Cursor>
 	</File>
 	<File name="z/script/parser/phrase.h" open="0" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
@@ -80,22 +22,24 @@
 			<Cursor1 position="484" topLine="12" />
 		</Cursor>
 	</File>
-	<File name="z/script/parser/includeIterator.h" open="0" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="636" topLine="0" />
-		</Cursor>
-		<Folding>
-			<Collapse line="58" />
-		</Folding>
-	</File>
-	<File name="z/script/parser/syntaxRules/exprlist.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="484" topLine="36" />
-		</Cursor>
-	</File>
 	<File name="z/script/function_t.h" open="1" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="1514" topLine="55" />
+			<Cursor1 position="1281" topLine="52" />
+		</Cursor>
+	</File>
+	<File name="z/script/parser/constantFolder.h" open="0" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="954" topLine="20" />
+		</Cursor>
+	</File>
+	<File name="z/script/parser/syntaxRules/addexpr.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="483" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="z/script/parser/syntaxRules/identifierlist.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="491" topLine="0" />
 		</Cursor>
 	</File>
 	<File name="z/script/data_t.h" open="0" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
@@ -112,9 +56,14 @@
 			<Collapse line="371" />
 		</Folding>
 	</File>
-	<File name="z/script/parser/syntaxRules/run_statement.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="z/script/parser/lexer.h" open="0" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="750" topLine="0" />
+			<Cursor1 position="2308" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="z/script/parser/syntaxRules/program.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="1588" topLine="0" />
 		</Cursor>
 	</File>
 	<File name="z/script/parser/syntaxRules/command.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
@@ -122,9 +71,60 @@
 			<Cursor1 position="486" topLine="0" />
 		</Cursor>
 	</File>
+	<File name="main.cpp" open="1" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="2634" topLine="120" />
+		</Cursor>
+		<Folding>
+			<Collapse line="21" />
+		</Folding>
+	</File>
+	<File name="z/script/parser/syntaxRules/statement.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="488" topLine="3" />
+		</Cursor>
+	</File>
+	<File name="z/script/parser/syntaxRules/run_statement.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="750" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="z/script/command_t.h" open="1" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="791" topLine="25" />
+		</Cursor>
+	</File>
+	<File name="z/script/parser/scanner.h" open="0" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="463" topLine="0" />
+		</Cursor>
+	</File>
 	<File name="z/script/parser/identity.h" open="0" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
 			<Cursor1 position="493" topLine="78" />
 		</Cursor>
+	</File>
+	<File name="z/script/parser/syntaxRules/function_decl.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="1181" topLine="15" />
+		</Cursor>
+	</File>
+	<File name="z/script/errors.h" open="1" top="1" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="1569" topLine="24" />
+		</Cursor>
+	</File>
+	<File name="z/script/parser/syntaxRules/list.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="480" topLine="6" />
+		</Cursor>
+	</File>
+	<File name="z/script/parser/includeIterator.h" open="0" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="636" topLine="0" />
+		</Cursor>
+		<Folding>
+			<Collapse line="58" />
+		</Folding>
 	</File>
 </CodeBlocks_layout_file>

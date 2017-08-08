@@ -173,6 +173,9 @@ namespace z
 
             core::dynamicStack<int> cleanup_stack;
 
+            bool error_check();
+
+
             ///phrase detection
             bool identifierlist();
             bool _command();
@@ -494,7 +497,10 @@ namespace z
                     }
                     else
                     {
-                        index++;
+                        if (error_check())
+                            index = 0;
+                        else
+                            index++;
                     }
                 }
 
@@ -518,6 +524,13 @@ namespace z
             return (progress == lex::DONE);
         }
 
+
+
+        template <typename CHAR>
+        bool lexer<CHAR>::error_check()
+        {
+            return false;
+        }
 
 
         ///debug

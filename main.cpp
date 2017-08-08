@@ -79,27 +79,56 @@ public:
 
 
 
-class cmd_vsync_enable : public command_t<char>
+class cmd_print : public command_t<char>
 {
     public:
-    cmd_vsync_enable() : command_t<char>({"enable","vsync"}, 0, 0) {}
-    ~cmd_vsync_enable() {}
+    cmd_print() : command_t<char>({"print"}, 0, 0) {}
+    ~cmd_print() {}
 
 
     bool call(const core::timeout& time)
     {
+        for (int i=0; i<params.size(); i++)
+            cout << params[i].string().str() << " ";
+        cout << endl;
+
+        return true;
+    }
+};
+
+class cmd_print_error : public command_t<char>
+{
+    public:
+    cmd_print_error() : command_t<char>({"print","error"}, 0, 0) {}
+    ~cmd_print_error() {}
+
+
+    bool call(const core::timeout& time)
+    {
+        cerr << "ERR: ";
+        for (int i=0; i<params.size(); i++)
+            cerr << params[i].string().str() << " ";
+        cerr << endl;
+
         return true;
     }
 };
 
 int main(int argc, char* argv[])
 {
-    /*cmd_vsync_enable cmd;
+    /*core::array< command_t<char>* > cmds;
+
+    cmds.add(new cmd_print);
+    cmds.add(new cmd_print_error);
 
 
-    for( int i=0; i<(cmd.name().size()); i++)
-        cout << cmd.name().at(i).str() << " ";
-    cout << endl;*/
+    cmds.at(0)->addParam("hello");
+    cmds.at(0)->call(-1);
+    cmds.at(0)->clear();
+
+    cmds.at(1)->addParam("hello");
+    cmds.at(1)->call(-1);
+    cmds.at(1)->clear();*/
 
     /*function_t<char>* f;
 

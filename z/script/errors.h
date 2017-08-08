@@ -54,6 +54,7 @@ namespace z
 
 
                 SYNTAX_ERROR,
+                MISSING_OPERAND,
 
 
                 INVALID_OPER_STRING,

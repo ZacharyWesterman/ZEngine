@@ -203,7 +203,7 @@ int main(int argc, char* argv[])
 
 
     if (AST)
-        delete AST;
+        script::delete_ast(AST);
 
     std::cout << "\nDone in " << iter << " iterations.\n";
 

@@ -10,7 +10,7 @@
  *
  * Author:          Zachary Westerman
  * Email:           zacharywesterman@yahoo.com
- * Last modified:   27 Jul. 2017
+ * Last modified:   7 Aug. 2017
 **/
 
 
@@ -498,7 +498,12 @@ namespace z
                     else
                     {
                         if (error_check())
+                        {
                             index = 0;
+                            current_node = NULL;
+
+                            progress = lex::GENERAL;
+                        }
                         else
                             index++;
                     }
@@ -529,6 +534,37 @@ namespace z
         template <typename CHAR>
         bool lexer<CHAR>::error_check()
         {
+            //unexpected operator
+            if ((phrase_nodes[index]->type >= ident::OPER_ASSIGN) &&
+                (phrase_nodes[index]->type <= ident::OPER_L_ARROW))
+            {
+                error_buffer.add(parser_error<CHAR>(phrase_nodes[index]->line,
+                                                    phrase_nodes[index]->column,
+                                                    error::UNEXPECTED_OPERATOR,
+                                                    phrase_nodes[index]->file
+                                                    ));
+
+                delete phrase_nodes[index];
+                phrase_nodes.remove(index);
+
+                return true;
+            }
+            //statements outside of function declaration
+            else if (phrase_nodes[index]->type == ident::SEMICOLON)
+            {
+                error_buffer.add(parser_error<CHAR>(phrase_nodes[index]->line,
+                                                    phrase_nodes[index]->column,
+                                                    error::STMT_OUTSIDE_FUNCTION,
+                                                    phrase_nodes[index]->file
+                                                    ));
+
+                delete phrase_nodes[index];
+                phrase_nodes.remove(index);
+
+                return true;
+            }
+            //statement outside of a function declaration
+
             return false;
         }
 

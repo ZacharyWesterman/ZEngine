@@ -2193,7 +2193,7 @@
 
 1489353285 c:\users\zachary\documents\github\zengine\\z\script\errors.h
 
-1501734254 source:/home/zwesterman/GitHub/ZEngine/main.cpp
+1502160806 source:/home/zwesterman/GitHub/ZEngine/main.cpp
 	<z/core.h>
 	<z/math.h>
 	"z/script/parser/includeIterator.h"
@@ -2326,7 +2326,7 @@
 	"../data_t.h"
 	"../errors.h"
 
-1501733077 /home/zwesterman/GitHub/ZEngine/z/script/errors.h
+1502161000 /home/zwesterman/GitHub/ZEngine/z/script/errors.h
 	<z/core/string.h>
 
 1492812797 /home/zwesterman/GitHub/zLibraries/z/core/timeout.h
@@ -2348,7 +2348,7 @@
 1494798455 /home/zwesterman/GitHub/zLibraries/z/file/directoryOperations.h
 	<z/core/string.h>
 
-1501717900 /home/zwesterman/GitHub/ZEngine/z/script/parser/includeIterator.h
+1502161041 /home/zwesterman/GitHub/ZEngine/z/script/parser/includeIterator.h
 	<z/core/array.h>
 	<z/file/loadFileTimeout.h>
 	<z/file/directoryOperations.h>
@@ -2358,7 +2358,7 @@
 	"lexer.h"
 	<iostream>
 
-1501206687 /home/zwesterman/GitHub/ZEngine/z/script/parser/lexer.h
+1502161083 /home/zwesterman/GitHub/ZEngine/z/script/parser/lexer.h
 	<z/core/timeout.h>
 	<z/core/array.h>
 	<z/core/dynamicStack.h>
@@ -2497,7 +2497,7 @@
 
 1500178575 /home/zwesterman/GitHub/ZEngine/z/script/parser/syntaxRules/parenthexpr.h
 
-1500178597 /home/zwesterman/GitHub/ZEngine/z/script/parser/syntaxRules/factorialexpr.h
+1502159375 /home/zwesterman/GitHub/ZEngine/z/script/parser/syntaxRules/factorialexpr.h
 
 1500178628 /home/zwesterman/GitHub/ZEngine/z/script/parser/syntaxRules/add1expr.h
 

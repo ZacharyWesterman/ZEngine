@@ -7,7 +7,7 @@
  *
  * Author:          Zachary Westerman
  * Email:           zacharywesterman@yahoo.com
- * Last modified:   2 Aug. 2017
+ * Last modified:   7 Aug. 2017
 **/
 
 #pragma once
@@ -54,7 +54,8 @@ namespace z
 
 
                 SYNTAX_ERROR,
-                MISSING_OPERAND,
+                UNEXPECTED_OPERATOR,
+                STMT_OUTSIDE_FUNCTION,
 
 
                 INVALID_OPER_STRING,

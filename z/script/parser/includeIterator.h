@@ -13,7 +13,7 @@
  *
  * Author:          Zachary Westerman
  * Email:           zacharywesterman@yahoo.com
- * Last modified:   2 Aug. 2017
+ * Last modified:   7 Aug. 2017
 **/
 
 #pragma once
@@ -504,6 +504,14 @@ namespace z
 
                 case error::INCLUDE_LOAD_FAILED:
                     cout << "Unable to load include file.";
+                    break;
+
+                case error::UNEXPECTED_OPERATOR:
+                    cout << "Unexpected operator.";
+                    break;
+
+                case error::STMT_OUTSIDE_FUNCTION:
+                    cout << "Statement outside of function declaration.";
                     break;
 
                 default:

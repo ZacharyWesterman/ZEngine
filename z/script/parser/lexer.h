@@ -549,17 +549,37 @@ namespace z
 
                 return true;
             }
-            //statements outside of function declaration
+
             else if (phrase_nodes[index]->type == ident::SEMICOLON)
             {
-                error_buffer.add(parser_error<CHAR>(phrase_nodes[index]->line,
+                //statements outside of function declaration
+                if (phrase_nodes.is_valid(index-1) &&
+                    (phrase_nodes[index-1]->type == phrase::BOOLEXPR))
+                {
+                    error_buffer.add(parser_error<CHAR>(phrase_nodes[index]->line,
                                                     phrase_nodes[index]->column,
                                                     error::STMT_OUTSIDE_FUNCTION,
                                                     phrase_nodes[index]->file
                                                     ));
 
-                delete phrase_nodes[index];
-                phrase_nodes.remove(index);
+                    delete phrase_nodes[index];
+                    delete_ast(phrase_nodes[index-1]);
+
+                    phrase_nodes.remove(index);
+                    phrase_nodes.remove(index-1);
+                }
+                //misplaced semicolons
+                else
+                {
+                    error_buffer.add(parser_error<CHAR>(phrase_nodes[index]->line,
+                                                    phrase_nodes[index]->column,
+                                                    error::UNEXPECTED_SEMICOLON,
+                                                    phrase_nodes[index]->file
+                                                    ));
+
+                    delete phrase_nodes[index];
+                    phrase_nodes.remove(index);
+                }
 
                 return true;
             }

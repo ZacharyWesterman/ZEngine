@@ -58,6 +58,7 @@ namespace z
                 SYNTAX_ERROR,
                 UNEXPECTED_OPERATOR,
                 STMT_OUTSIDE_FUNCTION,
+                UNEXPECTED_SEMICOLON,
 
 
                 //operation errors

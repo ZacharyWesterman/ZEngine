@@ -7,7 +7,7 @@
  *
  * Author:          Zachary Westerman
  * Email:           zacharywesterman@yahoo.com
- * Last modified:   7 Aug. 2017
+ * Last modified:   8 Aug. 2017
 **/
 
 #pragma once
@@ -59,6 +59,9 @@ namespace z
                 UNEXPECTED_OPERATOR,
                 STMT_OUTSIDE_FUNCTION,
                 UNEXPECTED_SEMICOLON,
+                EXPECTED_PARENTHS,
+                EXPECTED_BRACES,
+                EXPECTED_BRACKETS,
 
 
                 //operation errors

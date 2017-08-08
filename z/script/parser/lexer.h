@@ -173,7 +173,12 @@ namespace z
 
             core::dynamicStack<int> cleanup_stack;
 
+            ///error checking
             bool error_check();
+
+            bool error_oper();
+            bool error_semicolon();
+            bool error_for();
 
 
             ///phrase detection
@@ -497,7 +502,10 @@ namespace z
                     }
                     else
                     {
-                        if (error_check())
+                        if (error_oper()        ||
+                            error_semicolon()   ||
+                            error_for()
+                            )
                         {
                             index = 0;
                             current_node = NULL;
@@ -532,7 +540,7 @@ namespace z
 
 
         template <typename CHAR>
-        bool lexer<CHAR>::error_check()
+        bool lexer<CHAR>::error_oper()
         {
             //unexpected operator
             if ((phrase_nodes[index]->type >= ident::OPER_ASSIGN) &&
@@ -550,7 +558,14 @@ namespace z
                 return true;
             }
 
-            else if (phrase_nodes[index]->type == ident::SEMICOLON)
+            return false;
+        }
+
+
+        template <typename CHAR>
+        bool lexer<CHAR>::error_semicolon()
+        {
+            if (phrase_nodes[index]->type == ident::SEMICOLON)
             {
                 //statements outside of function declaration
                 if (phrase_nodes.is_valid(index-1) &&
@@ -579,6 +594,72 @@ namespace z
 
                     delete phrase_nodes[index];
                     phrase_nodes.remove(index);
+                }
+
+                return true;
+            }
+
+
+            return false;
+        }
+
+
+        template <typename CHAR>
+        bool lexer<CHAR>::error_for()
+        {
+            //incomplete FOR statements
+            if (phrase_nodes[index]->type == ident::KEYWORD_FOR)
+            {
+                if (phrase_nodes.is_valid(index+1) &&
+                    (phrase_nodes[index+1]->type == ident::LPARENTH))
+                {
+                    int param_ct = 1;
+
+                    int i=index+1;
+                    while (phrase_nodes[i]->type != ident::RPARENTH)
+                    {
+                        if (phrase_nodes[i]->type == ident::SEMICOLON)
+                            param_ct++;
+
+                        i++;
+                    }
+
+                    if (phrase_nodes[i-1]->type == ident::SEMICOLON)
+                        param_ct--;
+
+
+                    if (param_ct > 3)
+                        error_buffer.add(parser_error<CHAR>(phrase_nodes[index]->line,
+                                                    phrase_nodes[index]->column,
+                                                    error::TOO_MANY_PARAMS,
+                                                    phrase_nodes[index]->file
+                                                    ));
+                    else if (param_ct < 3)
+                        error_buffer.add(parser_error<CHAR>(phrase_nodes[index]->line,
+                                                    phrase_nodes[index]->column,
+                                                    error::TOO_FEW_PARAMS,
+                                                    phrase_nodes[index]->file
+                                                    ));
+                    else
+                        return false;
+
+                    for (int j=i; j>=index; j--)
+                    {
+                        delete_ast(phrase_nodes[j]);
+                        phrase_nodes.remove(j);
+                    }
+                }
+                else
+                {
+                    error_buffer.add(parser_error<CHAR>(phrase_nodes[index]->line,
+                                                    phrase_nodes[index]->column,
+                                                    error::EXPECTED_PARENTHS,
+                                                    phrase_nodes[index]->file
+                                                    ));
+
+                    delete phrase_nodes[index];
+                    phrase_nodes.remove(index);
+
                 }
 
                 return true;

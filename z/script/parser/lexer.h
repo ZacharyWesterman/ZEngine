@@ -10,7 +10,7 @@
  *
  * Author:          Zachary Westerman
  * Email:           zacharywesterman@yahoo.com
- * Last modified:   7 Aug. 2017
+ * Last modified:   8 Aug. 2017
 **/
 
 
@@ -563,7 +563,7 @@ namespace z
 
                 return true;
             }
-            //statement outside of a function declaration
+
 
             return false;
         }

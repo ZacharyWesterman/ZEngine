@@ -11,7 +11,7 @@
  *
  * Author:          Zachary Westerman
  * Email:           zacharywesterman@yahoo.com
- * Last modified:   2 Aug. 2017
+ * Last modified:   8 Aug. 2017
 **/
 
 #pragma once
@@ -29,7 +29,13 @@ namespace z
                 ((phrase_nodes[index-1]->type == ident::LBRACE) ||
                  (phrase_nodes[index-1]->type == phrase::STATEMENT)))
             {
-                if (phrase_nodes.is_valid(index+1) &&
+                if (phrase_nodes[index]->type == ident::SEMICOLON)
+                {
+                    phrase_nodes[index]->type = phrase::STATEMENT;
+
+                    return true;
+                }
+                else if (phrase_nodes.is_valid(index+1) &&
                      ((((phrase_nodes[index]->type == phrase::BOOLEXPR) &&
                        !(((phrase_nodes[index-1]->type >= ident::OPER_ASSIGN) &&
                            (phrase_nodes[index-1]->type <= ident::OPER_MOD_ASSIGN)) ||

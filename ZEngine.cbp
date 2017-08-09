@@ -51,6 +51,9 @@
 		<Unit filename="z/script/parser/lexer.h" />
 		<Unit filename="z/script/parser/phrase.h" />
 		<Unit filename="z/script/parser/scanner.h" />
+		<Unit filename="z/script/parser/syntaxErrors/error_for.h" />
+		<Unit filename="z/script/parser/syntaxErrors/error_oper.h" />
+		<Unit filename="z/script/parser/syntaxErrors/error_semicolon.h" />
 		<Unit filename="z/script/parser/syntaxRules/add1expr.h" />
 		<Unit filename="z/script/parser/syntaxRules/addexpr.h" />
 		<Unit filename="z/script/parser/syntaxRules/assignexpr.h" />

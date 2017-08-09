@@ -2326,7 +2326,7 @@
 	"../data_t.h"
 	"../errors.h"
 
-1502233601 /home/zwesterman/GitHub/ZEngine/z/script/errors.h
+1502246959 /home/zwesterman/GitHub/ZEngine/z/script/errors.h
 	<z/core/string.h>
 
 1492812797 /home/zwesterman/GitHub/zLibraries/z/core/timeout.h
@@ -2348,7 +2348,7 @@
 1494798455 /home/zwesterman/GitHub/zLibraries/z/file/directoryOperations.h
 	<z/core/string.h>
 
-1502161204 /home/zwesterman/GitHub/ZEngine/z/script/parser/includeIterator.h
+1502247017 /home/zwesterman/GitHub/ZEngine/z/script/parser/includeIterator.h
 	<z/core/array.h>
 	<z/file/loadFileTimeout.h>
 	<z/file/directoryOperations.h>
@@ -2358,7 +2358,7 @@
 	"lexer.h"
 	<iostream>
 
-1502235400 /home/zwesterman/GitHub/ZEngine/z/script/parser/lexer.h
+1502246337 /home/zwesterman/GitHub/ZEngine/z/script/parser/lexer.h
 	<z/core/timeout.h>
 	<z/core/array.h>
 	<z/core/dynamicStack.h>
@@ -2418,6 +2418,9 @@
 	"syntaxRules/typedecl.h"
 	"syntaxRules/program.h"
 	"syntaxRules/stop_statement.h"
+	"syntaxErrors/error_oper.h"
+	"syntaxErrors/error_semicolon.h"
+	"syntaxErrors/error_for.h"
 
 1501206658 /home/zwesterman/GitHub/ZEngine/z/script/parser/phrase.h
 	<z/core/array.h>
@@ -2581,4 +2584,10 @@
 	<z/core/array.h>
 	<z/core/timeout.h>
 	"data_t.h"
+
+1502244663 /home/zwesterman/GitHub/ZEngine/z/script/parser/syntaxErrors/error_oper.h
+
+1502244852 /home/zwesterman/GitHub/ZEngine/z/script/parser/syntaxErrors/error_semicolon.h
+
+1502247038 /home/zwesterman/GitHub/ZEngine/z/script/parser/syntaxErrors/error_for.h
 

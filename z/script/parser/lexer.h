@@ -538,138 +538,6 @@ namespace z
         }
 
 
-
-        template <typename CHAR>
-        bool lexer<CHAR>::error_oper()
-        {
-            //unexpected operator
-            if ((phrase_nodes[index]->type >= ident::OPER_ASSIGN) &&
-                (phrase_nodes[index]->type <= ident::OPER_L_ARROW))
-            {
-                error_buffer.add(parser_error<CHAR>(phrase_nodes[index]->line,
-                                                    phrase_nodes[index]->column,
-                                                    error::UNEXPECTED_OPERATOR,
-                                                    phrase_nodes[index]->file
-                                                    ));
-
-                delete phrase_nodes[index];
-                phrase_nodes.remove(index);
-
-                return true;
-            }
-
-            return false;
-        }
-
-
-        template <typename CHAR>
-        bool lexer<CHAR>::error_semicolon()
-        {
-            if (phrase_nodes[index]->type == ident::SEMICOLON)
-            {
-                //statements outside of function declaration
-                if (phrase_nodes.is_valid(index-1) &&
-                    (phrase_nodes[index-1]->type == phrase::BOOLEXPR))
-                {
-                    error_buffer.add(parser_error<CHAR>(phrase_nodes[index]->line,
-                                                    phrase_nodes[index]->column,
-                                                    error::STMT_OUTSIDE_FUNCTION,
-                                                    phrase_nodes[index]->file
-                                                    ));
-
-                    delete phrase_nodes[index];
-                    delete_ast(phrase_nodes[index-1]);
-
-                    phrase_nodes.remove(index);
-                    phrase_nodes.remove(index-1);
-                }
-                //misplaced semicolons
-                else
-                {
-                    error_buffer.add(parser_error<CHAR>(phrase_nodes[index]->line,
-                                                    phrase_nodes[index]->column,
-                                                    error::UNEXPECTED_SEMICOLON,
-                                                    phrase_nodes[index]->file
-                                                    ));
-
-                    delete phrase_nodes[index];
-                    phrase_nodes.remove(index);
-                }
-
-                return true;
-            }
-
-
-            return false;
-        }
-
-
-        template <typename CHAR>
-        bool lexer<CHAR>::error_for()
-        {
-            //incomplete FOR statements
-            if (phrase_nodes[index]->type == ident::KEYWORD_FOR)
-            {
-                if (phrase_nodes.is_valid(index+1) &&
-                    (phrase_nodes[index+1]->type == ident::LPARENTH))
-                {
-                    int param_ct = 1;
-
-                    int i=index+1;
-                    while (phrase_nodes[i]->type != ident::RPARENTH)
-                    {
-                        if (phrase_nodes[i]->type == ident::SEMICOLON)
-                            param_ct++;
-
-                        i++;
-                    }
-
-                    if (phrase_nodes[i-1]->type == ident::SEMICOLON)
-                        param_ct--;
-
-
-                    if (param_ct > 3)
-                        error_buffer.add(parser_error<CHAR>(phrase_nodes[index]->line,
-                                                    phrase_nodes[index]->column,
-                                                    error::TOO_MANY_PARAMS,
-                                                    phrase_nodes[index]->file
-                                                    ));
-                    else if (param_ct < 3)
-                        error_buffer.add(parser_error<CHAR>(phrase_nodes[index]->line,
-                                                    phrase_nodes[index]->column,
-                                                    error::TOO_FEW_PARAMS,
-                                                    phrase_nodes[index]->file
-                                                    ));
-                    else
-                        return false;
-
-                    for (int j=i; j>=index; j--)
-                    {
-                        delete_ast(phrase_nodes[j]);
-                        phrase_nodes.remove(j);
-                    }
-                }
-                else
-                {
-                    error_buffer.add(parser_error<CHAR>(phrase_nodes[index]->line,
-                                                    phrase_nodes[index]->column,
-                                                    error::EXPECTED_PARENTHS,
-                                                    phrase_nodes[index]->file
-                                                    ));
-
-                    delete phrase_nodes[index];
-                    phrase_nodes.remove(index);
-
-                }
-
-                return true;
-            }
-
-
-            return false;
-        }
-
-
         ///debug
         template <typename CHAR>
         void print_lex_ast(int level, phrase_t<CHAR>* node)
@@ -705,7 +573,6 @@ namespace z
         }
     }
 }
-
 
 #include "syntaxRules/identifierlist.h"
 #include "syntaxRules/command.h"
@@ -760,6 +627,11 @@ namespace z
 #include "syntaxRules/typedecl.h"
 #include "syntaxRules/program.h"
 #include "syntaxRules/stop_statement.h"
+
+
+#include "syntaxErrors/error_oper.h"
+#include "syntaxErrors/error_semicolon.h"
+#include "syntaxErrors/error_for.h"
 
 
 #endif // LEXER_H_INCLUDED

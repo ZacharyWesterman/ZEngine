@@ -514,6 +514,18 @@ namespace z
                     cout << "Statement outside of function declaration.";
                     break;
 
+                case error::TOO_MANY_PARAMS:
+                    cout << "Statement contains too many parameters.";
+                    break;
+
+                case error::TOO_FEW_PARAMS:
+                    cout << "Statement contains too few parameters.";
+                    break;
+
+                case error::EXPECTED_PARAMETER:
+                    cout << "Expected parameters for statement.";
+                    break;
+
                 default:
                     cout << "Unhandled error " << (int)perr.err << ".";
                 }

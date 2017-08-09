@@ -62,6 +62,9 @@ namespace z
                 EXPECTED_PARENTHS,
                 EXPECTED_BRACES,
                 EXPECTED_BRACKETS,
+                EXPECTED_SEMICOLON,
+                EXPECTED_PARAMETER,
+                EXPECTED_STMT_BODY,
 
 
                 //operation errors

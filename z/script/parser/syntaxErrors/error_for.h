@@ -63,7 +63,7 @@ namespace z
                     {
                         index = i;
 
-                        if (phrase_nodes.is_valid())
+                        //if (phrase_nodes.is_valid())
 
                         return false;
                     }

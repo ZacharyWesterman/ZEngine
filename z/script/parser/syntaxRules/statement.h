@@ -27,6 +27,7 @@ namespace z
         {
             if (phrase_nodes.is_valid(index-1) &&
                 ((phrase_nodes[index-1]->type == ident::LBRACE) ||
+                 (phrase_nodes[index-1]->type == ident::RPARENTH) ||
                  (phrase_nodes[index-1]->type == phrase::STATEMENT)))
             {
                 if (phrase_nodes[index]->type == ident::SEMICOLON)

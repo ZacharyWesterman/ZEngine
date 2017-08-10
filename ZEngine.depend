@@ -2326,7 +2326,7 @@
 	"../data_t.h"
 	"../errors.h"
 
-1502246959 /home/zwesterman/GitHub/ZEngine/z/script/errors.h
+1502247169 /home/zwesterman/GitHub/ZEngine/z/script/errors.h
 	<z/core/string.h>
 
 1492812797 /home/zwesterman/GitHub/zLibraries/z/core/timeout.h
@@ -2442,7 +2442,7 @@
 
 1501735355 /home/zwesterman/GitHub/ZEngine/z/script/parser/syntaxRules/command.h
 
-1502218035 /home/zwesterman/GitHub/ZEngine/z/script/parser/syntaxRules/statement.h
+1502390901 /home/zwesterman/GitHub/ZEngine/z/script/parser/syntaxRules/statement.h
 
 1500174094 /home/zwesterman/GitHub/ZEngine/z/script/parser/syntaxRules/statementlist.h
 
@@ -2589,5 +2589,5 @@
 
 1502244852 /home/zwesterman/GitHub/ZEngine/z/script/parser/syntaxErrors/error_semicolon.h
 
-1502247038 /home/zwesterman/GitHub/ZEngine/z/script/parser/syntaxErrors/error_for.h
+1502390850 /home/zwesterman/GitHub/ZEngine/z/script/parser/syntaxErrors/error_for.h
 

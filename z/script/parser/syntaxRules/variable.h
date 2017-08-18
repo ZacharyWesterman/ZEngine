@@ -32,8 +32,7 @@ namespace z
                         (phrase_nodes[index-1]->type == ident::KEYWORD_VAR) ||
                         (phrase_nodes[index-1]->type == ident::IDENTIFIER))) &&
                      !(phrase_nodes.is_valid(index+1) &&
-                       ((phrase_nodes[index+1]->type == ident::PERIOD) ||
-                       (phrase_nodes[index+1]->type == ident::LBRACKET) ||
+                       ((phrase_nodes[index+1]->type == ident::LBRACKET) ||
                        (phrase_nodes[index+1]->type == ident::LPARENTH) ||
                        (phrase_nodes[index+1]->type == ident::IDENTIFIER)))))
             {

@@ -30,12 +30,14 @@ namespace z
                     (phrase_nodes[index-1]->type == ident::KEYWORD_IN))))
             {
                 if (((phrase_nodes[index]->type == phrase::VARIABLE) &&
+                     !(phrase_nodes.is_valid(index-1) &&
+                       (phrase_nodes[index-1]->type == ident::PERIOD)) &&
                      (!(phrase_nodes.is_valid(index+1) &&
                        (phrase_nodes[index+1]->type >= ident::OPER_ASSIGN) &&
                        (phrase_nodes[index+1]->type <= ident::OPER_MOD_ASSIGN)) ||
                       (phrase_nodes.is_valid(index-1) &&
                        (phrase_nodes[index-1]->type >= ident::OPER_ASSIGN) &&
-                       (phrase_nodes[index-1]->type <= ident::OPER_LT_EQ)))) ||
+                       (phrase_nodes[index-1]->type <= ident::OPER_LT_EQ))) ) ||
                     (phrase_nodes[index]->type == ident::LITERAL) ||
                     (phrase_nodes[index]->type == phrase::DIMENSIONEXPR) ||
                     (phrase_nodes[index]->type == phrase::SIZEOFEXPR) ||

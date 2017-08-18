@@ -11,7 +11,7 @@
  *
  * Author:          Zachary Westerman
  * Email:           zacharywesterman@yahoo.com
- * Last modified:   15 Jul. 2017
+ * Last modified:   18 Aug. 2017
 **/
 
 #pragma once
@@ -46,8 +46,7 @@ namespace z
 
                 return true;
             }
-            else if ((phrase_nodes[index]->type == phrase::OPERAND) ||
-                     (phrase_nodes[index]->type == phrase::SIZEOFEXPR))
+            else if (phrase_nodes[index]->type == phrase::OPERAND)
             {
                 if (phrase_nodes[index]->orig_type == ident::NONE)
                     phrase_nodes[index]->orig_type = phrase_nodes[index]->type;

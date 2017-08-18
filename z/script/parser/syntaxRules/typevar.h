@@ -26,15 +26,9 @@ namespace z
         bool lexer<CHAR>::typevar()
         {
             if (phrase_nodes.is_valid(index+2) &&
-                (phrase_nodes[index]->type == ident::IDENTIFIER) &&
+                (phrase_nodes[index]->type == phrase::PARENTHEXPR) &&
                 (phrase_nodes[index+1]->type == ident::PERIOD) &&
-                ((phrase_nodes[index+2]->type == phrase::VARINDEX) ||
-                 ((phrase_nodes[index+2]->type == ident::IDENTIFIER) &&
-                  !(phrase_nodes.is_valid(index+3) &&
-                    ((phrase_nodes[index+3]->type == ident::LBRACKET) ||
-                     (phrase_nodes[index+3]->type == ident::LPARENTH) ||
-                     (phrase_nodes[index+3]->type == phrase::INDEXLIST) ||
-                     (phrase_nodes[index+3]->type == phrase::INDEX) )))))
+                (phrase_nodes[index+2]->type == phrase::VARIABLE))
             {
                 phrase_t<CHAR>* node = new phrase_t<CHAR>();
 

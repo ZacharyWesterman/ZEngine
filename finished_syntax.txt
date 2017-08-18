@@ -74,13 +74,13 @@ funccall	: IDENTIFIER ( )
 		| IDENTIFIER ( boolexpr )
 		| IDENTIFIER ( exprlist )
 
-type_funccall	: IDENTIFIER . funccall
+type_funccall	: parenthexpr . funccall
 
 varindex	: IDENTIFIER indexlist
 		| IDENTIFIER index
 
-typevar		: IDENTIFIER . IDENTIFIER ![ !(
-		| IDENTIFIER . varindex
+typevar		: parenthexpr . IDENTIFIER ![ !(
+		| parenthexpr . varindex
 
 variable	: IDENTIFIER !( ![ !.
 		| varindex

@@ -11,7 +11,7 @@
  *
  * Author:          Zachary Westerman
  * Email:           zacharywesterman@yahoo.com
- * Last modified:   15 Jul. 2017
+ * Last modified:   18 Aug. 2017
 **/
 
 #pragma once
@@ -26,7 +26,7 @@ namespace z
         bool lexer<CHAR>::type_funccall()
         {
             if (phrase_nodes.is_valid(index+2) &&
-                (phrase_nodes[index]->type == ident::IDENTIFIER) &&
+                (phrase_nodes[index]->type == phrase::PARENTHEXPR) &&
                 (phrase_nodes[index+1]->type == ident::PERIOD) &&
                 (phrase_nodes[index+2]->type == phrase::FUNCCALL))
             {

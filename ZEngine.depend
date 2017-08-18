@@ -2226,7 +2226,7 @@
 	"string/string_upper.h"
 	"string/string_remove_whiteSpace.h"
 
-1500690515 /home/zwesterman/GitHub/zLibraries/z/core/string/string.h
+1502688137 /home/zwesterman/GitHub/zLibraries/z/core/string/string.h
 	<type_traits>
 	<complex>
 	"convert_char_type.h"
@@ -2358,7 +2358,7 @@
 	"lexer.h"
 	<iostream>
 
-1502246337 /home/zwesterman/GitHub/ZEngine/z/script/parser/lexer.h
+1503081953 /home/zwesterman/GitHub/ZEngine/z/script/parser/lexer.h
 	<z/core/timeout.h>
 	<z/core/array.h>
 	<z/core/dynamicStack.h>
@@ -2488,19 +2488,19 @@
 
 1500177280 /home/zwesterman/GitHub/ZEngine/z/script/parser/syntaxRules/funccall.h
 
-1500177312 /home/zwesterman/GitHub/ZEngine/z/script/parser/syntaxRules/type_funccall.h
+1503080232 /home/zwesterman/GitHub/ZEngine/z/script/parser/syntaxRules/type_funccall.h
 
 1500177353 /home/zwesterman/GitHub/ZEngine/z/script/parser/syntaxRules/varindex.h
 
-1500177378 /home/zwesterman/GitHub/ZEngine/z/script/parser/syntaxRules/typevar.h
+1503081471 /home/zwesterman/GitHub/ZEngine/z/script/parser/syntaxRules/typevar.h
 
-1500177437 /home/zwesterman/GitHub/ZEngine/z/script/parser/syntaxRules/variable.h
+1503081914 /home/zwesterman/GitHub/ZEngine/z/script/parser/syntaxRules/variable.h
 
-1500424637 /home/zwesterman/GitHub/ZEngine/z/script/parser/syntaxRules/operand.h
+1503081746 /home/zwesterman/GitHub/ZEngine/z/script/parser/syntaxRules/operand.h
 
-1500178575 /home/zwesterman/GitHub/ZEngine/z/script/parser/syntaxRules/parenthexpr.h
+1503080846 /home/zwesterman/GitHub/ZEngine/z/script/parser/syntaxRules/parenthexpr.h
 
-1502159375 /home/zwesterman/GitHub/ZEngine/z/script/parser/syntaxRules/factorialexpr.h
+1503081072 /home/zwesterman/GitHub/ZEngine/z/script/parser/syntaxRules/factorialexpr.h
 
 1500178628 /home/zwesterman/GitHub/ZEngine/z/script/parser/syntaxRules/add1expr.h
 
@@ -2556,11 +2556,9 @@
 	"../errors.h"
 	"phrase.h"
 
-1500457010 /home/zwesterman/GitHub/zLibraries/z/math/gcd.h
-	<complex>
+1502686912 /home/zwesterman/GitHub/zLibraries/z/math/gcd.h
 
-1501731734 /home/zwesterman/GitHub/zLibraries/z/math/remainder.h
-	<complex>
+1502686871 /home/zwesterman/GitHub/zLibraries/z/math/remainder.h
 
 1501206633 /home/zwesterman/GitHub/ZEngine/z/script/parser/syntaxRules/stop_statement.h
 
@@ -2589,5 +2587,5 @@
 
 1502244852 /home/zwesterman/GitHub/ZEngine/z/script/parser/syntaxErrors/error_semicolon.h
 
-1502390850 /home/zwesterman/GitHub/ZEngine/z/script/parser/syntaxErrors/error_for.h
+1502397182 /home/zwesterman/GitHub/ZEngine/z/script/parser/syntaxErrors/error_for.h
 

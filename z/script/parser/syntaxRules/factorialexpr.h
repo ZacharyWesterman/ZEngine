@@ -11,7 +11,7 @@
  *
  * Author:          Zachary Westerman
  * Email:           zacharywesterman@yahoo.com
- * Last modified:   15 Jul. 2017
+ * Last modified:   18 Aug. 2017
 **/
 
 #pragma once
@@ -47,7 +47,9 @@ namespace z
 
                 return true;
             }
-            else if (phrase_nodes[index]->type == phrase::PARENTHEXPR)
+            else if ((phrase_nodes[index]->type == phrase::PARENTHEXPR) &&
+                     !(phrase_nodes.is_valid(index+1) &&
+                       (phrase_nodes[index+1]->type == ident::PERIOD))) //prioritize type-vars over expressions
             {
                 if (phrase_nodes[index]->orig_type == ident::NONE)
                     phrase_nodes[index]->orig_type = phrase_nodes[index]->type;

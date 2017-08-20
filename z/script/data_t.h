@@ -146,6 +146,15 @@ namespace z
 
             ~data_t() {}
 
+            void clear()
+            {
+                d_type = data::NONE;
+                d_error = error::NONE;
+
+                d_string.clear();
+                d_array.clear();
+            }
+
             const bool operator==(const data_t&) const;
 
             inline const bool operator!=(const data_t& other) const

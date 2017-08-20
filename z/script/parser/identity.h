@@ -10,7 +10,7 @@
  *
  * Author:          Zachary Westerman
  * Email:           zacharywesterman@yahoo.com
- * Last modified:   27 Jul. 2017
+ * Last modified:   20 Aug. 2017
 **/
 
 #pragma once
@@ -166,11 +166,11 @@ namespace z
             data_t<CHAR> value;
 
             //keep track of the current file
-            int file;
+            core::string<CHAR>* file;
 
             ///full constructor
             ident_t (ident::ident_enum t = ident::NONE, int lin = 0, int col = 0,
-                     core::string<CHAR>* symbol_ptr = NULL, int fileID = -1)
+                     core::string<CHAR>* symbol_ptr = NULL, core::string<CHAR>* fileID = NULL)
             {
                 type = t;
 

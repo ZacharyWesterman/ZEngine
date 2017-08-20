@@ -65,7 +65,7 @@ namespace z
 
         public:
             //keep track of the current file
-            int file;
+            core::string<CHAR>* file;
 
             core::array< parser_error<CHAR> > error_buffer;
 
@@ -79,7 +79,7 @@ namespace z
 
                 clear();
 
-                file = -1;
+                file = NULL;
             }
 
             inline void setInput(core::string<CHAR>& string_input)
@@ -115,7 +115,7 @@ namespace z
                 error_buffer.clear();
                 done = false;
 
-                file = -1;
+                file = NULL;
             }
 
             inline bool error()

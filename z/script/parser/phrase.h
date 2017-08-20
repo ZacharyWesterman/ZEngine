@@ -121,7 +121,7 @@ namespace z
             core::array<phrase_t*> children;
 
             //keep track of what file this is
-            int file;
+            core::string<CHAR>* file;
 
             //empty constructor
             phrase_t()
@@ -137,7 +137,7 @@ namespace z
 
                 parent = NULL;
 
-                file = -1;
+                file = NULL;
             }
 
             //constructor from ident_t

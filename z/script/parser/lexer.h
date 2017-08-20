@@ -526,7 +526,7 @@ namespace z
             {
                 if (phrase_nodes.size() > 1)
                 {
-                    error_buffer.add(parser_error<CHAR>(-1, -1, error::SYNTAX_ERROR, -1));
+                    error_buffer.add(parser_error<CHAR>(-1, -1, error::SYNTAX_ERROR, NULL));
 
                     for (int n=0; n<phrase_nodes.size(); n++)
                     {

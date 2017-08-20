@@ -5,7 +5,7 @@
 
 #include "z/script/parser/constantFolder.h"
 
-#include "z/script/parser/semantic.h"
+#include "z/script/parser/semanticAnalyzer.h"
 
 
 #include <iostream>
@@ -17,6 +17,85 @@ using namespace script;
 using std::cout;
 using std::endl;
 
+///debug
+        template <typename CHAR>
+        void printErrors(const core::array< parser_error<CHAR> >& error_buffer)
+        {
+            for (int e=0; e<error_buffer.size(); e++)
+            {
+                parser_error<CHAR> perr = error_buffer[e];
+
+                cout << "Error ";
+
+                if (error_buffer[e].file)
+                {
+                    cout << "in \""
+                         << error_buffer[e].file->str()
+                         << "\" ";
+                }
+
+                    cout << "at line " << perr.line
+                         << ", column " << perr.column
+                         << " : ";
+
+
+                switch (perr.err)
+                {
+                case error::INVALID_IDENTIFIER:
+                    cout << "The symbol \"" << perr.extra_data.str() <<
+                            "\" contains illegal characters.";
+                    break;
+
+                case error::UNKNOWN_OPERATOR:
+                    cout << "Unknown operator \"" << perr.extra_data.str() <<
+                            "\".";
+                    break;
+
+                case error::AMBIGUOUS_EXPR:
+                    cout << "The expression \"" << perr.extra_data.str() <<
+                            "\" contains illegal characters.";
+                    break;
+
+                case error::SYNTAX_ERROR:
+                    cout << "Syntax error.";
+                    break;
+
+                case error::INVALID_INCLUDE:
+                    cout << "Include statement with no file name.";
+                    break;
+
+                case error::INCLUDE_LOAD_FAILED:
+                    cout << "Unable to load include file.";
+                    break;
+
+                case error::UNEXPECTED_OPERATOR:
+                    cout << "Unexpected operator.";
+                    break;
+
+                case error::STMT_OUTSIDE_FUNCTION:
+                    cout << "Statement outside of function declaration.";
+                    break;
+
+                case error::TOO_MANY_PARAMS:
+                    cout << "Statement contains too many parameters.";
+                    break;
+
+                case error::TOO_FEW_PARAMS:
+                    cout << "Statement contains too few parameters.";
+                    break;
+
+                case error::EXPECTED_PARAMETER:
+                    cout << "Expected parameters for statement.";
+                    break;
+
+                default:
+                    cout << "Unhandled error " << (int)perr.err << ".";
+                }
+
+                cout << endl;
+
+            }
+        }
 
 class func_sin : public function_t<char>
 {
@@ -135,32 +214,33 @@ int main(int argc, char* argv[])
 
 
     core::sortedRefArray< core::string<char>* > symbol_table;
+    core::sortedRefArray< core::string<char>* > file_list;
 
     //test the include iterator
-    z::script::includeIterator<char> sscan(&symbol_table);
+    z::script::includeIterator<char> genAST(&symbol_table, &file_list);
 
 
     z::core::string<char> input = c_in;
     //cout << input.str() << endl;
 
-    sscan.setInput(input, false);
+    genAST.setInput(input, false);
     //sscan.setOutput(identifiers);
 
     z::core::timeout time (-1);
 
     int iter = 1;
-    while (!sscan.build(time))
+    while (!genAST.build(time))
     {
         iter++;
         time.reset();
     }
 
-    sscan.printErrors();
+    printErrors(genAST.error_buffer);
 
     //cout << "\n------------------------------------\n\n";
     //cout << "AST before folding:\n\n";
 
-    z::script::phrase_t<char>* AST = sscan.moveResultAST();
+    z::script::phrase_t<char>* AST = genAST.moveResultAST();
 
     //z::script::print_lex_ast(0, AST);
 
@@ -182,12 +262,12 @@ int main(int argc, char* argv[])
     cout << "\n------------------------------------\n\n";
     cout << "AST after semantic analysis:\n\n";
 
-    z::script::semantic<char> Semantics(commands, functions);
+    z::script::semanticAnalyzer<char> semantics(commands, functions);
 
-    Semantics.setInput(AST);
+    semantics.setInput(AST);
 
     time.reset();
-    while (!Semantics.analyse(time))
+    while (!semantics.analyze(time))
     {
         iter++;
         time.reset();

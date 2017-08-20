@@ -7,7 +7,7 @@
  *
  * Author:          Zachary Westerman
  * Email:           zacharywesterman@yahoo.com
- * Last modified:   8 Aug. 2017
+ * Last modified:   20 Aug. 2017
 **/
 
 #pragma once
@@ -126,7 +126,7 @@ namespace z
 
             error_flag err;
 
-            int file;
+            core::string<CHAR>* file;
 
             core::string<CHAR> extra_data;
 
@@ -137,11 +137,11 @@ namespace z
 
                 err = error::NONE;
 
-                file = -1;
+                file = NULL;
             }
 
             parser_error(int Line, int Column, error_flag Error,
-                         const core::string<CHAR>& extra, int fileID)
+                         const core::string<CHAR>& extra, core::string<CHAR>* fileID)
             {
                 line = Line;
                 column = Column;
@@ -153,7 +153,7 @@ namespace z
                 file = fileID;
             }
 
-            parser_error(int Line, int Column, error_flag Error, int fileID)
+            parser_error(int Line, int Column, error_flag Error, core::string<CHAR>* fileID)
             {
                 line = Line;
                 column = Column;

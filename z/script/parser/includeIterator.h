@@ -13,7 +13,7 @@
  *
  * Author:          Zachary Westerman
  * Email:           zacharywesterman@yahoo.com
- * Last modified:   7 Aug. 2017
+ * Last modified:   20 Aug. 2017
 **/
 
 #pragma once
@@ -74,8 +74,8 @@ namespace z
 
             error_flag generic_error;
 
-            //index of this node's file
-            int file;
+            //pointer to this node's file
+            core::string<CHAR>* file;
 
             s_iter_node()
             {
@@ -83,7 +83,7 @@ namespace z
                 insert_index = -1;
                 generic_error = error::NONE;
 
-                file = -1;
+                file = NULL;
                 parent = -1;
             }
 
@@ -115,11 +115,10 @@ namespace z
         class includeIterator
         {
         private:
-            core::array< parser_error<CHAR> > error_buffer;
+            core::sortedRefArray< core::string<CHAR>* >* file_list;
 
-            core::array< core::string<CHAR> > file_list;
+            core::array< core::string<CHAR>* > files_in_use;
 
-            //core::string<CHAR>* full_output;
 
             file::loader<CHAR> fLoader;
 
@@ -141,20 +140,22 @@ namespace z
             void mergeIncludes();
 
         public:
+            core::array< parser_error<CHAR> > error_buffer;
 
-
-            includeIterator(core::sortedRefArray< core::string<CHAR>* >* symbol_table) :
+            includeIterator(core::sortedRefArray< core::string<CHAR>* >* symbol_table,
+                            core::sortedRefArray< core::string<CHAR>* >* _file_list) :
                             fScanner(symbol_table)
             {
-                //full_output = NULL;
 
                 found_error = false;
 
                 working_node = 0;
 
-                is_done = false;
+                is_done = true;
 
                 overall_progress = PROG_NONE;
+
+                file_list = _file_list;
             }
 
             ~includeIterator()
@@ -168,12 +169,12 @@ namespace z
                           bool is_file = false)
             {
                 node_list.clear();
-                file_list.clear();
+                files_in_use.clear();
                 error_buffer.clear();
 
                 working_node = 0;
 
-                is_done = false;
+                is_done = !file_list;
                 overall_progress = PROG_NONE;
 
                 if (is_file)
@@ -203,8 +204,6 @@ namespace z
             bool build(const core::timeout&);
 
             inline bool error() {return found_error;}
-
-            void printErrors();
 
             inline bool done() {return is_done;}
 
@@ -236,8 +235,15 @@ namespace z
                         fLoader.clear();
                         fLoader.setFileName(file);
 
-                        node_list[working_node].file = file_list.size();
-                        file_list.add(file);
+                        int fileID = file_list->find(&file);
+                        if (fileID < 0)
+                        {
+                            fileID = file_list->add(new core::string<CHAR>(file));
+                        }
+
+                        node_list[working_node].file = file_list->at(fileID);
+
+                        files_in_use.add(node_list[working_node].file);
 
                         node_list[working_node].progress = PROG_LOADING;
                     }
@@ -264,7 +270,7 @@ namespace z
                     else if (progress == PROG_SCAN_READY)
                     {
                         fScanner.clear();
-                        fScanner.file = file_list.size() - 1;
+                        fScanner.file = node_list[working_node].file;
                         fScanner.setInput(node_list[working_node].contents);
                         fScanner.setOutput(node_list[working_node].identities);
 
@@ -453,86 +459,6 @@ namespace z
                 }
             }
 
-        }
-
-        ///debug
-        template <typename CHAR>
-        void includeIterator<CHAR>::printErrors()
-        {
-            for (int e=0; e<error_buffer.size(); e++)
-            {
-                parser_error<CHAR> perr = error_buffer[e];
-
-                cout << "Error ";
-
-                if (error_buffer[e].file > -1)
-                {
-                    cout << "in \""
-                         << file_list[error_buffer[e].file].str()
-                         << "\" ";
-                }
-
-                    cout << "at line " << perr.line
-                         << ", column " << perr.column
-                         << " : ";
-
-
-                switch (perr.err)
-                {
-                case error::INVALID_IDENTIFIER:
-                    cout << "The symbol \"" << perr.extra_data.str() <<
-                            "\" contains illegal characters.";
-                    break;
-
-                case error::UNKNOWN_OPERATOR:
-                    cout << "Unknown operator \"" << perr.extra_data.str() <<
-                            "\".";
-                    break;
-
-                case error::AMBIGUOUS_EXPR:
-                    cout << "The expression \"" << perr.extra_data.str() <<
-                            "\" contains illegal characters.";
-                    break;
-
-                case error::SYNTAX_ERROR:
-                    cout << "Syntax error.";
-                    break;
-
-                case error::INVALID_INCLUDE:
-                    cout << "Include statement with no file name.";
-                    break;
-
-                case error::INCLUDE_LOAD_FAILED:
-                    cout << "Unable to load include file.";
-                    break;
-
-                case error::UNEXPECTED_OPERATOR:
-                    cout << "Unexpected operator.";
-                    break;
-
-                case error::STMT_OUTSIDE_FUNCTION:
-                    cout << "Statement outside of function declaration.";
-                    break;
-
-                case error::TOO_MANY_PARAMS:
-                    cout << "Statement contains too many parameters.";
-                    break;
-
-                case error::TOO_FEW_PARAMS:
-                    cout << "Statement contains too few parameters.";
-                    break;
-
-                case error::EXPECTED_PARAMETER:
-                    cout << "Expected parameters for statement.";
-                    break;
-
-                default:
-                    cout << "Unhandled error " << (int)perr.err << ".";
-                }
-
-                cout << endl;
-
-            }
         }
 
 

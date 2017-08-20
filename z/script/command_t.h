@@ -7,7 +7,7 @@
  *
  * Author:          Zachary Westerman
  * Email:           zacharywesterman@yahoo.com
- * Last modified:   2 Aug. 2017
+ * Last modified:   20 Aug. 2017
 **/
 
 #pragma once
@@ -30,6 +30,10 @@ namespace z
         {
         private:
             void* graphics_engine;
+            void* sound_engine;
+
+            bool graphics_required;
+            bool sound_required;
 
             core::array< core::string<CHAR> > cmd_name;
 
@@ -41,9 +45,12 @@ namespace z
 
         public:
             command_t(const core::array< core::string<CHAR> >& _name,
-                      int min_params = 0,
-                      int max_params = 0,
-                      void* _engine = NULL)
+                      int min_params = -1,
+                      int max_params = -1,
+                      void* _graphics_engine = NULL,
+                      void* _sound_engine = NULL,
+                      bool requires_graphics = false,
+                      bool requires_sound = false)
             {
                 cmd_name = _name;
 
@@ -53,7 +60,11 @@ namespace z
                 params_min = min_params;
                 params_max = max_params;
 
-                graphics_engine = _engine;
+                graphics_engine = _graphics_engine;
+                sound_engine = _sound_engine;
+
+                graphics_required = requires_graphics;
+                sound_required = requires_sound;
             }
 
             virtual ~command_t() {}
@@ -71,15 +82,34 @@ namespace z
             virtual bool call(const core::timeout&) = 0;
 
 
-            inline void setEngine(void* _engine)
+            inline void setGraphicsEngine(void* _engine, bool required = true)
             {
                 graphics_engine = _engine;
+                graphics_required = required;
+            }
+
+            inline void setSoundEngine(void* _engine, bool required = true)
+            {
+                sound_engine = _engine;
+                sound_required = required;
             }
 
             inline void clear()
-            {
-                params.clear();
-            }
+            { params.clear(); }
+
+
+            inline bool requiresGraphics() const
+            { return graphics_required; }
+
+            inline bool requiresSound() const
+            { return sound_required; }
+
+
+            inline void* graphicsEngine() const
+            { return graphics_engine; }
+
+            inline void* soundEngine() const
+            { return sound_engine; }
 
 
             inline const core::array< core::string<CHAR> >& name() const

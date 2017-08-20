@@ -94,7 +94,6 @@ namespace z
 
                 PROGRAM,
 
-                COMMAND,
                 FUNCCALL_BUILTIN,
 
                 LX_COUNT

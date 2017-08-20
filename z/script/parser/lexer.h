@@ -127,7 +127,6 @@ namespace z
             "int_decllist",
             "typedecl",
             "program",
-            "command",
             "funccall_builtin"
         };
 

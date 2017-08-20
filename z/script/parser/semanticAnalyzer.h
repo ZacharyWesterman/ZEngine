@@ -115,7 +115,26 @@ namespace z
         template <typename CHAR>
         bool semanticAnalyzer<CHAR>::analyze(const core::timeout& time)
         {
-            return true;
+            while (!is_done && !time.timedOut())
+            {
+                if (false)
+                {
+
+                }
+                else
+                {
+                    if (index >= (root->children).size())
+                    {
+                        exit_node();
+                    }
+                    else
+                    {
+                        enter_node(index);
+                    }
+                }
+            }
+
+            return is_done;
         }
     }
 }

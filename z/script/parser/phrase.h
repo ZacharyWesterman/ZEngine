@@ -8,7 +8,7 @@
  *
  * Author:          Zachary Westerman
  * Email:           zacharywesterman@yahoo.com
- * Last modified:   27 Jul. 2017
+ * Last modified:   20 Aug. 2017
 **/
 
 
@@ -93,6 +93,9 @@ namespace z
                 TYPEDECL,
 
                 PROGRAM,
+
+                COMMAND,
+                FUNCCALL_BUILTIN,
 
                 LX_COUNT
             };

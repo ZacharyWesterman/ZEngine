@@ -126,7 +126,9 @@ namespace z
             "function_decl",
             "int_decllist",
             "typedecl",
-            "program"
+            "program",
+            "command",
+            "funccall_builtin"
         };
 
         namespace lex

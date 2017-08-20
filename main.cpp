@@ -5,8 +5,8 @@
 
 #include "z/script/parser/constantFolder.h"
 
-#include "z/script/function_t.h"
-#include "z/script/command_t.h"
+#include "z/script/parser/semantic.h"
+
 
 #include <iostream>
 //using namespace std;
@@ -116,36 +116,16 @@ class cmd_print_error : public command_t<char>
 
 int main(int argc, char* argv[])
 {
-    /*core::array< command_t<char>* > cmds;
+    core::array< command_t<char>* > commands;
+    core::array< function_t<char>* > functions;
 
-    cmds.add(new cmd_print);
-    cmds.add(new cmd_print_error);
+    commands.add(new cmd_print);
+    commands.add(new cmd_print_error);
+
+    functions.add(new func_sin);
+    functions.add(new func_log);
 
 
-    cmds.at(0)->addParam("hello");
-    cmds.at(0)->call(-1);
-    cmds.at(0)->clear();
-
-    cmds.at(1)->addParam("hello");
-    cmds.at(1)->call(-1);
-    cmds.at(1)->clear();*/
-
-    /*function_t<char>* f;
-
-    f = new func_log;
-
-    for (double x = 1; x < 30; x *= math::e)
-    {
-        f->addParam(x);
-        f->addParam(math::e);
-        f->call(-1);
-
-        cout << (f->result().string().str()) << " : " << x << endl;
-
-        f->clear();
-    }
-
-    delete f;*/
 
     char c_in[128];
 
@@ -177,15 +157,15 @@ int main(int argc, char* argv[])
 
     sscan.printErrors();
 
-    cout << "\n------------------------------------\n\n";
-    cout << "AST before folding:\n\n";
+    //cout << "\n------------------------------------\n\n";
+    //cout << "AST before folding:\n\n";
 
     z::script::phrase_t<char>* AST = sscan.moveResultAST();
 
-    z::script::print_lex_ast(0, AST);
+    //z::script::print_lex_ast(0, AST);
 
-    cout << "\n------------------------------------\n\n";
-    cout << "AST after folding:\n\n";
+    //cout << "\n------------------------------------\n\n";
+    //cout << "AST after folding:\n\n";
 
     z::script::constantFolder<char> cFolder;
 
@@ -193,6 +173,21 @@ int main(int argc, char* argv[])
 
     time.reset();
     while (!cFolder.fold(time))
+    {
+        iter++;
+        time.reset();
+    }
+
+
+    cout << "\n------------------------------------\n\n";
+    cout << "AST after semantic analysis:\n\n";
+
+    z::script::semantic<char> Semantics(commands, functions);
+
+    Semantics.setInput(AST);
+
+    time.reset();
+    while (!Semantics.analyse(time))
     {
         iter++;
         time.reset();
@@ -207,18 +202,7 @@ int main(int argc, char* argv[])
 
     std::cout << "\nDone in " << iter << " iterations.\n";
 
-    //S->clean();
 
-    //cout << "Scanned in " << iter << " iterations.\n";
-
-    //sscan.error() ? (cout << "Found error(s)" << endl) : (cout << "No errors." << endl);
-
-
-    //S->clean();
-
-    //cout << "Lexed in " << iter << " iterations.\n";
-
-    //llexr.error() ? (cout << "Found error(s)" << endl) : (cout << "No errors." << endl);*/
 
     /*
     cout << endl;

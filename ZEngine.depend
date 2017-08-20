@@ -2193,13 +2193,12 @@
 
 1489353285 c:\users\zachary\documents\github\zengine\\z\script\errors.h
 
-1503258998 source:/home/zwesterman/GitHub/ZEngine/main.cpp
+1503262415 source:/home/zwesterman/GitHub/ZEngine/main.cpp
 	<z/core.h>
 	<z/math.h>
 	"z/script/parser/includeIterator.h"
 	"z/script/parser/constantFolder.h"
-	"z/script/function_t.h"
-	"z/script/command_t.h"
+	"z/script/parser/semantic.h"
 	<iostream>
 
 1501717461 /home/zwesterman/GitHub/zLibraries/z/core.h
@@ -2358,7 +2357,7 @@
 	"lexer.h"
 	<iostream>
 
-1503259264 /home/zwesterman/GitHub/ZEngine/z/script/parser/lexer.h
+1503260344 /home/zwesterman/GitHub/ZEngine/z/script/parser/lexer.h
 	<z/core/timeout.h>
 	<z/core/array.h>
 	<z/core/dynamicStack.h>
@@ -2422,7 +2421,7 @@
 	"syntaxErrors/error_semicolon.h"
 	"syntaxErrors/error_for.h"
 
-1503259284 /home/zwesterman/GitHub/ZEngine/z/script/parser/phrase.h
+1503260324 /home/zwesterman/GitHub/ZEngine/z/script/parser/phrase.h
 	<z/core/array.h>
 	"identity.h"
 
@@ -2588,4 +2587,12 @@
 1502244852 /home/zwesterman/GitHub/ZEngine/z/script/parser/syntaxErrors/error_semicolon.h
 
 1502397182 /home/zwesterman/GitHub/ZEngine/z/script/parser/syntaxErrors/error_for.h
+
+1503262541 /home/zwesterman/GitHub/ZEngine/z/script/parser/semantic.h
+	<z/core/dynamicStack.h>
+	<z/core/timeout.h>
+	"../errors.h"
+	"phrase.h"
+	"../command_t.h"
+	"../function_t.h"
 

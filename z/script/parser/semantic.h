@@ -23,6 +23,9 @@
 
 #include "phrase.h"
 
+#include "../command_t.h"
+#include "../function_t.h"
+
 #ifndef NULL
     #define NULL 0
 #endif // NULL
@@ -35,7 +38,8 @@ namespace z
         class semantic
         {
         private:
-            core::array< parser_error<CHAR> > error_buffer;
+            const core::array< command_t<CHAR>* >* commands;
+            const core::array< function_t<CHAR>* >* functions;
 
             phrase_t<CHAR>* root;
 
@@ -49,12 +53,18 @@ namespace z
 
 
         public:
-            semantic()
+            core::array< parser_error<CHAR> > error_buffer;
+
+            semantic(const core::array< command_t<CHAR>* >& _commands,
+                     const core::array< function_t<CHAR>* >& _functions)
             {
                 index = 0;
                 root = NULL;
 
                 is_done = true;
+
+                commands = &_commands;
+                functions = &_functions;
             };
 
             ~semantic(){};
@@ -73,6 +83,9 @@ namespace z
             inline bool error() {return (error_buffer.size() > 0);}
 
             inline bool done() {return is_done;}
+
+
+            bool analyse(const core::timeout&);
         };
 
 
@@ -93,6 +106,16 @@ namespace z
                 is_done = true;
             else
                 root = root->parent;
+        }
+
+
+
+        ///Main semantic analysis function.
+        //Returns true if finished, false otherwise.
+        template <typename CHAR>
+        bool semantic<CHAR>::analyse(const core::timeout& time)
+        {
+            return true;
         }
     }
 }

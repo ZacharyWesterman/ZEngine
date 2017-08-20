@@ -117,8 +117,6 @@ namespace z
         private:
             core::sortedRefArray< core::string<CHAR>* >* file_list;
 
-            core::array< core::string<CHAR>* > files_in_use;
-
 
             file::loader<CHAR> fLoader;
 
@@ -169,7 +167,6 @@ namespace z
                           bool is_file = false)
             {
                 node_list.clear();
-                files_in_use.clear();
                 error_buffer.clear();
 
                 working_node = 0;
@@ -242,8 +239,6 @@ namespace z
                         }
 
                         node_list[working_node].file = file_list->at(fileID);
-
-                        files_in_use.add(node_list[working_node].file);
 
                         node_list[working_node].progress = PROG_LOADING;
                     }
@@ -378,12 +373,13 @@ namespace z
                 if (node_list[working_node].identities[i].type == ident::KEYWORD_INCLUDE)
                 {
                     if (node_list[working_node].identities.is_valid(i+1) &&
-                        (node_list[working_node].identities[i+1].type == ident::STRING_LITERAL))
+                        (node_list[working_node].identities[i+1].type == ident::LITERAL) &&
+                        (node_list[working_node].identities[i+1].value.type() == data::STRING))
                     {
                         core::string<char> full_fname = node_list[working_node].directory;
                         if (full_fname.length())
                             full_fname += '\\';
-                        full_fname += *(node_list[working_node].identities[i+1].meta);
+                        full_fname += node_list[working_node].identities[i+1].value.string();
 
 
                         s_iter_node<CHAR> node;

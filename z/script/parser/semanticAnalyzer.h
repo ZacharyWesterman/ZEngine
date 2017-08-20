@@ -1,7 +1,7 @@
 /**
- * File:            lexer.h
+ * File:            semanticAnalyzer.h
  * Namespace:       z::script
- * Description:     Semantic analyser template. Checks
+ * Description:     Semantic analyzer template. Checks
  *                  for invalid semantics in the given
  *                  syntax tree. Additionally, indexes
  *                  variables, functions, types, and
@@ -14,8 +14,8 @@
 **/
 
 #pragma once
-#ifndef SEMANTIC_H_INCLUDED
-#define SEMANTIC_H_INCLUDED
+#ifndef SEMANTICANALYZER_H_INCLUDED
+#define SEMANTICANALYZER_H_INCLUDED
 
 #include <z/core/dynamicStack.h>
 #include <z/core/timeout.h>
@@ -35,7 +35,7 @@ namespace z
     namespace script
     {
         template <typename CHAR>
-        class semantic
+        class semanticAnalyzer
         {
         private:
             const core::array< command_t<CHAR>* >* commands;
@@ -55,7 +55,7 @@ namespace z
         public:
             core::array< parser_error<CHAR> > error_buffer;
 
-            semantic(const core::array< command_t<CHAR>* >& _commands,
+            semanticAnalyzer(const core::array< command_t<CHAR>* >& _commands,
                      const core::array< function_t<CHAR>* >& _functions)
             {
                 index = 0;
@@ -67,7 +67,7 @@ namespace z
                 functions = &_functions;
             };
 
-            ~semantic(){};
+            ~semanticAnalyzer(){};
 
 
             void setInput(phrase_t<CHAR>* new_root)
@@ -85,13 +85,13 @@ namespace z
             inline bool done() {return is_done;}
 
 
-            bool analyse(const core::timeout&);
+            bool analyze(const core::timeout&);
         };
 
 
 
         template <typename CHAR>
-        void semantic<CHAR>::enter_node(int entry)
+        void semanticAnalyzer<CHAR>::enter_node(int entry)
         {
             root = root->children[entry];
             index_stack.push(entry+1);
@@ -100,7 +100,7 @@ namespace z
         }
 
         template <typename CHAR>
-        void semantic<CHAR>::exit_node()
+        void semanticAnalyzer<CHAR>::exit_node()
         {
             if (!index_stack.pop(index))
                 is_done = true;
@@ -113,11 +113,11 @@ namespace z
         ///Main semantic analysis function.
         //Returns true if finished, false otherwise.
         template <typename CHAR>
-        bool semantic<CHAR>::analyse(const core::timeout& time)
+        bool semanticAnalyzer<CHAR>::analyze(const core::timeout& time)
         {
             return true;
         }
     }
 }
 
-#endif // SEMANTIC_H_INCLUDED
+#endif // SEMANTICANALYZER_H_INCLUDED

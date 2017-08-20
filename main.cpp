@@ -21,7 +21,7 @@ using std::endl;
 class func_sin : public function_t<char>
 {
 public:
-    func_sin() : function_t<char>("sin", 1, 1, true) {}
+    func_sin() : function_t<char>("sin", true, 1, 1) {}
     ~func_sin() {}
 
 
@@ -48,7 +48,7 @@ public:
 class func_log : public function_t<char>
 {
 public:
-    func_log() : function_t<char>("log", 1, 2, true) {}
+    func_log() : function_t<char>("log", true, 0, 0) {}
     ~func_log() {}
 
 
@@ -82,7 +82,7 @@ public:
 class cmd_print : public command_t<char>
 {
     public:
-    cmd_print() : command_t<char>({"print"}, 0, 0) {}
+    cmd_print() : command_t<char>({"print"}) {}
     ~cmd_print() {}
 
 
@@ -99,7 +99,7 @@ class cmd_print : public command_t<char>
 class cmd_print_error : public command_t<char>
 {
     public:
-    cmd_print_error() : command_t<char>({"print","error"}, 0, 0) {}
+    cmd_print_error() : command_t<char>({"print","error"}) {}
     ~cmd_print_error() {}
 
 

@@ -50,9 +50,9 @@ namespace z
         public:
 
             function_t(core::string<CHAR> _name,
+                       bool _constant = false,
                        int min_params = -1,
                        int max_params = -1,
-                       bool _constant = false,
                        void* _graphics_engine = NULL,
                        void* _sound_engine = NULL,
                        bool requires_graphics = false,

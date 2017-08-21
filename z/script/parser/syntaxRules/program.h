@@ -11,7 +11,7 @@
  *
  * Author:          Zachary Westerman
  * Email:           zacharywesterman@yahoo.com
- * Last modified:   15 Jul. 2017
+ * Last modified:   21 Aug. 2017
 **/
 
 #pragma once
@@ -30,7 +30,8 @@ namespace z
                 (phrase_nodes[index]->type == phrase::FUNCTION_DECL) ||
                 (phrase_nodes[index]->type == phrase::TYPEDECL) ||
                 (phrase_nodes[index]->type == phrase::EXTERNALDECL) ||
-                (phrase_nodes[index]->type == phrase::SHAREDDECL))
+                (phrase_nodes[index]->type == phrase::SHAREDDECL) ||
+                (phrase_nodes[index]->type == phrase::SUBROUTINE_DECL))
             {
                 phrase_t<CHAR>* node = new phrase_t<CHAR>();
 
@@ -57,7 +58,8 @@ namespace z
                       (phrase_nodes[index+1]->type == phrase::FUNCTION_DECL) ||
                       (phrase_nodes[index+1]->type == phrase::TYPEDECL) ||
                       (phrase_nodes[index+1]->type == phrase::EXTERNALDECL) ||
-                      (phrase_nodes[index+1]->type == phrase::SHAREDDECL)))
+                      (phrase_nodes[index+1]->type == phrase::SHAREDDECL) ||
+                      (phrase_nodes[index+1]->type == phrase::SUBROUTINE_DECL)))
             {
                 phrase_nodes[index+1]->parent = phrase_nodes[index];
 

@@ -206,12 +206,11 @@ int main(int argc, char* argv[])
 
 
 
-    char c_in[128];
+    //char c_in[128];
 
-    cout << "Input:\n\n";
+    //cout << "Input:\n\n";
 
-    cin.getline(c_in, 128, '\n');
-
+    //cin.getline(c_in, 128, '\n');
 
     core::sortedRefArray< core::string<char>* > symbol_table;
     core::sortedRefArray< core::string<char>* > file_list;
@@ -219,11 +218,10 @@ int main(int argc, char* argv[])
     //test the include iterator
     z::script::includeIterator<char> genAST(&symbol_table, &file_list);
 
-
-    z::core::string<char> input = c_in;
     //cout << input.str() << endl;
 
-    genAST.setInput(input, false);
+    z::core::string<char> input = "test.txt";
+    genAST.setInput(input, true);
     //sscan.setOutput(identifiers);
 
     z::core::timeout time (-1);

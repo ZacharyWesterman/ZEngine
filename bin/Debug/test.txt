@@ -1,0 +1,4 @@
+function main()
+{
+  print error to console{1};;;;
+}

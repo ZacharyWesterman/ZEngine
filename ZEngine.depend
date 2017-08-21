@@ -2193,7 +2193,7 @@
 
 1489353285 c:\users\zachary\documents\github\zengine\\z\script\errors.h
 
-1503267150 source:/home/zwesterman/GitHub/ZEngine/main.cpp
+1503274321 source:/home/zwesterman/GitHub/ZEngine/main.cpp
 	<z/core.h>
 	<z/math.h>
 	"z/script/parser/includeIterator.h"
@@ -2339,7 +2339,7 @@
 	"scanner.h"
 	<iostream>
 
-1498779565 /home/zwesterman/GitHub/zLibraries/z/file/loadFileTimeout.h
+1503273695 /home/zwesterman/GitHub/zLibraries/z/file/loadFileTimeout.h
 	<z/core/string.h>
 	<z/core/timeout.h>
 	<fstream>
@@ -2347,7 +2347,7 @@
 1494798455 /home/zwesterman/GitHub/zLibraries/z/file/directoryOperations.h
 	<z/core/string.h>
 
-1503268205 /home/zwesterman/GitHub/ZEngine/z/script/parser/includeIterator.h
+1503274082 /home/zwesterman/GitHub/ZEngine/z/script/parser/includeIterator.h
 	<z/core/array.h>
 	<z/file/loadFileTimeout.h>
 	<z/file/directoryOperations.h>
@@ -2441,7 +2441,7 @@
 
 1501735355 /home/zwesterman/GitHub/ZEngine/z/script/parser/syntaxRules/command.h
 
-1502390901 /home/zwesterman/GitHub/ZEngine/z/script/parser/syntaxRules/statement.h
+1503274682 /home/zwesterman/GitHub/ZEngine/z/script/parser/syntaxRules/statement.h
 
 1500174094 /home/zwesterman/GitHub/ZEngine/z/script/parser/syntaxRules/statementlist.h
 

@@ -1,6 +1,7 @@
 function main()
 {
-  x = 7;
+  var x;
+  y = 7;
 
-  print error to console{"erro\0r" + x};
+  foo z;
 }

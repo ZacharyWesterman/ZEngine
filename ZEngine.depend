@@ -2316,7 +2316,7 @@
 	"escape_sequences.h"
 	"identity.h"
 
-1503284030 /home/zwesterman/GitHub/ZEngine/z/script/parser/escape_sequences.h
+1503284092 /home/zwesterman/GitHub/ZEngine/z/script/parser/escape_sequences.h
 	<stdint.h>
 	<z/core/string.h>
 
@@ -2443,7 +2443,7 @@
 
 1503274915 /home/zwesterman/GitHub/ZEngine/z/script/parser/syntaxRules/statement.h
 
-1500174094 /home/zwesterman/GitHub/ZEngine/z/script/parser/syntaxRules/statementlist.h
+1503292349 /home/zwesterman/GitHub/ZEngine/z/script/parser/syntaxRules/statementlist.h
 
 1500174199 /home/zwesterman/GitHub/ZEngine/z/script/parser/syntaxRules/if_statement.h
 
@@ -2596,11 +2596,13 @@
 	"../command_t.h"
 	"../function_t.h"
 
-1503263309 /home/zwesterman/GitHub/ZEngine/z/script/parser/semanticAnalyzer.h
+1503292163 /home/zwesterman/GitHub/ZEngine/z/script/parser/semanticAnalyzer.h
+	<z/core/array.h>
 	<z/core/dynamicStack.h>
 	<z/core/timeout.h>
 	"../errors.h"
 	"phrase.h"
 	"../command_t.h"
 	"../function_t.h"
+	<iostream>
 

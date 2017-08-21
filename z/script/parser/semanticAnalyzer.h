@@ -17,6 +17,7 @@
 #ifndef SEMANTICANALYZER_H_INCLUDED
 #define SEMANTICANALYZER_H_INCLUDED
 
+#include <z/core/array.h>
 #include <z/core/dynamicStack.h>
 #include <z/core/timeout.h>
 #include "../errors.h"
@@ -30,10 +31,27 @@
     #define NULL 0
 #endif // NULL
 
+#include <iostream>
+using namespace std;
+
 namespace z
 {
     namespace script
     {
+        struct varSignature
+        {
+            void* ID;
+            void* type;
+        };
+
+        struct typeSignature
+        {
+            void* ID;
+
+            core::array<varSignature> vars;
+        };
+
+
         template <typename CHAR>
         class semanticAnalyzer
         {
@@ -48,9 +66,16 @@ namespace z
 
             bool is_done;
 
+
+
+            core::array< void* > type_list;
+
+
+
             void enter_node(int);
             void exit_node();
 
+            void appendType();
 
         public:
             core::array< parser_error<CHAR> > error_buffer;
@@ -86,6 +111,8 @@ namespace z
 
 
             bool analyze(const core::timeout&);
+
+
         };
 
 
@@ -117,22 +144,38 @@ namespace z
         {
             while (!is_done && !time.timedOut())
             {
-                if (false)
+                /*if (root->type == phrase::TYPEDECL)
                 {
-
-                }
-                else
-                {
-                    if (index >= (root->children).size())
+                    if ((root->children.size() > 1) &&
+                        (index < 1))
                     {
-                        exit_node();
+                        type_list.add(root->children[0]->meta);
+                        enter_node(1);
                     }
                     else
-                    {
+                        exit_node();
+                }*/
+                //else if (root->type == phrase::
+                //else
+                {
+                    if (index >= (root->children).size())
+                        exit_node();
+                    else
                         enter_node(index);
-                    }
                 }
             }
+
+            ///debug
+            /*if (is_done)
+            {
+                cout << "VARS:\n";
+                for (int i=0; i<type_list.size(); i++)
+                {
+                    cout << ((core::string<CHAR>*)type_list[i])->str() << endl;
+                }
+
+                cout << endl;
+            }*/
 
             return is_done;
         }

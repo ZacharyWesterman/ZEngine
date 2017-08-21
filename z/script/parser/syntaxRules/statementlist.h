@@ -11,7 +11,7 @@
  *
  * Author:          Zachary Westerman
  * Email:           zacharywesterman@yahoo.com
- * Last modified:   15 Jul. 2017
+ * Last modified:   20 Aug. 2017
 **/
 
 #pragma once
@@ -26,31 +26,40 @@ namespace z
         bool lexer<CHAR>::statementlist()
         {
             if (phrase_nodes.is_valid(index+1) &&
-                ((phrase_nodes[index]->type == phrase::STATEMENT) ||
-                 (phrase_nodes[index]->type == phrase::STATEMENTLIST)) &&
                 (phrase_nodes[index+1]->type == phrase::STATEMENT))
             {
-                phrase_t<CHAR>* node = new phrase_t<CHAR>();
+                if (phrase_nodes[index]->type == phrase::STATEMENT)
+                {
+                    phrase_t<CHAR>* node = new phrase_t<CHAR>();
 
-                node->type = phrase::STATEMENTLIST;
+                    node->type = phrase::STATEMENTLIST;
 
-                node->line = phrase_nodes[index]->line;
-                node->column = phrase_nodes[index]->column;
+                    node->line = phrase_nodes[index]->line;
+                    node->column = phrase_nodes[index]->column;
 
-                phrase_nodes[index]->parent = node;
-                phrase_nodes[index+1]->parent = node;
+                    phrase_nodes[index]->parent = node;
+                    phrase_nodes[index+1]->parent = node;
 
-                node->children.add(phrase_nodes[index]);
-                node->children.add(phrase_nodes[index+1]);
+                    node->children.add(phrase_nodes[index]);
+                    node->children.add(phrase_nodes[index+1]);
 
-                node->file = phrase_nodes[index]->file;
+                    node->file = phrase_nodes[index]->file;
 
-                phrase_nodes.replace(index, index+1, node);
+                    phrase_nodes.replace(index, index+1, node);
 
-                return true;
+                    return true;
+                }
+                else if (phrase_nodes[index]->type == phrase::STATEMENTLIST)
+                {
+                    phrase_nodes[index]->children.add(phrase_nodes[index+1]);
+                    phrase_nodes[index+1]->parent = phrase_nodes[index];
+                    phrase_nodes.remove(index+1);
+
+                    return true;
+                }
             }
-            else
-                return false;
+
+            return false;
         }
     }
 }

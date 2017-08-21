@@ -32,7 +32,10 @@ namespace z
             {
                 if (phrase_nodes[index]->type == ident::SEMICOLON)
                 {
-                    phrase_nodes[index]->type = phrase::STATEMENT;
+                    //phrase_nodes[index]->type = phrase::STATEMENT;
+
+                    delete phrase_nodes[index];
+                    phrase_nodes.remove(index);
 
                     return true;
                 }

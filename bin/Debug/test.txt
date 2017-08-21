@@ -1,4 +1,6 @@
 function main()
 {
-  print error to console{1};;;;
+  x = 7;
+
+  print error to console{"erro\0r" + x};
 }

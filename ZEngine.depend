@@ -2193,7 +2193,7 @@
 
 1489353285 c:\users\zachary\documents\github\zengine\\z\script\errors.h
 
-1503274321 source:/home/zwesterman/GitHub/ZEngine/main.cpp
+1503275070 source:/home/zwesterman/GitHub/ZEngine/main.cpp
 	<z/core.h>
 	<z/math.h>
 	"z/script/parser/includeIterator.h"
@@ -2307,7 +2307,7 @@
 
 1491800855 /home/zwesterman/GitHub/zLibraries/z/math/matrix.h
 
-1503267215 /home/zwesterman/GitHub/ZEngine/z/script/parser/scanner.h
+1503283572 /home/zwesterman/GitHub/ZEngine/z/script/parser/scanner.h
 	<limits>
 	<z/core/sortedArray.h>
 	<z/core/string.h>
@@ -2316,7 +2316,7 @@
 	"escape_sequences.h"
 	"identity.h"
 
-1495061246 /home/zwesterman/GitHub/ZEngine/z/script/parser/escape_sequences.h
+1503284030 /home/zwesterman/GitHub/ZEngine/z/script/parser/escape_sequences.h
 	<stdint.h>
 	<z/core/string.h>
 
@@ -2441,7 +2441,7 @@
 
 1501735355 /home/zwesterman/GitHub/ZEngine/z/script/parser/syntaxRules/command.h
 
-1503274682 /home/zwesterman/GitHub/ZEngine/z/script/parser/syntaxRules/statement.h
+1503274915 /home/zwesterman/GitHub/ZEngine/z/script/parser/syntaxRules/statement.h
 
 1500174094 /home/zwesterman/GitHub/ZEngine/z/script/parser/syntaxRules/statementlist.h
 

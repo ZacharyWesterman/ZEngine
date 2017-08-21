@@ -33,79 +33,86 @@ namespace z
                 NEWLINE,
                 TAB,
                 BACKSLASH,
+                NULLSYM,
 
                 ESC_SEQ_COUNT
             };
 
-            const core::string<char> CHAR_SEQ_NAMES[] =
+            static const core::string<char> SEQ_NAMES[] =
             {
                 "",//NONE
                 "\\\"",//QUOTE (\")
                 "\\n",//NEWLINE (\n)
                 "\\t",//TAB (\t)
                 "\\\\",//BACKSLASH (\)
+                "\\0",//NULL SYMBOL (\0)
             };
 
-            const core::string<wchar_t> WCHAR_T_SEQ_NAMES[] =
+            /*const core::string<wchar_t> WCHAR_T_SEQ_NAMES[] =
             {
                 L"",//NONE
                 L"\\\"",//QUOTE (\")
                 L"\\n",//NEWLINE (\n)
                 L"\\t",//TAB (\t)
                 L"\\\\",//BACKSLASH (\)
-            };
+            };*/
 
-            const core::string<char> CHAR_SEQ_EQUIV[] =
+            static const core::string<char> SEQ_EQUIV[] =
             {
                 "",//NONE
                 "\"",//QUOTE (\")
                 "\r\n",//NEWLINE (\n)
                 "\t",//TAB (\t)
                 "\\",//BACKSLASH (\)
+                "", //NULL SYMBOL (\0)
             };
 
-            const core::string<wchar_t> WCHAR_T_SEQ_EQUIV[] =
+            /*const core::string<wchar_t> WCHAR_T_SEQ_EQUIV[] =
             {
                 L"",//NONE
                 L"\"",//QUOTE (\")
                 L"\r\n",//NEWLINE (\n)
                 L"\t",//TAB (\t)
                 L"\\",//BACKSLASH (\)
-            };
+            };*/
         }
 
-        void esc_sequence_name(uint8_t escseq, core::string<char>& output)
+        template <typename CHAR>
+        void esc_sequence_name(uint8_t escseq, core::string<CHAR>& output)
         {
             if (escseq < ESC_SEQUENCE::ESC_SEQ_COUNT)
-                output = ESC_SEQUENCE::CHAR_SEQ_NAMES[escseq];
+                output = ESC_SEQUENCE::SEQ_NAMES[escseq];
             else
-                output = ESC_SEQUENCE::CHAR_SEQ_NAMES[0];
+                output = ESC_SEQUENCE::SEQ_NAMES[0];
         }
 
-        void esc_sequence_equiv(uint8_t escseq, core::string<char>& output)
+        template <typename CHAR>
+        void esc_sequence_equiv(uint8_t escseq, core::string<CHAR>& output)
         {
             if (escseq < ESC_SEQUENCE::ESC_SEQ_COUNT)
-                output = ESC_SEQUENCE::CHAR_SEQ_EQUIV[escseq];
+                output = ESC_SEQUENCE::SEQ_EQUIV[escseq];
             else
-                output = ESC_SEQUENCE::CHAR_SEQ_EQUIV[0];
+                output = ESC_SEQUENCE::SEQ_EQUIV[0];
         }
 
-        uint8_t what_esc_sequence(const core::string<char>& escseq, int position)
+        template <typename CHAR>
+        uint8_t what_esc_sequence(const core::string<CHAR>& escseq, int position)
         {
             for (uint8_t i=ESC_SEQUENCE::ESC_SEQ_COUNT-1; i>0; i--)
             {
-                if (escseq.foundAt(ESC_SEQUENCE::CHAR_SEQ_NAMES[i], position))
+                if (escseq.foundAt(ESC_SEQUENCE::SEQ_NAMES[i], position))
                     return i;
             }
 
             return ESC_SEQUENCE::NONE;
         }
 
-        uint8_t what_esc_sequence(const core::string<char>& escseq)
+        template <typename CHAR>
+        uint8_t what_esc_sequence(const core::string<CHAR>& escseq)
         {
             for (uint8_t i=ESC_SEQUENCE::ESC_SEQ_COUNT-1; i>0; i--)
             {
-                if (escseq == ESC_SEQUENCE::CHAR_SEQ_NAMES[i])
+                if (escseq == ESC_SEQUENCE::SEQ_NAMES[i])
                     return i;
             }
 
@@ -114,6 +121,7 @@ namespace z
 
 
 
+        /*
         void esc_sequence_name(uint8_t escseq, core::string<wchar_t>& output)
         {
             if (escseq < ESC_SEQUENCE::ESC_SEQ_COUNT)
@@ -150,7 +158,7 @@ namespace z
             }
 
             return ESC_SEQUENCE::NONE;
-        }
+        }*/
     }
 }
 

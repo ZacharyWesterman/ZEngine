@@ -566,6 +566,9 @@ namespace z
                 else
                     std::cout << symTypeStr[node->type];
 
+                if (node->type == phrase::VARIABLE)
+                    std::cout << " ID=" << node->metaValue;
+
                 std::cout << std::endl;
 
                 for (int i=0; i<(node->children.size()); i++)

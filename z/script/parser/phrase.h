@@ -8,7 +8,7 @@
  *
  * Author:          Zachary Westerman
  * Email:           zacharywesterman@yahoo.com
- * Last modified:   20 Aug. 2017
+ * Last modified:   22 Aug. 2017
 **/
 
 
@@ -113,7 +113,12 @@ namespace z
             int column;
 
             //optional data
-            void* meta;
+            union
+            {
+                void* meta;
+                unsigned long metaValue;
+            };
+
             data_t<CHAR> value;
 
 

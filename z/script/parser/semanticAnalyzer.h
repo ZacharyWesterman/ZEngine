@@ -38,18 +38,24 @@ namespace z
 {
     namespace script
     {
+        typedef unsigned long symID;
+
         struct varSignature
         {
             void* ID;
             void* type;
 
+            symID uniqueID;
+
             inline bool operator==(const varSignature& other) const
             { return (ID == other.ID); }
 
-            varSignature(void* _ID, void* _type = NULL)
+            varSignature(void* _ID, unsigned long _uniqueID = 0, void* _type = NULL)
             {
                 ID = _ID;
                 type = _type;
+
+                uniqueID = _uniqueID;
             }
         };
 
@@ -61,7 +67,6 @@ namespace z
 
             core::array< varScope > children;
 
-
             varScope(varScope* _parent = NULL)
             { parent = _parent; }
 
@@ -72,6 +77,8 @@ namespace z
             bool assignVar(const varSignature&);
 
             bool exists(const varSignature&);
+
+            symID getVarUniqueID(const varSignature&);
         };
 
         error_flag varScope::addVar(const varSignature& _var)
@@ -84,7 +91,7 @@ namespace z
             return error::NONE;
         }
 
-        //returns true if variable was previously defined, false otherwise.
+        //returns false if variable was previously defined, true otherwise.
         bool varScope::assignVar(const varSignature& _var)
         {
             if (!exists(_var))
@@ -100,7 +107,7 @@ namespace z
         {
             varScope* _scope = this;
 
-            while (_scope->vars.find(_var) == -1)
+            while (_scope->vars.find(_var) < 0)
             {
                 if (_scope->parent)
                     _scope = _scope->parent;
@@ -109,6 +116,25 @@ namespace z
             }
 
             return true;
+        }
+
+        symID varScope::getVarUniqueID(const varSignature& _var)
+        {
+            varScope* _scope = this;
+
+            int index = _scope->vars.find(_var);
+
+            while (index < 0)
+            {
+                if (_scope->parent)
+                    _scope = _scope->parent;
+                else
+                    return 0;
+
+                index = _scope->vars.find(_var);
+            }
+
+            return _scope->vars[index].uniqueID;
         }
 
 
@@ -123,7 +149,8 @@ namespace z
                     cout << "  ";
 
                 cout << "Tp=" << _scope.vars[i].type
-                     << ",ID=" << _scope.vars[i].ID << endl;
+                     << ",Nm=" << ((core::string<char>*)_scope.vars[i].ID)->str()
+                     << ",ID=" << _scope.vars[i].uniqueID << endl;
             }
 
             for (int i=0; i<_scope.children.size(); i++)
@@ -148,6 +175,7 @@ namespace z
             varScope global_scope;
             varScope* current_scope;
 
+            symID uniqueID_current;
 
 
 
@@ -164,6 +192,7 @@ namespace z
             void analyze_variable_decl();
             void analyze_function_decl();
             void analyze_assignexpr();
+            void analyze_variable();
 
         public:
             core::array< parser_error<CHAR> > error_buffer;
@@ -182,6 +211,8 @@ namespace z
 
                 global_scope.parent = NULL;
                 current_scope = &global_scope;
+
+                uniqueID_current = 1; //reserve 0 for NULL
             };
 
             ~semanticAnalyzer(){};
@@ -265,6 +296,10 @@ namespace z
                 {
                     analyze_function_decl();
                 }
+                else if (root->type == phrase::VARIABLE)
+                {
+                    analyze_variable();
+                }
                 else
                 {
                     if (index >= (root->children).size())
@@ -288,7 +323,7 @@ namespace z
         void semanticAnalyzer<CHAR>::analyze_variable_decl()
         {
             error_flag err =
-                current_scope->addVar(varSignature(root->children[0]->meta));
+                current_scope->addVar(varSignature(root->children[0]->meta, uniqueID_current++));
 
             if (err)
                 error_buffer.add(parser_error<CHAR>(root->line,
@@ -305,7 +340,7 @@ namespace z
         {
             if (index < 1)
             {
-                varSignature _var (root->children[0]->children[0]->meta);
+                varSignature _var (root->children[0]->children[0]->meta, uniqueID_current);
 
                 //if the variable we are assigning to has not already been declared,
                 //insert a variable declaration beforehand.
@@ -330,6 +365,7 @@ namespace z
                     varNode->line = root->line;
                     varNode->column = root->column;
                     varNode->file = root->file;
+                    varNode->metaValue = uniqueID_current;
 
                     varNode->children.add(IDnode);
                     IDnode->parent = varNode;
@@ -340,17 +376,22 @@ namespace z
                     prev_index++;
                     index_stack.push(prev_index);
 
-                    //varNode->children.add(phrase_nodes[index+1]);
 
+                    //root->children[0]->metaValue = uniqueID_current;
 
+                    //increment uniqueID
+                    uniqueID_current++;
                 }
 
+                enter_node(0);
+            }
+            else if (index < 2)
+            {
                 enter_node(2);
             }
             else
                 exit_node();
         }
-
 
         template <typename CHAR>
         void semanticAnalyzer<CHAR>::analyze_function_decl()
@@ -369,7 +410,23 @@ namespace z
             }
         }
 
+        template <typename CHAR>
+        void semanticAnalyzer<CHAR>::analyze_variable()
+        {
+            symID varID = current_scope->getVarUniqueID(
+                                    varSignature(root->children[0]->meta) );
 
+            if (!varID)
+                error_buffer.add(parser_error<CHAR>(root->line,
+                                                    root->column,
+                                                    error::VARIABLE_UNDECLARED,
+                                    *((core::string<CHAR>*)root->children[0]->meta),
+                                                    root->file));
+            else
+                root->metaValue = varID;
+
+            exit_node();
+        }
     }
 }
 

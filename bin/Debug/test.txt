@@ -1,8 +1,10 @@
-function main(a)
+var x;
+
+function main()
 {
-  var x;
-  y = x + 10;
-  var z;
-  var w;
-  w += 10 * z;
+    x = x + 10;
+
+    \\var x;
+
+    \\x = 12;
 }

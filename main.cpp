@@ -256,6 +256,8 @@ int main(int argc, char* argv[])
         time.reset();
     }
 
+    printErrors(cFolder.error_buffer);
+
 
     cout << "\n------------------------------------\n\n";
     cout << "AST after semantic analysis:\n\n";
@@ -273,6 +275,8 @@ int main(int argc, char* argv[])
 
 
     z::script::print_lex_ast(0, AST);
+
+    printErrors(semantics.error_buffer);
 
 
     if (AST)

@@ -2536,7 +2536,7 @@
 
 1500179822 /home/zwesterman/GitHub/ZEngine/z/script/parser/syntaxRules/typedecl.h
 
-1503359750 /home/zwesterman/GitHub/ZEngine/z/script/parser/syntaxRules/program.h
+1503359935 /home/zwesterman/GitHub/ZEngine/z/script/parser/syntaxRules/program.h
 
 1500176048 /home/zwesterman/GitHub/ZEngine/z/script/parser/syntaxRules/wait_statement.h
 
@@ -2597,7 +2597,7 @@
 	"../command_t.h"
 	"../function_t.h"
 
-1503359642 /home/zwesterman/GitHub/ZEngine/z/script/parser/semanticAnalyzer.h
+1503360147 /home/zwesterman/GitHub/ZEngine/z/script/parser/semanticAnalyzer.h
 	<z/core/array.h>
 	<z/core/dynamicStack.h>
 	<z/core/timeout.h>

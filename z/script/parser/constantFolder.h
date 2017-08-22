@@ -36,8 +36,6 @@ namespace z
         class constantFolder
         {
         private:
-            core::array< parser_error<CHAR> > error_buffer;
-
             phrase_t<CHAR>* root;
 
             int index;
@@ -64,6 +62,8 @@ namespace z
             void operate_add1expr();
 
         public:
+            core::array< parser_error<CHAR> > error_buffer;
+
             constantFolder()
             {
                 index = 0;

@@ -96,6 +96,10 @@ using std::endl;
                     cout << "Variable \"" << perr.extra_data.str() << "\" undeclared.";
                     break;
 
+                case error::UNEXPECTED_SEMICOLON:
+                    cout << "Unexpected semicolon.";
+                    break;
+
                 default:
                     cout << "Unhandled error " << (int)perr.err << ".";
                 }
@@ -243,12 +247,14 @@ int main(int argc, char* argv[])
 
     printErrors(genAST.error_buffer);
 
-    //cout << "\n------------------------------------\n\n";
-    //cout << "AST before folding:\n\n";
+    cout << "\n------------------------------------\n\n";
+    cout << "AST before folding:\n\n";
+
+
 
     z::script::phrase_t<char>* AST = genAST.moveResultAST();
 
-    //z::script::print_lex_ast(0, AST);
+    z::script::print_lex_ast(0, AST);
 
     //cout << "\n------------------------------------\n\n";
     //cout << "AST after folding:\n\n";

@@ -145,7 +145,8 @@ statement	: boolexpr ;
 statementlist	: statement statement
 		| statementlist statement
 
-dimensionexpr	: "dim" boolexpr
+dimensionexpr	: IDENTIFIER . "dim" ( boolexpr )
+		| dim ( boolexpr )
 
 foreach_statement:"for" "each" variable "in" variable statement
 		| "for" "each" variable "in" variable { statement }

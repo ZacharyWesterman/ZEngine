@@ -1,10 +1,9 @@
-var x;
-
+;
 function main()
 {
-    x = x + 10;
+    foo bar;
 
-    \\var x;
-
-    \\x = 12;
+    dim(10) + 1; ;
 }
+
+;

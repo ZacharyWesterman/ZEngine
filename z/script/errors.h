@@ -112,6 +112,8 @@ namespace z
                 VARIABLE_REDECLARED,
                 VARIABLE_UNDECLARED,
 
+                TYPE_MISMATCH,
+
                 UNDEFINED_ERROR,
 
                 ERROR_COUNT

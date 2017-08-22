@@ -5,5 +5,3 @@ function main()
 
     dim(10) + 1; ;
 }
-
-;

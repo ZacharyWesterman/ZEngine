@@ -100,6 +100,10 @@ using std::endl;
                     cout << "Unexpected semicolon.";
                     break;
 
+                case error::TYPE_MISMATCH:
+                    cout << "Expression contains mismatched types.";
+                    break;
+
                 default:
                     cout << "Unhandled error " << (int)perr.err << ".";
                 }

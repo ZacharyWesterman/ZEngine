@@ -79,6 +79,9 @@ namespace z
             bool exists(const varSignature&);
 
             symID getVarUniqueID(const varSignature&);
+            void* getVarType(const varSignature&);
+
+            varSignature getVariable(const varSignature&);
         };
 
         error_flag varScope::addVar(const varSignature& _var)
@@ -137,6 +140,44 @@ namespace z
             return _scope->vars[index].uniqueID;
         }
 
+        void* varScope::getVarType(const varSignature& _var)
+        {
+            varScope* _scope = this;
+
+            int index = _scope->vars.find(_var);
+
+            while (index < 0)
+            {
+                if (_scope->parent)
+                    _scope = _scope->parent;
+                else
+                    return NULL;
+
+                index = _scope->vars.find(_var);
+            }
+
+            return _scope->vars[index].type;
+        }
+
+        varSignature varScope::getVariable(const varSignature& _var)
+        {
+            varScope* _scope = this;
+
+            int index = _scope->vars.find(_var);
+
+            while (index < 0)
+            {
+                if (_scope->parent)
+                    _scope = _scope->parent;
+                else
+                    return varSignature(NULL);
+
+                index = _scope->vars.find(_var);
+            }
+
+            return _scope->vars[index];
+        }
+
 
         ///debug
         void printScope(const varScope& _scope, int padding = 0, int scopeNum = 0)
@@ -178,6 +219,7 @@ namespace z
             symID uniqueID_current;
 
 
+            core::dynamicStack<void*> typeStack;
 
             void enter_node(int);
             void exit_node();
@@ -193,6 +235,7 @@ namespace z
             void analyze_function_decl();
             void analyze_assignexpr();
             void analyze_variable();
+            void analyze_expression();
 
         public:
             core::array< parser_error<CHAR> > error_buffer;
@@ -299,6 +342,11 @@ namespace z
                 else if (root->type == phrase::VARIABLE)
                 {
                     analyze_variable();
+                }
+                else if ((root->type >= phrase::PARENTHEXPR) &&
+                         (root->type <= phrase::SIZEOFEXPR))
+                {
+                    analyze_expression();
                 }
                 else
                 {
@@ -413,8 +461,10 @@ namespace z
         template <typename CHAR>
         void semanticAnalyzer<CHAR>::analyze_variable()
         {
-            symID varID = current_scope->getVarUniqueID(
+            varSignature _var = current_scope->getVariable(
                                     varSignature(root->children[0]->meta) );
+
+            symID varID = _var.uniqueID;
 
             if (!varID)
                 error_buffer.add(parser_error<CHAR>(root->line,
@@ -423,9 +473,38 @@ namespace z
                                     *((core::string<CHAR>*)root->children[0]->meta),
                                                     root->file));
             else
+            {
                 root->metaValue = varID;
+                typeStack.push(_var.type);
+            }
 
             exit_node();
+        }
+
+        template <typename CHAR>
+        void semanticAnalyzer<CHAR>::analyze_expression()
+        {
+            if (index >= (root->children).size())
+            {
+                if ((root->children.size() > 2) ||
+                    (root->type == phrase::POWEREXPR))
+                {
+                    void* type1, type2;
+
+                    if (typeStack.pop(type1) &&
+                        typeStack.pop(type2))
+                    {
+                        if (type1 != type2)
+                        {
+
+                        }
+                    }
+                }
+
+                exit_node();
+            }
+            else
+                enter_node(index);
         }
     }
 }

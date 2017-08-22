@@ -44,7 +44,7 @@ namespace z
             void* type;
 
             inline bool operator==(const varSignature& other) const
-            { return (ID == other.ID) && (type == other.type); }
+            { return (ID == other.ID); }
 
             varSignature(void* _ID, void* _type = NULL)
             {
@@ -69,22 +69,46 @@ namespace z
             { return false; }
 
             error_flag addVar(const varSignature&);
-            void assignVar(const varSignature&);
+            bool assignVar(const varSignature&);
+
+            bool exists(const varSignature&);
         };
 
         error_flag varScope::addVar(const varSignature& _var)
         {
-            if (vars.find(_var) > -1)
-                return error::VARIABLE_REDEFINED;
+            for (int i=0; i<vars.size(); i++)
+                if ((vars[i].ID == _var.ID) && (vars[i].type == _var.type))
+                    return error::VARIABLE_REDEFINED;
 
             vars.add(_var);
             return error::NONE;
         }
 
-        inline void varScope::assignVar(const varSignature& _var)
+        //returns true if variable was previously defined, false otherwise.
+        bool varScope::assignVar(const varSignature& _var)
         {
-            if (vars.find(_var) == -1)
+            if (!exists(_var))
+            {
                 vars.add(_var);
+                return true;
+            }
+            else
+                return false;
+        }
+
+        bool varScope::exists(const varSignature& _var)
+        {
+            varScope* _scope = this;
+
+            while (_scope->vars.find(_var) == -1)
+            {
+                if (_scope->parent)
+                    _scope = _scope->parent;
+                else
+                    return false;
+            }
+
+            return true;
         }
 
 
@@ -135,6 +159,11 @@ namespace z
 
             void enter_scope();
             void exit_scope();
+
+
+            void analyze_variable_decl();
+            void analyze_function_decl();
+            void analyze_assignexpr();
 
         public:
             core::array< parser_error<CHAR> > error_buffer;
@@ -225,32 +254,16 @@ namespace z
                 //variable declaration
                 if (root->type == phrase::VARIABLE_DECL)
                 {
-                    error_flag err =
-                        current_scope->addVar(varSignature(root->children[0]->meta));
-
-                    if (err)
-                        error_buffer.add(parser_error<CHAR>(root->line,
-                                                            root->column,
-                                                            err,
-                                            *((core::string<CHAR>*)root->children[0]->meta),
-                                                            root->file));
-
-                    exit_node();
+                    analyze_variable_decl();
+                }
+                //variable assignment
+                else if (root->type == phrase::ASSIGNEXPR)
+                {
+                    analyze_assignexpr();
                 }
                 else if (root->type == phrase::FUNCTION_DECL)
                 {
-                    //register function signature
-
-                    if (index < 1)
-                    {
-                        enter_scope();
-                        enter_node(root->children.size() -1);
-                    }
-                    else
-                    {
-                        exit_scope();
-                        exit_node();
-                    }
+                    analyze_function_decl();
                 }
                 else
                 {
@@ -269,6 +282,93 @@ namespace z
 
             return is_done;
         }
+
+
+        template <typename CHAR>
+        void semanticAnalyzer<CHAR>::analyze_variable_decl()
+        {
+            error_flag err =
+                current_scope->addVar(varSignature(root->children[0]->meta));
+
+            if (err)
+                error_buffer.add(parser_error<CHAR>(root->line,
+                                                    root->column,
+                                                    err,
+                                    *((core::string<CHAR>*)root->children[0]->meta),
+                                                    root->file));
+
+            exit_node();
+        }
+
+        template <typename CHAR>
+        void semanticAnalyzer<CHAR>::analyze_assignexpr()
+        {
+            if (index < 1)
+            {
+                varSignature _var (root->children[0]->children[0]->meta);
+
+                //if the variable we are assigning to has not already been declared,
+                //insert a variable declaration beforehand.
+                if (current_scope->assignVar(_var))
+                {
+                    int prev_index;
+                    index_stack.pop(prev_index);
+
+                    //create new node (variable decl ID)
+                    phrase_t<CHAR>* IDnode = new phrase_t<CHAR>();
+
+                    IDnode->type = ident::IDENTIFIER;
+                    IDnode->line = root->line;
+                    IDnode->column = root->column;
+                    IDnode->file = root->file;
+                    IDnode->meta = root->children[0]->children[0]->meta;
+
+                    //create new node (variable declaration)
+                    phrase_t<CHAR>* varNode = new phrase_t<CHAR>();
+
+                    varNode->type = phrase::VARIABLE_DECL;
+                    varNode->line = root->line;
+                    varNode->column = root->column;
+                    varNode->file = root->file;
+
+                    varNode->children.add(IDnode);
+                    IDnode->parent = varNode;
+
+                    root->parent->children.insert(varNode, prev_index-1);
+                    varNode->parent = root->parent;
+
+                    prev_index++;
+                    index_stack.push(prev_index);
+
+                    //varNode->children.add(phrase_nodes[index+1]);
+
+
+                }
+
+                enter_node(2);
+            }
+            else
+                exit_node();
+        }
+
+
+        template <typename CHAR>
+        void semanticAnalyzer<CHAR>::analyze_function_decl()
+        {
+            //TODO: register function signature
+
+            if (index < 1)
+            {
+                enter_scope();
+                enter_node(root->children.size() -1);
+            }
+            else
+            {
+                exit_scope();
+                exit_node();
+            }
+        }
+
 
     }
 }

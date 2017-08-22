@@ -1,28 +1,8 @@
-var x;
-var y;
-
 function main(a)
 {
   var x;
-  var y;
-
-  var x;
-
-  gosub _SUB;
-}
-
-var t;
-
-function f()
-{
-  var x;
+  y = x + 10;
   var z;
-  var m;
-}
-
-sub _SUB
-{
-  x = 12;
-  return x;
-
+  var w;
+  w = 10 * z;
 }

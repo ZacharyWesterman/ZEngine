@@ -53,6 +53,14 @@ namespace z
                 VARIABLE_DECL,
                 TYPEVAR_DECL,
 
+                INT_DECLLIST,
+                TYPEDECL,
+
+                EXTERNALDECL,
+                SHAREDDECL,
+
+                FUNCTION_DECL,
+
                 RANGE,
                 RANGELIST,
                 INDEX,
@@ -81,16 +89,9 @@ namespace z
                 DIMENSIONEXPR,
                 SIZEOFEXPR,
 
-                EXTERNALDECL,
-                SHAREDDECL,
-
                 FORMALVARDECL,
                 FORMALTYPEDECL,
                 FORMALDECLLIST,
-                FUNCTION_DECL,
-
-                INT_DECLLIST,
-                TYPEDECL,
 
                 PROGRAM,
 

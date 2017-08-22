@@ -11,7 +11,7 @@
  *
  * Author:          Zachary Westerman
  * Email:           zacharywesterman@yahoo.com
- * Last modified:   20 Aug. 2017
+ * Last modified:   22 Aug. 2017
 **/
 
 #pragma once
@@ -25,21 +25,22 @@ namespace z
         template <typename CHAR>
         bool lexer<CHAR>::statement()
         {
-            if (phrase_nodes.is_valid(index-1) &&
+            if ((!phrase_nodes.is_valid(index-1) ||
+                  ((phrase_nodes[index-1]->type >= phrase::STATEMENTLIST) &&
+                   (phrase_nodes[index-1]->type <= phrase::FUNCTION_DECL)) ) &&
+                (phrase_nodes[index]->type == ident::SEMICOLON))
+            {
+                delete phrase_nodes[index];
+                phrase_nodes.remove(index);
+
+                return true;
+            }
+            else if (phrase_nodes.is_valid(index-1) &&
                 ((phrase_nodes[index-1]->type == ident::LBRACE) ||
                  (phrase_nodes[index-1]->type == ident::RPARENTH) ||
                  (phrase_nodes[index-1]->type == phrase::STATEMENT)))
             {
-                if (phrase_nodes[index]->type == ident::SEMICOLON)
-                {
-                    //phrase_nodes[index]->type = phrase::STATEMENT;
-
-                    delete phrase_nodes[index];
-                    phrase_nodes.remove(index);
-
-                    return true;
-                }
-                else if (phrase_nodes.is_valid(index+1) &&
+                if (phrase_nodes.is_valid(index+1) &&
                      ((((phrase_nodes[index]->type == phrase::BOOLEXPR) &&
                        !(((phrase_nodes[index-1]->type >= ident::OPER_ASSIGN) &&
                            (phrase_nodes[index-1]->type <= ident::OPER_MOD_ASSIGN)) ||

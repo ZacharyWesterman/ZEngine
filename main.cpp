@@ -88,6 +88,10 @@ using std::endl;
                     cout << "Expected parameters for statement.";
                     break;
 
+                case error::VARIABLE_REDEFINED:
+                    cout << "Variable \"" << perr.extra_data.str() << "\" redefined.";
+                    break;
+
                 default:
                     cout << "Unhandled error " << (int)perr.err << ".";
                 }

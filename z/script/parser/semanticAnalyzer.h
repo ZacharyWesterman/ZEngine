@@ -232,6 +232,7 @@ namespace z
                         error_buffer.add(parser_error<CHAR>(root->line,
                                                             root->column,
                                                             err,
+                                            *((core::string<CHAR>*)root->children[0]->meta),
                                                             root->file));
 
                     exit_node();

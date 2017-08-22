@@ -4,5 +4,5 @@ function main(a)
   y = x + 10;
   var z;
   var w;
-  w = 10 * z;
+  w += 10 * z;
 }

@@ -88,8 +88,12 @@ using std::endl;
                     cout << "Expected parameters for statement.";
                     break;
 
-                case error::VARIABLE_REDEFINED:
-                    cout << "Variable \"" << perr.extra_data.str() << "\" redefined.";
+                case error::VARIABLE_REDECLARED:
+                    cout << "Variable \"" << perr.extra_data.str() << "\" declared previously.";
+                    break;
+
+                case error::VARIABLE_UNDECLARED:
+                    cout << "Variable \"" << perr.extra_data.str() << "\" undeclared.";
                     break;
 
                 default:

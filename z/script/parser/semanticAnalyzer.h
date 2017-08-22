@@ -78,7 +78,7 @@ namespace z
         {
             for (int i=0; i<vars.size(); i++)
                 if ((vars[i].ID == _var.ID) && (vars[i].type == _var.type))
-                    return error::VARIABLE_REDEFINED;
+                    return error::VARIABLE_REDECLARED;
 
             vars.add(_var);
             return error::NONE;

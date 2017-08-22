@@ -1,7 +1,28 @@
-function main()
+var x;
+var y;
+
+function main(a)
 {
   var x;
-  y = 7;
+  var y;
 
-  foo z;
+  var x;
+
+  gosub _SUB;
+}
+
+var t;
+
+function f()
+{
+  var x;
+  var z;
+  var m;
+}
+
+sub _SUB
+{
+  x = 12;
+  return x;
+
 }

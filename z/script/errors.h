@@ -109,7 +109,7 @@ namespace z
                 FUNCTION_REQ_GRAPHICAL,
                 COMMAND_REQ_GRAPHICAL,
 
-
+                VARIABLE_REDEFINED,
 
                 UNDEFINED_ERROR,
 

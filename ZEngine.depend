@@ -2225,7 +2225,7 @@
 	"string/string_upper.h"
 	"string/string_remove_whiteSpace.h"
 
-1502688137 /home/zwesterman/GitHub/zLibraries/z/core/string/string.h
+1503340146 /home/zwesterman/GitHub/zLibraries/z/core/string/string.h
 	<type_traits>
 	<complex>
 	"convert_char_type.h"
@@ -2288,12 +2288,13 @@
 	<stdint.h>
 	<windows.h>
 
-1500457191 /home/zwesterman/GitHub/zLibraries/z/math.h
+1503339803 /home/zwesterman/GitHub/zLibraries/z/math.h
 	"math/constants.h"
 	"math/factorial.h"
 	"math/fibonacci.h"
 	"math/gcd.h"
 	"math/remainder.h"
+	"math/zeta.h"
 	"math/matrix.h"
 
 1500507726 /home/zwesterman/GitHub/zLibraries/z/math/constants.h
@@ -2325,7 +2326,7 @@
 	"../data_t.h"
 	"../errors.h"
 
-1503267095 /home/zwesterman/GitHub/ZEngine/z/script/errors.h
+1503357325 /home/zwesterman/GitHub/ZEngine/z/script/errors.h
 	<z/core/string.h>
 
 1492812797 /home/zwesterman/GitHub/zLibraries/z/core/timeout.h
@@ -2535,7 +2536,7 @@
 
 1500179822 /home/zwesterman/GitHub/ZEngine/z/script/parser/syntaxRules/typedecl.h
 
-1500179841 /home/zwesterman/GitHub/ZEngine/z/script/parser/syntaxRules/program.h
+1503359750 /home/zwesterman/GitHub/ZEngine/z/script/parser/syntaxRules/program.h
 
 1500176048 /home/zwesterman/GitHub/ZEngine/z/script/parser/syntaxRules/wait_statement.h
 
@@ -2596,7 +2597,7 @@
 	"../command_t.h"
 	"../function_t.h"
 
-1503292163 /home/zwesterman/GitHub/ZEngine/z/script/parser/semanticAnalyzer.h
+1503359642 /home/zwesterman/GitHub/ZEngine/z/script/parser/semanticAnalyzer.h
 	<z/core/array.h>
 	<z/core/dynamicStack.h>
 	<z/core/timeout.h>
@@ -2605,4 +2606,6 @@
 	"../command_t.h"
 	"../function_t.h"
 	<iostream>
+
+1503346638 /home/zwesterman/GitHub/zLibraries/z/math/zeta.h
 

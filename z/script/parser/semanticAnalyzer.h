@@ -10,7 +10,7 @@
  *
  * Author:          Zachary Westerman
  * Email:           zacharywesterman@yahoo.com
- * Last modified:   20 Aug. 2017
+ * Last modified:   21 Aug. 2017
 **/
 
 #pragma once
@@ -42,14 +42,70 @@ namespace z
         {
             void* ID;
             void* type;
+
+            inline bool operator==(const varSignature& other) const
+            { return (ID == other.ID) && (type == other.type); }
+
+            varSignature(void* _ID, void* _type = NULL)
+            {
+                ID = _ID;
+                type = _type;
+            }
         };
 
-        struct typeSignature
+        struct varScope
         {
-            void* ID;
+            varScope* parent;
 
-            core::array<varSignature> vars;
+            core::array< varSignature > vars;
+
+            core::array< varScope > children;
+
+
+            varScope(varScope* _parent = NULL)
+            { parent = _parent; }
+
+            inline bool operator==(const varScope& other) const
+            { return false; }
+
+            error_flag addVar(const varSignature&);
+            void assignVar(const varSignature&);
         };
+
+        error_flag varScope::addVar(const varSignature& _var)
+        {
+            if (vars.find(_var) > -1)
+                return error::VARIABLE_REDEFINED;
+
+            vars.add(_var);
+            return error::NONE;
+        }
+
+        inline void varScope::assignVar(const varSignature& _var)
+        {
+            if (vars.find(_var) == -1)
+                vars.add(_var);
+        }
+
+
+        ///debug
+        void printScope(const varScope& _scope, int padding = 0, int scopeNum = 0)
+        {
+            for (int i=0; i<_scope.vars.size(); i++)
+            {
+                cout << scopeNum << " ";
+
+                for (int i=0; i<padding; i++)
+                    cout << "  ";
+
+                cout << "Tp=" << _scope.vars[i].type
+                     << ",ID=" << _scope.vars[i].ID << endl;
+            }
+
+            for (int i=0; i<_scope.children.size(); i++)
+                printScope(_scope.children[i], padding+1, ++scopeNum);
+        }
+
 
 
         template <typename CHAR>
@@ -60,22 +116,25 @@ namespace z
             const core::array< function_t<CHAR>* >* functions;
 
             phrase_t<CHAR>* root;
-
             int index;
             core::dynamicStack<int> index_stack;
-
             bool is_done;
 
 
+            varScope global_scope;
+            varScope* current_scope;
 
-            core::array< void* > type_list;
 
 
 
             void enter_node(int);
             void exit_node();
 
+
             void appendType();
+
+            void enter_scope();
+            void exit_scope();
 
         public:
             core::array< parser_error<CHAR> > error_buffer;
@@ -90,6 +149,10 @@ namespace z
 
                 commands = &_commands;
                 functions = &_functions;
+
+
+                global_scope.parent = NULL;
+                current_scope = &global_scope;
             };
 
             ~semanticAnalyzer(){};
@@ -136,6 +199,21 @@ namespace z
         }
 
 
+        template <typename CHAR>
+        void semanticAnalyzer<CHAR>::enter_scope()
+        {
+            current_scope->children.add(varScope(current_scope));
+
+            current_scope = &current_scope->children[current_scope->children.size() -1];
+        }
+
+        template <typename CHAR>
+        void semanticAnalyzer<CHAR>::exit_scope()
+        {
+            if (current_scope->parent)
+                current_scope = current_scope->parent;
+        }
+
 
         ///Main semantic analysis function.
         //Returns true if finished, false otherwise.
@@ -144,19 +222,36 @@ namespace z
         {
             while (!is_done && !time.timedOut())
             {
-                /*if (root->type == phrase::TYPEDECL)
+                //variable declaration
+                if (root->type == phrase::VARIABLE_DECL)
                 {
-                    if ((root->children.size() > 1) &&
-                        (index < 1))
+                    error_flag err =
+                        current_scope->addVar(varSignature(root->children[0]->meta));
+
+                    if (err)
+                        error_buffer.add(parser_error<CHAR>(root->line,
+                                                            root->column,
+                                                            err,
+                                                            root->file));
+
+                    exit_node();
+                }
+                else if (root->type == phrase::FUNCTION_DECL)
+                {
+                    //register function signature
+
+                    if (index < 1)
                     {
-                        type_list.add(root->children[0]->meta);
-                        enter_node(1);
+                        enter_scope();
+                        enter_node(root->children.size() -1);
                     }
                     else
+                    {
+                        exit_scope();
                         exit_node();
-                }*/
-                //else if (root->type == phrase::
-                //else
+                    }
+                }
+                else
                 {
                     if (index >= (root->children).size())
                         exit_node();
@@ -166,19 +261,14 @@ namespace z
             }
 
             ///debug
-            /*if (is_done)
+            if (is_done)
             {
-                cout << "VARS:\n";
-                for (int i=0; i<type_list.size(); i++)
-                {
-                    cout << ((core::string<CHAR>*)type_list[i])->str() << endl;
-                }
-
-                cout << endl;
-            }*/
+                printScope(global_scope);
+            }
 
             return is_done;
         }
+
     }
 }
 

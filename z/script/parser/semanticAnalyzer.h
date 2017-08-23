@@ -86,9 +86,8 @@ namespace z
 
         error_flag varScope::addVar(const varSignature& _var)
         {
-            for (int i=0; i<vars.size(); i++)
-                if ((vars[i].ID == _var.ID) && (vars[i].type == _var.type))
-                    return error::VARIABLE_REDECLARED;
+            if (vars.find(_var) > -1)
+                return error::VARIABLE_REDECLARED;
 
             vars.add(_var);
             return error::NONE;
@@ -189,9 +188,9 @@ namespace z
                 for (int i=0; i<padding; i++)
                     cout << "  ";
 
-                cout << "Tp=" << _scope.vars[i].type
-                     << ",Nm=" << ((core::string<char>*)_scope.vars[i].ID)->str()
-                     << ",ID=" << _scope.vars[i].uniqueID << endl;
+                cout << "Tp=" << (_scope.vars[i].type ? ((core::string<char>*)_scope.vars[i].type)->str() : "var")
+                     << ",\tNm=" << ((core::string<char>*)_scope.vars[i].ID)->str()
+                     << ",\tID=" << _scope.vars[i].uniqueID << endl;
             }
 
             for (int i=0; i<_scope.children.size(); i++)
@@ -236,6 +235,7 @@ namespace z
             void analyze_assignexpr();
             void analyze_variable();
             void analyze_expression();
+            void analyze_typevar_decl();
 
         public:
             core::array< parser_error<CHAR> > error_buffer;
@@ -347,6 +347,10 @@ namespace z
                          (root->type <= phrase::SIZEOFEXPR))
                 {
                     analyze_expression();
+                }
+                else if (root->type == phrase::TYPEVAR_DECL)
+                {
+                    analyze_typevar_decl();
                 }
                 else
                 {
@@ -489,7 +493,7 @@ namespace z
                 if ((root->children.size() > 2) ||
                     (root->type == phrase::POWEREXPR))
                 {
-                    void* type1, type2;
+                    /*void* type1, type2;
 
                     if (typeStack.pop(type1) &&
                         typeStack.pop(type2))
@@ -498,13 +502,31 @@ namespace z
                         {
 
                         }
-                    }
+                    }*/
                 }
 
                 exit_node();
             }
             else
                 enter_node(index);
+        }
+
+        template <typename CHAR>
+        void semanticAnalyzer<CHAR>::analyze_typevar_decl()
+        {
+            error_flag err =
+                current_scope->addVar(varSignature(root->children[1]->meta,
+                                                   uniqueID_current++,
+                                                   root->children[0]->meta));
+
+            if (err)
+                error_buffer.add(parser_error<CHAR>(root->line,
+                                                    root->column,
+                                                    err,
+                                    *((core::string<CHAR>*)root->children[0]->meta),
+                                                    root->file));
+
+            exit_node();
         }
     }
 }

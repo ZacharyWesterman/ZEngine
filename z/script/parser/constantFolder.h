@@ -11,7 +11,7 @@
  *
  * Author:          Zachary Westerman
  * Email:           zacharywesterman@yahoo.com
- * Last modified:   27 Jul. 2017
+ * Last modified:   23 Aug. 2017
 **/
 
 #pragma once
@@ -389,33 +389,8 @@ namespace z
         template <typename CHAR>
         void constantFolder<CHAR>::operate_list()
         {
-            if ((index < (root->children.size())) &&
-                (root->children.size() > 0))
-            {
-                int found_nonliteral = -1;
-                for(int i=index; i<(root->children.size()); i++)
-                    if (root->children[i]->type != ident::LITERAL)
-                    {
-                        found_nonliteral = i;
-                        break;
-                    }
 
-                if (found_nonliteral == -1)
-                {
-                    root->value = core::array< data_t<CHAR> > {root->children[0]->value};
-
-                    for(int i=1; i<(root->children.size()); i++)
-                        root->value.array().add(root->children[i]->value);
-
-                    set_node_constant();
-                    append_oper_error();
-
-                    exit_node();
-                }
-                else
-                    enter_node(found_nonliteral);
-            }
-            else if (root->children.size() <= 0)
+            if (root->children.size() <= 0)
             {
                 root->value = core::array< data_t<CHAR> >{};
 
@@ -424,8 +399,36 @@ namespace z
 
                 exit_node();
             }
-            else
+            else if (index >= (root->children.size()))
+            {
+                bool found_nonliteral = false;
+                int i = 0;
+                while((i<(root->children.size())) &&
+                      !found_nonliteral)
+                {
+                    if (root->children[i]->type != ident::LITERAL)
+                    {
+                        found_nonliteral = true;
+                    }
+
+                    i++;
+                }
+
+                if (!found_nonliteral)
+                {
+                    root->value = core::array< data_t<CHAR> > {root->children[0]->value};
+
+                    for(int i=1; i<(root->children.size()); i++)
+                        root->value.array().add(root->children[i]->value);
+
+                    set_node_constant();
+                    append_oper_error();
+                }
+
                 exit_node();
+            }
+            else
+                enter_node(index);
         }
 
 

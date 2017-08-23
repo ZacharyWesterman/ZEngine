@@ -2326,7 +2326,7 @@
 	"../data_t.h"
 	"../errors.h"
 
-1503389263 /home/zwesterman/GitHub/ZEngine/z/script/errors.h
+1503472245 /home/zwesterman/GitHub/ZEngine/z/script/errors.h
 	<z/core/string.h>
 
 1492812797 /home/zwesterman/GitHub/zLibraries/z/core/timeout.h
@@ -2597,7 +2597,7 @@
 	"../command_t.h"
 	"../function_t.h"
 
-1503459240 /home/zwesterman/GitHub/ZEngine/z/script/parser/semanticAnalyzer.h
+1503513009 /home/zwesterman/GitHub/ZEngine/z/script/parser/semanticAnalyzer.h
 	<z/core/array.h>
 	<z/core/dynamicStack.h>
 	<z/core/timeout.h>

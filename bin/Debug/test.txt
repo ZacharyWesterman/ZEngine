@@ -1,7 +1,12 @@
-;
-function main()
+type foo
+{
+    var a;
+    var b;
+}
+
+function main() foo
 {
     foo bar;
 
-    x = bar + 1;
+    return bar;
 }

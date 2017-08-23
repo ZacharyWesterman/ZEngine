@@ -113,6 +113,7 @@ namespace z
                 VARIABLE_UNDECLARED,
 
                 TYPE_MISMATCH,
+                TYPE_DISALLOWED,
 
                 UNDEFINED_ERROR,
 

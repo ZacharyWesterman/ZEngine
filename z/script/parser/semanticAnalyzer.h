@@ -346,11 +346,11 @@ namespace z
                 {
                     analyze_variable();
                 }
-                else if ((root->type >= phrase::PARENTHEXPR) &&
+                /*else if ((root->type >= phrase::PARENTHEXPR) &&
                          (root->type <= phrase::SIZEOFEXPR))
                 {
                     analyze_expression();
-                }
+                }*/
                 else if (root->type == phrase::TYPEVAR_DECL)
                 {
                     analyze_typevar_decl();
@@ -393,7 +393,8 @@ namespace z
         template <typename CHAR>
         void semanticAnalyzer<CHAR>::analyze_assignexpr()
         {
-            if (index < 1)
+            if ((root->children[0]->type == phrase::VARIABLE) &&
+                (index < 1))
             {
                 varSignature _var (root->children[0]->children[0]->meta, uniqueID_current);
 
@@ -530,7 +531,7 @@ namespace z
                     if (typeStack.pop(type1) &&
                         typeStack.pop(type2))
                     {
-                        if (type1 != type2))
+                        if (type1 != type2)
                         {
                             error_buffer.add(parser_error<CHAR>(root->line,
                                                         root->column,
@@ -550,11 +551,26 @@ namespace z
 
                     if (typeStack.pop(type1))
                     {
-                        if ((root->type == phrase::DIMENSIONEXPR) &&
-                            (root->children[0]->type == ident::IDENTIFIER))
+                        if (root->type == phrase::DIMENSIONEXPR)
                         {
-                            typeStack.push(root->children[0]->meta);
+                            if (root->children[0]->type == ident::IDENTIFIER)
+                            {
+                                typeStack.push(root->children[0]->meta);
+                            }
+
+                            if (type1)
+                            {
+                                error_buffer.add(parser_error<CHAR>(root->line,
+                                                        root->column,
+                                                        error::TYPE_DISALLOWED,
+                                                        NULL,
+                                                        root->file));
+
+                                typeStack.dump();
+                            }
                         }
+                        else
+                            typeStack.push(type1);
                     }
                 }
 

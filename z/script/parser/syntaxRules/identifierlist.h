@@ -11,7 +11,7 @@
  *
  * Author:          Zachary Westerman
  * Email:           zacharywesterman@yahoo.com
- * Last modified:   2 Aug. 2017
+ * Last modified:   23 Aug. 2017
 **/
 
 #pragma once
@@ -28,7 +28,8 @@ namespace z
             if (!(phrase_nodes.is_valid(index-1) &&
                   ((phrase_nodes[index-1]->type == ident::KEYWORD_IN) ||
                    (phrase_nodes[index-1]->type == ident::KEYWORD_SUB) ||
-                   (phrase_nodes[index-1]->type == ident::KEYWORD_TYPE) )))
+                   (phrase_nodes[index-1]->type == ident::KEYWORD_TYPE) ||
+                   (phrase_nodes[index-1]->type == ident::RPARENTH) )))
             {
                 if (phrase_nodes.is_valid(index+1) &&
                     ((phrase_nodes[index]->type == ident::IDENTIFIER) ||

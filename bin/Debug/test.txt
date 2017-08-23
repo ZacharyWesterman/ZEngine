@@ -4,7 +4,7 @@ type foo
     var b;
 }
 
-function main() foo
+function main() var
 {
     foo bar;
 

@@ -223,6 +223,8 @@ function_decl	: "function" IDENTIFIER (  ) { (statementlist or statement) }
 		| "function" IDENTIFIER ( formaldecllist ) { (statementlist or statement) }
 		| "function" IDENTIFIER ( ... ) { }
 		| "function" IDENTIFIER ( ) { }
+		| "function" IDENTIFIER ( ... ) "var" { ... }
+		| "function" IDENTIFIER ( ... ) IDENTIFIER { ... }
 
 PSEUDO:
 int_declaration	: variable_decl

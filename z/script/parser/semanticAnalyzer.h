@@ -219,6 +219,7 @@ namespace z
 
 
             core::dynamicStack<void*> typeStack;
+            phrase_t<CHAR>* exprStart;
 
             void enter_node(int);
             void exit_node();
@@ -256,6 +257,8 @@ namespace z
                 current_scope = &global_scope;
 
                 uniqueID_current = 1; //reserve 0 for NULL
+
+                exprStart = NULL;
             };
 
             ~semanticAnalyzer(){};
@@ -490,25 +493,80 @@ namespace z
         {
             if (index >= (root->children).size())
             {
-                if ((root->children.size() > 2) ||
-                    (root->type == phrase::POWEREXPR))
+                if (exprStart == root)
                 {
-                    /*void* type1, type2;
+                    exprStart = NULL;
+
+                    void* type1;
+                    void* type2;
+                    typeStack.pop(type1);
+
+                    bool type_match = false;
+
+                    while(typeStack.pop(type2) && type_match)
+                    {
+                        if (type2 != type1)
+                            type_match = false;
+
+                        type1 = type2;
+                    }
+
+                    if (!type_match)
+                        error_buffer.add(parser_error<CHAR>(root->line,
+                                                    root->column,
+                                                    error::TYPE_MISMATCH,
+                                                    NULL,
+                                                    root->file));
+                }
+                //expressions with 3 children will always have 2 operands
+                //also, POWEREXPRs with 2 children will have 2 operands
+                else if ((root->children.size() >= 3) ||
+                         ((root->type == phrase::POWEREXPR) &&
+                          (root->children.size() == 2)) )
+                {
+                    void* type1;
+                    void* type2;
 
                     if (typeStack.pop(type1) &&
                         typeStack.pop(type2))
                     {
-                        if (type1 != type2)
+                        if (type1 != type2))
                         {
+                            error_buffer.add(parser_error<CHAR>(root->line,
+                                                        root->column,
+                                                        error::TYPE_MISMATCH,
+                                                        NULL,
+                                                        root->file));
 
+                            typeStack.dump();
                         }
-                    }*/
+
+                        typeStack.push(type1);
+                    }
+                }
+                else if (root->children.size() <= 2)
+                {
+                    void* type1;
+
+                    if (typeStack.pop(type1))
+                    {
+                        if ((root->type == phrase::DIMENSIONEXPR) &&
+                            (root->children[0]->type == ident::IDENTIFIER))
+                        {
+                            typeStack.push(root->children[0]->meta);
+                        }
+                    }
                 }
 
                 exit_node();
             }
             else
+            {
+                if (!exprStart)
+                    exprStart = root;
+
                 enter_node(index);
+            }
         }
 
         template <typename CHAR>

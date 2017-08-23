@@ -3,5 +3,5 @@ function main()
 {
     foo bar;
 
-    var bar = dim(10) + 1;
+    x = bar + 1;
 }

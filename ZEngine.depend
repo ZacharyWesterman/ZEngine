@@ -2193,7 +2193,7 @@
 
 1489353285 c:\users\zachary\documents\github\zengine\\z\script\errors.h
 
-1503389320 source:/home/zwesterman/GitHub/ZEngine/main.cpp
+1503519607 source:/home/zwesterman/GitHub/ZEngine/main.cpp
 	<z/core.h>
 	<z/math.h>
 	"z/script/parser/includeIterator.h"
@@ -2550,7 +2550,7 @@
 	<complex>
 	<type_traits>
 
-1503360270 /home/zwesterman/GitHub/ZEngine/z/script/parser/constantFolder.h
+1503520675 /home/zwesterman/GitHub/ZEngine/z/script/parser/constantFolder.h
 	<z/core/dynamicStack.h>
 	<z/core/timeout.h>
 	"../errors.h"
@@ -2597,7 +2597,7 @@
 	"../command_t.h"
 	"../function_t.h"
 
-1503513009 /home/zwesterman/GitHub/ZEngine/z/script/parser/semanticAnalyzer.h
+1503519413 /home/zwesterman/GitHub/ZEngine/z/script/parser/semanticAnalyzer.h
 	<z/core/array.h>
 	<z/core/dynamicStack.h>
 	<z/core/timeout.h>

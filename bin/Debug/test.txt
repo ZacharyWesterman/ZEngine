@@ -1,12 +1,11 @@
-type foo
+type bar
 {
-    var a;
-    var b;
+    var foo;
+    var i;
 }
 
-function main() var
-{
-    foo bar;
 
-    return bar;
+function main()
+{
+    foo;
 }

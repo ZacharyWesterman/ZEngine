@@ -236,7 +236,15 @@ namespace z
             void analyze_assignexpr();
             void analyze_variable();
             void analyze_expression();
+            void analyze_list();
+
             void analyze_typevar_decl();
+
+            void analyze_for_statement();
+            void analyze_foreach_statement();
+            void analyze_if_statement();
+
+            void analyze_typedecl();
 
         public:
             core::array< parser_error<CHAR> > error_buffer;
@@ -354,6 +362,18 @@ namespace z
                 else if (root->type == phrase::TYPEVAR_DECL)
                 {
                     analyze_typevar_decl();
+                }
+                else if (root->type == phrase::TYPEDECL)
+                {
+                    analyze_typedecl();
+                }
+                else if (root->type == phrase::FOR_STATEMENT)
+                {
+                    analyze_for_statement();
+                }
+                else if (root->type == phrase::FOREACH_STATEMENT)
+                {
+                    analyze_foreach_statement();
                 }
                 else
                 {
@@ -602,6 +622,58 @@ namespace z
 
             exit_node();
         }
+
+        template <typename CHAR>
+        void semanticAnalyzer<CHAR>::analyze_for_statement()
+        {
+            if (index < root->children.size())
+            {
+                if (index == 0)
+                    enter_scope();
+
+                enter_node(index);
+            }
+            else
+            {
+                exit_scope();
+                exit_node();
+            }
+        }
+
+        template <typename CHAR>
+        void semanticAnalyzer<CHAR>::analyze_typedecl()
+        {
+            if (index < root->children.size())
+            {
+                if (index == 0)
+                    enter_scope();
+
+                enter_node(index);
+            }
+            else
+            {
+                exit_scope();
+                exit_node();
+            }
+        }
+
+        template <typename CHAR>
+        void semanticAnalyzer<CHAR>::analyze_foreach_statement()
+        {
+            if (index < root->children.size())
+            {
+                if (index == 0)
+                    enter_scope();
+
+                enter_node(index);
+            }
+            else
+            {
+                exit_scope();
+                exit_node();
+            }
+        }
+
     }
 }
 

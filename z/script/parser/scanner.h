@@ -134,9 +134,9 @@ namespace z
             core::string<CHAR>* addToSymTable(core::string<CHAR>*) const;
 
 
-            double eval_binary_str(const core::string<CHAR>*) const;
-            double eval_octal_str(const core::string<CHAR>*) const;
-            double eval_hexadecimal_str(const core::string<CHAR>*) const;
+            zFloat eval_binary_str(const core::string<CHAR>*) const;
+            zFloat eval_octal_str(const core::string<CHAR>*) const;
+            zFloat eval_hexadecimal_str(const core::string<CHAR>*) const;
         };
 
 
@@ -981,7 +981,7 @@ namespace z
                     current_symbol.remove(0,1);
 
                     if (is_complex)
-                        current_ident.value = std::complex<double>(0, core::value(current_symbol, 2));
+                        current_ident.value = std::complex<zFloat>(0, core::value(current_symbol, 2));
                     else
                         current_ident.value = core::value(current_symbol, 2);
                 }
@@ -1028,7 +1028,7 @@ namespace z
                     current_symbol.remove(0,1);
 
                     if (is_complex)
-                        current_ident.value = std::complex<double>(0, core::value(current_symbol, 8));
+                        current_ident.value = std::complex<zFloat>(0, core::value(current_symbol, 8));
                     else
                         current_ident.value = core::value(current_symbol, 8);
                 }
@@ -1078,7 +1078,7 @@ namespace z
                     current_symbol.remove(0,1);
 
                     if (is_complex)
-                        current_ident.value = std::complex<double>(0, core::value(current_symbol, 16));
+                        current_ident.value = std::complex<zFloat>(0, core::value(current_symbol, 16));
                     else
                         current_ident.value = core::value(current_symbol, 16);
                 }
@@ -1126,7 +1126,7 @@ namespace z
                 if (return_good)
                 {
                     if (is_complex)
-                        current_ident.value = std::complex<double>(0,core::value(current_symbol));
+                        current_ident.value = std::complex<zFloat>(0,core::value(current_symbol));
                     else
                         current_ident.value = core::value(current_symbol);
                 }
@@ -1196,13 +1196,13 @@ namespace z
         ///function to evaluate binary strings
         //assumes strings begin with "0b"
         template <typename CHAR>
-        double scanner<CHAR>::eval_binary_str(const core::string<CHAR>* input) const
+        zFloat scanner<CHAR>::eval_binary_str(const core::string<CHAR>* input) const
         {
-            double result = 0;
+            zFloat result = 0;
 
             bool reached_decimal = false;
 
-            double frac_mul = 1;
+            zFloat frac_mul = 1;
 
             for (int i=2; i<(input->length()); i++)
             {
@@ -1212,7 +1212,7 @@ namespace z
                 }
                 else
                 {
-                    double newResult;
+                    zFloat newResult;
 
 
                     if (!reached_decimal)
@@ -1221,7 +1221,7 @@ namespace z
 
                         std::cout << newResult << std::endl;
 
-                        if (newResult == std::numeric_limits<double>::infinity())
+                        if (newResult == std::numeric_limits<zFloat>::infinity())
                             break;
 
                         result += newResult;
@@ -1244,13 +1244,13 @@ namespace z
         ///function to evaluate octal strings
         //assumes strings begin with "0c"
         template <typename CHAR>
-        double scanner<CHAR>::eval_octal_str(const core::string<CHAR>* input) const
+        zFloat scanner<CHAR>::eval_octal_str(const core::string<CHAR>* input) const
         {
-            double result = 0;
+            zFloat result = 0;
 
             bool reached_decimal = false;
 
-            double frac_mul = 1;
+            zFloat frac_mul = 1;
 
             for (int i=2; i<(input->length()); i++)
             {
@@ -1281,13 +1281,13 @@ namespace z
         ///function to evaluate hexadecimal strings
         //assumes strings begin with "0h"
         template <typename CHAR>
-        double scanner<CHAR>::eval_hexadecimal_str(const core::string<CHAR>* input) const
+        zFloat scanner<CHAR>::eval_hexadecimal_str(const core::string<CHAR>* input) const
         {
-            double result = 0;
+            zFloat result = 0;
 
             bool reached_decimal = false;
 
-            double frac_mul = 1;
+            zFloat frac_mul = 1;
 
             for (int i=2; i<(input->length()); i++)
             {
@@ -1299,7 +1299,7 @@ namespace z
                 }
                 else
                 {
-                    double char_val;
+                    zFloat char_val;
 
                     if (core::is_upper_alpha(this_char))
                         char_val = this_char - 65 + 10;

@@ -2201,7 +2201,8 @@
 	"z/script/parser/semanticAnalyzer.h"
 	<iostream>
 
-1501717461 /home/zwesterman/GitHub/zLibraries/z/core.h
+1503601536 /home/zwesterman/GitHub/zLibraries/z/core.h
+	"core/float.h"
 	"core/string.h"
 	"core/stream.h"
 	"core/array.h"
@@ -2225,11 +2226,10 @@
 	"string/string_upper.h"
 	"string/string_remove_whiteSpace.h"
 
-1503340146 /home/zwesterman/GitHub/zLibraries/z/core/string/string.h
+1503609010 /home/zwesterman/GitHub/zLibraries/z/core/string/string.h
 	<type_traits>
 	<complex>
 	"convert_char_type.h"
-	<iostream>
 
 1491800855 /home/zwesterman/GitHub/zLibraries/z/core/string/convert_char_type.h
 
@@ -2240,7 +2240,7 @@
 1491800855 /home/zwesterman/GitHub/zLibraries/z/core/string/dePad_string.h
 	"string.h"
 
-1501103955 /home/zwesterman/GitHub/zLibraries/z/core/string/eval_string.h
+1503602519 /home/zwesterman/GitHub/zLibraries/z/core/string/eval_string.h
 	"string.h"
 	"char_is_alphanumeric.h"
 
@@ -2279,7 +2279,7 @@
 1492803365 /home/zwesterman/GitHub/zLibraries/z/core/timer.h
 	<chrono>
 
-1491800855 /home/zwesterman/GitHub/zLibraries/z/core/pause.h
+1503602520 /home/zwesterman/GitHub/zLibraries/z/core/pause.h
 	<unistd.h>
 	<windows.h>
 
@@ -2297,18 +2297,18 @@
 	"math/zeta.h"
 	"math/matrix.h"
 
-1500507726 /home/zwesterman/GitHub/zLibraries/z/math/constants.h
+1503602519 /home/zwesterman/GitHub/zLibraries/z/math/constants.h
 
-1500507717 /home/zwesterman/GitHub/zLibraries/z/math/factorial.h
+1503602520 /home/zwesterman/GitHub/zLibraries/z/math/factorial.h
 	<cmath>
 
-1491800855 /home/zwesterman/GitHub/zLibraries/z/math/fibonacci.h
+1503602520 /home/zwesterman/GitHub/zLibraries/z/math/fibonacci.h
 	"constants.h"
 	<math.h>
 
-1491800855 /home/zwesterman/GitHub/zLibraries/z/math/matrix.h
+1503602519 /home/zwesterman/GitHub/zLibraries/z/math/matrix.h
 
-1503283572 /home/zwesterman/GitHub/ZEngine/z/script/parser/scanner.h
+1503610757 /home/zwesterman/GitHub/ZEngine/z/script/parser/scanner.h
 	<limits>
 	<z/core/sortedArray.h>
 	<z/core/string.h>
@@ -2542,7 +2542,8 @@
 
 1500176061 /home/zwesterman/GitHub/ZEngine/z/script/parser/syntaxRules/until_statement.h
 
-1503251939 /home/zwesterman/GitHub/ZEngine/z/script/data_t.h
+1503610968 /home/zwesterman/GitHub/ZEngine/z/script/data_t.h
+	<z/core/float.h>
 	<z/core/string.h>
 	<z/core/array.h>
 	<z/math/remainder.h>
@@ -2607,5 +2608,7 @@
 	"../function_t.h"
 	<iostream>
 
-1503346638 /home/zwesterman/GitHub/zLibraries/z/math/zeta.h
+1503610558 /home/zwesterman/GitHub/zLibraries/z/math/zeta.h
+
+1503608752 /home/zwesterman/GitHub/zLibraries/z/core/float.h
 

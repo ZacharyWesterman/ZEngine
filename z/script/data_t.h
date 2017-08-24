@@ -14,13 +14,14 @@
  *
  * Author:          Zachary Westerman
  * Email:           zacharywesterman@yahoo.com
- * Last modified:   27 Jul. 2017
+ * Last modified:   24 Aug. 2017
 **/
 
 #pragma once
 #ifndef DATA_T_H_INCLUDED
 #define DATA_T_H_INCLUDED
 
+#include <z/core/float.h>
 #include <z/core/string.h>
 #include <z/core/array.h>
 #include <z/math/remainder.h>
@@ -89,7 +90,7 @@ namespace z
             int d_type;
             error_flag d_error;
 
-            std::complex<double> d_value;
+            std::complex<zFloat> d_value;
 
             core::string<CHAR> d_string;
 
@@ -120,7 +121,7 @@ namespace z
             data_t(const T& _real)
             {
                 d_type = data::VALUE;
-                d_value = (double)_real;
+                d_value = (zFloat)_real;
             }
 
             template<
@@ -179,9 +180,9 @@ namespace z
             { d_type = new_type; }
 
             const core::string<CHAR> string() const;
-            const std::complex<double> complex() const;
-            const double real() const;
-            const double imag() const;
+            const std::complex<zFloat> complex() const;
+            const zFloat real() const;
+            const zFloat imag() const;
 
             inline core::array< data_t<CHAR> >& array()
             { return d_array; }
@@ -239,7 +240,7 @@ namespace z
         {
             if (d_type == data::VALUE)
             {
-                d_value = d_value + 1.0;
+                d_value = d_value + (zFloat)1.0;
             }
             else if (d_type == data::ARRAY)
             {
@@ -260,7 +261,7 @@ namespace z
         {
             if (d_type == data::VALUE)
             {
-                d_value = d_value - 1.0;
+                d_value = d_value - (zFloat)1.0;
             }
             else if (d_type == data::ARRAY)
             {
@@ -285,7 +286,7 @@ namespace z
             if (d_type == data::VALUE)
             {
                 result = *this;
-                d_value = d_value + 1.0;
+                d_value = d_value + (zFloat)1.0;
             }
             else if (d_type == data::ARRAY)
             {
@@ -309,7 +310,7 @@ namespace z
             if (d_type == data::VALUE)
             {
                 result = *this;
-                d_value = d_value - 1.0;
+                d_value = d_value - (zFloat)1.0;
             }
             else if (d_type == data::ARRAY)
             {
@@ -469,19 +470,19 @@ namespace z
 
 
         template <typename CHAR>
-        const std::complex<double> data_t<CHAR>::complex() const
+        const std::complex<zFloat> data_t<CHAR>::complex() const
         {
             if (d_type == data::VALUE)
                 return d_value;
             else if (d_type == data::STRING)
                 return core::complexValue(d_string);
             else
-                return std::complex<double>();
+                return std::complex<zFloat>();
         }
 
 
         template <typename CHAR>
-        const double data_t<CHAR>::real() const
+        const zFloat data_t<CHAR>::real() const
         {
             if (d_type == data::VALUE)
                 return d_value.real();
@@ -492,7 +493,7 @@ namespace z
         }
 
         template <typename CHAR>
-        const double data_t<CHAR>::imag() const
+        const zFloat data_t<CHAR>::imag() const
         {
             if (d_type == data::VALUE)
                 return d_value.imag();

@@ -27,6 +27,8 @@
 #include "../command_t.h"
 #include "../function_t.h"
 
+#include "varScope.h"
+
 #ifndef NULL
     #define NULL 0
 #endif // NULL
@@ -38,144 +40,32 @@ namespace z
 {
     namespace script
     {
-        typedef unsigned long symID;
-
-        struct varSignature
+        struct funcSignature
         {
             void* ID;
             void* type;
 
             symID uniqueID;
 
-            inline bool operator==(const varSignature& other) const
-            { return (ID == other.ID); }
 
-            varSignature(void* _ID, unsigned long _uniqueID = 0, void* _type = NULL)
+        };
+
+        struct typeSignature
+        {
+            void* type;
+
+            inline bool operator==(const typeSignature& other) const
+            { return (type == other.type); }
+
+            typeSignature(void* _type)
             {
-                ID = _ID;
                 type = _type;
-
-                uniqueID = _uniqueID;
             }
+
+            core::array<symID> vars;
+            core::array<symID> funcs;
         };
 
-        struct varScope
-        {
-            varScope* parent;
-
-            core::array< varSignature > vars;
-
-            core::array< varScope > children;
-
-            varScope(varScope* _parent = NULL)
-            { parent = _parent; }
-
-            inline bool operator==(const varScope& other) const
-            { return false; }
-
-            error_flag addVar(const varSignature&);
-            bool assignVar(const varSignature&);
-
-            bool exists(const varSignature&);
-
-            symID getVarUniqueID(const varSignature&);
-            void* getVarType(const varSignature&);
-
-            varSignature getVariable(const varSignature&);
-        };
-
-        error_flag varScope::addVar(const varSignature& _var)
-        {
-            if (vars.find(_var) > -1)
-                return error::VARIABLE_REDECLARED;
-
-            vars.add(_var);
-            return error::NONE;
-        }
-
-        //returns false if variable was previously defined, true otherwise.
-        bool varScope::assignVar(const varSignature& _var)
-        {
-            if (!exists(_var))
-            {
-                vars.add(_var);
-                return true;
-            }
-            else
-                return false;
-        }
-
-        bool varScope::exists(const varSignature& _var)
-        {
-            varScope* _scope = this;
-
-            while (_scope->vars.find(_var) < 0)
-            {
-                if (_scope->parent)
-                    _scope = _scope->parent;
-                else
-                    return false;
-            }
-
-            return true;
-        }
-
-        symID varScope::getVarUniqueID(const varSignature& _var)
-        {
-            varScope* _scope = this;
-
-            int index = _scope->vars.find(_var);
-
-            while (index < 0)
-            {
-                if (_scope->parent)
-                    _scope = _scope->parent;
-                else
-                    return 0;
-
-                index = _scope->vars.find(_var);
-            }
-
-            return _scope->vars[index].uniqueID;
-        }
-
-        void* varScope::getVarType(const varSignature& _var)
-        {
-            varScope* _scope = this;
-
-            int index = _scope->vars.find(_var);
-
-            while (index < 0)
-            {
-                if (_scope->parent)
-                    _scope = _scope->parent;
-                else
-                    return NULL;
-
-                index = _scope->vars.find(_var);
-            }
-
-            return _scope->vars[index].type;
-        }
-
-        varSignature varScope::getVariable(const varSignature& _var)
-        {
-            varScope* _scope = this;
-
-            int index = _scope->vars.find(_var);
-
-            while (index < 0)
-            {
-                if (_scope->parent)
-                    _scope = _scope->parent;
-                else
-                    return varSignature(NULL);
-
-                index = _scope->vars.find(_var);
-            }
-
-            return _scope->vars[index];
-        }
 
 
         ///debug
@@ -220,6 +110,8 @@ namespace z
 
             core::dynamicStack<void*> typeStack;
             phrase_t<CHAR>* exprStart;
+
+            bool in_type;
 
             void enter_node(int);
             void exit_node();
@@ -267,6 +159,8 @@ namespace z
                 uniqueID_current = 1; //reserve 0 for NULL
 
                 exprStart = NULL;
+
+                in_type = false;
             };
 
             ~semanticAnalyzer(){};
@@ -397,8 +291,9 @@ namespace z
         template <typename CHAR>
         void semanticAnalyzer<CHAR>::analyze_variable_decl()
         {
-            error_flag err =
-                current_scope->addVar(varSignature(root->children[0]->meta, uniqueID_current++));
+            varSignature _var (root->children[0]->meta, uniqueID_current++);
+
+            error_flag err = current_scope->addVar(_var);
 
             if (err)
                 error_buffer.add(parser_error<CHAR>(root->line,

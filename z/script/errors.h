@@ -7,7 +7,7 @@
  *
  * Author:          Zachary Westerman
  * Email:           zacharywesterman@yahoo.com
- * Last modified:   20 Aug. 2017
+ * Last modified:   26 Aug. 2017
 **/
 
 #pragma once
@@ -114,6 +114,7 @@ namespace z
 
                 TYPE_MISMATCH,
                 TYPE_DISALLOWED,
+                TYPE_UNDEFINED,
 
                 UNDEFINED_ERROR,
 

@@ -4,8 +4,9 @@ type bar
     var i;
 }
 
+bar foo;
 
-function main()
+function main() bar
 {
-    foo;
+    return foo;
 }

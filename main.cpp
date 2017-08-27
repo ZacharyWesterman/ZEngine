@@ -11,6 +11,7 @@
 #include <iostream>
 //using namespace std;
 
+
 using namespace z;
 using namespace script;
 
@@ -219,8 +220,6 @@ int main(int argc, char* argv[])
 
     functions.add(new func_sin);
     functions.add(new func_log);
-
-
 
     //char c_in[128];
 

@@ -11,7 +11,7 @@
  *
  * Author:          Zachary Westerman
  * Email:           zacharywesterman@yahoo.com
- * Last modified:   27 Jul. 2017
+ * Last modified:   27 Aug. 2017
 **/
 
 #pragma once
@@ -78,7 +78,9 @@ namespace z
                     !(phrase_nodes.is_valid(index-1) &&
                       ((phrase_nodes[index-1]->type == ident::RPARENTH) ||
                        (phrase_nodes[index-1]->type == ident::KEYWORD_ELSE) ||
-                       (phrase_nodes[index-1]->type == ident::KEYWORD_LOOP))))
+                       (phrase_nodes[index-1]->type == ident::KEYWORD_LOOP) ||
+                       (phrase_nodes[index-1]->type == ident::KEYWORD_VAR) ||
+                       (phrase_nodes[index-1]->type == ident::IDENTIFIER) )))
                 {
                     phrase_t<CHAR>* node = new phrase_t<CHAR>();
 

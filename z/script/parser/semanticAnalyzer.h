@@ -43,11 +43,39 @@ namespace z
         struct funcSignature
         {
             void* ID;
-            void* type;
+            void* returnType;
 
             symID uniqueID;
 
+            void* inType;
 
+            core::array< void* > paramTypes;
+            core::array< symID > params;
+
+            inline bool operator==(const funcSignature& other) const
+            { return (ID == other.ID) &&
+                     (inType == other.inType) &&
+                     (paramTypes == other.paramTypes); }
+
+            funcSignature(void* _ID, void* _returnType,
+                          symID _uniqueID, void* _inType)
+            {
+                ID = _ID;
+                returnType = _returnType;
+                uniqueID = _uniqueID;
+                inType = _inType;
+            }
+
+            const funcSignature& operator=(const funcSignature& other)
+            {
+                ID = other.ID;
+                returnType = other.returnType;
+                uniqueID = other.uniqueID;
+                inType = other.inType;
+                paramTypes = other.paramTypes;
+
+                return *this;
+            }
         };
 
         struct typeSignature
@@ -107,11 +135,16 @@ namespace z
 
             symID uniqueID_current;
 
+            core::array<funcSignature> function_list;
+            core::array< void* > param_list;
+
+            core::array<typeSignature> type_list;
 
             core::dynamicStack<void*> typeStack;
             phrase_t<CHAR>* exprStart;
 
-            bool in_type;
+            void* current_type;
+
 
             void enter_node(int);
             void exit_node();
@@ -138,6 +171,8 @@ namespace z
 
             void analyze_typedecl();
 
+            void analyze_formaldecl();
+
         public:
             core::array< parser_error<CHAR> > error_buffer;
 
@@ -156,11 +191,11 @@ namespace z
                 global_scope.parent = NULL;
                 current_scope = &global_scope;
 
-                uniqueID_current = 1; //reserve 0 for NULL
+                uniqueID_current = 1;
 
                 exprStart = NULL;
 
-                in_type = false;
+                current_type = NULL;
             };
 
             ~semanticAnalyzer(){};
@@ -174,6 +209,20 @@ namespace z
                 root = new_root;
 
                 is_done = (root == NULL);
+
+                global_scope.vars.clear();
+                global_scope.children.clear();
+                current_scope = &global_scope;
+
+                uniqueID_current = 1; //reserve 0 for NULL
+
+                function_list.clear();
+                type_list.clear();
+
+                typeStack.dump();
+                exprStart = NULL;
+
+                current_type = NULL;
             }
 
             inline bool error() {return (error_buffer.size() > 0);}
@@ -269,6 +318,11 @@ namespace z
                 {
                     analyze_foreach_statement();
                 }
+                else if ((root->type == phrase::FORMALVARDECL) ||
+                         (root->type == phrase::FORMALTYPEDECL))
+                {
+                    analyze_formaldecl();
+                }
                 else
                 {
                     if (index >= (root->children).size())
@@ -296,11 +350,22 @@ namespace z
             error_flag err = current_scope->addVar(_var);
 
             if (err)
+            {
+                core::string<CHAR> msg;
+                if (current_type)
+                {
+                    msg = *((core::string<CHAR>*)current_type);
+                    msg += '.';
+                }
+
+                msg += *((core::string<CHAR>*)root->children[0]->meta);
+
                 error_buffer.add(parser_error<CHAR>(root->line,
                                                     root->column,
                                                     err,
-                                    *((core::string<CHAR>*)root->children[0]->meta),
+                                                    msg,
                                                     root->file));
+            }
 
             exit_node();
         }
@@ -369,13 +434,74 @@ namespace z
         {
             //TODO: register function signature
 
-            if (index < 1)
+            if (index < (root->children).size())
             {
-                enter_scope();
-                enter_node(root->children.size() -1);
+                //if (function_list.find())
+                if (index == 0)
+                    enter_scope();
+
+                enter_node(index);
             }
             else
             {
+                funcSignature _func (root->children[0]->meta,
+                                     root->meta,
+                                     uniqueID_current++,
+                                     current_type);
+
+                //core::array< void* > paramIDs;
+
+                for (int i=0; i<param_list.size(); i++)
+                {
+                    varSignature _var (current_scope->getVariable(param_list[i]));
+                    _func.paramTypes.add(_var.type);
+                    _func.params.add(_var.uniqueID);
+
+                    //paramIDs.add(_var.ID);
+                }
+
+
+                if (function_list.find(_func) <= -1)
+                    function_list.add(_func);
+                else
+                {
+                    core::string<CHAR> msg;
+
+                    if (current_type)
+                    {
+                        msg = *((core::string<CHAR>*)current_type);
+                        msg += '.';
+                    }
+
+                    msg += *((core::string<CHAR>*)root->children[0]->meta);
+                    msg += '(';
+
+
+                        for(int i=0; i<_func.params.size(); i++)
+                        {
+                            if (i)
+                                msg += ',';
+
+                            if (_func.paramTypes[i])
+                                msg += *((core::string<CHAR>*)_func.paramTypes[i]);
+                            else
+                                msg += "var";
+
+
+                        }
+
+                    msg += ')';
+
+                    error_buffer.add(parser_error<CHAR>(root->line,
+                                                        root->column,
+                                                        error::FUNCTION_REDECLARED,
+                                                        msg,
+                                                        root->file));
+                }
+
+
+                param_list.clear();
+
                 exit_scope();
                 exit_node();
             }
@@ -512,7 +638,7 @@ namespace z
                 error_buffer.add(parser_error<CHAR>(root->line,
                                                     root->column,
                                                     err,
-                                    *((core::string<CHAR>*)root->children[0]->meta),
+                                    *((core::string<CHAR>*)root->children[1]->meta),
                                                     root->file));
 
             exit_node();
@@ -541,12 +667,17 @@ namespace z
             if (index < root->children.size())
             {
                 if (index == 0)
+                {
                     enter_scope();
+                    current_type = root->children[0]->meta;
+                }
 
                 enter_node(index);
             }
             else
             {
+                current_type = NULL;
+
                 exit_scope();
                 exit_node();
             }
@@ -567,6 +698,42 @@ namespace z
                 exit_scope();
                 exit_node();
             }
+        }
+
+        template <typename CHAR>
+        void semanticAnalyzer<CHAR>::analyze_formaldecl()
+        {
+            if (root->type == phrase::FORMALTYPEDECL)
+            {
+                error_flag err = current_scope->addVar(varSignature(root->children[1]->meta,
+                                                   uniqueID_current++,
+                                                   root->children[0]->meta));
+
+                if (err)
+                    error_buffer.add(parser_error<CHAR>(root->line,
+                                                        root->column,
+                                                        err,
+                                        *((core::string<CHAR>*)root->children[1]->meta),
+                                                        root->file));
+
+                param_list.add(root->children[1]->meta);
+            }
+            else
+            {
+                error_flag err = current_scope->addVar(varSignature(root->children[0]->meta,
+                                                   uniqueID_current++));
+
+                if (err)
+                    error_buffer.add(parser_error<CHAR>(root->line,
+                                                        root->column,
+                                                        err,
+                                        *((core::string<CHAR>*)root->children[0]->meta),
+                                                        root->file));
+
+                param_list.add(root->children[0]->meta);
+            }
+
+            exit_node();
         }
 
     }

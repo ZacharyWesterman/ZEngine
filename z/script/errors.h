@@ -7,7 +7,7 @@
  *
  * Author:          Zachary Westerman
  * Email:           zacharywesterman@yahoo.com
- * Last modified:   26 Aug. 2017
+ * Last modified:   27 Aug. 2017
 **/
 
 #pragma once
@@ -111,6 +111,9 @@ namespace z
 
                 VARIABLE_REDECLARED,
                 VARIABLE_UNDECLARED,
+
+                FUNCTION_UNDECLARED,
+                FUNCTION_REDECLARED,
 
                 TYPE_MISMATCH,
                 TYPE_DISALLOWED,

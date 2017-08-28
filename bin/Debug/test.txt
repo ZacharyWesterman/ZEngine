@@ -1,12 +1,12 @@
-type bar
+type foo
 {
-    var foo;
-    var i;
+    var a;
+
+    function a() var {}
 }
 
-bar foo;
-
-function main() bar
+function main()
 {
-    return foo;
+    foo a;
+    print{a.a()};
 }

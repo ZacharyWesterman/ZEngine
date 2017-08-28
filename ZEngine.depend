@@ -2193,7 +2193,7 @@
 
 1489353285 c:\users\zachary\documents\github\zengine\\z\script\errors.h
 
-1503611695 source:/home/zwesterman/GitHub/ZEngine/main.cpp
+1503893126 source:/home/zwesterman/GitHub/ZEngine/main.cpp
 	<z/core.h>
 	<z/math.h>
 	"z/script/parser/includeIterator.h"
@@ -2326,7 +2326,7 @@
 	"../data_t.h"
 	"../errors.h"
 
-1503472245 /home/zwesterman/GitHub/ZEngine/z/script/errors.h
+1503871265 /home/zwesterman/GitHub/ZEngine/z/script/errors.h
 	<z/core/string.h>
 
 1492812797 /home/zwesterman/GitHub/zLibraries/z/core/timeout.h
@@ -2484,7 +2484,7 @@
 
 1501193582 /home/zwesterman/GitHub/ZEngine/z/script/parser/syntaxRules/exprlist.h
 
-1501193592 /home/zwesterman/GitHub/ZEngine/z/script/parser/syntaxRules/list.h
+1503892618 /home/zwesterman/GitHub/ZEngine/z/script/parser/syntaxRules/list.h
 
 1500177280 /home/zwesterman/GitHub/ZEngine/z/script/parser/syntaxRules/funccall.h
 
@@ -2528,13 +2528,13 @@
 
 1500179352 /home/zwesterman/GitHub/ZEngine/z/script/parser/syntaxRules/formaltypedecl.h
 
-1500179366 /home/zwesterman/GitHub/ZEngine/z/script/parser/syntaxRules/formaldecllist.h
+1503872794 /home/zwesterman/GitHub/ZEngine/z/script/parser/syntaxRules/formaldecllist.h
 
 1503516229 /home/zwesterman/GitHub/ZEngine/z/script/parser/syntaxRules/function_decl.h
 
 1500179781 /home/zwesterman/GitHub/ZEngine/z/script/parser/syntaxRules/int_decllist.h
 
-1500179822 /home/zwesterman/GitHub/ZEngine/z/script/parser/syntaxRules/typedecl.h
+1503893428 /home/zwesterman/GitHub/ZEngine/z/script/parser/syntaxRules/typedecl.h
 
 1503359935 /home/zwesterman/GitHub/ZEngine/z/script/parser/syntaxRules/program.h
 
@@ -2598,7 +2598,7 @@
 	"../command_t.h"
 	"../function_t.h"
 
-1503519413 /home/zwesterman/GitHub/ZEngine/z/script/parser/semanticAnalyzer.h
+1503893883 /home/zwesterman/GitHub/ZEngine/z/script/parser/semanticAnalyzer.h
 	<z/core/array.h>
 	<z/core/dynamicStack.h>
 	<z/core/timeout.h>
@@ -2606,9 +2606,12 @@
 	"phrase.h"
 	"../command_t.h"
 	"../function_t.h"
+	"varScope.h"
 	<iostream>
 
 1503610558 /home/zwesterman/GitHub/zLibraries/z/math/zeta.h
 
 1503608752 /home/zwesterman/GitHub/zLibraries/z/core/float.h
+
+1503795682 /home/zwesterman/GitHub/ZEngine/z/script/parser/varScope.h
 

@@ -35,8 +35,8 @@ using std::endl;
                          << "\" ";
                 }
 
-                    cout << "at line " << perr.line
-                         << ", column " << perr.column
+                    cout << "at line " << perr.line+1
+                         << ", column " << perr.column+1
                          << " : ";
 
 
@@ -103,6 +103,10 @@ using std::endl;
 
                 case error::TYPE_MISMATCH:
                     cout << "Expression contains mismatched types.";
+                    break;
+
+                case error::FUNCTION_REDECLARED:
+                    cout << "Function \"" << perr.extra_data.str() << "\" declared previously.";
                     break;
 
                 default:

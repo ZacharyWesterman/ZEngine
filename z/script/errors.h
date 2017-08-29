@@ -118,6 +118,7 @@ namespace z
                 TYPE_MISMATCH,
                 TYPE_DISALLOWED,
                 TYPE_UNDEFINED,
+                TYPE_REDEFINED,
 
                 UNDEFINED_ERROR,
 

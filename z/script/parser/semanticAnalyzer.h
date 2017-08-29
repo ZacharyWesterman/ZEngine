@@ -115,6 +115,38 @@ namespace z
                 printScope(_scope.children[i], padding+1, ++scopeNum);
         }
 
+        template<typename CHAR>
+        void genFuncSigString(const funcSignature& _func, core::string<CHAR>& msg)
+        {
+            if (_func.inType)
+            {
+                msg = *((core::string<CHAR>*)_func.inType);
+                msg += '.';
+                msg += *((core::string<CHAR>*)_func.ID);
+            }
+            else
+                msg = *((core::string<CHAR>*)_func.ID);
+
+
+            msg += '(';
+
+
+            for(int i=0; i<_func.params.size(); i++)
+            {
+                if (i)
+                    msg += ',';
+
+                if (_func.paramTypes[i])
+                    msg += *((core::string<CHAR>*)_func.paramTypes[i]);
+                else
+                    msg += "var";
+
+
+            }
+
+            msg += ')';
+        }
+
 
 
         template <typename CHAR>
@@ -144,6 +176,8 @@ namespace z
             phrase_t<CHAR>* exprStart;
 
             void* current_type;
+            core::array<symID> type_func_list;
+            core::array<symID> type_var_list;
 
 
             void enter_node(int);
@@ -223,6 +257,8 @@ namespace z
                 exprStart = NULL;
 
                 current_type = NULL;
+                type_func_list.clear();
+                type_var_list.clear();
             }
 
             inline bool error() {return (error_buffer.size() > 0);}
@@ -336,6 +372,38 @@ namespace z
             if (is_done)
             {
                 printScope(global_scope);
+                cout << endl;
+                //print functions
+                for (int i=0; i<function_list.size(); i++)
+                {
+                    core::string<CHAR> msg;
+                    genFuncSigString(function_list[i], msg);
+                    cout << msg.str() << ", \tID="
+                         << function_list[i].uniqueID << endl;
+                }
+                cout << endl;
+                //print types
+                for (int i=0; i<type_list.size(); i++)
+                {
+                    cout << "type "
+                         << ((core::string<CHAR>*)type_list[i].type)->str()
+                         << "{ vars=";
+                    for (int v=0; v<type_list[i].vars.size(); v++)
+                    {
+                        if (v)
+                            cout << ',';
+                        cout << type_list[i].vars[v];
+                    }
+                    cout << "  funcs=";
+                    for (int f=0; f<type_list[i].funcs.size(); f++)
+                    {
+                        if (f)
+                            cout << ',';
+                        cout << type_list[i].funcs[f];
+                    }
+                    cout << " }";
+                }
+                cout << endl;
             }
 
             return is_done;
@@ -345,7 +413,7 @@ namespace z
         template <typename CHAR>
         void semanticAnalyzer<CHAR>::analyze_variable_decl()
         {
-            varSignature _var (root->children[0]->meta, uniqueID_current++);
+            varSignature _var (root->children[0]->meta, uniqueID_current);
 
             error_flag err = current_scope->addVar(_var);
 
@@ -366,6 +434,10 @@ namespace z
                                                     msg,
                                                     root->file));
             }
+            else if (current_type)
+                type_var_list.add(uniqueID_current);
+
+            uniqueID_current++;
 
             exit_node();
         }
@@ -462,35 +534,17 @@ namespace z
 
 
                 if (function_list.find(_func) <= -1)
+                {
                     function_list.add(_func);
+
+                    if (current_type)
+                        type_func_list.add(_func.uniqueID);
+                }
                 else
                 {
                     core::string<CHAR> msg;
 
-                    if (current_type)
-                    {
-                        msg = *((core::string<CHAR>*)current_type);
-                        msg += '.';
-                    }
-
-                    msg += *((core::string<CHAR>*)root->children[0]->meta);
-                    msg += '(';
-
-
-                        for(int i=0; i<_func.params.size(); i++)
-                        {
-                            if (i)
-                                msg += ',';
-
-                            if (_func.paramTypes[i])
-                                msg += *((core::string<CHAR>*)_func.paramTypes[i]);
-                            else
-                                msg += "var";
-
-
-                        }
-
-                    msg += ')';
+                    genFuncSigString(_func, msg);
 
                     error_buffer.add(parser_error<CHAR>(root->line,
                                                         root->column,
@@ -631,15 +685,21 @@ namespace z
         {
             error_flag err =
                 current_scope->addVar(varSignature(root->children[1]->meta,
-                                                   uniqueID_current++,
+                                                   uniqueID_current,
                                                    root->children[0]->meta));
 
             if (err)
+            {
                 error_buffer.add(parser_error<CHAR>(root->line,
                                                     root->column,
                                                     err,
                                     *((core::string<CHAR>*)root->children[1]->meta),
                                                     root->file));
+            }
+            else if (current_type)
+                type_var_list.add(uniqueID_current);
+
+            uniqueID_current++;
 
             exit_node();
         }
@@ -676,7 +736,21 @@ namespace z
             }
             else
             {
+                typeSignature _type (current_type);
+
+                int i = type_list.find(_type);
+                if (i <= -1)
+                {
+                    i = type_list.add(_type);
+                }
+
+                type_list[i].funcs.add(type_func_list);
+                type_list[i].vars.add(type_var_list);
+
+
                 current_type = NULL;
+                type_func_list.clear();
+                type_var_list.clear();
 
                 exit_scope();
                 exit_node();

@@ -109,6 +109,10 @@ using std::endl;
                     cout << "Function \"" << perr.extra_data.str() << "\" declared previously.";
                     break;
 
+                case error::TYPE_REDEFINED:
+                    cout << "Type \"" << perr.extra_data.str() << "\" redefined.";
+                    break;
+
                 default:
                     cout << "Unhandled error " << (int)perr.err << ".";
                 }
@@ -254,17 +258,17 @@ int main(int argc, char* argv[])
 
     printErrors(genAST.error_buffer);
 
-    cout << "\n------------------------------------\n\n";
-    cout << "AST before folding:\n\n";
+    //cout << "\n------------------------------------\n\n";
+    //cout << "AST before folding:\n\n";
 
 
 
     z::script::phrase_t<char>* AST = genAST.moveResultAST();
 
-    z::script::print_lex_ast(0, AST);
+    //z::script::print_lex_ast(0, AST);
 
-    cout << "\n------------------------------------\n\n";
-    cout << "AST after folding:\n\n";
+    //cout << "\n------------------------------------\n\n";
+    //cout << "AST after folding:\n\n";
 
     z::script::constantFolder<char> cFolder;
 
@@ -277,12 +281,12 @@ int main(int argc, char* argv[])
         time.reset();
     }
 
-    z::script::print_lex_ast(0, AST);
+    //z::script::print_lex_ast(0, AST);
 
     printErrors(cFolder.error_buffer);
 
 
-    cout << "\n------------------------------------\n\n";
+    //cout << "\n------------------------------------\n\n";
     cout << "AST after semantic analysis:\n\n";
 
     z::script::semanticAnalyzer<char> semantics(commands, functions);

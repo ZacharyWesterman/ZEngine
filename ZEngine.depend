@@ -2193,7 +2193,7 @@
 
 1489353285 c:\users\zachary\documents\github\zengine\\z\script\errors.h
 
-1504044367 source:/home/zwesterman/GitHub/ZEngine/main.cpp
+1504062603 source:/home/zwesterman/GitHub/ZEngine/main.cpp
 	<z/core.h>
 	<z/math.h>
 	"z/script/parser/includeIterator.h"
@@ -2326,7 +2326,7 @@
 	"../data_t.h"
 	"../errors.h"
 
-1504043862 /home/zwesterman/GitHub/ZEngine/z/script/errors.h
+1504062168 /home/zwesterman/GitHub/ZEngine/z/script/errors.h
 	<z/core/string.h>
 
 1492812797 /home/zwesterman/GitHub/zLibraries/z/core/timeout.h
@@ -2528,11 +2528,11 @@
 
 1500179352 /home/zwesterman/GitHub/ZEngine/z/script/parser/syntaxRules/formaltypedecl.h
 
-1503872794 /home/zwesterman/GitHub/ZEngine/z/script/parser/syntaxRules/formaldecllist.h
+1504063037 /home/zwesterman/GitHub/ZEngine/z/script/parser/syntaxRules/formaldecllist.h
 
 1503516229 /home/zwesterman/GitHub/ZEngine/z/script/parser/syntaxRules/function_decl.h
 
-1500179781 /home/zwesterman/GitHub/ZEngine/z/script/parser/syntaxRules/int_decllist.h
+1504062490 /home/zwesterman/GitHub/ZEngine/z/script/parser/syntaxRules/int_decllist.h
 
 1503893428 /home/zwesterman/GitHub/ZEngine/z/script/parser/syntaxRules/typedecl.h
 

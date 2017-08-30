@@ -109,10 +109,6 @@ using std::endl;
                     cout << "Function \"" << perr.extra_data.str() << "\" declared previously.";
                     break;
 
-                case error::TYPE_REDEFINED:
-                    cout << "Type \"" << perr.extra_data.str() << "\" redefined.";
-                    break;
-
                 default:
                     cout << "Unhandled error " << (int)perr.err << ".";
                 }

@@ -11,7 +11,7 @@
  *
  * Author:          Zachary Westerman
  * Email:           zacharywesterman@yahoo.com
- * Last modified:   15 Jul. 2017
+ * Last modified:   29 Aug. 2017
 **/
 
 #pragma once
@@ -31,11 +31,7 @@ namespace z
                  (phrase_nodes[index-2]->type == ident::LBRACE) &&
                  ((phrase_nodes[index-1]->type == phrase::VARIABLE_DECL) ||
                   (phrase_nodes[index-1]->type == phrase::TYPEVAR_DECL) ||
-                  (phrase_nodes[index-1]->type == phrase::FUNCTION_DECL))) ||
-
-                 (phrase_nodes.is_valid(index-1) &&
-                  (phrase_nodes[index-1]->type == phrase::INT_DECLLIST))) &&
-
+                  (phrase_nodes[index-1]->type == phrase::FUNCTION_DECL))) ) &&
                 ((phrase_nodes[index]->type == phrase::VARIABLE_DECL) ||
                  (phrase_nodes[index]->type == phrase::TYPEVAR_DECL) ||
                  (phrase_nodes[index]->type == phrase::FUNCTION_DECL)))
@@ -56,6 +52,19 @@ namespace z
                 node->file = phrase_nodes[index-1]->file;
 
                 phrase_nodes.replace(index-1, index, node);
+
+                return true;
+            }
+            else if (phrase_nodes.is_valid(index-1) &&
+                     (phrase_nodes[index-1]->type == phrase::INT_DECLLIST) &&
+
+                     ((phrase_nodes[index]->type == phrase::VARIABLE_DECL) ||
+                      (phrase_nodes[index]->type == phrase::TYPEVAR_DECL) ||
+                      (phrase_nodes[index]->type == phrase::FUNCTION_DECL)) )
+            {
+                phrase_nodes[index-1]->children.add(phrase_nodes[index]);
+                phrase_nodes[index]->parent = phrase_nodes[index-1];
+                phrase_nodes.remove(index);
 
                 return true;
             }

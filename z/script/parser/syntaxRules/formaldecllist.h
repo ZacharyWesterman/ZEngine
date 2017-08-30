@@ -25,36 +25,51 @@ namespace z
         template <typename CHAR>
         bool lexer<CHAR>::formaldecllist()
         {
-            if (phrase_nodes.is_valid(index+2) &&
-                 ((phrase_nodes[index]->type == phrase::FORMALVARDECL) ||
-                  (phrase_nodes[index]->type == phrase::FORMALTYPEDECL) ||
-                  (phrase_nodes[index]->type == phrase::FORMALDECLLIST)) &&
-                 (phrase_nodes[index+1]->type == ident::COMMA) &&
-                ((phrase_nodes[index+2]->type == phrase::FORMALVARDECL) ||
-                  (phrase_nodes[index+2]->type == phrase::FORMALTYPEDECL)))
+            if (phrase_nodes.is_valid(index+2))
             {
-                phrase_t<CHAR>* node = new phrase_t<CHAR>();
+                if (((phrase_nodes[index]->type == phrase::FORMALVARDECL) ||
+                     (phrase_nodes[index]->type == phrase::FORMALTYPEDECL)) &&
+                    (phrase_nodes[index+1]->type == ident::COMMA) &&
+                    ((phrase_nodes[index+2]->type == phrase::FORMALVARDECL) ||
+                     (phrase_nodes[index+2]->type == phrase::FORMALTYPEDECL)))
+                {
+                    phrase_t<CHAR>* node = new phrase_t<CHAR>();
 
-                node->type = phrase::FORMALDECLLIST;
+                    node->type = phrase::FORMALDECLLIST;
 
-                node->line = phrase_nodes[index]->line;
-                node->column = phrase_nodes[index]->column;
+                    node->line = phrase_nodes[index]->line;
+                    node->column = phrase_nodes[index]->column;
 
-                phrase_nodes[index]->parent = node;
-                phrase_nodes[index+2]->parent = node;
+                    phrase_nodes[index]->parent = node;
+                    phrase_nodes[index+2]->parent = node;
 
-                node->children.add(phrase_nodes[index]);
-                node->children.add(phrase_nodes[index+2]);
+                    node->children.add(phrase_nodes[index]);
+                    node->children.add(phrase_nodes[index+2]);
 
-                node->file = phrase_nodes[index]->file;
+                    node->file = phrase_nodes[index]->file;
 
-                delete phrase_nodes[index+1];
-                phrase_nodes.replace(index, index+2, node);
+                    delete phrase_nodes[index+1];
+                    phrase_nodes.replace(index, index+2, node);
 
-                return true;
+                    return true;
+                }
+                else if ((phrase_nodes[index]->type == phrase::FORMALDECLLIST) &&
+                         (phrase_nodes[index+1]->type == ident::COMMA) &&
+                         ((phrase_nodes[index+2]->type == phrase::FORMALVARDECL) ||
+                          (phrase_nodes[index+2]->type == phrase::FORMALTYPEDECL)))
+                {
+                    phrase_nodes[index]->children.add(phrase_nodes[index+2]);
+                    phrase_nodes[index+2]->parent = phrase_nodes[index];
+
+                    delete phrase_nodes[index+1];
+                    phrase_nodes.remove(index+2);
+                    phrase_nodes.remove(index+1);
+
+                    return true;
+                }
             }
-            else
-                return false;
+
+            return false;
         }
     }
 }

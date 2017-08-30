@@ -81,13 +81,15 @@ namespace z
         struct typeSignature
         {
             void* type;
+            varScope* scope;
 
             inline bool operator==(const typeSignature& other) const
             { return (type == other.type); }
 
-            typeSignature(void* _type)
+            typeSignature(void* _type, varScope* _scope)
             {
                 type = _type;
+                scope = _scope;
             }
 
             core::array<symID> vars;
@@ -728,7 +730,17 @@ namespace z
             {
                 if (index == 0)
                 {
-                    enter_scope();
+                    int i = type_list.find(typeSignature(
+                                                root->children[0]->meta,
+                                                NULL));
+
+                    if (i > -1)
+                    {
+                        current_scope = type_list[i].scope;
+                    }
+                    else
+                        enter_scope();
+
                     current_type = root->children[0]->meta;
                 }
 
@@ -736,7 +748,7 @@ namespace z
             }
             else
             {
-                typeSignature _type (current_type);
+                typeSignature _type (current_type, current_scope);
 
                 int i = type_list.find(_type);
                 if (i <= -1)

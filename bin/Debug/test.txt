@@ -18,10 +18,3 @@ type T \\functions
     function b() {return b;}
     function c() {return c;}
 }
-
-
-function main()
-{
-    T a;
-    a.a();
-}

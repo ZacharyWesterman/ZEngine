@@ -1,18 +1,9 @@
-function foo()
-{
-
-}
-
 type foo
 {
     var bar;
 }
 
-
-type foo
+function main()
 {
-    var x;
+    bar a;
 }
-
-
-function foo(){}

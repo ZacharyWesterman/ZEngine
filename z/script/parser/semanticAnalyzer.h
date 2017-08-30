@@ -200,6 +200,7 @@ namespace z
             void analyze_function_decl();
             void analyze_assignexpr();
             void analyze_variable();
+            void analyze_literal();
             void analyze_expression();
             void analyze_list();
 
@@ -212,6 +213,7 @@ namespace z
             void analyze_typedecl();
 
             void analyze_formaldecl();
+            void analyze_funccall();
 
         public:
             core::array< parser_error<CHAR> > error_buffer;
@@ -339,11 +341,10 @@ namespace z
                 {
                     analyze_variable();
                 }
-                /*else if ((root->type >= phrase::PARENTHEXPR) &&
-                         (root->type <= phrase::SIZEOFEXPR))
+                else if (root->type == phrase::LITERAL)
                 {
-                    analyze_expression();
-                }*/
+                    analyze_literal();
+                }
                 else if (root->type == phrase::TYPEVAR_DECL)
                 {
                     analyze_typevar_decl();
@@ -589,8 +590,19 @@ namespace z
             else
             {
                 root->metaValue = varID;
-                typeStack.push(_var.type);
+
+                if (exprStart)
+                    typeStack.push(_var.type);
             }
+
+            exit_node();
+        }
+
+        template <typename CHAR>
+        void semanticAnalyzer<CHAR>::analyze_literal()
+        {
+            if (exprStart)
+                typeStack.push(NULL); //literals are always of type "var"
 
             exit_node();
         }
@@ -694,6 +706,19 @@ namespace z
         template <typename CHAR>
         void semanticAnalyzer<CHAR>::analyze_typevar_decl()
         {
+            //check if the type exists
+            typeSignature _type (root->children[0]->meta, NULL);
+
+            if (type_list.find(_type) <= -1)
+            {
+                error_buffer.add(parser_error<CHAR>(root->line,
+                                                    root->column,
+                                                    error::TYPE_UNDEFINED,
+                                    *((core::string<CHAR>*)_type.type),
+                                                    root->file));
+            }
+
+            //add typed-var to current scope
             error_flag err =
                 current_scope->addVar(varSignature(root->children[1]->meta,
                                                    uniqueID_current,

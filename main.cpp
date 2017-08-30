@@ -119,6 +119,10 @@ using std::endl;
                          << "\" already exists.";
                     break;
 
+                case error::TYPE_UNDEFINED:
+                    cout << "Unknown type \"" << perr.extra_data.str() << "\".";
+                    break;
+
                 default:
                     cout << "Unhandled error " << (int)perr.err << ".";
                 }

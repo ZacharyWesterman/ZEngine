@@ -11,7 +11,7 @@
  *
  * Author:          Zachary Westerman
  * Email:           zacharywesterman@yahoo.com
- * Last modified:   15 Jul. 2017
+ * Last modified:   29 Aug. 2017
 **/
 
 #pragma once
@@ -55,6 +55,9 @@ namespace z
                          (phrase_nodes[index+3]->type == phrase::BOOLEXPR) &&
                          (phrase_nodes[index+4]->type == ident::SEMICOLON))
                 {
+                    //variable declaration
+                    phrase_t<CHAR>* idCpy = new phrase_t<CHAR>(*phrase_nodes[index+1]);
+
                     phrase_t<CHAR>* node = new phrase_t<CHAR>();
 
                     node->type = phrase::VARIABLE_DECL;
@@ -62,18 +65,15 @@ namespace z
                     node->line = phrase_nodes[index]->line;
                     node->column = phrase_nodes[index]->column;
 
-                    phrase_nodes[index+1]->parent = node;
-                    phrase_nodes[index+3]->parent = node;
+                    idCpy->parent = node;
 
-                    node->children.add(phrase_nodes[index+1]);
-                    node->children.add(phrase_nodes[index+3]);
+                    node->children.add(idCpy);
 
                     node->file = phrase_nodes[index]->file;
 
                     delete phrase_nodes[index];
-                    delete phrase_nodes[index+2];
-                    delete phrase_nodes[index+4];
-                    phrase_nodes.replace(index, index+4, node);
+
+                    phrase_nodes.replace(index, index+1, node);
 
                     return true;
                 }

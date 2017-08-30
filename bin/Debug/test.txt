@@ -3,18 +3,25 @@ type T \\variables
     var a;
     var b;
     var c;
+
+    function __init()
+    {
+        a = 1;
+        b = 2;
+        c = 3;
+    }
 }
 
 type T \\functions
 {
-    function x() {}
-    function y() {}
-    function z() {}
+    function a() {return a;}
+    function b() {return b;}
+    function c() {return c;}
 }
 
 
 function main()
 {
     T a;
-    print{a.a()};
+    a.a();
 }

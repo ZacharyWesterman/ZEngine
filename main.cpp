@@ -35,8 +35,8 @@ using std::endl;
                          << "\" ";
                 }
 
-                    cout << "at line " << perr.line+1
-                         << ", column " << perr.column+1
+                    cout << "at " << perr.line+1
+                         << "," << perr.column+1
                          << " : ";
 
 
@@ -107,6 +107,16 @@ using std::endl;
 
                 case error::FUNCTION_REDECLARED:
                     cout << "Function \"" << perr.extra_data.str() << "\" declared previously.";
+                    break;
+
+                case error::FUNCTION_ALREADY_TYPE:
+                    cout << "A type with the name \"" << perr.extra_data.str()
+                         << "\" already exists.";
+                    break;
+
+                case error::TYPE_ALREADY_FUNCTION:
+                    cout << "A function with the name \"" << perr.extra_data.str()
+                         << "\" already exists.";
                     break;
 
                 default:

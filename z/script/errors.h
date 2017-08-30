@@ -115,6 +115,9 @@ namespace z
                 FUNCTION_UNDECLARED,
                 FUNCTION_REDECLARED,
 
+                FUNCTION_ALREADY_TYPE,
+                TYPE_ALREADY_FUNCTION,
+
                 TYPE_MISMATCH,
                 TYPE_DISALLOWED,
                 TYPE_UNDEFINED,

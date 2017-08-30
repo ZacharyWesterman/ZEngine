@@ -1,1 +1,18 @@
-function f(a,b,c,d,e){}
+function foo()
+{
+
+}
+
+type foo
+{
+    var bar;
+}
+
+
+type foo
+{
+    var x;
+}
+
+
+function foo(){}

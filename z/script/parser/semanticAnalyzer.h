@@ -120,14 +120,18 @@ namespace z
         template<typename CHAR>
         void genFuncSigString(const funcSignature& _func, core::string<CHAR>& msg)
         {
+            if (_func.returnType)
+                msg = *((core::string<CHAR>*)_func.returnType);
+            else
+                msg = "var";
+
+            msg += ' ';
             if (_func.inType)
             {
-                msg = *((core::string<CHAR>*)_func.inType);
+                msg += *((core::string<CHAR>*)_func.inType);
                 msg += '.';
-                msg += *((core::string<CHAR>*)_func.ID);
             }
-            else
-                msg = *((core::string<CHAR>*)_func.ID);
+            msg += *((core::string<CHAR>*)_func.ID);
 
 
             msg += '(';
@@ -506,11 +510,8 @@ namespace z
         template <typename CHAR>
         void semanticAnalyzer<CHAR>::analyze_function_decl()
         {
-            //TODO: register function signature
-
             if (index < (root->children).size())
             {
-                //if (function_list.find())
                 if (index == 0)
                     enter_scope();
 
@@ -518,41 +519,49 @@ namespace z
             }
             else
             {
-                funcSignature _func (root->children[0]->meta,
-                                     root->meta,
-                                     uniqueID_current++,
-                                     current_type);
+                typeSignature _type (root->children[0]->meta, NULL);
 
-                //core::array< void* > paramIDs;
-
-                for (int i=0; i<param_list.size(); i++)
+                if (type_list.find(_type) > -1) //search types
                 {
-                    varSignature _var (current_scope->getVariable(param_list[i]));
-                    _func.paramTypes.add(_var.type);
-                    _func.params.add(_var.uniqueID);
-
-                    //paramIDs.add(_var.ID);
-                }
-
-
-                if (function_list.find(_func) <= -1)
-                {
-                    function_list.add(_func);
-
-                    if (current_type)
-                        type_func_list.add(_func.uniqueID);
-                }
-                else
-                {
-                    core::string<CHAR> msg;
-
-                    genFuncSigString(_func, msg);
-
                     error_buffer.add(parser_error<CHAR>(root->line,
                                                         root->column,
-                                                        error::FUNCTION_REDECLARED,
-                                                        msg,
+                                                        error::FUNCTION_ALREADY_TYPE,
+                                        *((core::string<CHAR>*)_type.type),
                                                         root->file));
+                }
+                else //search functions
+                {
+                    funcSignature _func (root->children[0]->meta,
+                                         root->meta,
+                                         uniqueID_current++,
+                                         current_type);
+
+                    for (int i=0; i<param_list.size(); i++)
+                    {
+                        varSignature _var (current_scope->getVariable(param_list[i]));
+                        _func.paramTypes.add(_var.type);
+                        _func.params.add(_var.uniqueID);
+                    }
+
+
+                    if (function_list.find(_func) <= -1)
+                    {
+                        function_list.add(_func);
+
+                        if (current_type)
+                            type_func_list.add(_func.uniqueID);
+                    }
+                    else
+                    {
+                        core::string<CHAR> msg;
+                        genFuncSigString(_func, msg);
+
+                        error_buffer.add(parser_error<CHAR>(root->line,
+                                                            root->column,
+                                                            error::FUNCTION_REDECLARED,
+                                                            msg,
+                                                            root->file));
+                    }
                 }
 
 
@@ -730,9 +739,10 @@ namespace z
             {
                 if (index == 0)
                 {
+                    //find the correct scope
                     int i = type_list.find(typeSignature(
-                                                root->children[0]->meta,
-                                                NULL));
+                                            root->children[0]->meta,
+                                            NULL));
 
                     if (i > -1)
                     {
@@ -748,9 +758,30 @@ namespace z
             }
             else
             {
+                //make sure no functions with this name exist
+                void* ID = root->children[0]->meta;
+
+                int i = 0;
+                while ((i < function_list.size()) &&
+                       (function_list[i].ID != ID))
+                {
+                    i++;
+                }
+
+                if (i < function_list.size())
+                {
+                    error_buffer.add(parser_error<CHAR>(root->line,
+                                                        root->column,
+                                                error::TYPE_ALREADY_FUNCTION,
+                                                *((core::string<CHAR>*)ID),
+                                                        root->file));
+                }
+
+
+                //register to the appropriate type
                 typeSignature _type (current_type, current_scope);
 
-                int i = type_list.find(_type);
+                i = type_list.find(_type);
                 if (i <= -1)
                 {
                     i = type_list.add(_type);

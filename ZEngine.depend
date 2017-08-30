@@ -2470,7 +2470,7 @@
 
 1500176256 /home/zwesterman/GitHub/ZEngine/z/script/parser/syntaxRules/subroutine_decl.h
 
-1504053298 /home/zwesterman/GitHub/ZEngine/z/script/parser/syntaxRules/variable_decl.h
+1504055374 /home/zwesterman/GitHub/ZEngine/z/script/parser/syntaxRules/variable_decl.h
 
 1500176463 /home/zwesterman/GitHub/ZEngine/z/script/parser/syntaxRules/typevar_decl.h
 
@@ -2536,7 +2536,7 @@
 
 1503893428 /home/zwesterman/GitHub/ZEngine/z/script/parser/syntaxRules/typedecl.h
 
-1503359935 /home/zwesterman/GitHub/ZEngine/z/script/parser/syntaxRules/program.h
+1504054799 /home/zwesterman/GitHub/ZEngine/z/script/parser/syntaxRules/program.h
 
 1500176048 /home/zwesterman/GitHub/ZEngine/z/script/parser/syntaxRules/wait_statement.h
 
@@ -2584,7 +2584,7 @@
 	<z/core/timeout.h>
 	"data_t.h"
 
-1502244663 /home/zwesterman/GitHub/ZEngine/z/script/parser/syntaxErrors/error_oper.h
+1504055336 /home/zwesterman/GitHub/ZEngine/z/script/parser/syntaxErrors/error_oper.h
 
 1502244852 /home/zwesterman/GitHub/ZEngine/z/script/parser/syntaxErrors/error_semicolon.h
 

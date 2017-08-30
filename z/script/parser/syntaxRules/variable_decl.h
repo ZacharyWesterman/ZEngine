@@ -73,7 +73,7 @@ namespace z
 
                     delete phrase_nodes[index];
 
-                    phrase_nodes.replace(index, index+1, node);
+                    phrase_nodes[index] = node;
 
                     return true;
                 }

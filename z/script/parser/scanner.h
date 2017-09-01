@@ -319,7 +319,7 @@ namespace z
                 if (!in_string && !in_comment)
                 {
                     //white space
-                    if (core::is_white_space(input->at(index)))
+                    if (core::isWhiteSpace(input->at(index)))
                     {
                         newIdent = ident::NONE;
                     }
@@ -332,13 +332,13 @@ namespace z
                         //exponent
                     }
                     //generic identifiers
-                    else if (core::is_alphanumeric(input->at(index)) ||
+                    else if (core::isAlphanumeric(input->at(index)) ||
                              (input->at(index) == (CHAR)95))
                     {
                         if ((newIdent != ident::NUMERIC_LITERAL) &&
                             (newIdent != ident::IDENTIFIER))
                         {
-                            if (core::is_numeric(input->at(index)))
+                            if (core::isNumeric(input->at(index)))
                                 newIdent = ident::NUMERIC_LITERAL;
                             else
                                 newIdent = ident::IDENTIFIER;
@@ -350,7 +350,7 @@ namespace z
                         //if a decimal point precedes a number
                         //and no alphanumeric character directly precedes it,
                         //we can assume we have a number (e.g. ".10")
-                        if (!newIdent && core::is_numeric(input->at(index+1)))
+                        if (!newIdent && core::isNumeric(input->at(index+1)))
                             newIdent = ident::NUMERIC_LITERAL;
                         else if (newIdent != ident::NUMERIC_LITERAL)
                             newIdent = ident::PERIOD;
@@ -981,9 +981,9 @@ namespace z
                     current_symbol.remove(0,1);
 
                     if (is_complex)
-                        current_ident.value = std::complex<zFloat>(0, core::value(current_symbol, 2));
+                        current_ident.value = std::complex<zFloat>(0, current_symbol.value(2));
                     else
-                        current_ident.value = core::value(current_symbol, 2);
+                        current_ident.value = current_symbol.value(2);
                 }
             }
             else if (current_symbol.beginsWith("0c") ||
@@ -1028,9 +1028,9 @@ namespace z
                     current_symbol.remove(0,1);
 
                     if (is_complex)
-                        current_ident.value = std::complex<zFloat>(0, core::value(current_symbol, 8));
+                        current_ident.value = std::complex<zFloat>(0, current_symbol.value(8));
                     else
-                        current_ident.value = core::value(current_symbol, 8);
+                        current_ident.value = current_symbol.value(8);
                 }
             }
             else if (current_symbol.beginsWith("0h") ||
@@ -1078,9 +1078,9 @@ namespace z
                     current_symbol.remove(0,1);
 
                     if (is_complex)
-                        current_ident.value = std::complex<zFloat>(0, core::value(current_symbol, 16));
+                        current_ident.value = std::complex<zFloat>(0, current_symbol.value(16));
                     else
-                        current_ident.value = core::value(current_symbol, 16);
+                        current_ident.value = current_symbol.value(16);
                 }
             }
             else
@@ -1111,7 +1111,7 @@ namespace z
                         if (current_symbol.at(e+1) == (CHAR)45)
                             e++;
                     }
-                    else if (!core::is_numeric(_char)) //non-numeric characters
+                    else if (!core::isNumeric(_char)) //non-numeric characters
                     {
                         error_buffer.add(
                                 parser_error<CHAR>(current_ident.line,
@@ -1126,9 +1126,9 @@ namespace z
                 if (return_good)
                 {
                     if (is_complex)
-                        current_ident.value = std::complex<zFloat>(0,core::value(current_symbol));
+                        current_ident.value = std::complex<zFloat>(0,current_symbol.value());
                     else
-                        current_ident.value = core::value(current_symbol);
+                        current_ident.value = current_symbol.value();
                 }
             }
         }

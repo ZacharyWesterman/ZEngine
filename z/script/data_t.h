@@ -475,7 +475,7 @@ namespace z
             if (d_type == data::VALUE)
                 return d_value;
             else if (d_type == data::STRING)
-                return core::complexValue(d_string);
+                return d_string.complexValue();
             else
                 return std::complex<zFloat>();
         }
@@ -487,7 +487,7 @@ namespace z
             if (d_type == data::VALUE)
                 return d_value.real();
             else if (d_type == data::STRING)
-                return core::complexValue(d_string).real();
+                return d_string.complexValue().real();
             else
                 return 0;
         }
@@ -498,7 +498,7 @@ namespace z
             if (d_type == data::VALUE)
                 return d_value.imag();
             else if (d_type == data::STRING)
-                return core::complexValue(d_string).imag();
+                return d_string.complexValue().imag();
             else
                 return 0;
         }

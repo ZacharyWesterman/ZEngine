@@ -341,7 +341,7 @@ namespace z
                 {
                     analyze_variable();
                 }
-                else if (root->type == phrase::LITERAL)
+                else if (root->type == ident::LITERAL)
                 {
                     analyze_literal();
                 }

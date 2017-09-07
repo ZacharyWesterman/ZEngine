@@ -118,7 +118,7 @@ namespace z
             core::sortedRefArray< core::string<CHAR>* >* file_list;
 
 
-            file::loader<CHAR> fLoader;
+            file::reader<CHAR> fLoader;
 
             scanner<CHAR> fScanner;
             lexer<CHAR>   fLexer;

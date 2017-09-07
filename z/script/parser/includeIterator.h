@@ -230,7 +230,7 @@ namespace z
                         core::string<char> file = node_list[working_node].fullFileName();
 
                         fLoader.clear();
-                        fLoader.setFileName(file);
+                        fLoader.set(file);
 
                         int fileID = file_list->find(&file);
                         if (fileID < 0)
@@ -244,7 +244,7 @@ namespace z
                     }
                     else if (progress == PROG_LOADING)
                     {
-                        int loadmsg = fLoader.load(time);
+                        int loadmsg = fLoader.read(time);
 
                         if (loadmsg == -1)
                         {

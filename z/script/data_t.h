@@ -21,7 +21,7 @@
 #ifndef DATA_T_H_INCLUDED
 #define DATA_T_H_INCLUDED
 
-#include <z/core/float.h>
+#include <z/float.h>
 #include <z/core/string.h>
 #include <z/core/array.h>
 #include <z/math/remainder.h>
@@ -90,7 +90,7 @@ namespace z
             int d_type;
             error_flag d_error;
 
-            std::complex<zFloat> d_value;
+            std::complex<Float> d_value;
 
             core::string<CHAR> d_string;
 
@@ -121,7 +121,7 @@ namespace z
             data_t(const T& _real)
             {
                 d_type = data::VALUE;
-                d_value = (zFloat)_real;
+                d_value = (Float)_real;
             }
 
             template<
@@ -180,9 +180,9 @@ namespace z
             { d_type = new_type; }
 
             const core::string<CHAR> string() const;
-            const std::complex<zFloat> complex() const;
-            const zFloat real() const;
-            const zFloat imag() const;
+            const std::complex<Float> complex() const;
+            const Float real() const;
+            const Float imag() const;
 
             inline core::array< data_t<CHAR> >& array()
             { return d_array; }
@@ -240,7 +240,7 @@ namespace z
         {
             if (d_type == data::VALUE)
             {
-                d_value = d_value + (zFloat)1.0;
+                d_value = d_value + (Float)1.0;
             }
             else if (d_type == data::ARRAY)
             {
@@ -261,7 +261,7 @@ namespace z
         {
             if (d_type == data::VALUE)
             {
-                d_value = d_value - (zFloat)1.0;
+                d_value = d_value - (Float)1.0;
             }
             else if (d_type == data::ARRAY)
             {
@@ -286,7 +286,7 @@ namespace z
             if (d_type == data::VALUE)
             {
                 result = *this;
-                d_value = d_value + (zFloat)1.0;
+                d_value = d_value + (Float)1.0;
             }
             else if (d_type == data::ARRAY)
             {
@@ -310,7 +310,7 @@ namespace z
             if (d_type == data::VALUE)
             {
                 result = *this;
-                d_value = d_value - (zFloat)1.0;
+                d_value = d_value - (Float)1.0;
             }
             else if (d_type == data::ARRAY)
             {
@@ -470,19 +470,19 @@ namespace z
 
 
         template <typename CHAR>
-        const std::complex<zFloat> data_t<CHAR>::complex() const
+        const std::complex<Float> data_t<CHAR>::complex() const
         {
             if (d_type == data::VALUE)
                 return d_value;
             else if (d_type == data::STRING)
                 return d_string.complexValue();
             else
-                return std::complex<zFloat>();
+                return std::complex<Float>();
         }
 
 
         template <typename CHAR>
-        const zFloat data_t<CHAR>::real() const
+        const Float data_t<CHAR>::real() const
         {
             if (d_type == data::VALUE)
                 return d_value.real();
@@ -493,7 +493,7 @@ namespace z
         }
 
         template <typename CHAR>
-        const zFloat data_t<CHAR>::imag() const
+        const Float data_t<CHAR>::imag() const
         {
             if (d_type == data::VALUE)
                 return d_value.imag();
@@ -760,13 +760,18 @@ namespace z
                     result.d_type = data::ERROR;
                     result.d_error = error::FACTORIAL_NEGATIVE;
                 }
-                else if (d_value.real() > FACTORIAL_MAX_INPUT_DBL)
-                {
-                    result.d_type = data::ERROR;
-                    result.d_error = error::FACTORIAL_OVERFLOW;
-                }
                 else
-                    result = math::factorial(d_value.real());
+                {
+                    Float _rslt = math::factorial((long)d_value.real());
+
+                    if (_rslt == 0)
+                    {
+                        result.d_type = data::ERROR;
+                        result.d_error = error::FACTORIAL_OVERFLOW;
+                    }
+                    else
+                        result = _rslt;
+                }
             }
 
             return result;

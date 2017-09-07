@@ -134,9 +134,9 @@ namespace z
             core::string<CHAR>* addToSymTable(core::string<CHAR>*) const;
 
 
-            zFloat eval_binary_str(const core::string<CHAR>*) const;
-            zFloat eval_octal_str(const core::string<CHAR>*) const;
-            zFloat eval_hexadecimal_str(const core::string<CHAR>*) const;
+            Float eval_binary_str(const core::string<CHAR>*) const;
+            Float eval_octal_str(const core::string<CHAR>*) const;
+            Float eval_hexadecimal_str(const core::string<CHAR>*) const;
         };
 
 
@@ -981,7 +981,7 @@ namespace z
                     current_symbol.remove(0,1);
 
                     if (is_complex)
-                        current_ident.value = std::complex<zFloat>(0, current_symbol.value(2));
+                        current_ident.value = std::complex<Float>(0, current_symbol.value(2));
                     else
                         current_ident.value = current_symbol.value(2);
                 }
@@ -1028,7 +1028,7 @@ namespace z
                     current_symbol.remove(0,1);
 
                     if (is_complex)
-                        current_ident.value = std::complex<zFloat>(0, current_symbol.value(8));
+                        current_ident.value = std::complex<Float>(0, current_symbol.value(8));
                     else
                         current_ident.value = current_symbol.value(8);
                 }
@@ -1078,7 +1078,7 @@ namespace z
                     current_symbol.remove(0,1);
 
                     if (is_complex)
-                        current_ident.value = std::complex<zFloat>(0, current_symbol.value(16));
+                        current_ident.value = std::complex<Float>(0, current_symbol.value(16));
                     else
                         current_ident.value = current_symbol.value(16);
                 }
@@ -1126,7 +1126,7 @@ namespace z
                 if (return_good)
                 {
                     if (is_complex)
-                        current_ident.value = std::complex<zFloat>(0,current_symbol.value());
+                        current_ident.value = std::complex<Float>(0,current_symbol.value());
                     else
                         current_ident.value = current_symbol.value();
                 }
@@ -1185,150 +1185,6 @@ namespace z
         }
 
 
-
-        ///
-        ///
-        ///DEPRECATED
-        ///
-        ///
-
-        /*
-        ///function to evaluate binary strings
-        //assumes strings begin with "0b"
-        template <typename CHAR>
-        zFloat scanner<CHAR>::eval_binary_str(const core::string<CHAR>* input) const
-        {
-            zFloat result = 0;
-
-            bool reached_decimal = false;
-
-            zFloat frac_mul = 1;
-
-            for (int i=2; i<(input->length()); i++)
-            {
-                if (input->at(i) == (CHAR)46) // '.'
-                {
-                    reached_decimal = true;
-                }
-                else
-                {
-                    zFloat newResult;
-
-
-                    if (!reached_decimal)
-                    {
-                        newResult = (result * 2) + (input->at(i) - 48);
-
-                        std::cout << newResult << std::endl;
-
-                        if (newResult == std::numeric_limits<zFloat>::infinity())
-                            break;
-
-                        result += newResult;
-                    }
-                    else
-                    {
-                        frac_mul /= 2;
-
-                        newResult = result + frac_mul * (input->at(i) - 48);
-
-                        result = newResult;
-                    }
-
-                }
-            }
-
-            return result;
-        }
-
-        ///function to evaluate octal strings
-        //assumes strings begin with "0c"
-        template <typename CHAR>
-        zFloat scanner<CHAR>::eval_octal_str(const core::string<CHAR>* input) const
-        {
-            zFloat result = 0;
-
-            bool reached_decimal = false;
-
-            zFloat frac_mul = 1;
-
-            for (int i=2; i<(input->length()); i++)
-            {
-                if (input->at(i) == (CHAR)46) // '.'
-                {
-                    reached_decimal = true;
-                }
-                else
-                {
-                    if (!reached_decimal)
-                    {
-                        result *= 8;
-
-                        result += (input->at(i) - 48);
-                    }
-                    else
-                    {
-                        frac_mul /= 8;
-
-                        result += frac_mul * (input->at(i) - 48);
-                    }
-                }
-            }
-
-            return result;
-        }
-
-        ///function to evaluate hexadecimal strings
-        //assumes strings begin with "0h"
-        template <typename CHAR>
-        zFloat scanner<CHAR>::eval_hexadecimal_str(const core::string<CHAR>* input) const
-        {
-            zFloat result = 0;
-
-            bool reached_decimal = false;
-
-            zFloat frac_mul = 1;
-
-            for (int i=2; i<(input->length()); i++)
-            {
-                CHAR this_char = input->at(i);
-
-                if (this_char == (CHAR)46) // '.'
-                {
-                    reached_decimal = true;
-                }
-                else
-                {
-                    zFloat char_val;
-
-                    if (core::is_upper_alpha(this_char))
-                        char_val = this_char - 65 + 10;
-                    else if (core::is_lower_alpha(this_char))
-                        char_val = this_char - 97 + 10;
-                    else
-                        char_val = this_char - 48;
-
-
-                    if (!reached_decimal)
-                    {
-                        result *= 16;
-
-                        std::cout << result << std::endl;
-
-                        result += char_val;
-                    }
-                    else
-                    {
-                        frac_mul /= 16;
-
-                        result += frac_mul * char_val;
-                    }
-                }
-            }
-
-            return result;
-        }
-        */
     }
 }
 

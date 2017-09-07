@@ -21,8 +21,8 @@
 #define INCLUDEITERATOR_H_INCLUDED
 
 #include <z/core/array.h>
-#include <z/file/loadFileTimeout.h>
-#include <z/file/directoryOperations.h>
+#include <z/file/reader.h>
+#include <z/file/shorten.h>
 #include <z/file/exists.h>
 #include <z/core/timeout.h>
 

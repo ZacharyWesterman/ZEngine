@@ -424,7 +424,7 @@ namespace script
         {
             varSignature _var (root->children[0]->meta, uniqueID_current);
 
-            error_flag err = current_scope->addVar(_var);
+            errorFlag err = current_scope->addVar(_var);
 
             if (err)
             {
@@ -721,7 +721,7 @@ namespace script
             }
 
             //add typed-var to current scope
-            error_flag err =
+            errorFlag err =
                 current_scope->addVar(varSignature(root->children[1]->meta,
                                                    uniqueID_current,
                                                    root->children[0]->meta));
@@ -849,7 +849,7 @@ namespace script
         {
             if (root->type == phrase::FORMALTYPEDECL)
             {
-                error_flag err = current_scope->addVar(varSignature(root->children[1]->meta,
+                errorFlag err = current_scope->addVar(varSignature(root->children[1]->meta,
                                                    uniqueID_current++,
                                                    root->children[0]->meta));
 
@@ -864,7 +864,7 @@ namespace script
             }
             else
             {
-                error_flag err = current_scope->addVar(varSignature(root->children[0]->meta,
+                errorFlag err = current_scope->addVar(varSignature(root->children[0]->meta,
                                                    uniqueID_current++));
 
                 if (err)

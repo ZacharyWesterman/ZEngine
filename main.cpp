@@ -135,7 +135,7 @@ public:
     ~func_sin() {}
 
 
-    error_flag addParam(const data_t<char>& next_param)
+    errorFlag addParam(const data_t<char>& next_param)
     {
         if (next_param.type() != data::VALUE)
             return error::PARAM_MUST_VALUE;
@@ -162,7 +162,7 @@ public:
     ~func_log() {}
 
 
-    error_flag addParam(const data_t<char>& next_param)
+    errorFlag addParam(const data_t<char>& next_param)
     {
         if (next_param.type() != data::VALUE)
             return error::PARAM_MUST_VALUE;

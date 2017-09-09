@@ -1,7 +1,7 @@
 /**
  * File:            script_errors.h
  * Namespace:       z::script::error
- * Description:     The z::script::error_flag type is defined here.
+ * Description:     The z::script::errorFlag type is defined here.
  *                  Additionally, all error flags are defined here.
  *
  *
@@ -21,7 +21,7 @@ namespace z
 {
     namespace script
     {
-        typedef uint8_t error_flag; //error range [0, 255]
+        typedef uint8_t errorFlag; //error range [0, 255]
 
         namespace error
         {
@@ -135,7 +135,7 @@ namespace z
             int line;
             int column;
 
-            error_flag err;
+            errorFlag err;
 
             core::string<CHAR>* file;
 
@@ -151,7 +151,7 @@ namespace z
                 file = NULL;
             }
 
-            parser_error(int Line, int Column, error_flag Error,
+            parser_error(int Line, int Column, errorFlag Error,
                          const core::string<CHAR>& extra, core::string<CHAR>* fileID)
             {
                 line = Line;
@@ -164,7 +164,7 @@ namespace z
                 file = fileID;
             }
 
-            parser_error(int Line, int Column, error_flag Error, core::string<CHAR>* fileID)
+            parser_error(int Line, int Column, errorFlag Error, core::string<CHAR>* fileID)
             {
                 line = Line;
                 column = Column;

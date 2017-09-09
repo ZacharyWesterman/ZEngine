@@ -88,7 +88,7 @@ namespace z
         {
         public:
             int d_type;
-            error_flag d_error;
+            errorFlag d_error;
 
             std::complex<Float> d_value;
 
@@ -106,7 +106,7 @@ namespace z
                 d_error = 0;
             }
 
-            data_t(error_flag new_error)
+            data_t(errorFlag new_error)
             {
 
                 d_type = data::ERROR;
@@ -187,7 +187,7 @@ namespace z
             inline core::array< data_t<CHAR> >& array()
             { return d_array; }
 
-            error_flag error() const
+            errorFlag error() const
             {
                 if (d_type == data::ERROR)
                     return d_error;

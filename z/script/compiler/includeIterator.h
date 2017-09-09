@@ -74,7 +74,7 @@ namespace script
             int insert_index;
             iter_progress progress;
 
-            error_flag generic_error;
+            errorFlag generic_error;
 
             //pointer to this node's file
             core::string<CHAR>* file;

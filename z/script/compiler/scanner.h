@@ -636,7 +636,7 @@ namespace script
         template <typename CHAR>
         bool scanner<CHAR>::list_opers(core::string<CHAR>& input)
         {
-            error_flag oper_error = error::NONE;
+            errorFlag oper_error = error::NONE;
 
             core::array< ident_t<CHAR> > temp_opers;
 
@@ -963,17 +963,17 @@ namespace script
 
 
             bool pastDecimal = false;
-            bool pastExponent = false;
-            bool exponentLast = false;
+            //bool pastExponent = false;
+            //bool exponentLast = false;
 
             for (int i=0; i<(current_symbol.length()); i++)
             {
-                CHAR _char = symbol[e];
+                CHAR _char = symbol[i];
 
 
                 if (_char == (CHAR)'.')
                 {
-                    if (found_decimal)
+                    if (pastDecimal)
                     {
                         error_buffer.add(
                                 parser_error<CHAR>(current_ident.line,
@@ -984,7 +984,7 @@ namespace script
                         return_good = false;
                     }
 
-                    found_decimal = true;
+                    pastDecimal = true;
                 }
                 else if (!core::isNumeric(_char, base))
                 {
@@ -992,9 +992,9 @@ namespace script
 
                     if (base == 2)
                         err = error::INVALID_NUMBER_BASE2;
-                    else if (base = 8)
+                    else if (base == 8)
                         err = error::INVALID_NUMBER_BASE8;
-                    else if (base = 16)
+                    else if (base == 16)
                         err = error::INVALID_NUMBER_BASE16;
                     else
                         err = error::INVALID_NUMBER_BASE10;
@@ -1002,7 +1002,7 @@ namespace script
                     error_buffer.add(
                                 parser_error<CHAR>(current_ident.line,
                                              current_ident.column,
-                                             error::INVALID_NUMBER_BASE10,
+                                             err,
                                              current_symbol, file));
 
                         return_good = false;
@@ -1013,9 +1013,9 @@ namespace script
             if (return_good)
             {
                 if (is_complex)
-                    current_ident.value = std::complex<Float>(0,current_symbol.value());
+                    current_ident.value = std::complex<Float>(0,symbol.value(base));
                 else
-                    current_ident.value = current_symbol.value();
+                    current_ident.value = symbol.value(base);
             }
         }
 

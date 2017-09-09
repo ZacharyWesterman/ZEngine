@@ -54,7 +54,7 @@ namespace z
             inline bool operator==(const varScope& other) const
             { return false; }
 
-            error_flag addVar(const varSignature&);
+            errorFlag addVar(const varSignature&);
             bool assignVar(const varSignature&);
 
             bool exists(const varSignature&);
@@ -65,7 +65,7 @@ namespace z
             varSignature getVariable(const varSignature&);
         };
 
-        error_flag varScope::addVar(const varSignature& _var)
+        errorFlag varScope::addVar(const varSignature& _var)
         {
             if (vars.find(_var) > -1)
                 return error::VARIABLE_REDECLARED;

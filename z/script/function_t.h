@@ -77,7 +77,7 @@ namespace z
             virtual ~function_t() {}
 
 
-            virtual error_flag addParam(const data_t<CHAR>& next_param)
+            virtual errorFlag addParam(const data_t<CHAR>& next_param)
             {
                 params.add(next_param);
 
@@ -139,7 +139,7 @@ namespace z
             { return return_value; }
 
 
-            error_flag paramCountError() const
+            errorFlag paramCountError() const
             {
                 if (params_max < 0)
                     return error::NONE;

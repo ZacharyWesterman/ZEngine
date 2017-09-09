@@ -20,7 +20,9 @@
 
 namespace z
 {
-    namespace script
+namespace script
+{
+    namespace compiler
     {
         template <typename CHAR>
         bool lexer<CHAR>::parenthexpr()
@@ -58,6 +60,7 @@ namespace z
                 return false;
         }
     }
+}
 }
 
 #endif // PARENTHEXPR_H_INCLUDED

@@ -20,7 +20,9 @@
 
 namespace z
 {
-    namespace script
+namespace script
+{
+    namespace compiler
     {
         template <typename CHAR>
         bool lexer<CHAR>::variable_decl()
@@ -82,6 +84,7 @@ namespace z
             return false;
         }
     }
+}
 }
 
 #endif // VARIABLE_DECL_H_INCLUDED

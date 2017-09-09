@@ -20,7 +20,9 @@
 
 namespace z
 {
-    namespace script
+namespace script
+{
+    namespace compiler
     {
         template <typename CHAR>
         bool lexer<CHAR>::typevar_decl()
@@ -85,6 +87,7 @@ namespace z
             return false;
         }
     }
+}
 }
 
 #endif // TYPEVAR_DECL_H_INCLUDED

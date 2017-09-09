@@ -20,7 +20,9 @@
 
 namespace z
 {
-    namespace script
+namespace script
+{
+    namespace compiler
     {
         template <typename CHAR>
         bool lexer<CHAR>::negatexpr()
@@ -62,6 +64,7 @@ namespace z
                 return false;
         }
     }
+}
 }
 
 #endif // NEGATEXPR_H_INCLUDED

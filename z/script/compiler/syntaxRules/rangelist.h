@@ -20,7 +20,9 @@
 
 namespace z
 {
-    namespace script
+namespace script
+{
+    namespace compiler
     {
         template <typename CHAR>
         bool lexer<CHAR>::rangelist()
@@ -90,6 +92,7 @@ namespace z
                 return false;
         }
     }
+}
 }
 
 #endif // RANGELIST_H_INCLUDED

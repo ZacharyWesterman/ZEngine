@@ -20,7 +20,9 @@
 
 namespace z
 {
-    namespace script
+namespace script
+{
+    namespace compiler
     {
         template <typename CHAR>
         bool lexer<CHAR>::int_decllist()
@@ -72,6 +74,7 @@ namespace z
                 return false;
         }
     }
+}
 }
 
 #endif // INT_DECLLIST_H_INCLUDED

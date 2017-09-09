@@ -20,7 +20,9 @@
 
 namespace z
 {
-    namespace script
+namespace script
+{
+    namespace compiler
     {
         template <typename CHAR>
         bool lexer<CHAR>::varindex()
@@ -54,6 +56,7 @@ namespace z
                 return false;
         }
     }
+}
 }
 
 #endif // VARINDEX_H_INCLUDED

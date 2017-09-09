@@ -269,7 +269,7 @@ int main(int argc, char* argv[])
 
 
 
-    z::script::phrase_t<char>* AST = genAST.moveResultAST();
+    z::script::compiler::phrase_t<char>* AST = genAST.moveResultAST();
 
     //z::script::print_lex_ast(0, AST);
 
@@ -307,13 +307,13 @@ int main(int argc, char* argv[])
     }
 
 
-    z::script::print_lex_ast(0, AST);
+    z::script::compiler::print_lex_ast(0, AST);
 
     printErrors(semantics.error_buffer);
 
 
     if (AST)
-        script::delete_ast(AST);
+        script::compiler::delete_ast(AST);
 
     std::cout << "\nDone in " << iter << " iterations.\n";
 

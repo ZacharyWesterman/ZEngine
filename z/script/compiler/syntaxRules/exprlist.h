@@ -20,7 +20,9 @@
 
 namespace z
 {
-    namespace script
+namespace script
+{
+    namespace compiler
     {
         template <typename CHAR>
         bool lexer<CHAR>::exprlist()
@@ -103,6 +105,7 @@ namespace z
             return false;
         }
     }
+}
 }
 
 #endif // EXPRLIST_H_INCLUDED

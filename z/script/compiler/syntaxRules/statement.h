@@ -20,7 +20,9 @@
 
 namespace z
 {
-    namespace script
+namespace script
+{
+    namespace compiler
     {
         template <typename CHAR>
         bool lexer<CHAR>::statement()
@@ -102,6 +104,7 @@ namespace z
             return false;
         }
     }
+}
 }
 
 #endif // STATEMENT_H_INCLUDED

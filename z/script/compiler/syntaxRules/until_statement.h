@@ -20,7 +20,9 @@
 
 namespace z
 {
-    namespace script
+namespace script
+{
+    namespace compiler
     {
         template <typename CHAR>
         bool lexer<CHAR>::until_statement()
@@ -55,6 +57,7 @@ namespace z
                 return false;
         }
     }
+}
 }
 
 #endif // UNTIL_STATEMENT_H_INCLUDED

@@ -20,7 +20,9 @@
 
 namespace z
 {
-    namespace script
+namespace script
+{
+    namespace compiler
     {
         template <typename CHAR>
         bool lexer<CHAR>::_index()
@@ -55,6 +57,7 @@ namespace z
                 return false;
         }
     }
+}
 }
 
 #endif // INDEX_H_INCLUDED

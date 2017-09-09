@@ -20,7 +20,9 @@
 
 namespace z
 {
-    namespace script
+namespace script
+{
+    namespace compiler
     {
         template <typename CHAR>
         bool lexer<CHAR>::function_decl()
@@ -427,6 +429,7 @@ namespace z
             return false;
         }
     }
+}
 }
 
 #endif // FUNCTION_DECL_H_INCLUDED

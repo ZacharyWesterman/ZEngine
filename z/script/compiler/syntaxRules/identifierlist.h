@@ -20,7 +20,9 @@
 
 namespace z
 {
-    namespace script
+namespace script
+{
+    namespace compiler
     {
         template <typename CHAR>
         bool lexer<CHAR>::identifierlist()
@@ -95,6 +97,7 @@ namespace z
             return false;
         }
     }
+}
 }
 
 #endif // IDENTIFIERLIST_H_INCLUDED

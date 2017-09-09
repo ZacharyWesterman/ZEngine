@@ -20,7 +20,9 @@
 
 namespace z
 {
-    namespace script
+namespace script
+{
+    namespace compiler
     {
         template <typename CHAR>
         bool lexer<CHAR>::statementlist()
@@ -62,6 +64,7 @@ namespace z
             return false;
         }
     }
+}
 }
 
 #endif // STATEMENTLIST_H_INCLUDED

@@ -20,7 +20,9 @@
 
 namespace z
 {
-    namespace script
+namespace script
+{
+    namespace compiler
     {
         template <typename CHAR>
         bool lexer<CHAR>::loop_statement()
@@ -126,6 +128,7 @@ namespace z
             return false;
         }
     }
+}
 }
 
 #endif // LOOP_STATEMENT_H_INCLUDED

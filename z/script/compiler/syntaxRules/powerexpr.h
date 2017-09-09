@@ -20,7 +20,9 @@
 
 namespace z
 {
-    namespace script
+namespace script
+{
+    namespace compiler
     {
         template <typename CHAR>
         bool lexer<CHAR>::powerexpr()
@@ -69,6 +71,7 @@ namespace z
                 return false;
         }
     }
+}
 }
 
 #endif // POWEREXPR_H_INCLUDED

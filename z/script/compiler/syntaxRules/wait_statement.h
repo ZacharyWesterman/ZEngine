@@ -20,7 +20,9 @@
 
 namespace z
 {
-    namespace script
+namespace script
+{
+    namespace compiler
     {
         template <typename CHAR>
         bool lexer<CHAR>::wait_statement()
@@ -53,6 +55,7 @@ namespace z
                 return false;
         }
     }
+}
 }
 
 #endif // WAIT_STATEMENT_H_INCLUDED

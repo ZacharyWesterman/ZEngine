@@ -20,7 +20,9 @@
 
 namespace z
 {
-    namespace script
+namespace script
+{
+    namespace compiler
     {
         template <typename CHAR>
         bool lexer<CHAR>::_command()
@@ -81,6 +83,7 @@ namespace z
                 return false;
         }
     }
+}
 }
 
 #endif // COMMAND_H_INCLUDED

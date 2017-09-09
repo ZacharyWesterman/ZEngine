@@ -20,7 +20,9 @@
 
 namespace z
 {
-    namespace script
+namespace script
+{
+    namespace compiler
     {
         template <typename CHAR>
         bool lexer<CHAR>::_range()
@@ -63,6 +65,7 @@ namespace z
                 return false;
         }
     }
+}
 }
 
 #endif // RANGE_H_INCLUDED

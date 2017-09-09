@@ -20,7 +20,9 @@
 
 namespace z
 {
-    namespace script
+namespace script
+{
+    namespace compiler
     {
         template <typename CHAR>
         bool lexer<CHAR>::multiplyexpr()
@@ -73,6 +75,7 @@ namespace z
                 return false;
         }
     }
+}
 }
 
 #endif // MULTIPLYEXPR_H_INCLUDED

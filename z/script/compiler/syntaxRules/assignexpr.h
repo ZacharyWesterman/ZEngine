@@ -20,7 +20,9 @@
 
 namespace z
 {
-    namespace script
+namespace script
+{
+    namespace compiler
     {
         template <typename CHAR>
         bool lexer<CHAR>::assignexpr()
@@ -56,6 +58,7 @@ namespace z
                 return false;
         }
     }
+}
 }
 
 #endif // ASSIGNEXPR_H_INCLUDED

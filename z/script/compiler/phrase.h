@@ -22,7 +22,9 @@
 
 namespace z
 {
-    namespace script
+namespace script
+{
+    namespace compiler
     {
         namespace phrase
         {
@@ -187,6 +189,7 @@ namespace z
             }
         };
     }
+}
 }
 
 #endif // PHRASE_H_INCLUDED

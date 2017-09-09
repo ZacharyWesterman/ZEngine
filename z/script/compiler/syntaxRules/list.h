@@ -20,7 +20,9 @@
 
 namespace z
 {
-    namespace script
+namespace script
+{
+    namespace compiler
     {
         template <typename CHAR>
         bool lexer<CHAR>::_list()
@@ -102,6 +104,7 @@ namespace z
             return false;
         }
     }
+}
 }
 
 #endif // LIST_H_INCLUDED

@@ -20,7 +20,9 @@
 
 namespace z
 {
-    namespace script
+namespace script
+{
+    namespace compiler
     {
         template <typename CHAR>
         bool lexer<CHAR>::add1expr()
@@ -84,6 +86,7 @@ namespace z
             return false;
         }
     }
+}
 }
 
 #endif // ADD1EXPR_H_INCLUDED

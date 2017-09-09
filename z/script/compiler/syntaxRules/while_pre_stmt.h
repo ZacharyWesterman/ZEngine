@@ -20,7 +20,9 @@
 
 namespace z
 {
-    namespace script
+namespace script
+{
+    namespace compiler
     {
         template <typename CHAR>
         bool lexer<CHAR>::while_pre_stmt()
@@ -144,6 +146,7 @@ namespace z
             return false;
         }
     }
+}
 }
 
 #endif // WHILE_PRE_STMT_H_INCLUDED

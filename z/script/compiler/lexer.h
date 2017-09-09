@@ -34,7 +34,9 @@
 
 namespace z
 {
-    namespace script
+namespace script
+{
+    namespace compiler
     {
         ///debug
         const char* symTypeStr[] =
@@ -503,7 +505,7 @@ namespace z
                     }
                     else
                     {
-                        if (error_oper()        ||
+                        /*if (error_oper()        ||
                             error_semicolon()   ||
                             error_for()
                             )
@@ -513,7 +515,7 @@ namespace z
 
                             progress = lex::GENERAL;
                         }
-                        else
+                        else*/
                             index++;
                     }
                 }
@@ -577,6 +579,8 @@ namespace z
         }
     }
 }
+}
+
 
 #include "syntaxRules/identifierlist.h"
 #include "syntaxRules/command.h"
@@ -632,10 +636,10 @@ namespace z
 #include "syntaxRules/program.h"
 #include "syntaxRules/stop_statement.h"
 
-
+/*
 #include "syntaxErrors/error_oper.h"
 #include "syntaxErrors/error_semicolon.h"
 #include "syntaxErrors/error_for.h"
-
+*/
 
 #endif // LEXER_H_INCLUDED

@@ -134,11 +134,6 @@ namespace script
             void check_this_number();
 
             core::string<CHAR>* addToSymTable(core::string<CHAR>*) const;
-
-
-            Float eval_binary_str(const core::string<CHAR>*) const;
-            Float eval_octal_str(const core::string<CHAR>*) const;
-            Float eval_hexadecimal_str(const core::string<CHAR>*) const;
         };
 
 
@@ -927,211 +922,100 @@ namespace script
 
         ///If the current identifier matches a number form, check what form the number is in
         ///(e.g. decimal, binary, octal or hexadecimal) and convert to a number.
-        //returns false if an error was found.
         template <typename CHAR>
         void scanner<CHAR>::check_this_number()
         {
+            core::string<CHAR> symbol = current_symbol;
+
             bool return_good = true;
             bool is_complex = false;
 
-            if (current_symbol.endsWith("i"))
+            if (symbol.endsWith("i"))
             {
                 is_complex = true;
-                current_symbol.remove(current_symbol.length()-1, current_symbol.length());
+                symbol.remove(symbol.length()-1, symbol.length());
             }
 
-            bool found_decimal = false;
 
-            if (current_symbol.beginsWith("0b"))
+            int base;
+
+            if (symbol.beginsWith("0b"))
             {
-                //Error check for binary numbers
-                for (int e=2; e<(current_symbol.length()); e++)
-                {
-                    CHAR _char = current_symbol.at(e);
-
-                    if ((_char != (CHAR)48) && //not 0 or 1
-                        (_char != (CHAR)49) &&
-                        (_char != (CHAR)46)) //not a decimal point
-                    {
-                        error_buffer.add(
-                                parser_error<CHAR>(current_ident.line,
-                                             current_ident.column,
-                                             error::INVALID_NUMBER_BASE2,
-                                             current_symbol, file));
-
-                        return_good = false;
-                    }
-                    else if (_char == (CHAR)46)
-                    {
-                        if (found_decimal)
-                        {
-                            error_buffer.add(
-                                    parser_error<CHAR>(current_ident.line,
-                                                 current_ident.column,
-                                                 error::NUMBER_EXCESS_DECIMALS,
-                                                 current_symbol, file));
-
-                            return_good = false;
-                        }
-
-                        found_decimal = true;
-                    }
-                }
-
-                if (return_good)
-                {
-                    current_symbol.remove(0,1);
-
-                    if (is_complex)
-                        current_ident.value = std::complex<Float>(0, current_symbol.value(2));
-                    else
-                        current_ident.value = current_symbol.value(2);
-                }
+                base = 2;
+                symbol.remove(0,1);
             }
             else if (current_symbol.beginsWith("0c") ||
                      current_symbol.beginsWith("0o"))
             {
-                //Error check for octal numbers
-                for (int e=2; e<(current_symbol.length()); e++)
-                {
-                    CHAR _char = current_symbol.at(e);
-
-                    if ((_char != (CHAR)46) && //not a decimal point
-                        ((_char < (CHAR)48) || //not from 0 to 7
-                         (_char > (CHAR)55)))
-                    {
-                        error_buffer.add(
-                                parser_error<CHAR>(current_ident.line,
-                                             current_ident.column,
-                                             error::INVALID_NUMBER_BASE8,
-                                             current_symbol, file));
-
-                        return_good = false;
-                    }
-                    else if (_char == (CHAR)46)
-                    {
-                        if (found_decimal)
-                        {
-                            error_buffer.add(
-                                    parser_error<CHAR>(current_ident.line,
-                                                 current_ident.column,
-                                                 error::NUMBER_EXCESS_DECIMALS,
-                                                 current_symbol, file));
-
-                            return_good = false;
-                        }
-
-                        found_decimal = true;
-                    }
-                }
-
-                if (return_good)
-                {
-                    current_symbol.remove(0,1);
-
-                    if (is_complex)
-                        current_ident.value = std::complex<Float>(0, current_symbol.value(8));
-                    else
-                        current_ident.value = current_symbol.value(8);
-                }
+                base = 8;
+                symbol.remove(0,1);
             }
             else if (current_symbol.beginsWith("0h") ||
                      current_symbol.beginsWith("0x"))
             {
-                //Error check for hexadecimal numbers
-                for (int e=2; e<(current_symbol.length()); e++)
-                {
-                    CHAR _char = current_symbol.at(e);
-
-                    if ((_char != (CHAR)46) && //not a decimal point
-                        ((_char == (CHAR)95) || //'_'
-                         ((_char > (CHAR)102) && //'g' to 'z'
-                          (_char <= (CHAR)122)) ||
-                         ((_char > (CHAR)70) && //'G' to 'Z'
-                          (_char <= (CHAR)90))))
-                    {
-                        error_buffer.add(
-                                parser_error<CHAR>(current_ident.line,
-                                             current_ident.column,
-                                             error::INVALID_NUMBER_BASE16,
-                                             current_symbol, file));
-
-                        return_good = false;
-                    }
-                    else if (_char == (CHAR)46)
-                    {
-                        if (found_decimal)
-                        {
-                            error_buffer.add(
-                                    parser_error<CHAR>(current_ident.line,
-                                                 current_ident.column,
-                                                 error::NUMBER_EXCESS_DECIMALS,
-                                                 current_symbol, file));
-
-                            return_good = false;
-                        }
-
-                        found_decimal = true;
-                    }
-                }
-
-                if (return_good)
-                {
-                    current_symbol.remove(0,1);
-
-                    if (is_complex)
-                        current_ident.value = std::complex<Float>(0, current_symbol.value(16));
-                    else
-                        current_ident.value = current_symbol.value(16);
-                }
+                base = 16;
+                symbol.remove(0,1);
             }
             else
             {
-                //Error check for decimal numbers
-                for (int e=0; e<(current_symbol.length()); e++)
+                base = 10;
+            }
+
+
+            bool pastDecimal = false;
+            bool pastExponent = false;
+            bool exponentLast = false;
+
+            for (int i=0; i<(current_symbol.length()); i++)
+            {
+                CHAR _char = symbol[e];
+
+
+                if (_char == (CHAR)'.')
                 {
-                    CHAR _char = current_symbol.at(e);
-
-
-                    if (_char == (CHAR)46)
-                    {
-                        if (found_decimal)
-                        {
-                            error_buffer.add(
-                                    parser_error<CHAR>(current_ident.line,
-                                                 current_ident.column,
-                                                 error::NUMBER_EXCESS_DECIMALS,
-                                                 current_symbol, file));
-
-                            return_good = false;
-                        }
-
-                        found_decimal = true;
-                    }
-                    else if (_char == (CHAR)69) //exponent
-                    {
-                        if (current_symbol.at(e+1) == (CHAR)45)
-                            e++;
-                    }
-                    else if (!core::isNumeric(_char)) //non-numeric characters
+                    if (found_decimal)
                     {
                         error_buffer.add(
+                                parser_error<CHAR>(current_ident.line,
+                                                current_ident.column,
+                                                error::NUMBER_EXCESS_DECIMALS,
+                                                current_symbol, file));
+
+                        return_good = false;
+                    }
+
+                    found_decimal = true;
+                }
+                else if (!core::isNumeric(_char, base))
+                {
+                    errorFlag err;
+
+                    if (base == 2)
+                        err = error::INVALID_NUMBER_BASE2;
+                    else if (base = 8)
+                        err = error::INVALID_NUMBER_BASE8;
+                    else if (base = 16)
+                        err = error::INVALID_NUMBER_BASE16;
+                    else
+                        err = error::INVALID_NUMBER_BASE10;
+
+                    error_buffer.add(
                                 parser_error<CHAR>(current_ident.line,
                                              current_ident.column,
                                              error::INVALID_NUMBER_BASE10,
                                              current_symbol, file));
 
                         return_good = false;
-                    }
                 }
+            }
 
-                if (return_good)
-                {
-                    if (is_complex)
-                        current_ident.value = std::complex<Float>(0,current_symbol.value());
-                    else
-                        current_ident.value = current_symbol.value();
-                }
+
+            if (return_good)
+            {
+                if (is_complex)
+                    current_ident.value = std::complex<Float>(0,current_symbol.value());
+                else
+                    current_ident.value = current_symbol.value();
             }
         }
 

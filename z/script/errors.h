@@ -129,7 +129,7 @@ namespace z
         }
 
         template <typename CHAR>
-        class parser_error
+        class parserError
         {
         public:
             int line;
@@ -141,7 +141,7 @@ namespace z
 
             core::string<CHAR> extra_data;
 
-            parser_error()
+            parserError()
             {
                 line = 0;
                 column = 0;
@@ -151,7 +151,7 @@ namespace z
                 file = NULL;
             }
 
-            parser_error(int Line, int Column, errorFlag Error,
+            parserError(int Line, int Column, errorFlag Error,
                          const core::string<CHAR>& extra, core::string<CHAR>* fileID)
             {
                 line = Line;
@@ -164,7 +164,7 @@ namespace z
                 file = fileID;
             }
 
-            parser_error(int Line, int Column, errorFlag Error, core::string<CHAR>* fileID)
+            parserError(int Line, int Column, errorFlag Error, core::string<CHAR>* fileID)
             {
                 line = Line;
                 column = Column;
@@ -174,7 +174,7 @@ namespace z
                 file = fileID;
             }
 
-            parser_error(const parser_error& other)
+            parserError(const parserError& other)
             {
                 line = other.line;
                 column = other.column;
@@ -186,7 +186,7 @@ namespace z
                 file = other.file;
             }
 
-            const parser_error& operator=(const parser_error& other)
+            const parserError& operator=(const parserError& other)
             {
                 line = other.line;
                 column = other.column;
@@ -200,7 +200,7 @@ namespace z
                 return *this;
             }
 
-            inline bool operator==(const parser_error& other) const
+            inline bool operator==(const parserError& other) const
             {
                 return err == other.err;
             }

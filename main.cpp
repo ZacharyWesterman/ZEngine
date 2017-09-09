@@ -16,11 +16,11 @@ using std::endl;
 
 ///debug
         template <typename CHAR>
-        void printErrors(const core::array< parser_error<CHAR> >& error_buffer)
+        void printErrors(const core::array< parserError<CHAR> >& error_buffer)
         {
             for (int e=0; e<error_buffer.size(); e++)
             {
-                parser_error<CHAR> perr = error_buffer[e];
+                parserError<CHAR> perr = error_buffer[e];
 
                 cout << "Error ";
 

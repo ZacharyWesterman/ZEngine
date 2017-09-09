@@ -64,7 +64,7 @@ namespace script
             void operate_add1expr();
 
         public:
-            core::array< parser_error<CHAR> > error_buffer;
+            core::array< parserError<CHAR> > error_buffer;
 
             constantFolder()
             {
@@ -170,7 +170,7 @@ namespace script
         void constantFolder<CHAR>::append_oper_error()
         {
             if (root->value.type() == data::ERROR)
-                error_buffer.add(parser_error<CHAR>(
+                error_buffer.add(parserError<CHAR>(
                                         root->line,
                                         root->column,
                                         root->value.error(),

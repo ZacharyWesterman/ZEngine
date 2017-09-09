@@ -69,7 +69,7 @@ namespace script
             //keep track of the current file
             core::string<CHAR>* file;
 
-            core::array< parser_error<CHAR> > error_buffer;
+            core::array< parserError<CHAR> > error_buffer;
 
             //constructor allows operators, commands, and functions be set
             scanner(core::sortedRefArray< core::string<CHAR>* >* symbol_table)
@@ -184,7 +184,7 @@ namespace script
                                 bad_esc_str += input->at(index+1);
 
                                 error_buffer.add(
-                                     parser_error<CHAR>(current_ident.line,
+                                     parserError<CHAR>(current_ident.line,
                                                         current_ident.column,
                                                         error::UNKNOWN_ESCAPE_SEQUENCE,
                                                         bad_esc_str, file));
@@ -368,18 +368,18 @@ namespace script
                         ident_t<CHAR> op_sym;
                         if (!open_symbol_indices.pop(op_sym))
                         {
-                            error_buffer.add(parser_error<CHAR>(line, column,
+                            error_buffer.add(parserError<CHAR>(line, column,
                                                           error::MISSING_L_PARENTH, file));
                         }
                         else if (op_sym.type == ident::LBRACKET)
                         {
-                            error_buffer.add(parser_error<CHAR>(op_sym.line,
+                            error_buffer.add(parserError<CHAR>(op_sym.line,
                                                           op_sym.column,
                                                           error::MISSING_R_BRACKET, file));
                         }
                         else if (op_sym.type == ident::LBRACE)
                         {
-                            error_buffer.add(parser_error<CHAR>(op_sym.line,
+                            error_buffer.add(parserError<CHAR>(op_sym.line,
                                                           op_sym.column,
                                                           error::MISSING_R_BRACE, file));
                         }
@@ -400,18 +400,18 @@ namespace script
                         ident_t<CHAR> op_sym;
                         if (!open_symbol_indices.pop(op_sym))
                         {
-                            error_buffer.add(parser_error<CHAR>(line, column,
+                            error_buffer.add(parserError<CHAR>(line, column,
                                                           error::MISSING_L_BRACKET, file));
                         }
                         else if (op_sym.type == ident::LPARENTH)
                         {
-                            error_buffer.add(parser_error<CHAR>(op_sym.line,
+                            error_buffer.add(parserError<CHAR>(op_sym.line,
                                                           op_sym.column,
                                                           error::MISSING_R_PARENTH, file));
                         }
                         else if (op_sym.type == ident::LBRACE)
                         {
-                            error_buffer.add(parser_error<CHAR>(op_sym.line,
+                            error_buffer.add(parserError<CHAR>(op_sym.line,
                                                           op_sym.column,
                                                           error::MISSING_R_BRACE, file));
                         }
@@ -432,18 +432,18 @@ namespace script
                         ident_t<CHAR> op_sym;
                         if (!open_symbol_indices.pop(op_sym))
                         {
-                            error_buffer.add(parser_error<CHAR>(line, column,
+                            error_buffer.add(parserError<CHAR>(line, column,
                                                           error::MISSING_L_BRACE, file));
                         }
                         else if (op_sym.type == ident::LBRACKET)
                         {
-                            error_buffer.add(parser_error<CHAR>(op_sym.line,
+                            error_buffer.add(parserError<CHAR>(op_sym.line,
                                                           op_sym.column,
                                                           error::MISSING_R_BRACKET, file));
                         }
                         else if (op_sym.type == ident::LPARENTH)
                         {
-                            error_buffer.add(parser_error<CHAR>(op_sym.line,
+                            error_buffer.add(parserError<CHAR>(op_sym.line,
                                                           op_sym.column,
                                                           error::MISSING_R_PARENTH, file));
                         }
@@ -570,19 +570,19 @@ namespace script
                 {
                     if (op_sym.type == ident::LPARENTH)
                     {
-                        error_buffer.add(parser_error<CHAR>(op_sym.line,
+                        error_buffer.add(parserError<CHAR>(op_sym.line,
                                                     op_sym.column,
                                                     error::MISSING_R_PARENTH, file));
                     }
                     else if (op_sym.type == ident::LBRACKET)
                     {
-                        error_buffer.add(parser_error<CHAR>(op_sym.line,
+                        error_buffer.add(parserError<CHAR>(op_sym.line,
                                                     op_sym.column,
                                                     error::MISSING_R_BRACKET, file));
                     }
                     else if (op_sym.type == ident::LBRACE)
                     {
-                        error_buffer.add(parser_error<CHAR>(op_sym.line,
+                        error_buffer.add(parserError<CHAR>(op_sym.line,
                                                     op_sym.column,
                                                     error::MISSING_R_BRACE, file));
                     }
@@ -852,7 +852,7 @@ namespace script
                 identifiers->add(ident_t<CHAR>(this_type,
                                                line, column-input.length()));
 
-                error_buffer.add(parser_error<CHAR>(line, column-input.length(),
+                error_buffer.add(parserError<CHAR>(line, column-input.length(),
                                               oper_error, input, file));
             }
 
@@ -976,7 +976,7 @@ namespace script
                     if (pastDecimal)
                     {
                         error_buffer.add(
-                                parser_error<CHAR>(current_ident.line,
+                                parserError<CHAR>(current_ident.line,
                                                 current_ident.column,
                                                 error::NUMBER_EXCESS_DECIMALS,
                                                 current_symbol, file));
@@ -1000,7 +1000,7 @@ namespace script
                         err = error::INVALID_NUMBER_BASE10;
 
                     error_buffer.add(
-                                parser_error<CHAR>(current_ident.line,
+                                parserError<CHAR>(current_ident.line,
                                              current_ident.column,
                                              err,
                                              current_symbol, file));

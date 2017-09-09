@@ -69,7 +69,7 @@ namespace script
 
             core::array< ident_t<CHAR> > identities;
 
-            core::array< parser_error<CHAR> > error_buffer;
+            core::array< parserError<CHAR> > error_buffer;
 
             int insert_index;
             iter_progress progress;
@@ -140,7 +140,7 @@ namespace script
             void mergeIncludes();
 
         public:
-            core::array< parser_error<CHAR> > error_buffer;
+            core::array< parserError<CHAR> > error_buffer;
 
             includeIterator(core::sortedRefArray< core::string<CHAR>* >* symbol_table,
                             core::sortedRefArray< core::string<CHAR>* >* _file_list) :
@@ -427,7 +427,7 @@ namespace script
                             else
                             {
                                 node_list[working_node].error_buffer.add(
-                                    parser_error<CHAR>(node_list[working_node].identities[i+1].line,
+                                    parserError<CHAR>(node_list[working_node].identities[i+1].line,
                                                         node_list[working_node].identities[i+1].column,
                                                         error::INCLUDE_LOAD_FAILED,
                                                         node_list[working_node].file));
@@ -444,7 +444,7 @@ namespace script
                     else
                     {
                         node_list[working_node].error_buffer.add(
-                            parser_error<CHAR>(node_list[working_node].identities[i].line,
+                            parserError<CHAR>(node_list[working_node].identities[i].line,
                                                 node_list[working_node].identities[i].column,
                                                 error::INVALID_INCLUDE,
                                                 node_list[working_node].file));

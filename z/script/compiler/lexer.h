@@ -255,7 +255,7 @@ namespace script
 
 
         public:
-            core::array< parser_error<CHAR> > error_buffer;
+            core::array< parserError<CHAR> > error_buffer;
 
             lexer()
             {
@@ -528,7 +528,7 @@ namespace script
             {
                 if (phrase_nodes.size() > 1)
                 {
-                    error_buffer.add(parser_error<CHAR>(-1, -1, error::SYNTAX_ERROR, NULL));
+                    error_buffer.add(parserError<CHAR>(-1, -1, error::SYNTAX_ERROR, NULL));
 
                     for (int n=0; n<phrase_nodes.size(); n++)
                     {

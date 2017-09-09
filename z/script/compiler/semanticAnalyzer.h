@@ -218,7 +218,7 @@ namespace script
             void analyze_funccall();
 
         public:
-            core::array< parser_error<CHAR> > error_buffer;
+            core::array< parserError<CHAR> > error_buffer;
 
             semanticAnalyzer(const core::array< command_t<CHAR>* >& _commands,
                      const core::array< function_t<CHAR>* >& _functions)
@@ -437,7 +437,7 @@ namespace script
 
                 msg += *((core::string<CHAR>*)root->children[0]->meta);
 
-                error_buffer.add(parser_error<CHAR>(root->line,
+                error_buffer.add(parserError<CHAR>(root->line,
                                                     root->column,
                                                     err,
                                                     msg,
@@ -526,7 +526,7 @@ namespace script
 
                 if (type_list.find(_type) > -1) //search types
                 {
-                    error_buffer.add(parser_error<CHAR>(root->line,
+                    error_buffer.add(parserError<CHAR>(root->line,
                                                         root->column,
                                                         error::FUNCTION_ALREADY_TYPE,
                                         *((core::string<CHAR>*)_type.type),
@@ -559,7 +559,7 @@ namespace script
                         core::string<CHAR> msg;
                         genFuncSigString(_func, msg);
 
-                        error_buffer.add(parser_error<CHAR>(root->line,
+                        error_buffer.add(parserError<CHAR>(root->line,
                                                             root->column,
                                                             error::FUNCTION_REDECLARED,
                                                             msg,
@@ -584,7 +584,7 @@ namespace script
             symID varID = _var.uniqueID;
 
             if (!varID)
-                error_buffer.add(parser_error<CHAR>(root->line,
+                error_buffer.add(parserError<CHAR>(root->line,
                                                     root->column,
                                                     error::VARIABLE_UNDECLARED,
                                     *((core::string<CHAR>*)root->children[0]->meta),
@@ -633,7 +633,7 @@ namespace script
                     }
 
                     if (!type_match)
-                        error_buffer.add(parser_error<CHAR>(root->line,
+                        error_buffer.add(parserError<CHAR>(root->line,
                                                     root->column,
                                                     error::TYPE_MISMATCH,
                                                     NULL,
@@ -653,7 +653,7 @@ namespace script
                     {
                         if (type1 != type2)
                         {
-                            error_buffer.add(parser_error<CHAR>(root->line,
+                            error_buffer.add(parserError<CHAR>(root->line,
                                                         root->column,
                                                         error::TYPE_MISMATCH,
                                                         NULL,
@@ -680,7 +680,7 @@ namespace script
 
                             if (type1)
                             {
-                                error_buffer.add(parser_error<CHAR>(root->line,
+                                error_buffer.add(parserError<CHAR>(root->line,
                                                         root->column,
                                                         error::TYPE_DISALLOWED,
                                                         NULL,
@@ -713,7 +713,7 @@ namespace script
 
             if (type_list.find(_type) <= -1)
             {
-                error_buffer.add(parser_error<CHAR>(root->line,
+                error_buffer.add(parserError<CHAR>(root->line,
                                                     root->column,
                                                     error::TYPE_UNDEFINED,
                                     *((core::string<CHAR>*)_type.type),
@@ -728,7 +728,7 @@ namespace script
 
             if (err)
             {
-                error_buffer.add(parser_error<CHAR>(root->line,
+                error_buffer.add(parserError<CHAR>(root->line,
                                                     root->column,
                                                     err,
                                     *((core::string<CHAR>*)root->children[1]->meta),
@@ -797,7 +797,7 @@ namespace script
 
                 if (i < function_list.size())
                 {
-                    error_buffer.add(parser_error<CHAR>(root->line,
+                    error_buffer.add(parserError<CHAR>(root->line,
                                                         root->column,
                                                 error::TYPE_ALREADY_FUNCTION,
                                                 *((core::string<CHAR>*)ID),
@@ -854,7 +854,7 @@ namespace script
                                                    root->children[0]->meta));
 
                 if (err)
-                    error_buffer.add(parser_error<CHAR>(root->line,
+                    error_buffer.add(parserError<CHAR>(root->line,
                                                         root->column,
                                                         err,
                                         *((core::string<CHAR>*)root->children[1]->meta),
@@ -868,7 +868,7 @@ namespace script
                                                    uniqueID_current++));
 
                 if (err)
-                    error_buffer.add(parser_error<CHAR>(root->line,
+                    error_buffer.add(parserError<CHAR>(root->line,
                                                         root->column,
                                                         err,
                                         *((core::string<CHAR>*)root->children[0]->meta),

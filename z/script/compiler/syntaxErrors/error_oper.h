@@ -32,7 +32,7 @@ namespace script
             if ((phrase_nodes[index]->type >= ident::OPER_ASSIGN) &&
                 (phrase_nodes[index]->type <= ident::OPER_L_ARROW))
             {
-                error_buffer.add(parser_error<CHAR>(phrase_nodes[index]->line,
+                error_buffer.add(parserError<CHAR>(phrase_nodes[index]->line,
                                                     phrase_nodes[index]->column,
                                                     error::UNEXPECTED_OPERATOR,
                                                     phrase_nodes[index]->file

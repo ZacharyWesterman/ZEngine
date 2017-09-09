@@ -34,7 +34,7 @@ namespace script
                 if (phrase_nodes.is_valid(index-1) &&
                     (phrase_nodes[index-1]->type == phrase::BOOLEXPR))
                 {
-                    error_buffer.add(parser_error<CHAR>(phrase_nodes[index]->line,
+                    error_buffer.add(parserError<CHAR>(phrase_nodes[index]->line,
                                                     phrase_nodes[index]->column,
                                                     error::STMT_OUTSIDE_FUNCTION,
                                                     phrase_nodes[index]->file
@@ -49,7 +49,7 @@ namespace script
                 //misplaced semicolons
                 else
                 {
-                    error_buffer.add(parser_error<CHAR>(phrase_nodes[index]->line,
+                    error_buffer.add(parserError<CHAR>(phrase_nodes[index]->line,
                                                     phrase_nodes[index]->column,
                                                     error::UNEXPECTED_SEMICOLON,
                                                     phrase_nodes[index]->file

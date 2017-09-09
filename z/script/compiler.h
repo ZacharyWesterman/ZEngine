@@ -10,7 +10,7 @@
 #define COMPILER_H_INCLUDED
 
 ///Scanner
-#include "compiler/escape_sequences.h"
+#include "compiler/escapeSequences.h"
 #include "compiler/identity.h"
 #include "compiler/scanner.h"
 

@@ -38,7 +38,9 @@ using namespace std;
 
 namespace z
 {
-    namespace script
+namespace script
+{
+    namespace compiler
     {
         struct funcSignature
         {
@@ -879,6 +881,7 @@ namespace z
         }
 
     }
+}
 }
 
 #endif // SEMANTICANALYZER_H_INCLUDED

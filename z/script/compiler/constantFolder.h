@@ -30,7 +30,9 @@
 
 namespace z
 {
-    namespace script
+namespace script
+{
+    namespace compiler
     {
         template <typename CHAR>
         class constantFolder
@@ -467,6 +469,7 @@ namespace z
                 exit_node();
         }
     }
+}
 }
 
 #endif // CONSTANTFOLDER_H_INCLUDED

@@ -35,7 +35,9 @@ using namespace std;
 
 namespace z
 {
-    namespace script
+namespace script
+{
+    namespace compiler
     {
         enum iter_progress
         {
@@ -459,6 +461,7 @@ namespace z
 
 
     }
+}
 }
 
 #endif // INCLUDEITERATOR_H_INCLUDED

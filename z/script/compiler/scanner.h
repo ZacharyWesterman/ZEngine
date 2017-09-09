@@ -25,7 +25,7 @@
 #include <z/core/timeout.h>
 #include <z/core/dynamicStack.h>
 
-#include "escape_sequences.h"
+#include "escapeSequences.h"
 #include "identity.h"
 
 #define NL '\n'
@@ -33,7 +33,9 @@
 
 namespace z
 {
-    namespace script
+namespace script
+{
+    namespace compiler
     {
 
         template <typename CHAR>
@@ -162,15 +164,15 @@ namespace z
                     }
                     else
                     {
-                        int esc_seq = (int)what_esc_sequence(*input, index);
+                        int esc_seq = (int)whatEscSequence(*input, index);
 
                         if (esc_seq)
                         {
                             core::string<CHAR> seq_name;
                             core::string<CHAR> seq_equiv;
 
-                            esc_sequence_name(esc_seq, seq_name);
-                            esc_sequence_equiv(esc_seq, seq_equiv);
+                            escSequenceName(esc_seq, seq_name);
+                            escSequenceEquiv(esc_seq, seq_equiv);
 
                             current_symbol += seq_equiv;
 
@@ -1187,7 +1189,7 @@ namespace z
 
     }
 }
-
+}
 
 #undef NL
 #undef CR

@@ -1,11 +1,7 @@
 #include <z/core.h>
 #include <z/math.h>
 
-#include "z/script/parser/includeIterator.h"
-
-#include "z/script/parser/constantFolder.h"
-
-#include "z/script/parser/semanticAnalyzer.h"
+#include "z/script.h"
 
 
 #include <iostream>
@@ -249,7 +245,7 @@ int main(int argc, char* argv[])
     core::sortedRefArray< core::string<char>* > file_list;
 
     //test the include iterator
-    z::script::includeIterator<char> genAST(&symbol_table, &file_list);
+    z::script::compiler::includeIterator<char> genAST(&symbol_table, &file_list);
 
     //cout << input.str() << endl;
 
@@ -280,7 +276,7 @@ int main(int argc, char* argv[])
     //cout << "\n------------------------------------\n\n";
     //cout << "AST after folding:\n\n";
 
-    z::script::constantFolder<char> cFolder;
+    z::script::compiler::constantFolder<char> cFolder;
 
     cFolder.setInput(AST);
 
@@ -299,7 +295,7 @@ int main(int argc, char* argv[])
     //cout << "\n------------------------------------\n\n";
     cout << "AST after semantic analysis:\n\n";
 
-    z::script::semanticAnalyzer<char> semantics(commands, functions);
+    z::script::compiler::semanticAnalyzer<char> semantics(commands, functions);
 
     semantics.setInput(AST);
 

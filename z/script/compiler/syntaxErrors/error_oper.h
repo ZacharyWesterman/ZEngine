@@ -20,7 +20,9 @@
 
 namespace z
 {
-    namespace script
+namespace script
+{
+    namespace compiler
     {
 
         template <typename CHAR>
@@ -46,6 +48,7 @@ namespace z
         }
 
     }
+}
 }
 
 #endif // ERROR_OPER_H_INCLUDED

@@ -505,7 +505,7 @@ namespace script
                     }
                     else
                     {
-                        /*if (error_oper()        ||
+                        if (error_oper()        ||
                             error_semicolon()   ||
                             error_for()
                             )
@@ -515,7 +515,7 @@ namespace script
 
                             progress = lex::GENERAL;
                         }
-                        else*/
+                        else
                             index++;
                     }
                 }
@@ -636,10 +636,10 @@ namespace script
 #include "syntaxRules/program.h"
 #include "syntaxRules/stop_statement.h"
 
-/*
+
 #include "syntaxErrors/error_oper.h"
 #include "syntaxErrors/error_semicolon.h"
 #include "syntaxErrors/error_for.h"
-*/
+
 
 #endif // LEXER_H_INCLUDED

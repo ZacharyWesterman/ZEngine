@@ -2663,7 +2663,7 @@
 	<z/core/array.h>
 	"identity.h"
 
-1504983338 /home/zwesterman/GitHub/ZEngine/z/script/compiler/lexer.h
+1504983773 /home/zwesterman/GitHub/ZEngine/z/script/compiler/lexer.h
 	<z/core/timeout.h>
 	<z/core/array.h>
 	<z/core/dynamicStack.h>
@@ -2833,11 +2833,11 @@
 
 1504983600 /home/zwesterman/GitHub/ZEngine/z/script/compiler/syntaxRules/stop_statement.h
 
-1504934819 /home/zwesterman/GitHub/ZEngine/z/script/compiler/syntaxErrors/error_oper.h
+1504983708 /home/zwesterman/GitHub/ZEngine/z/script/compiler/syntaxErrors/error_oper.h
 
-1504934819 /home/zwesterman/GitHub/ZEngine/z/script/compiler/syntaxErrors/error_semicolon.h
+1504983700 /home/zwesterman/GitHub/ZEngine/z/script/compiler/syntaxErrors/error_semicolon.h
 
-1504934819 /home/zwesterman/GitHub/ZEngine/z/script/compiler/syntaxErrors/error_for.h
+1504983719 /home/zwesterman/GitHub/ZEngine/z/script/compiler/syntaxErrors/error_for.h
 
 1504935404 /home/zwesterman/GitHub/ZEngine/z/script/compiler/constantFolder.h
 	<z/core/dynamicStack.h>

@@ -228,8 +228,6 @@ class cmd_print_error : public command_t<char>
 
 int main(int argc, char* argv[])
 {
-    cout << sizeof(z::Float) << endl;
-
     core::array< command_t<char>* > commands;
     core::array< function_t<char>* > functions;
 

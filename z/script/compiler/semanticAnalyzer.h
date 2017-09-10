@@ -27,6 +27,7 @@
 #include "../command_t.h"
 #include "../function_t.h"
 
+#include "signatures.h"
 #include "varScope.h"
 
 #ifndef NULL
@@ -42,64 +43,6 @@ namespace script
 {
     namespace compiler
     {
-        struct funcSignature
-        {
-            void* ID;
-            void* returnType;
-
-            symID uniqueID;
-
-            void* inType;
-
-            core::array< void* > paramTypes;
-            core::array< symID > params;
-
-            inline bool operator==(const funcSignature& other) const
-            { return (ID == other.ID) &&
-                     (inType == other.inType) &&
-                     (paramTypes == other.paramTypes); }
-
-            funcSignature(void* _ID, void* _returnType,
-                          symID _uniqueID, void* _inType)
-            {
-                ID = _ID;
-                returnType = _returnType;
-                uniqueID = _uniqueID;
-                inType = _inType;
-            }
-
-            const funcSignature& operator=(const funcSignature& other)
-            {
-                ID = other.ID;
-                returnType = other.returnType;
-                uniqueID = other.uniqueID;
-                inType = other.inType;
-                paramTypes = other.paramTypes;
-
-                return *this;
-            }
-        };
-
-        struct typeSignature
-        {
-            void* type;
-            varScope* scope;
-
-            inline bool operator==(const typeSignature& other) const
-            { return (type == other.type); }
-
-            typeSignature(void* _type, varScope* _scope)
-            {
-                type = _type;
-                scope = _scope;
-            }
-
-            core::array<symID> vars;
-            core::array<symID> funcs;
-        };
-
-
-
         ///debug
         void printScope(const varScope& _scope, int padding = 0, int scopeNum = 0)
         {

@@ -24,7 +24,9 @@
 
 namespace z
 {
-    namespace script
+namespace script
+{
+    namespace compiler
     {
         namespace ident
         {
@@ -218,6 +220,7 @@ namespace z
         };
 
     }
+}
 }
 
 #endif // IDENTITY_H_INCLUDED

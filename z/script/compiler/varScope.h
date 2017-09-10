@@ -15,30 +15,14 @@
 #ifndef VARSCOPE_H_INCLUDED
 #define VARSCOPE_H_INCLUDED
 
+#include "signatures.h"
+
 namespace z
 {
-    namespace script
+namespace script
+{
+    namespace compiler
     {
-        typedef unsigned long symID;
-
-        struct varSignature
-        {
-            void* ID;
-            void* type;
-
-            symID uniqueID;
-
-            inline bool operator==(const varSignature& other) const
-            { return (ID == other.ID); }
-
-            varSignature(void* _ID, unsigned long _uniqueID = 0, void* _type = NULL)
-            {
-                ID = _ID;
-                type = _type;
-
-                uniqueID = _uniqueID;
-            }
-        };
 
         struct varScope
         {
@@ -160,6 +144,7 @@ namespace z
 
 
     }
+}
 }
 
 #endif // VARSCOPE_H_INCLUDED

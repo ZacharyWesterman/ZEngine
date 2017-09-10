@@ -2193,7 +2193,7 @@
 
 1489353285 c:\users\zachary\documents\github\zengine\\z\script\errors.h
 
-1504985924 source:/home/zwesterman/GitHub/ZEngine/main.cpp
+1505073391 source:/home/zwesterman/GitHub/ZEngine/main.cpp
 	<z/core.h>
 	<z/math.h>
 	"z/script.h"
@@ -2324,7 +2324,7 @@
 	"../data_t.h"
 	"../errors.h"
 
-1504985924 /home/zwesterman/GitHub/ZEngine/z/script/errors.h
+1505073235 /home/zwesterman/GitHub/ZEngine/z/script/errors.h
 	<z/core/string.h>
 
 1504813627 /home/zwesterman/GitHub/zLibraries/z/core/timeout.h
@@ -2650,7 +2650,7 @@
 	"../data_t.h"
 	"../errors.h"
 
-1504985995 /home/zwesterman/GitHub/ZEngine/z/script/compiler/scanner.h
+1505073322 /home/zwesterman/GitHub/ZEngine/z/script/compiler/scanner.h
 	<limits>
 	<z/core/sortedArray.h>
 	<z/core/string.h>
@@ -2663,7 +2663,7 @@
 	<z/core/array.h>
 	"identity.h"
 
-1504983773 /home/zwesterman/GitHub/ZEngine/z/script/compiler/lexer.h
+1504986116 /home/zwesterman/GitHub/ZEngine/z/script/compiler/lexer.h
 	<z/core/timeout.h>
 	<z/core/array.h>
 	<z/core/dynamicStack.h>
@@ -2833,13 +2833,13 @@
 
 1504983600 /home/zwesterman/GitHub/ZEngine/z/script/compiler/syntaxRules/stop_statement.h
 
-1504983708 /home/zwesterman/GitHub/ZEngine/z/script/compiler/syntaxErrors/error_oper.h
+1504986116 /home/zwesterman/GitHub/ZEngine/z/script/compiler/syntaxErrors/error_oper.h
 
-1504983700 /home/zwesterman/GitHub/ZEngine/z/script/compiler/syntaxErrors/error_semicolon.h
+1504986116 /home/zwesterman/GitHub/ZEngine/z/script/compiler/syntaxErrors/error_semicolon.h
 
-1504983719 /home/zwesterman/GitHub/ZEngine/z/script/compiler/syntaxErrors/error_for.h
+1504986116 /home/zwesterman/GitHub/ZEngine/z/script/compiler/syntaxErrors/error_for.h
 
-1504935404 /home/zwesterman/GitHub/ZEngine/z/script/compiler/constantFolder.h
+1504986116 /home/zwesterman/GitHub/ZEngine/z/script/compiler/constantFolder.h
 	<z/core/dynamicStack.h>
 	<z/core/timeout.h>
 	"../errors.h"
@@ -2847,7 +2847,7 @@
 
 1504985924 /home/zwesterman/GitHub/ZEngine/z/script/compiler/varScope.h
 
-1504985924 /home/zwesterman/GitHub/ZEngine/z/script/compiler/semanticAnalyzer.h
+1504986116 /home/zwesterman/GitHub/ZEngine/z/script/compiler/semanticAnalyzer.h
 	<z/core/array.h>
 	<z/core/dynamicStack.h>
 	<z/core/timeout.h>
@@ -2858,7 +2858,7 @@
 	"varScope.h"
 	<iostream>
 
-1504985924 /home/zwesterman/GitHub/ZEngine/z/script/compiler/includeIterator.h
+1504986116 /home/zwesterman/GitHub/ZEngine/z/script/compiler/includeIterator.h
 	<z/core/array.h>
 	<z/file/reader.h>
 	<z/file/shorten.h>

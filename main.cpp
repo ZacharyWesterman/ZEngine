@@ -1,3 +1,5 @@
+//#define Z_USE_DOUBLE
+
 #include <z/core.h>
 #include <z/math.h>
 
@@ -38,9 +40,9 @@ using std::endl;
 
                 switch (perr.err)
                 {
-                case error::INVALID_IDENTIFIER:
-                    cout << "The symbol \"" << perr.extra_data.str() <<
-                            "\" contains illegal characters.";
+                case error::NUMBER_ILLEGAL_CHAR:
+                    cout << "'" << perr.extra_data.str()
+                         << "' contains illegal characters.";
                     break;
 
                 case error::UNKNOWN_OPERATOR:
@@ -226,6 +228,8 @@ class cmd_print_error : public command_t<char>
 
 int main(int argc, char* argv[])
 {
+    cout << sizeof(z::Float) << endl;
+
     core::array< command_t<char>* > commands;
     core::array< function_t<char>* > functions;
 

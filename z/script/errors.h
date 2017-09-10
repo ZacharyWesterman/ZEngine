@@ -31,10 +31,7 @@ namespace z
 
                 //scanner errors
                 INVALID_IDENTIFIER,
-                INVALID_NUMBER_BASE2,
-                INVALID_NUMBER_BASE8,
-                INVALID_NUMBER_BASE10,
-                INVALID_NUMBER_BASE16,
+                NUMBER_ILLEGAL_CHAR,
                 NUMBER_EXCESS_DECIMALS,
                 UNKNOWN_ESCAPE_SEQUENCE,
 

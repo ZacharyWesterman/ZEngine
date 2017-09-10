@@ -24,33 +24,43 @@ namespace script
 
             symID uniqueID;///<Unique value to identify with this variable.
 
-            /**
-             * \brief Compare this signature to another in the scope.
-             *
-             * This function is used to search for other variables
-             * with the same name in a given scope.
-             */
-            inline bool operator==(const varSignature& other) const
-            { return (ID == other.ID); }
 
-            /**
-             * \brief Full constructor.
-             *
-             * \param _ID the identifier for the variable name.
-             * \param _uniqueID an optional, unique value to
-             * identify the variable.
-             * \param _type an optional identifier for the
-             * variable type. If not given or \b NULL, the
-             * variable is assumed to be non-typed.
-             */
-            varSignature(void* _ID, unsigned long _uniqueID = 0, void* _type = NULL)
-            {
-                ID = _ID;
-                type = _type;
+            inline bool operator==(const varSignature&) const;
 
-                uniqueID = _uniqueID;
-            }
+            varSignature(void* _ID,
+                         unsigned long _uniqueID = 0,
+                         void* _type = NULL);
         };
+
+        /**
+         * \brief Compare this signature to another in the scope.
+         *
+         * This function is used to search for other variables
+         * with the same name in a given scope.
+         */
+        inline bool varSignature::operator==(const varSignature& other) const
+        {
+            return (ID == other.ID);
+        }
+
+        /**
+         * \brief Full constructor.
+         *
+         * \param _ID the identifier for the variable name.
+         * \param _uniqueID an optional, unique value to
+         * identify the variable.
+         * \param _type an optional identifier for the
+         * variable type. If not given or \b NULL, the
+         * variable is assumed to be non-typed.
+         */
+        varSignature::varSignature(void* _ID,
+                                   unsigned long _uniqueID,
+                                   void* _type)
+        {
+            ID = _ID;
+            type = _type;
+            uniqueID = _uniqueID;
+        }
 
 
         struct funcSignature

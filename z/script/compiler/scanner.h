@@ -134,6 +134,8 @@ namespace script
             void check_this_number();
 
             core::string<CHAR>* addToSymTable(core::string<CHAR>*) const;
+
+            void behav_in_string();
         };
 
 
@@ -152,45 +154,7 @@ namespace script
             {
                 if (in_string)
                 {
-                    if (input->at(index) == (CHAR)34)
-                    {
-                        in_string = false;
-                        index++;
-                    }
-                    else
-                    {
-                        int esc_seq = (int)whatEscSequence(*input, index);
-
-                        if (esc_seq)
-                        {
-                            core::string<CHAR> seq_name;
-                            core::string<CHAR> seq_equiv;
-
-                            escSequenceName(esc_seq, seq_name);
-                            escSequenceEquiv(esc_seq, seq_equiv);
-
-                            current_symbol += seq_equiv;
-
-                            index += seq_name.length() - 1;
-                            column += seq_name.length() - 1;
-                        }
-                        else
-                        {
-                            current_symbol += input->at(index);
-
-                            if (input->at(index) == (CHAR)92) //we have some unknown escape sequence
-                            {
-                                core::string<CHAR> bad_esc_str = (CHAR)92;
-                                bad_esc_str += input->at(index+1);
-
-                                error_buffer.add(
-                                     parserError<CHAR>(current_ident.line,
-                                                        current_ident.column,
-                                                        error::UNKNOWN_ESCAPE_SEQUENCE,
-                                                        bad_esc_str, file));
-                            }
-                        }
-                    }
+                    behav_in_string();
                 }
 
                 if (in_comment)
@@ -628,6 +592,51 @@ namespace script
             return done;
         }
 
+
+
+        template <typename CHAR>
+        void scanner<CHAR>::behav_in_string()
+        {
+            if (input->at(index) == (CHAR)34)
+            {
+                        in_string = false;
+                        index++;
+                    }
+                    else
+                    {
+                        int esc_seq = (int)whatEscSequence(*input, index);
+
+                        if (esc_seq)
+                        {
+                            core::string<CHAR> seq_name;
+                            core::string<CHAR> seq_equiv;
+
+                            escSequenceName(esc_seq, seq_name);
+                            escSequenceEquiv(esc_seq, seq_equiv);
+
+                            current_symbol += seq_equiv;
+
+                            index += seq_name.length() - 1;
+                            column += seq_name.length() - 1;
+                        }
+                        else
+                        {
+                            current_symbol += input->at(index);
+
+                            if (input->at(index) == (CHAR)92) //we have some unknown escape sequence
+                            {
+                                core::string<CHAR> bad_esc_str = (CHAR)92;
+                                bad_esc_str += input->at(index+1);
+
+                                error_buffer.add(
+                                     parserError<CHAR>(current_ident.line,
+                                                        current_ident.column,
+                                                        error::UNKNOWN_ESCAPE_SEQUENCE,
+                                                        bad_esc_str, file));
+                            }
+                        }
+                    }
+        }
 
 
         ///list all the possible operators in the string

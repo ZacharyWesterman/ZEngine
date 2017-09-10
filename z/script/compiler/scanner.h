@@ -68,59 +68,16 @@ namespace script
 
             core::array< parserError<CHAR> > error_buffer;
 
-            //constructor allows operators, commands, and functions be set
-            scanner(core::sortedRefArray< core::string<CHAR>* >* symbol_table)
-            {
-                input = NULL;
-                identifiers = NULL;
 
-                sym_table = symbol_table;
+            scanner(core::sortedRefArray< core::string<CHAR>* >*);
 
-                clear();
-
-                file = NULL;
-            }
-
-            inline void setInput(core::string<CHAR>& string_input)
-            {
-                input = &string_input;
-            }
-
-            inline void setOutput(core::array< ident_t<CHAR> >& ident_output)
-            {
-                identifiers = &ident_output;
-            }
+            inline void setInput(core::string<CHAR>&);
+            inline void setOutput(core::array< ident_t<CHAR> >&);
 
             bool scan(const core::timeout&);
 
-            void clear()
-            {
-                current_symbol.clear();
-                open_symbol_indices.dump();
-
-                index = 0;
-
-                in_string = false;
-                in_comment = false;
-                multiline_comment = false;
-
-                line = 0;
-                column = 0;
-
-                current_ident = ident_t<CHAR>(ident::NONE, 0, 0);
-                newIdent = ident::NONE;
-                current_symbol.clear();
-
-                error_buffer.clear();
-                done = false;
-
-                file = NULL;
-            }
-
-            inline bool error()
-            {
-                return error_buffer.size() > 0;
-            }
+            void clear();
+            inline bool error();
 
         private:
             bool list_opers(core::string<CHAR>&);
@@ -152,6 +109,65 @@ namespace script
 
             void behav_in_string();
         };
+
+
+
+        template <typename CHAR>
+        //constructor allows operators, commands, and functions be set
+        scanner<CHAR>::scanner(core::sortedRefArray<
+                               core::string<CHAR>* >* symbol_table)
+        {
+            input = NULL;
+            identifiers = NULL;
+
+            sym_table = symbol_table;
+
+            clear();
+        }
+
+        template <typename CHAR>
+        inline void scanner<CHAR>::setInput(core::string<CHAR>& string_input)
+        {
+            input = &string_input;
+        }
+
+        template <typename CHAR>
+        inline void scanner<CHAR>::setOutput(core::array< ident_t<CHAR> >& ident_output)
+        {
+            identifiers = &ident_output;
+        }
+
+        template <typename CHAR>
+        void scanner<CHAR>::clear()
+        {
+            current_symbol.clear();
+            open_symbol_indices.dump();
+
+            index = 0;
+
+            in_string = false;
+            in_comment = false;
+            multiline_comment = false;
+
+            line = 0;
+            column = 0;
+
+            current_ident = ident_t<CHAR>(ident::NONE, 0, 0);
+            newIdent = ident::NONE;
+            current_symbol.clear();
+
+            error_buffer.clear();
+            done = false;
+
+            file = NULL;
+        }
+
+        template <typename CHAR>
+        inline bool scanner<CHAR>::error()
+        {
+            return error_buffer.size() > 0;
+        }
+
 
 
         //function to scan for and separate input into separate tokens.

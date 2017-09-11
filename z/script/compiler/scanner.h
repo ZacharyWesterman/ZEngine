@@ -55,7 +55,7 @@ namespace script
             int column;
 
             ident_t<CHAR> current_ident;
-            ident::ident_enum newIdent;
+            ident newIdent;
             core::string<CHAR> current_symbol;
 
             bool done;
@@ -612,7 +612,7 @@ namespace script
             core::array< ident_t<CHAR> > temp_opers;
 
 
-            ident::ident_enum curr_oper;
+            ident curr_oper;
 
             int x_offset = 0;
 
@@ -815,7 +815,7 @@ namespace script
             }
             else
             {
-                ident::ident_enum this_type;
+                ident this_type;
 
                 this_type = ident::UNKNOWN;
 

@@ -2645,12 +2645,12 @@
 1504935299 /home/zwesterman/GitHub/ZEngine/z/script/compiler/escapeSequences.h
 	<z/core/string.h>
 
-1505078138 /home/zwesterman/GitHub/ZEngine/z/script/compiler/identity.h
+1505095945 /home/zwesterman/GitHub/ZEngine/z/script/compiler/identity.h
 	<z/core/string.h>
 	"../data_t.h"
 	"../errors.h"
 
-1505075681 /home/zwesterman/GitHub/ZEngine/z/script/compiler/scanner.h
+1505095847 /home/zwesterman/GitHub/ZEngine/z/script/compiler/scanner.h
 	<limits>
 	<z/core/sortedArray.h>
 	<z/core/string.h>
@@ -2659,7 +2659,7 @@
 	"escapeSequences.h"
 	"identity.h"
 
-1504982858 /home/zwesterman/GitHub/ZEngine/z/script/compiler/phrase.h
+1505096155 /home/zwesterman/GitHub/ZEngine/z/script/compiler/phrase.h
 	<z/core/array.h>
 	"identity.h"
 
@@ -2845,7 +2845,7 @@
 	"../errors.h"
 	"phrase.h"
 
-1505089076 /home/zwesterman/GitHub/ZEngine/z/script/compiler/varScope.h
+1505089832 /home/zwesterman/GitHub/ZEngine/z/script/compiler/varScope.h
 	"signatures.h"
 
 1505088857 /home/zwesterman/GitHub/ZEngine/z/script/compiler/semanticAnalyzer.h

@@ -2845,10 +2845,10 @@
 	"../errors.h"
 	"phrase.h"
 
-1505078492 /home/zwesterman/GitHub/ZEngine/z/script/compiler/varScope.h
+1505089076 /home/zwesterman/GitHub/ZEngine/z/script/compiler/varScope.h
 	"signatures.h"
 
-1505078555 /home/zwesterman/GitHub/ZEngine/z/script/compiler/semanticAnalyzer.h
+1505088857 /home/zwesterman/GitHub/ZEngine/z/script/compiler/semanticAnalyzer.h
 	<z/core/array.h>
 	<z/core/dynamicStack.h>
 	<z/core/timeout.h>
@@ -2878,6 +2878,6 @@
 1504759885 /home/zwesterman/GitHub/zLibraries/z/file/shorten.h
 	<z/core/string.h>
 
-1505087479 /home/zwesterman/GitHub/ZEngine/z/script/compiler/signatures.h
+1505087960 /home/zwesterman/GitHub/ZEngine/z/script/compiler/signatures.h
 	<z/core/array.h>
 

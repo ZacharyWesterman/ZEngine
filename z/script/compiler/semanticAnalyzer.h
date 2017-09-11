@@ -367,9 +367,8 @@ namespace script
         {
             varSignature _var (root->children[0]->meta, uniqueID_current);
 
-            errorFlag err = current_scope->addVar(_var);
 
-            if (err)
+            if (!current_scope->addVar(_var))
             {
                 core::string<CHAR> msg;
                 if (current_type)
@@ -382,7 +381,7 @@ namespace script
 
                 error_buffer.add(parserError<CHAR>(root->line,
                                                     root->column,
-                                                    err,
+                                        error::VARIABLE_REDECLARED,
                                                     msg,
                                                     root->file));
             }

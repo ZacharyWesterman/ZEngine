@@ -16,6 +16,9 @@ namespace script
 
         /**
          * \brief Variable signature for semantic analyzer.
+         *
+         * \see funcSignature
+         * \see typeSignature
          */
         struct varSignature
         {
@@ -28,7 +31,7 @@ namespace script
             inline bool operator==(const varSignature&) const;
 
             varSignature(void* _ID,
-                         unsigned long _uniqueID = 0,
+                         symID _uniqueID = 0,
                          void* _type = NULL);
         };
 
@@ -54,7 +57,7 @@ namespace script
          * variable is assumed to be non-typed.
          */
         varSignature::varSignature(void* _ID,
-                                   unsigned long _uniqueID,
+                                   symID _uniqueID,
                                    void* _type)
         {
             ID = _ID;
@@ -63,61 +66,130 @@ namespace script
         }
 
 
+        /**
+         * \brief Function signature for semantic analyzer.
+         *
+         * \see varSignature
+         * \see typeSignature
+         */
         struct funcSignature
         {
-            void* ID;
-            void* returnType;
+            void* ID;///<Identifier for function name.
+            void* returnType;///<Identifier for function return type.
 
-            symID uniqueID;
+            symID uniqueID;///<Unique value to identify with this function.
 
+            ///Identifier for the current type that the function is in.
             void* inType;
 
+            ///List of identifiers for each parameter's name.
             core::array< void* > paramTypes;
+
+            ///List of unique ID values for each parameter.
             core::array< symID > params;
 
-            inline bool operator==(const funcSignature& other) const
-            { return (ID == other.ID) &&
-                     (inType == other.inType) &&
-                     (paramTypes == other.paramTypes); }
+            bool operator==(const funcSignature& other) const;
 
             funcSignature(void* _ID, void* _returnType,
-                          symID _uniqueID, void* _inType)
-            {
-                ID = _ID;
-                returnType = _returnType;
-                uniqueID = _uniqueID;
-                inType = _inType;
-            }
+                          symID _uniqueID, void* _inType);
 
-            const funcSignature& operator=(const funcSignature& other)
-            {
-                ID = other.ID;
-                returnType = other.returnType;
-                uniqueID = other.uniqueID;
-                inType = other.inType;
-                paramTypes = other.paramTypes;
-
-                return *this;
-            }
+            const funcSignature& operator=(const funcSignature& other);
         };
 
+        /**
+         * \brief Full constructor.
+         *
+         * \param _ID the identifier for the function name.
+         * \param _returnType the identifier for the function return type.
+         * \param _uniqueID a unique value to identify the function.
+         * \param _inType an identifier for the type this function is in.
+         * \b NULL implies that this function does not belong to a type.
+         */
+        funcSignature::funcSignature(void* _ID, void* _returnType,
+                                     symID _uniqueID, void* _inType)
+        {
+            ID = _ID;
+            returnType = _returnType;
+            uniqueID = _uniqueID;
+            inType = _inType;
+        }
+
+        /**
+         * \brief Compare this signature to another function signature.
+         *
+         * This function is used to search for other functions
+         * with the same name and parameter types in the same
+         * scope (type declaration).
+         */
+        bool funcSignature::operator==(const funcSignature& other) const
+        {
+            return (ID == other.ID) &&
+                   (inType == other.inType) &&
+                   (paramTypes == other.paramTypes);
+        }
+
+        /**
+         * \brief Function signature assignment operator.
+         */
+        const funcSignature& funcSignature::operator=
+            (const funcSignature& other)
+        {
+            ID = other.ID;
+            returnType = other.returnType;
+            uniqueID = other.uniqueID;
+            inType = other.inType;
+            paramTypes = other.paramTypes;
+
+            return *this;
+        }
+
+
+        /**
+         * \brief Type signature for semantic analyzer.
+         *
+         * \see varSignature
+         * \see funcSignature
+         */
         struct typeSignature
         {
-            void* type;
-            varScope* scope;
+            void* type;///<Identifier for the type name.
+            varScope* scope;///<Scope to keep track of all type members.
 
-            inline bool operator==(const typeSignature& other) const
-            { return (type == other.type); }
-
-            typeSignature(void* _type, varScope* _scope)
-            {
-                type = _type;
-                scope = _scope;
-            }
-
+            ///List of the unique identifiers of this type's member variables.
             core::array<symID> vars;
+
+            ///List of the unique identifiers of this type's member functions.
             core::array<symID> funcs;
+
+
+            inline bool operator==(const typeSignature& other) const;
+
+            typeSignature(void* _type, varScope* _scope);
         };
+
+        /**
+         * \brief Full constructor.
+         *
+         * \param _type the identifier for the type name.
+         * \param _scope pointer to the scope where the type
+         * was first declared.
+         */
+        typeSignature::typeSignature(void* _type, varScope* _scope)
+        {
+            type = _type;
+            scope = _scope;
+        }
+
+        /**
+         * \brief Compare this signature to another type signature.
+         *
+         * This function is used to search for other types
+         * with the same name.
+         */
+        inline bool typeSignature::operator==(const typeSignature& other) const
+        {
+            return (type == other.type);
+        }
     }
 }
 }

@@ -2193,7 +2193,7 @@
 
 1489353285 c:\users\zachary\documents\github\zengine\\z\script\errors.h
 
-1506049485 source:/home/zwesterman/GitHub/ZEngine/main.cpp
+1506050261 source:/home/zwesterman/GitHub/ZEngine/main.cpp
 	<z/core.h>
 	<z/math.h>
 	"z/script.h"
@@ -2768,7 +2768,7 @@
 
 1504983597 /home/zwesterman/GitHub/ZEngine/z/script/compiler/syntaxRules/range.h
 
-1504983597 /home/zwesterman/GitHub/ZEngine/z/script/compiler/syntaxRules/rangelist.h
+1506050793 /home/zwesterman/GitHub/ZEngine/z/script/compiler/syntaxRules/rangelist.h
 
 1504983598 /home/zwesterman/GitHub/ZEngine/z/script/compiler/syntaxRules/index.h
 

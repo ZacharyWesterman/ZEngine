@@ -273,12 +273,12 @@ int main(int argc, char* argv[])
 
     z::script::compiler::phrase_t<char>* AST = genAST.moveResultAST();
 
-    z::script::compiler::print_lex_ast(0, AST);
+    //z::script::compiler::print_lex_ast(0, AST);
 
     //cout << "\n------------------------------------\n\n";
     //cout << "AST after folding:\n\n";
 
-    /*z::script::compiler::constantFolder<char> cFolder;
+    z::script::compiler::constantFolder<char> cFolder;
 
     cFolder.setInput(AST);
 
@@ -311,7 +311,7 @@ int main(int argc, char* argv[])
 
     z::script::compiler::print_lex_ast(0, AST);
 
-    printErrors(semantics.error_buffer);*/
+    printErrors(semantics.error_buffer);
 
 
     if (AST)

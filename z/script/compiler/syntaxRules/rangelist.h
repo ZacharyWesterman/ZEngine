@@ -33,7 +33,7 @@ namespace script
                 (phrase_nodes[index]->type == phrase::RANGELIST) &&
                 ((phrase_nodes[index+1]->type == phrase::RANGE) ||
                  (phrase_nodes[index+1]->type == phrase::BOOLEXPR)) &&
-                ((phrase_nodes[index+2]->type == ident::SEMICOLON) ||
+                ((phrase_nodes[index+2]->type == ident::COMMA) ||
                  (phrase_nodes[index+2]->type == ident::RBRACKET)))
             {
                 phrase_t<CHAR>* node = new phrase_t<CHAR>();
@@ -51,7 +51,7 @@ namespace script
 
                 node->file = phrase_nodes[index]->file;
 
-                if (phrase_nodes[index+2]->type == ident::SEMICOLON)
+                if (phrase_nodes[index+2]->type == ident::COMMA)
                 {
                     delete phrase_nodes[index+2];
                     phrase_nodes.replace(index, index+2, node);
@@ -68,7 +68,7 @@ namespace script
                 (phrase_nodes[index-1]->type == ident::LBRACKET) &&
                 ((phrase_nodes[index]->type == phrase::RANGE) ||
                  (phrase_nodes[index]->type == phrase::BOOLEXPR)) &&
-                (phrase_nodes[index+1]->type == ident::SEMICOLON))
+                (phrase_nodes[index+1]->type == ident::COMMA))
             {
                 phrase_t<CHAR>* node = new phrase_t<CHAR>();
 

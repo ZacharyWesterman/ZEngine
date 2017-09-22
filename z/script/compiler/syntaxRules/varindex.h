@@ -52,6 +52,12 @@ namespace script
 
                 node->file = phrase_nodes[index]->file;
 
+                //check if this is a sub-index
+                //(previous 'index' was an index list)
+                //if ((phrase_nodes[index]->type == phrase::VARINDEX) &&
+                  //  )
+
+
                 phrase_nodes.replace(index, index+1, node);
 
                 return true;

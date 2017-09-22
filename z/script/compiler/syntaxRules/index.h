@@ -34,7 +34,18 @@ namespace script
                  (phrase_nodes[index+1]->type == phrase::RANGELIST)) &&
                 (phrase_nodes[index+2]->type == ident::RBRACKET))
             {
-                phrase_t<CHAR>* node = new phrase_t<CHAR>();
+                if (phrase_nodes[index+1]->orig_type == ident::NONE)
+                    phrase_nodes[index+1]->orig_type =
+                                            phrase_nodes[index+1]->type;
+                phrase_nodes[index+1]->type = phrase::INDEX;
+
+                delete phrase_nodes[index];
+                delete phrase_nodes[index+2];
+
+                phrase_nodes.remove(index+2);
+                phrase_nodes.remove(index);
+
+                /*phrase_t<CHAR>* node = new phrase_t<CHAR>();
 
                 node->type = phrase::INDEX;
 
@@ -49,7 +60,7 @@ namespace script
 
                 delete phrase_nodes[index];
                 delete phrase_nodes[index+2];
-                phrase_nodes.replace(index, index+2, node);
+                phrase_nodes.replace(index, index+2, node);*/
 
                 return true;
             }

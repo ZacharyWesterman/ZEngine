@@ -2770,7 +2770,7 @@
 
 1506050793 /home/zwesterman/GitHub/ZEngine/z/script/compiler/syntaxRules/rangelist.h
 
-1504983598 /home/zwesterman/GitHub/ZEngine/z/script/compiler/syntaxRules/index.h
+1506098532 /home/zwesterman/GitHub/ZEngine/z/script/compiler/syntaxRules/index.h
 
 1504983600 /home/zwesterman/GitHub/ZEngine/z/script/compiler/syntaxRules/indexlist.h
 
@@ -2782,7 +2782,7 @@
 
 1504983600 /home/zwesterman/GitHub/ZEngine/z/script/compiler/syntaxRules/type_funccall.h
 
-1506049294 /home/zwesterman/GitHub/ZEngine/z/script/compiler/syntaxRules/varindex.h
+1506097902 /home/zwesterman/GitHub/ZEngine/z/script/compiler/syntaxRules/varindex.h
 
 1504983599 /home/zwesterman/GitHub/ZEngine/z/script/compiler/syntaxRules/typevar.h
 
@@ -2838,7 +2838,7 @@
 
 1504986116 /home/zwesterman/GitHub/ZEngine/z/script/compiler/syntaxErrors/error_for.h
 
-1506064934 /home/zwesterman/GitHub/ZEngine/z/script/compiler/constantFolder.h
+1506098039 /home/zwesterman/GitHub/ZEngine/z/script/compiler/constantFolder.h
 	<z/core/dynamicStack.h>
 	<z/core/timeout.h>
 	"../errors.h"

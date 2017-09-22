@@ -238,7 +238,8 @@ namespace script
         template <typename CHAR>
         void semanticAnalyzer<CHAR>::exit_node()
         {
-            if (!index_stack.pop(index))
+            if (!index_stack.pop(index) ||
+                !(root->parent))
                 is_done = true;
             else
                 root = root->parent;

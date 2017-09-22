@@ -62,6 +62,7 @@ namespace script
             void operate_list();
             void operate_exprlist();
             void operate_add1expr();
+            void operate_varindex();
 
         public:
             core::array< parserError<CHAR> > error_buffer;
@@ -118,6 +119,8 @@ namespace script
                     operate_list();
                 else if (root->type == phrase::ADD1EXPR)
                     operate_add1expr();
+                else if (root->type == phrase::VARINDEX)
+                    operate_varindex();
                 else
                 {
                     if (index >= (root->children).size())
@@ -468,6 +471,62 @@ namespace script
             else
                 exit_node();
         }
+
+
+        template <typename CHAR>
+        void constantFolder<CHAR>::operate_varindex()
+        {
+            //look for LITERAL[LITERAL]
+            if ((root->children[0]->type == ident::LITERAL) &&
+                (root->children[1]->children[0]->type == ident::LITERAL))
+            {
+                if (root->children[0]->value.type() <= data::VALUE)
+                {
+                    error_buffer.add(parserError<CHAR>(root->line,
+                                                       root->column,
+                                                       error::ILLEGAL_INDEX,
+                                                       root->file));
+                }
+                else
+                {
+                    int var_index = (int)(root->children[1]->
+                                          children[0]->value.real());
+
+                    phrase_t<CHAR>* node = root->children[0];
+                    node->parent = root->parent;
+                    root->parent->children[index_stack.peek()-1] = node;
+
+                    delete_ast(root->children[1]);
+                    delete root;
+
+                    root = node;
+
+
+                    if (node->value.type() == data::ARRAY)
+                    {
+                        if (node->value.array().is_valid(var_index))
+                            node->value = node->value.array().at(var_index);
+                        else
+                            error_buffer.add(parserError<CHAR>(root->line,
+                                                       root->column,
+                                                error::INDEX_OUT_OF_BOUNDS,
+                                                       root->file));
+                    }
+                    else //STRING
+                    {
+                        node->value = core::string<CHAR>(
+                                        node->value.string().at(var_index));
+                    }
+                }
+
+                exit_node();
+            }
+            else if (index < root->children.size())
+                enter_node(index);
+            else
+                exit_node();
+        }
+
     }
 }
 }

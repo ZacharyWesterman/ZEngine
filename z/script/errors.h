@@ -74,7 +74,8 @@ namespace z
                 FACTORIAL_NEGATIVE,
                 FACTORIAL_COMPLEX,
 
-
+                ILLEGAL_INDEX,
+                INDEX_OUT_OF_BOUNDS,
 
                 TOO_MANY_PARAMS,
                 TOO_FEW_PARAMS,

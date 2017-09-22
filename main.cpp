@@ -289,7 +289,7 @@ int main(int argc, char* argv[])
         time.reset();
     }
 
-    //z::script::print_lex_ast(0, AST);
+    //z::script::compiler::print_lex_ast(0, AST);
 
     printErrors(cFolder.error_buffer);
 

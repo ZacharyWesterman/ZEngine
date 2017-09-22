@@ -478,7 +478,7 @@ namespace script
         {
             //look for LITERAL[LITERAL]
             if ((root->children[0]->type == ident::LITERAL) &&
-                (root->children[1]->children[0]->type == ident::LITERAL))
+                (root->children[1]->type == ident::LITERAL))
             {
                 if (root->children[0]->value.type() <= data::VALUE)
                 {
@@ -489,14 +489,13 @@ namespace script
                 }
                 else
                 {
-                    int var_index = (int)(root->children[1]->
-                                          children[0]->value.real());
+                    int var_index = (int)(root->children[1]->value.real());
 
                     phrase_t<CHAR>* node = root->children[0];
                     node->parent = root->parent;
                     root->parent->children[index_stack.peek()-1] = node;
 
-                    delete_ast(root->children[1]);
+                    delete root->children[1];
                     delete root;
 
                     root = node;

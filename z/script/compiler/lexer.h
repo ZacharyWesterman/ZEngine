@@ -211,7 +211,7 @@ namespace script
             bool typevar_decl();
 
             bool _range();
-            bool rangelist();
+            //bool rangelist();
             bool _index();
             bool indexlist();
 
@@ -388,9 +388,9 @@ namespace script
                              variable_decl()    ||
                              typevar_decl()     ||
                              _range()           ||
-                             rangelist()        ||
+                             //rangelist()        ||
                              _index()           ||
-                             //indexlist()        ||
+                             indexlist()        ||
                              exprlist()         ||
                              _list()            ||
                              funccall()         ||
@@ -603,7 +603,7 @@ namespace script
 #include "syntaxRules/variable_decl.h"
 #include "syntaxRules/typevar_decl.h"
 #include "syntaxRules/range.h"
-#include "syntaxRules/rangelist.h"
+//#include "syntaxRules/rangelist.h"
 #include "syntaxRules/index.h"
 #include "syntaxRules/indexlist.h"
 #include "syntaxRules/exprlist.h"

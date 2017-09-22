@@ -2662,7 +2662,7 @@
 	<z/core/array.h>
 	"identity.h"
 
-1506050005 /home/zwesterman/GitHub/ZEngine/z/script/compiler/lexer.h
+1506098704 /home/zwesterman/GitHub/ZEngine/z/script/compiler/lexer.h
 	<z/core/timeout.h>
 	<z/core/array.h>
 	<z/core/dynamicStack.h>
@@ -2690,7 +2690,6 @@
 	"syntaxRules/variable_decl.h"
 	"syntaxRules/typevar_decl.h"
 	"syntaxRules/range.h"
-	"syntaxRules/rangelist.h"
 	"syntaxRules/index.h"
 	"syntaxRules/indexlist.h"
 	"syntaxRules/exprlist.h"
@@ -2770,9 +2769,9 @@
 
 1506050793 /home/zwesterman/GitHub/ZEngine/z/script/compiler/syntaxRules/rangelist.h
 
-1506098532 /home/zwesterman/GitHub/ZEngine/z/script/compiler/syntaxRules/index.h
+1506098814 /home/zwesterman/GitHub/ZEngine/z/script/compiler/syntaxRules/index.h
 
-1504983600 /home/zwesterman/GitHub/ZEngine/z/script/compiler/syntaxRules/indexlist.h
+1506098783 /home/zwesterman/GitHub/ZEngine/z/script/compiler/syntaxRules/indexlist.h
 
 1504983598 /home/zwesterman/GitHub/ZEngine/z/script/compiler/syntaxRules/exprlist.h
 

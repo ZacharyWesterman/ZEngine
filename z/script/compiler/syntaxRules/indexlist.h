@@ -36,29 +36,19 @@ namespace script
                 ((phrase_nodes[index+2]->type == ident::COMMA) ||
                  (phrase_nodes[index+2]->type == ident::RBRACKET)))
             {
-                phrase_t<CHAR>* node = new phrase_t<CHAR>();
+                phrase_nodes[index]->children.add(phrase_nodes[index+1]);
+                phrase_nodes[index+1]->parent = phrase_nodes[index];
 
-                node->type = phrase::INDEXLIST;
-
-                node->line = phrase_nodes[index]->line;
-                node->column = phrase_nodes[index]->column;
-
-                phrase_nodes[index]->parent = node;
-                phrase_nodes[index+1]->parent = node;
-
-                node->children.add(phrase_nodes[index]);
-                node->children.add(phrase_nodes[index+1]);
-
-                node->file = phrase_nodes[index]->file;
 
                 if (phrase_nodes[index+2]->type == ident::COMMA)
                 {
                     delete phrase_nodes[index+2];
-                    phrase_nodes.replace(index, index+2, node);
+                    phrase_nodes.remove(index+2);
+                    phrase_nodes.remove(index+1);
                 }
                 else
                 {
-                    phrase_nodes.replace(index, index+1, node);
+                    phrase_nodes.remove(index+1);
                 }
 
                 return true;

@@ -28,9 +28,13 @@ namespace script
         bool lexer<CHAR>::varindex()
         {
             if (phrase_nodes.is_valid(index+1) &&
-                (phrase_nodes[index]->type == ident::IDENTIFIER) &&
-                ((phrase_nodes[index+1]->type == phrase::INDEX) ||
-                 (phrase_nodes[index+1]->type == phrase::INDEXLIST))
+                ((phrase_nodes[index]->type == ident::IDENTIFIER) ||
+                 (phrase_nodes[index]->type == phrase::VARINDEX) ||
+                 (phrase_nodes[index]->type == phrase::LIST) ||
+                 ((phrase_nodes[index]->type == ident::LITERAL) &&
+                  ((phrase_nodes[index]->value.type() == data::STRING) ||
+                   (phrase_nodes[index]->value.type() == data::ARRAY)))) &&
+                (phrase_nodes[index+1]->type == phrase::INDEX)
                 )
             {
                 phrase_t<CHAR>* node = new phrase_t<CHAR>();

@@ -1,6 +1,3 @@
-indexlist	: index index
-		| indexlist index
-
 exprlist	: boolexpr , boolexpr
 		| exprlist , boolexpr
 
@@ -76,8 +73,11 @@ funccall	: IDENTIFIER ( )
 
 type_funccall	: parenthexpr . funccall
 
-varindex	: IDENTIFIER indexlist
-		| IDENTIFIER index
+varindex	: IDENTIFIER index
+		| varindex index
+		| list index
+		| LITERAL:STRING index
+		| LITERAL:ARRAY index
 
 typevar		: parenthexpr . IDENTIFIER ![ !(
 		| parenthexpr . varindex
@@ -87,7 +87,7 @@ variable	: IDENTIFIER !( ![ !.
 		| typevar
 
 operand		: variable
-		| CONSTANT_LITERAL
+		| LITERAL
 		| sizeofexpr
 		| dimensionexpr
 		| type_funccall

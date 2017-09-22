@@ -2193,13 +2193,13 @@
 
 1489353285 c:\users\zachary\documents\github\zengine\\z\script\errors.h
 
-1505078657 source:/home/zwesterman/GitHub/ZEngine/main.cpp
+1506049485 source:/home/zwesterman/GitHub/ZEngine/main.cpp
 	<z/core.h>
 	<z/math.h>
 	"z/script.h"
 	<iostream>
 
-1504909545 /home/zwesterman/GitHub/zLibraries/z/core.h
+1505437128 /home/zwesterman/GitHub/zLibraries/z/core.h
 	"core/string.h"
 	"core/stream.h"
 	"core/array.h"
@@ -2211,7 +2211,6 @@
 	"core/timeout.h"
 	"core/pause.h"
 	"core/charFunctions.h"
-	"core/loadLibrary.h"
 
 1504927013 /home/zwesterman/GitHub/zLibraries/z/core/string.h
 	<type_traits>
@@ -2663,7 +2662,7 @@
 	<z/core/array.h>
 	"identity.h"
 
-1504986116 /home/zwesterman/GitHub/ZEngine/z/script/compiler/lexer.h
+1506050005 /home/zwesterman/GitHub/ZEngine/z/script/compiler/lexer.h
 	<z/core/timeout.h>
 	<z/core/array.h>
 	<z/core/dynamicStack.h>
@@ -2783,13 +2782,13 @@
 
 1504983600 /home/zwesterman/GitHub/ZEngine/z/script/compiler/syntaxRules/type_funccall.h
 
-1504983599 /home/zwesterman/GitHub/ZEngine/z/script/compiler/syntaxRules/varindex.h
+1506049294 /home/zwesterman/GitHub/ZEngine/z/script/compiler/syntaxRules/varindex.h
 
 1504983599 /home/zwesterman/GitHub/ZEngine/z/script/compiler/syntaxRules/typevar.h
 
 1504983598 /home/zwesterman/GitHub/ZEngine/z/script/compiler/syntaxRules/variable.h
 
-1504983599 /home/zwesterman/GitHub/ZEngine/z/script/compiler/syntaxRules/operand.h
+1506049948 /home/zwesterman/GitHub/ZEngine/z/script/compiler/syntaxRules/operand.h
 
 1504983597 /home/zwesterman/GitHub/ZEngine/z/script/compiler/syntaxRules/parenthexpr.h
 

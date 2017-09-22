@@ -40,18 +40,25 @@ namespace script
                       (phrase_nodes.is_valid(index-1) &&
                        (phrase_nodes[index-1]->type >= ident::OPER_ASSIGN) &&
                        (phrase_nodes[index-1]->type <= ident::OPER_LT_EQ))) ) ||
-                    (phrase_nodes[index]->type == ident::LITERAL) ||
+
+                    ((phrase_nodes[index]->type == ident::LITERAL) &&
+                     !(phrase_nodes.is_valid(index+1) &&
+                       (phrase_nodes[index+1]->type == ident::LBRACKET))) ||
+
                     (phrase_nodes[index]->type == phrase::DIMENSIONEXPR) ||
                     (phrase_nodes[index]->type == phrase::SIZEOFEXPR) ||
                     ((phrase_nodes[index]->type == phrase::LIST) &&
                       !(phrase_nodes.is_valid(index-1) &&
                        ((phrase_nodes[index-1]->type == phrase::IDENTIFIERLIST) ||
-                        (phrase_nodes[index-1]->type == ident::IDENTIFIER)))) ||
+                        (phrase_nodes[index-1]->type == ident::IDENTIFIER))) &&
+                     !(phrase_nodes.is_valid(index+1) &&
+                       (phrase_nodes[index+1]->type == ident::LBRACKET))) ||
                     (phrase_nodes[index]->type == phrase::TYPE_FUNCCALL) ||
                     ((phrase_nodes[index]->type == phrase::FUNCCALL) &&
                      !(phrase_nodes.is_valid(index-1) &&
                        (phrase_nodes[index-1]->type == ident::PERIOD))))
                 {
+
                     if (phrase_nodes[index]->orig_type == ident::NONE)
                         phrase_nodes[index]->orig_type = phrase_nodes[index]->type;
                     phrase_nodes[index]->type = phrase::OPERAND;

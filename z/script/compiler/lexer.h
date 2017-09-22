@@ -390,7 +390,7 @@ namespace script
                              _range()           ||
                              rangelist()        ||
                              _index()           ||
-                             indexlist()        ||
+                             //indexlist()        ||
                              exprlist()         ||
                              _list()            ||
                              funccall()         ||

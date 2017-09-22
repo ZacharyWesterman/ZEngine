@@ -54,8 +54,13 @@ namespace script
 
                 //check if this is a sub-index
                 //(previous 'index' was an index list)
-                //if ((phrase_nodes[index]->type == phrase::VARINDEX) &&
-                  //  )
+                if ((phrase_nodes[index]->type == phrase::VARINDEX) &&
+                    (phrase_nodes[index]->children[1]->type==phrase::INDEX) &&
+                    (phrase_nodes[index]->children[1]->children.size() > 1))
+                {
+                    //indicate this is a sub-index
+                    node->metaValue = 1;
+                }
 
 
                 phrase_nodes.replace(index, index+1, node);

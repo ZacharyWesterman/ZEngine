@@ -2662,7 +2662,7 @@
 	<z/core/array.h>
 	"identity.h"
 
-1506098704 /home/zwesterman/GitHub/ZEngine/z/script/compiler/lexer.h
+1506101125 /home/zwesterman/GitHub/ZEngine/z/script/compiler/lexer.h
 	<z/core/timeout.h>
 	<z/core/array.h>
 	<z/core/dynamicStack.h>
@@ -2781,7 +2781,7 @@
 
 1504983600 /home/zwesterman/GitHub/ZEngine/z/script/compiler/syntaxRules/type_funccall.h
 
-1506097902 /home/zwesterman/GitHub/ZEngine/z/script/compiler/syntaxRules/varindex.h
+1506101197 /home/zwesterman/GitHub/ZEngine/z/script/compiler/syntaxRules/varindex.h
 
 1504983599 /home/zwesterman/GitHub/ZEngine/z/script/compiler/syntaxRules/typevar.h
 

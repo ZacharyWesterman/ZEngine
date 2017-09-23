@@ -476,16 +476,22 @@ namespace script
         template <typename CHAR>
         void constantFolder<CHAR>::operate_varindex()
         {
-            //look for LITERAL[LITERAL]
-            if ((root->children[0]->type == ident::LITERAL) &&
-                (root->children[1]->type == ident::LITERAL))
+            phrase_t<CHAR>* child[] =
             {
-                if (root->children[0]->value.type() <= data::VALUE)
+                root->children[0],
+                root->children[1]
+            };
+
+            //look for LITERAL[LITERAL]
+            if ((child[0]->type == ident::LITERAL) &&
+                (child[1]->type == ident::LITERAL))
+            {
+                if (child[0]->value.type() <= data::VALUE)
                 {
-                    error_buffer.add(parserError<CHAR>(root->line,
-                                                       root->column,
+                    error_buffer.add(parserError<CHAR>(child[0]->line,
+                                                       child[0]->column,
                                                        error::ILLEGAL_INDEX,
-                                                       root->file));
+                                                       child[0]->file));
                 }
                 else
                 {
@@ -515,6 +521,55 @@ namespace script
                     {
                         node->value = core::string<CHAR>(
                                         node->value.string().at(var_index));
+                    }
+                }
+
+                exit_node();
+            }
+            //look for LITERAL[range:LITERAL]
+            else if ((child[0]->type == ident::LITERAL) &&
+                     (child[1]->type == phrase::RANGE) &&
+                     (child[1]->children[0]->type == ident::LITERAL) &&
+                     (child[1]->children[1]->type == ident::LITERAL))
+            {
+                if (child[0]->value.type() <= data::VALUE)
+                {
+                    error_buffer.add(parserError<CHAR>(child[0]->line,
+                                                       child[0]->column,
+                                                       error::ILLEGAL_INDEX,
+                                                       child[0]->file));
+                }
+                else
+                {
+                    int start_index = (int)(child[1]->children[0]->value.real());
+                    int stop_index = (int)(child[1]->children[1]->value.real());
+
+                    phrase_t<CHAR>* node = child[0];
+                    node->parent = root->parent;
+                    root->parent->children[index_stack.peek()-1] = node;
+
+                    delete child[1];
+                    delete root;
+
+                    root = node;
+
+
+                    if (root->value.type() == data::ARRAY)
+                    {
+                        if (root->value.array().is_valid(start_index) &&
+                            root->value.array().is_valid(stop_index))
+                            root->value = root->
+                                value.array().subset(start_index, stop_index);
+                        else
+                            error_buffer.add(parserError<CHAR>(root->line,
+                                                       root->column,
+                                                error::INDEX_OUT_OF_BOUNDS,
+                                                       root->file));
+                    }
+                    else //STRING
+                    {
+                        root->value = core::string<CHAR>(root->
+                            value.string().substr(start_index, stop_index));
                     }
                 }
 

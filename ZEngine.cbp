@@ -87,7 +87,6 @@
 		<Unit filename="z/script/compiler/syntaxRules/powerexpr.h" />
 		<Unit filename="z/script/compiler/syntaxRules/program.h" />
 		<Unit filename="z/script/compiler/syntaxRules/range.h" />
-		<Unit filename="z/script/compiler/syntaxRules/rangelist.h" />
 		<Unit filename="z/script/compiler/syntaxRules/return_statement.h" />
 		<Unit filename="z/script/compiler/syntaxRules/run_statement.h" />
 		<Unit filename="z/script/compiler/syntaxRules/shareddecl.h" />

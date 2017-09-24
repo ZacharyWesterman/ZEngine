@@ -404,8 +404,10 @@ namespace z
                         if (d_array[i].d_array.is_valid(i_start) &&
                             d_array[i].d_array.is_valid(i_stop))
                         {
-                            result.d_array.add(d_array[i].
-                                            d_array.subset(i_start, i_stop));
+
+                            result.d_array.add(
+                                data_t<CHAR>(d_array[i].
+                                d_array.subset(i_start, i_stop)));
                         }
                         else
                         {

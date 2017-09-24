@@ -176,7 +176,7 @@ namespace z
 
             inline const int type() const {return d_type;}
 
-            inline void setType(const data::DATA_TYPE new_type)
+            inline void setType(const int new_type)
             { d_type = new_type; }
 
             const core::string<CHAR> string() const;

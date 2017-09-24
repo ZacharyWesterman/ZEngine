@@ -490,7 +490,7 @@ namespace script
                 {
                     error_buffer.add(parserError<CHAR>(child[0]->line,
                                                        child[0]->column,
-                                                       error::ILLEGAL_INDEX,
+                                                       error::CANNOT_INDEX,
                                                        child[0]->file));
                 }
                 else
@@ -512,10 +512,11 @@ namespace script
                         if (node->value.array().is_valid(var_index))
                             node->value = node->value.array().at(var_index);
                         else
-                            error_buffer.add(parserError<CHAR>(root->line,
-                                                       root->column,
+                            error_buffer.add(parserError<CHAR>(
+                                                        child[1]->line,
+                                                        child[1]->column,
                                                 error::INDEX_OUT_OF_BOUNDS,
-                                                       root->file));
+                                                        child[1]->file));
                     }
                     else //STRING
                     {
@@ -536,7 +537,7 @@ namespace script
                 {
                     error_buffer.add(parserError<CHAR>(child[0]->line,
                                                        child[0]->column,
-                                                       error::ILLEGAL_INDEX,
+                                                       error::CANNOT_INDEX,
                                                        child[0]->file));
                 }
                 else
@@ -561,10 +562,11 @@ namespace script
                             root->value = root->
                                 value.array().subset(start_index, stop_index);
                         else
-                            error_buffer.add(parserError<CHAR>(root->line,
-                                                       root->column,
+                            error_buffer.add(parserError<CHAR>(
+                                                        child[1]->line,
+                                                        child[1]->column,
                                                 error::INDEX_OUT_OF_BOUNDS,
-                                                       root->file));
+                                                        child[1]->file));
                     }
                     else //STRING
                     {
@@ -574,6 +576,181 @@ namespace script
                 }
 
                 exit_node();
+            }
+            //look for LITERAL[index-list:LITERAL]
+            else if ((child[0]->type == ident::LITERAL) &&
+                     (child[1]->type == phrase::INDEXLIST))
+            {
+                if (child[0]->value.type() <= data::VALUE)
+                {
+                    error_buffer.add(parserError<CHAR>(child[0]->line,
+                                                       child[0]->column,
+                                                       error::CANNOT_INDEX,
+                                                       child[0]->file));
+                    exit_node();
+                }
+                else
+                {
+                    bool all_literal = true;
+                    bool all_valid = true;
+
+                    //check all indexes in the list
+                    for(int i=0; i<(child[1]->children.size()); i++)
+                    {
+                        phrase_t<CHAR>* ptr = child[1]->children[i];
+
+                        //if this index is a single index
+                        if (ptr->type == ident::LITERAL)
+                        {
+                            if (ptr->value.type() != data::VALUE)
+                            {
+                                error_buffer.add(parserError<CHAR>(
+                                                        ptr->line,
+                                                        ptr->column,
+                                                        error::ILLEGAL_INDEX,
+                                                        ptr->file));
+
+                                all_valid = false;
+                            }
+                        }
+                        //if this index is a range
+                        else if ((ptr->type == phrase::RANGE) &&
+                             (ptr->children[0]->type == ident::LITERAL) &&
+                             (ptr->children[1]->type == ident::LITERAL))
+                        {
+                            if (ptr->children[0]->value.type() != data::VALUE)
+                            {
+                                error_buffer.add(parserError<CHAR>(
+                                                    ptr->children[0]->line,
+                                                    ptr->children[0]->column,
+                                                    error::ILLEGAL_INDEX,
+                                                    ptr->children[0]->file));
+
+                                all_valid = false;
+                            }
+
+                            if (ptr->children[1]->value.type() != data::VALUE)
+                            {
+                                error_buffer.add(parserError<CHAR>(
+                                                    ptr->children[1]->line,
+                                                    ptr->children[1]->column,
+                                                    error::ILLEGAL_INDEX,
+                                                    ptr->children[1]->file));
+
+                                all_valid = false;
+                            }
+                        }
+                        else
+                        {
+                            all_literal = false;
+                        }
+                    }
+
+
+                    if (!all_literal)
+                    {
+                        if (index < 2)
+                            enter_node(1);
+                        else
+                            exit_node();
+                    }
+                    else if (all_valid)
+                    {
+                        phrase_t<CHAR>* node = child[0];
+                        node->parent = root->parent;
+                        root->parent->children[index_stack.peek()-1] = node;
+
+                        delete root;
+
+                        root = node;
+
+                        data_t<CHAR> result;
+                        result.setType(root->value.type());
+
+
+                        for(int i=0; i<(child[1]->children.size()); i++)
+                        {
+                            phrase_t<CHAR>* ptr = child[1]->children[i];
+
+
+                            //if this index is a single index
+                            if (ptr->type == ident::LITERAL)
+                            {
+                                int var_index;
+
+                                var_index = (int)(ptr->value.real());
+
+                                if (root->value.type() == data::ARRAY)
+                                {
+                                    if (root->value.array().
+                                              is_valid(var_index))
+                                        result.array().add(root->
+                                            value.array().at(var_index));
+                                    else
+                                        error_buffer.add(parserError<CHAR>(
+                                                            child[1]->line,
+                                                            child[1]->column,
+                                                error::INDEX_OUT_OF_BOUNDS,
+                                                            child[1]->file));
+                                }
+                                else //STRING
+                                {
+                                    result = result +
+                                    core::string<CHAR>(
+                                    root->value.string().at(var_index));
+                                }
+                            }
+                            //if this index is a range
+                            else if (ptr->type == phrase::RANGE)
+                            {
+                                int start_index, stop_index;
+
+                                start_index = (int)(ptr->
+                                                    children[0]->
+                                                    value.real());
+                                stop_index = (int)(ptr->
+                                                    children[1]->
+                                                    value.real());
+
+                                if (root->value.type() == data::ARRAY)
+                                {
+                                    if (root->value.array().
+                                              is_valid(start_index) &&
+                                        root->value.array().
+                                              is_valid(stop_index))
+                                    {
+                                        result.array().add(root->
+                                            value.array().subset(start_index,
+                                                                 stop_index));
+                                    }
+                                    else
+                                        error_buffer.add(parserError<CHAR>(
+                                                            child[1]->line,
+                                                            child[1]->column,
+                                                error::INDEX_OUT_OF_BOUNDS,
+                                                            child[1]->file));
+                                }
+                                else //STRING
+                                {
+                                    result = result +
+                                        root->value.string().
+                                        substr(start_index, stop_index);
+                                }
+                            }
+
+                        }
+
+
+                        root->value = result;
+
+                        delete_ast(child[1]);
+
+                        exit_node();
+                    }
+                    else
+                        exit_node();
+                }
+
             }
             else if (index < root->children.size())
                 enter_node(index);

@@ -74,6 +74,7 @@ namespace z
                 FACTORIAL_NEGATIVE,
                 FACTORIAL_COMPLEX,
 
+                CANNOT_INDEX,
                 ILLEGAL_INDEX,
                 INDEX_OUT_OF_BOUNDS,
 

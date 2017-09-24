@@ -141,7 +141,7 @@ namespace z
             data_t(const CHAR_2* cstring)
             {
                 d_type = data::STRING;
-                d_string = cstring;
+                d_string = core::string<CHAR>(cstring);
             }
 
 
@@ -196,6 +196,14 @@ namespace z
             }
 
 
+            const data_t index(const data_t&) const;
+            const data_t index(const data_t&,
+                               const data_t&) const;
+
+            const data_t subIndex(const data_t&) const;
+            const data_t subIndex(const data_t&,
+                                  const data_t&) const;
+
             //operators
             const data_t& operator++();
             const data_t& operator--();
@@ -228,11 +236,193 @@ namespace z
             const data_t nor_logical(const data_t&) const;
             const data_t nxor_bitwise(const data_t&) const;
             const data_t nxor_logical(const data_t&) const;
-
-            const data_t floor() const;
-            const data_t ceil() const;
-            const data_t round() const;
         };
+
+
+        template <typename CHAR>
+        const data_t<CHAR> data_t<CHAR>::index(const data_t<CHAR>& _index) const
+        {
+            data_t<CHAR> result;
+
+            if ((_index.d_type != data::VALUE) ||
+                (_index.d_value.imag() != (Float)0)) //bad index
+            {
+                result = error::ILLEGAL_INDEX;
+            }
+            else if (d_type <= data::VALUE)
+            {
+                result = error::CANNOT_INDEX;
+            }
+            else if (d_type == data::ARRAY)
+            {
+                int i_index = (int)_index.d_value.real();
+
+                if (d_array.is_valid(i_index))
+                    result = d_array.at(i_index);
+                else
+                {
+                    result = error::INDEX_OUT_OF_BOUNDS;
+                }
+            }
+            else //STRING
+            {
+                int i_index = (int)_index.d_value.real();
+
+                result = core::string<CHAR>(d_string.at(i_index));
+            }
+
+            return result;
+        }
+
+
+        template <typename CHAR>
+        const data_t<CHAR> data_t<CHAR>::index(const data_t<CHAR>& start,
+                                               const data_t<CHAR>& stop) const
+        {
+            data_t<CHAR> result;
+
+            if ((start.d_type != data::VALUE) ||
+                (stop.d_type != data::VALUE) ||
+                (start.d_value.imag() != (Float)0) ||
+                (stop.d_value.imag() != (Float)0)) //bad index
+            {
+                result = error::ILLEGAL_INDEX;
+            }
+            else if (d_type <= data::VALUE)
+            {
+                result = error::CANNOT_INDEX;
+            }
+            else if (d_type == data::ARRAY)
+            {
+                int i_start = (int)start.d_value.real();
+                int i_stop = (int)stop.d_value.real();
+
+                if (d_array.is_valid(i_start) &&
+                    d_array.is_valid(i_stop))
+                    result = d_array.subset(i_start, i_stop);
+                else
+                {
+                    result = error::INDEX_OUT_OF_BOUNDS;
+                }
+            }
+            else //STRING
+            {
+                int i_start = (int)start.d_value.real();
+                int i_stop = (int)stop.d_value.real();
+
+                result = d_string.substr(i_start, i_stop);
+            }
+
+            return result;
+        }
+
+
+        template <typename CHAR>
+        const data_t<CHAR> data_t<CHAR>::subIndex(const data_t<CHAR>& _index) const
+        {
+            data_t<CHAR> result;
+
+            if ((_index.d_type != data::VALUE) ||
+                (_index.d_value.imag() != (Float)0)) //bad index
+            {
+                result = error::ILLEGAL_INDEX;
+            }
+            else if (d_type != data::ARRAY)
+            {
+                result.d_type = error::CANNOT_INDEX;
+            }
+            else
+            {
+                result.d_type = data::ARRAY;
+
+                int i_index = (int)_index.d_value.real();
+
+                for (int i=0; i<d_array.size(); i++)
+                {
+                    if (d_array[i].d_type <= data::VALUE)
+                    {
+                        result = error::CANNOT_INDEX;
+                        return result;
+                    }
+                    else if (d_array[i].d_type == data::ARRAY)
+                    {
+                        if (d_array[i].d_array.is_valid(i_index))
+                        {
+                            result.d_array.add(d_array[i].d_array[i_index]);
+                        }
+                        else
+                        {
+                            result = error::INDEX_OUT_OF_BOUNDS;
+                            return result;
+                        }
+                    }
+                    else //STRING
+                    {
+                        result.d_array.add(core::string<char>(
+                                           d_array[i].d_string.at(i_index)));
+                    }
+                }
+            }
+
+            return result;
+        }
+
+
+        template <typename CHAR>
+        const data_t<CHAR> data_t<CHAR>::subIndex(const data_t<CHAR>& start,
+                                                  const data_t<CHAR>& stop) const
+        {
+            data_t<CHAR> result;
+
+            if ((start.d_type != data::VALUE) ||
+                (stop.d_type != data::VALUE) ||
+                (start.d_value.imag() != (Float)0) ||
+                (stop.d_value.imag() != (Float)0)) //bad index
+            {
+                result = error::ILLEGAL_INDEX;
+            }
+            else if (d_type != data::ARRAY)
+            {
+                result.d_type = error::CANNOT_INDEX;
+            }
+            else
+            {
+                result.d_type = data::ARRAY;
+
+                int i_start = (int)start.d_value.real();
+                int i_stop = (int)stop.d_value.real();
+
+                for (int i=0; i<d_array.size(); i++)
+                {
+                    if (d_array[i].d_type <= data::VALUE)
+                    {
+                        result = error::CANNOT_INDEX;
+                        return result;
+                    }
+                    else if (d_array[i].d_type == data::ARRAY)
+                    {
+                        if (d_array[i].d_array.is_valid(i_start) &&
+                            d_array[i].d_array.is_valid(i_stop))
+                        {
+                            result.d_array.add(d_array[i].
+                                            d_array.subset(i_start, i_stop));
+                        }
+                        else
+                        {
+                            result = error::INDEX_OUT_OF_BOUNDS;
+                            return result;
+                        }
+                    }
+                    else //STRING
+                    {
+                        result.d_array.add(d_array[i].
+                                           d_string.substr(i_start, i_stop));
+                    }
+                }
+            }
+
+            return result;
+        }
 
 
         template <typename CHAR>

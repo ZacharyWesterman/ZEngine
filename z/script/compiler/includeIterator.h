@@ -184,7 +184,8 @@ namespace script
                     if (pos < 0)
                         pos = input.findLast("\\");
 
-                    node.directory = file::shorten(input.substr(0, pos-1));
+                    if (pos > 0)
+                        node.directory = file::shorten(input.substr(0, pos-1));
                     node.filename = input.substr(pos+1, input.length()-1);
 
                     node_list.add(node);
@@ -225,7 +226,7 @@ namespace script
                 {
                     int progress = node_list[working_node].progress;
 
-                    //cout << working_node << " : " << progress << endl;
+
                     if (progress == PROG_NONE)
                     {
 

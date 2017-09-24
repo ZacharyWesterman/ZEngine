@@ -110,7 +110,6 @@
 		<Unit filename="z/script/data_t.h" />
 		<Unit filename="z/script/errors.h" />
 		<Unit filename="z/script/function_t.h" />
-		<Unit filename="z/script/load_operators.h" />
 		<Extensions>
 			<code_completion />
 			<envvars />

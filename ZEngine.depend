@@ -2193,7 +2193,7 @@
 
 1489353285 c:\users\zachary\documents\github\zengine\\z\script\errors.h
 
-1506053995 source:/home/zwesterman/GitHub/ZEngine/main.cpp
+1506232249 source:/home/zwesterman/GitHub/ZEngine/main.cpp
 	<z/core.h>
 	<z/math.h>
 	"z/script.h"
@@ -2212,7 +2212,7 @@
 	"core/pause.h"
 	"core/charFunctions.h"
 
-1504927013 /home/zwesterman/GitHub/zLibraries/z/core/string.h
+1506233524 /home/zwesterman/GitHub/zLibraries/z/core/string.h
 	<type_traits>
 	<complex>
 	<z/float.h>
@@ -2253,7 +2253,7 @@
 	<type_traits>
 	"string.h"
 
-1506223964 /home/zwesterman/GitHub/zLibraries/z/core/array.h
+1506232830 /home/zwesterman/GitHub/zLibraries/z/core/array.h
 	<vector>
 	"stream.h"
 
@@ -2539,7 +2539,7 @@
 
 1500176061 /home/zwesterman/GitHub/ZEngine/z/script/parser/syntaxRules/until_statement.h
 
-1506222020 /home/zwesterman/GitHub/ZEngine/z/script/data_t.h
+1506234027 /home/zwesterman/GitHub/ZEngine/z/script/data_t.h
 	<z/float.h>
 	<z/core/string.h>
 	<z/core/array.h>
@@ -2649,7 +2649,7 @@
 	"../data_t.h"
 	"../errors.h"
 
-1505095847 /home/zwesterman/GitHub/ZEngine/z/script/compiler/scanner.h
+1506231368 /home/zwesterman/GitHub/ZEngine/z/script/compiler/scanner.h
 	<limits>
 	<z/core/sortedArray.h>
 	<z/core/string.h>
@@ -2662,7 +2662,7 @@
 	<z/core/array.h>
 	"identity.h"
 
-1506101125 /home/zwesterman/GitHub/ZEngine/z/script/compiler/lexer.h
+1506229387 /home/zwesterman/GitHub/ZEngine/z/script/compiler/lexer.h
 	<z/core/timeout.h>
 	<z/core/array.h>
 	<z/core/dynamicStack.h>
@@ -2837,7 +2837,7 @@
 
 1504986116 /home/zwesterman/GitHub/ZEngine/z/script/compiler/syntaxErrors/error_for.h
 
-1506224216 /home/zwesterman/GitHub/ZEngine/z/script/compiler/constantFolder.h
+1506233991 /home/zwesterman/GitHub/ZEngine/z/script/compiler/constantFolder.h
 	<z/core/dynamicStack.h>
 	<z/core/timeout.h>
 	"../errors.h"
@@ -2858,7 +2858,7 @@
 	"varScope.h"
 	<iostream>
 
-1504986116 /home/zwesterman/GitHub/ZEngine/z/script/compiler/includeIterator.h
+1506231340 /home/zwesterman/GitHub/ZEngine/z/script/compiler/includeIterator.h
 	<z/core/array.h>
 	<z/file/reader.h>
 	<z/file/shorten.h>
@@ -2868,7 +2868,7 @@
 	"lexer.h"
 	<iostream>
 
-1504751834 /home/zwesterman/GitHub/zLibraries/z/file/reader.h
+1506231126 /home/zwesterman/GitHub/zLibraries/z/file/reader.h
 	<z/core/string.h>
 	<z/core/timeout.h>
 	<fstream>

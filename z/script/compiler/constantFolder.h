@@ -486,43 +486,41 @@ namespace script
             if ((child[0]->type == ident::LITERAL) &&
                 (child[1]->type == ident::LITERAL))
             {
-                if (child[0]->value.type() <= data::VALUE)
+                bool subIndex = (bool)root->metaValue;
+
+                data_t<CHAR> value = root->children[0]->value;
+                data_t<CHAR> v_index = root->children[1]->value;
+
+
+                phrase_t<CHAR>* node = root->children[0];
+                node->parent = root->parent;
+                root->parent->children[index_stack.peek()-1] = node;
+
+                delete root->children[1];
+                delete root;
+
+                root = node;
+
+
+
+                data_t<CHAR> result;
+
+                if (subIndex) //sub-indexing
+                    result = value.subIndex(v_index);
+                else //regular indexing
+                    result = value.index(v_index);
+
+                if (result.error())
                 {
-                    error_buffer.add(parserError<CHAR>(child[0]->line,
-                                                       child[0]->column,
-                                                       error::CANNOT_INDEX,
-                                                       child[0]->file));
+                    error_buffer.add(parserError<CHAR>(
+                                            root->line,
+                                            root->column,
+                                            result.error(),
+                                            root->file));
                 }
                 else
                 {
-                    int var_index = (int)(root->children[1]->value.real());
-
-                    phrase_t<CHAR>* node = root->children[0];
-                    node->parent = root->parent;
-                    root->parent->children[index_stack.peek()-1] = node;
-
-                    delete root->children[1];
-                    delete root;
-
-                    root = node;
-
-
-                    if (node->value.type() == data::ARRAY)
-                    {
-                        if (node->value.array().is_valid(var_index))
-                            node->value = node->value.array().at(var_index);
-                        else
-                            error_buffer.add(parserError<CHAR>(
-                                                        child[1]->line,
-                                                        child[1]->column,
-                                                error::INDEX_OUT_OF_BOUNDS,
-                                                        child[1]->file));
-                    }
-                    else //STRING
-                    {
-                        node->value = core::string<CHAR>(
-                                        node->value.string().at(var_index));
-                    }
+                    root->value = result;
                 }
 
                 exit_node();
@@ -533,46 +531,41 @@ namespace script
                      (child[1]->children[0]->type == ident::LITERAL) &&
                      (child[1]->children[1]->type == ident::LITERAL))
             {
-                if (child[0]->value.type() <= data::VALUE)
+                bool subIndex = (bool)root->metaValue;
+
+                data_t<CHAR> value = child[0]->value;
+                data_t<CHAR> v_start = child[1]->children[0]->value;
+                data_t<CHAR> v_stop =  child[1]->children[1]->value;
+
+                phrase_t<CHAR>* node = child[0];
+                node->parent = root->parent;
+                root->parent->children[index_stack.peek()-1] = node;
+
+                delete child[1];
+                delete root;
+
+                root = node;
+
+
+
+                data_t<CHAR> result;
+
+                if (subIndex) //sub-indexing
+                    result = value.subIndex(v_start, v_stop);
+                else //regular indexing
+                    result = value.index(v_start, v_stop);
+
+                if (result.error())
                 {
-                    error_buffer.add(parserError<CHAR>(child[0]->line,
-                                                       child[0]->column,
-                                                       error::CANNOT_INDEX,
-                                                       child[0]->file));
+                    error_buffer.add(parserError<CHAR>(
+                                            root->line,
+                                            root->column,
+                                            result.error(),
+                                            root->file));
                 }
                 else
                 {
-                    int start_index = (int)(child[1]->children[0]->value.real());
-                    int stop_index = (int)(child[1]->children[1]->value.real());
-
-                    phrase_t<CHAR>* node = child[0];
-                    node->parent = root->parent;
-                    root->parent->children[index_stack.peek()-1] = node;
-
-                    delete child[1];
-                    delete root;
-
-                    root = node;
-
-
-                    if (root->value.type() == data::ARRAY)
-                    {
-                        if (root->value.array().is_valid(start_index) &&
-                            root->value.array().is_valid(stop_index))
-                            root->value = root->
-                                value.array().subset(start_index, stop_index);
-                        else
-                            error_buffer.add(parserError<CHAR>(
-                                                        child[1]->line,
-                                                        child[1]->column,
-                                                error::INDEX_OUT_OF_BOUNDS,
-                                                        child[1]->file));
-                    }
-                    else //STRING
-                    {
-                        root->value = core::string<CHAR>(root->
-                            value.string().substr(start_index, stop_index));
-                    }
+                    root->value = result;
                 }
 
                 exit_node();

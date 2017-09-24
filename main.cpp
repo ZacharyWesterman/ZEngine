@@ -1,10 +1,10 @@
 //#define Z_USE_DOUBLE
 
+
 #include <z/core.h>
 #include <z/math.h>
 
 #include "z/script.h"
-
 
 #include <iostream>
 //using namespace std;
@@ -252,6 +252,7 @@ int main(int argc, char* argv[])
     //cout << input.str() << endl;
 
     z::core::string<char> input = "test.txt";
+
     genAST.setInput(input, true);
     //sscan.setOutput(identifiers);
 

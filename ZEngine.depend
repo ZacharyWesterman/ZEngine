@@ -2193,7 +2193,7 @@
 
 1489353285 c:\users\zachary\documents\github\zengine\\z\script\errors.h
 
-1506370921 source:/home/zwesterman/GitHub/ZEngine/main.cpp
+1506382810 source:/home/zwesterman/GitHub/ZEngine/main.cpp
 	<iostream>
 	<z/core.h>
 	<z/math.h>
@@ -2649,7 +2649,7 @@
 	"../data_t.h"
 	"../errors.h"
 
-1506231368 /home/zwesterman/GitHub/ZEngine/z/script/compiler/scanner.h
+1506382569 /home/zwesterman/GitHub/ZEngine/z/script/compiler/scanner.h
 	<limits>
 	<z/core/sortedArray.h>
 	<z/core/string.h>
@@ -2662,7 +2662,7 @@
 	<z/core/array.h>
 	"identity.h"
 
-1506376930 /home/zwesterman/GitHub/ZEngine/z/script/compiler/lexer.h
+1506381285 /home/zwesterman/GitHub/ZEngine/z/script/compiler/lexer.h
 	<z/core/timeout.h>
 	<z/core/array.h>
 	<z/core/dynamicStack.h>
@@ -2725,7 +2725,7 @@
 	"syntaxErrors/error_semicolon.h"
 	"syntaxErrors/error_for.h"
 
-1504983599 /home/zwesterman/GitHub/ZEngine/z/script/compiler/syntaxRules/identifierlist.h
+1506382722 /home/zwesterman/GitHub/ZEngine/z/script/compiler/syntaxRules/identifierlist.h
 
 1504983599 /home/zwesterman/GitHub/ZEngine/z/script/compiler/syntaxRules/command.h
 
@@ -2777,7 +2777,7 @@
 
 1504983598 /home/zwesterman/GitHub/ZEngine/z/script/compiler/syntaxRules/list.h
 
-1504983600 /home/zwesterman/GitHub/ZEngine/z/script/compiler/syntaxRules/funccall.h
+1506381163 /home/zwesterman/GitHub/ZEngine/z/script/compiler/syntaxRules/funccall.h
 
 1504983600 /home/zwesterman/GitHub/ZEngine/z/script/compiler/syntaxRules/type_funccall.h
 
@@ -2815,13 +2815,13 @@
 
 1504983599 /home/zwesterman/GitHub/ZEngine/z/script/compiler/syntaxRules/shareddecl.h
 
-1504983599 /home/zwesterman/GitHub/ZEngine/z/script/compiler/syntaxRules/formalvardecl.h
+1506382371 /home/zwesterman/GitHub/ZEngine/z/script/compiler/syntaxRules/formalvardecl.h
 
-1504983599 /home/zwesterman/GitHub/ZEngine/z/script/compiler/syntaxRules/formaltypedecl.h
+1506382767 /home/zwesterman/GitHub/ZEngine/z/script/compiler/syntaxRules/formaltypedecl.h
 
 1504983600 /home/zwesterman/GitHub/ZEngine/z/script/compiler/syntaxRules/formaldecllist.h
 
-1504983598 /home/zwesterman/GitHub/ZEngine/z/script/compiler/syntaxRules/function_decl.h
+1506383437 /home/zwesterman/GitHub/ZEngine/z/script/compiler/syntaxRules/function_decl.h
 
 1504983600 /home/zwesterman/GitHub/ZEngine/z/script/compiler/syntaxRules/int_decllist.h
 
@@ -2846,7 +2846,7 @@
 1505089832 /home/zwesterman/GitHub/ZEngine/z/script/compiler/varScope.h
 	"signatures.h"
 
-1506053208 /home/zwesterman/GitHub/ZEngine/z/script/compiler/semanticAnalyzer.h
+1506383240 /home/zwesterman/GitHub/ZEngine/z/script/compiler/semanticAnalyzer.h
 	<z/core/array.h>
 	<z/core/dynamicStack.h>
 	<z/core/timeout.h>

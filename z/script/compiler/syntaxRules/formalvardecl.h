@@ -27,8 +27,7 @@ namespace script
         template <typename CHAR>
         bool lexer<CHAR>::formalvardecl()
         {
-            if ((phrase_nodes.is_valid(index-3) &&
-                 (phrase_nodes[index-3]->type == ident::KEYWORD_FUNCTION) &&
+            if ((phrase_nodes.is_valid(index-2) &&
                  (phrase_nodes[index-2]->type == ident::IDENTIFIER) &&
                  (phrase_nodes[index-1]->type == ident::LPARENTH)) ||
                 (phrase_nodes.is_valid(index-2) &&

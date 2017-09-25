@@ -216,14 +216,21 @@ formaltypedecl	: if#"function" IDENTIFIER (# IDENTIFIER IDENTIFIER
 formaldecllist	: (formalvardecl or formaltypedecl) , (formalvardecl or formaltypedecl)
 		| formaldecllist , (formalvardecl or formaltypedecl)
 
-function_decl	: "function" IDENTIFIER (  ) { (statementlist or statement) }
-		| "function" IDENTIFIER ( formalvardecl ) { (statementlist or statement) }
-		| "function" IDENTIFIER ( formaltypedecl ) { (statementlist or statement) }
-		| "function" IDENTIFIER ( formaldecllist ) { (statementlist or statement) }
-		| "function" IDENTIFIER ( ... ) { }
-		| "function" IDENTIFIER ( ) { }
-		| "function" IDENTIFIER ( ... ) "var" { ... }
-		| "function" IDENTIFIER ( ... ) IDENTIFIER { ... }
+function_decl	: IDENTIFIER ( ) { }
+		| IDENTIFIER (  ) { statement }
+		| IDENTIFIER (  ) { statementlist }
+		| IDENTIFIER ( formalvardecl ) { ... }
+		| IDENTIFIER ( formaltypedecl ) { ... }
+		| IDENTIFIER ( formaldecllist ) { ... }
+		| IDENTIFIER ( ... ) { ... }
+		| "var" IDENTIFIER ( ) { }
+		| "var" IDENTIFIER ( ) { ... }
+		| "var" IDENTIFIER ( ... ) { }
+		| "var" IDENTIFIER ( ... ) { ... }
+		| IDENTIFIER IDENTIFIER ( ) { }
+		| IDENTIFIER IDENTIFIER ( ) { ... }
+		| IDENTIFIER IDENTIFIER ( ... ) { }
+		| IDENTIFIER IDENTIFIER ( ... ) { ... }
 
 PSEUDO:
 int_declaration	: variable_decl

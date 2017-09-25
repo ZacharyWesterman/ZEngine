@@ -31,7 +31,8 @@ namespace script
                   ((phrase_nodes[index-1]->type == ident::KEYWORD_IN) ||
                    (phrase_nodes[index-1]->type == ident::KEYWORD_SUB) ||
                    (phrase_nodes[index-1]->type == ident::KEYWORD_TYPE) ||
-                   (phrase_nodes[index-1]->type == ident::RPARENTH) )))
+                   (phrase_nodes[index-1]->type == ident::LPARENTH) ||
+                   (phrase_nodes[index-1]->type == ident::COMMA) )))
             {
                 if (phrase_nodes.is_valid(index+1) &&
                     ((phrase_nodes[index]->type == ident::IDENTIFIER) ||
@@ -39,7 +40,8 @@ namespace script
                     (phrase_nodes[index+1]->type == ident::IDENTIFIER) &&
                     !(phrase_nodes.is_valid(index+2) &&
                       ((phrase_nodes[index+2]->type == ident::SEMICOLON) ||
-                       (phrase_nodes[index+2]->type == ident::OPER_ASSIGN))))
+                       (phrase_nodes[index+2]->type == ident::OPER_ASSIGN) ||
+                       (phrase_nodes[index+2]->type == ident::LPARENTH))))
                 {
                     if (phrase_nodes[index]->type == phrase::IDENTIFIERLIST)
                     {

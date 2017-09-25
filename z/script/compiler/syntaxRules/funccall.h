@@ -35,7 +35,9 @@ namespace script
                     ((phrase_nodes[index+2]->type == phrase::BOOLEXPR) ||
                      (phrase_nodes[index+2]->type == phrase::EXPRLIST)) &&
                     (phrase_nodes[index+1]->type == ident::LPARENTH) &&
-                    (phrase_nodes[index+3]->type == ident::RPARENTH))
+                    (phrase_nodes[index+3]->type == ident::RPARENTH) &&
+                    !(phrase_nodes.is_valid(index+4) &&
+                      (phrase_nodes[index+4]->type == ident::LBRACE)))
                 {
                     phrase_t<CHAR>* node = new phrase_t<CHAR>();
 
@@ -61,7 +63,9 @@ namespace script
                 else if (phrase_nodes.is_valid(index+2) &&
                     (phrase_nodes[index]->type == ident::IDENTIFIER) &&
                     (phrase_nodes[index+1]->type == ident::LPARENTH) &&
-                    (phrase_nodes[index+2]->type == ident::RPARENTH))
+                    (phrase_nodes[index+2]->type == ident::RPARENTH) &&
+                    !(phrase_nodes.is_valid(index+3) &&
+                      (phrase_nodes[index+3]->type == ident::LBRACE)))
                 {
                     phrase_t<CHAR>* node = new phrase_t<CHAR>();
 

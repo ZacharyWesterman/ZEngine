@@ -190,6 +190,8 @@ namespace script
 
             void setInput(phrase_t<CHAR>* new_root)
             {
+                error_buffer.clear();
+
                 index_stack.dump();
 
                 index = 0;
@@ -664,16 +666,15 @@ namespace script
             }
 
             //add typed-var to current scope
-            errorFlag err =
-                current_scope->addVar(varSignature(root->children[1]->meta,
+            bool good = current_scope->addVar(varSignature(root->children[1]->meta,
                                                    uniqueID_current,
                                                    root->children[0]->meta));
 
-            if (err)
+            if (!good)
             {
                 error_buffer.add(parserError<CHAR>(root->line,
                                                     root->column,
-                                                    err,
+                                        error::VARIABLE_REDECLARED,
                                     *((core::string<CHAR>*)root->children[1]->meta),
                                                     root->file));
             }
@@ -792,14 +793,14 @@ namespace script
         {
             if (root->type == phrase::FORMALTYPEDECL)
             {
-                errorFlag err = current_scope->addVar(varSignature(root->children[1]->meta,
+                bool good = current_scope->addVar(varSignature(root->children[1]->meta,
                                                    uniqueID_current++,
                                                    root->children[0]->meta));
 
-                if (err)
+                if (!good)
                     error_buffer.add(parserError<CHAR>(root->line,
                                                         root->column,
-                                                        err,
+                                            error::VARIABLE_REDECLARED,
                                         *((core::string<CHAR>*)root->children[1]->meta),
                                                         root->file));
 
@@ -807,13 +808,13 @@ namespace script
             }
             else
             {
-                errorFlag err = current_scope->addVar(varSignature(root->children[0]->meta,
+                bool good = current_scope->addVar(varSignature(root->children[0]->meta,
                                                    uniqueID_current++));
 
-                if (err)
+                if (!good)
                     error_buffer.add(parserError<CHAR>(root->line,
                                                         root->column,
-                                                        err,
+                                            error::VARIABLE_REDECLARED,
                                         *((core::string<CHAR>*)root->children[0]->meta),
                                                         root->file));
 

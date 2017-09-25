@@ -2837,7 +2837,7 @@
 
 1504986116 /home/zwesterman/GitHub/ZEngine/z/script/compiler/syntaxErrors/error_for.h
 
-1506372600 /home/zwesterman/GitHub/ZEngine/z/script/compiler/constantFolder.h
+1506375585 /home/zwesterman/GitHub/ZEngine/z/script/compiler/constantFolder.h
 	<z/core/dynamicStack.h>
 	<z/core/timeout.h>
 	"../errors.h"

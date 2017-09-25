@@ -648,30 +648,30 @@ namespace script
                             data_t<CHAR> v_start = ptr->children[0]->value;
                             data_t<CHAR> v_stop =  ptr->children[1]->value;
 
-                            data_t<CHAR> c_result;
+                            data_t<CHAR> i_result;
 
                             if (subIndex)
-                                c_result = (root->value).
+                                i_result = (root->value).
                                             subIndex(v_start, v_stop);
                             else
-                                c_result = (root->value).
+                                i_result = (root->value).
                                             index(v_start, v_stop);
 
-                            if (result.error())
+                            if (i_result.error())
                             {
                                 error_buffer.add(parserError<CHAR>(
                                                         ptr->line,
                                                         ptr->column,
-                                                        c_result.error(),
+                                                        i_result.error(),
                                                         ptr->file));
                             }
                             else
                             {
-                                if (i)
-                                   result.subAppend(c_result);
-                                else
-                                    result = c_result;
-                            }*/
+                                data_t<CHAR> temp;
+                                temp.merge(i_result.array());
+
+                                result.add(temp.array());
+                            }
                         }
 
 

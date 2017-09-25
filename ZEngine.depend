@@ -2662,7 +2662,7 @@
 	<z/core/array.h>
 	"identity.h"
 
-1506229387 /home/zwesterman/GitHub/ZEngine/z/script/compiler/lexer.h
+1506376930 /home/zwesterman/GitHub/ZEngine/z/script/compiler/lexer.h
 	<z/core/timeout.h>
 	<z/core/array.h>
 	<z/core/dynamicStack.h>
@@ -2781,13 +2781,13 @@
 
 1504983600 /home/zwesterman/GitHub/ZEngine/z/script/compiler/syntaxRules/type_funccall.h
 
-1506101197 /home/zwesterman/GitHub/ZEngine/z/script/compiler/syntaxRules/varindex.h
+1506376925 /home/zwesterman/GitHub/ZEngine/z/script/compiler/syntaxRules/varindex.h
 
 1504983599 /home/zwesterman/GitHub/ZEngine/z/script/compiler/syntaxRules/typevar.h
 
-1504983598 /home/zwesterman/GitHub/ZEngine/z/script/compiler/syntaxRules/variable.h
+1506376729 /home/zwesterman/GitHub/ZEngine/z/script/compiler/syntaxRules/variable.h
 
-1506049948 /home/zwesterman/GitHub/ZEngine/z/script/compiler/syntaxRules/operand.h
+1506376471 /home/zwesterman/GitHub/ZEngine/z/script/compiler/syntaxRules/operand.h
 
 1504983597 /home/zwesterman/GitHub/ZEngine/z/script/compiler/syntaxRules/parenthexpr.h
 
@@ -2833,11 +2833,11 @@
 
 1504986116 /home/zwesterman/GitHub/ZEngine/z/script/compiler/syntaxErrors/error_oper.h
 
-1504986116 /home/zwesterman/GitHub/ZEngine/z/script/compiler/syntaxErrors/error_semicolon.h
+1506376139 /home/zwesterman/GitHub/ZEngine/z/script/compiler/syntaxErrors/error_semicolon.h
 
 1504986116 /home/zwesterman/GitHub/ZEngine/z/script/compiler/syntaxErrors/error_for.h
 
-1506375585 /home/zwesterman/GitHub/ZEngine/z/script/compiler/constantFolder.h
+1506375653 /home/zwesterman/GitHub/ZEngine/z/script/compiler/constantFolder.h
 	<z/core/dynamicStack.h>
 	<z/core/timeout.h>
 	"../errors.h"

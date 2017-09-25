@@ -60,7 +60,9 @@ namespace script
                 return true;
             }
             else if ((phrase_nodes[index]->type == phrase::TYPEVAR) ||
-                     (phrase_nodes[index]->type == phrase::VARINDEX))
+                     ((phrase_nodes[index]->type == phrase::VARINDEX) &&
+                      !(phrase_nodes.is_valid(index+1) &&
+                       (phrase_nodes[index+1]->type == ident::LBRACKET))))
             {
                 if (phrase_nodes[index]->orig_type == ident::NONE)
                     phrase_nodes[index]->orig_type = phrase_nodes[index]->type;

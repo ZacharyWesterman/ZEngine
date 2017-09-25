@@ -73,17 +73,16 @@ funccall	: IDENTIFIER ( )
 
 type_funccall	: parenthexpr . funccall
 
-varindex	: IDENTIFIER index
+varindex	: parenthexpr index
 		| varindex index
 		| list index
 		| LITERAL:STRING index
 		| LITERAL:ARRAY index
 
 typevar		: parenthexpr . IDENTIFIER ![ !(
-		| parenthexpr . varindex
 
 variable	: IDENTIFIER !( ![ !.
-		| varindex
+		| varindex ![
 		| typevar
 
 operand		: variable

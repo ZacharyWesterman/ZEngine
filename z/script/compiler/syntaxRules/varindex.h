@@ -28,7 +28,7 @@ namespace script
         bool lexer<CHAR>::varindex()
         {
             if (phrase_nodes.is_valid(index+1) &&
-                ((phrase_nodes[index]->type == ident::IDENTIFIER) ||
+                ((phrase_nodes[index]->type == phrase::PARENTHEXPR) ||
                  (phrase_nodes[index]->type == phrase::VARINDEX) ||
                  (phrase_nodes[index]->type == phrase::LIST) ||
                  ((phrase_nodes[index]->type == ident::LITERAL) &&

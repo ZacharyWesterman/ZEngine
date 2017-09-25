@@ -1,12 +1,12 @@
 //#define Z_USE_DOUBLE
-
+#include <iostream>
 
 #include <z/core.h>
 #include <z/math.h>
 
 #include "z/script.h"
 
-#include <iostream>
+
 //using namespace std;
 
 

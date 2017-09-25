@@ -66,21 +66,18 @@ namespace z
 
 
 
-        namespace data
+        enum data
         {
-            enum DATA_TYPE
-            {
-                NONE = 0,
+            NONE = 0,
 
-                ERROR,
+            ERROR,
 
-                VALUE,
-                STRING,
-                ARRAY,
+            VALUE,
+            STRING,
+            ARRAY,
 
-                TYPE_COUNT
-            };
-        }
+            TYPE_COUNT
+        };
 
 
         template <typename CHAR>
@@ -187,6 +184,9 @@ namespace z
             inline core::array< data_t<CHAR> >& array()
             { return d_array; }
 
+            inline const core::array< data_t<CHAR> >& array() const
+            { return d_array; }
+
             errorFlag error() const
             {
                 if (d_type == data::ERROR)
@@ -203,6 +203,8 @@ namespace z
             const data_t subIndex(const data_t&) const;
             const data_t subIndex(const data_t&,
                                   const data_t&) const;
+
+            const data_t& merge(const core::array< data_t >&);
 
             //operators
             const data_t& operator++();
@@ -424,6 +426,67 @@ namespace z
             }
 
             return result;
+        }
+
+
+        ///Assuming a 2D array list, change array grouping
+        ///from horizontal to vertical.
+        /**
+
+        {a,b,c}     {a,d,g}
+        {d,e,f} --> {b,e,h}
+        {g,h,i}     {c,f,i}
+
+        */
+        template <typename CHAR>
+        const data_t<CHAR>& data_t<CHAR>::merge(const core::array< data_t<CHAR> >& arr)
+        {
+            d_string.clear();
+            d_array.clear();
+            d_type = data::ARRAY;
+
+
+            int max_width = 1;
+
+            //find max array width
+            for (int i=0; i<arr.size(); i++)
+            {
+                if((arr[i].d_type == data::ARRAY) &&
+                   (arr[i].d_array.size() > max_width))
+                {
+                    max_width = arr[i].d_array.size();
+                }
+            }
+
+
+            //fill new arrays in order
+            for (int i=0; i<max_width; i++)
+            {
+                core::array< data_t<CHAR> > current;
+
+                for (int j=0; j<arr.size(); j++)
+                {
+                    int width;
+                    if (arr[j].d_type == data::ARRAY)
+                        width = arr[j].d_array.size();
+                    else
+                        width = 1;
+
+
+                    if (width > i)
+                    {
+                        if (arr[j].d_type == data::ARRAY)
+                            current.add(arr[j].d_array[i]);
+                        else
+                            current.add(arr[j]);
+                    }
+                }
+
+                d_array.add(data_t<CHAR>(current));
+            }
+
+
+            return *this;
         }
 
 

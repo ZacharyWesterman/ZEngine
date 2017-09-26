@@ -879,10 +879,6 @@ namespace script
                     current_ident.type = ident::KEYWORD_VAR;
                 else if (current_symbol == "type")
                     current_ident.type = ident::KEYWORD_TYPE;
-                else if (current_symbol == "function")
-                    current_ident.type = ident::KEYWORD_FUNCTION;
-                else if (current_symbol == "global")
-                    current_ident.type = ident::KEYWORD_GLOBAL;
                 else if (current_symbol == "external")
                     current_ident.type = ident::KEYWORD_EXTERNAL;
                 else if (current_symbol == "shared")

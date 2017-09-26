@@ -83,13 +83,11 @@ namespace script
 
             KEYWORD_VAR,
             KEYWORD_TYPE,   //33
-            KEYWORD_FUNCTION,
 
-            KEYWORD_GLOBAL, //34
-            KEYWORD_EXTERNAL,//35
+            KEYWORD_EXTERNAL,
             KEYWORD_SHARED,
 
-            OPER_ASSIGN,    //36
+            OPER_ASSIGN,
 
             OPER_ADD_ASSIGN,
             OPER_SUB_ASSIGN,

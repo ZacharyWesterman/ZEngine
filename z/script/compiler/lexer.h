@@ -171,6 +171,8 @@ namespace script
             int index;
             bool did_concat;
 
+            int scope;
+
             int progress;
             bool input_in_use;
 
@@ -263,6 +265,7 @@ namespace script
                 progress = lex::NONE;
 
                 index = 0;
+                scope = 0;
 
                 input_in_use = true;
 
@@ -286,6 +289,7 @@ namespace script
                 progress = lex::NONE;
 
                 index = 0;
+                scope = 0;
 
                 error_buffer.clear();
 
@@ -417,7 +421,14 @@ namespace script
                              )
                         did_concat = true;
                     else
+                    {
+                        if (phrase_nodes[index]->type == ident::LBRACE)
+                            scope++;
+                        else if (phrase_nodes[index]->type == ident::RBRACE)
+                            scope--;
+
                         index++;
+                    }
 
                 }
                 else if (progress == lex::PROGRAM)

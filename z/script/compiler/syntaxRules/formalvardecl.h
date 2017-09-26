@@ -58,7 +58,8 @@ namespace script
 
                     return true;
                 }
-                else if ((phrase_nodes[index]->type == ident::IDENTIFIER) &&
+                else if (!scope && //valid syntax outside of a function body
+                         (phrase_nodes[index]->type == ident::IDENTIFIER) &&
                          !(phrase_nodes.is_valid(index+1) &&
                           (phrase_nodes[index+1]->type == ident::IDENTIFIER)))
                 {

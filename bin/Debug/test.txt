@@ -1,7 +1,13 @@
-var main(x);
-
-
-main(x)
+type T
 {
-    return x;
+    var f();
+}
+
+
+type T
+{
+    f()
+    {
+       return 0;
+    }
 }

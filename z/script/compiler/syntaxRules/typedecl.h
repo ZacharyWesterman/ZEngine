@@ -33,6 +33,7 @@ namespace script
                  (phrase_nodes[index+2]->type == ident::LBRACE)) &&
                  ((phrase_nodes[index+3]->type == phrase::VARIABLE_DECL) ||
                   (phrase_nodes[index+3]->type == phrase::TYPEVAR_DECL) ||
+                  (phrase_nodes[index+3]->type == phrase::FUNC_PROTOTYPE) ||
                   (phrase_nodes[index+3]->type == phrase::FUNCTION_DECL) ||
                   (phrase_nodes[index+3]->type == phrase::INT_DECLLIST)) &&
                 (phrase_nodes[index+4]->type == ident::RBRACE))

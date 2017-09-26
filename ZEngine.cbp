@@ -68,6 +68,7 @@
 		<Unit filename="z/script/compiler/syntaxRules/formaldecllist.h" />
 		<Unit filename="z/script/compiler/syntaxRules/formaltypedecl.h" />
 		<Unit filename="z/script/compiler/syntaxRules/formalvardecl.h" />
+		<Unit filename="z/script/compiler/syntaxRules/func_prototype.h" />
 		<Unit filename="z/script/compiler/syntaxRules/funccall.h" />
 		<Unit filename="z/script/compiler/syntaxRules/function_decl.h" />
 		<Unit filename="z/script/compiler/syntaxRules/gosub_statement.h" />

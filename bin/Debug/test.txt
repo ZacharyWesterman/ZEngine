@@ -1,13 +1,4 @@
-type T
+main()
 {
-    var f();
-}
-
-
-type T
-{
-    f()
-    {
-       return 0;
-    }
+    return f();
 }

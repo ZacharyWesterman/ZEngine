@@ -101,6 +101,7 @@ namespace script
             "typedecl",
             "externaldecl",
             "shareddecl",
+            "func_prototype",
             "function_decl",
             "range",
             "rangelist",
@@ -247,6 +248,7 @@ namespace script
             bool formalvardecl();
             bool formaltypedecl();
             bool formaldecllist();
+            bool func_prototype();
             bool function_decl();
 
             bool int_decllist();
@@ -362,6 +364,7 @@ namespace script
                     else if (formalvardecl()    ||
                              formaltypedecl()   ||
                              formaldecllist()   ||
+                             func_prototype()   ||
                              function_decl()    ||
                              int_decllist()     ||
                              typedecl()         ||
@@ -392,7 +395,6 @@ namespace script
                              variable_decl()    ||
                              typevar_decl()     ||
                              _range()           ||
-                             //rangelist()        ||
                              _index()           ||
                              indexlist()        ||
                              exprlist()         ||
@@ -614,7 +616,6 @@ namespace script
 #include "syntaxRules/variable_decl.h"
 #include "syntaxRules/typevar_decl.h"
 #include "syntaxRules/range.h"
-//#include "syntaxRules/rangelist.h"
 #include "syntaxRules/index.h"
 #include "syntaxRules/indexlist.h"
 #include "syntaxRules/exprlist.h"
@@ -641,6 +642,7 @@ namespace script
 #include "syntaxRules/formalvardecl.h"
 #include "syntaxRules/formaltypedecl.h"
 #include "syntaxRules/formaldecllist.h"
+#include "syntaxRules/func_prototype.h"
 #include "syntaxRules/function_decl.h"
 #include "syntaxRules/int_decllist.h"
 #include "syntaxRules/typedecl.h"

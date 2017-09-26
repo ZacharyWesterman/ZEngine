@@ -1,4 +1,7 @@
-main(foo x)
-{
+var main(x);
 
+
+main(x)
+{
+    return x;
 }

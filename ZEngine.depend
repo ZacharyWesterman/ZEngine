@@ -2658,11 +2658,11 @@
 	"escapeSequences.h"
 	"identity.h"
 
-1505096155 /home/zwesterman/GitHub/ZEngine/z/script/compiler/phrase.h
+1506384333 /home/zwesterman/GitHub/ZEngine/z/script/compiler/phrase.h
 	<z/core/array.h>
 	"identity.h"
 
-1506384038 /home/zwesterman/GitHub/ZEngine/z/script/compiler/lexer.h
+1506385959 /home/zwesterman/GitHub/ZEngine/z/script/compiler/lexer.h
 	<z/core/timeout.h>
 	<z/core/array.h>
 	<z/core/dynamicStack.h>
@@ -2716,6 +2716,7 @@
 	"syntaxRules/formalvardecl.h"
 	"syntaxRules/formaltypedecl.h"
 	"syntaxRules/formaldecllist.h"
+	"syntaxRules/func_prototype.h"
 	"syntaxRules/function_decl.h"
 	"syntaxRules/int_decllist.h"
 	"syntaxRules/typedecl.h"
@@ -2815,19 +2816,19 @@
 
 1504983599 /home/zwesterman/GitHub/ZEngine/z/script/compiler/syntaxRules/shareddecl.h
 
-1506382371 /home/zwesterman/GitHub/ZEngine/z/script/compiler/syntaxRules/formalvardecl.h
+1506386025 /home/zwesterman/GitHub/ZEngine/z/script/compiler/syntaxRules/formalvardecl.h
 
 1506382767 /home/zwesterman/GitHub/ZEngine/z/script/compiler/syntaxRules/formaltypedecl.h
 
 1504983600 /home/zwesterman/GitHub/ZEngine/z/script/compiler/syntaxRules/formaldecllist.h
 
-1506383437 /home/zwesterman/GitHub/ZEngine/z/script/compiler/syntaxRules/function_decl.h
+1506384429 /home/zwesterman/GitHub/ZEngine/z/script/compiler/syntaxRules/function_decl.h
 
 1504983600 /home/zwesterman/GitHub/ZEngine/z/script/compiler/syntaxRules/int_decllist.h
 
 1504983598 /home/zwesterman/GitHub/ZEngine/z/script/compiler/syntaxRules/typedecl.h
 
-1504983134 /home/zwesterman/GitHub/ZEngine/z/script/compiler/syntaxRules/program.h
+1506386112 /home/zwesterman/GitHub/ZEngine/z/script/compiler/syntaxRules/program.h
 
 1504983600 /home/zwesterman/GitHub/ZEngine/z/script/compiler/syntaxRules/stop_statement.h
 
@@ -2878,4 +2879,6 @@
 
 1505087960 /home/zwesterman/GitHub/ZEngine/z/script/compiler/signatures.h
 	<z/core/array.h>
+
+1506385231 /home/zwesterman/GitHub/ZEngine/z/script/compiler/syntaxRules/func_prototype.h
 

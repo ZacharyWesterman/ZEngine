@@ -29,6 +29,7 @@ namespace script
         {
             if ((phrase_nodes[index]->type == phrase::VARIABLE_DECL) ||
                 (phrase_nodes[index]->type == phrase::TYPEVAR_DECL) ||
+                (phrase_nodes[index]->type == phrase::FUNC_PROTOTYPE) ||
                 (phrase_nodes[index]->type == phrase::FUNCTION_DECL) ||
                 (phrase_nodes[index]->type == phrase::TYPEDECL) ||
                 (phrase_nodes[index]->type == phrase::EXTERNALDECL) ||

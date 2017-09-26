@@ -59,6 +59,7 @@ namespace script
             EXTERNALDECL,
             SHAREDDECL,
 
+            FUNC_PROTOTYPE,
             FUNCTION_DECL,
 
             RANGE,

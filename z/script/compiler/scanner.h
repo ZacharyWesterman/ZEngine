@@ -78,7 +78,8 @@ namespace script
             bool scan(const core::timeout&);
 
             void clear();
-            inline bool error();
+            inline bool good();
+            inline bool bad();
 
         private:
             bool list_opers(core::string<CHAR>&);
@@ -165,11 +166,16 @@ namespace script
         }
 
         template <typename CHAR>
-        inline bool scanner<CHAR>::error()
+        inline bool scanner<CHAR>::good()
         {
-            return error_buffer.size() > 0;
+            return error_buffer.size() == 0;
         }
 
+        template <typename CHAR>
+        inline bool scanner<CHAR>::bad()
+        {
+            return error_buffer.size() != 0;
+        }
 
 
         //function to scan for and separate input into separate tokens.
@@ -338,23 +344,23 @@ namespace script
                 if (op_sym.type == ident::LPARENTH)
                 {
                     error_buffer.add(error(op_sym.line,
-                                                    op_sym.column,
-                                                    error::MISSING_R_PARENTH,
-                                                    file));
+                                           op_sym.column,
+                                           error("Missing close parentheses"),
+                                           file));
                 }
                 else if (op_sym.type == ident::LBRACKET)
                 {
                     error_buffer.add(error(op_sym.line,
-                                                    op_sym.column,
-                                                    error::MISSING_R_BRACKET,
-                                                    file));
+                                           op_sym.column,
+                                           error("Missing close square bracket"),
+                                           file));
                 }
                 else if (op_sym.type == ident::LBRACE)
                 {
                     error_buffer.add(error(op_sym.line,
-                                                    op_sym.column,
-                                                    error::MISSING_R_BRACE,
-                                                    file));
+                                           op_sym.column,
+                                           error("Missing close curly brace"),
+                                           file));
                 }
             }
         }
@@ -479,19 +485,22 @@ namespace script
             if (!open_symbol_indices.pop(op_sym))
             {
                 error_buffer.add(error(line, column,
-                                            error::MISSING_L_PARENTH, file));
+                                       error("Missing open parentheses"),
+                                       file));
             }
             else if (op_sym.type == ident::LBRACKET)
             {
                 error_buffer.add(error(op_sym.line,
-                                            op_sym.column,
-                                            error::MISSING_R_BRACKET, file));
+                                        op_sym.column,
+                                        error("Missing close square bracket"),
+                                        file));
             }
             else if (op_sym.type == ident::LBRACE)
             {
                 error_buffer.add(error(op_sym.line,
-                                            op_sym.column,
-                                            error::MISSING_R_BRACE, file));
+                                        op_sym.column,
+                                        error("Missing close curly brace"),
+                                        file));
             }
         }
 
@@ -514,19 +523,22 @@ namespace script
             if (!open_symbol_indices.pop(op_sym))
             {
                 error_buffer.add(error(line, column,
-                                            error::MISSING_L_BRACKET, file));
+                                        error("Missing open square bracket"),
+                                        file));
             }
             else if (op_sym.type == ident::LPARENTH)
             {
                 error_buffer.add(error(op_sym.line,
-                                            op_sym.column,
-                                            error::MISSING_R_PARENTH, file));
+                                        op_sym.column,
+                                        error("Missing close parentheses"),
+                                        file));
             }
             else if (op_sym.type == ident::LBRACE)
             {
                 error_buffer.add(error(op_sym.line,
-                                                op_sym.column,
-                                                error::MISSING_R_BRACE, file));
+                                        op_sym.column,
+                                        error("Missing close curly brace"),
+                                        file));
             }
         }
 
@@ -549,19 +561,22 @@ namespace script
             if (!open_symbol_indices.pop(op_sym))
             {
                 error_buffer.add(error(line, column,
-                                                error::MISSING_L_BRACE, file));
+                                        error("Missing open curly brace"),
+                                        file));
             }
             else if (op_sym.type == ident::LBRACKET)
             {
                 error_buffer.add(error(op_sym.line,
-                                                op_sym.column,
-                                                error::MISSING_R_BRACKET, file));
+                                        op_sym.column,
+                                        error("Missing close square bracket"),
+                                        file));
             }
             else if (op_sym.type == ident::LPARENTH)
             {
                 error_buffer.add(error(op_sym.line,
-                                                op_sym.column,
-                                                error::MISSING_R_PARENTH, file));
+                                        op_sym.column,
+                                        error("Missing close parentheses"),
+                                        file));
             }
         }
 
@@ -617,7 +632,7 @@ namespace script
         template <typename CHAR>
         bool scanner<CHAR>::list_opers(core::string<CHAR>& input)
         {
-            errorFlag oper_error = error();
+            error oper_error;
 
             core::array< ident_t<CHAR> > temp_opers;
 
@@ -809,9 +824,13 @@ namespace script
                 else //an operator was not found
                 {
                     if (x_offset > 0)
-                        oper_error = error::AMBIGUOUS_EXPR;
+                        error_buffer.add(error(line, column,
+                                                "Ambiguous expression",
+                                                *file));
                     else
-                        oper_error = error::UNKNOWN_OPERATOR;
+                        error_buffer.add(error(line, column,
+                                                "Unknown operator",
+                                                *file));
                 }
             }
 

@@ -253,7 +253,7 @@ namespace z
             }
             else if (d_type <= data::VALUE)
             {
-                result = error::CANNOT_INDEX;
+                result = error("Cannot index");
             }
             else if (d_type == data::ARRAY)
             {
@@ -263,7 +263,7 @@ namespace z
                     result = d_array.at(i_index);
                 else
                 {
-                    result = error::INDEX_OUT_OF_BOUNDS;
+                    result = error("Index out of bounds");
                 }
             }
             else //STRING

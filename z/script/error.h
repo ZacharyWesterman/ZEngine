@@ -143,9 +143,9 @@ namespace z
                 err_column = -1;
             }
 
-            error(int line = -1, int column = -1,
-                  const core::string<char>& msg,
-                  const core::string<char>& file)
+            error(const core::string<char>& msg,
+                  const core::string<char>& file,
+                  int line = -1, int column = -1)
             {
                 err_line = line;
                 err_column = column;
@@ -155,8 +155,8 @@ namespace z
                 err_file = file;
             }
 
-            error(int line = -1, int column = -1,
-                  const core::string<char>& msg)
+            error(const core::string<char>& msg,
+                  int line = -1, int column = -1)
             {
                 err_line = line;
                 err_column = column;
@@ -202,30 +202,30 @@ namespace z
             }
 
 
-            const string<char> fullMessage() const
+            const core::string<char> fullMessage() const
             {
-                string<char> fullmsg;
+                core::string<char> fullmsg;
 
                 if ((err_line >= 0) &&
                     (err_column >= 0))
                 {
-                    fullmsg = line;
+                    fullmsg = err_line;
                     fullmsg += ", ";
-                    fullmsg += column;
+                    fullmsg += err_column;
 
-                    if (file.length())
+                    if (err_file.length())
                         fullmsg += " ";
                 }
 
-                if (file.length())
+                if (err_file.length())
                 {
                     fullmsg += "in '";
-                    fullmsg += file;
+                    fullmsg += err_file;
                     fullmsg += "'";
                 }
 
                 fullmsg += ": ";
-                fullmsg += message;
+                fullmsg += err_msg;
 
                 return fullmsg;
             }
@@ -250,12 +250,12 @@ namespace z
 
             inline int line() const
             {
-                return line;
+                return err_line;
             }
 
             inline int column() const
             {
-                return column;
+                return err_column;
             }
 
             inline const core::string<char>& message() const
@@ -266,6 +266,11 @@ namespace z
             inline const core::string<char>& file() const
             {
                 return err_file;
+            }
+
+            inline bool none()
+            {
+                return (err_msg.length() == 0);
             }
         };
 

@@ -15,7 +15,7 @@
 
 ///Basic supporting files
 #include "script/errors.h"
-#include "script/data_t.h"
+#include "script/generic.h"
 
 ///Extensible script parts
 #include "script/function.h"

@@ -18,7 +18,7 @@
 #include <z/core/array.h>
 #include <z/core/timeout.h>
 
-#include "data_t.h"
+#include "generic.h"
 
 
 namespace z
@@ -44,8 +44,8 @@ namespace z
             bool is_constant;
 
         protected:
-            core::array< data_t<CHAR> > params;
-            data_t<CHAR> return_value;
+            core::array< generic<CHAR> > params;
+            generic<CHAR> return_value;
 
         public:
 
@@ -77,7 +77,7 @@ namespace z
             virtual ~function() {}
 
 
-            virtual errorFlag addParam(const data_t<CHAR>& next_param)
+            virtual errorFlag addParam(const generic<CHAR>& next_param)
             {
                 params.add(next_param);
 
@@ -135,7 +135,7 @@ namespace z
             inline const bool constant() const
             { return is_constant; }
 
-            inline const data_t<CHAR>& result() const
+            inline const generic<CHAR>& result() const
             { return return_value; }
 
 

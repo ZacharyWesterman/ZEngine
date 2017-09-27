@@ -397,7 +397,7 @@ namespace script
 
             if (root->children.size() <= 0)
             {
-                root->value = core::array< data_t<CHAR> >{};
+                root->value = core::array< generic<CHAR> >{};
 
                 set_node_constant();
                 append_oper_error();
@@ -421,7 +421,7 @@ namespace script
 
                 if (!found_nonliteral)
                 {
-                    root->value = core::array< data_t<CHAR> > {root->children[0]->value};
+                    root->value = core::array< generic<CHAR> > {root->children[0]->value};
 
                     for(int i=1; i<(root->children.size()); i++)
                         root->value.array().add(root->children[i]->value);
@@ -488,8 +488,8 @@ namespace script
             {
                 bool subIndex = (bool)root->metaValue;
 
-                data_t<CHAR> value = root->children[0]->value;
-                data_t<CHAR> v_index = root->children[1]->value;
+                generic<CHAR> value = root->children[0]->value;
+                generic<CHAR> v_index = root->children[1]->value;
 
 
                 phrase_t<CHAR>* node = root->children[0];
@@ -503,7 +503,7 @@ namespace script
 
 
 
-                data_t<CHAR> result;
+                generic<CHAR> result;
 
                 if (subIndex) //sub-indexing
                     result = value.subIndex(v_index);
@@ -533,9 +533,9 @@ namespace script
             {
                 bool subIndex = (bool)root->metaValue;
 
-                data_t<CHAR> value = child[0]->value;
-                data_t<CHAR> v_start = child[1]->children[0]->value;
-                data_t<CHAR> v_stop =  child[1]->children[1]->value;
+                generic<CHAR> value = child[0]->value;
+                generic<CHAR> v_start = child[1]->children[0]->value;
+                generic<CHAR> v_stop =  child[1]->children[1]->value;
 
                 phrase_t<CHAR>* node = child[0];
                 node->parent = root->parent;
@@ -548,7 +548,7 @@ namespace script
 
 
 
-                data_t<CHAR> result;
+                generic<CHAR> result;
 
                 if (subIndex) //sub-indexing
                     result = value.subIndex(v_start, v_stop);
@@ -613,7 +613,7 @@ namespace script
                     root = node;
 
 
-                    core::array< data_t<CHAR> > result;
+                    core::array< generic<CHAR> > result;
 
 
                     for (int i=0; i<(child[1]->children).size(); i++)
@@ -622,7 +622,7 @@ namespace script
 
                         if (ptr->type == ident::LITERAL)//LITERAL
                         {
-                            data_t<CHAR> i_result;
+                            generic<CHAR> i_result;
 
                             if (subIndex)
                                 i_result = (root->value).subIndex(ptr->value);
@@ -645,10 +645,10 @@ namespace script
                         }
                         else //range:LITERAL
                         {
-                            data_t<CHAR> v_start = ptr->children[0]->value;
-                            data_t<CHAR> v_stop =  ptr->children[1]->value;
+                            generic<CHAR> v_start = ptr->children[0]->value;
+                            generic<CHAR> v_stop =  ptr->children[1]->value;
 
-                            data_t<CHAR> i_result;
+                            generic<CHAR> i_result;
 
                             if (subIndex)
                                 i_result = (root->value).
@@ -667,7 +667,7 @@ namespace script
                             }
                             else
                             {
-                                data_t<CHAR> temp;
+                                generic<CHAR> temp;
                                 temp.merge(i_result.array());
 
                                 result.add(temp.array());

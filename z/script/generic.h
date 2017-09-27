@@ -1,5 +1,5 @@
 /**
- * File:            data_t.h
+ * File:            generic.h
  * Namespace:       z::script
  *
  * Description:     A template union for a generic datatype.
@@ -9,7 +9,7 @@
  *                  types to allow for high precision.
  *                  We also want to know when a variable hasn't been set.
  *
- *                  By default, all data_t types are set to NONE.
+ *                  By default, all generic types are set to NONE.
  *
  *
  * Author:          Zachary Westerman
@@ -18,8 +18,8 @@
 **/
 
 #pragma once
-#ifndef DATA_T_H_INCLUDED
-#define DATA_T_H_INCLUDED
+#ifndef GENERIC_H_INCLUDED
+#define GENERIC_H_INCLUDED
 
 #include <z/float.h>
 #include <z/core/string.h>
@@ -81,7 +81,7 @@ namespace z
 
 
         template <typename CHAR>
-        class data_t
+        class generic
         {
         public:
             int d_type;
@@ -91,11 +91,11 @@ namespace z
 
             core::string<CHAR> d_string;
 
-            core::array<data_t> d_array;
+            core::array<generic> d_array;
 
 
         public:
-            data_t()
+            generic()
             {
                 d_type = data::NONE;
 
@@ -103,7 +103,7 @@ namespace z
                 d_error = 0;
             }
 
-            data_t(errorFlag new_error)
+            generic(errorFlag new_error)
             {
 
                 d_type = data::ERROR;
@@ -115,7 +115,7 @@ namespace z
                 typename T, //numeric type
                 typename = typename std::enable_if<std::is_arithmetic<T>::value, T>::type
             >
-            data_t(const T& _real)
+            generic(const T& _real)
             {
                 d_type = data::VALUE;
                 d_value = (Float)_real;
@@ -125,24 +125,24 @@ namespace z
                 typename T, //numeric type
                 typename = typename std::enable_if<std::is_arithmetic<T>::value, T>::type
             >
-            data_t(const std::complex<T>& _complex)
+            generic(const std::complex<T>& _complex)
             {
                 d_type = data::VALUE;
                 d_value = _complex;
             }
 
-            data_t(const core::string<CHAR>&);
-            data_t(const core::array< data_t<CHAR> >&);
+            generic(const core::string<CHAR>&);
+            generic(const core::array< generic<CHAR> >&);
 
             template <typename CHAR_2>
-            data_t(const CHAR_2* cstring)
+            generic(const CHAR_2* cstring)
             {
                 d_type = data::STRING;
                 d_string = core::string<CHAR>(cstring);
             }
 
 
-            ~data_t() {}
+            ~generic() {}
 
             void clear()
             {
@@ -153,22 +153,22 @@ namespace z
                 d_array.clear();
             }
 
-            const bool operator==(const data_t&) const;
+            const bool operator==(const generic&) const;
 
-            inline const bool operator!=(const data_t& other) const
+            inline const bool operator!=(const generic& other) const
             { return !operator==(other); }
 
-            const bool operator>(const data_t&) const;
-            const bool operator<(const data_t&) const;
+            const bool operator>(const generic&) const;
+            const bool operator<(const generic&) const;
 
-            inline const bool operator>=(const data_t& other) const
+            inline const bool operator>=(const generic& other) const
             { return !operator<(other); }
 
-            inline const bool operator<=(const data_t& other) const
+            inline const bool operator<=(const generic& other) const
             { return !operator>(other); }
 
 
-            const data_t& operator=(const data_t&);
+            const generic& operator=(const generic&);
 
 
             inline const int type() const {return d_type;}
@@ -181,10 +181,10 @@ namespace z
             const Float real() const;
             const Float imag() const;
 
-            inline core::array< data_t<CHAR> >& array()
+            inline core::array< generic<CHAR> >& array()
             { return d_array; }
 
-            inline const core::array< data_t<CHAR> >& array() const
+            inline const core::array< generic<CHAR> >& array() const
             { return d_array; }
 
             errorFlag error() const
@@ -196,55 +196,55 @@ namespace z
             }
 
 
-            const data_t index(const data_t&) const;
-            const data_t index(const data_t&,
-                               const data_t&) const;
+            const generic index(const generic&) const;
+            const generic index(const generic&,
+                               const generic&) const;
 
-            const data_t subIndex(const data_t&) const;
-            const data_t subIndex(const data_t&,
-                                  const data_t&) const;
+            const generic subIndex(const generic&) const;
+            const generic subIndex(const generic&,
+                                  const generic&) const;
 
-            const data_t& merge(const core::array< data_t >&);
+            const generic& merge(const core::array< generic >&);
 
             //operators
-            const data_t& operator++();
-            const data_t& operator--();
-            const data_t operator++(int);
-            const data_t operator--(int);
+            const generic& operator++();
+            const generic& operator--();
+            const generic operator++(int);
+            const generic operator--(int);
 
-            const data_t operator-() const;
-            const data_t operator+(const data_t&) const;
-            const data_t operator-(const data_t&) const;
+            const generic operator-() const;
+            const generic operator+(const generic&) const;
+            const generic operator-(const generic&) const;
 
-            const data_t operator*(const data_t&) const;
-            const data_t operator/(const data_t&) const;
-            const data_t operator%(const data_t&) const;
-            const data_t int_divide(const data_t&) const;
+            const generic operator*(const generic&) const;
+            const generic operator/(const generic&) const;
+            const generic operator%(const generic&) const;
+            const generic int_divide(const generic&) const;
 
-            const data_t operator^(const data_t&) const;
-            const data_t factorial() const;
+            const generic operator^(const generic&) const;
+            const generic factorial() const;
 
-            const data_t operator&(const data_t&) const;
-            const data_t operator&&(const data_t&) const;
-            const data_t operator|(const data_t&) const;
-            const data_t operator||(const data_t&) const;
-            const data_t operator!() const;
-            const data_t operator~() const;
-            const data_t xor_bitwise(const data_t&) const;
-            const data_t xor_logical(const data_t&) const;
-            const data_t nand_bitwise(const data_t&) const;
-            const data_t nand_logical(const data_t&) const;
-            const data_t nor_bitwise(const data_t&) const;
-            const data_t nor_logical(const data_t&) const;
-            const data_t nxor_bitwise(const data_t&) const;
-            const data_t nxor_logical(const data_t&) const;
+            const generic operator&(const generic&) const;
+            const generic operator&&(const generic&) const;
+            const generic operator|(const generic&) const;
+            const generic operator||(const generic&) const;
+            const generic operator!() const;
+            const generic operator~() const;
+            const generic xor_bitwise(const generic&) const;
+            const generic xor_logical(const generic&) const;
+            const generic nand_bitwise(const generic&) const;
+            const generic nand_logical(const generic&) const;
+            const generic nor_bitwise(const generic&) const;
+            const generic nor_logical(const generic&) const;
+            const generic nxor_bitwise(const generic&) const;
+            const generic nxor_logical(const generic&) const;
         };
 
 
         template <typename CHAR>
-        const data_t<CHAR> data_t<CHAR>::index(const data_t<CHAR>& _index) const
+        const generic<CHAR> generic<CHAR>::index(const generic<CHAR>& _index) const
         {
-            data_t<CHAR> result;
+            generic<CHAR> result;
 
             if ((_index.d_type != data::VALUE) ||
                 (_index.d_value.imag() != (Float)0)) //bad index
@@ -278,10 +278,10 @@ namespace z
 
 
         template <typename CHAR>
-        const data_t<CHAR> data_t<CHAR>::index(const data_t<CHAR>& start,
-                                               const data_t<CHAR>& stop) const
+        const generic<CHAR> generic<CHAR>::index(const generic<CHAR>& start,
+                                               const generic<CHAR>& stop) const
         {
-            data_t<CHAR> result;
+            generic<CHAR> result;
 
             if ((start.d_type != data::VALUE) ||
                 (stop.d_type != data::VALUE) ||
@@ -320,9 +320,9 @@ namespace z
 
 
         template <typename CHAR>
-        const data_t<CHAR> data_t<CHAR>::subIndex(const data_t<CHAR>& _index) const
+        const generic<CHAR> generic<CHAR>::subIndex(const generic<CHAR>& _index) const
         {
-            data_t<CHAR> result;
+            generic<CHAR> result;
 
             if ((_index.d_type != data::VALUE) ||
                 (_index.d_value.imag() != (Float)0)) //bad index
@@ -371,10 +371,10 @@ namespace z
 
 
         template <typename CHAR>
-        const data_t<CHAR> data_t<CHAR>::subIndex(const data_t<CHAR>& start,
-                                                  const data_t<CHAR>& stop) const
+        const generic<CHAR> generic<CHAR>::subIndex(const generic<CHAR>& start,
+                                                  const generic<CHAR>& stop) const
         {
-            data_t<CHAR> result;
+            generic<CHAR> result;
 
             if ((start.d_type != data::VALUE) ||
                 (stop.d_type != data::VALUE) ||
@@ -408,7 +408,7 @@ namespace z
                         {
 
                             result.d_array.add(
-                                data_t<CHAR>(d_array[i].
+                                generic<CHAR>(d_array[i].
                                 d_array.subset(i_start, i_stop)));
                         }
                         else
@@ -439,7 +439,7 @@ namespace z
 
         */
         template <typename CHAR>
-        const data_t<CHAR>& data_t<CHAR>::merge(const core::array< data_t<CHAR> >& arr)
+        const generic<CHAR>& generic<CHAR>::merge(const core::array< generic<CHAR> >& arr)
         {
             d_string.clear();
             d_array.clear();
@@ -462,7 +462,7 @@ namespace z
             //fill new arrays in order
             for (int i=0; i<max_width; i++)
             {
-                core::array< data_t<CHAR> > current;
+                core::array< generic<CHAR> > current;
 
                 for (int j=0; j<arr.size(); j++)
                 {
@@ -482,7 +482,7 @@ namespace z
                     }
                 }
 
-                d_array.add(data_t<CHAR>(current));
+                d_array.add(generic<CHAR>(current));
             }
 
 
@@ -491,7 +491,7 @@ namespace z
 
 
         template <typename CHAR>
-        const data_t<CHAR>& data_t<CHAR>::operator++()
+        const generic<CHAR>& generic<CHAR>::operator++()
         {
             if (d_type == data::VALUE)
             {
@@ -512,7 +512,7 @@ namespace z
         }
 
         template <typename CHAR>
-        const data_t<CHAR>& data_t<CHAR>::operator--()
+        const generic<CHAR>& generic<CHAR>::operator--()
         {
             if (d_type == data::VALUE)
             {
@@ -534,9 +534,9 @@ namespace z
 
 
         template <typename CHAR>
-        const data_t<CHAR> data_t<CHAR>::operator++(int)
+        const generic<CHAR> generic<CHAR>::operator++(int)
         {
-            data_t<CHAR> result;
+            generic<CHAR> result;
 
             if (d_type == data::VALUE)
             {
@@ -558,9 +558,9 @@ namespace z
         }
 
         template <typename CHAR>
-        const data_t<CHAR> data_t<CHAR>::operator--(int)
+        const generic<CHAR> generic<CHAR>::operator--(int)
         {
-            data_t<CHAR> result;
+            generic<CHAR> result;
 
             if (d_type == data::VALUE)
             {
@@ -583,7 +583,7 @@ namespace z
 
 
         template <typename CHAR>
-        const bool data_t<CHAR>::operator==(const data_t<CHAR>& other) const
+        const bool generic<CHAR>::operator==(const generic<CHAR>& other) const
         {
             if (d_type != other.d_type)
                 return false;
@@ -608,7 +608,7 @@ namespace z
         }
 
         template <typename CHAR>
-        const bool data_t<CHAR>::operator>(const data_t<CHAR>& other) const
+        const bool generic<CHAR>::operator>(const generic<CHAR>& other) const
         {
             if (d_type != other.d_type)
                 return (d_type > other.d_type);
@@ -633,7 +633,7 @@ namespace z
         }
 
         template <typename CHAR>
-        const bool data_t<CHAR>::operator<(const data_t<CHAR>& other) const
+        const bool generic<CHAR>::operator<(const generic<CHAR>& other) const
         {
             if (d_type != other.d_type)
                 return (d_type < other.d_type);
@@ -659,7 +659,7 @@ namespace z
 
 
         template <typename CHAR>
-        const data_t<CHAR>& data_t<CHAR>::operator=(const data_t<CHAR>& other)
+        const generic<CHAR>& generic<CHAR>::operator=(const generic<CHAR>& other)
         {
             d_type = other.d_type;
             d_error = other.d_error;
@@ -676,14 +676,14 @@ namespace z
 
 
         template <typename CHAR>
-        data_t<CHAR>::data_t(const core::string<CHAR>& _string)
+        generic<CHAR>::generic(const core::string<CHAR>& _string)
         {
             d_type = data::STRING;
             d_string = _string;
         }
 
         template <typename CHAR>
-        data_t<CHAR>::data_t(const core::array< data_t<CHAR> >& _array)
+        generic<CHAR>::generic(const core::array< generic<CHAR> >& _array)
         {
             d_type = data::ARRAY;
             d_array = _array;
@@ -692,7 +692,7 @@ namespace z
 
 
         template <typename CHAR>
-        const core::string<CHAR> data_t<CHAR>::string() const
+        const core::string<CHAR> generic<CHAR>::string() const
         {
             if (d_type == data::VALUE)
                 return core::string<CHAR>(d_value);
@@ -725,7 +725,7 @@ namespace z
 
 
         template <typename CHAR>
-        const std::complex<Float> data_t<CHAR>::complex() const
+        const std::complex<Float> generic<CHAR>::complex() const
         {
             if (d_type == data::VALUE)
                 return d_value;
@@ -737,7 +737,7 @@ namespace z
 
 
         template <typename CHAR>
-        const Float data_t<CHAR>::real() const
+        const Float generic<CHAR>::real() const
         {
             if (d_type == data::VALUE)
                 return d_value.real();
@@ -748,7 +748,7 @@ namespace z
         }
 
         template <typename CHAR>
-        const Float data_t<CHAR>::imag() const
+        const Float generic<CHAR>::imag() const
         {
             if (d_type == data::VALUE)
                 return d_value.imag();
@@ -765,9 +765,9 @@ namespace z
 
         //negation
         template <typename CHAR>
-        const data_t<CHAR> data_t<CHAR>::operator-() const
+        const generic<CHAR> generic<CHAR>::operator-() const
         {
-            data_t<CHAR> result;
+            generic<CHAR> result;
 
             if (d_type == data::VALUE)
                 result = -d_value;
@@ -787,9 +787,9 @@ namespace z
 
         //addition
         template <typename CHAR>
-        const data_t<CHAR> data_t<CHAR>::operator+(const data_t<CHAR>& other) const
+        const generic<CHAR> generic<CHAR>::operator+(const generic<CHAR>& other) const
         {
-            data_t<CHAR> result;
+            generic<CHAR> result;
 
             if ((d_type == data::ARRAY) || (other.d_type == data::ARRAY))
             {
@@ -818,9 +818,9 @@ namespace z
 
         //subtraction
         template <typename CHAR>
-        const data_t<CHAR> data_t<CHAR>::operator-(const data_t<CHAR>& other) const
+        const generic<CHAR> generic<CHAR>::operator-(const generic<CHAR>& other) const
         {
-            data_t<CHAR> result;
+            generic<CHAR> result;
 
             if ((d_type == data::ARRAY) || (other.d_type == data::ARRAY))
             {
@@ -842,9 +842,9 @@ namespace z
 
         //multiplication
         template <typename CHAR>
-        const data_t<CHAR> data_t<CHAR>::operator*(const data_t<CHAR>& other) const
+        const generic<CHAR> generic<CHAR>::operator*(const generic<CHAR>& other) const
         {
-            data_t<CHAR> result;
+            generic<CHAR> result;
 
             if ((d_type == data::ARRAY) || (other.d_type == data::ARRAY))
             {
@@ -866,9 +866,9 @@ namespace z
 
         //floating-point division
         template <typename CHAR>
-        const data_t<CHAR> data_t<CHAR>::operator/(const data_t<CHAR>& other) const
+        const generic<CHAR> generic<CHAR>::operator/(const generic<CHAR>& other) const
         {
-            data_t<CHAR> result;
+            generic<CHAR> result;
 
             if ((d_type == data::ARRAY) || (other.d_type == data::ARRAY))
             {
@@ -897,9 +897,9 @@ namespace z
 
         //remainder of integer division
         template <typename CHAR>
-        const data_t<CHAR> data_t<CHAR>::operator%(const data_t<CHAR>& other) const
+        const generic<CHAR> generic<CHAR>::operator%(const generic<CHAR>& other) const
         {
-            data_t<CHAR> result;
+            generic<CHAR> result;
 
             if ((d_type == data::ARRAY) || (other.d_type == data::ARRAY))
             {
@@ -930,9 +930,9 @@ namespace z
 
         //integer division
         template <typename CHAR>
-        const data_t<CHAR> data_t<CHAR>::int_divide(const data_t<CHAR>& other) const
+        const generic<CHAR> generic<CHAR>::int_divide(const generic<CHAR>& other) const
         {
-            data_t<CHAR> result;
+            generic<CHAR> result;
 
             if ((d_type == data::ARRAY) || (other.d_type == data::ARRAY))
             {
@@ -964,9 +964,9 @@ namespace z
 
         //power
         template <typename CHAR>
-        const data_t<CHAR> data_t<CHAR>::operator^(const data_t<CHAR>& other) const
+        const generic<CHAR> generic<CHAR>::operator^(const generic<CHAR>& other) const
         {
-            data_t<CHAR> result;
+            generic<CHAR> result;
 
             if ((d_type == data::ARRAY) || (other.d_type == data::ARRAY))
             {
@@ -989,9 +989,9 @@ namespace z
 
         //factorial
         template <typename CHAR>
-        const data_t<CHAR> data_t<CHAR>::factorial() const
+        const generic<CHAR> generic<CHAR>::factorial() const
         {
-            data_t<CHAR> result;
+            generic<CHAR> result;
 
             if (d_type == data::ARRAY)
             {
@@ -1034,9 +1034,9 @@ namespace z
 
         //logical AND
         template <typename CHAR>
-        const data_t<CHAR> data_t<CHAR>::operator&&(const data_t<CHAR>& other) const
+        const generic<CHAR> generic<CHAR>::operator&&(const generic<CHAR>& other) const
         {
-            data_t<CHAR> result;
+            generic<CHAR> result;
 
             if ((d_type == data::VALUE) && (other.d_type == data::VALUE))
             {
@@ -1059,9 +1059,9 @@ namespace z
 
         //bitwise AND
         template <typename CHAR>
-        const data_t<CHAR> data_t<CHAR>::operator&(const data_t<CHAR>& other) const
+        const generic<CHAR> generic<CHAR>::operator&(const generic<CHAR>& other) const
         {
-            data_t<CHAR> result;
+            generic<CHAR> result;
 
             if ((d_type == data::VALUE) && (other.d_type == data::VALUE))
             {
@@ -1084,9 +1084,9 @@ namespace z
 
         //logical OR
         template <typename CHAR>
-        const data_t<CHAR> data_t<CHAR>::operator||(const data_t<CHAR>& other) const
+        const generic<CHAR> generic<CHAR>::operator||(const generic<CHAR>& other) const
         {
-            data_t<CHAR> result;
+            generic<CHAR> result;
 
             if ((d_type == data::VALUE) && (other.d_type == data::VALUE))
             {
@@ -1109,9 +1109,9 @@ namespace z
 
         //bitwise OR
         template <typename CHAR>
-        const data_t<CHAR> data_t<CHAR>::operator|(const data_t<CHAR>& other) const
+        const generic<CHAR> generic<CHAR>::operator|(const generic<CHAR>& other) const
         {
-            data_t<CHAR> result;
+            generic<CHAR> result;
 
             if ((d_type == data::VALUE) && (other.d_type == data::VALUE))
             {
@@ -1134,9 +1134,9 @@ namespace z
 
         //logical NOT
         template <typename CHAR>
-        const data_t<CHAR> data_t<CHAR>::operator!() const
+        const generic<CHAR> generic<CHAR>::operator!() const
         {
-            data_t<CHAR> result;
+            generic<CHAR> result;
 
             if (d_type == data::VALUE)
                 result = !(long)d_value.real();
@@ -1157,9 +1157,9 @@ namespace z
 
         //bitwise NOT
         template <typename CHAR>
-        const data_t<CHAR> data_t<CHAR>::operator~() const
+        const generic<CHAR> generic<CHAR>::operator~() const
         {
-            data_t<CHAR> result;
+            generic<CHAR> result;
 
             if (d_type == data::VALUE)
                 result = ~(long)d_value.real();
@@ -1179,9 +1179,9 @@ namespace z
 
         //logical XOR
         template <typename CHAR>
-        const data_t<CHAR> data_t<CHAR>::xor_logical(const data_t<CHAR>& other) const
+        const generic<CHAR> generic<CHAR>::xor_logical(const generic<CHAR>& other) const
         {
-            data_t<CHAR> result;
+            generic<CHAR> result;
 
             if ((d_type == data::VALUE) && (other.d_type == data::VALUE))
             {
@@ -1204,9 +1204,9 @@ namespace z
 
         //bitwise XOR
         template <typename CHAR>
-        const data_t<CHAR> data_t<CHAR>::xor_bitwise(const data_t<CHAR>& other) const
+        const generic<CHAR> generic<CHAR>::xor_bitwise(const generic<CHAR>& other) const
         {
-            data_t<CHAR> result;
+            generic<CHAR> result;
 
             if ((d_type == data::VALUE) && (other.d_type == data::VALUE))
             {
@@ -1229,9 +1229,9 @@ namespace z
 
         //logical NAND
         template <typename CHAR>
-        const data_t<CHAR> data_t<CHAR>::nand_logical(const data_t<CHAR>& other) const
+        const generic<CHAR> generic<CHAR>::nand_logical(const generic<CHAR>& other) const
         {
-            data_t<CHAR> result;
+            generic<CHAR> result;
 
             if ((d_type == data::VALUE) && (other.d_type == data::VALUE))
             {
@@ -1254,9 +1254,9 @@ namespace z
 
         //bitwise NAND
         template <typename CHAR>
-        const data_t<CHAR> data_t<CHAR>::nand_bitwise(const data_t<CHAR>& other) const
+        const generic<CHAR> generic<CHAR>::nand_bitwise(const generic<CHAR>& other) const
         {
-            data_t<CHAR> result;
+            generic<CHAR> result;
 
             if ((d_type == data::VALUE) && (other.d_type == data::VALUE))
             {
@@ -1279,9 +1279,9 @@ namespace z
 
         //logical NOR
         template <typename CHAR>
-        const data_t<CHAR> data_t<CHAR>::nor_logical(const data_t<CHAR>& other) const
+        const generic<CHAR> generic<CHAR>::nor_logical(const generic<CHAR>& other) const
         {
-            data_t<CHAR> result;
+            generic<CHAR> result;
 
             if ((d_type == data::VALUE) && (other.d_type == data::VALUE))
             {
@@ -1304,9 +1304,9 @@ namespace z
 
         //bitwise NOR
         template <typename CHAR>
-        const data_t<CHAR> data_t<CHAR>::nor_bitwise(const data_t<CHAR>& other) const
+        const generic<CHAR> generic<CHAR>::nor_bitwise(const generic<CHAR>& other) const
         {
-            data_t<CHAR> result;
+            generic<CHAR> result;
 
             if ((d_type == data::VALUE) && (other.d_type == data::VALUE))
             {
@@ -1329,9 +1329,9 @@ namespace z
 
         //logical NXOR
         template <typename CHAR>
-        const data_t<CHAR> data_t<CHAR>::nxor_logical(const data_t<CHAR>& other) const
+        const generic<CHAR> generic<CHAR>::nxor_logical(const generic<CHAR>& other) const
         {
-            data_t<CHAR> result;
+            generic<CHAR> result;
 
             if ((d_type == data::VALUE) && (other.d_type == data::VALUE))
             {
@@ -1354,9 +1354,9 @@ namespace z
 
         //bitwise NXOR
         template <typename CHAR>
-        const data_t<CHAR> data_t<CHAR>::nxor_bitwise(const data_t<CHAR>& other) const
+        const generic<CHAR> generic<CHAR>::nxor_bitwise(const generic<CHAR>& other) const
         {
-            data_t<CHAR> result;
+            generic<CHAR> result;
 
             if ((d_type == data::VALUE) && (other.d_type == data::VALUE))
             {
@@ -1381,4 +1381,4 @@ namespace z
     }
 }
 
-#endif // DATA_T_H_INCLUDED
+#endif // GENERIC_H_INCLUDED

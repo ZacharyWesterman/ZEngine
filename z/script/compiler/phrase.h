@@ -120,7 +120,7 @@ namespace script
                 unsigned long metaValue;
             };
 
-            data_t<CHAR> value;
+            generic<CHAR> value;
 
 
             phrase_t* parent;

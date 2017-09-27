@@ -18,7 +18,7 @@
 #include <z/core/array.h>
 #include <z/core/timeout.h>
 
-#include "data_t.h"
+#include "generic.h"
 
 namespace z
 {
@@ -41,7 +41,7 @@ namespace z
             int params_max;
 
         protected:
-            core::array< data_t<CHAR> > params;
+            core::array< generic<CHAR> > params;
 
         public:
             command(const core::array< core::string<CHAR> >& _name,
@@ -70,7 +70,7 @@ namespace z
             virtual ~command() {}
 
 
-            virtual errorFlag addParam(const data_t<CHAR>& next_param)
+            virtual errorFlag addParam(const generic<CHAR>& next_param)
             {
                 params.add(next_param);
 

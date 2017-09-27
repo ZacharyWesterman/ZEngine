@@ -19,7 +19,7 @@
 
 #include <z/core/string.h>
 
-#include "../data_t.h"
+#include "../generic.h"
 #include "../errors.h"
 
 namespace z
@@ -162,7 +162,7 @@ namespace script
 
             core::string<CHAR>* meta;
 
-            data_t<CHAR> value;
+            generic<CHAR> value;
 
             //keep track of the current file
             core::string<CHAR>* file;

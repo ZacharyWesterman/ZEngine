@@ -15,8 +15,8 @@
 **/
 
 #pragma once
-#ifndef COMMAND_H_INCLUDED
-#define COMMAND_H_INCLUDED
+#ifndef _COMMAND_H_INCLUDED
+#define _COMMAND_H_INCLUDED
 
 namespace z
 {
@@ -86,4 +86,4 @@ namespace script
 }
 }
 
-#endif // COMMAND_H_INCLUDED
+#endif // _COMMAND_H_INCLUDED

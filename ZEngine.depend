@@ -2193,7 +2193,7 @@
 
 1489353285 c:\users\zachary\documents\github\zengine\\z\script\errors.h
 
-1506382810 source:/home/zwesterman/GitHub/ZEngine/main.cpp
+1506544224 source:/home/zwesterman/GitHub/ZEngine/main.cpp
 	<iostream>
 	<z/core.h>
 	<z/math.h>
@@ -2623,11 +2623,11 @@
 	<type_traits>
 	"array.h"
 
-1504930794 /home/zwesterman/GitHub/ZEngine/z/script.h
+1506544219 /home/zwesterman/GitHub/ZEngine/z/script.h
 	"script/errors.h"
 	"script/data_t.h"
 	"script/function_t.h"
-	"script/command_t.h"
+	"script/command.h"
 	"script/compiler.h"
 
 1504934883 /home/zwesterman/GitHub/ZEngine/z/script/compiler.h
@@ -2662,7 +2662,7 @@
 	<z/core/array.h>
 	"identity.h"
 
-1506385959 /home/zwesterman/GitHub/ZEngine/z/script/compiler/lexer.h
+1506544336 /home/zwesterman/GitHub/ZEngine/z/script/compiler/lexer.h
 	<z/core/timeout.h>
 	<z/core/array.h>
 	<z/core/dynamicStack.h>
@@ -2728,7 +2728,7 @@
 
 1506382722 /home/zwesterman/GitHub/ZEngine/z/script/compiler/syntaxRules/identifierlist.h
 
-1504983599 /home/zwesterman/GitHub/ZEngine/z/script/compiler/syntaxRules/command.h
+1506544340 /home/zwesterman/GitHub/ZEngine/z/script/compiler/syntaxRules/command.h
 
 1504983599 /home/zwesterman/GitHub/ZEngine/z/script/compiler/syntaxRules/statement.h
 
@@ -2847,13 +2847,13 @@
 1505089832 /home/zwesterman/GitHub/ZEngine/z/script/compiler/varScope.h
 	"signatures.h"
 
-1506383240 /home/zwesterman/GitHub/ZEngine/z/script/compiler/semanticAnalyzer.h
+1506544222 /home/zwesterman/GitHub/ZEngine/z/script/compiler/semanticAnalyzer.h
 	<z/core/array.h>
 	<z/core/dynamicStack.h>
 	<z/core/timeout.h>
 	"../errors.h"
 	"phrase.h"
-	"../command_t.h"
+	"../command.h"
 	"../function_t.h"
 	"signatures.h"
 	"varScope.h"
@@ -2881,4 +2881,12 @@
 	<z/core/array.h>
 
 1506385231 /home/zwesterman/GitHub/ZEngine/z/script/compiler/syntaxRules/func_prototype.h
+
+1506544192 /home/zwesterman/GitHub/ZEngine/z/script/command.h
+	<z/core/string.h>
+	<z/core/array.h>
+	<z/core/timeout.h>
+	"data_t.h"
+
+1504983599 /home/zwesterman/GitHub/ZEngine/z/script/compiler/syntaxRules/_command.h
 

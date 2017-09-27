@@ -19,7 +19,7 @@
 
 ///Extensible script parts
 #include "script/function_t.h"
-#include "script/command_t.h"
+#include "script/command.h"
 
 ///
 #include "script/compiler.h"

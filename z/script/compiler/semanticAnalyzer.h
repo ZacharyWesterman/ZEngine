@@ -24,7 +24,7 @@
 
 #include "phrase.h"
 
-#include "../command_t.h"
+#include "../command.h"
 #include "../function_t.h"
 
 #include "signatures.h"
@@ -104,7 +104,7 @@ namespace script
         class semanticAnalyzer
         {
         private:
-            const core::array< command_t<CHAR>* >* commands;
+            const core::array< command<CHAR>* >* commands;
             const core::array< function_t<CHAR>* >* functions;
 
             phrase_t<CHAR>* root;
@@ -163,7 +163,7 @@ namespace script
         public:
             core::array< parserError<CHAR> > error_buffer;
 
-            semanticAnalyzer(const core::array< command_t<CHAR>* >& _commands,
+            semanticAnalyzer(const core::array< command<CHAR>* >& _commands,
                      const core::array< function_t<CHAR>* >& _functions)
             {
                 index = 0;

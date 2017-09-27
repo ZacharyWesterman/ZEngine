@@ -191,10 +191,10 @@ public:
 
 
 
-class cmd_print : public command_t<char>
+class cmd_print : public command<char>
 {
     public:
-    cmd_print() : command_t<char>({"print"}) {}
+    cmd_print() : command<char>({"print"}) {}
     ~cmd_print() {}
 
 
@@ -208,10 +208,10 @@ class cmd_print : public command_t<char>
     }
 };
 
-class cmd_print_error : public command_t<char>
+class cmd_print_error : public command<char>
 {
     public:
-    cmd_print_error() : command_t<char>({"print","error"}) {}
+    cmd_print_error() : command<char>({"print","error"}) {}
     ~cmd_print_error() {}
 
 
@@ -228,7 +228,7 @@ class cmd_print_error : public command_t<char>
 
 int main(int argc, char* argv[])
 {
-    core::array< command_t<char>* > commands;
+    core::array< command<char>* > commands;
     core::array< function_t<char>* > functions;
 
     commands.add(new cmd_print);

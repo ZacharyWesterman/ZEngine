@@ -1,5 +1,5 @@
 /**
- * File:            command_t.h
+ * File:            command.h
  * Namespace:       z::script
  *
  * Description:     The base class for all script commands.
@@ -11,8 +11,8 @@
 **/
 
 #pragma once
-#ifndef COMMAND_T_H_INCLUDED
-#define COMMAND_T_H_INCLUDED
+#ifndef COMMAND_H_INCLUDED
+#define COMMAND_H_INCLUDED
 
 #include <z/core/string.h>
 #include <z/core/array.h>
@@ -26,7 +26,7 @@ namespace z
     {
 
         template <typename CHAR>
-        class command_t
+        class command
         {
         private:
             void* graphics_engine;
@@ -44,7 +44,7 @@ namespace z
             core::array< data_t<CHAR> > params;
 
         public:
-            command_t(const core::array< core::string<CHAR> >& _name,
+            command(const core::array< core::string<CHAR> >& _name,
                       int min_params = -1,
                       int max_params = -1,
                       void* _graphics_engine = NULL,
@@ -67,7 +67,7 @@ namespace z
                 sound_required = requires_sound;
             }
 
-            virtual ~command_t() {}
+            virtual ~command() {}
 
 
             virtual errorFlag addParam(const data_t<CHAR>& next_param)
@@ -136,37 +136,37 @@ namespace z
             }
 
 
-            bool operator==(const command_t<CHAR>& other) const
+            bool operator==(const command<CHAR>& other) const
             {
                 return (params_max == other.params_max) &&
                        (params_min == other.params_min) &&
                        (cmd_name == other.cmd_name);
             }
 
-            inline bool operator!=(const command_t<CHAR>& other) const
+            inline bool operator!=(const command<CHAR>& other) const
             { return !operator==(other); }
 
-            bool operator>(const command_t<CHAR>& other) const
+            bool operator>(const command<CHAR>& other) const
             {
                 return (cmd_name > other.cmd_name) ||
                        (params_max > other.params_max) ||
                        (params_min > other.params_min);
             }
 
-            inline bool operator<=(const command_t<CHAR>& other) const
+            inline bool operator<=(const command<CHAR>& other) const
             { return !operator>(other); }
 
-            bool operator<(const command_t<CHAR>& other) const
+            bool operator<(const command<CHAR>& other) const
             {
                 return (cmd_name < other.cmd_name) ||
                        (params_max < other.params_max) ||
                        (params_min < other.params_min);
             }
 
-            inline bool operator>=(const command_t<CHAR>& other) const
+            inline bool operator>=(const command<CHAR>& other) const
             { return !operator<(other); }
         };
     }
 }
 
-#endif // COMMAND_T_H_INCLUDED
+#endif // COMMAND_H_INCLUDED

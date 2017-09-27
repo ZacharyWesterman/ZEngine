@@ -26,7 +26,7 @@
 #include <z/core/array.h>
 #include <z/math/remainder.h>
 
-#include "errors.h"
+#include "error.h"
 
 #include <complex>
 #include <type_traits>
@@ -85,7 +85,8 @@ namespace z
         {
         public:
             int d_type;
-            errorFlag d_error;
+
+            error d_error;
 
             std::complex<Float> d_value;
 
@@ -147,7 +148,6 @@ namespace z
             void clear()
             {
                 d_type = data::NONE;
-                d_error = error::NONE;
 
                 d_string.clear();
                 d_array.clear();
@@ -187,12 +187,12 @@ namespace z
             inline const core::array< generic<CHAR> >& array() const
             { return d_array; }
 
-            errorFlag error() const
+            const script::error err() const
             {
                 if (d_type == data::ERROR)
-                    return d_error;
+                    return script::error(d_error);
                 else
-                    return error::NONE;
+                    return script::error();
             }
 
 
@@ -249,7 +249,7 @@ namespace z
             if ((_index.d_type != data::VALUE) ||
                 (_index.d_value.imag() != (Float)0)) //bad index
             {
-                result = error::ILLEGAL_INDEX;
+                result = error("Illegal index");
             }
             else if (d_type <= data::VALUE)
             {

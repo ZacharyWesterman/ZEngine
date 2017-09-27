@@ -20,7 +20,7 @@
 #include <z/core/string.h>
 
 #include "../generic.h"
-#include "../errors.h"
+#include "../error.h"
 
 namespace z
 {

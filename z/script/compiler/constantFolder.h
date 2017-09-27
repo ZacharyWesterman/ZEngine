@@ -20,7 +20,7 @@
 
 #include <z/core/dynamicStack.h>
 #include <z/core/timeout.h>
-#include "../errors.h"
+#include "../error.h"
 
 #include "phrase.h"
 

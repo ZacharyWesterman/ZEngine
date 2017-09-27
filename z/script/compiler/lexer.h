@@ -22,7 +22,9 @@
 #include <z/core/array.h>
 #include <z/core/dynamicStack.h>
 
-#include "../errors.h"
+#include "syntaxRule.h"
+
+#include "../error.h"
 
 #include "phrase.h"
 

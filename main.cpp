@@ -4,7 +4,7 @@
 #include <z/core.h>
 #include <z/math.h>
 
-#include "z/script.h"
+#include <z/script.h>
 
 
 //using namespace std;

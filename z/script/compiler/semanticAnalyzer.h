@@ -25,7 +25,7 @@
 #include "phrase.h"
 
 #include "../command.h"
-#include "../function_t.h"
+#include "../function.h"
 
 #include "signatures.h"
 #include "varScope.h"
@@ -105,7 +105,7 @@ namespace script
         {
         private:
             const core::array< command<CHAR>* >* commands;
-            const core::array< function_t<CHAR>* >* functions;
+            const core::array< function<CHAR>* >* functions;
 
             phrase_t<CHAR>* root;
             int index;
@@ -164,7 +164,7 @@ namespace script
             core::array< parserError<CHAR> > error_buffer;
 
             semanticAnalyzer(const core::array< command<CHAR>* >& _commands,
-                     const core::array< function_t<CHAR>* >& _functions)
+                     const core::array< function<CHAR>* >& _functions)
             {
                 index = 0;
                 root = NULL;

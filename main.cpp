@@ -130,10 +130,10 @@ using std::endl;
             }
         }
 
-class func_sin : public function_t<char>
+class func_sin : public function<char>
 {
 public:
-    func_sin() : function_t<char>("sin", true, 1, 1) {}
+    func_sin() : function<char>("sin", true, 1, 1) {}
     ~func_sin() {}
 
 
@@ -157,10 +157,10 @@ public:
     }
 };
 
-class func_log : public function_t<char>
+class func_log : public function<char>
 {
 public:
-    func_log() : function_t<char>("log", true, 0, 0) {}
+    func_log() : function<char>("log", true, 0, 0) {}
     ~func_log() {}
 
 
@@ -228,8 +228,8 @@ class cmd_print_error : public command<char>
 
 int main(int argc, char* argv[])
 {
-    core::array< command<char>* > commands;
-    core::array< function_t<char>* > functions;
+    core::array< script::command<char>* > commands;
+    core::array< script::function<char>* > functions;
 
     commands.add(new cmd_print);
     commands.add(new cmd_print_error);

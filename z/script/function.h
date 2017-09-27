@@ -1,5 +1,5 @@
 /**
- * File:            function_t.h
+ * File:            function.h
  * Namespace:       z::script
  *
  * Description:     The base class for all script functions.
@@ -11,8 +11,8 @@
 **/
 
 #pragma once
-#ifndef FUNCTION_T_H_INCLUDED
-#define FUNCTION_T_H_INCLUDED
+#ifndef FUNCTION_H_INCLUDED
+#define FUNCTION_H_INCLUDED
 
 #include <z/core/string.h>
 #include <z/core/array.h>
@@ -27,7 +27,7 @@ namespace z
     {
 
         template <typename CHAR>
-        class function_t
+        class function
         {
         private:
             void* graphics_engine;
@@ -49,7 +49,7 @@ namespace z
 
         public:
 
-            function_t(core::string<CHAR> _name,
+            function(core::string<CHAR> _name,
                        bool _constant = false,
                        int min_params = -1,
                        int max_params = -1,
@@ -74,7 +74,7 @@ namespace z
                 sound_required = requires_sound;
             }
 
-            virtual ~function_t() {}
+            virtual ~function() {}
 
 
             virtual errorFlag addParam(const data_t<CHAR>& next_param)
@@ -153,34 +153,34 @@ namespace z
             }
 
 
-            bool operator==(const function_t<CHAR>& other) const
+            bool operator==(const function<CHAR>& other) const
             {
                 return (params_max == other.params_max) &&
                        (params_min == other.params_min) &&
                        (func_name == other.func_name);
             }
 
-            inline bool operator!=(const function_t<CHAR>& other) const
+            inline bool operator!=(const function<CHAR>& other) const
             { return !operator==(other); }
 
-            bool operator>(const function_t<CHAR>& other) const
+            bool operator>(const function<CHAR>& other) const
             {
                 return (func_name > other.func_name) ||
                        (params_max > other.params_max) ||
                        (params_min > other.params_min);
             }
 
-            inline bool operator<=(const function_t<CHAR>& other) const
+            inline bool operator<=(const function<CHAR>& other) const
             { return !operator>(other); }
 
-            bool operator<(const function_t<CHAR>& other) const
+            bool operator<(const function<CHAR>& other) const
             {
                 return (func_name < other.func_name) ||
                        (params_max < other.params_max) ||
                        (params_min < other.params_min);
             }
 
-            inline bool operator>=(const function_t<CHAR>& other) const
+            inline bool operator>=(const function<CHAR>& other) const
             { return !operator<(other); }
         };
 
@@ -188,4 +188,4 @@ namespace z
     }
 }
 
-#endif // FUNCTION_T_H_INCLUDED
+#endif // FUNCTION_H_INCLUDED

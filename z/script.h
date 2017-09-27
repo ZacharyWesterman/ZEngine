@@ -18,7 +18,7 @@
 #include "script/data_t.h"
 
 ///Extensible script parts
-#include "script/function_t.h"
+#include "script/function.h"
 #include "script/command.h"
 
 ///

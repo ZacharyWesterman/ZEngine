@@ -159,6 +159,7 @@ namespace script
 
             int line;
             int column;
+            int indent;
 
             core::string<CHAR>* meta;
 
@@ -168,13 +169,16 @@ namespace script
             core::string<CHAR>* file;
 
             ///full constructor
-            ident_t (ident _type = ident::NONE, int lin = 0, int col = 0,
-                     core::string<CHAR>* symbol_ptr = NULL, core::string<CHAR>* fileID = NULL)
+            ident_t (ident _type = ident::NONE,
+                     int lin = 0, int col = 0, int ind = 0,
+                     core::string<CHAR>* symbol_ptr = NULL,
+                     core::string<CHAR>* fileID = NULL)
             {
                 type = _type;
 
                 line = lin;
                 column = col;
+                indent = ind;
 
                 meta = symbol_ptr;
 

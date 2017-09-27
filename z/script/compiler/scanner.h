@@ -53,6 +53,7 @@ namespace script
 
             int line;
             int column;
+            int indent;
 
             ident_t<CHAR> current_ident;
             ident newIdent;
@@ -151,6 +152,7 @@ namespace script
 
             line = 0;
             column = 0;
+            indent = 0;
 
             current_ident = ident_t<CHAR>(ident::NONE, 0, 0);
             newIdent = ident::NONE;
@@ -237,7 +239,10 @@ namespace script
                 {
                     //white space
                     if (core::isWhiteSpace(input->at(index)))
+                    {
                         newIdent = ident::NONE;
+                        indent++;
+                    }
                     //allow 'E-' symbols if in a number
                     /*else if ((newIdent == ident::NUMERIC_LITERAL) &&
                              input->foundAt("E-", index))
@@ -295,6 +300,8 @@ namespace script
                             current_ident.type = ident::NONE;
                             newIdent = ident::NONE;
                         }
+
+                        indent = 0;
                     }
                     else if (current_ident.type)//otherwise,
                         current_symbol += input->at(index);
@@ -391,6 +398,7 @@ namespace script
 
             current_ident.line = line;
             current_ident.column = column;
+            current_ident.indent = indent;
 
             current_ident.meta = NULL;
             current_ident.file = file;
@@ -406,6 +414,7 @@ namespace script
 
                 line++;
                 column = 0;
+                indent = 0;
 
                 in_comment = multiline_comment;
             }
@@ -416,6 +425,7 @@ namespace script
 
                 line++;
                 column = 0;
+                indent = 0;
 
                 in_comment = multiline_comment;
             }

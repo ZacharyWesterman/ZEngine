@@ -112,6 +112,7 @@ namespace script
 
             int line;
             int column;
+            int indent;
 
             //optional data
             union
@@ -135,8 +136,9 @@ namespace script
                 type = ident::NONE;
                 orig_type = ident::NONE;
 
-                line = -1;
-                column = -1;
+                line = 0;
+                column = 0;
+                indent = 0;
 
                 meta = NULL;
                 value = 0;
@@ -154,6 +156,7 @@ namespace script
 
                 line = token.line;
                 column = token.column;
+                indent = token.indent;
 
                 meta = token.meta;
                 value = token.value;

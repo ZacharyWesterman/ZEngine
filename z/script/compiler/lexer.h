@@ -214,7 +214,6 @@ namespace script
             bool typevar_decl();
 
             bool _range();
-            //bool rangelist();
             bool _index();
             bool indexlist();
 

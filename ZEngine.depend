@@ -2912,10 +2912,10 @@
 	"script/command.h"
 	"script/compiler.h"
 
-1506553133 /home/zwesterman/GitHub/ZEngine//z/script/error.h
+1506553281 /home/zwesterman/GitHub/ZEngine//z/script/error.h
 	<z/core/string.h>
 
-1506551774 /home/zwesterman/GitHub/ZEngine//z/script/generic.h
+1506553886 /home/zwesterman/GitHub/ZEngine//z/script/generic.h
 	<z/float.h>
 	<z/core/string.h>
 	<z/core/array.h>
@@ -2924,7 +2924,7 @@
 	<complex>
 	<type_traits>
 
-1506544698 /home/zwesterman/GitHub/ZEngine//z/script/function.h
+1506553906 /home/zwesterman/GitHub/ZEngine//z/script/function.h
 	<z/core/string.h>
 	<z/core/array.h>
 	<z/core/timeout.h>

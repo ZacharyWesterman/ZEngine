@@ -18,11 +18,11 @@ using std::endl;
 
 ///debug
         template <typename CHAR>
-        void printErrors(const core::array< parserError<CHAR> >& error_buffer)
+        void printErrors(const core::array< error >& error_buffer)
         {
             for (int e=0; e<error_buffer.size(); e++)
             {
-                parserError<CHAR> perr = error_buffer[e];
+                error perr = error_buffer[e];
 
                 cout << "Error ";
 
@@ -75,11 +75,11 @@ using std::endl;
                     cout << "Statement outside of function declaration.";
                     break;
 
-                case error::TOO_MANY_PARAMS:
+                case error("Too many parameters"):
                     cout << "Statement contains too many parameters.";
                     break;
 
-                case error::TOO_FEW_PARAMS:
+                case error("Too few parameters"):
                     cout << "Statement contains too few parameters.";
                     break;
 
@@ -144,7 +144,7 @@ public:
 
         params.add(next_param);
 
-        return error::NONE;
+        return error();
     }
 
 
@@ -173,7 +173,7 @@ public:
 
         params.add(next_param);
 
-        return error::NONE;
+        return error();
     }
 
 

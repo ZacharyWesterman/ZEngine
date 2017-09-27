@@ -65,7 +65,7 @@ namespace script
             void operate_varindex();
 
         public:
-            core::array< parserError<CHAR> > error_buffer;
+            core::array< error > error_buffer;
 
             constantFolder()
             {
@@ -173,7 +173,7 @@ namespace script
         void constantFolder<CHAR>::append_oper_error()
         {
             if (root->value.type() == data::ERROR)
-                error_buffer.add(parserError<CHAR>(
+                error_buffer.add(error(
                                         root->line,
                                         root->column,
                                         root->value.error(),
@@ -512,7 +512,7 @@ namespace script
 
                 if (result.error())
                 {
-                    error_buffer.add(parserError<CHAR>(
+                    error_buffer.add(error(
                                             root->line,
                                             root->column,
                                             result.error(),
@@ -557,7 +557,7 @@ namespace script
 
                 if (result.error())
                 {
-                    error_buffer.add(parserError<CHAR>(
+                    error_buffer.add(error(
                                             root->line,
                                             root->column,
                                             result.error(),
@@ -631,7 +631,7 @@ namespace script
 
                             if (i_result.error())
                             {
-                                error_buffer.add(parserError<CHAR>(
+                                error_buffer.add(error(
                                                         ptr->line,
                                                         ptr->column,
                                                         i_result.error(),
@@ -659,7 +659,7 @@ namespace script
 
                             if (i_result.error())
                             {
-                                error_buffer.add(parserError<CHAR>(
+                                error_buffer.add(error(
                                                         ptr->line,
                                                         ptr->column,
                                                         i_result.error(),

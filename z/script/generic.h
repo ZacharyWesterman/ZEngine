@@ -104,7 +104,7 @@ namespace z
                 d_error = 0;
             }
 
-            generic(errorFlag new_error)
+            generic(script::error new_error)
             {
 
                 d_type = data::ERROR;
@@ -288,11 +288,11 @@ namespace z
                 (start.d_value.imag() != (Float)0) ||
                 (stop.d_value.imag() != (Float)0)) //bad index
             {
-                result = error::ILLEGAL_INDEX;
+                result = error("Illegal index");
             }
             else if (d_type <= data::VALUE)
             {
-                result = error::CANNOT_INDEX;
+                result = error("Cannot index");
             }
             else if (d_type == data::ARRAY)
             {
@@ -304,7 +304,7 @@ namespace z
                     result = d_array.subset(i_start, i_stop);
                 else
                 {
-                    result = error::INDEX_OUT_OF_BOUNDS;
+                    result = error("Index out of bounds");
                 }
             }
             else //STRING
@@ -327,11 +327,11 @@ namespace z
             if ((_index.d_type != data::VALUE) ||
                 (_index.d_value.imag() != (Float)0)) //bad index
             {
-                result = error::ILLEGAL_INDEX;
+                result = error("Illegal index");
             }
             else if (d_type != data::ARRAY)
             {
-                result.d_type = error::CANNOT_INDEX;
+                result.d_type = error("Cannot index");
             }
             else
             {
@@ -343,7 +343,7 @@ namespace z
                 {
                     if (d_array[i].d_type <= data::VALUE)
                     {
-                        result = error::CANNOT_INDEX;
+                        result = error("Cannot index");
                         return result;
                     }
                     else if (d_array[i].d_type == data::ARRAY)
@@ -354,7 +354,7 @@ namespace z
                         }
                         else
                         {
-                            result = error::INDEX_OUT_OF_BOUNDS;
+                            result = error("Index out of bounds");
                             return result;
                         }
                     }
@@ -381,11 +381,11 @@ namespace z
                 (start.d_value.imag() != (Float)0) ||
                 (stop.d_value.imag() != (Float)0)) //bad index
             {
-                result = error::ILLEGAL_INDEX;
+                result = error("Illegal index");
             }
             else if (d_type != data::ARRAY)
             {
-                result.d_type = error::CANNOT_INDEX;
+                result.d_type = error("Cannot index");
             }
             else
             {
@@ -398,7 +398,7 @@ namespace z
                 {
                     if (d_array[i].d_type <= data::VALUE)
                     {
-                        result = error::CANNOT_INDEX;
+                        result = error("Cannot index");
                         return result;
                     }
                     else if (d_array[i].d_type == data::ARRAY)
@@ -413,7 +413,7 @@ namespace z
                         }
                         else
                         {
-                            result = error::INDEX_OUT_OF_BOUNDS;
+                            result = error("Index out of bounds");
                             return result;
                         }
                     }
@@ -500,12 +500,12 @@ namespace z
             else if (d_type == data::ARRAY)
             {
                 d_type = data::ERROR;
-                d_error = error::INVALID_OPER_ARRAY;
+                d_error = error("Invalid operation on array");
             }
             else if (d_type == data::STRING)
             {
                 d_type = data::ERROR;
-                d_error = error::INVALID_OPER_STRING;
+                d_error = error("Invalid operation on string");
             }
 
             return *this;
@@ -521,12 +521,12 @@ namespace z
             else if (d_type == data::ARRAY)
             {
                 d_type = data::ERROR;
-                d_error = error::INVALID_OPER_ARRAY;
+                d_error = error("Invalid operation on array");
             }
             else if (d_type == data::STRING)
             {
                 d_type = data::ERROR;
-                d_error = error::INVALID_OPER_STRING;
+                d_error = error("Invalid operation on string");
             }
 
             return *this;
@@ -546,12 +546,12 @@ namespace z
             else if (d_type == data::ARRAY)
             {
                 result.d_type = data::ERROR;
-                result.d_error = error::INVALID_OPER_ARRAY;
+                result.d_error = error("Invalid operation on array");
             }
             else if (d_type == data::STRING)
             {
                 result.d_type = data::ERROR;
-                result.d_error = error::INVALID_OPER_STRING;
+                result.d_error = error("Invalid operation on string");
             }
 
             return result;
@@ -570,12 +570,12 @@ namespace z
             else if (d_type == data::ARRAY)
             {
                 result.d_type = data::ERROR;
-                result.d_error = error::INVALID_OPER_ARRAY;
+                result.d_error = error("Invalid operation on array");
             }
             else if (d_type == data::STRING)
             {
                 result.d_type = data::ERROR;
-                result.d_error = error::INVALID_OPER_STRING;
+                result.d_error = error("Invalid operation on string");
             }
 
             return result;
@@ -774,12 +774,12 @@ namespace z
             else if (d_type == data::STRING)
             {
                 result.d_type = data::ERROR;
-                result.d_error = error::INVALID_OPER_STRING;
+                result.d_error = error("Invalid operation on string");
             }
             else if (d_type == data::ARRAY)
             {
                 result.d_type = data::ERROR;
-                result.d_error = error::INVALID_OPER_ARRAY;
+                result.d_error = error("Invalid operation on array");
             }
 
             return result;
@@ -794,7 +794,7 @@ namespace z
             if ((d_type == data::ARRAY) || (other.d_type == data::ARRAY))
             {
                 result.d_type = data::ERROR;
-                result.d_error = error::INVALID_OPER_ARRAY;
+                result.d_error = error("Invalid operation on array");
             }
             else if ((d_type == data::STRING) || (other.d_type == data::STRING))
             {
@@ -825,12 +825,12 @@ namespace z
             if ((d_type == data::ARRAY) || (other.d_type == data::ARRAY))
             {
                 result.d_type = data::ERROR;
-                result.d_error = error::INVALID_OPER_ARRAY;
+                result.d_error = error("Invalid operation on array");
             }
             else if ((d_type == data::STRING) || (other.d_type == data::STRING))
             {
                 result.d_type = data::ERROR;
-                result.d_error = error::INVALID_OPER_STRING;
+                result.d_error = error("Invalid operation on string");
             }
             else if ((d_type == data::VALUE) && (other.d_type == data::VALUE))
             {
@@ -849,12 +849,12 @@ namespace z
             if ((d_type == data::ARRAY) || (other.d_type == data::ARRAY))
             {
                 result.d_type = data::ERROR;
-                result.d_error = error::INVALID_OPER_ARRAY;
+                result.d_error = error("Invalid operation on array");
             }
             else if ((d_type == data::STRING) || (other.d_type == data::STRING))
             {
                 result.d_type = data::ERROR;
-                result.d_error = error::INVALID_OPER_STRING;
+                result.d_error = error("Invalid operation on string");
             }
             else if ((d_type == data::VALUE) && (other.d_type == data::VALUE))
             {
@@ -873,12 +873,12 @@ namespace z
             if ((d_type == data::ARRAY) || (other.d_type == data::ARRAY))
             {
                 result.d_type = data::ERROR;
-                result.d_error = error::INVALID_OPER_ARRAY;
+                result.d_error = error("Invalid operation on array");
             }
             else if ((d_type == data::STRING) || (other.d_type == data::STRING))
             {
                 result.d_type = data::ERROR;
-                result.d_error = error::INVALID_OPER_STRING;
+                result.d_error = error("Invalid operation on string");
             }
             else if ((d_type == data::VALUE) && (other.d_type == data::VALUE))
             {
@@ -887,7 +887,7 @@ namespace z
                 else
                 {
                     result.d_type = data::ERROR;
-                    result.d_error = error::DIV_BY_ZERO;
+                    result.d_error = error("Division by zero");
                 }
 
             }
@@ -904,12 +904,12 @@ namespace z
             if ((d_type == data::ARRAY) || (other.d_type == data::ARRAY))
             {
                 result.d_type = data::ERROR;
-                result.d_error = error::INVALID_OPER_ARRAY;
+                result.d_error = error("Invalid operation on array");
             }
             else if ((d_type == data::STRING) || (other.d_type == data::STRING))
             {
                 result.d_type = data::ERROR;
-                result.d_error = error::INVALID_OPER_STRING;
+                result.d_error = error("Invalid operation on string");
             }
             else if ((d_type == data::VALUE) && (other.d_type == data::VALUE))
             {
@@ -920,7 +920,7 @@ namespace z
                 else
                 {
                     result.d_type = data::ERROR;
-                    result.d_error = error::DIV_BY_ZERO;
+                    result.d_error = error("Division by zero");
                 }
 
             }
@@ -937,12 +937,12 @@ namespace z
             if ((d_type == data::ARRAY) || (other.d_type == data::ARRAY))
             {
                 result.d_type = data::ERROR;
-                result.d_error = error::INVALID_OPER_ARRAY;
+                result.d_error = error("Invalid operation on array");
             }
             else if ((d_type == data::STRING) || (other.d_type == data::STRING))
             {
                 result.d_type = data::ERROR;
-                result.d_error = error::INVALID_OPER_STRING;
+                result.d_error = error("Invalid operation on string");
             }
             else if ((d_type == data::VALUE) && (other.d_type == data::VALUE))
             {
@@ -954,7 +954,7 @@ namespace z
                 else
                 {
                     result.d_type = data::ERROR;
-                    result.d_error = error::DIV_BY_ZERO;
+                    result.d_error = error("Division by zero");
                 }
 
             }
@@ -971,12 +971,12 @@ namespace z
             if ((d_type == data::ARRAY) || (other.d_type == data::ARRAY))
             {
                 result.d_type = data::ERROR;
-                result.d_error = error::INVALID_OPER_ARRAY;
+                result.d_error = error("Invalid operation on array");
             }
             else if ((d_type == data::STRING) || (other.d_type == data::STRING))
             {
                 result.d_type = data::ERROR;
-                result.d_error = error::INVALID_OPER_STRING;
+                result.d_error = error("Invalid operation on string");
             }
             else if ((d_type == data::VALUE) && (other.d_type == data::VALUE))
             {
@@ -996,24 +996,24 @@ namespace z
             if (d_type == data::ARRAY)
             {
                 result.d_type = data::ERROR;
-                result.d_error = error::INVALID_OPER_ARRAY;
+                result.d_error = error("Invalid operation on array");
             }
             else if (d_type == data::STRING)
             {
                 result.d_type = data::ERROR;
-                result.d_error = error::INVALID_OPER_STRING;
+                result.d_error = error("Invalid operation on string");
             }
             else if (d_type == data::VALUE)
             {
                 if (d_value.imag() != 0)
                 {
                     result.d_type = data::ERROR;
-                    result.d_error = error::FACTORIAL_COMPLEX;
+                    result.d_error = error("Factorial requires a real number");
                 }
                 else if (d_value.real() < 0)
                 {
                     result.d_type = data::ERROR;
-                    result.d_error = error::FACTORIAL_NEGATIVE;
+                    result.d_error = error("Factorial must be non-negative");
                 }
                 else
                 {
@@ -1022,7 +1022,7 @@ namespace z
                     if (_rslt == 0)
                     {
                         result.d_type = data::ERROR;
-                        result.d_error = error::FACTORIAL_OVERFLOW;
+                        result.d_error = error("Factorial input overflow");
                     }
                     else
                         result = _rslt;
@@ -1045,12 +1045,12 @@ namespace z
             else if ((d_type == data::ARRAY) || (other.d_type == data::ARRAY))
             {
                 result.d_type = data::ERROR;
-                result.d_error = error::INVALID_OPER_ARRAY;
+                result.d_error = error("Invalid operation on array");
             }
             else if ((d_type == data::STRING) || (other.d_type == data::STRING))
             {
                 result.d_type = data::ERROR;
-                result.d_error = error::INVALID_OPER_STRING;
+                result.d_error = error("Invalid operation on string");
             }
 
             return result;
@@ -1070,12 +1070,12 @@ namespace z
             else if ((d_type == data::ARRAY) || (other.d_type == data::ARRAY))
             {
                 result.d_type = data::ERROR;
-                result.d_error = error::INVALID_OPER_ARRAY;
+                result.d_error = error("Invalid operation on array");
             }
             else if ((d_type == data::STRING) || (other.d_type == data::STRING))
             {
                 result.d_type = data::ERROR;
-                result.d_error = error::INVALID_OPER_STRING;
+                result.d_error = error("Invalid operation on string");
             }
 
             return result;
@@ -1095,12 +1095,12 @@ namespace z
             else if ((d_type == data::ARRAY) || (other.d_type == data::ARRAY))
             {
                 result.d_type = data::ERROR;
-                result.d_error = error::INVALID_OPER_ARRAY;
+                result.d_error = error("Invalid operation on array");
             }
             else if ((d_type == data::STRING) || (other.d_type == data::STRING))
             {
                 result.d_type = data::ERROR;
-                result.d_error = error::INVALID_OPER_STRING;
+                result.d_error = error("Invalid operation on string");
             }
 
             return result;
@@ -1120,12 +1120,12 @@ namespace z
             else if ((d_type == data::ARRAY) || (other.d_type == data::ARRAY))
             {
                 result.d_type = data::ERROR;
-                result.d_error = error::INVALID_OPER_ARRAY;
+                result.d_error = error("Invalid operation on array");
             }
             else if ((d_type == data::STRING) || (other.d_type == data::STRING))
             {
                 result.d_type = data::ERROR;
-                result.d_error = error::INVALID_OPER_STRING;
+                result.d_error = error("Invalid operation on string");
             }
 
             return result;
@@ -1143,12 +1143,12 @@ namespace z
             else if (d_type == data::STRING)
             {
                 result.d_type = data::ERROR;
-                result.d_error = error::INVALID_OPER_STRING;
+                result.d_error = error("Invalid operation on string");
             }
             else if (d_type == data::ARRAY)
             {
                 result.d_type = data::ERROR;
-                result.d_error = error::INVALID_OPER_ARRAY;
+                result.d_error = error("Invalid operation on array");
             }
 
             return result;
@@ -1166,12 +1166,12 @@ namespace z
             else if (d_type == data::STRING)
             {
                 result.d_type = data::ERROR;
-                result.d_error = error::INVALID_OPER_STRING;
+                result.d_error = error("Invalid operation on string");
             }
             else if (d_type == data::ARRAY)
             {
                 result.d_type = data::ERROR;
-                result.d_error = error::INVALID_OPER_ARRAY;
+                result.d_error = error("Invalid operation on array");
             }
 
             return result;
@@ -1190,12 +1190,12 @@ namespace z
             else if ((d_type == data::ARRAY) || (other.d_type == data::ARRAY))
             {
                 result.d_type = data::ERROR;
-                result.d_error = error::INVALID_OPER_ARRAY;
+                result.d_error = error("Invalid operation on array");
             }
             else if ((d_type == data::STRING) || (other.d_type == data::STRING))
             {
                 result.d_type = data::ERROR;
-                result.d_error = error::INVALID_OPER_STRING;
+                result.d_error = error("Invalid operation on string");
             }
 
             return result;
@@ -1215,12 +1215,12 @@ namespace z
             else if ((d_type == data::ARRAY) || (other.d_type == data::ARRAY))
             {
                 result.d_type = data::ERROR;
-                result.d_error = error::INVALID_OPER_ARRAY;
+                result.d_error = error("Invalid operation on array");
             }
             else if ((d_type == data::STRING) || (other.d_type == data::STRING))
             {
                 result.d_type = data::ERROR;
-                result.d_error = error::INVALID_OPER_STRING;
+                result.d_error = error("Invalid operation on string");
             }
 
             return result;
@@ -1240,12 +1240,12 @@ namespace z
             else if ((d_type == data::ARRAY) || (other.d_type == data::ARRAY))
             {
                 result.d_type = data::ERROR;
-                result.d_error = error::INVALID_OPER_ARRAY;
+                result.d_error = error("Invalid operation on array");
             }
             else if ((d_type == data::STRING) || (other.d_type == data::STRING))
             {
                 result.d_type = data::ERROR;
-                result.d_error = error::INVALID_OPER_STRING;
+                result.d_error = error("Invalid operation on string");
             }
 
             return result;
@@ -1265,12 +1265,12 @@ namespace z
             else if ((d_type == data::ARRAY) || (other.d_type == data::ARRAY))
             {
                 result.d_type = data::ERROR;
-                result.d_error = error::INVALID_OPER_ARRAY;
+                result.d_error = error("Invalid operation on array");
             }
             else if ((d_type == data::STRING) || (other.d_type == data::STRING))
             {
                 result.d_type = data::ERROR;
-                result.d_error = error::INVALID_OPER_STRING;
+                result.d_error = error("Invalid operation on string");
             }
 
             return result;
@@ -1290,12 +1290,12 @@ namespace z
             else if ((d_type == data::ARRAY) || (other.d_type == data::ARRAY))
             {
                 result.d_type = data::ERROR;
-                result.d_error = error::INVALID_OPER_ARRAY;
+                result.d_error = error("Invalid operation on array");
             }
             else if ((d_type == data::STRING) || (other.d_type == data::STRING))
             {
                 result.d_type = data::ERROR;
-                result.d_error = error::INVALID_OPER_STRING;
+                result.d_error = error("Invalid operation on string");
             }
 
             return result;
@@ -1315,12 +1315,12 @@ namespace z
             else if ((d_type == data::ARRAY) || (other.d_type == data::ARRAY))
             {
                 result.d_type = data::ERROR;
-                result.d_error = error::INVALID_OPER_ARRAY;
+                result.d_error = error("Invalid operation on array");
             }
             else if ((d_type == data::STRING) || (other.d_type == data::STRING))
             {
                 result.d_type = data::ERROR;
-                result.d_error = error::INVALID_OPER_STRING;
+                result.d_error = error("Invalid operation on string");
             }
 
             return result;
@@ -1340,12 +1340,12 @@ namespace z
             else if ((d_type == data::ARRAY) || (other.d_type == data::ARRAY))
             {
                 result.d_type = data::ERROR;
-                result.d_error = error::INVALID_OPER_ARRAY;
+                result.d_error = error("Invalid operation on array");
             }
             else if ((d_type == data::STRING) || (other.d_type == data::STRING))
             {
                 result.d_type = data::ERROR;
-                result.d_error = error::INVALID_OPER_STRING;
+                result.d_error = error("Invalid operation on string");
             }
 
             return result;
@@ -1365,12 +1365,12 @@ namespace z
             else if ((d_type == data::ARRAY) || (other.d_type == data::ARRAY))
             {
                 result.d_type = data::ERROR;
-                result.d_error = error::INVALID_OPER_ARRAY;
+                result.d_error = error("Invalid operation on array");
             }
             else if ((d_type == data::STRING) || (other.d_type == data::STRING))
             {
                 result.d_type = data::ERROR;
-                result.d_error = error::INVALID_OPER_STRING;
+                result.d_error = error("Invalid operation on string");
             }
 
             return result;

@@ -69,7 +69,7 @@ namespace script
 
             core::array< ident_t<CHAR> > identities;
 
-            core::array< parserError<CHAR> > error_buffer;
+            core::array< error > error_buffer;
 
             int insert_index;
             iter_progress progress;
@@ -83,7 +83,7 @@ namespace script
             {
                 progress = PROG_NONE;
                 insert_index = -1;
-                generic_error = error::NONE;
+                generic_error = error();
 
                 file = NULL;
                 parent = -1;
@@ -140,7 +140,7 @@ namespace script
             void mergeIncludes();
 
         public:
-            core::array< parserError<CHAR> > error_buffer;
+            core::array< error > error_buffer;
 
             includeIterator(core::sortedRefArray< core::string<CHAR>* >* symbol_table,
                             core::sortedRefArray< core::string<CHAR>* >* _file_list) :
@@ -428,7 +428,7 @@ namespace script
                             else
                             {
                                 node_list[working_node].error_buffer.add(
-                                    parserError<CHAR>(node_list[working_node].identities[i+1].line,
+                                    error(node_list[working_node].identities[i+1].line,
                                                         node_list[working_node].identities[i+1].column,
                                                         error::INCLUDE_LOAD_FAILED,
                                                         node_list[working_node].file));
@@ -445,7 +445,7 @@ namespace script
                     else
                     {
                         node_list[working_node].error_buffer.add(
-                            parserError<CHAR>(node_list[working_node].identities[i].line,
+                            error(node_list[working_node].identities[i].line,
                                                 node_list[working_node].identities[i].column,
                                                 error::INVALID_INCLUDE,
                                                 node_list[working_node].file));

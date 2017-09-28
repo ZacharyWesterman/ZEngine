@@ -57,37 +57,6 @@ namespace script
 
             KEYWORD,
 
-            /*KEYWORD_IF,     //16
-            KEYWORD_ELSE,   //17
-
-            KEYWORD_FOR,    //18
-            KEYWORD_EACH,   //19
-            KEYWORD_IN,     //20
-            KEYWORD_LOOP,   //22
-            KEYWORD_WHILE,  //23
-
-            KEYWORD_GOTO,   //24
-            KEYWORD_GOSUB,  //25
-            KEYWORD_LABEL,
-            KEYWORD_SUB,
-
-            KEYWORD_RUN,    //26
-            KEYWORD_STOP,
-            KEYWORD_INCLUDE,//27
-
-            KEYWORD_BREAK,  //28
-            KEYWORD_RETURN, //29
-
-            KEYWORD_DIM,
-
-            KEYWORD_WAIT,   //31
-            KEYWORD_UNTIL,  //32
-
-            KEYWORD_VAR,
-            KEYWORD_TYPE,   //33
-
-            KEYWORD_EXTERNAL,
-            KEYWORD_SHARED,*/
 
             OPER_ASSIGN,
 

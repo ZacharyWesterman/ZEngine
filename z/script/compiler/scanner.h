@@ -27,6 +27,7 @@
 
 #include "escapeSequences.h"
 #include "identity.h"
+#include "keyword.h"
 
 namespace z
 {
@@ -68,6 +69,8 @@ namespace script
             core::string<CHAR>* file;
 
             core::array< error > error_buffer;
+
+            core::array<keyword>* keywords;
 
 
             scanner(core::sortedRefArray< core::string<CHAR>* >*);
@@ -866,52 +869,13 @@ namespace script
         {
             if (current_ident.type == ident::IDENTIFIER)
             {
-                if (current_symbol == "if")
-                    current_ident.type = ident::KEYWORD_IF;
-                else if (current_symbol == "else")
-                    current_ident.type = ident::KEYWORD_ELSE;
-                else if (current_symbol == "for")
-                    current_ident.type = ident::KEYWORD_FOR;
-                else if (current_symbol == "each")
-                    current_ident.type = ident::KEYWORD_EACH;
-                else if (current_symbol == "in")
-                    current_ident.type = ident::KEYWORD_IN;
-                else if (current_symbol == "loop")
-                    current_ident.type = ident::KEYWORD_LOOP;
-                else if (current_symbol == "while")
-                    current_ident.type = ident::KEYWORD_WHILE;
-                else if (current_symbol == "goto")
-                    current_ident.type = ident::KEYWORD_GOTO;
-                else if (current_symbol == "gosub")
-                    current_ident.type = ident::KEYWORD_GOSUB;
-                else if (current_symbol == "label")
-                    current_ident.type = ident::KEYWORD_LABEL;
-                else if (current_symbol == "sub")
-                    current_ident.type = ident::KEYWORD_SUB;
-                else if (current_symbol == "run")
-                    current_ident.type = ident::KEYWORD_RUN;
-                else if (current_symbol == "include")
-                    current_ident.type = ident::KEYWORD_INCLUDE;
-                else if (current_symbol == "break")
-                    current_ident.type = ident::KEYWORD_BREAK;
-                else if (current_symbol == "return")
-                    current_ident.type = ident::KEYWORD_RETURN;
-                else if (current_symbol == "dim")
-                    current_ident.type = ident::KEYWORD_DIM;
-                else if (current_symbol == "stop")
-                    current_ident.type = ident::KEYWORD_STOP;
-                else if (current_symbol == "wait")
-                    current_ident.type = ident::KEYWORD_WAIT;
-                else if (current_symbol == "until")
-                    current_ident.type = ident::KEYWORD_UNTIL;
-                else if (current_symbol == "var")
-                    current_ident.type = ident::KEYWORD_VAR;
-                else if (current_symbol == "type")
-                    current_ident.type = ident::KEYWORD_TYPE;
-                else if (current_symbol == "external")
-                    current_ident.type = ident::KEYWORD_EXTERNAL;
-                else if (current_symbol == "shared")
-                    current_ident.type = ident::KEYWORD_SHARED;
+                int kwd_index = keywords->find(keyword(current_symbol,0));
+
+                if (kwd_index > -1)//is a keyword
+                {
+                    current_ident.type = ident::KEYWORD;
+                    current_ident.value = (keywords->at(kwd_index)).value;
+                }
             }
         }
 

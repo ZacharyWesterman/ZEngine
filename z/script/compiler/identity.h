@@ -55,7 +55,9 @@ namespace script
 
             IDENTIFIER,     //13
 
-            KEYWORD_IF,     //16
+            KEYWORD,
+
+            /*KEYWORD_IF,     //16
             KEYWORD_ELSE,   //17
 
             KEYWORD_FOR,    //18
@@ -85,7 +87,7 @@ namespace script
             KEYWORD_TYPE,   //33
 
             KEYWORD_EXTERNAL,
-            KEYWORD_SHARED,
+            KEYWORD_SHARED,*/
 
             OPER_ASSIGN,
 

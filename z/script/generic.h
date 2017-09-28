@@ -714,8 +714,8 @@ namespace z
                 return r_string;
             }
             else if (d_type == data::ERROR)
-                return core::string<CHAR>("[ERR_")+
-                        core::string<CHAR>(d_error)+
+                return core::string<CHAR>("[")+
+                        d_error.message()+
                         core::string<CHAR>("]");
             else
                 return core::string<CHAR>();

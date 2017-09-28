@@ -53,6 +53,8 @@ int main(int argc, char* argv[])
     core::sortedRefArray< core::string<char>* > symbol_table;
     core::sortedRefArray< core::string<char>* > file_list;
 
+    core::array< z::script::compiler::ident_t<char> > idents;
+
     core::string<char> file = "test.txt";
 
     z::file::reader<char> Reader;
@@ -62,16 +64,13 @@ int main(int argc, char* argv[])
     Reader.clear();
 
 
-    z::script::compiler::scanner<char> Scanner(&symbol_table);
-    Scanner.file = &file;
-    Scanner.setInput(input);
-    Scanner.keywords = &keywords;
-    Scanner.operators = &operators;
+    z::script::compiler::scanner<char> Scanner(&symbol_table,
+                                               &keywords,
+                                               &operators,
+                                               &file,
+                                               &idents);
 
-    core::array< z::script::compiler::ident_t<char> > idents;
-
-    Scanner.setOutput(idents);
-
+    Scanner.linkInput(&input);
 
     Scanner.scan();
 

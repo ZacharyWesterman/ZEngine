@@ -2193,7 +2193,7 @@
 
 1489353285 c:\users\zachary\documents\github\zengine\\z\script\errors.h
 
-1506562815 source:/home/zwesterman/GitHub/ZEngine/main.cpp
+1506572292 source:/home/zwesterman/GitHub/ZEngine/main.cpp
 	<iostream>
 	<z/core.h>
 	<z/math.h>
@@ -2958,7 +2958,7 @@
 	"../generic.h"
 	"../error.h"
 
-1506571045 /home/zwesterman/GitHub/ZEngine//z/script/compiler/scanner.h
+1506572332 /home/zwesterman/GitHub/ZEngine//z/script/compiler/scanner.h
 	<limits>
 	<z/core/sortedArray.h>
 	<z/core/string.h>

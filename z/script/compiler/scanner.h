@@ -65,20 +65,29 @@ namespace script
 
             core::sortedRefArray< core::string<CHAR>* >* sym_table;
 
-        public:
-            //keep track of the current file
-            core::string<CHAR>* file;
-
-            core::array< error > error_buffer;
-
             core::array<keyword>* keywords;
             core::array<oper>* operators;
 
+            //keep track of the current file
+            core::string<CHAR>* file;
 
-            scanner(core::sortedRefArray< core::string<CHAR>* >*);
+        public:
+            core::array< error > error_buffer;
 
-            inline void setInput(core::string<CHAR>&);
-            inline void setOutput(core::array< ident_t<CHAR> >&);
+
+            scanner(core::sortedRefArray< core::string<CHAR>* >*,
+                     core::array<keyword>*,
+                     core::array<oper>*,
+                     core::string<CHAR>*,
+                     core::array< ident_t<CHAR> >*);
+
+            void set(core::sortedRefArray< core::string<CHAR>* >*,
+                     core::array<keyword>*,
+                     core::array<oper>*,
+                     core::string<CHAR>*,
+                     core::array< ident_t<CHAR> >*);
+
+            inline void linkInput(core::string<CHAR>*);
 
             bool scan(const core::timeout& time = -1);
 
@@ -121,27 +130,45 @@ namespace script
 
         template <typename CHAR>
         //constructor allows operators, commands, and functions be set
-        scanner<CHAR>::scanner(core::sortedRefArray<
-                               core::string<CHAR>* >* symbol_table)
+        scanner<CHAR>::scanner(core::sortedRefArray<core::string<CHAR>* >*
+                                                            symbol_table,
+                               core::array<keyword>* Keywords,
+                               core::array<oper>* Operators,
+                               core::string<CHAR>* File,
+                               core::array< ident_t<CHAR> >* Output)
         {
-            input = NULL;
-            identifiers = NULL;
+            clear();
 
+            set(symbol_table,
+                Keywords,
+                Operators,
+                File,
+                Output);
+        }
+
+        template <typename CHAR>
+        void scanner<CHAR>::set(core::sortedRefArray<core::string<CHAR>* >*
+                                                            symbol_table,
+                                core::array<keyword>* Keywords,
+                                core::array<oper>* Operators,
+                                core::string<CHAR>* File,
+                                core::array< ident_t<CHAR> >* Output)
+        {
             sym_table = symbol_table;
+            keywords = Keywords;
+            operators = Operators;
+            file = File;
+            identifiers = Output;
+
+            done = true;
+        }
+
+        template <typename CHAR>
+        inline void scanner<CHAR>::linkInput(core::string<CHAR>* string_input)
+        {
+            input = string_input;
 
             clear();
-        }
-
-        template <typename CHAR>
-        inline void scanner<CHAR>::setInput(core::string<CHAR>& string_input)
-        {
-            input = &string_input;
-        }
-
-        template <typename CHAR>
-        inline void scanner<CHAR>::setOutput(core::array< ident_t<CHAR> >& ident_output)
-        {
-            identifiers = &ident_output;
         }
 
         template <typename CHAR>
@@ -166,8 +193,6 @@ namespace script
 
             error_buffer.clear();
             done = false;
-
-            file = NULL;
         }
 
         template <typename CHAR>

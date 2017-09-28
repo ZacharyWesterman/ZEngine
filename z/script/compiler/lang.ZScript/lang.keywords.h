@@ -7,7 +7,7 @@
 
 enum KEYWORDS
 {
-    NONE = 0,
+    KWD_NONE = 0,
     IF,
     ELSE,
 
@@ -20,7 +20,7 @@ enum KEYWORDS
     GOTO,   //24
     GOSUB,  //25
     LABEL,
-    SUB,
+    SUBR,
 
     RUN,    //26
     STOP,
@@ -57,7 +57,7 @@ z::core::array<KWD> genKeywords()
         KWD("goto",     GOTO),
         KWD("gosub",    GOSUB),
         KWD("label",    LABEL),
-        KWD("sub",      SUB),
+        KWD("sub",      SUBR),
         KWD("run",      RUN),
         KWD("stop",     STOP),
         KWD("include",  INCLUDE),

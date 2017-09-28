@@ -77,7 +77,11 @@ namespace script
             int column;
             int indent;
 
-            core::string<CHAR>* meta;
+            union
+            {
+                core::string<CHAR>* meta;
+                unsigned long metaValue;
+            };
 
             generic<CHAR> value;
 

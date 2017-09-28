@@ -7,7 +7,7 @@
 
 enum OPERATORS
 {
-    NONE = 0,
+    OPER_NONE = 0,
     ASSIGN,
 
     ADD_ASSIGN,
@@ -72,11 +72,182 @@ z::core::array<OPER> genOperators()
 {
     z::core::array<OPER> opers =
     {
-
+        OPER("=",   ASSIGN),
+        OPER("+",   ADD),
+        OPER("-",   SUB),
+        OPER("*",   MUL),
+        OPER("/",   DIV),
+        OPER("//",  IDIV),
+        OPER("%",   MOD),
     };
 
     return opers;
 }
+
+/*if (input.foundAt("==", x_offset))
+                {
+                    curr_oper = ident::OPER_EQ;
+                    oper_length = 2;
+                }
+                else if (input.foundAt("=", x_offset))
+                {
+                    curr_oper = ident::OPER_ASSIGN;
+                    oper_length = 1;
+                }
+                else if (input.foundAt("<-", x_offset))
+                {
+                    curr_oper = ident::OPER_L_ARROW;
+                    oper_length = 2;
+                }
+                else if (input.foundAt("<>", x_offset))
+                {
+                    curr_oper = ident::OPER_NOT_EQ;
+                    oper_length = 2;
+                }
+                else if (input.foundAt("<=", x_offset))
+                {
+                    curr_oper = ident::OPER_LT_EQ;
+                    oper_length = 2;
+                }
+                else if (input.foundAt("<", x_offset))
+                {
+                    curr_oper = ident::OPER_LT;
+                    oper_length = 1;
+                }
+                else if (input.foundAt(">=", x_offset))
+                {
+                    curr_oper = ident::OPER_GT_EQ;
+                    oper_length = 2;
+                }
+                else if (input.foundAt(">", x_offset))
+                {
+                    curr_oper = ident::OPER_GT;
+                    oper_length = 1;
+                }
+                else if (input.foundAt("++", x_offset))
+                {
+                    curr_oper = ident::OPER_ADD1;
+                    oper_length = 2;
+                }
+                else if (input.foundAt("+=", x_offset))
+                {
+                    curr_oper = ident::OPER_ADD_ASSIGN;
+                    oper_length = 2;
+                }
+                else if (input.foundAt("+", x_offset))
+                {
+                    curr_oper = ident::OPER_ADD;
+                    oper_length = 1;
+                }
+                else if (input.foundAt("->", x_offset))
+                {
+                    curr_oper = ident::OPER_R_ARROW;
+                    oper_length = 2;
+                }
+                else if (input.foundAt("--", x_offset))
+                {
+                    curr_oper = ident::OPER_SUB1;
+                    oper_length = 2;
+                }
+                else if (input.foundAt("-=", x_offset))
+                {
+                    curr_oper = ident::OPER_SUB_ASSIGN;
+                    oper_length = 2;
+                }
+                else if (input.foundAt("-", x_offset))
+                {
+                    curr_oper = ident::OPER_SUB;
+                    oper_length = 1;
+                }
+                else if (input.foundAt("*=", x_offset))
+                {
+                    curr_oper = ident::OPER_MUL_ASSIGN;
+                    oper_length = 2;
+                }
+                else if (input.foundAt("*", x_offset))
+                {
+                    curr_oper = ident::OPER_MUL;
+                    oper_length = 1;
+                }
+                else if (input.foundAt("//=", x_offset))
+                {
+                    curr_oper = ident::OPER_IDIV_ASSIGN;
+                    oper_length = 3;
+                }
+                else if (input.foundAt("//", x_offset))
+                {
+                    curr_oper = ident::OPER_IDIV;
+                    oper_length = 2;
+                }
+                else if (input.foundAt("/=", x_offset))
+                {
+                    curr_oper = ident::OPER_DIV_ASSIGN;
+                    oper_length = 2;
+                }
+                else if (input.foundAt("/", x_offset))
+                {
+                    curr_oper = ident::OPER_DIV;
+                    oper_length = 1;
+                }
+                else if (input.foundAt("%=", x_offset))
+                {
+                    curr_oper = ident::OPER_MOD_ASSIGN;
+                    oper_length = 2;
+                }
+                else if (input.foundAt("%", x_offset))
+                {
+                    curr_oper = ident::OPER_MOD;
+                    oper_length = 1;
+                }
+                else if (input.foundAt("^", x_offset))
+                {
+                    curr_oper = ident::OPER_POW;
+                    oper_length = 1;
+                }
+                else if (input.foundAt("!", x_offset))
+                {
+                    curr_oper = ident::OPER_FAC;
+                    oper_length = 1;
+                }
+                else if (input.foundAt("~&", x_offset))
+                {
+                    curr_oper = ident::OPER_NAND_BITW;
+                    oper_length = 2;
+                }
+                else if (input.foundAt("~|", x_offset))
+                {
+                    curr_oper = ident::OPER_NOR_BITW;
+                    oper_length = 2;
+                }
+                else if (input.foundAt("~:", x_offset))
+                {
+                    curr_oper = ident::OPER_NXOR_BITW;
+                    oper_length = 2;
+                }
+                else if (input.foundAt("~", x_offset))
+                {
+                    curr_oper = ident::OPER_NOT_BITW;
+                    oper_length = 1;
+                }
+                else if (input.foundAt("&", x_offset))
+                {
+                    curr_oper = ident::OPER_AND_BITW;
+                    oper_length = 1;
+                }
+                else if (input.foundAt("|", x_offset))
+                {
+                    curr_oper = ident::OPER_OR_BITW;
+                    oper_length = 1;
+                }
+                else if (input.foundAt(":", x_offset))
+                {
+                    curr_oper = ident::OPER_XOR_BITW;
+                    oper_length = 1;
+                }
+                else
+                {
+                    found = false;
+                }*/
 
 #undef OPER
 

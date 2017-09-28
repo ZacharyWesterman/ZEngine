@@ -38,7 +38,7 @@ void printIdents(const core::array< compiler::ident_t<char> >& idents)
     {
         cout << "Tp=" << idents[i].type;
         if (idents[i].meta)
-            cout << " Mt=" << (idents[i].meta)->str() << endl;
+            cout << " Mt=" << idents[i].metaValue << endl;
         else
             cout << " Va=" << idents[i].value.string().str() << endl;
     }

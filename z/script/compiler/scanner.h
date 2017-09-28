@@ -28,6 +28,7 @@
 #include "escapeSequences.h"
 #include "identity.h"
 #include "keyword.h"
+#include "operator.h"
 
 namespace z
 {
@@ -71,6 +72,7 @@ namespace script
             core::array< error > error_buffer;
 
             core::array<keyword>* keywords;
+            core::array<oper>* operators;
 
 
             scanner(core::sortedRefArray< core::string<CHAR>* >*);
@@ -651,7 +653,7 @@ namespace script
                 bool found = true;
                 int oper_length;
 
-                if (input.foundAt("==", x_offset))
+                /*if (input.foundAt("==", x_offset))
                 {
                     curr_oper = ident::OPER_EQ;
                     oper_length = 2;
@@ -814,18 +816,20 @@ namespace script
                 else
                 {
                     found = false;
-                }
+                }*/
 
+                int oper_index = operators->find(input.substr(x_offset,
+                                                              input.length()));
 
-                if (found)
+                if (oper_index > -1)
                 {
-                    temp_opers.add(ident_t<CHAR>(curr_oper, line,
+                     temp_opers.add(ident_t<CHAR>(curr_oper, line,
                                                  column+x_offset-input.length(),
                                                  null, file));
 
-                    x_offset += oper_length;
+                    x_offset += (operators->at(oper_index)).symbol.length();
                 }
-                else //an operator was not found
+                else
                 {
                     if (x_offset > 0)
                         error_buffer.add(error("Ambiguous expression",

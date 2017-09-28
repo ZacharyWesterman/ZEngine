@@ -47,7 +47,11 @@
 		<Unit filename="z/script/compiler/escapeSequences.h" />
 		<Unit filename="z/script/compiler/identity.h" />
 		<Unit filename="z/script/compiler/includeIterator.h" />
+		<Unit filename="z/script/compiler/keyword.h" />
+		<Unit filename="z/script/compiler/lang.ZScript/lang.keywords.h" />
+		<Unit filename="z/script/compiler/lang.ZScript/lang.operators.h" />
 		<Unit filename="z/script/compiler/lexer.h" />
+		<Unit filename="z/script/compiler/operator.h" />
 		<Unit filename="z/script/compiler/phrase.h" />
 		<Unit filename="z/script/compiler/scanner.h" />
 		<Unit filename="z/script/compiler/semanticAnalyzer.h" />

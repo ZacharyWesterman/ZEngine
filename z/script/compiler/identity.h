@@ -56,64 +56,9 @@ namespace script
             IDENTIFIER,     //13
 
             KEYWORD,
+            OPERATOR,
 
 
-            OPER_ASSIGN,
-
-            OPER_ADD_ASSIGN,
-            OPER_SUB_ASSIGN,
-
-            OPER_MUL_ASSIGN,
-            OPER_DIV_ASSIGN,
-            OPER_IDIV_ASSIGN,
-            OPER_MOD_ASSIGN,
-
-            OPER_ADD1,      //39
-            OPER_SUB1,      //40
-
-            OPER_SIZEOF,
-
-            OPER_POW,       //45
-            OPER_FAC,       //46
-
-            OPER_ADD,       //37
-            OPER_SUB,       //38
-
-            OPER_MUL,       //41
-            OPER_DIV,       //42
-            OPER_IDIV,      //43
-            OPER_MOD,       //44
-
-            OPER_AND_LGCL,  //47
-            OPER_AND_BITW,  //48
-
-            OPER_OR_LGCL,   //49
-            OPER_OR_BITW,   //50
-
-            OPER_XOR_LGCL,  //51
-            OPER_XOR_BITW,  //52
-
-            OPER_NAND_LGCL, //55
-            OPER_NAND_BITW, //56
-
-            OPER_NOR_LGCL,  //57
-            OPER_NOR_BITW,  //58
-
-            OPER_NXOR_LGCL, //59
-            OPER_NXOR_BITW, //60
-
-            OPER_EQ,        //61
-            OPER_NOT_EQ,    //62
-            OPER_GT,        //63
-            OPER_GT_EQ,     //64
-            OPER_LT,        //65
-            OPER_LT_EQ,     //66
-
-            OPER_NOT_LGCL,  //53
-            OPER_NOT_BITW,  //54
-
-            OPER_R_ARROW,   //67
-            OPER_L_ARROW,   //68
 
             UNKNOWN,        //69
 

@@ -8,6 +8,7 @@
 #include <z/script/compiler/scanner.h>
 
 #include <z/script/compiler/lang.ZScript/lang.keywords.h>
+#include <z/script/compiler/lang.ZScript/lang.operators.h>
 
 
 //using namespace std;
@@ -47,6 +48,7 @@ void printIdents(const core::array< compiler::ident_t<char> >& idents)
 int main(int argc, char* argv[])
 {
     core::array<compiler::keyword> keywords = genKeywords();
+    core::array<compiler::oper> operators = genOperators();
 
     core::sortedRefArray< core::string<char>* > symbol_table;
     core::sortedRefArray< core::string<char>* > file_list;
@@ -64,6 +66,7 @@ int main(int argc, char* argv[])
     Scanner.file = &file;
     Scanner.setInput(input);
     Scanner.keywords = &keywords;
+    Scanner.operators = &operators;
 
     core::array< z::script::compiler::ident_t<char> > idents;
 

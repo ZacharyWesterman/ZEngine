@@ -302,7 +302,8 @@ namespace script
 
             bool lex(const core::timeout&);
 
-            inline bool error() {return error_buffer.size() > 0;}
+            inline bool good() {return error_buffer.size() == 0;}
+            inline bool bad() {return error_buffer.size() != 0;}
 
             inline bool usingInput() {return input_in_use;}
 
@@ -519,9 +520,9 @@ namespace script
                     }
                     else
                     {
-                        if (error_oper()        ||
+                        if (false/*error_oper()        ||
                             error_semicolon()   ||
-                            error_for()
+                            error_for()*/
                             )
                         {
                             index = 0;
@@ -542,7 +543,7 @@ namespace script
             {
                 if (phrase_nodes.size() > 1)
                 {
-                    error_buffer.add(error(-1, -1, error::SYNTAX_ERROR, NULL));
+                    error_buffer.add(error("Syntax error"));
 
                     for (int n=0; n<phrase_nodes.size(); n++)
                     {
@@ -651,9 +652,9 @@ namespace script
 #include "syntaxRules/stop_statement.h"
 
 
-#include "syntaxErrors/error_oper.h"
-#include "syntaxErrors/error_semicolon.h"
-#include "syntaxErrors/error_for.h"
+//#include "syntaxErrors/error_oper.h"
+//#include "syntaxErrors/error_semicolon.h"
+//#include "syntaxErrors/error_for.h"
 
 
 #endif // LEXER_H_INCLUDED

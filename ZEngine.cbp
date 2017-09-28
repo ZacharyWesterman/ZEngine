@@ -17,6 +17,7 @@
 					<Add option="-g" />
 					<Add option="-U__STRICT_ANSI__" />
 					<Add directory="../zLibraries" />
+					<Add directory="/home/zwesterman/GitHub/ZEngine/" />
 				</Compiler>
 			</Target>
 			<Target title="Release">

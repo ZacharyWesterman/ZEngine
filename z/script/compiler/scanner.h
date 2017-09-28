@@ -75,7 +75,7 @@ namespace script
             inline void setInput(core::string<CHAR>&);
             inline void setOutput(core::array< ident_t<CHAR> >&);
 
-            bool scan(const core::timeout&);
+            bool scan(const core::timeout& time = -1);
 
             void clear();
             inline bool good();
@@ -343,24 +343,24 @@ namespace script
             {
                 if (op_sym.type == ident::LPARENTH)
                 {
-                    error_buffer.add(error(op_sym.line,
-                                           op_sym.column,
-                                           error("Missing close parentheses"),
-                                           file));
+                    error_buffer.add(error("Missing close parentheses",
+                                       *file,
+                                       op_sym.line,
+                                       op_sym.column));
                 }
                 else if (op_sym.type == ident::LBRACKET)
                 {
-                    error_buffer.add(error(op_sym.line,
-                                           op_sym.column,
-                                           error("Missing close square bracket"),
-                                           file));
+                    error_buffer.add(error("Missing close square bracket",
+                                       *file,
+                                       op_sym.line,
+                                       op_sym.column));
                 }
                 else if (op_sym.type == ident::LBRACE)
                 {
-                    error_buffer.add(error(op_sym.line,
-                                           op_sym.column,
-                                           error("Missing close curly brace"),
-                                           file));
+                    error_buffer.add(error("Missing close curly brace",
+                                       *file,
+                                       op_sym.line,
+                                       op_sym.column));
                 }
             }
         }
@@ -484,23 +484,23 @@ namespace script
             ident_t<CHAR> op_sym;
             if (!open_symbol_indices.pop(op_sym))
             {
-                error_buffer.add(error(line, column,
-                                       error("Missing open parentheses"),
-                                       file));
+                error_buffer.add(error("Missing open parentheses",
+                                       *file,
+                                       line, column));
             }
             else if (op_sym.type == ident::LBRACKET)
             {
-                error_buffer.add(error(op_sym.line,
-                                        op_sym.column,
-                                        error("Missing close square bracket"),
-                                        file));
+                error_buffer.add(error("Missing close square bracket",
+                                       *file,
+                                       op_sym.line,
+                                       op_sym.column));
             }
             else if (op_sym.type == ident::LBRACE)
             {
-                error_buffer.add(error(op_sym.line,
-                                        op_sym.column,
-                                        error("Missing close curly brace"),
-                                        file));
+                error_buffer.add(error("Missing close curly brace",
+                                       *file,
+                                       op_sym.line,
+                                       op_sym.column));
             }
         }
 
@@ -522,23 +522,23 @@ namespace script
             ident_t<CHAR> op_sym;
             if (!open_symbol_indices.pop(op_sym))
             {
-                error_buffer.add(error(line, column,
-                                        error("Missing open square bracket"),
-                                        file));
+                error_buffer.add(error("Missing open square bracket",
+                                        *file,
+                                        line, column));
             }
             else if (op_sym.type == ident::LPARENTH)
             {
-                error_buffer.add(error(op_sym.line,
-                                        op_sym.column,
-                                        error("Missing close parentheses"),
-                                        file));
+                error_buffer.add(error("Missing close parentheses",
+                                       *file,
+                                       op_sym.line,
+                                       op_sym.column));
             }
             else if (op_sym.type == ident::LBRACE)
             {
-                error_buffer.add(error(op_sym.line,
-                                        op_sym.column,
-                                        error("Missing close curly brace"),
-                                        file));
+                error_buffer.add(error("Missing close curly brace",
+                                       *file,
+                                       op_sym.line,
+                                       op_sym.column));
             }
         }
 
@@ -560,23 +560,24 @@ namespace script
             ident_t<CHAR> op_sym;
             if (!open_symbol_indices.pop(op_sym))
             {
-                error_buffer.add(error(line, column,
-                                        error("Missing open curly brace"),
-                                        file));
+                error_buffer.add(error("Missing open curly brace",
+                                       *file,
+                                       line,
+                                       column));
             }
             else if (op_sym.type == ident::LBRACKET)
             {
-                error_buffer.add(error(op_sym.line,
-                                        op_sym.column,
-                                        error("Missing close square bracket"),
-                                        file));
+                error_buffer.add(error("Missing close square bracket",
+                                 *file,
+                                 op_sym.line,
+                                 op_sym.column));
             }
             else if (op_sym.type == ident::LPARENTH)
             {
-                error_buffer.add(error(op_sym.line,
-                                        op_sym.column,
-                                        error("Missing close parentheses"),
-                                        file));
+                error_buffer.add(error("Missing close parentheses",
+                                 *file,
+                                 op_sym.line,
+                                 op_sym.column));
             }
         }
 
@@ -612,14 +613,14 @@ namespace script
 
                     if (input->at(index) == (CHAR)92) //we have some unknown escape sequence
                     {
-                        core::string<CHAR> bad_esc_str = (CHAR)92;
-                        bad_esc_str += input->at(index+1);
+                        core::string<char> bad_esc_str = "\\";
+                        bad_esc_str += core::string<char>(input->at(index+1));
 
                         error_buffer.add(
-                                error(current_ident.line,
-                                                current_ident.column,
-                                                error::UNKNOWN_ESCAPE_SEQUENCE,
-                                                bad_esc_str, file));
+                                error("Unknown escape sequence",
+                                      *file,
+                                      current_ident.line,
+                                      current_ident.column));
                     }
                 }
             }
@@ -632,7 +633,7 @@ namespace script
         template <typename CHAR>
         bool scanner<CHAR>::list_opers(core::string<CHAR>& input)
         {
-            error oper_error;
+            bool oper_error = false;
 
             core::array< ident_t<CHAR> > temp_opers;
 
@@ -824,18 +825,20 @@ namespace script
                 else //an operator was not found
                 {
                     if (x_offset > 0)
-                        error_buffer.add(error(line, column,
-                                                "Ambiguous expression",
-                                                *file));
+                        error_buffer.add(error("Ambiguous expression",
+                                                *file,
+                                                line, column));
                     else
-                        error_buffer.add(error(line, column,
-                                                "Unknown operator",
-                                                *file));
+                        error_buffer.add(error("Unknown operator",
+                                                *file,
+                                                line, column));
+
+                    oper_error = true;
                 }
             }
 
 
-            if (oper_error == error())
+            if (!oper_error)
             {
                 for (int i=0; i<temp_opers.size(); i++)
                 {
@@ -851,12 +854,9 @@ namespace script
 
                 identifiers->add(ident_t<CHAR>(this_type,
                                                line, column-input.length()));
-
-                error_buffer.add(error(line, column-input.length(),
-                                              oper_error, input, file));
             }
 
-            return (oper_error != error());
+            return oper_error;
         }
 
 
@@ -970,10 +970,10 @@ namespace script
                     if (pastDecimal)
                     {
                         error_buffer.add(
-                                error(current_ident.line,
-                                                current_ident.column,
-                                                error::NUMBER_EXCESS_DECIMALS,
-                                                current_symbol, file));
+                                error("Number contains excess decimals",
+                                      *file,
+                                      current_ident.line,
+                                      current_ident.column));
 
                         return_good = false;
                     }
@@ -983,10 +983,10 @@ namespace script
                 else if (!core::isNumeric(_char, base))
                 {
                     error_buffer.add(
-                                error(current_ident.line,
-                                             current_ident.column,
-                                             error::NUMBER_ILLEGAL_CHAR,
-                                             current_symbol, file));
+                                error("Number contains illegal characters",
+                                      *file,
+                                      current_ident.line,
+                                      current_ident.column));
 
                     return_good = false;
                 }

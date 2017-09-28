@@ -216,7 +216,8 @@ namespace script
                 type_var_list.clear();
             }
 
-            inline bool error() {return (error_buffer.size() > 0);}
+            inline bool good() {return (error_buffer.size() == 0);}
+            inline bool bad() {return (error_buffer.size() != 0);}
 
             inline bool done() {return is_done;}
 

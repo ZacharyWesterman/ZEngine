@@ -101,7 +101,6 @@ namespace z
                 d_type = data::NONE;
 
                 d_value = 0;
-                d_error = 0;
             }
 
             generic(script::error new_error)

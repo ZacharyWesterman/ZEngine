@@ -33,10 +33,10 @@ namespace script
                 (phrase_nodes[index]->type <= ident::OPER_L_ARROW))
             {
                 error_buffer.add(error(phrase_nodes[index]->line,
-                                                    phrase_nodes[index]->column,
-                                                    error::UNEXPECTED_OPERATOR,
-                                                    phrase_nodes[index]->file
-                                                    ));
+                                        phrase_nodes[index]->column,
+                                        error("Unexpected operator"),
+                                        phrase_nodes[index]->file
+                                        ));
 
                 delete phrase_nodes[index];
                 phrase_nodes.remove(index);

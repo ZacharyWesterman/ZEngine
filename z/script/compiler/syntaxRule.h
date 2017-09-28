@@ -12,12 +12,12 @@ namespace script
 {
     namespace compiler
     {
-        deleteNode()
+        void deleteNode();
 
         class syntaxRule
         {
         public:
-            apply();
+            bool apply();
         };
     }
 }

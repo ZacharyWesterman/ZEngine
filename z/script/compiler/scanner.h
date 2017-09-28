@@ -279,14 +279,6 @@ namespace script
                         newIdent = ident::NONE;
                         indent++;
                     }
-                    //allow 'E-' symbols if in a number
-                    /*else if ((newIdent == ident::NUMERIC_LITERAL) &&
-                             input->foundAt("E-", index))
-                    {
-                        current_symbol += input->at(index);
-                        index++;
-                        //exponent
-                    }*/
                     //generic identifiers
                     else if (core::isAlphanumeric(input->at(index)) ||
                              (input->at(index) == (CHAR)'_'))
@@ -438,6 +430,8 @@ namespace script
 
             current_ident.meta = NULL;
             current_ident.file = file;
+
+            current_ident.value = generic<CHAR>();
         }
 
         template <typename CHAR>
@@ -672,14 +666,25 @@ namespace script
 
             while ((x_offset < input.length()) && !oper_error)
             {
+                int start = x_offset;
+                int stop = start;
 
+                oper find_oper (input.substr(start, stop), 0);
 
-
-                oper find_oper (input.substr(x_offset,input.length()), 0);
-
+                int prev_index = -1;
                 int oper_index = operators->find(find_oper);
 
-                if (oper_index > -1)
+
+                while((oper_index > -1) &&
+                      (stop < input.length()))
+                {
+                    prev_index = oper_index;
+                    find_oper.symbol = input.substr(start, ++stop);
+                    oper_index = operators->find(find_oper);
+                }
+
+
+                if (prev_index > -1)
                 {
                     ident_t<CHAR> this_oper (ident::OPERATOR,
                                              line,
@@ -687,12 +692,12 @@ namespace script
                                              0,
                                              NULL,
                                              file);
-                    this_oper.metaValue = (operators->at(oper_index)).value;
+                    this_oper.metaValue = (operators->at(prev_index)).value;
 
 
                     temp_opers.add(this_oper);
 
-                    x_offset += (operators->at(oper_index)).symbol.length();
+                    x_offset += (operators->at(prev_index)).symbol.length();
                 }
                 else
                 {
@@ -712,10 +717,7 @@ namespace script
 
             if (!oper_error)
             {
-                for (int i=0; i<temp_opers.size(); i++)
-                {
-                    identifiers->add(temp_opers[i]);
-                }
+                identifiers->add(temp_opers);
             }
             else
             {
@@ -848,7 +850,7 @@ namespace script
                 if (oper_index > -1)//is an alphanumeric operator
                 {
                     current_ident.type = ident::OPERATOR;
-                    current_ident.value = (operators->at(oper_index)).value;
+                    current_ident.metaValue = (operators->at(oper_index)).value;
                 }
             }
         }

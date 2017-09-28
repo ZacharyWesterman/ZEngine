@@ -2193,7 +2193,7 @@
 
 1489353285 c:\users\zachary\documents\github\zengine\\z\script\errors.h
 
-1506572292 source:/home/zwesterman/GitHub/ZEngine/main.cpp
+1506622468 source:/home/zwesterman/GitHub/ZEngine/main.cpp
 	<iostream>
 	<z/core.h>
 	<z/math.h>
@@ -2256,7 +2256,7 @@
 	<type_traits>
 	"string.h"
 
-1506232830 /home/zwesterman/GitHub/zLibraries/z/core/array.h
+1506621455 /home/zwesterman/GitHub/zLibraries/z/core/array.h
 	<vector>
 	"stream.h"
 
@@ -2958,7 +2958,7 @@
 	"../generic.h"
 	"../error.h"
 
-1506572332 /home/zwesterman/GitHub/ZEngine//z/script/compiler/scanner.h
+1506623365 /home/zwesterman/GitHub/ZEngine//z/script/compiler/scanner.h
 	<limits>
 	<z/core/sortedArray.h>
 	<z/core/string.h>
@@ -3188,17 +3188,17 @@
 	"lexer.h"
 	<iostream>
 
-1506561460 /home/zwesterman/GitHub/ZEngine//z/script/compiler/keyword.h
+1506622093 /home/zwesterman/GitHub/ZEngine//z/script/compiler/keyword.h
 	<z/core/string.h>
 
-1506570345 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.keywords.h
+1506621397 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.keywords.h
 	<z/core/array.h>
 	<z/script/compiler/keyword.h>
 
-1506563039 /home/zwesterman/GitHub/ZEngine//z/script/compiler/operator.h
+1506622064 /home/zwesterman/GitHub/ZEngine//z/script/compiler/operator.h
 	<z/core/string.h>
 
-1506571177 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.operators.h
-	<z/core/array.h>
+1506621861 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.operators.h
+	<z/core/sortedArray.h>
 	<z/script/compiler/operator.h>
 

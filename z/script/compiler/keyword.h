@@ -26,6 +26,31 @@ namespace script
             {
                 return symbol == other.symbol;
             }
+
+            inline bool operator!=(const keyword& other) const
+            {
+                return symbol != other.symbol;
+            }
+
+            inline bool operator>(const keyword& other) const
+            {
+                return symbol > other.symbol;
+            }
+
+            inline bool operator>=(const keyword& other) const
+            {
+                return symbol >= other.symbol;
+            }
+
+            inline bool operator<(const keyword& other) const
+            {
+                return symbol < other.symbol;
+            }
+
+            inline bool operator<=(const keyword& other) const
+            {
+                return symbol <= other.symbol;
+            }
         };
     }
 }

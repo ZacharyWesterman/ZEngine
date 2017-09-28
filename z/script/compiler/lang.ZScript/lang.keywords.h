@@ -42,10 +42,11 @@ enum KEYWORDS
 };
 
 #define KWD z::script::compiler::keyword
+#define ARRAY z::core::array<KWD>
 
-z::core::array<KWD> genKeywords()
+ARRAY* genKeywords()
 {
-    z::core::array<KWD> kwds =
+    ARRAY* kwds = new ARRAY
     {
         KWD("if",       IF),
         KWD("else",     ELSE),
@@ -76,5 +77,6 @@ z::core::array<KWD> genKeywords()
 }
 
 #undef KWD
+#undef ARRAY
 
 #endif // LANG_KEYWORDS_H_INCLUDED

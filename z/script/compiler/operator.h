@@ -24,7 +24,32 @@ namespace script
 
             inline bool operator==(const oper& other) const
             {
-                return other.symbol.beginsWith(symbol);
+                return symbol == other.symbol;
+            }
+
+            inline bool operator!=(const oper& other) const
+            {
+                return symbol != other.symbol;
+            }
+
+            inline bool operator>(const oper& other) const
+            {
+                return symbol > other.symbol;
+            }
+
+            inline bool operator>=(const oper& other) const
+            {
+                return symbol >= other.symbol;
+            }
+
+            inline bool operator<(const oper& other) const
+            {
+                return symbol < other.symbol;
+            }
+
+            inline bool operator<=(const oper& other) const
+            {
+                return symbol <= other.symbol;
             }
         };
     }

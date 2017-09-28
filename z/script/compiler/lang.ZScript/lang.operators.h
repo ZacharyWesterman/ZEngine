@@ -2,7 +2,7 @@
 #ifndef LANG_OPERATORS_H_INCLUDED
 #define LANG_OPERATORS_H_INCLUDED
 
-#include <z/core/array.h>
+#include <z/core/sortedArray.h>
 #include <z/script/compiler/operator.h>
 
 enum OPERATORS
@@ -67,188 +67,58 @@ enum OPERATORS
 };
 
 #define OPER z::script::compiler::oper
+#define ARRAY z::core::sortedArray<OPER>
 
-z::core::array<OPER> genOperators()
+ARRAY* genOperators()
 {
-    z::core::array<OPER> opers =
+    ARRAY* opers = new ARRAY
     {
         OPER("=",   ASSIGN),
+        OPER("+=",  ADD_ASSIGN),
+        OPER("-=",  SUB_ASSIGN),
+        OPER("*=",  MUL_ASSIGN),
+        OPER("/=",  DIV_ASSIGN),
+        OPER("//=", IDIV_ASSIGN),
+        OPER("%=",  MOD_ASSIGN),
+        OPER("++",  ADD1),
+        OPER("--",  SUB1),
+        OPER("sizeof",  SIZEOF),
+        OPER("^",   POW),
+        OPER("!",   FAC),
         OPER("+",   ADD),
         OPER("-",   SUB),
         OPER("*",   MUL),
         OPER("/",   DIV),
         OPER("//",  IDIV),
         OPER("%",   MOD),
+        OPER("and", AND_LGCL),
+        OPER("&",   AND_BITW),
+        OPER("or",  OR_LGCL),
+        OPER("|",   OR_BITW),
+        OPER("xor", XOR_LGCL),
+        OPER(":",   XOR_BITW),
+        OPER("nand",NAND_LGCL),
+        OPER("~&",  NAND_BITW),
+        OPER("nor", NOR_LGCL),
+        OPER("~|",  NOR_BITW),
+        OPER("nxor",NXOR_LGCL),
+        OPER("~:",  NXOR_BITW),
+        OPER("==",  EQ),
+        OPER("<>",  NOT_EQ),
+        OPER(">",   GT),
+        OPER(">=",  GT_EQ),
+        OPER("<",   LT),
+        OPER("<=",  LT_EQ),
+        OPER("not", NOT_LGCL),
+        OPER("~",   NOT_BITW),
+        OPER("->",  R_ARROW),
+        OPER("<-",  L_ARROW)
     };
 
     return opers;
 }
 
-/*if (input.foundAt("==", x_offset))
-                {
-                    curr_oper = ident::OPER_EQ;
-                    oper_length = 2;
-                }
-                else if (input.foundAt("=", x_offset))
-                {
-                    curr_oper = ident::OPER_ASSIGN;
-                    oper_length = 1;
-                }
-                else if (input.foundAt("<-", x_offset))
-                {
-                    curr_oper = ident::OPER_L_ARROW;
-                    oper_length = 2;
-                }
-                else if (input.foundAt("<>", x_offset))
-                {
-                    curr_oper = ident::OPER_NOT_EQ;
-                    oper_length = 2;
-                }
-                else if (input.foundAt("<=", x_offset))
-                {
-                    curr_oper = ident::OPER_LT_EQ;
-                    oper_length = 2;
-                }
-                else if (input.foundAt("<", x_offset))
-                {
-                    curr_oper = ident::OPER_LT;
-                    oper_length = 1;
-                }
-                else if (input.foundAt(">=", x_offset))
-                {
-                    curr_oper = ident::OPER_GT_EQ;
-                    oper_length = 2;
-                }
-                else if (input.foundAt(">", x_offset))
-                {
-                    curr_oper = ident::OPER_GT;
-                    oper_length = 1;
-                }
-                else if (input.foundAt("++", x_offset))
-                {
-                    curr_oper = ident::OPER_ADD1;
-                    oper_length = 2;
-                }
-                else if (input.foundAt("+=", x_offset))
-                {
-                    curr_oper = ident::OPER_ADD_ASSIGN;
-                    oper_length = 2;
-                }
-                else if (input.foundAt("+", x_offset))
-                {
-                    curr_oper = ident::OPER_ADD;
-                    oper_length = 1;
-                }
-                else if (input.foundAt("->", x_offset))
-                {
-                    curr_oper = ident::OPER_R_ARROW;
-                    oper_length = 2;
-                }
-                else if (input.foundAt("--", x_offset))
-                {
-                    curr_oper = ident::OPER_SUB1;
-                    oper_length = 2;
-                }
-                else if (input.foundAt("-=", x_offset))
-                {
-                    curr_oper = ident::OPER_SUB_ASSIGN;
-                    oper_length = 2;
-                }
-                else if (input.foundAt("-", x_offset))
-                {
-                    curr_oper = ident::OPER_SUB;
-                    oper_length = 1;
-                }
-                else if (input.foundAt("*=", x_offset))
-                {
-                    curr_oper = ident::OPER_MUL_ASSIGN;
-                    oper_length = 2;
-                }
-                else if (input.foundAt("*", x_offset))
-                {
-                    curr_oper = ident::OPER_MUL;
-                    oper_length = 1;
-                }
-                else if (input.foundAt("//=", x_offset))
-                {
-                    curr_oper = ident::OPER_IDIV_ASSIGN;
-                    oper_length = 3;
-                }
-                else if (input.foundAt("//", x_offset))
-                {
-                    curr_oper = ident::OPER_IDIV;
-                    oper_length = 2;
-                }
-                else if (input.foundAt("/=", x_offset))
-                {
-                    curr_oper = ident::OPER_DIV_ASSIGN;
-                    oper_length = 2;
-                }
-                else if (input.foundAt("/", x_offset))
-                {
-                    curr_oper = ident::OPER_DIV;
-                    oper_length = 1;
-                }
-                else if (input.foundAt("%=", x_offset))
-                {
-                    curr_oper = ident::OPER_MOD_ASSIGN;
-                    oper_length = 2;
-                }
-                else if (input.foundAt("%", x_offset))
-                {
-                    curr_oper = ident::OPER_MOD;
-                    oper_length = 1;
-                }
-                else if (input.foundAt("^", x_offset))
-                {
-                    curr_oper = ident::OPER_POW;
-                    oper_length = 1;
-                }
-                else if (input.foundAt("!", x_offset))
-                {
-                    curr_oper = ident::OPER_FAC;
-                    oper_length = 1;
-                }
-                else if (input.foundAt("~&", x_offset))
-                {
-                    curr_oper = ident::OPER_NAND_BITW;
-                    oper_length = 2;
-                }
-                else if (input.foundAt("~|", x_offset))
-                {
-                    curr_oper = ident::OPER_NOR_BITW;
-                    oper_length = 2;
-                }
-                else if (input.foundAt("~:", x_offset))
-                {
-                    curr_oper = ident::OPER_NXOR_BITW;
-                    oper_length = 2;
-                }
-                else if (input.foundAt("~", x_offset))
-                {
-                    curr_oper = ident::OPER_NOT_BITW;
-                    oper_length = 1;
-                }
-                else if (input.foundAt("&", x_offset))
-                {
-                    curr_oper = ident::OPER_AND_BITW;
-                    oper_length = 1;
-                }
-                else if (input.foundAt("|", x_offset))
-                {
-                    curr_oper = ident::OPER_OR_BITW;
-                    oper_length = 1;
-                }
-                else if (input.foundAt(":", x_offset))
-                {
-                    curr_oper = ident::OPER_XOR_BITW;
-                    oper_length = 1;
-                }
-                else
-                {
-                    found = false;
-                }*/
-
 #undef OPER
+#undef ARRAY
 
 #endif // LANG_OPERATORS_H_INCLUDED

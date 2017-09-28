@@ -47,8 +47,8 @@ void printIdents(const core::array< compiler::ident_t<char> >& idents)
 
 int main(int argc, char* argv[])
 {
-    core::array<compiler::keyword> keywords = genKeywords();
-    core::array<compiler::oper> operators = genOperators();
+    core::array<compiler::keyword>* keywords = genKeywords();
+    core::array<compiler::oper>* operators = genOperators();
 
     core::sortedRefArray< core::string<char>* > symbol_table;
     core::sortedRefArray< core::string<char>* > file_list;
@@ -65,8 +65,8 @@ int main(int argc, char* argv[])
 
 
     z::script::compiler::scanner<char> Scanner(&symbol_table,
-                                               &keywords,
-                                               &operators,
+                                               keywords,
+                                               operators,
                                                &file,
                                                &idents);
 
@@ -78,6 +78,9 @@ int main(int argc, char* argv[])
 
     printIdents(idents);
 
+
+    delete operators;
+    delete keywords;
 
     return 0;
 }

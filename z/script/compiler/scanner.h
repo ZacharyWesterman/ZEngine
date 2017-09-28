@@ -71,6 +71,8 @@ namespace script
             core::array< core::string<char> >* comment_rules;
             int open_comment;
 
+            CHAR open_string;
+
             //keep track of the current file
             core::string<CHAR>* file;
 
@@ -246,16 +248,18 @@ namespace script
                 if (!in_string && !in_comment)
                 {
                     //now in a string
-                    if (input->at(index) == (CHAR)'\"')
+                    if ((input->at(index) == (CHAR)'\"') ||
+                        (input->at(index) == (CHAR)'\''))
                     {
                         newIdent = ident::STRING_LITERAL;
                         in_string = true;
                         in_comment = false;
                         multiline_comment = false;
 
+                        open_string = input->at(index);
+
                         symbol_type_change();
                     }
-
                     else //check if we're in a comment
                     {
                         int i=0;
@@ -646,7 +650,7 @@ namespace script
         template <typename CHAR>
         void scanner<CHAR>::behav_in_string()
         {
-            if (input->at(index) == (CHAR)34)
+            if (input->at(index) == open_string)
             {
                 in_string = false;
                 index++;
@@ -672,11 +676,9 @@ namespace script
                 {
                     current_symbol += input->at(index);
 
-                    if (input->at(index) == (CHAR)92) //we have some unknown escape sequence
+                    //we have some unknown escape sequence
+                    if (input->at(index) == (CHAR)'\\')
                     {
-                        core::string<char> bad_esc_str = "\\";
-                        bad_esc_str += core::string<char>(input->at(index+1));
-
                         error_buffer.add(
                                 error("Unknown escape sequence",
                                       *file,

@@ -2193,7 +2193,7 @@
 
 1489353285 c:\users\zachary\documents\github\zengine\\z\script\errors.h
 
-1506622468 source:/home/zwesterman/GitHub/ZEngine/main.cpp
+1506624925 source:/home/zwesterman/GitHub/ZEngine/main.cpp
 	<iostream>
 	<z/core.h>
 	<z/math.h>
@@ -2201,6 +2201,7 @@
 	<z/script/compiler/scanner.h>
 	<z/script/compiler/lang.ZScript/lang.keywords.h>
 	<z/script/compiler/lang.ZScript/lang.operators.h>
+	<z/script/compiler/lang.ZScript/lang.comments.h>
 
 1505437128 /home/zwesterman/GitHub/zLibraries/z/core.h
 	"core/string.h"
@@ -2958,7 +2959,7 @@
 	"../generic.h"
 	"../error.h"
 
-1506623365 /home/zwesterman/GitHub/ZEngine//z/script/compiler/scanner.h
+1506626433 /home/zwesterman/GitHub/ZEngine//z/script/compiler/scanner.h
 	<limits>
 	<z/core/sortedArray.h>
 	<z/core/string.h>
@@ -3201,4 +3202,8 @@
 1506621861 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.operators.h
 	<z/core/sortedArray.h>
 	<z/script/compiler/operator.h>
+
+1506625137 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.comments.h
+	<z/core/string.h>
+	<z/core/array.h>
 

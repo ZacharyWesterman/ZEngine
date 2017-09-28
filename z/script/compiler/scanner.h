@@ -68,6 +68,9 @@ namespace script
             core::array<keyword>* keywords;
             core::array<oper>* operators;
 
+            core::array< core::string<char> >* comment_rules;
+            int open_comment;
+
             //keep track of the current file
             core::string<CHAR>* file;
 
@@ -78,12 +81,14 @@ namespace script
             scanner(core::sortedRefArray< core::string<CHAR>* >*,
                      core::array<keyword>*,
                      core::array<oper>*,
+                     core::array< core::string<char> >*,
                      core::string<CHAR>*,
                      core::array< ident_t<CHAR> >*);
 
             void set(core::sortedRefArray< core::string<CHAR>* >*,
                      core::array<keyword>*,
                      core::array<oper>*,
+                     core::array< core::string<char> >*,
                      core::string<CHAR>*,
                      core::array< ident_t<CHAR> >*);
 
@@ -134,6 +139,7 @@ namespace script
                                                             symbol_table,
                                core::array<keyword>* Keywords,
                                core::array<oper>* Operators,
+                               core::array< core::string<char> >* commentRules,
                                core::string<CHAR>* File,
                                core::array< ident_t<CHAR> >* Output)
         {
@@ -142,6 +148,7 @@ namespace script
             set(symbol_table,
                 Keywords,
                 Operators,
+                commentRules,
                 File,
                 Output);
         }
@@ -151,6 +158,7 @@ namespace script
                                                             symbol_table,
                                 core::array<keyword>* Keywords,
                                 core::array<oper>* Operators,
+                                core::array< core::string<char> >* commentRules,
                                 core::string<CHAR>* File,
                                 core::array< ident_t<CHAR> >* Output)
         {
@@ -159,6 +167,7 @@ namespace script
             operators = Operators;
             file = File;
             identifiers = Output;
+            comment_rules = commentRules;
 
             done = true;
         }
@@ -225,13 +234,13 @@ namespace script
                     behav_in_string();
 
 
-                if (in_comment &&
-                    input->foundAt("*/", index))
+                if (in_comment && multiline_comment &&
+                    input->foundAt(comment_rules[2][open_comment], index))
                 {
                     //end of multiple-line comment
                     in_comment = false;
                     multiline_comment = false;
-                    index+=2;
+                    index += comment_rules[2][open_comment].length();
                 }
 
                 if (!in_string && !in_comment)
@@ -246,27 +255,55 @@ namespace script
 
                         symbol_type_change();
                     }
-                    //now in a multiple-line comment
-                    else if (input->foundAt("/*", index))
+
+                    else //check if we're in a comment
                     {
-                        newIdent = ident::NONE;
-                        in_comment = true;
-                        in_string = false;
+                        int i=0;
+                        while((i < comment_rules[1].size()) &&
+                              !multiline_comment)
+                        {
+                            //now in a multiple-line comment
+                            if (input->foundAt(comment_rules[1][i], index))
+                            {
+                                open_comment = i;
+                                multiline_comment = true;
+                            }
 
-                        multiline_comment = true;
+                            i++;
+                        }
 
-                        symbol_type_change();
-                    }
-                    //now in a single-line comment
-                    else if (input->foundAt("//", index))
-                    {
-                        newIdent = ident::NONE;
-                        in_comment = true;
-                        in_string = false;
 
-                        multiline_comment = false;
+                        if (multiline_comment)
+                        {
+                            newIdent = ident::NONE;
+                            in_comment = true;
+                            in_string = false;
 
-                        symbol_type_change();
+                            symbol_type_change();
+                        }
+                        else
+                        {
+                            i=0;
+                            while((i < comment_rules[0].size()) &&
+                                  !in_comment)
+                            {
+                                //now in a single-line comment
+                                if (input->foundAt(comment_rules[0][i], index))
+                                {
+                                    in_comment = true;
+                                }
+
+                                i++;
+                            }
+
+                            if (in_comment)
+                            {
+                                newIdent = ident::NONE;
+                                in_string = false;
+
+                                symbol_type_change();
+                            }
+                        }
                     }
                 }
 

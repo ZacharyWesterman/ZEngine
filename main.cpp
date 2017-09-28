@@ -9,6 +9,7 @@
 
 #include <z/script/compiler/lang.ZScript/lang.keywords.h>
 #include <z/script/compiler/lang.ZScript/lang.operators.h>
+#include <z/script/compiler/lang.ZScript/lang.comments.h>
 
 
 //using namespace std;
@@ -49,6 +50,7 @@ int main(int argc, char* argv[])
 {
     core::array<compiler::keyword>* keywords = genKeywords();
     core::array<compiler::oper>* operators = genOperators();
+    core::array< core::string<char> >* comments = genCommentRules();
 
     core::sortedRefArray< core::string<char>* > symbol_table;
     core::sortedRefArray< core::string<char>* > file_list;
@@ -67,6 +69,7 @@ int main(int argc, char* argv[])
     z::script::compiler::scanner<char> Scanner(&symbol_table,
                                                keywords,
                                                operators,
+                                               comments,
                                                &file,
                                                &idents);
 
@@ -81,6 +84,7 @@ int main(int argc, char* argv[])
 
     delete operators;
     delete keywords;
+    delete[] comments;
 
     return 0;
 }

@@ -41,13 +41,14 @@
 		</Compiler>
 		<Unit filename="main.cpp" />
 		<Unit filename="z/script.h" />
-		<Unit filename="z/script/command_t.h" />
+		<Unit filename="z/script/command.h" />
 		<Unit filename="z/script/compiler.h" />
 		<Unit filename="z/script/compiler/constantFolder.h" />
 		<Unit filename="z/script/compiler/escapeSequences.h" />
 		<Unit filename="z/script/compiler/identity.h" />
 		<Unit filename="z/script/compiler/includeIterator.h" />
 		<Unit filename="z/script/compiler/keyword.h" />
+		<Unit filename="z/script/compiler/lang.ZScript/lang.comments.h" />
 		<Unit filename="z/script/compiler/lang.ZScript/lang.keywords.h" />
 		<Unit filename="z/script/compiler/lang.ZScript/lang.operators.h" />
 		<Unit filename="z/script/compiler/lexer.h" />
@@ -113,9 +114,9 @@
 		<Unit filename="z/script/compiler/syntaxRules/while_post_stmt.h" />
 		<Unit filename="z/script/compiler/syntaxRules/while_pre_stmt.h" />
 		<Unit filename="z/script/compiler/varScope.h" />
-		<Unit filename="z/script/data_t.h" />
 		<Unit filename="z/script/errors.h" />
-		<Unit filename="z/script/function_t.h" />
+		<Unit filename="z/script/function.h" />
+		<Unit filename="z/script/generic.h" />
 		<Extensions>
 			<code_completion />
 			<envvars />

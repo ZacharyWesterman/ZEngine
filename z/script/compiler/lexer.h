@@ -24,7 +24,7 @@
 
 #include "syntaxRule.h"
 
-#include "../error.h"
+#include <z/script/error.h>
 
 #include "phrase.h"
 
@@ -50,32 +50,6 @@ namespace script
             ",",";",".",
             "#str","#num", "#compl", "#const",
             "id",
-            "if","else",
-            "for","each","in","loop","while",
-            "goto","gosub","label","sub",
-            "run","stop","include",
-            "break","return",
-            "dim",
-            "wait","until",
-            "var","type",
-            "external","shared",
-            "=",
-            "+=","-=",
-            "*=","/=","//=","%=",
-            "++","--",
-            "sizeof",
-            "^","!",
-            "+","-",
-            "*","/","//","%",
-            "and","&",
-            "or","|",
-            "xor",":",
-            "nand","~&",
-            "nor","~|",
-            "nxor", "~:",
-            "==","<>",">",">=","<","<=",
-            "not","~",
-            "->", "<-",
             "unknown",
 
             "identifierlist",
@@ -149,17 +123,6 @@ namespace script
         }
 
 
-        template <typename CHAR>
-        void delete_ast(phrase_t<CHAR>* root)
-        {
-            for (int i=0; i<(root->children.size()); i++)
-            {
-                delete_ast(root->children[i]);
-            }
-
-            delete root;
-        }
-
 
         template <typename CHAR>
         class lexer
@@ -168,6 +131,9 @@ namespace script
             core::array< ident_t<CHAR> >* input_ident;
 
             core::array< phrase_t<CHAR>* > phrase_nodes;
+
+            core::array< syntaxRule<CHAR>* >* rules;
+            syntaxRule<CHAR>* program_rule;
 
             phrase_t<CHAR>* current_node;
 
@@ -181,89 +147,17 @@ namespace script
 
             core::dynamicStack<int> cleanup_stack;
 
-            ///error checking
-            bool error_check();
-
-            bool error_oper();
-            bool error_semicolon();
-            bool error_for();
-
-
-            ///phrase detection
-            bool identifierlist();
-            bool _command();
-
-            bool statementlist();
-            bool statement();
-            bool if_statement();
-            bool for_statement();
-            bool foreach_statement();
-            bool loop_statement();
-            bool while_pre_stmt();
-            bool while_post_stmt();
-            bool run_statement();
-            bool stop_statement();
-            bool return_statement();
-            bool wait_statement();
-            bool until_statement();
-            bool label_statement();
-            bool goto_statement();
-            bool gosub_statement();
-
-            bool subroutine_decl();
-
-            bool variable_decl();
-            bool typevar_decl();
-
-            bool _range();
-            bool _index();
-            bool indexlist();
-
-            bool exprlist();
-            bool _list();
-
-            bool funccall();
-            bool type_funccall();
-
-            bool varindex();
-            bool typevar();
-            bool variable();
-            bool operand();
-
-            bool parenthexpr();
-            bool factorialexpr();
-            bool add1expr();
-            bool negatexpr();
-            bool powerexpr();
-            bool multiplyexpr();
-            bool addexpr();
-            bool boolexpr();
-            bool assignexpr();
-            bool dimensionexpr();
-            bool sizeofexpr();
-            bool expression();
-
-            bool externaldecl();
-            bool shareddecl();
-
-            bool formalvardecl();
-            bool formaltypedecl();
-            bool formaldecllist();
-            bool func_prototype();
-            bool function_decl();
-
-            bool int_decllist();
-            bool typedecl();
-
-            bool program();
-
 
 
         public:
             core::array< error > error_buffer;
 
-            lexer()
+            lexer(core::array< syntaxRule<CHAR>* >* Rules,
+                  syntaxRule<CHAR>* programRule)
             {
+                rules = Rules;
+                program_rule = programRule;
+
                 input_ident = NULL;
                 progress = lex::NONE;
 
@@ -278,15 +172,15 @@ namespace script
             ~lexer()
             {
                 for (int i=0; i<phrase_nodes.size(); i++)
-                    delete_ast(phrase_nodes[i]);
+                    deleteNode(phrase_nodes[i]);
             }
 
-            void setInput(core::array< ident_t<CHAR> >& identifiers)
+            void linkInput(core::array< ident_t<CHAR> >* identifiers)
             {
-                input_ident = &identifiers;
+                input_ident = identifiers;
 
                 for (int i=0; i<phrase_nodes.size(); i++)
-                    delete_ast(phrase_nodes[i]);
+                    deleteNode(phrase_nodes[i]);
                 phrase_nodes.clear();
 
                 progress = lex::NONE;
@@ -300,7 +194,7 @@ namespace script
             }
 
 
-            bool lex(const core::timeout&);
+            bool lex(const core::timeout& time = -1);
 
             inline bool good() {return error_buffer.size() == 0;}
             inline bool bad() {return error_buffer.size() != 0;}
@@ -363,68 +257,21 @@ namespace script
                         index = 0;
                         did_concat = false;
                     }
-                    else if (formalvardecl()    ||
-                             formaltypedecl()   ||
-                             formaldecllist()   ||
-                             func_prototype()   ||
-                             function_decl()    ||
-                             int_decllist()     ||
-                             typedecl()         ||
-
-                             externaldecl()     ||
-                             shareddecl()       ||
-
-                             identifierlist()   ||
-                             _command()         ||
-
-                             if_statement()     ||
-                             statementlist()    ||
-                             for_statement()    ||
-                             foreach_statement()||
-                             loop_statement()   ||
-                             while_pre_stmt()   ||
-                             while_post_stmt()  ||
-                             label_statement()  ||
-                             goto_statement()   ||
-                             gosub_statement()  ||
-                             run_statement()    ||
-                             stop_statement()   ||
-                             return_statement() ||
-                             wait_statement()   ||
-                             until_statement()  ||
-
-                             subroutine_decl()  ||
-                             variable_decl()    ||
-                             typevar_decl()     ||
-                             _range()           ||
-                             _index()           ||
-                             indexlist()        ||
-                             exprlist()         ||
-                             _list()            ||
-                             funccall()         ||
-                             type_funccall()    ||
-
-                             varindex()         ||
-                             typevar()          ||
-                             variable()         ||
-                             operand()          ||
-
-                             parenthexpr()      ||
-                             factorialexpr()    ||
-                             add1expr()         ||
-                             negatexpr()        ||
-                             powerexpr()        ||
-                             multiplyexpr()     ||
-                             addexpr()          ||
-                             boolexpr()         ||
-                             assignexpr()       ||
-                             dimensionexpr()    ||
-                             sizeofexpr()       ||
-
-                             statement()
-                             )
-                        did_concat = true;
                     else
+                    {
+                        int i = 0;
+
+                        while ((i < rules->size()) &&
+                               !(rules->at(i)->apply(&phrase_nodes, index)))
+                        {
+                            i++;
+                        }
+
+                        if (i < rules->size())
+                            did_concat = true;
+                    }
+
+                    if (!did_concat)
                     {
                         if (phrase_nodes[index]->type == ident::LBRACE)
                             scope++;
@@ -448,7 +295,7 @@ namespace script
                         index = 0;
                         did_concat = false;
                     }
-                    else if (program())
+                    else if (program_rule->apply(&phrase_nodes, index))
                         did_concat = true;
                     else
                         index++;
@@ -494,7 +341,7 @@ namespace script
                                 else
                                 {
                                     index = 0;
-                                    progress = lex::ERROR_CHECK;
+                                    progress = lex::DONE;//ERROR_CHECK;
                                 }
                             }
                         }
@@ -550,6 +397,8 @@ namespace script
                         print_lex_ast(0, phrase_nodes[n]);
                     }
                 }
+                else if (phrase_nodes.size())
+                    print_lex_ast(0, phrase_nodes[0]);
             }
 
             return (progress == lex::DONE);
@@ -596,7 +445,7 @@ namespace script
 }
 }
 
-
+/*
 #include "syntaxRules/identifierlist.h"
 #include "syntaxRules/command.h"
 #include "syntaxRules/statement.h"
@@ -649,7 +498,7 @@ namespace script
 #include "syntaxRules/int_decllist.h"
 #include "syntaxRules/typedecl.h"
 #include "syntaxRules/program.h"
-#include "syntaxRules/stop_statement.h"
+#include "syntaxRules/stop_statement.h"*/
 
 
 //#include "syntaxErrors/error_oper.h"

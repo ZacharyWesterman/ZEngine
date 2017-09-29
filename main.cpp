@@ -5,11 +5,12 @@
 #include <z/math.h>
 #include <z/file/reader.h>
 
-#include <z/script/compiler/scanner.h>
+#include <z/script/compiler.h>
 
 #include <z/script/compiler/lang.ZScript/lang.keywords.h>
 #include <z/script/compiler/lang.ZScript/lang.operators.h>
 #include <z/script/compiler/lang.ZScript/lang.comments.h>
+#include <z/script/compiler/lang.ZScript/lang.syntax.h>
 
 
 //using namespace std;
@@ -23,7 +24,7 @@ using std::endl;
 
 ///debug
 
-void printErrors(const core::array< error >& error_buffer)
+void printErrors(const core::array< script::error >& error_buffer)
 {
     for (int e=0; e<error_buffer.size(); e++)
     {
@@ -37,11 +38,13 @@ void printIdents(const core::array< compiler::ident_t<char> >& idents)
 {
     for (int i=0; i<idents.size(); i++)
     {
-        cout << "Tp=" << idents[i].type;
-        if (idents[i].meta)
+        cout << compiler::symTypeStr[idents[i].type];
+        /*if (idents[i].meta)
             cout << " Mt=" << idents[i].metaValue << endl;
         else
-            cout << " Va=" << idents[i].value.string().str() << endl;
+            cout << " Va=" << idents[i].value.string().str() << endl;*/
+
+
     }
 }
 
@@ -79,12 +82,34 @@ int main(int argc, char* argv[])
 
     printErrors(Scanner.error_buffer);
 
-    printIdents(idents);
+    //printIdents(idents);
+
+
+    core::array< compiler::syntaxRule<char>* >* syntax;
+    syntax = genSyntaxRulesC();
+
+    compiler::syntaxRule<char>* program;
+    program = genProgramRuleC();
+
+    z::script::compiler::lexer<char> Lexer(syntax, program);
+    Lexer.linkInput(&idents);
+
+    Lexer.lex();
+
+    //compiler::phrase_t<char>* AST = Lexer.moveResultAST();
+
+
 
 
     delete operators;
     delete keywords;
     delete[] comments;
+    for (int i=0; i<syntax->size(); i++)
+        delete syntax->at(i);
+    delete syntax;
+    delete program;
+
+    //compiler::deleteNode(AST);
 
     return 0;
 }

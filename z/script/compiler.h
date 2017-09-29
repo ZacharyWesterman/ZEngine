@@ -10,14 +10,12 @@
 #define COMPILER_H_INCLUDED
 
 ///Scanner
-#include "compiler/escapeSequences.h"
-#include "compiler/identity.h"
 #include "compiler/scanner.h"
 
 ///Lexical analyzer
-#include "compiler/phrase.h"
 #include "compiler/lexer.h"
 
+/*
 ///Constant folder
 #include "compiler/constantFolder.h"
 
@@ -26,6 +24,6 @@
 #include "compiler/semanticAnalyzer.h"
 
 ///Compiler precursor
-#include "compiler/includeIterator.h"
+#include "compiler/includeIterator.h"*/
 
 #endif // COMPILER_H_INCLUDED

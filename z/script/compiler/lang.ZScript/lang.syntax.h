@@ -8,78 +8,78 @@
 
 enum SYNTAX
 {
-            IDENTIFIERLIST = z::script::compiler::ident::ID_COUNT,
-            COMMAND,
+    IDENTIFIERLIST = z::script::compiler::ident::ID_COUNT,
+    COMMAND,
 
-            STATEMENTLIST,
-            STATEMENT,
-            IF_STATEMENT,
-            FOR_STATEMENT,
-            FOREACH_STATEMENT,
-            LOOP_STATEMENT,
-            WHILE_PRE_STMT,
-            WHILE_POST_STMT,
-            RUN_STATEMENT,
-            STOP_STATEMENT,
-            RETURN_STATEMENT,
-            WAIT_STATEMENT,
-            UNTIL_STATEMENT,
-            LABEL_STATEMENT,
-            GOTO_STATEMENT,
-            GOSUB_STATEMENT,
+    STATEMENTLIST,
+    STATEMENT,
+    IF_STATEMENT,
+    FOR_STATEMENT,
+    FOREACH_STATEMENT,
+    LOOP_STATEMENT,
+    WHILE_PRE_STMT,
+    WHILE_POST_STMT,
+    RUN_STATEMENT,
+    STOP_STATEMENT,
+    RETURN_STATEMENT,
+    WAIT_STATEMENT,
+    UNTIL_STATEMENT,
+    LABEL_STATEMENT,
+    GOTO_STATEMENT,
+    GOSUB_STATEMENT,
 
-            SUBROUTINE_DECL,
+    SUBROUTINE_DECL,
 
-            VARIABLE_DECL,
-            TYPEVAR_DECL,
+    VARIABLE_DECL,
+    TYPEVAR_DECL,
 
-            INT_DECLLIST,
-            TYPEDECL,
+    INT_DECLLIST,
+    TYPEDECL,
 
-            EXTERNALDECL,
-            SHAREDDECL,
+    EXTERNALDECL,
+    SHAREDDECL,
 
-            FUNC_PROTOTYPE,
-            FUNCTION_DECL,
+    FUNC_PROTOTYPE,
+    FUNCTION_DECL,
 
-            RANGE,
-            RANGELIST,
-            INDEX,
-            INDEXLIST,
+    RANGE,
+    RANGELIST,
+    INDEX,
+    INDEXLIST,
 
-            EXPRLIST,
-            LIST,
+    EXPRLIST,
+    LIST,
 
-            FUNCCALL,
-            TYPE_FUNCCALL,
+    FUNCCALL,
+    TYPE_FUNCCALL,
 
-            VARINDEX,
-            TYPEVAR,
-            VARIABLE,
-            OPERAND,
+    VARINDEX,
+    TYPEVAR,
+    VARIABLE,
+    OPERAND,
 
-            PARENTHEXPR,
-            FACTORIALEXPR,
-            ADD1EXPR,
-            NEGATEXPR,
-            POWEREXPR,
-            MULTIPLYEXPR,
-            ADDEXPR,
-            BOOLEXPR,
-            ASSIGNEXPR,
-            DIMENSIONEXPR,
-            SIZEOFEXPR,
+    PARENTHEXPR,
+    FACTORIALEXPR,
+    ADD1EXPR,
+    NEGATEXPR,
+    POWEREXPR,
+    MULTIPLYEXPR,
+    ADDEXPR,
+    BOOLEXPR,
+    ASSIGNEXPR,
+    DIMENSIONEXPR,
+    SIZEOFEXPR,
 
-            FORMALVARDECL,
-            FORMALTYPEDECL,
-            FORMALDECLLIST,
+    FORMALVARDECL,
+    FORMALTYPEDECL,
+    FORMALDECLLIST,
 
-            PROGRAM,
+    PROGRAM,
 
-            FUNCCALL_BUILTIN,
+    FUNCCALL_BUILTIN,
 
-            LX_COUNT
-        };
+    LX_COUNT
+};
 
 #include "lang.syntax/program.h"
 
@@ -100,10 +100,7 @@ ARRAY_C* genSyntaxRulesC()
 
 SYN_RULE_C* genProgramRuleC()
 {
-    SYN_RULE_C* Program;
-    Program = new z::script::compiler::program<char>;
-
-    return Program;
+    return new z::script::compiler::program<char>;
 }
 
 

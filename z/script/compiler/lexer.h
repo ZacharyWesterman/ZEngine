@@ -50,6 +50,8 @@ namespace script
             ",",";",".",
             "#str","#num", "#compl", "#const",
             "id",
+            "keyword",
+            "operator",
             "unknown",
 
             "identifierlist",
@@ -390,7 +392,7 @@ namespace script
             {
                 if (phrase_nodes.size() > 1)
                 {
-                    error_buffer.add(error("Syntax error"));
+                    error_buffer.add(error("Syntax error",-1,-1));
 
                     for (int n=0; n<phrase_nodes.size(); n++)
                     {
@@ -399,6 +401,8 @@ namespace script
                 }
                 else if (phrase_nodes.size())
                     print_lex_ast(0, phrase_nodes[0]);
+                else
+                    std::cout << "<<<NULL>>>\n";
             }
 
             return (progress == lex::DONE);
@@ -411,6 +415,8 @@ namespace script
         {
             if (node)
             {
+                std::cout << ":";
+
                 for (int i=0; i<level; i++)
                     std::cout << "    ";
 

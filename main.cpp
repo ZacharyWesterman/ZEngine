@@ -5,12 +5,14 @@
 #include <z/math.h>
 #include <z/file/reader.h>
 
-#include <z/script/compiler.h>
-
 #include <z/script/compiler/lang.ZScript/lang.keywords.h>
 #include <z/script/compiler/lang.ZScript/lang.operators.h>
 #include <z/script/compiler/lang.ZScript/lang.comments.h>
 #include <z/script/compiler/lang.ZScript/lang.syntax.h>
+
+#include <z/script/compiler.h>
+
+
 
 
 //using namespace std;
@@ -94,10 +96,12 @@ int main(int argc, char* argv[])
     z::script::compiler::lexer<char> Lexer(syntax, program);
     Lexer.linkInput(&idents);
 
+    //cout << program << endl;
+
     Lexer.lex();
 
     //compiler::phrase_t<char>* AST = Lexer.moveResultAST();
-
+    printErrors(Lexer.error_buffer);
 
 
 

@@ -2193,16 +2193,16 @@
 
 1489353285 c:\users\zachary\documents\github\zengine\\z\script\errors.h
 
-1506648591 source:/home/zwesterman/GitHub/ZEngine/main.cpp
+1506889681 source:/home/zwesterman/GitHub/ZEngine/main.cpp
 	<iostream>
 	<z/core.h>
 	<z/math.h>
 	<z/file/reader.h>
-	<z/script/compiler.h>
 	<z/script/compiler/lang.ZScript/lang.keywords.h>
 	<z/script/compiler/lang.ZScript/lang.operators.h>
 	<z/script/compiler/lang.ZScript/lang.comments.h>
 	<z/script/compiler/lang.ZScript/lang.syntax.h>
+	<z/script/compiler.h>
 
 1505437128 /home/zwesterman/GitHub/zLibraries/z/core.h
 	"core/string.h"
@@ -2973,7 +2973,7 @@
 	<z/core/array.h>
 	"identity.h"
 
-1506650217 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lexer.h
+1506890231 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lexer.h
 	<z/core/timeout.h>
 	<z/core/array.h>
 	<z/core/dynamicStack.h>
@@ -3206,11 +3206,11 @@
 
 1506646967 /home/zwesterman/GitHub/ZEngine//z/script/compiler/identEnum.h
 
-1506650162 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax.h
+1506890565 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax.h
 	<z/core/array.h>
 	<z/script/compiler/syntaxRule.h>
 	"lang.syntax/program.h"
 
-1506650292 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/program.h
+1506890416 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/program.h
 	<z/script/compiler/syntaxRule.h>
 

@@ -2217,7 +2217,7 @@
 	"core/pause.h"
 	"core/charFunctions.h"
 
-1506558737 /home/zwesterman/GitHub/zLibraries/z/core/string.h
+1507239151 /home/zwesterman/GitHub/zLibraries/z/core/string.h
 	<type_traits>
 	<complex>
 	<z/float.h>
@@ -2920,7 +2920,7 @@
 1506557762 /home/zwesterman/GitHub/ZEngine//z/script/error.h
 	<z/core/string.h>
 
-1506560957 /home/zwesterman/GitHub/ZEngine//z/script/generic.h
+1507246254 /home/zwesterman/GitHub/ZEngine//z/script/generic.h
 	<z/float.h>
 	<z/core/string.h>
 	<z/core/array.h>

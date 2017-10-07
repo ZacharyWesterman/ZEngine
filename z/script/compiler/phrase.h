@@ -26,82 +26,6 @@ namespace script
 {
     namespace compiler
     {
-        enum phrase
-        {
-            IDENTIFIERLIST = ident::ID_COUNT,
-            COMMAND,
-
-            STATEMENTLIST,
-            STATEMENT,
-            IF_STATEMENT,
-            FOR_STATEMENT,
-            FOREACH_STATEMENT,
-            LOOP_STATEMENT,
-            WHILE_PRE_STMT,
-            WHILE_POST_STMT,
-            RUN_STATEMENT,
-            STOP_STATEMENT,
-            RETURN_STATEMENT,
-            WAIT_STATEMENT,
-            UNTIL_STATEMENT,
-            LABEL_STATEMENT,
-            GOTO_STATEMENT,
-            GOSUB_STATEMENT,
-
-            SUBROUTINE_DECL,
-
-            VARIABLE_DECL,
-            TYPEVAR_DECL,
-
-            INT_DECLLIST,
-            TYPEDECL,
-
-            EXTERNALDECL,
-            SHAREDDECL,
-
-            FUNC_PROTOTYPE,
-            FUNCTION_DECL,
-
-            RANGE,
-            RANGELIST,
-            INDEX,
-            INDEXLIST,
-
-            EXPRLIST,
-            LIST,
-
-            FUNCCALL,
-            TYPE_FUNCCALL,
-
-            VARINDEX,
-            TYPEVAR,
-            VARIABLE,
-            OPERAND,
-
-            PARENTHEXPR,
-            FACTORIALEXPR,
-            ADD1EXPR,
-            NEGATEXPR,
-            POWEREXPR,
-            MULTIPLYEXPR,
-            ADDEXPR,
-            BOOLEXPR,
-            ASSIGNEXPR,
-            DIMENSIONEXPR,
-            SIZEOFEXPR,
-
-            FORMALVARDECL,
-            FORMALTYPEDECL,
-            FORMALDECLLIST,
-
-            PROGRAM,
-
-            FUNCCALL_BUILTIN,
-
-            LX_COUNT
-        };
-
-
 
         template <typename CHAR>
         class phrase_t
@@ -151,7 +75,7 @@ namespace script
             //constructor from ident_t
             phrase_t(const ident_t<CHAR>& token)
             {
-                type = phrase(token.type);
+                type = token.type;
                 orig_type = ident::NONE;
 
                 line = token.line;

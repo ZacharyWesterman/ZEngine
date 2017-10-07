@@ -29,7 +29,8 @@ namespace script
             enum SEQUENCE
             {
                 NONE = 0,
-                QUOTE,
+                SNG_QUOTE,
+                DBL_QUOTE,
                 NEWLINE,
                 TAB,
                 BACKSLASH,
@@ -41,7 +42,8 @@ namespace script
             static const core::string<char> SEQ_NAMES[] =
             {
                 "",//NONE
-                "\\\"",//QUOTE (\")
+                "\\\'",//SNG_QUOTE (\')
+                "\\\"",//DBL_QUOTE (\")
                 "\\n",//NEWLINE (\n)
                 "\\t",//TAB (\t)
                 "\\\\",//BACKSLASH (\)
@@ -51,7 +53,8 @@ namespace script
             static const core::string<char> SEQ_EQUIV[] =
             {
                 "",//NONE
-                "\"",//QUOTE (\")
+                "\'",//SNG_QUOTE (\')
+                "\"",//DBL_QUOTE (\")
                 "\r\n",//NEWLINE (\n)
                 "\t",//TAB (\t)
                 "\\",//BACKSLASH (\)

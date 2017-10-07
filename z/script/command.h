@@ -74,7 +74,7 @@ namespace z
             {
                 params.add(next_param);
 
-                return error::NONE;
+                return error();
             }
 
             //call this script function (with timeout).
@@ -125,14 +125,14 @@ namespace z
             errorFlag paramCountError() const
             {
                 if (params_max < 0)
-                    return error::NONE;
+                    return error();
 
                 if (params.size() > params_max)
-                    return error::TOO_MANY_PARAMS;
+                    return error("Too many parameters");
                 else if (params.size() < params_min)
-                    return error::TOO_FEW_PARAMS;
+                    return error("Too few parameters");
                 else
-                    return error::NONE;
+                    return error();
             }
 
 

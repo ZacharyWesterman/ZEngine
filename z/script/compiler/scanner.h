@@ -27,6 +27,8 @@
 
 #include "escapeSequences.h"
 #include "identity.h"
+#include "keyword.h"
+#include "operator.h"
 
 namespace z
 {
@@ -63,22 +65,42 @@ namespace script
 
             core::sortedRefArray< core::string<CHAR>* >* sym_table;
 
-        public:
+            core::array<keyword>* keywords;
+            core::array<oper>* operators;
+
+            core::array< core::string<char> >* comment_rules;
+            int open_comment;
+
+            CHAR open_string;
+
             //keep track of the current file
             core::string<CHAR>* file;
 
-            core::array< parserError<CHAR> > error_buffer;
+        public:
+            core::array< error > error_buffer;
 
 
-            scanner(core::sortedRefArray< core::string<CHAR>* >*);
+            scanner(core::sortedRefArray< core::string<CHAR>* >*,
+                     core::array<keyword>*,
+                     core::array<oper>*,
+                     core::array< core::string<char> >*,
+                     core::string<CHAR>*,
+                     core::array< ident_t<CHAR> >*);
 
-            inline void setInput(core::string<CHAR>&);
-            inline void setOutput(core::array< ident_t<CHAR> >&);
+            void set(core::sortedRefArray< core::string<CHAR>* >*,
+                     core::array<keyword>*,
+                     core::array<oper>*,
+                     core::array< core::string<char> >*,
+                     core::string<CHAR>*,
+                     core::array< ident_t<CHAR> >*);
 
-            bool scan(const core::timeout&);
+            inline void linkInput(core::string<CHAR>*);
+
+            bool scan(const core::timeout& time = -1);
 
             void clear();
-            inline bool error();
+            inline bool good();
+            inline bool bad();
 
         private:
             bool list_opers(core::string<CHAR>&);
@@ -115,27 +137,49 @@ namespace script
 
         template <typename CHAR>
         //constructor allows operators, commands, and functions be set
-        scanner<CHAR>::scanner(core::sortedRefArray<
-                               core::string<CHAR>* >* symbol_table)
+        scanner<CHAR>::scanner(core::sortedRefArray<core::string<CHAR>* >*
+                                                            symbol_table,
+                               core::array<keyword>* Keywords,
+                               core::array<oper>* Operators,
+                               core::array< core::string<char> >* commentRules,
+                               core::string<CHAR>* File,
+                               core::array< ident_t<CHAR> >* Output)
         {
-            input = NULL;
-            identifiers = NULL;
+            clear();
 
+            set(symbol_table,
+                Keywords,
+                Operators,
+                commentRules,
+                File,
+                Output);
+        }
+
+        template <typename CHAR>
+        void scanner<CHAR>::set(core::sortedRefArray<core::string<CHAR>* >*
+                                                            symbol_table,
+                                core::array<keyword>* Keywords,
+                                core::array<oper>* Operators,
+                                core::array< core::string<char> >* commentRules,
+                                core::string<CHAR>* File,
+                                core::array< ident_t<CHAR> >* Output)
+        {
             sym_table = symbol_table;
+            keywords = Keywords;
+            operators = Operators;
+            file = File;
+            identifiers = Output;
+            comment_rules = commentRules;
+
+            done = true;
+        }
+
+        template <typename CHAR>
+        inline void scanner<CHAR>::linkInput(core::string<CHAR>* string_input)
+        {
+            input = string_input;
 
             clear();
-        }
-
-        template <typename CHAR>
-        inline void scanner<CHAR>::setInput(core::string<CHAR>& string_input)
-        {
-            input = &string_input;
-        }
-
-        template <typename CHAR>
-        inline void scanner<CHAR>::setOutput(core::array< ident_t<CHAR> >& ident_output)
-        {
-            identifiers = &ident_output;
         }
 
         template <typename CHAR>
@@ -160,16 +204,19 @@ namespace script
 
             error_buffer.clear();
             done = false;
-
-            file = NULL;
         }
 
         template <typename CHAR>
-        inline bool scanner<CHAR>::error()
+        inline bool scanner<CHAR>::good()
         {
-            return error_buffer.size() > 0;
+            return error_buffer.size() == 0;
         }
 
+        template <typename CHAR>
+        inline bool scanner<CHAR>::bad()
+        {
+            return error_buffer.size() != 0;
+        }
 
 
         //function to scan for and separate input into separate tokens.
@@ -189,48 +236,78 @@ namespace script
                     behav_in_string();
 
 
-                if (in_comment &&
-                    input->foundAt("*/", index))
+                if (in_comment && multiline_comment &&
+                    input->foundAt(comment_rules[2][open_comment], index))
                 {
                     //end of multiple-line comment
                     in_comment = false;
                     multiline_comment = false;
-                    index+=2;
+                    index += comment_rules[2][open_comment].length();
                 }
 
                 if (!in_string && !in_comment)
                 {
                     //now in a string
-                    if (input->at(index) == (CHAR)'\"')
+                    if ((input->at(index) == (CHAR)'\"') ||
+                        (input->at(index) == (CHAR)'\''))
                     {
                         newIdent = ident::STRING_LITERAL;
                         in_string = true;
                         in_comment = false;
                         multiline_comment = false;
 
-                        symbol_type_change();
-                    }
-                    //now in a multiple-line comment
-                    else if (input->foundAt("/*", index))
-                    {
-                        newIdent = ident::NONE;
-                        in_comment = true;
-                        in_string = false;
-
-                        multiline_comment = true;
+                        open_string = input->at(index);
 
                         symbol_type_change();
                     }
-                    //now in a single-line comment
-                    else if (input->foundAt("//", index))
+                    else //check if we're in a comment
                     {
-                        newIdent = ident::NONE;
-                        in_comment = true;
-                        in_string = false;
+                        int i=0;
+                        while((i < comment_rules[1].size()) &&
+                              !multiline_comment)
+                        {
+                            //now in a multiple-line comment
+                            if (input->foundAt(comment_rules[1][i], index))
+                            {
+                                open_comment = i;
+                                multiline_comment = true;
+                            }
 
-                        multiline_comment = false;
+                            i++;
+                        }
 
-                        symbol_type_change();
+
+                        if (multiline_comment)
+                        {
+                            newIdent = ident::NONE;
+                            in_comment = true;
+                            in_string = false;
+
+                            symbol_type_change();
+                        }
+                        else
+                        {
+                            i=0;
+                            while((i < comment_rules[0].size()) &&
+                                  !in_comment)
+                            {
+                                //now in a single-line comment
+                                if (input->foundAt(comment_rules[0][i], index))
+                                {
+                                    in_comment = true;
+                                }
+
+                                i++;
+                            }
+
+                            if (in_comment)
+                            {
+                                newIdent = ident::NONE;
+                                in_string = false;
+
+                                symbol_type_change();
+                            }
+                        }
                     }
                 }
 
@@ -243,14 +320,6 @@ namespace script
                         newIdent = ident::NONE;
                         indent++;
                     }
-                    //allow 'E-' symbols if in a number
-                    /*else if ((newIdent == ident::NUMERIC_LITERAL) &&
-                             input->foundAt("E-", index))
-                    {
-                        current_symbol += input->at(index);
-                        index++;
-                        //exponent
-                    }*/
                     //generic identifiers
                     else if (core::isAlphanumeric(input->at(index)) ||
                              (input->at(index) == (CHAR)'_'))
@@ -337,24 +406,24 @@ namespace script
             {
                 if (op_sym.type == ident::LPARENTH)
                 {
-                    error_buffer.add(parserError<CHAR>(op_sym.line,
-                                                    op_sym.column,
-                                                    error::MISSING_R_PARENTH,
-                                                    file));
+                    error_buffer.add(error("Missing close parentheses",
+                                       *file,
+                                       op_sym.line,
+                                       op_sym.column));
                 }
                 else if (op_sym.type == ident::LBRACKET)
                 {
-                    error_buffer.add(parserError<CHAR>(op_sym.line,
-                                                    op_sym.column,
-                                                    error::MISSING_R_BRACKET,
-                                                    file));
+                    error_buffer.add(error("Missing close square bracket",
+                                       *file,
+                                       op_sym.line,
+                                       op_sym.column));
                 }
                 else if (op_sym.type == ident::LBRACE)
                 {
-                    error_buffer.add(parserError<CHAR>(op_sym.line,
-                                                    op_sym.column,
-                                                    error::MISSING_R_BRACE,
-                                                    file));
+                    error_buffer.add(error("Missing close curly brace",
+                                       *file,
+                                       op_sym.line,
+                                       op_sym.column));
                 }
             }
         }
@@ -402,6 +471,8 @@ namespace script
 
             current_ident.meta = NULL;
             current_ident.file = file;
+
+            current_ident.value = generic<CHAR>();
         }
 
         template <typename CHAR>
@@ -478,20 +549,23 @@ namespace script
             ident_t<CHAR> op_sym;
             if (!open_symbol_indices.pop(op_sym))
             {
-                error_buffer.add(parserError<CHAR>(line, column,
-                                            error::MISSING_L_PARENTH, file));
+                error_buffer.add(error("Missing open parentheses",
+                                       *file,
+                                       line, column));
             }
             else if (op_sym.type == ident::LBRACKET)
             {
-                error_buffer.add(parserError<CHAR>(op_sym.line,
-                                            op_sym.column,
-                                            error::MISSING_R_BRACKET, file));
+                error_buffer.add(error("Missing close square bracket",
+                                       *file,
+                                       op_sym.line,
+                                       op_sym.column));
             }
             else if (op_sym.type == ident::LBRACE)
             {
-                error_buffer.add(parserError<CHAR>(op_sym.line,
-                                            op_sym.column,
-                                            error::MISSING_R_BRACE, file));
+                error_buffer.add(error("Missing close curly brace",
+                                       *file,
+                                       op_sym.line,
+                                       op_sym.column));
             }
         }
 
@@ -513,20 +587,23 @@ namespace script
             ident_t<CHAR> op_sym;
             if (!open_symbol_indices.pop(op_sym))
             {
-                error_buffer.add(parserError<CHAR>(line, column,
-                                            error::MISSING_L_BRACKET, file));
+                error_buffer.add(error("Missing open square bracket",
+                                        *file,
+                                        line, column));
             }
             else if (op_sym.type == ident::LPARENTH)
             {
-                error_buffer.add(parserError<CHAR>(op_sym.line,
-                                            op_sym.column,
-                                            error::MISSING_R_PARENTH, file));
+                error_buffer.add(error("Missing close parentheses",
+                                       *file,
+                                       op_sym.line,
+                                       op_sym.column));
             }
             else if (op_sym.type == ident::LBRACE)
             {
-                error_buffer.add(parserError<CHAR>(op_sym.line,
-                                                op_sym.column,
-                                                error::MISSING_R_BRACE, file));
+                error_buffer.add(error("Missing close curly brace",
+                                       *file,
+                                       op_sym.line,
+                                       op_sym.column));
             }
         }
 
@@ -548,20 +625,24 @@ namespace script
             ident_t<CHAR> op_sym;
             if (!open_symbol_indices.pop(op_sym))
             {
-                error_buffer.add(parserError<CHAR>(line, column,
-                                                error::MISSING_L_BRACE, file));
+                error_buffer.add(error("Missing open curly brace",
+                                       *file,
+                                       line,
+                                       column));
             }
             else if (op_sym.type == ident::LBRACKET)
             {
-                error_buffer.add(parserError<CHAR>(op_sym.line,
-                                                op_sym.column,
-                                                error::MISSING_R_BRACKET, file));
+                error_buffer.add(error("Missing close square bracket",
+                                 *file,
+                                 op_sym.line,
+                                 op_sym.column));
             }
             else if (op_sym.type == ident::LPARENTH)
             {
-                error_buffer.add(parserError<CHAR>(op_sym.line,
-                                                op_sym.column,
-                                                error::MISSING_R_PARENTH, file));
+                error_buffer.add(error("Missing close parentheses",
+                                 *file,
+                                 op_sym.line,
+                                 op_sym.column));
             }
         }
 
@@ -569,7 +650,7 @@ namespace script
         template <typename CHAR>
         void scanner<CHAR>::behav_in_string()
         {
-            if (input->at(index) == (CHAR)34)
+            if (input->at(index) == open_string)
             {
                 in_string = false;
                 index++;
@@ -595,16 +676,14 @@ namespace script
                 {
                     current_symbol += input->at(index);
 
-                    if (input->at(index) == (CHAR)92) //we have some unknown escape sequence
+                    //we have some unknown escape sequence
+                    if (input->at(index) == (CHAR)'\\')
                     {
-                        core::string<CHAR> bad_esc_str = (CHAR)92;
-                        bad_esc_str += input->at(index+1);
-
                         error_buffer.add(
-                                parserError<CHAR>(current_ident.line,
-                                                current_ident.column,
-                                                error::UNKNOWN_ESCAPE_SEQUENCE,
-                                                bad_esc_str, file));
+                                error("Unknown escape sequence",
+                                      *file,
+                                      current_ident.line,
+                                      current_ident.column));
                     }
                 }
             }
@@ -617,211 +696,67 @@ namespace script
         template <typename CHAR>
         bool scanner<CHAR>::list_opers(core::string<CHAR>& input)
         {
-            errorFlag oper_error = error::NONE;
+            bool oper_error = false;
 
             core::array< ident_t<CHAR> > temp_opers;
-
-
-            ident curr_oper;
 
             int x_offset = 0;
 
 
             while ((x_offset < input.length()) && !oper_error)
             {
-                bool found = true;
-                int oper_length;
+                int start = x_offset;
+                int stop = start;
 
-                if (input.foundAt("==", x_offset))
+                oper find_oper (input.substr(start, stop), 0);
+
+                int prev_index = -1;
+                int oper_index = operators->find(find_oper);
+
+
+                while((oper_index > -1) &&
+                      (stop < input.length()))
                 {
-                    curr_oper = ident::OPER_EQ;
-                    oper_length = 2;
+                    prev_index = oper_index;
+                    find_oper.symbol = input.substr(start, ++stop);
+                    oper_index = operators->find(find_oper);
                 }
-                else if (input.foundAt("=", x_offset))
+
+
+                if (prev_index > -1)
                 {
-                    curr_oper = ident::OPER_ASSIGN;
-                    oper_length = 1;
-                }
-                else if (input.foundAt("<-", x_offset))
-                {
-                    curr_oper = ident::OPER_L_ARROW;
-                    oper_length = 2;
-                }
-                else if (input.foundAt("<>", x_offset))
-                {
-                    curr_oper = ident::OPER_NOT_EQ;
-                    oper_length = 2;
-                }
-                else if (input.foundAt("<=", x_offset))
-                {
-                    curr_oper = ident::OPER_LT_EQ;
-                    oper_length = 2;
-                }
-                else if (input.foundAt("<", x_offset))
-                {
-                    curr_oper = ident::OPER_LT;
-                    oper_length = 1;
-                }
-                else if (input.foundAt(">=", x_offset))
-                {
-                    curr_oper = ident::OPER_GT_EQ;
-                    oper_length = 2;
-                }
-                else if (input.foundAt(">", x_offset))
-                {
-                    curr_oper = ident::OPER_GT;
-                    oper_length = 1;
-                }
-                else if (input.foundAt("++", x_offset))
-                {
-                    curr_oper = ident::OPER_ADD1;
-                    oper_length = 2;
-                }
-                else if (input.foundAt("+=", x_offset))
-                {
-                    curr_oper = ident::OPER_ADD_ASSIGN;
-                    oper_length = 2;
-                }
-                else if (input.foundAt("+", x_offset))
-                {
-                    curr_oper = ident::OPER_ADD;
-                    oper_length = 1;
-                }
-                else if (input.foundAt("->", x_offset))
-                {
-                    curr_oper = ident::OPER_R_ARROW;
-                    oper_length = 2;
-                }
-                else if (input.foundAt("--", x_offset))
-                {
-                    curr_oper = ident::OPER_SUB1;
-                    oper_length = 2;
-                }
-                else if (input.foundAt("-=", x_offset))
-                {
-                    curr_oper = ident::OPER_SUB_ASSIGN;
-                    oper_length = 2;
-                }
-                else if (input.foundAt("-", x_offset))
-                {
-                    curr_oper = ident::OPER_SUB;
-                    oper_length = 1;
-                }
-                else if (input.foundAt("*=", x_offset))
-                {
-                    curr_oper = ident::OPER_MUL_ASSIGN;
-                    oper_length = 2;
-                }
-                else if (input.foundAt("*", x_offset))
-                {
-                    curr_oper = ident::OPER_MUL;
-                    oper_length = 1;
-                }
-                else if (input.foundAt("//=", x_offset))
-                {
-                    curr_oper = ident::OPER_IDIV_ASSIGN;
-                    oper_length = 3;
-                }
-                else if (input.foundAt("//", x_offset))
-                {
-                    curr_oper = ident::OPER_IDIV;
-                    oper_length = 2;
-                }
-                else if (input.foundAt("/=", x_offset))
-                {
-                    curr_oper = ident::OPER_DIV_ASSIGN;
-                    oper_length = 2;
-                }
-                else if (input.foundAt("/", x_offset))
-                {
-                    curr_oper = ident::OPER_DIV;
-                    oper_length = 1;
-                }
-                else if (input.foundAt("%=", x_offset))
-                {
-                    curr_oper = ident::OPER_MOD_ASSIGN;
-                    oper_length = 2;
-                }
-                else if (input.foundAt("%", x_offset))
-                {
-                    curr_oper = ident::OPER_MOD;
-                    oper_length = 1;
-                }
-                else if (input.foundAt("^", x_offset))
-                {
-                    curr_oper = ident::OPER_POW;
-                    oper_length = 1;
-                }
-                else if (input.foundAt("!", x_offset))
-                {
-                    curr_oper = ident::OPER_FAC;
-                    oper_length = 1;
-                }
-                else if (input.foundAt("~&", x_offset))
-                {
-                    curr_oper = ident::OPER_NAND_BITW;
-                    oper_length = 2;
-                }
-                else if (input.foundAt("~|", x_offset))
-                {
-                    curr_oper = ident::OPER_NOR_BITW;
-                    oper_length = 2;
-                }
-                else if (input.foundAt("~:", x_offset))
-                {
-                    curr_oper = ident::OPER_NXOR_BITW;
-                    oper_length = 2;
-                }
-                else if (input.foundAt("~", x_offset))
-                {
-                    curr_oper = ident::OPER_NOT_BITW;
-                    oper_length = 1;
-                }
-                else if (input.foundAt("&", x_offset))
-                {
-                    curr_oper = ident::OPER_AND_BITW;
-                    oper_length = 1;
-                }
-                else if (input.foundAt("|", x_offset))
-                {
-                    curr_oper = ident::OPER_OR_BITW;
-                    oper_length = 1;
-                }
-                else if (input.foundAt(":", x_offset))
-                {
-                    curr_oper = ident::OPER_XOR_BITW;
-                    oper_length = 1;
+                    ident_t<CHAR> this_oper (ident::OPERATOR,
+                                             line,
+                                             column+x_offset-input.length(),
+                                             0,
+                                             NULL,
+                                             file);
+                    this_oper.metaValue = (operators->at(prev_index)).value;
+
+
+                    temp_opers.add(this_oper);
+
+                    x_offset += (operators->at(prev_index)).symbol.length();
                 }
                 else
                 {
-                    found = false;
-                }
-
-
-                if (found)
-                {
-                    temp_opers.add(ident_t<CHAR>(curr_oper, line,
-                                                 column+x_offset-input.length(),
-                                                 null, file));
-
-                    x_offset += oper_length;
-                }
-                else //an operator was not found
-                {
                     if (x_offset > 0)
-                        oper_error = error::AMBIGUOUS_EXPR;
+                        error_buffer.add(error("Ambiguous expression",
+                                                *file,
+                                                line, column));
                     else
-                        oper_error = error::UNKNOWN_OPERATOR;
+                        error_buffer.add(error("Unknown operator",
+                                                *file,
+                                                line, column-input.length()));
+
+                    oper_error = true;
                 }
             }
 
 
-            if (oper_error == error::NONE)
+            if (!oper_error)
             {
-                for (int i=0; i<temp_opers.size(); i++)
-                {
-                    identifiers->add(temp_opers[i]);
-                }
+                identifiers->add(temp_opers);
             }
             else
             {
@@ -832,12 +767,9 @@ namespace script
 
                 identifiers->add(ident_t<CHAR>(this_type,
                                                line, column-input.length()));
-
-                error_buffer.add(parserError<CHAR>(line, column-input.length(),
-                                              oper_error, input, file));
             }
 
-            return (oper_error != error::NONE);
+            return oper_error;
         }
 
 
@@ -847,52 +779,13 @@ namespace script
         {
             if (current_ident.type == ident::IDENTIFIER)
             {
-                if (current_symbol == "if")
-                    current_ident.type = ident::KEYWORD_IF;
-                else if (current_symbol == "else")
-                    current_ident.type = ident::KEYWORD_ELSE;
-                else if (current_symbol == "for")
-                    current_ident.type = ident::KEYWORD_FOR;
-                else if (current_symbol == "each")
-                    current_ident.type = ident::KEYWORD_EACH;
-                else if (current_symbol == "in")
-                    current_ident.type = ident::KEYWORD_IN;
-                else if (current_symbol == "loop")
-                    current_ident.type = ident::KEYWORD_LOOP;
-                else if (current_symbol == "while")
-                    current_ident.type = ident::KEYWORD_WHILE;
-                else if (current_symbol == "goto")
-                    current_ident.type = ident::KEYWORD_GOTO;
-                else if (current_symbol == "gosub")
-                    current_ident.type = ident::KEYWORD_GOSUB;
-                else if (current_symbol == "label")
-                    current_ident.type = ident::KEYWORD_LABEL;
-                else if (current_symbol == "sub")
-                    current_ident.type = ident::KEYWORD_SUB;
-                else if (current_symbol == "run")
-                    current_ident.type = ident::KEYWORD_RUN;
-                else if (current_symbol == "include")
-                    current_ident.type = ident::KEYWORD_INCLUDE;
-                else if (current_symbol == "break")
-                    current_ident.type = ident::KEYWORD_BREAK;
-                else if (current_symbol == "return")
-                    current_ident.type = ident::KEYWORD_RETURN;
-                else if (current_symbol == "dim")
-                    current_ident.type = ident::KEYWORD_DIM;
-                else if (current_symbol == "stop")
-                    current_ident.type = ident::KEYWORD_STOP;
-                else if (current_symbol == "wait")
-                    current_ident.type = ident::KEYWORD_WAIT;
-                else if (current_symbol == "until")
-                    current_ident.type = ident::KEYWORD_UNTIL;
-                else if (current_symbol == "var")
-                    current_ident.type = ident::KEYWORD_VAR;
-                else if (current_symbol == "type")
-                    current_ident.type = ident::KEYWORD_TYPE;
-                else if (current_symbol == "external")
-                    current_ident.type = ident::KEYWORD_EXTERNAL;
-                else if (current_symbol == "shared")
-                    current_ident.type = ident::KEYWORD_SHARED;
+                int kwd_index = keywords->find(keyword(current_symbol,0));
+
+                if (kwd_index > -1)//is a keyword
+                {
+                    current_ident.type = ident::KEYWORD;
+                    current_ident.value = (keywords->at(kwd_index)).value;
+                }
             }
         }
 
@@ -951,10 +844,10 @@ namespace script
                     if (pastDecimal)
                     {
                         error_buffer.add(
-                                parserError<CHAR>(current_ident.line,
-                                                current_ident.column,
-                                                error::NUMBER_EXCESS_DECIMALS,
-                                                current_symbol, file));
+                                error("Number contains excess decimals",
+                                      *file,
+                                      current_ident.line,
+                                      current_ident.column));
 
                         return_good = false;
                     }
@@ -964,10 +857,10 @@ namespace script
                 else if (!core::isNumeric(_char, base))
                 {
                     error_buffer.add(
-                                parserError<CHAR>(current_ident.line,
-                                             current_ident.column,
-                                             error::NUMBER_ILLEGAL_CHAR,
-                                             current_symbol, file));
+                                error("Number contains illegal characters",
+                                      *file,
+                                      current_ident.line,
+                                      current_ident.column));
 
                     return_good = false;
                 }
@@ -991,22 +884,13 @@ namespace script
         {
             if (current_ident.type == ident::IDENTIFIER)
             {
-                if (current_symbol == "and")
-                    current_ident.type = ident::OPER_AND_LGCL;
-                else if (current_symbol == "or")
-                    current_ident.type = ident::OPER_OR_LGCL;
-                else if (current_symbol == "xor")
-                    current_ident.type = ident::OPER_XOR_LGCL;
-                else if (current_symbol == "nxor")
-                    current_ident.type = ident::OPER_NXOR_LGCL;
-                else if (current_symbol == "nand")
-                    current_ident.type = ident::OPER_NAND_LGCL;
-                else if (current_symbol == "nor")
-                    current_ident.type = ident::OPER_NOR_LGCL;
-                else if (current_symbol == "not")
-                    current_ident.type = ident::OPER_NOT_LGCL;
-                else if (current_symbol == "sizeof")
-                    current_ident.type = ident::OPER_SIZEOF;
+                int oper_index = operators->find(oper(current_symbol,0));
+
+                if (oper_index > -1)//is an alphanumeric operator
+                {
+                    current_ident.type = ident::OPERATOR;
+                    current_ident.metaValue = (operators->at(oper_index)).value;
+                }
             }
         }
 

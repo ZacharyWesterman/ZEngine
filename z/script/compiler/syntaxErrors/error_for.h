@@ -50,15 +50,15 @@ namespace script
 
 
                     if (param_ct > 3)
-                        error_buffer.add(parserError<CHAR>(phrase_nodes[index]->line,
+                        error_buffer.add(error(phrase_nodes[index]->line,
                                                     phrase_nodes[index]->column,
-                                                    error::TOO_MANY_PARAMS,
+                                                    error("Too many parameters"),
                                                     phrase_nodes[index]->file
                                                     ));
                     else if (param_ct < 3)
-                        error_buffer.add(parserError<CHAR>(phrase_nodes[index]->line,
+                        error_buffer.add(error(phrase_nodes[index]->line,
                                                     phrase_nodes[index]->column,
-                                                    error::TOO_FEW_PARAMS,
+                                                    error("Too few parameters"),
                                                     phrase_nodes[index]->file
                                                     ));
                     else //no errors in parameters
@@ -78,7 +78,7 @@ namespace script
                 }
                 else
                 {
-                    error_buffer.add(parserError<CHAR>(phrase_nodes[index]->line,
+                    error_buffer.add(error(phrase_nodes[index]->line,
                                                     phrase_nodes[index]->column,
                                                     error::EXPECTED_PARAMETER,
                                                     phrase_nodes[index]->file

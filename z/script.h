@@ -14,7 +14,7 @@
 #define SCRIPT_H_INCLUDED
 
 ///Basic supporting files
-#include "script/errors.h"
+#include "script/error.h"
 #include "script/generic.h"
 
 ///Extensible script parts

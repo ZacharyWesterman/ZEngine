@@ -3,8 +3,16 @@
 
 #include <z/core.h>
 #include <z/math.h>
+#include <z/file/reader.h>
 
-#include "z/script.h"
+#include <z/script/compiler/lang.ZScript/lang.keywords.h>
+#include <z/script/compiler/lang.ZScript/lang.operators.h>
+#include <z/script/compiler/lang.ZScript/lang.comments.h>
+#include <z/script/compiler/lang.ZScript/lang.syntax.h>
+
+#include <z/script/compiler.h>
+
+
 
 
 //using namespace std;
@@ -17,120 +25,101 @@ using std::cout;
 using std::endl;
 
 ///debug
-        template <typename CHAR>
-        void printErrors(const core::array< parserError<CHAR> >& error_buffer)
-        {
-            for (int e=0; e<error_buffer.size(); e++)
-            {
-                parserError<CHAR> perr = error_buffer[e];
 
-                cout << "Error ";
+void printErrors(const core::array< script::error >& error_buffer)
+{
+    for (int e=0; e<error_buffer.size(); e++)
+    {
+        cout << "Error ";
+        cout << error_buffer[e].fullMessage().str();
+        cout << endl;
+    }
+}
 
-                if (error_buffer[e].file)
-                {
-                    cout << "in \""
-                         << error_buffer[e].file->str()
-                         << "\" ";
-                }
+void printIdents(const core::array< compiler::ident_t<char> >& idents)
+{
+    for (int i=0; i<idents.size(); i++)
+    {
+        cout << compiler::symTypeStr[idents[i].type];
+        /*if (idents[i].meta)
+            cout << " Mt=" << idents[i].metaValue << endl;
+        else
+            cout << " Va=" << idents[i].value.string().str() << endl;*/
 
-                    cout << "at " << perr.line+1
-                         << "," << perr.column+1
-                         << " : ";
+
+    }
+}
 
 
-                switch (perr.err)
-                {
-                case error::NUMBER_ILLEGAL_CHAR:
-                    cout << "'" << perr.extra_data.str()
-                         << "' contains illegal characters.";
-                    break;
+int main(int argc, char* argv[])
+{
+    core::array<compiler::keyword>* keywords = genKeywords();
+    core::array<compiler::oper>* operators = genOperators();
+    core::array< core::string<char> >* comments = genCommentRules();
 
-                case error::UNKNOWN_OPERATOR:
-                    cout << "Unknown operator \"" << perr.extra_data.str() <<
-                            "\".";
-                    break;
+    core::sortedRefArray< core::string<char>* > symbol_table;
+    core::sortedRefArray< core::string<char>* > file_list;
 
-                case error::AMBIGUOUS_EXPR:
-                    cout << "The expression \"" << perr.extra_data.str() <<
-                            "\" contains illegal characters.";
-                    break;
+    core::array< z::script::compiler::ident_t<char> > idents;
 
-                case error::SYNTAX_ERROR:
-                    cout << "Syntax error.";
-                    break;
+    core::string<char> file = "test.txt";
 
-                case error::INVALID_INCLUDE:
-                    cout << "Include statement with no file name.";
-                    break;
+    z::file::reader<char> Reader;
+    Reader.set(file);
+    Reader.read();
+    core::string<char> input(Reader.getContents());
+    Reader.clear();
 
-                case error::INCLUDE_LOAD_FAILED:
-                    cout << "Unable to load include file.";
-                    break;
 
-                case error::UNEXPECTED_OPERATOR:
-                    cout << "Unexpected operator.";
-                    break;
+    z::script::compiler::scanner<char> Scanner(&symbol_table,
+                                               keywords,
+                                               operators,
+                                               comments,
+                                               &file,
+                                               &idents);
 
-                case error::STMT_OUTSIDE_FUNCTION:
-                    cout << "Statement outside of function declaration.";
-                    break;
+    Scanner.linkInput(&input);
 
-                case error::TOO_MANY_PARAMS:
-                    cout << "Statement contains too many parameters.";
-                    break;
+    Scanner.scan();
 
-                case error::TOO_FEW_PARAMS:
-                    cout << "Statement contains too few parameters.";
-                    break;
+    printErrors(Scanner.error_buffer);
 
-                case error::EXPECTED_PARAMETER:
-                    cout << "Expected parameters for statement.";
-                    break;
+    //printIdents(idents);
 
-                case error::VARIABLE_REDECLARED:
-                    cout << "Variable \"" << perr.extra_data.str() << "\" declared previously.";
-                    break;
 
-                case error::VARIABLE_UNDECLARED:
-                    cout << "Variable \"" << perr.extra_data.str() << "\" undeclared.";
-                    break;
+    core::array< compiler::syntaxRule<char>* >* syntax;
+    syntax = genSyntaxRulesC();
 
-                case error::UNEXPECTED_SEMICOLON:
-                    cout << "Unexpected semicolon.";
-                    break;
+    compiler::syntaxRule<char>* program;
+    program = genProgramRuleC();
 
-                case error::TYPE_MISMATCH:
-                    cout << "Expression contains mismatched types.";
-                    break;
+    z::script::compiler::lexer<char> Lexer(syntax, program);
+    Lexer.linkInput(&idents);
 
-                case error::FUNCTION_REDECLARED:
-                    cout << "Function \"" << perr.extra_data.str() << "\" declared previously.";
-                    break;
+    //cout << program << endl;
 
-                case error::FUNCTION_ALREADY_TYPE:
-                    cout << "A type with the name \"" << perr.extra_data.str()
-                         << "\" already exists.";
-                    break;
+    Lexer.lex();
 
-                case error::TYPE_ALREADY_FUNCTION:
-                    cout << "A function with the name \"" << perr.extra_data.str()
-                         << "\" already exists.";
-                    break;
+    //compiler::phrase_t<char>* AST = Lexer.moveResultAST();
+    printErrors(Lexer.error_buffer);
 
-                case error::TYPE_UNDEFINED:
-                    cout << "Unknown type \"" << perr.extra_data.str() << "\".";
-                    break;
 
-                default:
-                    cout << "Unhandled error " << (int)perr.err << ".";
-                }
 
-                cout << endl;
+    delete operators;
+    delete keywords;
+    delete[] comments;
+    for (int i=0; i<syntax->size(); i++)
+        delete syntax->at(i);
+    delete syntax;
+    delete program;
 
-            }
-        }
+    //compiler::deleteNode(AST);
 
-class func_sin : public function<char>
+    return 0;
+}
+
+
+/*class func_sin : public function<char>
 {
 public:
     func_sin() : function<char>("sin", true, 1, 1) {}
@@ -144,7 +133,7 @@ public:
 
         params.add(next_param);
 
-        return error::NONE;
+        return error();
     }
 
 
@@ -173,7 +162,7 @@ public:
 
         params.add(next_param);
 
-        return error::NONE;
+        return error();
     }
 
 
@@ -224,136 +213,4 @@ class cmd_print_error : public command<char>
 
         return true;
     }
-};
-
-int main(int argc, char* argv[])
-{
-    core::array< script::command<char>* > commands;
-    core::array< script::function<char>* > functions;
-
-    commands.add(new cmd_print);
-    commands.add(new cmd_print_error);
-
-    functions.add(new func_sin);
-    functions.add(new func_log);
-
-    //char c_in[128];
-
-    //cout << "Input:\n\n";
-
-    //cin.getline(c_in, 128, '\n');
-
-    core::sortedRefArray< core::string<char>* > symbol_table;
-    core::sortedRefArray< core::string<char>* > file_list;
-
-    //test the include iterator
-    z::script::compiler::includeIterator<char> genAST(&symbol_table, &file_list);
-
-    //cout << input.str() << endl;
-
-    z::core::string<char> input = "test.txt";
-
-    genAST.setInput(input, true);
-    //sscan.setOutput(identifiers);
-
-    z::core::timeout time (-1);
-
-    int iter = 1;
-    while (!genAST.build(time))
-    {
-        iter++;
-        time.reset();
-    }
-
-    printErrors(genAST.error_buffer);
-
-    //cout << "\n------------------------------------\n\n";
-    //cout << "AST before folding:\n\n";
-
-
-
-    z::script::compiler::phrase_t<char>* AST = genAST.moveResultAST();
-
-    //z::script::compiler::print_lex_ast(0, AST);
-
-    //cout << "\n------------------------------------\n\n";
-    //cout << "AST after folding:\n\n";
-
-    z::script::compiler::constantFolder<char> cFolder;
-
-    cFolder.setInput(AST);
-
-    time.reset();
-    while (!cFolder.fold(time))
-    {
-        iter++;
-        time.reset();
-    }
-
-    //z::script::compiler::print_lex_ast(0, AST);
-
-    printErrors(cFolder.error_buffer);
-
-
-    //cout << "\n------------------------------------\n\n";
-    cout << "AST after semantic analysis:\n\n";
-
-    z::script::compiler::semanticAnalyzer<char> semantics(commands, functions);
-
-    semantics.setInput(AST);
-
-    time.reset();
-    while (!semantics.analyze(time))
-    {
-        iter++;
-        time.reset();
-    }
-
-
-    z::script::compiler::print_lex_ast(0, AST);
-
-    printErrors(semantics.error_buffer);
-
-
-    if (AST)
-        script::compiler::delete_ast(AST);
-
-    std::cout << "\nDone in " << iter << " iterations.\n";
-
-
-
-    /*
-    cout << endl;
-    cout << "( " << (int)'(' << ':' << (int)L'(' << endl;
-    cout << ") " << (int)')' << ':' << (int)L')' << endl;
-    cout << "[ " << (int)'[' << ':' << (int)L'[' << endl;
-    cout << "] " << (int)']' << ':' << (int)L']' << endl;
-    cout << "{ " << (int)'{' << ':' << (int)L'{' << endl;
-    cout << "} " << (int)'}' << ':' << (int)L'}' << endl;
-    cout << "\" " << (int)'"' << ':' << (int)L'"' << endl;
-    cout << "  " << (int)' ' << ':' << (int)L' ' << endl;
-    cout << ". " << (int)'.' << ':' << (int)L'.' << endl;
-    cout << ", " << (int)',' << ':' << (int)L',' << endl;
-    cout << "_ " << (int)'_' << ':' << (int)L'_' << endl;
-    cout << ": " << (int)':' << ':' << (int)L':' << endl;
-    cout << "; " << (int)';' << ':' << (int)L';' << endl;
-    cout << "\\n"<< (int)'\n'<< ':' << (int)L'\n'<< endl;
-    cout << "- "<< (int)'-'<< ':' << (int)L'-'<< endl;
-    cout << "+ "<< (int)'+'<< ':' << (int)L'+'<< endl;
-    cout << "0 "<< (int)'0'<< ':' << (int)L'0'<< endl;
-    cout << "1 "<< (int)'1'<< ':' << (int)L'1'<< endl;
-    cout << "7 "<< (int)'7'<< ':' << (int)L'7'<< endl;
-    cout << "9 "<< (int)'9'<< ':' << (int)L'9'<< endl;
-    cout << "a "<< (int)'a'<< ':' << (int)L'a'<< endl;
-    cout << "i "<< (int)'i'<< ':' << (int)L'i'<< endl;
-    cout << "f "<< (int)'f'<< ':' << (int)L'f'<< endl;
-    cout << "z "<< (int)'z'<< ':' << (int)L'z'<< endl;
-    cout << "A "<< (int)'A'<< ':' << (int)L'A'<< endl;
-    cout << "F "<< (int)'F'<< ':' << (int)L'F'<< endl;
-    cout << "Z "<< (int)'Z'<< ':' << (int)L'Z'<< endl;
-    cout << "= "<< (int)'='<< ':' << (int)L'='<< endl;
-    cout << "\\ "<< (int)'\\'<< ':' << (int)L'\\'<< endl;
-    cout << "* "<< (int)'*'<< ':' << (int)L'*'<< endl;*/
-
-    return 0;
-}
+};*/

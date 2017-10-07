@@ -20,7 +20,7 @@
 #include <z/core/array.h>
 #include <z/core/dynamicStack.h>
 #include <z/core/timeout.h>
-#include "../errors.h"
+#include "../error.h"
 
 #include "phrase.h"
 
@@ -161,7 +161,7 @@ namespace script
             void analyze_funccall();
 
         public:
-            core::array< parserError<CHAR> > error_buffer;
+            core::array< error > error_buffer;
 
             semanticAnalyzer(const core::array< command<CHAR>* >& _commands,
                      const core::array< function<CHAR>* >& _functions)
@@ -216,7 +216,8 @@ namespace script
                 type_var_list.clear();
             }
 
-            inline bool error() {return (error_buffer.size() > 0);}
+            inline bool good() {return (error_buffer.size() == 0);}
+            inline bool bad() {return (error_buffer.size() != 0);}
 
             inline bool done() {return is_done;}
 
@@ -382,7 +383,7 @@ namespace script
 
                 msg += *((core::string<CHAR>*)root->children[0]->meta);
 
-                error_buffer.add(parserError<CHAR>(root->line,
+                error_buffer.add(error(root->line,
                                                     root->column,
                                         error::VARIABLE_REDECLARED,
                                                     msg,
@@ -471,7 +472,7 @@ namespace script
 
                 if (type_list.find(_type) > -1) //search types
                 {
-                    error_buffer.add(parserError<CHAR>(root->line,
+                    error_buffer.add(error(root->line,
                                                         root->column,
                                                         error::FUNCTION_ALREADY_TYPE,
                                         *((core::string<CHAR>*)_type.type),
@@ -504,7 +505,7 @@ namespace script
                         core::string<CHAR> msg;
                         genFuncSigString(_func, msg);
 
-                        error_buffer.add(parserError<CHAR>(root->line,
+                        error_buffer.add(error(root->line,
                                                             root->column,
                                                             error::FUNCTION_REDECLARED,
                                                             msg,
@@ -529,7 +530,7 @@ namespace script
             symID varID = _var.uniqueID;
 
             if (!varID)
-                error_buffer.add(parserError<CHAR>(root->line,
+                error_buffer.add(error(root->line,
                                                     root->column,
                                                     error::VARIABLE_UNDECLARED,
                                     *((core::string<CHAR>*)root->children[0]->meta),
@@ -578,7 +579,7 @@ namespace script
                     }
 
                     if (!type_match)
-                        error_buffer.add(parserError<CHAR>(root->line,
+                        error_buffer.add(error(root->line,
                                                     root->column,
                                                     error::TYPE_MISMATCH,
                                                     NULL,
@@ -598,7 +599,7 @@ namespace script
                     {
                         if (type1 != type2)
                         {
-                            error_buffer.add(parserError<CHAR>(root->line,
+                            error_buffer.add(error(root->line,
                                                         root->column,
                                                         error::TYPE_MISMATCH,
                                                         NULL,
@@ -625,7 +626,7 @@ namespace script
 
                             if (type1)
                             {
-                                error_buffer.add(parserError<CHAR>(root->line,
+                                error_buffer.add(error(root->line,
                                                         root->column,
                                                         error::TYPE_DISALLOWED,
                                                         NULL,
@@ -658,7 +659,7 @@ namespace script
 
             if (type_list.find(_type) <= -1)
             {
-                error_buffer.add(parserError<CHAR>(root->line,
+                error_buffer.add(error(root->line,
                                                     root->column,
                                                     error::TYPE_UNDEFINED,
                                     *((core::string<CHAR>*)_type.type),
@@ -672,7 +673,7 @@ namespace script
 
             if (!good)
             {
-                error_buffer.add(parserError<CHAR>(root->line,
+                error_buffer.add(error(root->line,
                                                     root->column,
                                         error::VARIABLE_REDECLARED,
                                     *((core::string<CHAR>*)root->children[1]->meta),
@@ -741,7 +742,7 @@ namespace script
 
                 if (i < function_list.size())
                 {
-                    error_buffer.add(parserError<CHAR>(root->line,
+                    error_buffer.add(error(root->line,
                                                         root->column,
                                                 error::TYPE_ALREADY_FUNCTION,
                                                 *((core::string<CHAR>*)ID),
@@ -798,7 +799,7 @@ namespace script
                                                    root->children[0]->meta));
 
                 if (!good)
-                    error_buffer.add(parserError<CHAR>(root->line,
+                    error_buffer.add(error(root->line,
                                                         root->column,
                                             error::VARIABLE_REDECLARED,
                                         *((core::string<CHAR>*)root->children[1]->meta),
@@ -812,7 +813,7 @@ namespace script
                                                    uniqueID_current++));
 
                 if (!good)
-                    error_buffer.add(parserError<CHAR>(root->line,
+                    error_buffer.add(error(root->line,
                                                         root->column,
                                             error::VARIABLE_REDECLARED,
                                         *((core::string<CHAR>*)root->children[0]->meta),

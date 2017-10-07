@@ -5,7 +5,7 @@
 #include <z/core/array.h>
 #include <z/script/compiler/keyword.h>
 
-enum KEYWORDS
+enum KEYWORD
 {
     KWD_NONE = 0,
     IF,

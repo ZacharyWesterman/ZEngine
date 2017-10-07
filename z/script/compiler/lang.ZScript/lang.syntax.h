@@ -83,16 +83,22 @@ enum SYNTAX
 
 #include "lang.syntax/program.h"
 
+#include "lang.syntax/operand.h"
+#include "lang.syntax/variable.h"
+
+
 #define SYN_RULE_C z::script::compiler::syntaxRule<char>
 #define SYN_RULE_W z::script::compiler::syntaxRule<wchar_t>
 #define ARRAY_C z::core::array<SYN_RULE_C*>
 #define ARRAY_W z::core::array<SYN_RULE_W*>
 
+
 ARRAY_C* genSyntaxRulesC()
 {
     ARRAY_C* rules = new ARRAY_C
     {
-
+        new z::script::compiler::operand<char>,
+        new z::script::compiler::variable<char>
     };
 
     return rules;
@@ -108,7 +114,8 @@ ARRAY_W* genSyntaxRulesW()
 {
     ARRAY_W* rules = new ARRAY_W
     {
-
+        new z::script::compiler::operand<wchar_t>,
+        new z::script::compiler::variable<wchar_t>
     };
 
     return rules;

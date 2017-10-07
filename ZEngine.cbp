@@ -52,6 +52,7 @@
 		<Unit filename="z/script/compiler/lang.ZScript/lang.keywords.h" />
 		<Unit filename="z/script/compiler/lang.ZScript/lang.operators.h" />
 		<Unit filename="z/script/compiler/lang.ZScript/lang.syntax.h" />
+		<Unit filename="z/script/compiler/lang.ZScript/lang.syntax/operand.h" />
 		<Unit filename="z/script/compiler/lang.ZScript/lang.syntax/program.h" />
 		<Unit filename="z/script/compiler/lang.ZScript/lang.syntax/syntaxRules/add1expr.h" />
 		<Unit filename="z/script/compiler/lang.ZScript/lang.syntax/syntaxRules/addexpr.h" />
@@ -82,7 +83,6 @@
 		<Unit filename="z/script/compiler/lang.ZScript/lang.syntax/syntaxRules/loop_statement.h" />
 		<Unit filename="z/script/compiler/lang.ZScript/lang.syntax/syntaxRules/multiplyexpr.h" />
 		<Unit filename="z/script/compiler/lang.ZScript/lang.syntax/syntaxRules/negatexpr.h" />
-		<Unit filename="z/script/compiler/lang.ZScript/lang.syntax/syntaxRules/operand.h" />
 		<Unit filename="z/script/compiler/lang.ZScript/lang.syntax/syntaxRules/parenthexpr.h" />
 		<Unit filename="z/script/compiler/lang.ZScript/lang.syntax/syntaxRules/powerexpr.h" />
 		<Unit filename="z/script/compiler/lang.ZScript/lang.syntax/syntaxRules/program.h" />
@@ -101,12 +101,12 @@
 		<Unit filename="z/script/compiler/lang.ZScript/lang.syntax/syntaxRules/typevar.h" />
 		<Unit filename="z/script/compiler/lang.ZScript/lang.syntax/syntaxRules/typevar_decl.h" />
 		<Unit filename="z/script/compiler/lang.ZScript/lang.syntax/syntaxRules/until_statement.h" />
-		<Unit filename="z/script/compiler/lang.ZScript/lang.syntax/syntaxRules/variable.h" />
 		<Unit filename="z/script/compiler/lang.ZScript/lang.syntax/syntaxRules/variable_decl.h" />
 		<Unit filename="z/script/compiler/lang.ZScript/lang.syntax/syntaxRules/varindex.h" />
 		<Unit filename="z/script/compiler/lang.ZScript/lang.syntax/syntaxRules/wait_statement.h" />
 		<Unit filename="z/script/compiler/lang.ZScript/lang.syntax/syntaxRules/while_post_stmt.h" />
 		<Unit filename="z/script/compiler/lang.ZScript/lang.syntax/syntaxRules/while_pre_stmt.h" />
+		<Unit filename="z/script/compiler/lang.ZScript/lang.syntax/variable.h" />
 		<Unit filename="z/script/compiler/lexer.h" />
 		<Unit filename="z/script/compiler/operator.h" />
 		<Unit filename="z/script/compiler/phrase.h" />

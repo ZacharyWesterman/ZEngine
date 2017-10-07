@@ -784,7 +784,7 @@ namespace script
                 if (kwd_index > -1)//is a keyword
                 {
                     current_ident.type = ident::KEYWORD;
-                    current_ident.value = (keywords->at(kwd_index)).value;
+                    current_ident.metaValue = (keywords->at(kwd_index)).value;
                 }
             }
         }

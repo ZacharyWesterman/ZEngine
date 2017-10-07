@@ -290,7 +290,7 @@ namespace script
                     {
                         if (!did_concat)
                         {
-                            progress = lex::TREE_CLEANUP;
+                            progress = lex::DONE;//lex::TREE_CLEANUP;
                             current_node = NULL;
                         }
 

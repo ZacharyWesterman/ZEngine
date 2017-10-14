@@ -248,6 +248,8 @@ namespace script
                 }
                 else if (progress == lex::GENERAL)
                 {
+                    //std::cout << index << " : " << did_concat << std::endl;
+
                     if (index >= phrase_nodes.size())
                     {
                         if (!did_concat)
@@ -261,19 +263,17 @@ namespace script
                     }
                     else
                     {
-                        int i = 0;
-
-                        while ((i < rules->size()) &&
-                               !(rules->at(i)->apply(&phrase_nodes, index)))
+                        for (int r=0; r<(rules->size()); r++)
                         {
-                            i++;
+                            if (rules->at(r)->apply(&phrase_nodes, index))
+                            {
+                                did_concat = true;
+                                break;
+                            }
                         }
-
-                        if (i < rules->size())
-                            did_concat = true;
-                        else
-                            did_concat = false;
                     }
+
+
 
                     if (!did_concat)
                     {
@@ -284,6 +284,8 @@ namespace script
 
                         index++;
                     }
+                    else
+                        did_concat = false;
 
                 }
                 else if (progress == lex::PROGRAM)
@@ -292,7 +294,7 @@ namespace script
                     {
                         if (!did_concat)
                         {
-                            progress = lex::DONE;//lex::TREE_CLEANUP;
+                            progress = lex::TREE_CLEANUP;
                             current_node = NULL;
                         }
 

@@ -6,7 +6,7 @@
 #include <z/script/compiler/syntaxRule.h>
 //#include <z/zcript/compiler/identEnum.h>
 
-enum SYNTAX
+enum syntax
 {
     IDENTIFIERLIST = z::script::compiler::ident::ID_COUNT,
     COMMAND,
@@ -85,6 +85,8 @@ enum SYNTAX
 
 #include "lang.syntax/operand.h"
 #include "lang.syntax/variable.h"
+#include "lang.syntax/parenthexpr.h"
+#include "lang.syntax/addexpr.h"
 
 
 #define SYN_RULE_C z::script::compiler::syntaxRule<char>
@@ -98,7 +100,9 @@ ARRAY_C* genSyntaxRulesC()
     ARRAY_C* rules = new ARRAY_C
     {
         new z::script::compiler::operand<char>,
-        new z::script::compiler::variable<char>
+        new z::script::compiler::variable<char>,
+        new z::script::compiler::parenthexpr<char>
+        new z::script::compiler::addexpr<char>
     };
 
     return rules;
@@ -115,7 +119,9 @@ ARRAY_W* genSyntaxRulesW()
     ARRAY_W* rules = new ARRAY_W
     {
         new z::script::compiler::operand<wchar_t>,
-        new z::script::compiler::variable<wchar_t>
+        new z::script::compiler::variable<wchar_t>,
+        new z::script::compiler::parenthexpr<wchar_t>
+        new z::script::compiler::addexpr<wchar_t>
     };
 
     return rules;

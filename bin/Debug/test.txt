@@ -1,1 +1,8 @@
-a b c d e
+main()
+{
+    var a = 4!;
+
+    b = a + (10);
+
+    return b//2;
+}

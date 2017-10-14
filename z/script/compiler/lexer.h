@@ -271,6 +271,8 @@ namespace script
 
                         if (i < rules->size())
                             did_concat = true;
+                        else
+                            did_concat = false;
                     }
 
                     if (!did_concat)

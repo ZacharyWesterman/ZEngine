@@ -38,7 +38,7 @@ namespace script
         bool variable<CHAR>::apply(core::array< phrase_t<CHAR>* >* phrase_nodes,
                                   int index)
         {
-            if (((phrase_nodes->at(index)->type == ident::IDENTIFIER) &&
+            /*if (((phrase_nodes->at(index)->type == ident::IDENTIFIER) &&
                      !(phrase_nodes->is_valid(index-1) &&
                        (((phrase_nodes->at(index-1)->type == ident::KEYWORD) &&
                         ((phrase_nodes->at(index-1)->metaValue == KEYWORD::SUBR) ||
@@ -53,7 +53,15 @@ namespace script
                      !(phrase_nodes->is_valid(index+2) &&
                        (phrase_nodes->at(index+1)->type == ident::PERIOD) &&
                        (phrase_nodes->at(index+2)->type == ident::KEYWORD) &&
-                        (phrase_nodes->at(index+2)->metaValue == KEYWORD::DIM)) ))
+                        (phrase_nodes->at(index+2)->metaValue == KEYWORD::DIM)) ))*/
+            if ((phrase_nodes->at(index)->type == ident::IDENTIFIER) &&
+                !(phrase_nodes->is_valid(index+1) &&
+                  ((phrase_nodes->at(index+1)->type == ident::LPARENTH) ||
+                   (phrase_nodes->at(index+1)->type == ident::IDENTIFIER) ||
+                   (phrase_nodes->at(index+1)->type == ident::LBRACE)
+                   )
+                  )
+                )
             {
                 phrase_t<CHAR>* node = new phrase_t<CHAR>();
 
@@ -72,7 +80,7 @@ namespace script
 
                 return true;
             }
-            else if ((phrase_nodes->at(index)->type == TYPEVAR) ||
+            /*else if ((phrase_nodes->at(index)->type == TYPEVAR) ||
                      ((phrase_nodes->at(index)->type == VARINDEX) &&
                       !(phrase_nodes->is_valid(index+1) &&
                        (phrase_nodes->at(index+1)->type == ident::LBRACKET))))
@@ -82,9 +90,9 @@ namespace script
                 phrase_nodes->at(index)->type = VARIABLE;
 
                 return true;
-            }
-            else
-                return false;
+            }*/
+
+            return false;
         }
     }
 }

@@ -7,7 +7,6 @@ list		: { }
 
 parenthexpr	: !IDENTIFIER ( boolexpr )
 		| operand
-		| sizeofexpr
 
 factorialexpr	: parenthexpr !
 		| parenthexpr

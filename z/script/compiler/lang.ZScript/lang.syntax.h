@@ -101,7 +101,7 @@ ARRAY_C* genSyntaxRulesC()
     {
         new z::script::compiler::operand<char>,
         new z::script::compiler::variable<char>,
-        new z::script::compiler::parenthexpr<char>
+        new z::script::compiler::parenthexpr<char>,
         new z::script::compiler::addexpr<char>
     };
 
@@ -120,7 +120,7 @@ ARRAY_W* genSyntaxRulesW()
     {
         new z::script::compiler::operand<wchar_t>,
         new z::script::compiler::variable<wchar_t>,
-        new z::script::compiler::parenthexpr<wchar_t>
+        new z::script::compiler::parenthexpr<wchar_t>,
         new z::script::compiler::addexpr<wchar_t>
     };
 

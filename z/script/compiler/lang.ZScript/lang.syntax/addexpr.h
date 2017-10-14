@@ -64,8 +64,8 @@ namespace script
                      ((phrase_nodes->at(index)->type == MULTIPLYEXPR) ||
                       (phrase_nodes->at(index)->type == ADDEXPR)
                       ) &&
-                     ((phrase_nodes->at(index+1)->type == ident::OPER_ADD) ||
-                      (phrase_nodes->at(index+1)->type == ident::OPER_SUB)
+                     ((phrase_nodes->at(index+1)->type == ADD) ||
+                      (phrase_nodes->at(index+1)->type == SUB)
                       ) &&
                      ((phrase_nodes->at(index+2)->type == MULTIPLYEXPR) ||
                       (phrase_nodes->at(index+2)->type == ADDEXPR)

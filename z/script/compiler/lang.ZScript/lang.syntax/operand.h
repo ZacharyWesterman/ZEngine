@@ -71,7 +71,7 @@ namespace script
                      !(phrase_nodes->is_valid(index-1) &&
                        (phrase_nodes->at(index-1)->type == ident::PERIOD))))*/
                 if ((phrase_nodes->at(index)->type == VARIABLE) ||
-                    (phrase_nodes->at(index)->type == ident::LITERAL) /*||
+                    (phrase_nodes->at(index)->type == ident::LITERAL) ||
                     (phrase_nodes->at(index)->type == DIMENSIONEXPR) ||
                     (phrase_nodes->at(index)->type == SIZEOFEXPR) ||
                     (phrase_nodes->at(index)->type == FUNCCALL) ||
@@ -81,7 +81,7 @@ namespace script
                         (phrase_nodes->at(index-1)->type == ident::IDENTIFIER)
                         )
                        )
-                     )*/
+                     )
                     )
                 { //std::cout << phrase_nodes->at(index)->type << std::endl;
                     if (phrase_nodes->at(index)->orig_type == ident::NONE)

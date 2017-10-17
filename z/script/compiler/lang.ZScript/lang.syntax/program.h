@@ -43,25 +43,13 @@ namespace script
                                   int index)
         {
             if ((phrase_nodes->at(index)->type == PROGRAM) &&
-                phrase_nodes->is_valid(index+1) &&
-                (phrase_nodes->at(index+1)->type != PROGRAM)
+                phrase_nodes->is_valid(index+1)
                 )
             {
-                /*if (phrase_nodes->at(index+1)->type == PROGRAM)
-                {
-                    phrase_nodes->at(index)->children.
-                        add(phrase_nodes->at(index+1)->children);
+                phrase_nodes->at(index+1)->parent = phrase_nodes->at(index);
+                phrase_nodes->at(index)->children.add(phrase_nodes->at(index+1));
 
-                    //delete phrase_nodes->at(index+1);
-                    phrase_nodes->remove(index+1);
-                }
-                else*/
-                {
-                    phrase_nodes->at(index+1)->parent = phrase_nodes->at(index);
-                    phrase_nodes->at(index)->children.add(phrase_nodes->at(index+1));
-
-                    phrase_nodes->remove(index+1);
-                }
+                phrase_nodes->remove(index+1);
 
                 return true;
             }

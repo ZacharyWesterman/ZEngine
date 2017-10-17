@@ -52,10 +52,11 @@
 		<Unit filename="z/script/compiler/lang.ZScript/lang.keywords.h" />
 		<Unit filename="z/script/compiler/lang.ZScript/lang.operators.h" />
 		<Unit filename="z/script/compiler/lang.ZScript/lang.syntax.h" />
+		<Unit filename="z/script/compiler/lang.ZScript/lang.syntax/addexpr.h" />
 		<Unit filename="z/script/compiler/lang.ZScript/lang.syntax/operand.h" />
+		<Unit filename="z/script/compiler/lang.ZScript/lang.syntax/parenthexpr.h" />
 		<Unit filename="z/script/compiler/lang.ZScript/lang.syntax/program.h" />
 		<Unit filename="z/script/compiler/lang.ZScript/lang.syntax/syntaxRules/add1expr.h" />
-		<Unit filename="z/script/compiler/lang.ZScript/lang.syntax/syntaxRules/addexpr.h" />
 		<Unit filename="z/script/compiler/lang.ZScript/lang.syntax/syntaxRules/assignexpr.h" />
 		<Unit filename="z/script/compiler/lang.ZScript/lang.syntax/syntaxRules/boolexpr.h" />
 		<Unit filename="z/script/compiler/lang.ZScript/lang.syntax/syntaxRules/command.h" />
@@ -83,7 +84,6 @@
 		<Unit filename="z/script/compiler/lang.ZScript/lang.syntax/syntaxRules/loop_statement.h" />
 		<Unit filename="z/script/compiler/lang.ZScript/lang.syntax/syntaxRules/multiplyexpr.h" />
 		<Unit filename="z/script/compiler/lang.ZScript/lang.syntax/syntaxRules/negatexpr.h" />
-		<Unit filename="z/script/compiler/lang.ZScript/lang.syntax/syntaxRules/parenthexpr.h" />
 		<Unit filename="z/script/compiler/lang.ZScript/lang.syntax/syntaxRules/powerexpr.h" />
 		<Unit filename="z/script/compiler/lang.ZScript/lang.syntax/syntaxRules/program.h" />
 		<Unit filename="z/script/compiler/lang.ZScript/lang.syntax/syntaxRules/range.h" />

@@ -108,7 +108,7 @@ namespace script
             "formaltypedecl",
             "formaldecllist",
             "program",
-            "funccall_builtin"
+            "funccall_builtin"//72
         };
 
         namespace lex
@@ -149,6 +149,11 @@ namespace script
 
             core::dynamicStack<int> cleanup_stack;
 
+
+            void prg_none();
+            void prg_general();
+            void prg_program();
+            void prg_cleanup();
 
 
         public:
@@ -232,136 +237,21 @@ namespace script
             {
                 if (progress == lex::NONE)
                 {
-                    if (index >= input_ident->size())
-                    {
-                        progress = lex::GENERAL;
-                        index = 0;
-
-                        input_in_use = false;
-                    }
-                    else
-                    {
-                        phrase_nodes.add(new phrase_t<CHAR>(input_ident->at(index)));
-
-                        index++;
-                    }
+                    prg_none();
                 }
                 else if (progress == lex::GENERAL)
                 {
-                    //std::cout << index << " : " << did_concat << std::endl;
-
-                    if (index >= phrase_nodes.size())
-                    {
-                        if (!did_concat)
-                        {
-                            progress = lex::PROGRAM;
-                            current_node = NULL;
-                        }
-
-                        index = 0;
-                        did_concat = false;
-                    }
-                    else
-                    {
-                        for (int r=0; r<(rules->size()); r++)
-                        {
-                            if (rules->at(r)->apply(&phrase_nodes, index))
-                            {
-                                did_concat = true;
-                                break;
-                            }
-                        }
-                    }
-
-
-
-                    if (!did_concat)
-                    {
-                        if (phrase_nodes[index]->type == ident::LBRACE)
-                            scope++;
-                        else if (phrase_nodes[index]->type == ident::RBRACE)
-                            scope--;
-
-                        index++;
-                    }
-                    else
-                        did_concat = false;
-
+                    prg_general();
                 }
                 else if (progress == lex::PROGRAM)
                 {
-                    if (index >= phrase_nodes.size())
-                    {
-                        if (!did_concat)
-                        {
-                            progress = lex::TREE_CLEANUP;
-                            current_node = NULL;
-                        }
-
-                        index = 0;
-                        did_concat = false;
-                    }
-                    else if (program_rule->apply(&phrase_nodes, index))
-                        did_concat = true;
-                    else
-                        index++;
-
+                    prg_program();
                 }
                 else if (progress == lex::TREE_CLEANUP)
                 {
-                    if (phrase_nodes.size() == 0)
-                        progress = lex::DONE;
-                    else
-                    {
-                        if (!current_node)
-                        {
-                            cleanup_stack.push(1);
-                            current_node = phrase_nodes[0];
-                            index = 0;
-                        }
-                        else if (index >= current_node->children.size())
-                        {
-                            if (current_node->orig_type != ident::NONE)
-                            {
-                                current_node->type = current_node->orig_type;
-                                current_node->orig_type = ident::NONE;
-                            }
-
-                            if (current_node->parent)
-                            {
-                                cleanup_stack.pop(index);
-                                current_node = current_node->parent;
-
-                            }
-                            else
-                            {
-                                cleanup_stack.pop(index);
-
-                                if (index < phrase_nodes.size())
-                                {
-                                    current_node = phrase_nodes[index];
-                                    cleanup_stack.push(index+1);
-
-                                    index = 0;
-                                }
-                                else
-                                {
-                                    index = 0;
-                                    progress = lex::DONE;//ERROR_CHECK;
-                                }
-                            }
-                        }
-                        else
-                        {
-                            cleanup_stack.push(index+1);
-
-                            current_node = current_node->children[index];
-
-                            index = 0;
-                        }
-                    }
+                    prg_cleanup();
                 }
-                else if (progress == lex::ERROR_CHECK)
+                /*else if (progress == lex::ERROR_CHECK)
                 {
                     if (index >= phrase_nodes.size())
                     {
@@ -373,9 +263,9 @@ namespace script
                     }
                     else
                     {
-                        if (false/*error_oper()        ||
+                        if (false error_oper()        ||
                             error_semicolon()   ||
-                            error_for()*/
+                            error_for()
                             )
                         {
                             index = 0;
@@ -386,7 +276,7 @@ namespace script
                         else
                             index++;
                     }
-                }
+                }*/
 
             }
 
@@ -412,6 +302,168 @@ namespace script
             return (progress == lex::DONE);
         }
 
+
+        template <typename CHAR>
+        void lexer<CHAR>::prg_none()
+        {
+            if (index >= input_ident->size())
+            {
+                progress = lex::GENERAL;
+                index = 0;
+
+                input_in_use = false;
+            }
+            else
+            {
+                phrase_nodes.add(new phrase_t<CHAR>(input_ident->at(index)));
+
+                index++;
+            }
+        }
+
+        template <typename CHAR>
+        void lexer<CHAR>::prg_general()
+        {
+            if (index >= phrase_nodes.size())
+            {
+                if (!did_concat)
+                {
+                    progress = lex::PROGRAM;
+                    current_node = NULL;
+                }
+
+                index = 0;
+                did_concat = false;
+            }
+            else
+            {
+                for (int r=0; r<(rules->size()); r++)
+                {
+                    if (rules->at(r)->apply(&phrase_nodes, index))
+                    {
+                        did_concat = true;
+                        break;
+                    }
+                }
+
+                if (!did_concat)
+                {
+                    /*if (phrase_nodes[index]->type == ident::LBRACE)
+                        scope++;
+                    else if (phrase_nodes[index]->type == ident::RBRACE)
+                        scope--;*/
+
+                    index++;
+                }
+                else
+                    did_concat = false;
+            }
+        }
+
+        template <typename CHAR>
+        void lexer<CHAR>::prg_program()
+        {
+            if (index >= phrase_nodes.size())
+            {
+                if (!did_concat)
+                {
+                    progress = lex::TREE_CLEANUP;
+                    current_node = NULL;
+                }
+
+                index = 0;
+                did_concat = false;
+            }
+            else if (program_rule->apply(&phrase_nodes, index))
+                did_concat = true;
+            else
+                index++;
+        }
+
+        template <typename CHAR>
+        void lexer<CHAR>::prg_cleanup()
+        {
+            //print_lex_ast(0, phrase_nodes[0]);
+
+            if (phrase_nodes.size() == 0)
+                progress = lex::DONE;
+            else
+            {
+                if (!current_node)
+                {
+                    cleanup_stack.push(1);
+                    current_node = phrase_nodes.at(0);
+                    index = 0;
+                }
+
+                //int ind_ceil = ;
+
+                if (index >= (current_node->children.size()))
+                {
+                    if (current_node->parent)
+                    {
+                        if (current_node->orig_type)
+                        {
+                            current_node->type = current_node->orig_type;
+                            current_node->orig_type = ident::NONE;
+                        }
+
+                        /*std::cout << (current_node->type) << " @ "
+                                      << (current_node->line) <<","
+                                      << (current_node->column) <<"::";
+                            if (((current_node->type) < 73) &&
+                                ((current_node->type) >= 0))
+                                 std::cout << symTypeStr[current_node->type];
+                            std::cout << std::endl;*/
+
+                        cleanup_stack.pop(index);
+                        current_node = current_node->parent;
+                    }
+                    else
+                    {
+                        /*if (((current_node->type) < 73) &&
+                                ((current_node->type) >= 0))
+                                 std::cout << symTypeStr[current_node->type];
+                        else
+                            std::cout << (current_node->type);
+                        std::cout << ":" << current_node->children.size() << "]]\n";*/
+
+                        progress = lex::DONE;
+                    }
+
+
+                    /*if (current_node->parent)
+                    {
+                        cleanup_stack.pop(index);
+                        current_node = current_node->parent;
+                    }*/
+                    /*else
+                    {
+                        if (cleanup_stack.pop(index) &&
+                            (index < phrase_nodes.size()))
+                        {
+                            current_node = phrase_nodes[index];
+                            cleanup_stack.push(index+1);
+
+                            index = 0;
+                        }
+                        else
+                        {
+                            index = 0;
+                            progress = lex::DONE;//ERROR_CHECK;
+                        }
+                    }*/
+                }
+                else
+                {
+                    cleanup_stack.push(index+1);
+
+                    current_node = (current_node->children).at(index);
+
+                    index = 0;
+                }
+            }
+        }
 
         ///debug
         template <typename CHAR>
@@ -444,6 +496,8 @@ namespace script
 
                 if (node->type >= ident::ID_COUNT)
                     std::cout << " ID=" << node->metaValue;
+
+                std::cout << " [" << symTypeStr[node->orig_type] << "]";
 
                 std::cout << std::endl;
 

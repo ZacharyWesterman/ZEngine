@@ -78,6 +78,8 @@ namespace script
 
                 phrase_nodes->at(index) = node;
 
+                //std::cout << node->line << std::endl;
+
                 return true;
             }
             /*else if ((phrase_nodes->at(index)->type == TYPEVAR) ||

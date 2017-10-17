@@ -95,14 +95,16 @@ namespace script
             const phrase_t& operator=(const phrase_t& other)
             {
                 type = other.type;
+                orig_type = other.orig_type;
 
                 line = other.line;
                 column = other.column;
+                indent = other.indent;
 
                 meta = other.meta;
                 value = other.value;
 
-                children = other.children;
+                file = other.file;
 
                 return *this;
             }

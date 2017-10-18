@@ -90,7 +90,7 @@ namespace script
 
                     return true;
                 }
-                /*else
+                else
                 {
                     if (phrase_nodes->at(index)->orig_type == ident::NONE)
                         phrase_nodes->at(index)->orig_type = phrase_nodes->at(index)->type;
@@ -98,7 +98,7 @@ namespace script
                     phrase_nodes->at(index)->type = ADD1EXPR;
 
                     return true;
-                }*/
+                }
             }
 
             return false;

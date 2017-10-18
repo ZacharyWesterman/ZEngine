@@ -2973,7 +2973,7 @@
 	<z/core/array.h>
 	"identity.h"
 
-1508283836 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lexer.h
+1508297144 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lexer.h
 	<z/core/timeout.h>
 	<z/core/array.h>
 	<z/core/dynamicStack.h>
@@ -3206,7 +3206,7 @@
 
 1507346414 /home/zwesterman/GitHub/ZEngine//z/script/compiler/identEnum.h
 
-1508278329 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax.h
+1508295496 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax.h
 	<z/core/array.h>
 	<z/script/compiler/syntaxRule.h>
 	"lang.syntax/program.h"
@@ -3215,6 +3215,7 @@
 	"lang.syntax/parenthexpr.h"
 	"lang.syntax/factorialexpr.h"
 	"lang.syntax/add1expr.h"
+	"lang.syntax/negatexpr.h"
 	"lang.syntax/addexpr.h"
 
 1508284089 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/program.h
@@ -3230,5 +3231,7 @@
 
 1508275322 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/factorialexpr.h
 
-1508276124 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/add1expr.h
+1508297043 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/add1expr.h
+
+1508297185 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/negatexpr.h
 

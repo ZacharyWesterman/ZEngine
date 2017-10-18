@@ -337,26 +337,22 @@ namespace script
             }
             else
             {
-                for (int r=0; r<(rules->size()); r++)
+                int r=0;
+
+                while ((r < (rules->size())) &&
+                       !(rules->at(r)->apply(&phrase_nodes, index))
+                       )
                 {
-                    if (rules->at(r)->apply(&phrase_nodes, index))
-                    {
-                        did_concat = true;
-                        break;
-                    }
+                    r++;
                 }
 
-                if (!did_concat)
+                if (r < (rules->size()))
                 {
-                    /*if (phrase_nodes[index]->type == ident::LBRACE)
-                        scope++;
-                    else if (phrase_nodes[index]->type == ident::RBRACE)
-                        scope--;*/
-
-                    index++;
+                    did_concat = true;
                 }
                 else
-                    did_concat = false;
+                    index++;
+
             }
         }
 

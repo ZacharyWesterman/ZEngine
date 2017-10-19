@@ -26,6 +26,15 @@ namespace script
         }
 
         template <typename CHAR>
+        void setSuperType(phrase_t<CHAR>* node, int newType)
+        {
+            if (node->orig_type == ident::NONE)
+                node->orig_type = node->type;
+
+            node->type = newType;
+        }
+
+        template <typename CHAR>
         class syntaxRule
         {
         public:

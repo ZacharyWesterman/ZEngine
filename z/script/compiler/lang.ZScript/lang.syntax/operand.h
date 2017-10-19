@@ -84,10 +84,7 @@ namespace script
                      )
                     )
                 { //std::cout << phrase_nodes->at(index)->type << std::endl;
-                    if (phrase_nodes->at(index)->orig_type == ident::NONE)
-                        phrase_nodes->at(index)->orig_type = phrase_nodes->at(index)->type;
-
-                    phrase_nodes->at(index)->type = OPERAND;
+                    setSuperType(phrase_nodes->at(index),OPERAND);
 
                     return true;
                 }

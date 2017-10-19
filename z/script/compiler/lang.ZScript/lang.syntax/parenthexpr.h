@@ -50,9 +50,7 @@ namespace script
                   )
                 )
             {
-                if (phrase_nodes->at(index+1)->orig_type == ident::NONE)
-                    phrase_nodes->at(index+1)->orig_type = phrase_nodes->at(index)->type;
-                phrase_nodes->at(index+1)->type = PARENTHEXPR;
+                setSuperType(phrase_nodes->at(index+1), PARENTHEXPR);
 
                 delete phrase_nodes->at(index);
                 delete phrase_nodes->at(index+2);
@@ -67,9 +65,7 @@ namespace script
                        )
                      )
             {
-                if (phrase_nodes->at(index)->orig_type == ident::NONE)
-                    phrase_nodes->at(index)->orig_type = phrase_nodes->at(index)->type;
-                phrase_nodes->at(index)->type = PARENTHEXPR;
+                setSuperType(phrase_nodes->at(index), PARENTHEXPR);
 
                 return true;
             }

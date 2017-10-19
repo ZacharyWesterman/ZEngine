@@ -45,18 +45,13 @@ namespace script
                  )
                 )
             {
-                phrase_t<CHAR>* node = new phrase_t<CHAR>();
+                phrase_t<CHAR>* pIndex = phrase_nodes->at(index);
 
-                node->type = FACTORIALEXPR;
+                phrase_t<CHAR>* node =
+                    new phrase_t<CHAR>(*pIndex, FACTORIALEXPR);
 
-                node->line = phrase_nodes->at(index)->line;
-                node->column = phrase_nodes->at(index)->column;
-
-                node->children.add(phrase_nodes->at(index));
-
-                phrase_nodes->at(index)->parent = node;
-
-                node->file = phrase_nodes->at(index)->file;
+                node->children.add(pIndex);
+                pIndex->parent = node;
 
                 delete phrase_nodes->at(index+1);
                 phrase_nodes->replace(index, index+1, node);
@@ -69,10 +64,7 @@ namespace script
                        )
                      ) //prioritize type-vars over expressions
             {
-                if (phrase_nodes->at(index)->orig_type == ident::NONE)
-                    phrase_nodes->at(index)->orig_type = phrase_nodes->at(index)->type;
-
-                phrase_nodes->at(index)->type = FACTORIALEXPR;
+                setSuperType(phrase_nodes->at(index), FACTORIALEXPR);
 
                 return true;
             }

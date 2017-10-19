@@ -63,18 +63,13 @@ namespace script
                   )
                 )
             {
-                phrase_t<CHAR>* node = new phrase_t<CHAR>();
+                phrase_t<CHAR>* pIndex = phrase_nodes->at(index);
 
-                node->type = VARIABLE;
+                phrase_t<CHAR>* node =
+                    new phrase_t<CHAR>(*pIndex, VARIABLE);
 
-                node->line = phrase_nodes->at(index)->line;
-                node->column = phrase_nodes->at(index)->column;
-
-                phrase_nodes->at(index)->parent = node;
-
-                node->children.add(phrase_nodes->at(index));
-
-                node->file = phrase_nodes->at(index)->file;
+                pIndex->parent = node;
+                node->children.add(pIndex);
 
                 phrase_nodes->at(index) = node;
 

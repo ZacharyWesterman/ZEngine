@@ -48,19 +48,14 @@ namespace script
                   )
                 )
             {
+                phrase_t<CHAR>* pIndex = phrase_nodes->at(index);
 
-                phrase_t<CHAR>* node = new phrase_t<CHAR>();
 
-                node->type = NEGATEXPR;
+                phrase_t<CHAR>* node =
+                    new phrase_t<CHAR>(*pIndex, NEGATEXPR);
 
-                node->line = phrase_nodes->at(index)->line;
-                node->column = phrase_nodes->at(index)->column;
-
-                node->children.add(phrase_nodes->at(index));
-
-                phrase_nodes->at(index)->parent = node;
-
-                node->file = phrase_nodes->at(index)->file;
+                node->children.add(pIndex);
+                pIndex->parent = node;
 
                 delete phrase_nodes->at(index-1);
                 phrase_nodes->replace(index-1, index, node);
@@ -69,10 +64,7 @@ namespace script
             }
             else if (phrase_nodes->at(index)->type == ADD1EXPR)
             {
-                if (phrase_nodes->at(index)->orig_type == ident::NONE)
-                    phrase_nodes->at(index)->orig_type = phrase_nodes->at(index)->type;
-
-                phrase_nodes->at(index)->type = NEGATEXPR;
+                setSuperType(phrase_nodes->at(index), NEGATEXPR);
 
                 return true;
             }

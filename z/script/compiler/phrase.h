@@ -65,11 +65,48 @@ namespace script
                 indent = 0;
 
                 meta = NULL;
-                value = 0;
 
                 parent = NULL;
 
                 file = NULL;
+            }
+
+            /*phrase_t(int Type,
+                     core::string<CHAR>* File,
+                     int Line, int Column, int Indent = 0,
+                     void* Meta = NULL)
+            {
+                type = Type;
+                orig_type = ident::NONE;
+
+                line = Line;
+                column = Column;
+                indent = Indent;
+
+                meta = Meta;
+
+                parent = NULL;
+                file = File;
+            }*/
+
+            phrase_t(const phrase_t<CHAR>& other,
+                     int newType = ident::NONE)
+            {
+                if (newType != ident::NONE)
+                    type = newType;
+                else
+                    type = other.type;
+
+                orig_type = ident::NONE;
+
+                line = other.line;
+                column = other.column;
+                indent = other.indent;
+
+                meta = NULL;
+
+                parent = NULL;
+                file = other.file;
             }
 
             //constructor from ident_t

@@ -2969,7 +2969,7 @@
 	"keyword.h"
 	"operator.h"
 
-1508277923 /home/zwesterman/GitHub/ZEngine//z/script/compiler/phrase.h
+1508375160 /home/zwesterman/GitHub/ZEngine//z/script/compiler/phrase.h
 	<z/core/array.h>
 	"identity.h"
 
@@ -3035,7 +3035,7 @@
 	"syntaxRules/program.h"
 	"syntaxRules/stop_statement.h"
 
-1507346414 /home/zwesterman/GitHub/ZEngine//z/script/compiler/syntaxRule.h
+1508374551 /home/zwesterman/GitHub/ZEngine//z/script/compiler/syntaxRule.h
 	"error.h"
 	"phrase.h"
 	<z/core/array.h>
@@ -3218,20 +3218,20 @@
 	"lang.syntax/negatexpr.h"
 	"lang.syntax/addexpr.h"
 
-1508284089 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/program.h
+1508375501 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/program.h
 	<z/script/compiler/syntaxRule.h>
 
-1508284136 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/operand.h
+1508375210 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/operand.h
 
-1508278932 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/variable.h
+1508375492 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/variable.h
 
-1507942176 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/parenthexpr.h
+1508375262 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/parenthexpr.h
 
-1507943607 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/addexpr.h
+1508375682 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/addexpr.h
 
-1508275322 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/factorialexpr.h
+1508375594 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/factorialexpr.h
 
-1508297043 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/add1expr.h
+1508375774 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/add1expr.h
 
-1508297185 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/negatexpr.h
+1508375076 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/negatexpr.h
 

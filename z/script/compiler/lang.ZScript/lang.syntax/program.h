@@ -55,17 +55,15 @@ namespace script
             }
             else if (phrase_nodes->at(index)->type != PROGRAM)
             {
+                phrase_t<CHAR>* pIndex = phrase_nodes->at(index);
 
-                phrase_t<CHAR>* node = new phrase_t<CHAR>();
+                phrase_t<CHAR>* node =
+                    new phrase_t<CHAR>(*pIndex, PROGRAM);
 
                 node->type = PROGRAM;
-                node->file = phrase_nodes->at(index)->file;
 
-                node->line = phrase_nodes->at(index)->line;
-                node->column = phrase_nodes->at(index)->column;
-
-                phrase_nodes->at(index)->parent = node;
-                node->children.add(phrase_nodes->at(index));
+                pIndex->parent = node;
+                node->children.add(pIndex);
 
 
                 phrase_nodes->at(index) = node;

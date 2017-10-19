@@ -47,12 +47,9 @@ namespace script
                      )
                     )
                 {
-                    phrase_t<CHAR>* node = new phrase_t<CHAR>();
-
-                    node->type = ADD1EXPR;
-
-                    node->line = phrase_nodes->at(index)->line;
-                    node->column = phrase_nodes->at(index)->column;
+                    phrase_t<CHAR>* node =
+                        new phrase_t<CHAR>(*(phrase_nodes->at(index)),
+                                           ADD1EXPR);
 
                     node->children.add(phrase_nodes->at(index));
                     node->children.add(phrase_nodes->at(index+1));
@@ -60,7 +57,6 @@ namespace script
                     phrase_nodes->at(index)->parent = node;
                     phrase_nodes->at(index+1)->parent = node;
 
-                    node->file = phrase_nodes->at(index)->file;
 
                     phrase_nodes->replace(index, index+1, node);
 
@@ -73,12 +69,9 @@ namespace script
                           )
                          )
                 {
-                    phrase_t<CHAR>* node = new phrase_t<CHAR>();
-
-                    node->type = ADD1EXPR;
-
-                    node->line = phrase_nodes->at(index)->line;
-                    node->column = phrase_nodes->at(index)->column;
+                    phrase_t<CHAR>* node =
+                        new phrase_t<CHAR>(*(phrase_nodes->at(index)),
+                                           ADD1EXPR);
 
                     node->children.add(phrase_nodes->at(index-1));
                     node->children.add(phrase_nodes->at(index));
@@ -92,10 +85,7 @@ namespace script
                 }
                 else
                 {
-                    if (phrase_nodes->at(index)->orig_type == ident::NONE)
-                        phrase_nodes->at(index)->orig_type = phrase_nodes->at(index)->type;
-
-                    phrase_nodes->at(index)->type = ADD1EXPR;
+                    setSuperType(phrase_nodes->at(index), ADD1EXPR);
 
                     return true;
                 }

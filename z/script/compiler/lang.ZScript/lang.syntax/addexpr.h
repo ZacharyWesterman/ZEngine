@@ -52,10 +52,7 @@ namespace script
                   )
                 )
             {
-                if (phrase_nodes->at(index)->orig_type == ident::NONE)
-                    phrase_nodes->at(index)->orig_type = phrase_nodes->at(index)->type;
-
-                phrase_nodes->at(index)->type = ADDEXPR;
+                setSuperType(phrase_nodes->at(index), ADDEXPR);
 
                 return true;
             }
@@ -72,12 +69,9 @@ namespace script
                       )
                      )
             {
-                phrase_t<CHAR>* node = new phrase_t<CHAR>();
-
-                node->type = ADDEXPR;
-
-                node->line = phrase_nodes->at(index)->line;
-                node->column = phrase_nodes->at(index)->column;
+                phrase_t<CHAR>* node =
+                    new phrase_t<CHAR>(*(phrase_nodes->at(index)),
+                                       ADDEXPR);
 
                 phrase_nodes->at(index)->parent = node;
                 phrase_nodes->at(index+1)->parent = node;
@@ -87,7 +81,6 @@ namespace script
                 node->children.add(phrase_nodes->at(index+1));
                 node->children.add(phrase_nodes->at(index+2));
 
-                node->file = phrase_nodes->at(index)->file;
 
                 phrase_nodes->replace(index, index+2, node);
 

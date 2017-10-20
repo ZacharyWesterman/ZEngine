@@ -38,17 +38,19 @@ namespace script
         bool addexpr<CHAR>::apply(core::array< phrase_t<CHAR>* >* phrase_nodes,
                                   int index)
         {
-            //if no detected addition(or mul.) operators, continue to the next phase
+            //if no detected addition operators, continue to the next phase
             if ((phrase_nodes->at(index)->type == MULTIPLYEXPR) &&
                 !(phrase_nodes->is_valid(index+1) &&
                   (phrase_nodes->at(index+1)->type >= ident::OPERATOR) &&
-                  (phrase_nodes->at(index+1)->metaValue >= MUL) &&
-                  (phrase_nodes->at(index+1)->metaValue <= MOD)
+                  ((phrase_nodes->at(index+1)->metaValue == ADD) ||
+                   (phrase_nodes->at(index+1)->metaValue == SUB)
+                   )
                   ) &&
                 !(phrase_nodes->is_valid(index-1) &&
                   (phrase_nodes->at(index-1)->type >= ident::OPERATOR) &&
-                  (phrase_nodes->at(index-1)->metaValue >= MUL) &&
-                  (phrase_nodes->at(index-1)->metaValue <= MOD)
+                  ((phrase_nodes->at(index-1)->metaValue == ADD) ||
+                   (phrase_nodes->at(index-1)->metaValue == SUB)
+                   )
                   )
                 )
             {
@@ -61,12 +63,11 @@ namespace script
                      ((phrase_nodes->at(index)->type == MULTIPLYEXPR) ||
                       (phrase_nodes->at(index)->type == ADDEXPR)
                       ) &&
-                     ((phrase_nodes->at(index+1)->type == ADD) ||
-                      (phrase_nodes->at(index+1)->type == SUB)
+                     (phrase_nodes->at(index+1)->type == ident::OPERATOR) &&
+                     ((phrase_nodes->at(index+1)->metaValue == ADD) ||
+                      (phrase_nodes->at(index+1)->metaValue == SUB)
                       ) &&
-                     ((phrase_nodes->at(index+2)->type == MULTIPLYEXPR) ||
-                      (phrase_nodes->at(index+2)->type == ADDEXPR)
-                      )
+                     (phrase_nodes->at(index+2)->type == MULTIPLYEXPR)
                      )
             {
                 phrase_t<CHAR>* node =

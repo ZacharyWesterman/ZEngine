@@ -90,6 +90,7 @@ enum syntax
 #include "lang.syntax/add1expr.h"
 #include "lang.syntax/negatexpr.h"
 #include "lang.syntax/powerexpr.h"
+#include "lang.syntax/multiplyexpr.h"
 #include "lang.syntax/addexpr.h"
 
 
@@ -110,6 +111,7 @@ ARRAY_C* genSyntaxRulesC()
         new z::script::compiler::add1expr<char>,
         new z::script::compiler::negatexpr<char>,
         new z::script::compiler::powerexpr<char>,
+        new z::script::compiler::multiplyexpr<char>,
         new z::script::compiler::addexpr<char>
     };
 
@@ -133,6 +135,7 @@ ARRAY_W* genSyntaxRulesW()
         new z::script::compiler::add1expr<wchar_t>,
         new z::script::compiler::negatexpr<wchar_t>,
         new z::script::compiler::powerexpr<wchar_t>,
+        new z::script::compiler::multiplyexpr<wchar_t>,
         new z::script::compiler::addexpr<wchar_t>
     };
 

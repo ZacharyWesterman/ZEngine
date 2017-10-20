@@ -2302,7 +2302,7 @@
 1504656435 /home/zwesterman/GitHub/zLibraries/z/math/factorial.h
 	<cmath>
 
-1504654717 /home/zwesterman/GitHub/zLibraries/z/math/fibonacci.h
+1508470967 /home/zwesterman/GitHub/zLibraries/z/math/fibonacci.h
 	"constants.h"
 	<math.h>
 	<z/float.h>
@@ -3206,7 +3206,7 @@
 
 1507346414 /home/zwesterman/GitHub/ZEngine//z/script/compiler/identEnum.h
 
-1508295496 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax.h
+1508536927 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax.h
 	<z/core/array.h>
 	<z/script/compiler/syntaxRule.h>
 	"lang.syntax/program.h"
@@ -3216,6 +3216,7 @@
 	"lang.syntax/factorialexpr.h"
 	"lang.syntax/add1expr.h"
 	"lang.syntax/negatexpr.h"
+	"lang.syntax/powerexpr.h"
 	"lang.syntax/addexpr.h"
 
 1508375501 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/program.h
@@ -3234,4 +3235,6 @@
 1508375774 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/add1expr.h
 
 1508375076 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/negatexpr.h
+
+1508536868 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/powerexpr.h
 

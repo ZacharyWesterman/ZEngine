@@ -92,6 +92,7 @@ enum syntax
 #include "lang.syntax/powerexpr.h"
 #include "lang.syntax/multiplyexpr.h"
 #include "lang.syntax/addexpr.h"
+#include "lang.syntax/boolexpr.h"
 
 
 #define SYN_RULE_C z::script::compiler::syntaxRule<char>
@@ -106,13 +107,15 @@ ARRAY_C* genSyntaxRulesC()
     {
         new z::script::compiler::operand<char>,
         new z::script::compiler::variable<char>,
+
         new z::script::compiler::parenthexpr<char>,
         new z::script::compiler::factorialexpr<char>,
         new z::script::compiler::add1expr<char>,
         new z::script::compiler::negatexpr<char>,
         new z::script::compiler::powerexpr<char>,
         new z::script::compiler::multiplyexpr<char>,
-        new z::script::compiler::addexpr<char>
+        new z::script::compiler::addexpr<char>,
+        new z::script::compiler::boolexpr<char>,
     };
 
     return rules;
@@ -130,13 +133,15 @@ ARRAY_W* genSyntaxRulesW()
     {
         new z::script::compiler::operand<wchar_t>,
         new z::script::compiler::variable<wchar_t>,
+
         new z::script::compiler::parenthexpr<wchar_t>,
         new z::script::compiler::factorialexpr<wchar_t>,
         new z::script::compiler::add1expr<wchar_t>,
         new z::script::compiler::negatexpr<wchar_t>,
         new z::script::compiler::powerexpr<wchar_t>,
         new z::script::compiler::multiplyexpr<wchar_t>,
-        new z::script::compiler::addexpr<wchar_t>
+        new z::script::compiler::addexpr<wchar_t>,
+        new z::script::compiler::boolexpr<wchar_t>,
     };
 
     return rules;

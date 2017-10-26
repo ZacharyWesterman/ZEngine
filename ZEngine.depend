@@ -2217,7 +2217,7 @@
 	"core/pause.h"
 	"core/charFunctions.h"
 
-1507239151 /home/zwesterman/GitHub/zLibraries/z/core/string.h
+1508652178 /home/zwesterman/GitHub/zLibraries/z/core/string.h
 	<type_traits>
 	<complex>
 	<z/float.h>
@@ -3206,7 +3206,7 @@
 
 1507346414 /home/zwesterman/GitHub/ZEngine//z/script/compiler/identEnum.h
 
-1508537216 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax.h
+1508544998 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax.h
 	<z/core/array.h>
 	<z/script/compiler/syntaxRule.h>
 	"lang.syntax/program.h"
@@ -3219,6 +3219,7 @@
 	"lang.syntax/powerexpr.h"
 	"lang.syntax/multiplyexpr.h"
 	"lang.syntax/addexpr.h"
+	"lang.syntax/boolexpr.h"
 
 1508375501 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/program.h
 	<z/script/compiler/syntaxRule.h>
@@ -3240,4 +3241,6 @@
 1508536868 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/powerexpr.h
 
 1508537655 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/multiplyexpr.h
+
+1509054056 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/boolexpr.h
 

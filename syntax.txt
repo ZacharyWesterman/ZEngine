@@ -64,7 +64,7 @@ variable_decl	: "var" IDENTIFIER ;
 		| "var" IDENTIFIER = boolexpr ;
 
 typevar_decl	: IDENTIFIER IDENTIFIER ;
-		| IDENTIFIER IDENTIFIER  = list ;
+		| IDENTIFIER IDENTIFIER  = boolexpr ;
 
 funccall	: IDENTIFIER ( )
 		| IDENTIFIER ( boolexpr )

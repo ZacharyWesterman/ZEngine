@@ -39,8 +39,7 @@ namespace script
                                   int index)
         {
             //if no detected boolean operators, continue to the next phase
-            if ((phrase_nodes->at(index)->type == ASSIGNEXPR) ||
-                ((phrase_nodes->at(index)->type == ADDEXPR) &&
+            if ((phrase_nodes->at(index)->type == ADDEXPR) &&
                  !(phrase_nodes->is_valid(index+1) &&
                    (phrase_nodes->at(index+1)->type == ident::OPERATOR) &&
                    (phrase_nodes->at(index+1)->metaValue >= AND_LGCL) &&
@@ -51,8 +50,7 @@ namespace script
                    (phrase_nodes->at(index-1)->metaValue >= AND_LGCL) &&
                    (phrase_nodes->at(index-1)->metaValue <= LT_EQ)
                    )
-                  )
-                )
+                 )
             {
                 setSuperType(phrase_nodes->at(index), BOOLEXPR);
 

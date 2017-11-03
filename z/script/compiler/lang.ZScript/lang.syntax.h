@@ -93,6 +93,7 @@ enum syntax
 #include "lang.syntax/multiplyexpr.h"
 #include "lang.syntax/addexpr.h"
 #include "lang.syntax/boolexpr.h"
+#include "lang.syntax/assignexpr.h"
 
 
 #define SYN_RULE_C z::script::compiler::syntaxRule<char>
@@ -116,6 +117,7 @@ ARRAY_C* genSyntaxRulesC()
         new z::script::compiler::multiplyexpr<char>,
         new z::script::compiler::addexpr<char>,
         new z::script::compiler::boolexpr<char>,
+        new z::script::compiler::assignexpr<char>,
     };
 
     return rules;
@@ -142,6 +144,7 @@ ARRAY_W* genSyntaxRulesW()
         new z::script::compiler::multiplyexpr<wchar_t>,
         new z::script::compiler::addexpr<wchar_t>,
         new z::script::compiler::boolexpr<wchar_t>,
+        new z::script::compiler::assignexpr<wchar_t>,
     };
 
     return rules;

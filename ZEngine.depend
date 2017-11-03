@@ -3206,7 +3206,7 @@
 
 1507346414 /home/zwesterman/GitHub/ZEngine//z/script/compiler/identEnum.h
 
-1508544998 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax.h
+1509751952 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax.h
 	<z/core/array.h>
 	<z/script/compiler/syntaxRule.h>
 	"lang.syntax/program.h"
@@ -3220,11 +3220,12 @@
 	"lang.syntax/multiplyexpr.h"
 	"lang.syntax/addexpr.h"
 	"lang.syntax/boolexpr.h"
+	"lang.syntax/assignexpr.h"
 
 1508375501 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/program.h
 	<z/script/compiler/syntaxRule.h>
 
-1509751450 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/operand.h
+1509752314 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/operand.h
 
 1508375492 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/variable.h
 
@@ -3242,5 +3243,7 @@
 
 1508537655 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/multiplyexpr.h
 
-1509751175 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/boolexpr.h
+1509751718 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/boolexpr.h
+
+1509752150 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/assignexpr.h
 

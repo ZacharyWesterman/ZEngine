@@ -24,18 +24,16 @@ namespace script
 {
     namespace compiler
     {
-        template <typename CHAR>
-        class operand : public syntaxRule<CHAR>
+        class operand : public syntaxRule
         {
         public:
             ~operand() {}
 
-            bool apply(core::array< phrase_t<CHAR>* >*,
+            bool apply(core::array< phrase_t* >*,
                        int);
         };
 
-        template <typename CHAR>
-        bool operand<CHAR>::apply(core::array< phrase_t<CHAR>* >* phrase_nodes,
+        bool operand::apply(core::array< phrase_t* >* phrase_nodes,
                                   int index)
         {
             if (!(phrase_nodes->is_valid(index-1) &&

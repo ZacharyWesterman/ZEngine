@@ -24,8 +24,8 @@ namespace script
 {
     namespace compiler
     {
-        template <typename CHAR>
-        bool lexer<CHAR>::for_statement()
+
+        bool lexer::for_statement()
         {
             if (phrase_nodes.is_valid(index+7) &&
                 (phrase_nodes[index]->type == ident::KEYWORD_FOR) &&
@@ -52,7 +52,7 @@ namespace script
                      (phrase_nodes[index+9]->type == phrase::STATEMENTLIST)) &&
                     (phrase_nodes[index+10]->type == ident::RBRACE))
                 {
-                    phrase_t<CHAR>* node = new phrase_t<CHAR>();
+                    phrase_t* node = new phrase_t();
 
                     node->type = phrase::FOR_STATEMENT;
 
@@ -86,7 +86,7 @@ namespace script
                     (phrase_nodes[index+8]->type == ident::LBRACE) &&
                     (phrase_nodes[index+9]->type == ident::RBRACE))
                 {
-                    phrase_t<CHAR>* node = new phrase_t<CHAR>();
+                    phrase_t* node = new phrase_t();
 
                     node->type = phrase::FOR_STATEMENT;
 
@@ -118,7 +118,7 @@ namespace script
                 {
                     if (phrase_nodes[index+8]->type == phrase::STATEMENT)
                     {
-                        phrase_t<CHAR>* node = new phrase_t<CHAR>();
+                        phrase_t* node = new phrase_t();
 
                         node->type = phrase::FOR_STATEMENT;
 
@@ -148,7 +148,7 @@ namespace script
                     }
                     else if (phrase_nodes[index+8]->type == ident::SEMICOLON)
                     {
-                        phrase_t<CHAR>* node = new phrase_t<CHAR>();
+                        phrase_t* node = new phrase_t();
 
                         node->type = phrase::FOR_STATEMENT;
 

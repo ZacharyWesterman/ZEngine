@@ -24,8 +24,8 @@ namespace script
 {
     namespace compiler
     {
-        template <typename CHAR>
-        bool lexer<CHAR>::while_pre_stmt()
+
+        bool lexer::while_pre_stmt()
         {
             if (phrase_nodes.is_valid(index+5) &&
                 (phrase_nodes[index]->type == ident::KEYWORD_LOOP) &&
@@ -40,7 +40,7 @@ namespace script
                      (phrase_nodes[index+6]->type == phrase::STATEMENTLIST)) &&
                     (phrase_nodes[index+7]->type == ident::RBRACE))
                 {
-                    phrase_t<CHAR>* node = new phrase_t<CHAR>();
+                    phrase_t* node = new phrase_t();
 
                     node->type = phrase::WHILE_PRE_STMT;
 
@@ -69,7 +69,7 @@ namespace script
                     (phrase_nodes[index+5]->type == ident::LBRACE) &&
                     (phrase_nodes[index+6]->type == ident::RBRACE))
                 {
-                    phrase_t<CHAR>* node = new phrase_t<CHAR>();
+                    phrase_t* node = new phrase_t();
 
                     node->type = phrase::WHILE_PRE_STMT;
 
@@ -94,7 +94,7 @@ namespace script
                 }
                 else if (phrase_nodes[index+5]->type == phrase::STATEMENT)
                 {
-                    phrase_t<CHAR>* node = new phrase_t<CHAR>();
+                    phrase_t* node = new phrase_t();
 
                     node->type = phrase::WHILE_PRE_STMT;
 
@@ -119,7 +119,7 @@ namespace script
                 }
                 else if (phrase_nodes[index+5]->type == ident::SEMICOLON)
                 {
-                    phrase_t<CHAR>* node = new phrase_t<CHAR>();
+                    phrase_t* node = new phrase_t();
 
                     node->type = phrase::WHILE_PRE_STMT;
 

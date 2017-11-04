@@ -2193,7 +2193,7 @@
 
 1489353285 c:\users\zachary\documents\github\zengine\\z\script\errors.h
 
-1507346414 source:/home/zwesterman/GitHub/ZEngine/main.cpp
+1509768586 source:/home/zwesterman/GitHub/ZEngine/main.cpp
 	<iostream>
 	<z/core.h>
 	<z/math.h>
@@ -2217,7 +2217,7 @@
 	"core/pause.h"
 	"core/charFunctions.h"
 
-1508652178 /home/zwesterman/GitHub/zLibraries/z/core/string.h
+1509768864 /home/zwesterman/GitHub/zLibraries/z/core/string.h
 	<type_traits>
 	<complex>
 	<z/float.h>
@@ -2920,7 +2920,7 @@
 1507346414 /home/zwesterman/GitHub/ZEngine//z/script/error.h
 	<z/core/string.h>
 
-1507346414 /home/zwesterman/GitHub/ZEngine//z/script/generic.h
+1509768156 /home/zwesterman/GitHub/ZEngine//z/script/generic.h
 	<z/float.h>
 	<z/core/string.h>
 	<z/core/array.h>
@@ -2941,7 +2941,7 @@
 	<z/core/timeout.h>
 	"generic.h"
 
-1507346414 /home/zwesterman/GitHub/ZEngine//z/script/compiler.h
+1509767248 /home/zwesterman/GitHub/ZEngine//z/script/compiler.h
 	"compiler/scanner.h"
 	"compiler/lexer.h"
 	"compiler/constantFolder.h"
@@ -2952,13 +2952,13 @@
 1507346414 /home/zwesterman/GitHub/ZEngine//z/script/compiler/escapeSequences.h
 	<z/core/string.h>
 
-1507346414 /home/zwesterman/GitHub/ZEngine//z/script/compiler/identity.h
+1509768172 /home/zwesterman/GitHub/ZEngine//z/script/compiler/identity.h
 	<z/core/string.h>
 	"identEnum.h"
 	"../generic.h"
 	"../error.h"
 
-1507347039 /home/zwesterman/GitHub/ZEngine//z/script/compiler/scanner.h
+1509768665 /home/zwesterman/GitHub/ZEngine//z/script/compiler/scanner.h
 	<limits>
 	<z/core/sortedArray.h>
 	<z/core/string.h>
@@ -2969,11 +2969,11 @@
 	"keyword.h"
 	"operator.h"
 
-1508375160 /home/zwesterman/GitHub/ZEngine//z/script/compiler/phrase.h
+1509768197 /home/zwesterman/GitHub/ZEngine//z/script/compiler/phrase.h
 	<z/core/array.h>
 	"identity.h"
 
-1508297144 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lexer.h
+1509766495 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lexer.h
 	<z/core/timeout.h>
 	<z/core/array.h>
 	<z/core/dynamicStack.h>
@@ -3035,7 +3035,7 @@
 	"syntaxRules/program.h"
 	"syntaxRules/stop_statement.h"
 
-1508374551 /home/zwesterman/GitHub/ZEngine//z/script/compiler/syntaxRule.h
+1509765109 /home/zwesterman/GitHub/ZEngine//z/script/compiler/syntaxRule.h
 	"error.h"
 	"phrase.h"
 	<z/core/array.h>
@@ -3152,7 +3152,7 @@
 
 1504986116 /home/zwesterman/GitHub/ZEngine//z/script/compiler/syntaxErrors/error_for.h
 
-1507346414 /home/zwesterman/GitHub/ZEngine//z/script/compiler/constantFolder.h
+1509765903 /home/zwesterman/GitHub/ZEngine//z/script/compiler/constantFolder.h
 	<z/core/dynamicStack.h>
 	<z/core/timeout.h>
 	"../error.h"
@@ -3164,7 +3164,7 @@
 1505087960 /home/zwesterman/GitHub/ZEngine//z/script/compiler/signatures.h
 	<z/core/array.h>
 
-1507346414 /home/zwesterman/GitHub/ZEngine//z/script/compiler/semanticAnalyzer.h
+1509765903 /home/zwesterman/GitHub/ZEngine//z/script/compiler/semanticAnalyzer.h
 	<z/core/array.h>
 	<z/core/dynamicStack.h>
 	<z/core/timeout.h>
@@ -3176,7 +3176,7 @@
 	"varScope.h"
 	<iostream>
 
-1507346414 /home/zwesterman/GitHub/ZEngine//z/script/compiler/includeIterator.h
+1509765902 /home/zwesterman/GitHub/ZEngine//z/script/compiler/includeIterator.h
 	<z/core/array.h>
 	<z/file/reader.h>
 	<z/file/shorten.h>
@@ -3206,7 +3206,7 @@
 
 1507346414 /home/zwesterman/GitHub/ZEngine//z/script/compiler/identEnum.h
 
-1509751952 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax.h
+1509766169 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax.h
 	<z/core/array.h>
 	<z/script/compiler/syntaxRule.h>
 	"lang.syntax/program.h"
@@ -3222,28 +3222,28 @@
 	"lang.syntax/boolexpr.h"
 	"lang.syntax/assignexpr.h"
 
-1508375501 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/program.h
+1509765159 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/program.h
 	<z/script/compiler/syntaxRule.h>
 
-1509752314 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/operand.h
+1509765231 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/operand.h
 
-1508375492 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/variable.h
+1509765279 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/variable.h
 
-1509751637 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/parenthexpr.h
+1509765341 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/parenthexpr.h
 
-1508538081 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/addexpr.h
+1509765594 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/addexpr.h
 
-1508375594 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/factorialexpr.h
+1509765387 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/factorialexpr.h
 
-1508375774 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/add1expr.h
+1509765492 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/add1expr.h
 
-1508375076 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/negatexpr.h
+1509765515 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/negatexpr.h
 
-1508536868 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/powerexpr.h
+1509765550 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/powerexpr.h
 
-1508537655 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/multiplyexpr.h
+1509765570 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/multiplyexpr.h
 
-1509751718 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/boolexpr.h
+1509765747 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/boolexpr.h
 
-1509752150 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/assignexpr.h
+1509765750 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/assignexpr.h
 

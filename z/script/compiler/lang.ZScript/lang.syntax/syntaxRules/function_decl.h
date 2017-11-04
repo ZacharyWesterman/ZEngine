@@ -24,8 +24,8 @@ namespace script
 {
     namespace compiler
     {
-        template <typename CHAR>
-        bool lexer<CHAR>::function_decl()
+
+        bool lexer::function_decl()
         {
             bool result = false;
 
@@ -42,7 +42,7 @@ namespace script
                  (phrase_nodes[index+5]->type == phrase::STATEMENT)) &&
                 (phrase_nodes[index+6]->type == ident::RBRACE))
             {
-                phrase_t<CHAR>* node = new phrase_t<CHAR>();
+                phrase_t* node = new phrase_t();
 
                 node->type = phrase::FUNCTION_DECL;
 
@@ -77,7 +77,7 @@ namespace script
                  (phrase_nodes[index+4]->type == phrase::STATEMENT)) &&
                 (phrase_nodes[index+5]->type == ident::RBRACE))
             {
-                phrase_t<CHAR>* node = new phrase_t<CHAR>();
+                phrase_t* node = new phrase_t();
 
                 node->type = phrase::FUNCTION_DECL;
 
@@ -111,7 +111,7 @@ namespace script
                 (phrase_nodes[index+4]->type == ident::LBRACE) &&
                 (phrase_nodes[index+5]->type == ident::RBRACE))
             {
-                phrase_t<CHAR>* node = new phrase_t<CHAR>();
+                phrase_t* node = new phrase_t();
 
                 node->type = phrase::FUNCTION_DECL;
 
@@ -142,7 +142,7 @@ namespace script
                 (phrase_nodes[index+3]->type == ident::LBRACE) &&
                 (phrase_nodes[index+4]->type == ident::RBRACE))
             {
-                phrase_t<CHAR>* node = new phrase_t<CHAR>();
+                phrase_t* node = new phrase_t();
 
                 node->type = phrase::FUNCTION_DECL;
 

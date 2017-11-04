@@ -24,8 +24,8 @@ namespace script
 {
     namespace compiler
     {
-        template <typename CHAR>
-        bool lexer<CHAR>::program()
+
+        bool lexer::program()
         {
             if ((phrase_nodes[index]->type == phrase::VARIABLE_DECL) ||
                 (phrase_nodes[index]->type == phrase::TYPEVAR_DECL) ||
@@ -36,7 +36,7 @@ namespace script
                 (phrase_nodes[index]->type == phrase::SHAREDDECL) ||
                 (phrase_nodes[index]->type == phrase::SUBROUTINE_DECL))
             {
-                phrase_t<CHAR>* node = new phrase_t<CHAR>();
+                phrase_t* node = new phrase_t();
 
                 node->type = phrase::PROGRAM;
 

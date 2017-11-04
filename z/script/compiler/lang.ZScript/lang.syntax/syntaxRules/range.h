@@ -24,8 +24,8 @@ namespace script
 {
     namespace compiler
     {
-        template <typename CHAR>
-        bool lexer<CHAR>::_range()
+
+        bool lexer::_range()
         {
             if (phrase_nodes.is_valid(index+2) &&
                 (phrase_nodes[index]->type == phrase::BOOLEXPR) &&
@@ -33,7 +33,7 @@ namespace script
                  (phrase_nodes[index+1]->type == ident::OPER_L_ARROW)) &&
                 (phrase_nodes[index+2]->type == phrase::BOOLEXPR))
             {
-                phrase_t<CHAR>* node = new phrase_t<CHAR>();
+                phrase_t* node = new phrase_t();
 
                 node->type = phrase::RANGE;
 

@@ -24,18 +24,16 @@ namespace script
 {
     namespace compiler
     {
-        template <typename CHAR>
-        class parenthexpr : public syntaxRule<CHAR>
+        class parenthexpr : public syntaxRule
         {
         public:
             ~parenthexpr() {}
 
-            bool apply(core::array< phrase_t<CHAR>* >*,
+            bool apply(core::array< phrase_t* >*,
                        int);
         };
 
-        template <typename CHAR>
-        bool parenthexpr<CHAR>::apply(core::array< phrase_t<CHAR>* >* phrase_nodes,
+        bool parenthexpr::apply(core::array< phrase_t* >* phrase_nodes,
                                   int index)
         {
 

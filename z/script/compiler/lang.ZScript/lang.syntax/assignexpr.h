@@ -24,18 +24,18 @@ namespace script
 {
     namespace compiler
     {
-        template <typename CHAR>
-        class assignexpr : public syntaxRule<CHAR>
+
+        class assignexpr : public syntaxRule
         {
         public:
             ~assignexpr() {}
 
-            bool apply(core::array< phrase_t<CHAR>* >*,
+            bool apply(core::array< phrase_t* >*,
                        int);
         };
 
-        template <typename CHAR>
-        bool assignexpr<CHAR>::apply(core::array< phrase_t<CHAR>* >* phrase_nodes,
+
+        bool assignexpr::apply(core::array< phrase_t* >* phrase_nodes,
                                   int index)
         {
             if (phrase_nodes->is_valid(index+2) &&
@@ -46,8 +46,8 @@ namespace script
                 (phrase_nodes->at(index+2)->type == BOOLEXPR)
                 )
             {
-                phrase_t<CHAR>* node =
-                    new phrase_t<CHAR>(*(phrase_nodes->at(index)), ASSIGNEXPR);
+                phrase_t* node =
+                    new phrase_t(*(phrase_nodes->at(index)), ASSIGNEXPR);
 
                 phrase_nodes->at(index)->parent = node;
                 phrase_nodes->at(index+1)->parent = node;

@@ -125,19 +125,22 @@ namespace script
         }
 
 
+        ///debug
+        void print_lex_ast(int, phrase_t*);
+
 
         template <typename CHAR>
         class lexer
         {
         private:
-            core::array< ident_t<CHAR> >* input_ident;
+            core::array< ident_t >* input_ident;
 
-            core::array< phrase_t<CHAR>* > phrase_nodes;
+            core::array< phrase_t* > phrase_nodes;
 
-            core::array< syntaxRule<CHAR>* >* rules;
-            syntaxRule<CHAR>* program_rule;
+            core::array< syntaxRule* >* rules;
+            syntaxRule* program_rule;
 
-            phrase_t<CHAR>* current_node;
+            phrase_t* current_node;
 
             int index;
             bool did_concat;
@@ -159,8 +162,8 @@ namespace script
         public:
             core::array< error > error_buffer;
 
-            lexer(core::array< syntaxRule<CHAR>* >* Rules,
-                  syntaxRule<CHAR>* programRule)
+            lexer(core::array< syntaxRule* >* Rules,
+                  syntaxRule* programRule)
             {
                 rules = Rules;
                 program_rule = programRule;
@@ -182,7 +185,7 @@ namespace script
                     deleteNode(phrase_nodes[i]);
             }
 
-            void linkInput(core::array< ident_t<CHAR> >* identifiers)
+            void linkInput(core::array< ident_t >* identifiers)
             {
                 input_ident = identifiers;
 
@@ -211,13 +214,13 @@ namespace script
             inline bool done() {return (progress == lex::DONE);}
 
 
-            phrase_t<CHAR>* moveResultAST()
+            phrase_t* moveResultAST()
             {
                 if ((progress == lex::DONE) &&
                     !error_buffer.size() &&
                     (phrase_nodes.size() == 1))
                 {
-                    phrase_t<CHAR>* result = phrase_nodes[0];
+                    phrase_t* result = phrase_nodes[0];
                     phrase_nodes.remove(0);
 
                     return result;
@@ -315,7 +318,7 @@ namespace script
             }
             else
             {
-                phrase_nodes.add(new phrase_t<CHAR>(input_ident->at(index)));
+                phrase_nodes.add(new phrase_t(input_ident->at(index)));
 
                 index++;
             }
@@ -462,8 +465,7 @@ namespace script
         }
 
         ///debug
-        template <typename CHAR>
-        void print_lex_ast(int level, phrase_t<CHAR>* node)
+        void print_lex_ast(int level, phrase_t* node)
         {
             if (node)
             {
@@ -481,12 +483,12 @@ namespace script
                 else if (node->type == ident::COMPLEX_LITERAL)
                     std::cout << "<" << node->value.string().str() << "i>";
                 else if (node->type == ident::LITERAL)
-                    std::cout << "#const<" << node->value.string().str() << ">";
+                    std::cout << "#const<" << node->value.string().narrow().str() << ">";
                 else if (node->type == ident::UNKNOWN)
-                    std::cout << "#unkn<" << ((core::string<CHAR>*)(node->meta))->str() << ">";
+                    std::cout << "#unkn<" << ((core::string<int>*)(node->meta))->narrow().str() << ">";
                 else if (node->type == ident::IDENTIFIER)
                     std::cout << symTypeStr[node->type] << " : {"\
-                     << ((core::string<CHAR>*)(node->meta))->str() << "}";
+                     << ((core::string<int>*)(node->meta))->narrow().str() << "}";
                 else
                     std::cout << symTypeStr[node->type];
 

@@ -24,8 +24,8 @@ namespace script
 {
     namespace compiler
     {
-        template <typename CHAR>
-        bool lexer<CHAR>::formaltypedecl()
+
+        bool lexer::formaltypedecl()
         {
             if ((phrase_nodes.is_valid(index-2) &&
                  (phrase_nodes[index-2]->type == ident::IDENTIFIER) &&
@@ -40,7 +40,7 @@ namespace script
                     (phrase_nodes[index]->type == ident::IDENTIFIER) &&
                     (phrase_nodes[index+1]->type == ident::IDENTIFIER))
                 {
-                    phrase_t<CHAR>* node = new phrase_t<CHAR>();
+                    phrase_t* node = new phrase_t();
 
                     node->type = phrase::FORMALTYPEDECL;
 

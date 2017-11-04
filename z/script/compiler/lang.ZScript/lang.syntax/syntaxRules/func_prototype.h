@@ -24,8 +24,8 @@ namespace script
 {
     namespace compiler
     {
-        template <typename CHAR>
-        bool lexer<CHAR>::func_prototype()
+
+        bool lexer::func_prototype()
         {
             //function prototype must have an explicit return type.
             if (phrase_nodes.is_valid(index-1) &&
@@ -50,7 +50,7 @@ namespace script
                     (phrase_nodes[index+3]->type == ident::RPARENTH) &&
                     (phrase_nodes[index+4]->type == ident::SEMICOLON))
                 {
-                    phrase_t<CHAR>* node = new phrase_t<CHAR>();
+                    phrase_t* node = new phrase_t();
 
                     node->type = phrase::FUNC_PROTOTYPE;
 
@@ -82,7 +82,7 @@ namespace script
                     (phrase_nodes[index+2]->type == ident::RPARENTH) &&
                     (phrase_nodes[index+3]->type == ident::SEMICOLON))
                 {
-                    phrase_t<CHAR>* node = new phrase_t<CHAR>();
+                    phrase_t* node = new phrase_t();
 
                     node->type = phrase::FUNC_PROTOTYPE;
 

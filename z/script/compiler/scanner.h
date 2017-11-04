@@ -42,9 +42,9 @@ namespace script
         {
         private:
             core::string<CHAR>* input;
-            core::array< ident_t<CHAR> >* identifiers;
+            core::array< ident_t >* identifiers;
 
-            core::dynamicStack< ident_t<CHAR> > open_symbol_indices;
+            core::dynamicStack< ident_t > open_symbol_indices;
 
             int index;
 
@@ -57,13 +57,13 @@ namespace script
             int column;
             int indent;
 
-            ident_t<CHAR> current_ident;
+            ident_t current_ident;
             ident newIdent;
             core::string<CHAR> current_symbol;
 
             bool done;
 
-            core::sortedRefArray< core::string<CHAR>* >* sym_table;
+            core::sortedRefArray< core::string<CPL_CHAR>* >* sym_table;
 
             core::array<keyword>* keywords;
             core::array<oper>* operators;
@@ -80,19 +80,19 @@ namespace script
             core::array< error > error_buffer;
 
 
-            scanner(core::sortedRefArray< core::string<CHAR>* >*,
+            scanner(core::sortedRefArray< core::string<CPL_CHAR>* >*,
                      core::array<keyword>*,
                      core::array<oper>*,
                      core::array< core::string<char> >*,
                      core::string<CHAR>*,
-                     core::array< ident_t<CHAR> >*);
+                     core::array< ident_t >*);
 
-            void set(core::sortedRefArray< core::string<CHAR>* >*,
+            void set(core::sortedRefArray< core::string<CPL_CHAR>* >*,
                      core::array<keyword>*,
                      core::array<oper>*,
                      core::array< core::string<char> >*,
                      core::string<CHAR>*,
-                     core::array< ident_t<CHAR> >*);
+                     core::array< ident_t >*);
 
             inline void linkInput(core::string<CHAR>*);
 
@@ -110,7 +110,7 @@ namespace script
 
             void check_this_number();
 
-            core::string<CHAR>* addToSymTable(core::string<CHAR>*) const;
+            core::string<CPL_CHAR>* addToSymTable(const core::string<CHAR>&) const;
 
 
             void check_open_symbols();
@@ -137,13 +137,13 @@ namespace script
 
         template <typename CHAR>
         //constructor allows operators, commands, and functions be set
-        scanner<CHAR>::scanner(core::sortedRefArray<core::string<CHAR>* >*
+        scanner<CHAR>::scanner(core::sortedRefArray<core::string<CPL_CHAR>* >*
                                                             symbol_table,
                                core::array<keyword>* Keywords,
                                core::array<oper>* Operators,
                                core::array< core::string<char> >* commentRules,
                                core::string<CHAR>* File,
-                               core::array< ident_t<CHAR> >* Output)
+                               core::array< ident_t >* Output)
         {
             clear();
 
@@ -156,13 +156,13 @@ namespace script
         }
 
         template <typename CHAR>
-        void scanner<CHAR>::set(core::sortedRefArray<core::string<CHAR>* >*
+        void scanner<CHAR>::set(core::sortedRefArray<core::string<CPL_CHAR>* >*
                                                             symbol_table,
                                 core::array<keyword>* Keywords,
                                 core::array<oper>* Operators,
                                 core::array< core::string<char> >* commentRules,
                                 core::string<CHAR>* File,
-                                core::array< ident_t<CHAR> >* Output)
+                                core::array< ident_t >* Output)
         {
             sym_table = symbol_table;
             keywords = Keywords;
@@ -198,7 +198,7 @@ namespace script
             column = 0;
             indent = 0;
 
-            current_ident = ident_t<CHAR>(ident::NONE, 0, 0);
+            current_ident = ident_t(ident::NONE, 0, 0);
             newIdent = ident::NONE;
             current_symbol.clear();
 
@@ -401,7 +401,7 @@ namespace script
         template <typename CHAR>
         void scanner<CHAR>::check_open_symbols()
         {
-            ident_t<CHAR> op_sym;
+            ident_t op_sym;
             while (open_symbol_indices.pop(op_sym))
             {
                 if (op_sym.type == ident::LPARENTH)
@@ -458,7 +458,7 @@ namespace script
                 }
 
                 if (addmeta)
-                    current_ident.meta = addToSymTable(&current_symbol);
+                    current_ident.meta = addToSymTable(current_symbol);
                 identifiers->add(current_ident);
             }
 
@@ -472,7 +472,7 @@ namespace script
             current_ident.meta = NULL;
             current_ident.file = file;
 
-            current_ident.value = generic<CHAR>();
+            current_ident.value.clear();
         }
 
         template <typename CHAR>
@@ -537,7 +537,7 @@ namespace script
         {
             newIdent = ident::LPARENTH;
 
-            open_symbol_indices.push(ident_t<CHAR>(newIdent,
+            open_symbol_indices.push(ident_t(newIdent,
                                                    line, column));
         }
 
@@ -546,7 +546,7 @@ namespace script
         {
             newIdent = ident::RPARENTH;
 
-            ident_t<CHAR> op_sym;
+            ident_t op_sym;
             if (!open_symbol_indices.pop(op_sym))
             {
                 error_buffer.add(error("Missing open parentheses",
@@ -575,7 +575,7 @@ namespace script
         {
             newIdent = ident::LBRACKET;
 
-            open_symbol_indices.push(ident_t<CHAR>(newIdent,
+            open_symbol_indices.push(ident_t(newIdent,
                                                    line, column));
         }
 
@@ -584,7 +584,7 @@ namespace script
         {
             newIdent = ident::RBRACKET;
 
-            ident_t<CHAR> op_sym;
+            ident_t op_sym;
             if (!open_symbol_indices.pop(op_sym))
             {
                 error_buffer.add(error("Missing open square bracket",
@@ -613,7 +613,7 @@ namespace script
         {
             newIdent = ident::LBRACE;
 
-            open_symbol_indices.push(ident_t<CHAR>(newIdent,
+            open_symbol_indices.push(ident_t(newIdent,
                                                    line, column));
         }
 
@@ -622,7 +622,7 @@ namespace script
         {
             newIdent = ident::RBRACE;
 
-            ident_t<CHAR> op_sym;
+            ident_t op_sym;
             if (!open_symbol_indices.pop(op_sym))
             {
                 error_buffer.add(error("Missing open curly brace",
@@ -698,7 +698,7 @@ namespace script
         {
             bool oper_error = false;
 
-            core::array< ident_t<CHAR> > temp_opers;
+            core::array< ident_t > temp_opers;
 
             int x_offset = 0;
 
@@ -725,7 +725,7 @@ namespace script
 
                 if (prev_index > -1)
                 {
-                    ident_t<CHAR> this_oper (ident::OPERATOR,
+                    ident_t this_oper (ident::OPERATOR,
                                              line,
                                              column+x_offset-input.length(),
                                              0,
@@ -765,7 +765,7 @@ namespace script
                 this_type = ident::UNKNOWN;
 
 
-                identifiers->add(ident_t<CHAR>(this_type,
+                identifiers->add(ident_t(this_type,
                                                line, column-input.length()));
             }
 
@@ -874,6 +874,8 @@ namespace script
                 else
                     current_ident.value = symbol.value(base);
             }
+
+            //std::cout << "[" << current_ident.value.complex() << "]\n";
         }
 
         ///Some operators have alphanumeric characters in them.
@@ -897,19 +899,22 @@ namespace script
 
 
         template <typename CHAR>
-        core::string<CHAR>* scanner<CHAR>::addToSymTable(core::string<CHAR>* symbol) const
+        core::string<CPL_CHAR>* scanner<CHAR>::addToSymTable(const core::string<CHAR>& symbol) const
         {
             if (sym_table)
             {
-                int existing = sym_table->find(symbol);
+                core::string<CPL_CHAR>* new_sym = new core::string<CPL_CHAR>(symbol);
+
+                int existing = sym_table->find(new_sym);
 
                 if (existing > -1)
                 {
+                    delete new_sym;
+
                     return sym_table->at(existing);
                 }
                 else
                 {
-                    core::string<CHAR>* new_sym = new core::string<CHAR>(*symbol);
                     sym_table->add(new_sym);
                     return new_sym;
                 }

@@ -96,68 +96,37 @@ enum syntax
 #include "lang.syntax/assignexpr.h"
 
 
-#define SYN_RULE_C z::script::compiler::syntaxRule<char>
-#define SYN_RULE_W z::script::compiler::syntaxRule<wchar_t>
-#define ARRAY_C z::core::array<SYN_RULE_C*>
-#define ARRAY_W z::core::array<SYN_RULE_W*>
+#define SYN_RULE z::script::compiler::syntaxRule
+#define ARRAY z::core::array<SYN_RULE*>
 
 
-ARRAY_C* genSyntaxRulesC()
+ARRAY* genSyntaxRules()
 {
-    ARRAY_C* rules = new ARRAY_C
+    ARRAY* rules = new ARRAY
     {
-        new z::script::compiler::operand<char>,
-        new z::script::compiler::variable<char>,
+        new z::script::compiler::operand,
+        new z::script::compiler::variable,
 
-        new z::script::compiler::parenthexpr<char>,
-        new z::script::compiler::factorialexpr<char>,
-        new z::script::compiler::add1expr<char>,
-        new z::script::compiler::negatexpr<char>,
-        new z::script::compiler::powerexpr<char>,
-        new z::script::compiler::multiplyexpr<char>,
-        new z::script::compiler::addexpr<char>,
-        new z::script::compiler::boolexpr<char>,
-        new z::script::compiler::assignexpr<char>,
+        new z::script::compiler::parenthexpr,
+        new z::script::compiler::factorialexpr,
+        new z::script::compiler::add1expr,
+        new z::script::compiler::negatexpr,
+        new z::script::compiler::powerexpr,
+        new z::script::compiler::multiplyexpr,
+        new z::script::compiler::addexpr,
+        new z::script::compiler::boolexpr,
+        new z::script::compiler::assignexpr,
     };
 
     return rules;
 }
 
-SYN_RULE_C* genProgramRuleC()
+SYN_RULE* genProgramRule()
 {
-    return new z::script::compiler::program<char>;
+    return new z::script::compiler::program;
 }
 
-
-ARRAY_W* genSyntaxRulesW()
-{
-    ARRAY_W* rules = new ARRAY_W
-    {
-        new z::script::compiler::operand<wchar_t>,
-        new z::script::compiler::variable<wchar_t>,
-
-        new z::script::compiler::parenthexpr<wchar_t>,
-        new z::script::compiler::factorialexpr<wchar_t>,
-        new z::script::compiler::add1expr<wchar_t>,
-        new z::script::compiler::negatexpr<wchar_t>,
-        new z::script::compiler::powerexpr<wchar_t>,
-        new z::script::compiler::multiplyexpr<wchar_t>,
-        new z::script::compiler::addexpr<wchar_t>,
-        new z::script::compiler::boolexpr<wchar_t>,
-        new z::script::compiler::assignexpr<wchar_t>,
-    };
-
-    return rules;
-}
-
-SYN_RULE_W* genProgramRuleW()
-{
-    return new z::script::compiler::program<wchar_t>;
-}
-
-#undef SYN_RULE_C
-#undef SYN_RULE_W
-#undef ARRAY_C
-#undef ARRAY_W
+#undef SYN_RULE
+#undef ARRAY
 
 #endif // LANG_SYNTAX_H_INCLUDED

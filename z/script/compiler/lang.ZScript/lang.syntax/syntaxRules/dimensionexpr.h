@@ -24,8 +24,8 @@ namespace script
 {
     namespace compiler
     {
-        template <typename CHAR>
-        bool lexer<CHAR>::dimensionexpr()
+
+        bool lexer::dimensionexpr()
         {
             if (phrase_nodes.is_valid(index+5) &&
                 (phrase_nodes[index]->type == ident::IDENTIFIER) &&
@@ -35,7 +35,7 @@ namespace script
                 (phrase_nodes[index+4]->type == phrase::BOOLEXPR) &&
                 (phrase_nodes[index+5]->type == ident::RPARENTH))
             {
-                phrase_t<CHAR>* node = new phrase_t<CHAR>();
+                phrase_t* node = new phrase_t();
 
                 node->type = phrase::DIMENSIONEXPR;
 
@@ -67,7 +67,7 @@ namespace script
                      (phrase_nodes[index+2]->type == phrase::BOOLEXPR) &&
                      (phrase_nodes[index+3]->type == ident::RPARENTH))
             {
-                phrase_t<CHAR>* node = new phrase_t<CHAR>();
+                phrase_t* node = new phrase_t();
 
                 node->type = phrase::DIMENSIONEXPR;
 

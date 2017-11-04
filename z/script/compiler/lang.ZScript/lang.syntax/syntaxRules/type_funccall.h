@@ -24,15 +24,15 @@ namespace script
 {
     namespace compiler
     {
-        template <typename CHAR>
-        bool lexer<CHAR>::type_funccall()
+
+        bool lexer::type_funccall()
         {
             if (phrase_nodes.is_valid(index+2) &&
                 (phrase_nodes[index]->type == phrase::PARENTHEXPR) &&
                 (phrase_nodes[index+1]->type == ident::PERIOD) &&
                 (phrase_nodes[index+2]->type == phrase::FUNCCALL))
             {
-                phrase_t<CHAR>* node = new phrase_t<CHAR>();
+                phrase_t* node = new phrase_t();
 
                 node->type = phrase::TYPE_FUNCCALL;
 

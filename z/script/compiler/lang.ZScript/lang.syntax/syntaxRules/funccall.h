@@ -24,8 +24,8 @@ namespace script
 {
     namespace compiler
     {
-        template <typename CHAR>
-        bool lexer<CHAR>::funccall()
+
+        bool lexer::funccall()
         {
             if (phrase_nodes.is_valid(index+3) &&
                 (phrase_nodes[index]->type == ident::IDENTIFIER) &&
@@ -36,7 +36,7 @@ namespace script
                 !(phrase_nodes.is_valid(index+4) &&
                  (phrase_nodes[index+4]->type == ident::LBRACE)))
             {
-                phrase_t<CHAR>* node = new phrase_t<CHAR>();
+                phrase_t* node = new phrase_t();
 
                 node->type = phrase::FUNCCALL;
 
@@ -64,7 +64,7 @@ namespace script
                     !(phrase_nodes.is_valid(index+3) &&
                       (phrase_nodes[index+3]->type == ident::LBRACE)))
             {
-                phrase_t<CHAR>* node = new phrase_t<CHAR>();
+                phrase_t* node = new phrase_t();
 
                 node->type = phrase::FUNCCALL;
 

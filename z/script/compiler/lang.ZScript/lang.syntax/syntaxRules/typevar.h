@@ -24,15 +24,15 @@ namespace script
 {
     namespace compiler
     {
-        template <typename CHAR>
-        bool lexer<CHAR>::typevar()
+
+        bool lexer::typevar()
         {
             if (phrase_nodes.is_valid(index+2) &&
                 (phrase_nodes[index]->type == phrase::PARENTHEXPR) &&
                 (phrase_nodes[index+1]->type == ident::PERIOD) &&
                 (phrase_nodes[index+2]->type == phrase::VARIABLE))
             {
-                phrase_t<CHAR>* node = new phrase_t<CHAR>();
+                phrase_t* node = new phrase_t();
 
                 node->type = phrase::TYPEVAR;
 

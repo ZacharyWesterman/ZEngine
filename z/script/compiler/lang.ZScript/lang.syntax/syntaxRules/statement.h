@@ -24,8 +24,8 @@ namespace script
 {
     namespace compiler
     {
-        template <typename CHAR>
-        bool lexer<CHAR>::statement()
+
+        bool lexer::statement()
         {
             if ((!phrase_nodes.is_valid(index-1) ||
                   ((phrase_nodes[index-1]->type >= phrase::STATEMENTLIST) &&

@@ -27,7 +27,6 @@ namespace script
     namespace compiler
     {
 
-        template <typename CHAR>
         class phrase_t
         {
         public:
@@ -45,14 +44,14 @@ namespace script
                 unsigned long metaValue;
             };
 
-            generic<CHAR> value;
+            generic<CPL_CHAR> value;
 
 
             phrase_t* parent;
             core::array<phrase_t*> children;
 
             //keep track of what file this is
-            core::string<CHAR>* file;
+            void* file;
 
             //empty constructor
             phrase_t()
@@ -89,7 +88,7 @@ namespace script
                 file = File;
             }*/
 
-            phrase_t(const phrase_t<CHAR>& other,
+            phrase_t(const phrase_t& other,
                      int newType = ident::NONE)
             {
                 if (newType != ident::NONE)
@@ -110,7 +109,7 @@ namespace script
             }
 
             //constructor from ident_t
-            phrase_t(const ident_t<CHAR>& token)
+            phrase_t(const ident_t& token)
             {
                 type = token.type;
                 orig_type = ident::NONE;

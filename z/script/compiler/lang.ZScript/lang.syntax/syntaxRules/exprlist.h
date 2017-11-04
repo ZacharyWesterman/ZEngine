@@ -24,8 +24,8 @@ namespace script
 {
     namespace compiler
     {
-        template <typename CHAR>
-        bool lexer<CHAR>::exprlist()
+
+        bool lexer::exprlist()
         {
             if (phrase_nodes.is_valid(index+2))
             {
@@ -33,7 +33,7 @@ namespace script
                     (phrase_nodes[index+1]->type == ident::COMMA) &&
                     (phrase_nodes[index+2]->type == phrase::BOOLEXPR))
                 {
-                    phrase_t<CHAR>* node = new phrase_t<CHAR>();
+                    phrase_t* node = new phrase_t();
 
                     node->type = phrase::EXPRLIST;
 

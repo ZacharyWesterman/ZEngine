@@ -24,8 +24,19 @@ namespace script
 {
     namespace compiler
     {
-        template <typename CHAR>
-        bool lexer<CHAR>::sizeofexpr()
+
+        class sizeofexpr : public syntaxRule
+        {
+        public:
+            ~sizeofexpr() {}
+
+            bool apply(core::array< phrase_t* >*,
+                       int);
+        };
+
+
+        bool sizeofexpr::apply(core::array< phrase_t* >* phrase_nodes,
+                                  int index)
         {
             if (phrase_nodes.is_valid(index+3) &&
                 (phrase_nodes[index]->type == ident::OPER_SIZEOF) &&
@@ -33,7 +44,7 @@ namespace script
                 (phrase_nodes[index+2]->type == phrase::BOOLEXPR) &&
                 (phrase_nodes[index+3]->type == ident::RPARENTH))
             {
-                phrase_t<CHAR>* node = new phrase_t<CHAR>();
+                phrase_t* node = new phrase_t();
 
                 node->type = phrase::SIZEOFEXPR;
 

@@ -24,8 +24,8 @@ namespace script
 {
     namespace compiler
     {
-        template <typename CHAR>
-        bool lexer<CHAR>::int_decllist()
+
+        bool lexer::int_decllist()
         {
             if (((phrase_nodes.is_valid(index-4) &&
                  (phrase_nodes[index-4]->type == ident::KEYWORD_TYPE) &&
@@ -38,7 +38,7 @@ namespace script
                  (phrase_nodes[index]->type == phrase::TYPEVAR_DECL) ||
                  (phrase_nodes[index]->type == phrase::FUNCTION_DECL)))
             {
-                phrase_t<CHAR>* node = new phrase_t<CHAR>();
+                phrase_t* node = new phrase_t();
 
                 node->type = phrase::INT_DECLLIST;
 

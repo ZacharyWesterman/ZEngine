@@ -24,8 +24,8 @@ namespace script
 {
     namespace compiler
     {
-        template <typename CHAR>
-        bool lexer<CHAR>::_index()
+
+        bool lexer::_index()
         {
             if (phrase_nodes.is_valid(index+2) &&
                 (phrase_nodes[index]->type == ident::LBRACKET) &&

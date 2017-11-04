@@ -24,15 +24,15 @@ namespace script
 {
     namespace compiler
     {
-        template <typename CHAR>
-        bool lexer<CHAR>::stop_statement()
+
+        bool lexer::stop_statement()
         {
             if (phrase_nodes.is_valid(index+2) &&
                 (phrase_nodes[index]->type == ident::KEYWORD_STOP) &&
                 (phrase_nodes[index+1]->type == phrase::BOOLEXPR) &&
                 (phrase_nodes[index+2]->type == ident::SEMICOLON))
             {
-                phrase_t<CHAR>* node = new phrase_t<CHAR>();
+                phrase_t* node = new phrase_t();
 
                 node->type = phrase::STOP_STATEMENT;
 

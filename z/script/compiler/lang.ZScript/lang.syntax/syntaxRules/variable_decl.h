@@ -24,8 +24,8 @@ namespace script
 {
     namespace compiler
     {
-        template <typename CHAR>
-        bool lexer<CHAR>::variable_decl()
+
+        bool lexer::variable_decl()
         {
             if (phrase_nodes.is_valid(index+2) &&
                 (phrase_nodes[index]->type == ident::KEYWORD_VAR) &&
@@ -33,7 +33,7 @@ namespace script
             {
                 if (phrase_nodes[index+2]->type == ident::SEMICOLON)
                 {
-                    phrase_t<CHAR>* node = new phrase_t<CHAR>();
+                    phrase_t* node = new phrase_t();
 
                     node->type = phrase::VARIABLE_DECL;
 
@@ -58,9 +58,9 @@ namespace script
                          (phrase_nodes[index+4]->type == ident::SEMICOLON))
                 {
                     //variable declaration
-                    phrase_t<CHAR>* idCpy = new phrase_t<CHAR>(*phrase_nodes[index+1]);
+                    phrase_t* idCpy = new phrase_t(*phrase_nodes[index+1]);
 
-                    phrase_t<CHAR>* node = new phrase_t<CHAR>();
+                    phrase_t* node = new phrase_t();
 
                     node->type = phrase::VARIABLE_DECL;
 

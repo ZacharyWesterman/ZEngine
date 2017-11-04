@@ -24,8 +24,8 @@ namespace script
 {
     namespace compiler
     {
-        template <typename CHAR>
-        bool lexer<CHAR>::identifierlist()
+
+        bool lexer::identifierlist()
         {
             if (!(phrase_nodes.is_valid(index-1) &&
                   ((phrase_nodes[index-1]->type == ident::KEYWORD_IN) ||
@@ -53,7 +53,7 @@ namespace script
                     }
                     else
                     {
-                        phrase_t<CHAR>* node = new phrase_t<CHAR>();
+                        phrase_t* node = new phrase_t();
 
                         node->type = phrase::IDENTIFIERLIST;
 
@@ -77,7 +77,7 @@ namespace script
                          (phrase_nodes[index]->type == ident::IDENTIFIER) &&
                          (phrase_nodes[index+1]->type == ident::LBRACE))
                 {
-                    phrase_t<CHAR>* node = new phrase_t<CHAR>();
+                    phrase_t* node = new phrase_t();
 
                     node->type = phrase::IDENTIFIERLIST;
 

@@ -24,18 +24,18 @@ namespace script
 {
     namespace compiler
     {
-        template <typename CHAR>
-        class addexpr : public syntaxRule<CHAR>
+
+        class addexpr : public syntaxRule
         {
         public:
             ~addexpr() {}
 
-            bool apply(core::array< phrase_t<CHAR>* >*,
+            bool apply(core::array< phrase_t* >*,
                        int);
         };
 
-        template <typename CHAR>
-        bool addexpr<CHAR>::apply(core::array< phrase_t<CHAR>* >* phrase_nodes,
+
+        bool addexpr::apply(core::array< phrase_t* >* phrase_nodes,
                                   int index)
         {
             //if no detected addition operators, continue to the next phase
@@ -70,8 +70,8 @@ namespace script
                      (phrase_nodes->at(index+2)->type == MULTIPLYEXPR)
                      )
             {
-                phrase_t<CHAR>* node =
-                    new phrase_t<CHAR>(*(phrase_nodes->at(index)),
+                phrase_t* node =
+                    new phrase_t(*(phrase_nodes->at(index)),
                                        ADDEXPR);
 
                 phrase_nodes->at(index)->parent = node;

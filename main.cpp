@@ -1,3 +1,5 @@
+//#define CPL_CHAR wchar_t
+
 //#define Z_USE_DOUBLE
 #include <iostream>
 
@@ -36,17 +38,15 @@ void printErrors(const core::array< script::error >& error_buffer)
     }
 }
 
-void printIdents(const core::array< compiler::ident_t<char> >& idents)
+void printIdents(const core::array< compiler::ident_t >& idents)
 {
     for (int i=0; i<idents.size(); i++)
     {
         cout << compiler::symTypeStr[idents[i].type];
-        /*if (idents[i].meta)
-            cout << " Mt=" << idents[i].metaValue << endl;
-        else
-            cout << " Va=" << idents[i].value.string().str() << endl;*/
-
-
+        if (idents[i].meta)
+            cout << " Mt=" << ((core::string<char>)(*(core::string<CPL_CHAR>*)idents[i].meta)).str() << endl;
+        if (idents[i].value.type())
+            cout << " Va=" << idents[i].value.string().narrow().str() << endl;
     }
 }
 
@@ -57,10 +57,10 @@ int main(int argc, char* argv[])
     core::array<compiler::oper>* operators = genOperators();
     core::array< core::string<char> >* comments = genCommentRules();
 
-    core::sortedRefArray< core::string<char>* > symbol_table;
+    core::sortedRefArray< core::string<CPL_CHAR>* > symbol_table;
     core::sortedRefArray< core::string<char>* > file_list;
 
-    core::array< z::script::compiler::ident_t<char> > idents;
+    core::array< z::script::compiler::ident_t > idents;
 
     core::string<char> file = "test.txt";
 
@@ -87,11 +87,11 @@ int main(int argc, char* argv[])
     //printIdents(idents);
 
 
-    core::array< compiler::syntaxRule<char>* >* syntax;
-    syntax = genSyntaxRulesC();
+    core::array< compiler::syntaxRule* >* syntax;
+    syntax = genSyntaxRules();
 
-    compiler::syntaxRule<char>* program;
-    program = genProgramRuleC();
+    compiler::syntaxRule* program;
+    program = genProgramRule();
 
     z::script::compiler::lexer<char> Lexer(syntax, program);
     Lexer.linkInput(&idents);
@@ -100,7 +100,7 @@ int main(int argc, char* argv[])
 
     Lexer.lex();
 
-    //compiler::phrase_t<char>* AST = Lexer.moveResultAST();
+    //compiler::phrase_t* AST = Lexer.moveResultAST();
     printErrors(Lexer.error_buffer);
 
 

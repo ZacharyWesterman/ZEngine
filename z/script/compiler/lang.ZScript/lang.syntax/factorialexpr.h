@@ -24,18 +24,16 @@ namespace script
 {
     namespace compiler
     {
-        template <typename CHAR>
-        class factorialexpr : public syntaxRule<CHAR>
+        class factorialexpr : public syntaxRule
         {
         public:
             ~factorialexpr() {}
 
-            bool apply(core::array< phrase_t<CHAR>* >*,
+            bool apply(core::array< phrase_t* >*,
                        int);
         };
 
-        template <typename CHAR>
-        bool factorialexpr<CHAR>::apply(core::array< phrase_t<CHAR>* >* phrase_nodes,
+        bool factorialexpr::apply(core::array< phrase_t* >* phrase_nodes,
                                   int index)
         {
             if ((phrase_nodes->at(index)->type == PARENTHEXPR) &&
@@ -45,10 +43,10 @@ namespace script
                  )
                 )
             {
-                phrase_t<CHAR>* pIndex = phrase_nodes->at(index);
+                phrase_t* pIndex = phrase_nodes->at(index);
 
-                phrase_t<CHAR>* node =
-                    new phrase_t<CHAR>(*pIndex, FACTORIALEXPR);
+                phrase_t* node =
+                    new phrase_t(*pIndex, FACTORIALEXPR);
 
                 node->children.add(pIndex);
                 pIndex->parent = node;

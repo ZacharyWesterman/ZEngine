@@ -24,18 +24,18 @@ namespace script
 {
     namespace compiler
     {
-        template <typename CHAR>
-        class multiplyexpr : public syntaxRule<CHAR>
+
+        class multiplyexpr : public syntaxRule
         {
         public:
             ~multiplyexpr() {}
 
-            bool apply(core::array< phrase_t<CHAR>* >*,
+            bool apply(core::array< phrase_t* >*,
                        int);
         };
 
-        template <typename CHAR>
-        bool multiplyexpr<CHAR>::apply(core::array< phrase_t<CHAR>* >* phrase_nodes,
+
+        bool multiplyexpr::apply(core::array< phrase_t* >* phrase_nodes,
                                   int index)
         {
             //if no detected multiplication operators, continue to the next phase
@@ -67,8 +67,8 @@ namespace script
                      (phrase_nodes->at(index+2)->type == POWEREXPR)
                      )
             {
-                phrase_t<CHAR>* node =
-                    new phrase_t<CHAR>(*(phrase_nodes->at(index)), MULTIPLYEXPR);
+                phrase_t* node =
+                    new phrase_t(*(phrase_nodes->at(index)), MULTIPLYEXPR);
 
                 phrase_nodes->at(index)->parent = node;
                 phrase_nodes->at(index+1)->parent = node;

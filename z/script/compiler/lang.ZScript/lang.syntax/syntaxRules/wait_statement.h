@@ -24,15 +24,15 @@ namespace script
 {
     namespace compiler
     {
-        template <typename CHAR>
-        bool lexer<CHAR>::wait_statement()
+
+        bool lexer::wait_statement()
         {
             if (phrase_nodes.is_valid(index+2) &&
                 (phrase_nodes[index]->type == ident::KEYWORD_WAIT) &&
                 (phrase_nodes[index+1]->type == phrase::BOOLEXPR) &&
                 (phrase_nodes[index+2]->type == ident::SEMICOLON))
             {
-                phrase_t<CHAR>* node = new phrase_t<CHAR>();
+                phrase_t* node = new phrase_t();
 
                 node->type = phrase::WAIT_STATEMENT;
 

@@ -24,18 +24,16 @@ namespace script
 {
     namespace compiler
     {
-        template <typename CHAR>
-        class add1expr : public syntaxRule<CHAR>
+        class add1expr : public syntaxRule
         {
         public:
             ~add1expr() {}
 
-            bool apply(core::array< phrase_t<CHAR>* >*,
+            bool apply(core::array< phrase_t* >*,
                        int);
         };
 
-        template <typename CHAR>
-        bool add1expr<CHAR>::apply(core::array< phrase_t<CHAR>* >* phrase_nodes,
+        bool add1expr::apply(core::array< phrase_t* >* phrase_nodes,
                                   int index)
         {
             if (phrase_nodes->at(index)->type == FACTORIALEXPR)
@@ -47,8 +45,8 @@ namespace script
                      )
                     )
                 {
-                    phrase_t<CHAR>* node =
-                        new phrase_t<CHAR>(*(phrase_nodes->at(index)),
+                    phrase_t* node =
+                        new phrase_t(*(phrase_nodes->at(index)),
                                            ADD1EXPR);
 
                     node->children.add(phrase_nodes->at(index));
@@ -69,8 +67,8 @@ namespace script
                           )
                          )
                 {
-                    phrase_t<CHAR>* node =
-                        new phrase_t<CHAR>(*(phrase_nodes->at(index)),
+                    phrase_t* node =
+                        new phrase_t(*(phrase_nodes->at(index)),
                                            ADD1EXPR);
 
                     node->children.add(phrase_nodes->at(index-1));

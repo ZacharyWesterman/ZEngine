@@ -24,18 +24,18 @@ namespace script
 {
     namespace compiler
     {
-        template <typename CHAR>
-        class boolexpr : public syntaxRule<CHAR>
+
+        class boolexpr : public syntaxRule
         {
         public:
             ~boolexpr() {}
 
-            bool apply(core::array< phrase_t<CHAR>* >*,
+            bool apply(core::array< phrase_t* >*,
                        int);
         };
 
-        template <typename CHAR>
-        bool boolexpr<CHAR>::apply(core::array< phrase_t<CHAR>* >* phrase_nodes,
+
+        bool boolexpr::apply(core::array< phrase_t* >* phrase_nodes,
                                   int index)
         {
             //if no detected boolean operators, continue to the next phase
@@ -67,8 +67,8 @@ namespace script
                      (phrase_nodes->at(index+2)->type == ADDEXPR)
                      )
             {
-                phrase_t<CHAR>* node =
-                    new phrase_t<CHAR>(*(phrase_nodes->at(index)), BOOLEXPR);
+                phrase_t* node =
+                    new phrase_t(*(phrase_nodes->at(index)), BOOLEXPR);
 
                 phrase_nodes->at(index)->parent = node;
                 phrase_nodes->at(index+1)->parent = node;
@@ -93,8 +93,8 @@ namespace script
                       )
                      )
             {
-                phrase_t<CHAR>* node =
-                    new phrase_t<CHAR>(*(phrase_nodes->at(index)), BOOLEXPR);
+                phrase_t* node =
+                    new phrase_t(*(phrase_nodes->at(index)), BOOLEXPR);
 
                 phrase_nodes->at(index+1)->parent = node;
                 phrase_nodes->at(index)->parent = node;

@@ -24,8 +24,8 @@ namespace script
 {
     namespace compiler
     {
-        template <typename CHAR>
-        bool lexer<CHAR>::varindex()
+
+        bool lexer::varindex()
         {
             if (phrase_nodes.is_valid(index+1) &&
                 ((phrase_nodes[index]->type == phrase::PARENTHEXPR) ||
@@ -37,7 +37,7 @@ namespace script
                 (phrase_nodes[index+1]->type == phrase::INDEX)
                 )
             {
-                phrase_t<CHAR>* node = new phrase_t<CHAR>();
+                phrase_t* node = new phrase_t();
 
                 node->type = phrase::VARINDEX;
 

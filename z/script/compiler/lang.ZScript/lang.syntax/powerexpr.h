@@ -24,18 +24,18 @@ namespace script
 {
     namespace compiler
     {
-        template <typename CHAR>
-        class powerexpr : public syntaxRule<CHAR>
+
+        class powerexpr : public syntaxRule
         {
         public:
             ~powerexpr() {}
 
-            bool apply(core::array< phrase_t<CHAR>* >*,
+            bool apply(core::array< phrase_t* >*,
                        int);
         };
 
-        template <typename CHAR>
-        bool powerexpr<CHAR>::apply(core::array< phrase_t<CHAR>* >* phrase_nodes,
+
+        bool powerexpr::apply(core::array< phrase_t* >* phrase_nodes,
                                   int index)
         {
             //if no detected power operators, continue to the next phase
@@ -64,8 +64,8 @@ namespace script
                      (phrase_nodes->at(index+2)->type == NEGATEXPR)
                      )
             {
-                phrase_t<CHAR>* node =
-                    new phrase_t<CHAR>(*(phrase_nodes->at(index)), POWEREXPR);
+                phrase_t* node =
+                    new phrase_t(*(phrase_nodes->at(index)), POWEREXPR);
 
                 phrase_nodes->at(index)->parent = node;
                 phrase_nodes->at(index+2)->parent = node;

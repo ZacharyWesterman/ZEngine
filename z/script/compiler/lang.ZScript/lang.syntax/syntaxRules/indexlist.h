@@ -24,8 +24,8 @@ namespace script
 {
     namespace compiler
     {
-        template <typename CHAR>
-        bool lexer<CHAR>::indexlist()
+
+        bool lexer::indexlist()
         {
             if (phrase_nodes.is_valid(index+2) &&
                 phrase_nodes.is_valid(index-1) &&
@@ -60,7 +60,7 @@ namespace script
                  (phrase_nodes[index]->type == phrase::BOOLEXPR)) &&
                 (phrase_nodes[index+1]->type == ident::COMMA))
             {
-                phrase_t<CHAR>* node = new phrase_t<CHAR>();
+                phrase_t* node = new phrase_t();
 
                 node->type = phrase::INDEXLIST;
 

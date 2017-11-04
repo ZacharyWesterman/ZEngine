@@ -107,7 +107,7 @@ namespace script
             const core::array< command<CHAR>* >* commands;
             const core::array< function<CHAR>* >* functions;
 
-            phrase_t<CHAR>* root;
+            phrase_t* root;
             int index;
             core::dynamicStack<int> index_stack;
             bool is_done;
@@ -124,7 +124,7 @@ namespace script
             core::array<typeSignature> type_list;
 
             core::dynamicStack<void*> typeStack;
-            phrase_t<CHAR>* exprStart;
+            phrase_t* exprStart;
 
             void* current_type;
             core::array<symID> type_func_list;
@@ -188,7 +188,7 @@ namespace script
             ~semanticAnalyzer(){};
 
 
-            void setInput(phrase_t<CHAR>* new_root)
+            void setInput(phrase_t* new_root)
             {
                 error_buffer.clear();
 
@@ -413,7 +413,7 @@ namespace script
                     index_stack.pop(prev_index);
 
                     //create new node (variable decl ID)
-                    phrase_t<CHAR>* IDnode = new phrase_t<CHAR>();
+                    phrase_t* IDnode = new phrase_t();
 
                     IDnode->type = ident::IDENTIFIER;
                     IDnode->line = root->line;
@@ -422,7 +422,7 @@ namespace script
                     IDnode->meta = root->children[0]->children[0]->meta;
 
                     //create new node (variable declaration)
-                    phrase_t<CHAR>* varNode = new phrase_t<CHAR>();
+                    phrase_t* varNode = new phrase_t();
 
                     varNode->type = phrase::VARIABLE_DECL;
                     varNode->line = root->line;

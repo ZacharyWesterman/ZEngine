@@ -28,18 +28,16 @@ namespace script
 {
     namespace compiler
     {
-        template <typename CHAR>
-        class program : public syntaxRule<CHAR>
+        class program : public syntaxRule
         {
         public:
             ~program() {}
 
-            bool apply(core::array< phrase_t<CHAR>* >*,
+            bool apply(core::array< phrase_t* >*,
                        int);
         };
 
-        template <typename CHAR>
-        bool program<CHAR>::apply(core::array< phrase_t<CHAR>* >* phrase_nodes,
+        bool program::apply(core::array< phrase_t* >* phrase_nodes,
                                   int index)
         {
             if ((phrase_nodes->at(index)->type == PROGRAM) &&
@@ -55,10 +53,10 @@ namespace script
             }
             else if (phrase_nodes->at(index)->type != PROGRAM)
             {
-                phrase_t<CHAR>* pIndex = phrase_nodes->at(index);
+                phrase_t* pIndex = phrase_nodes->at(index);
 
-                phrase_t<CHAR>* node =
-                    new phrase_t<CHAR>(*pIndex, PROGRAM);
+                phrase_t* node =
+                    new phrase_t(*pIndex, PROGRAM);
 
                 node->type = PROGRAM;
 

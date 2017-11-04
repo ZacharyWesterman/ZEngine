@@ -38,29 +38,31 @@ namespace script
         bool sizeofexpr::apply(core::array< phrase_t* >* phrase_nodes,
                                   int index)
         {
-            if (phrase_nodes.is_valid(index+3) &&
-                (phrase_nodes[index]->type == ident::OPER_SIZEOF) &&
-                (phrase_nodes[index+1]->type == ident::LPARENTH) &&
-                (phrase_nodes[index+2]->type == phrase::BOOLEXPR) &&
-                (phrase_nodes[index+3]->type == ident::RPARENTH))
+            if (phrase_nodes->is_valid(index+3) &&
+                (phrase_nodes->at(index)->type == ident::OPERATOR) &&
+                (phrase_nodes->at(index)->metaValue == SIZEOF) &&
+                (phrase_nodes->at(index+1)->type == ident::LPARENTH) &&
+                (phrase_nodes->at(index+2)->type == BOOLEXPR) &&
+                (phrase_nodes->at(index+3)->type == ident::RPARENTH)
+                )
             {
                 phrase_t* node = new phrase_t();
 
-                node->type = phrase::SIZEOFEXPR;
+                node->type = SIZEOFEXPR;
 
-                node->line = phrase_nodes[index]->line;
-                node->column = phrase_nodes[index]->column;
+                node->line = phrase_nodes->at(index)->line;
+                node->column = phrase_nodes->at(index)->column;
 
-                phrase_nodes[index+2]->parent = node;
+                phrase_nodes->at(index+2)->parent = node;
 
-                node->children.add(phrase_nodes[index+2]);
+                node->children.add(phrase_nodes->at(index+2));
 
-                node->file = phrase_nodes[index]->file;
+                node->file = phrase_nodes->at(index)->file;
 
-                delete phrase_nodes[index];
-                delete phrase_nodes[index+1];
-                delete phrase_nodes[index+3];
-                phrase_nodes.replace(index, index+3, node);
+                delete phrase_nodes->at(index);
+                delete phrase_nodes->at(index+1);
+                delete phrase_nodes->at(index+3);
+                phrase_nodes->replace(index, index+3, node);
 
                 return true;
             }

@@ -2193,7 +2193,7 @@
 
 1489353285 c:\users\zachary\documents\github\zengine\\z\script\errors.h
 
-1509768586 source:/home/zwesterman/GitHub/ZEngine/main.cpp
+1509769185 source:/home/zwesterman/GitHub/ZEngine/main.cpp
 	<iostream>
 	<z/core.h>
 	<z/math.h>
@@ -2952,13 +2952,13 @@
 1507346414 /home/zwesterman/GitHub/ZEngine//z/script/compiler/escapeSequences.h
 	<z/core/string.h>
 
-1509768172 /home/zwesterman/GitHub/ZEngine//z/script/compiler/identity.h
+1509769105 /home/zwesterman/GitHub/ZEngine//z/script/compiler/identity.h
 	<z/core/string.h>
 	"identEnum.h"
 	"../generic.h"
 	"../error.h"
 
-1509768665 /home/zwesterman/GitHub/ZEngine//z/script/compiler/scanner.h
+1509768884 /home/zwesterman/GitHub/ZEngine//z/script/compiler/scanner.h
 	<limits>
 	<z/core/sortedArray.h>
 	<z/core/string.h>
@@ -2973,7 +2973,7 @@
 	<z/core/array.h>
 	"identity.h"
 
-1509766495 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lexer.h
+1509769328 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lexer.h
 	<z/core/timeout.h>
 	<z/core/array.h>
 	<z/core/dynamicStack.h>
@@ -3206,7 +3206,7 @@
 
 1507346414 /home/zwesterman/GitHub/ZEngine//z/script/compiler/identEnum.h
 
-1509766169 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax.h
+1509769410 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax.h
 	<z/core/array.h>
 	<z/script/compiler/syntaxRule.h>
 	"lang.syntax/program.h"
@@ -3221,6 +3221,7 @@
 	"lang.syntax/addexpr.h"
 	"lang.syntax/boolexpr.h"
 	"lang.syntax/assignexpr.h"
+	"lang.syntax/sizeofexpr.h"
 
 1509765159 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/program.h
 	<z/script/compiler/syntaxRule.h>
@@ -3246,4 +3247,6 @@
 1509765747 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/boolexpr.h
 
 1509765750 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/assignexpr.h
+
+1509769957 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/sizeofexpr.h
 

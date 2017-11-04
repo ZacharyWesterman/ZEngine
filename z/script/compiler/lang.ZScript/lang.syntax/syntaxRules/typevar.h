@@ -27,28 +27,28 @@ namespace script
 
         bool lexer::typevar()
         {
-            if (phrase_nodes.is_valid(index+2) &&
-                (phrase_nodes[index]->type == phrase::PARENTHEXPR) &&
-                (phrase_nodes[index+1]->type == ident::PERIOD) &&
-                (phrase_nodes[index+2]->type == phrase::VARIABLE))
+            if (phrase_nodes->is_valid(index+2) &&
+                (phrase_nodes->at(index)->type == PARENTHEXPR) &&
+                (phrase_nodes->at(index+1)->type == ident::PERIOD) &&
+                (phrase_nodes->at(index+2)->type == VARIABLE))
             {
                 phrase_t* node = new phrase_t();
 
-                node->type = phrase::TYPEVAR;
+                node->type = TYPEVAR;
 
-                node->line = phrase_nodes[index]->line;
-                node->column = phrase_nodes[index]->column;
+                node->line = phrase_nodes->at(index)->line;
+                node->column = phrase_nodes->at(index)->column;
 
-                phrase_nodes[index]->parent = node;
-                phrase_nodes[index+2]->parent = node;
+                phrase_nodes->at(index)->parent = node;
+                phrase_nodes->at(index+2)->parent = node;
 
-                node->children.add(phrase_nodes[index]);
-                node->children.add(phrase_nodes[index+2]);
+                node->children.add(phrase_nodes->at(index));
+                node->children.add(phrase_nodes->at(index+2));
 
-                node->file = phrase_nodes[index]->file;
+                node->file = phrase_nodes->at(index)->file;
 
-                delete phrase_nodes[index+1];
-                phrase_nodes.replace(index, index+2, node);
+                delete phrase_nodes->at(index+1);
+                phrase_nodes->replace(index, index+2, node);
 
                 return true;
             }

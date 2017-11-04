@@ -27,27 +27,27 @@ namespace script
 
         bool lexer::label_statement()
         {
-            if (phrase_nodes.is_valid(index+2) &&
-                (phrase_nodes[index]->type == ident::KEYWORD_LABEL) &&
-                (phrase_nodes[index+1]->type == ident::IDENTIFIER) &&
-                (phrase_nodes[index+2]->type == ident::SEMICOLON))
+            if (phrase_nodes->is_valid(index+2) &&
+                (phrase_nodes->at(index)->type == ident::KEYWORD_LABEL) &&
+                (phrase_nodes->at(index+1)->type == ident::IDENTIFIER) &&
+                (phrase_nodes->at(index+2)->type == ident::SEMICOLON))
             {
                 phrase_t* node = new phrase_t();
 
-                node->type = phrase::LABEL_STATEMENT;
+                node->type = LABEL_STATEMENT;
 
-                node->line = phrase_nodes[index]->line;
-                node->column = phrase_nodes[index]->column;
+                node->line = phrase_nodes->at(index)->line;
+                node->column = phrase_nodes->at(index)->column;
 
-                phrase_nodes[index+1]->parent = node;
+                phrase_nodes->at(index+1)->parent = node;
 
-                node->children.add(phrase_nodes[index+1]);
+                node->children.add(phrase_nodes->at(index+1));
 
-                node->file = phrase_nodes[index]->file;
+                node->file = phrase_nodes->at(index)->file;
 
-                delete phrase_nodes[index];
-                delete phrase_nodes[index+2];
-                phrase_nodes.replace(index, index+2, node);
+                delete phrase_nodes->at(index);
+                delete phrase_nodes->at(index+2);
+                phrase_nodes->replace(index, index+2, node);
 
                 return true;
             }

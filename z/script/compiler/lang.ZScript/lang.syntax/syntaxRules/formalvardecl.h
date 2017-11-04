@@ -27,56 +27,56 @@ namespace script
 
         bool lexer::formalvardecl()
         {
-            if ((phrase_nodes.is_valid(index-2) &&
-                 (phrase_nodes[index-2]->type == ident::IDENTIFIER) &&
-                 (phrase_nodes[index-1]->type == ident::LPARENTH)) ||
-                (phrase_nodes.is_valid(index-2) &&
-                 ((phrase_nodes[index-2]->type == phrase::FORMALVARDECL) ||
-                  (phrase_nodes[index-2]->type == phrase::FORMALTYPEDECL)) &&
-                 (phrase_nodes[index-1]->type == ident::COMMA)))
+            if ((phrase_nodes->is_valid(index-2) &&
+                 (phrase_nodes->at(index-2)->type == ident::IDENTIFIER) &&
+                 (phrase_nodes->at(index-1)->type == ident::LPARENTH)) ||
+                (phrase_nodes->is_valid(index-2) &&
+                 ((phrase_nodes->at(index-2)->type == FORMALVARDECL) ||
+                  (phrase_nodes->at(index-2)->type == FORMALTYPEDECL)) &&
+                 (phrase_nodes->at(index-1)->type == ident::COMMA)))
             {
 
-                if (phrase_nodes.is_valid(index+1) &&
-                    (phrase_nodes[index]->type == ident::KEYWORD_VAR) &&
-                    (phrase_nodes[index+1]->type == ident::IDENTIFIER))
+                if (phrase_nodes->is_valid(index+1) &&
+                    (phrase_nodes->at(index)->type == ident::KEYWORD_VAR) &&
+                    (phrase_nodes->at(index+1)->type == ident::IDENTIFIER))
                 {
                     phrase_t* node = new phrase_t();
 
-                    node->type = phrase::FORMALVARDECL;
+                    node->type = FORMALVARDECL;
 
-                    node->line = phrase_nodes[index]->line;
-                    node->column = phrase_nodes[index]->column;
+                    node->line = phrase_nodes->at(index)->line;
+                    node->column = phrase_nodes->at(index)->column;
 
-                    phrase_nodes[index+1]->parent = node;
+                    phrase_nodes->at(index+1)->parent = node;
 
-                    node->children.add(phrase_nodes[index+1]);
+                    node->children.add(phrase_nodes->at(index+1));
 
-                    node->file = phrase_nodes[index]->file;
+                    node->file = phrase_nodes->at(index)->file;
 
-                    delete phrase_nodes[index];
-                    phrase_nodes.replace(index, index+1, node);
+                    delete phrase_nodes->at(index);
+                    phrase_nodes->replace(index, index+1, node);
 
                     return true;
                 }
                 else if (!scope && //valid syntax outside of a function body
-                         (phrase_nodes[index]->type == ident::IDENTIFIER) &&
-                         !(phrase_nodes.is_valid(index+1) &&
-                          (phrase_nodes[index+1]->type == ident::IDENTIFIER)))
+                         (phrase_nodes->at(index)->type == ident::IDENTIFIER) &&
+                         !(phrase_nodes->is_valid(index+1) &&
+                          (phrase_nodes->at(index+1)->type == ident::IDENTIFIER)))
                 {
                     phrase_t* node = new phrase_t();
 
-                    node->type = phrase::FORMALVARDECL;
+                    node->type = FORMALVARDECL;
 
-                    node->line = phrase_nodes[index]->line;
-                    node->column = phrase_nodes[index]->column;
+                    node->line = phrase_nodes->at(index)->line;
+                    node->column = phrase_nodes->at(index)->column;
 
-                    phrase_nodes[index]->parent = node;
+                    phrase_nodes->at(index)->parent = node;
 
-                    node->children.add(phrase_nodes[index]);
+                    node->children.add(phrase_nodes->at(index));
 
-                    node->file = phrase_nodes[index]->file;
+                    node->file = phrase_nodes->at(index)->file;
 
-                    phrase_nodes[index] = node;
+                    phrase_nodes->at(index) = node;
 
                     return true;
                 }

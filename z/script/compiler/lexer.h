@@ -485,10 +485,10 @@ namespace script
                 else if (node->type == ident::LITERAL)
                     std::cout << "#const<" << node->value.string().narrow().str() << ">";
                 else if (node->type == ident::UNKNOWN)
-                    std::cout << "#unkn<" << ((core::string<int>*)(node->meta))->narrow().str() << ">";
+                    std::cout << "#unkn<" << ((core::string<CPL_CHAR>*)(node->meta))->narrow().str() << ">";
                 else if (node->type == ident::IDENTIFIER)
                     std::cout << symTypeStr[node->type] << " : {"\
-                     << ((core::string<int>*)(node->meta))->narrow().str() << "}";
+                     << ((core::string<CPL_CHAR>*)(node->meta))->narrow().str() << "}";
                 else
                     std::cout << symTypeStr[node->type];
 

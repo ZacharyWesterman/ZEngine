@@ -27,28 +27,28 @@ namespace script
 
         bool lexer::type_funccall()
         {
-            if (phrase_nodes.is_valid(index+2) &&
-                (phrase_nodes[index]->type == phrase::PARENTHEXPR) &&
-                (phrase_nodes[index+1]->type == ident::PERIOD) &&
-                (phrase_nodes[index+2]->type == phrase::FUNCCALL))
+            if (phrase_nodes->is_valid(index+2) &&
+                (phrase_nodes->at(index)->type == PARENTHEXPR) &&
+                (phrase_nodes->at(index+1)->type == ident::PERIOD) &&
+                (phrase_nodes->at(index+2)->type == FUNCCALL))
             {
                 phrase_t* node = new phrase_t();
 
-                node->type = phrase::TYPE_FUNCCALL;
+                node->type = TYPE_FUNCCALL;
 
-                node->line = phrase_nodes[index]->line;
-                node->column = phrase_nodes[index]->column;
+                node->line = phrase_nodes->at(index)->line;
+                node->column = phrase_nodes->at(index)->column;
 
-                node->file = phrase_nodes[index]->file;
+                node->file = phrase_nodes->at(index)->file;
 
-                phrase_nodes[index]->parent = node;
-                phrase_nodes[index+2]->parent = node;
+                phrase_nodes->at(index)->parent = node;
+                phrase_nodes->at(index+2)->parent = node;
 
-                node->children.add(phrase_nodes[index]);
-                node->children.add(phrase_nodes[index+2]);
+                node->children.add(phrase_nodes->at(index));
+                node->children.add(phrase_nodes->at(index+2));
 
-                delete phrase_nodes[index+1];
-                phrase_nodes.replace(index, index+2, node);
+                delete phrase_nodes->at(index+1);
+                phrase_nodes->replace(index, index+2, node);
 
                 return true;
             }

@@ -27,35 +27,35 @@ namespace script
 
         bool lexer::statementlist()
         {
-            if (phrase_nodes.is_valid(index+1) &&
-                (phrase_nodes[index+1]->type == phrase::STATEMENT))
+            if (phrase_nodes->is_valid(index+1) &&
+                (phrase_nodes->at(index+1)->type == STATEMENT))
             {
-                if (phrase_nodes[index]->type == phrase::STATEMENT)
+                if (phrase_nodes->at(index)->type == STATEMENT)
                 {
                     phrase_t* node = new phrase_t();
 
-                    node->type = phrase::STATEMENTLIST;
+                    node->type = STATEMENTLIST;
 
-                    node->line = phrase_nodes[index]->line;
-                    node->column = phrase_nodes[index]->column;
+                    node->line = phrase_nodes->at(index)->line;
+                    node->column = phrase_nodes->at(index)->column;
 
-                    phrase_nodes[index]->parent = node;
-                    phrase_nodes[index+1]->parent = node;
+                    phrase_nodes->at(index)->parent = node;
+                    phrase_nodes->at(index+1)->parent = node;
 
-                    node->children.add(phrase_nodes[index]);
-                    node->children.add(phrase_nodes[index+1]);
+                    node->children.add(phrase_nodes->at(index));
+                    node->children.add(phrase_nodes->at(index+1));
 
-                    node->file = phrase_nodes[index]->file;
+                    node->file = phrase_nodes->at(index)->file;
 
-                    phrase_nodes.replace(index, index+1, node);
+                    phrase_nodes->replace(index, index+1, node);
 
                     return true;
                 }
-                else if (phrase_nodes[index]->type == phrase::STATEMENTLIST)
+                else if (phrase_nodes->at(index)->type == STATEMENTLIST)
                 {
-                    phrase_nodes[index]->children.add(phrase_nodes[index+1]);
-                    phrase_nodes[index+1]->parent = phrase_nodes[index];
-                    phrase_nodes.remove(index+1);
+                    phrase_nodes->at(index)->children.add(phrase_nodes->at(index+1));
+                    phrase_nodes->at(index+1)->parent = phrase_nodes->at(index);
+                    phrase_nodes->remove(index+1);
 
                     return true;
                 }

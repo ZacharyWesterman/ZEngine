@@ -27,23 +27,23 @@ namespace script
 
         bool lexer::_index()
         {
-            if (phrase_nodes.is_valid(index+2) &&
-                (phrase_nodes[index]->type == ident::LBRACKET) &&
-                ((phrase_nodes[index+1]->type == phrase::BOOLEXPR) ||
-                 (phrase_nodes[index+1]->type == phrase::RANGE) ||
-                 (phrase_nodes[index+1]->type == phrase::INDEXLIST)) &&
-                (phrase_nodes[index+2]->type == ident::RBRACKET))
+            if (phrase_nodes->is_valid(index+2) &&
+                (phrase_nodes->at(index)->type == ident::LBRACKET) &&
+                ((phrase_nodes->at(index+1)->type == BOOLEXPR) ||
+                 (phrase_nodes->at(index+1)->type == RANGE) ||
+                 (phrase_nodes->at(index+1)->type == INDEXLIST)) &&
+                (phrase_nodes->at(index+2)->type == ident::RBRACKET))
             {
-                if (phrase_nodes[index+1]->orig_type == ident::NONE)
-                    phrase_nodes[index+1]->orig_type =
-                                            phrase_nodes[index+1]->type;
-                phrase_nodes[index+1]->type = phrase::INDEX;
+                if (phrase_nodes->at(index+1)->orig_type == ident::NONE)
+                    phrase_nodes->at(index+1)->orig_type =
+                                            phrase_nodes->at(index+1)->type;
+                phrase_nodes->at(index+1)->type = INDEX;
 
-                delete phrase_nodes[index];
-                delete phrase_nodes[index+2];
+                delete phrase_nodes->at(index);
+                delete phrase_nodes->at(index+2);
 
-                phrase_nodes.remove(index+2);
-                phrase_nodes.remove(index);
+                phrase_nodes->remove(index+2);
+                phrase_nodes->remove(index);
 
                 return true;
             }

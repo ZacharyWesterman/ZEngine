@@ -27,48 +27,48 @@ namespace script
 
         bool lexer::program()
         {
-            if ((phrase_nodes[index]->type == phrase::VARIABLE_DECL) ||
-                (phrase_nodes[index]->type == phrase::TYPEVAR_DECL) ||
-                (phrase_nodes[index]->type == phrase::FUNC_PROTOTYPE) ||
-                (phrase_nodes[index]->type == phrase::FUNCTION_DECL) ||
-                (phrase_nodes[index]->type == phrase::TYPEDECL) ||
-                (phrase_nodes[index]->type == phrase::EXTERNALDECL) ||
-                (phrase_nodes[index]->type == phrase::SHAREDDECL) ||
-                (phrase_nodes[index]->type == phrase::SUBROUTINE_DECL))
+            if ((phrase_nodes->at(index)->type == VARIABLE_DECL) ||
+                (phrase_nodes->at(index)->type == TYPEVAR_DECL) ||
+                (phrase_nodes->at(index)->type == FUNC_PROTOTYPE) ||
+                (phrase_nodes->at(index)->type == FUNCTION_DECL) ||
+                (phrase_nodes->at(index)->type == TYPEDECL) ||
+                (phrase_nodes->at(index)->type == EXTERNALDECL) ||
+                (phrase_nodes->at(index)->type == SHAREDDECL) ||
+                (phrase_nodes->at(index)->type == SUBROUTINE_DECL))
             {
                 phrase_t* node = new phrase_t();
 
-                node->type = phrase::PROGRAM;
+                node->type = PROGRAM;
 
-                node->line = phrase_nodes[index]->line;
-                node->column = phrase_nodes[index]->column;
+                node->line = phrase_nodes->at(index)->line;
+                node->column = phrase_nodes->at(index)->column;
 
-                phrase_nodes[index]->parent = node;
+                phrase_nodes->at(index)->parent = node;
 
-                node->children.add(phrase_nodes[index]);
+                node->children.add(phrase_nodes->at(index));
 
-                node->file = phrase_nodes[index]->file;
+                node->file = phrase_nodes->at(index)->file;
 
-                phrase_nodes[index] = node;
+                phrase_nodes->at(index) = node;
 
                 return true;
             }
-            else if (phrase_nodes.is_valid(index+1) &&
-                     (phrase_nodes[index]->type == phrase::PROGRAM) &&
+            else if (phrase_nodes->is_valid(index+1) &&
+                     (phrase_nodes->at(index)->type == PROGRAM) &&
 
-                     ((phrase_nodes[index+1]->type == phrase::VARIABLE_DECL) ||
-                      (phrase_nodes[index+1]->type == phrase::TYPEVAR_DECL) ||
-                      (phrase_nodes[index+1]->type == phrase::FUNCTION_DECL) ||
-                      (phrase_nodes[index+1]->type == phrase::TYPEDECL) ||
-                      (phrase_nodes[index+1]->type == phrase::EXTERNALDECL) ||
-                      (phrase_nodes[index+1]->type == phrase::SHAREDDECL) ||
-                      (phrase_nodes[index+1]->type == phrase::SUBROUTINE_DECL)))
+                     ((phrase_nodes->at(index+1)->type == VARIABLE_DECL) ||
+                      (phrase_nodes->at(index+1)->type == TYPEVAR_DECL) ||
+                      (phrase_nodes->at(index+1)->type == FUNCTION_DECL) ||
+                      (phrase_nodes->at(index+1)->type == TYPEDECL) ||
+                      (phrase_nodes->at(index+1)->type == EXTERNALDECL) ||
+                      (phrase_nodes->at(index+1)->type == SHAREDDECL) ||
+                      (phrase_nodes->at(index+1)->type == SUBROUTINE_DECL)))
             {
-                phrase_nodes[index+1]->parent = phrase_nodes[index];
+                phrase_nodes->at(index+1)->parent = phrase_nodes->at(index);
 
-                phrase_nodes[index]->children.add(phrase_nodes[index+1]);
+                phrase_nodes->at(index)->children.add(phrase_nodes->at(index+1));
 
-                phrase_nodes.remove(index+1);
+                phrase_nodes->remove(index+1);
 
                 return true;
             }

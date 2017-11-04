@@ -1,1 +1,1 @@
-1 2 x "hello"
+sizeof(1&2);

@@ -27,46 +27,46 @@ namespace script
 
         bool lexer::return_statement()
         {
-            if (phrase_nodes.is_valid(index+2) &&
-                (phrase_nodes[index]->type == ident::KEYWORD_RETURN) &&
-                (phrase_nodes[index+1]->type == phrase::BOOLEXPR) &&
-                (phrase_nodes[index+2]->type == ident::SEMICOLON))
+            if (phrase_nodes->is_valid(index+2) &&
+                (phrase_nodes->at(index)->type == ident::KEYWORD_RETURN) &&
+                (phrase_nodes->at(index+1)->type == BOOLEXPR) &&
+                (phrase_nodes->at(index+2)->type == ident::SEMICOLON))
             {
                 phrase_t* node = new phrase_t();
 
-                node->type = phrase::RETURN_STATEMENT;
+                node->type = RETURN_STATEMENT;
 
-                node->line = phrase_nodes[index]->line;
-                node->column = phrase_nodes[index]->column;
+                node->line = phrase_nodes->at(index)->line;
+                node->column = phrase_nodes->at(index)->column;
 
-                phrase_nodes[index+1]->parent = node;
+                phrase_nodes->at(index+1)->parent = node;
 
-                node->children.add(phrase_nodes[index+1]);
+                node->children.add(phrase_nodes->at(index+1));
 
-                node->file = phrase_nodes[index]->file;
+                node->file = phrase_nodes->at(index)->file;
 
-                delete phrase_nodes[index];
-                delete phrase_nodes[index+2];
-                phrase_nodes.replace(index, index+2, node);
+                delete phrase_nodes->at(index);
+                delete phrase_nodes->at(index+2);
+                phrase_nodes->replace(index, index+2, node);
 
                 return true;
             }
-            else if (phrase_nodes.is_valid(index+1) &&
-                (phrase_nodes[index]->type == ident::KEYWORD_RETURN) &&
-                (phrase_nodes[index+1]->type == ident::SEMICOLON))
+            else if (phrase_nodes->is_valid(index+1) &&
+                (phrase_nodes->at(index)->type == ident::KEYWORD_RETURN) &&
+                (phrase_nodes->at(index+1)->type == ident::SEMICOLON))
             {
                 phrase_t* node = new phrase_t();
 
-                node->type = phrase::RETURN_STATEMENT;
+                node->type = RETURN_STATEMENT;
 
-                node->line = phrase_nodes[index]->line;
-                node->column = phrase_nodes[index]->column;
+                node->line = phrase_nodes->at(index)->line;
+                node->column = phrase_nodes->at(index)->column;
 
-                node->file = phrase_nodes[index]->file;
+                node->file = phrase_nodes->at(index)->file;
 
-                delete phrase_nodes[index];
-                delete phrase_nodes[index+1];
-                phrase_nodes.replace(index, index+1, node);
+                delete phrase_nodes->at(index);
+                delete phrase_nodes->at(index+1);
+                phrase_nodes->replace(index, index+1, node);
 
                 return true;
             }

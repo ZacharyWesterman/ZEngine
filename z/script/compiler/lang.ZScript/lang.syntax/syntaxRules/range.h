@@ -27,37 +27,37 @@ namespace script
 
         bool lexer::_range()
         {
-            if (phrase_nodes.is_valid(index+2) &&
-                (phrase_nodes[index]->type == phrase::BOOLEXPR) &&
-                ((phrase_nodes[index+1]->type == ident::OPER_R_ARROW) ||
-                 (phrase_nodes[index+1]->type == ident::OPER_L_ARROW)) &&
-                (phrase_nodes[index+2]->type == phrase::BOOLEXPR))
+            if (phrase_nodes->is_valid(index+2) &&
+                (phrase_nodes->at(index)->type == BOOLEXPR) &&
+                ((phrase_nodes->at(index+1)->type == ident::OPER_R_ARROW) ||
+                 (phrase_nodes->at(index+1)->type == ident::OPER_L_ARROW)) &&
+                (phrase_nodes->at(index+2)->type == BOOLEXPR))
             {
                 phrase_t* node = new phrase_t();
 
-                node->type = phrase::RANGE;
+                node->type = RANGE;
 
-                node->line = phrase_nodes[index]->line;
-                node->column = phrase_nodes[index]->column;
+                node->line = phrase_nodes->at(index)->line;
+                node->column = phrase_nodes->at(index)->column;
 
-                phrase_nodes[index]->parent = node;
-                phrase_nodes[index+2]->parent = node;
+                phrase_nodes->at(index)->parent = node;
+                phrase_nodes->at(index+2)->parent = node;
 
-                if (phrase_nodes[index+1]->type == ident::OPER_R_ARROW)
+                if (phrase_nodes->at(index+1)->type == ident::OPER_R_ARROW)
                 {
-                    node->children.add(phrase_nodes[index]);
-                    node->children.add(phrase_nodes[index+2]);
+                    node->children.add(phrase_nodes->at(index));
+                    node->children.add(phrase_nodes->at(index+2));
                 }
                 else
                 {
-                    node->children.add(phrase_nodes[index+2]);
-                    node->children.add(phrase_nodes[index]);
+                    node->children.add(phrase_nodes->at(index+2));
+                    node->children.add(phrase_nodes->at(index));
                 }
 
-                node->file = phrase_nodes[index]->file;
+                node->file = phrase_nodes->at(index)->file;
 
-                delete phrase_nodes[index+1];
-                phrase_nodes.replace(index, index+2, node);
+                delete phrase_nodes->at(index+1);
+                phrase_nodes->replace(index, index+2, node);
 
                 return true;
             }

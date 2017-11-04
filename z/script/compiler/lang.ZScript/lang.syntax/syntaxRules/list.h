@@ -27,75 +27,75 @@ namespace script
 
         bool lexer::_list()
         {
-            if (!(phrase_nodes.is_valid(index-2) &&
-                  (phrase_nodes[index-2]->type == ident::KEYWORD_IN)))
+            if (!(phrase_nodes->is_valid(index-2) &&
+                  (phrase_nodes->at(index-2)->type == ident::KEYWORD_IN)))
             {
-                if (phrase_nodes.is_valid(index+2) &&
-                    (phrase_nodes[index]->type == ident::LBRACE) &&
-                    (phrase_nodes[index+2]->type == ident::RBRACE))
+                if (phrase_nodes->is_valid(index+2) &&
+                    (phrase_nodes->at(index)->type == ident::LBRACE) &&
+                    (phrase_nodes->at(index+2)->type == ident::RBRACE))
                 {
-                    if (phrase_nodes[index+1]->type == phrase::BOOLEXPR)
+                    if (phrase_nodes->at(index+1)->type == BOOLEXPR)
                     {
                         phrase_t* node = new phrase_t();
 
-                        node->type = phrase::LIST;
+                        node->type = LIST;
 
-                        node->line = phrase_nodes[index]->line;
-                        node->column = phrase_nodes[index]->column;
+                        node->line = phrase_nodes->at(index)->line;
+                        node->column = phrase_nodes->at(index)->column;
 
-                        node->file = phrase_nodes[index]->file;
-
-
-                        phrase_nodes[index+1]->parent = node;
-
-                        node->children.add(phrase_nodes[index+1]);
+                        node->file = phrase_nodes->at(index)->file;
 
 
-                        delete phrase_nodes[index];
-                        delete phrase_nodes[index+2];
-                        phrase_nodes.replace(index, index+2, node);
+                        phrase_nodes->at(index+1)->parent = node;
+
+                        node->children.add(phrase_nodes->at(index+1));
+
+
+                        delete phrase_nodes->at(index);
+                        delete phrase_nodes->at(index+2);
+                        phrase_nodes->replace(index, index+2, node);
 
                         return true;
                     }
-                    else if (phrase_nodes[index+1]->type == phrase::EXPRLIST)
+                    else if (phrase_nodes->at(index+1)->type == EXPRLIST)
                     {
-                        phrase_nodes[index+1]->type = phrase::LIST;
+                        phrase_nodes->at(index+1)->type = LIST;
 
-                        phrase_nodes[index+1]->line = phrase_nodes[index]->line;
-                        phrase_nodes[index+1]->column = phrase_nodes[index]->column;
+                        phrase_nodes->at(index+1)->line = phrase_nodes->at(index)->line;
+                        phrase_nodes->at(index+1)->column = phrase_nodes->at(index)->column;
 
-                        phrase_nodes[index+1]->file = phrase_nodes[index]->file;
+                        phrase_nodes->at(index+1)->file = phrase_nodes->at(index)->file;
 
-                        delete phrase_nodes[index];
-                        delete phrase_nodes[index+2];
-                        phrase_nodes.remove(index+2);
-                        phrase_nodes.remove(index);
+                        delete phrase_nodes->at(index);
+                        delete phrase_nodes->at(index+2);
+                        phrase_nodes->remove(index+2);
+                        phrase_nodes->remove(index);
 
                         return true;
                     }
                 }
-                else if (phrase_nodes.is_valid(index+1) &&
-                    (phrase_nodes[index]->type == ident::LBRACE) &&
-                    (phrase_nodes[index+1]->type == ident::RBRACE) &&
-                    !(phrase_nodes.is_valid(index-1) &&
-                      ((phrase_nodes[index-1]->type == ident::RPARENTH) ||
-                       (phrase_nodes[index-1]->type == ident::KEYWORD_ELSE) ||
-                       (phrase_nodes[index-1]->type == ident::KEYWORD_LOOP) ||
-                       (phrase_nodes[index-1]->type == ident::KEYWORD_VAR) ||
-                       (phrase_nodes[index-1]->type == ident::IDENTIFIER) )))
+                else if (phrase_nodes->is_valid(index+1) &&
+                    (phrase_nodes->at(index)->type == ident::LBRACE) &&
+                    (phrase_nodes->at(index+1)->type == ident::RBRACE) &&
+                    !(phrase_nodes->is_valid(index-1) &&
+                      ((phrase_nodes->at(index-1)->type == ident::RPARENTH) ||
+                       (phrase_nodes->at(index-1)->type == ident::KEYWORD_ELSE) ||
+                       (phrase_nodes->at(index-1)->type == ident::KEYWORD_LOOP) ||
+                       (phrase_nodes->at(index-1)->type == ident::KEYWORD_VAR) ||
+                       (phrase_nodes->at(index-1)->type == ident::IDENTIFIER) )))
                 {
                     phrase_t* node = new phrase_t();
 
-                    node->type = phrase::LIST;
+                    node->type = LIST;
 
-                    node->line = phrase_nodes[index]->line;
-                    node->column = phrase_nodes[index]->column;
+                    node->line = phrase_nodes->at(index)->line;
+                    node->column = phrase_nodes->at(index)->column;
 
-                    node->file = phrase_nodes[index]->file;
+                    node->file = phrase_nodes->at(index)->file;
 
-                    delete phrase_nodes[index];
-                    delete phrase_nodes[index+1];
-                    phrase_nodes.replace(index, index+1, node);
+                    delete phrase_nodes->at(index);
+                    delete phrase_nodes->at(index+1);
+                    phrase_nodes->replace(index, index+1, node);
 
                     return true;
                 }

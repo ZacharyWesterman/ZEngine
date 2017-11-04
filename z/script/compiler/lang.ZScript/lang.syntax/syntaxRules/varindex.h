@@ -27,43 +27,43 @@ namespace script
 
         bool lexer::varindex()
         {
-            if (phrase_nodes.is_valid(index+1) &&
-                ((phrase_nodes[index]->type == phrase::PARENTHEXPR) ||
-                 (phrase_nodes[index]->type == phrase::VARINDEX) ||
-                 (phrase_nodes[index]->type == phrase::LIST) ||
-                 ((phrase_nodes[index]->type == ident::LITERAL) &&
-                  ((phrase_nodes[index]->value.type() == data::STRING) ||
-                   (phrase_nodes[index]->value.type() == data::ARRAY)))) &&
-                (phrase_nodes[index+1]->type == phrase::INDEX)
+            if (phrase_nodes->is_valid(index+1) &&
+                ((phrase_nodes->at(index)->type == PARENTHEXPR) ||
+                 (phrase_nodes->at(index)->type == VARINDEX) ||
+                 (phrase_nodes->at(index)->type == LIST) ||
+                 ((phrase_nodes->at(index)->type == ident::LITERAL) &&
+                  ((phrase_nodes->at(index)->value.type() == data::STRING) ||
+                   (phrase_nodes->at(index)->value.type() == data::ARRAY)))) &&
+                (phrase_nodes->at(index+1)->type == INDEX)
                 )
             {
                 phrase_t* node = new phrase_t();
 
-                node->type = phrase::VARINDEX;
+                node->type = VARINDEX;
 
-                node->line = phrase_nodes[index]->line;
-                node->column = phrase_nodes[index]->column;
+                node->line = phrase_nodes->at(index)->line;
+                node->column = phrase_nodes->at(index)->column;
 
-                phrase_nodes[index]->parent = node;
-                phrase_nodes[index+1]->parent = node;
+                phrase_nodes->at(index)->parent = node;
+                phrase_nodes->at(index+1)->parent = node;
 
-                node->children.add(phrase_nodes[index]);
-                node->children.add(phrase_nodes[index+1]);
+                node->children.add(phrase_nodes->at(index));
+                node->children.add(phrase_nodes->at(index+1));
 
-                node->file = phrase_nodes[index]->file;
+                node->file = phrase_nodes->at(index)->file;
 
                 //check if this is a sub-index
                 //(previous 'index' was an index list)
-                if ((phrase_nodes[index]->type == phrase::VARINDEX) &&
-                    (phrase_nodes[index]->children[1]->type==phrase::INDEX) &&
-                    (phrase_nodes[index]->children[1]->children.size() > 1))
+                if ((phrase_nodes->at(index)->type == VARINDEX) &&
+                    (phrase_nodes->at(index)->children->at(1)->type==INDEX) &&
+                    (phrase_nodes->at(index)->children->at(1)->children.size() > 1))
                 {
                     //indicate this is a sub-index
                     node->metaValue = 1;
                 }
 
 
-                phrase_nodes.replace(index, index+1, node);
+                phrase_nodes->replace(index, index+1, node);
 
                 return true;
             }

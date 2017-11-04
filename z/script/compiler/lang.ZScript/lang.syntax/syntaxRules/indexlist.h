@@ -27,54 +27,54 @@ namespace script
 
         bool lexer::indexlist()
         {
-            if (phrase_nodes.is_valid(index+2) &&
-                phrase_nodes.is_valid(index-1) &&
-                (phrase_nodes[index-1]->type == ident::LBRACKET) &&
-                (phrase_nodes[index]->type == phrase::INDEXLIST) &&
-                ((phrase_nodes[index+1]->type == phrase::RANGE) ||
-                 (phrase_nodes[index+1]->type == phrase::BOOLEXPR)) &&
-                ((phrase_nodes[index+2]->type == ident::COMMA) ||
-                 (phrase_nodes[index+2]->type == ident::RBRACKET)))
+            if (phrase_nodes->is_valid(index+2) &&
+                phrase_nodes->is_valid(index-1) &&
+                (phrase_nodes->at(index-1)->type == ident::LBRACKET) &&
+                (phrase_nodes->at(index)->type == INDEXLIST) &&
+                ((phrase_nodes->at(index+1)->type == RANGE) ||
+                 (phrase_nodes->at(index+1)->type == BOOLEXPR)) &&
+                ((phrase_nodes->at(index+2)->type == ident::COMMA) ||
+                 (phrase_nodes->at(index+2)->type == ident::RBRACKET)))
             {
-                phrase_nodes[index]->children.add(phrase_nodes[index+1]);
-                phrase_nodes[index+1]->parent = phrase_nodes[index];
+                phrase_nodes->at(index)->children.add(phrase_nodes->at(index+1));
+                phrase_nodes->at(index+1)->parent = phrase_nodes->at(index);
 
 
-                if (phrase_nodes[index+2]->type == ident::COMMA)
+                if (phrase_nodes->at(index+2)->type == ident::COMMA)
                 {
-                    delete phrase_nodes[index+2];
-                    phrase_nodes.remove(index+2);
-                    phrase_nodes.remove(index+1);
+                    delete phrase_nodes->at(index+2);
+                    phrase_nodes->remove(index+2);
+                    phrase_nodes->remove(index+1);
                 }
                 else
                 {
-                    phrase_nodes.remove(index+1);
+                    phrase_nodes->remove(index+1);
                 }
 
                 return true;
             }
-            else if (phrase_nodes.is_valid(index+1) &&
-                phrase_nodes.is_valid(index-1) &&
-                (phrase_nodes[index-1]->type == ident::LBRACKET) &&
-                ((phrase_nodes[index]->type == phrase::RANGE) ||
-                 (phrase_nodes[index]->type == phrase::BOOLEXPR)) &&
-                (phrase_nodes[index+1]->type == ident::COMMA))
+            else if (phrase_nodes->is_valid(index+1) &&
+                phrase_nodes->is_valid(index-1) &&
+                (phrase_nodes->at(index-1)->type == ident::LBRACKET) &&
+                ((phrase_nodes->at(index)->type == RANGE) ||
+                 (phrase_nodes->at(index)->type == BOOLEXPR)) &&
+                (phrase_nodes->at(index+1)->type == ident::COMMA))
             {
                 phrase_t* node = new phrase_t();
 
-                node->type = phrase::INDEXLIST;
+                node->type = INDEXLIST;
 
-                node->line = phrase_nodes[index]->line;
-                node->column = phrase_nodes[index]->column;
+                node->line = phrase_nodes->at(index)->line;
+                node->column = phrase_nodes->at(index)->column;
 
-                phrase_nodes[index]->parent = node;
+                phrase_nodes->at(index)->parent = node;
 
-                node->children.add(phrase_nodes[index]);
+                node->children.add(phrase_nodes->at(index));
 
-                node->file = phrase_nodes[index]->file;
+                node->file = phrase_nodes->at(index)->file;
 
-                delete phrase_nodes[index+1];
-                phrase_nodes.replace(index, index+1, node);
+                delete phrase_nodes->at(index+1);
+                phrase_nodes->replace(index, index+1, node);
 
                 return true;
             }

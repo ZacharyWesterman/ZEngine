@@ -57,7 +57,9 @@
 		<Unit filename="z/script/compiler/lang.ZScript/lang.syntax/assignexpr.h" />
 		<Unit filename="z/script/compiler/lang.ZScript/lang.syntax/boolexpr.h" />
 		<Unit filename="z/script/compiler/lang.ZScript/lang.syntax/dimensionexpr.h" />
+		<Unit filename="z/script/compiler/lang.ZScript/lang.syntax/exprlist.h" />
 		<Unit filename="z/script/compiler/lang.ZScript/lang.syntax/factorialexpr.h" />
+		<Unit filename="z/script/compiler/lang.ZScript/lang.syntax/list.h" />
 		<Unit filename="z/script/compiler/lang.ZScript/lang.syntax/multiplyexpr.h" />
 		<Unit filename="z/script/compiler/lang.ZScript/lang.syntax/negatexpr.h" />
 		<Unit filename="z/script/compiler/lang.ZScript/lang.syntax/operand.h" />
@@ -65,6 +67,7 @@
 		<Unit filename="z/script/compiler/lang.ZScript/lang.syntax/powerexpr.h" />
 		<Unit filename="z/script/compiler/lang.ZScript/lang.syntax/program.h" />
 		<Unit filename="z/script/compiler/lang.ZScript/lang.syntax/sizeofexpr.h" />
+		<Unit filename="z/script/compiler/lang.ZScript/lang.syntax/statement.h" />
 		<Unit filename="z/script/compiler/lang.ZScript/lang.syntax/variable.h" />
 		<Unit filename="z/script/compiler/lexer.h" />
 		<Unit filename="z/script/compiler/operator.h" />

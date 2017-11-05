@@ -101,6 +101,8 @@ enum syntax
 #include "lang.syntax/exprlist.h"
 #include "lang.syntax/list.h"
 
+#include "lang.syntax/statement.h"
+
 
 #define SYN_RULE z::script::compiler::syntaxRule
 #define ARRAY z::core::array<SYN_RULE*>
@@ -127,6 +129,8 @@ ARRAY* genSyntaxRules()
 
         new z::script::compiler::exprlist,
         new z::script::compiler::_list,
+
+        new z::script::compiler::statement,
     };
 
     return rules;

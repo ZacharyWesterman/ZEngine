@@ -2973,7 +2973,7 @@
 	<z/core/array.h>
 	"identity.h"
 
-1509852872 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lexer.h
+1509859514 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lexer.h
 	<z/core/timeout.h>
 	<z/core/array.h>
 	<z/core/dynamicStack.h>
@@ -3206,7 +3206,7 @@
 
 1507346414 /home/zwesterman/GitHub/ZEngine//z/script/compiler/identEnum.h
 
-1509857081 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax.h
+1509857951 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax.h
 	<z/core/array.h>
 	<z/script/compiler/syntaxRule.h>
 	"lang.syntax/program.h"
@@ -3225,6 +3225,7 @@
 	"lang.syntax/dimensionexpr.h"
 	"lang.syntax/exprlist.h"
 	"lang.syntax/list.h"
+	"lang.syntax/statement.h"
 
 1509765159 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/program.h
 	<z/script/compiler/syntaxRule.h>
@@ -3258,4 +3259,6 @@
 1509856701 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/exprlist.h
 
 1509857089 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/list.h
+
+1509860235 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/statement.h
 

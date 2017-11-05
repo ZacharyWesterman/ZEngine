@@ -56,6 +56,7 @@
 		<Unit filename="z/script/compiler/lang.ZScript/lang.syntax/addexpr.h" />
 		<Unit filename="z/script/compiler/lang.ZScript/lang.syntax/assignexpr.h" />
 		<Unit filename="z/script/compiler/lang.ZScript/lang.syntax/boolexpr.h" />
+		<Unit filename="z/script/compiler/lang.ZScript/lang.syntax/dimensionexpr.h" />
 		<Unit filename="z/script/compiler/lang.ZScript/lang.syntax/factorialexpr.h" />
 		<Unit filename="z/script/compiler/lang.ZScript/lang.syntax/multiplyexpr.h" />
 		<Unit filename="z/script/compiler/lang.ZScript/lang.syntax/negatexpr.h" />

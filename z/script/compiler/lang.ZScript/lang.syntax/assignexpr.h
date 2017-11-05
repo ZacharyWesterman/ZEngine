@@ -43,7 +43,9 @@ namespace script
                 (phrase_nodes->at(index+1)->type == ident::OPERATOR) &&
                 (phrase_nodes->at(index+1)->metaValue >= ASSIGN) &&
                 (phrase_nodes->at(index+1)->metaValue <= MOD_ASSIGN) &&
-                (phrase_nodes->at(index+2)->type == BOOLEXPR)
+                ((phrase_nodes->at(index+2)->type == BOOLEXPR) ||
+                 (phrase_nodes->at(index+2)->type == ASSIGNEXPR)
+                 )
                 )
             {
                 phrase_t* node =

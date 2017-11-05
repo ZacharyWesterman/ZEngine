@@ -85,6 +85,7 @@ enum syntax
 
 #include "lang.syntax/operand.h"
 #include "lang.syntax/variable.h"
+
 #include "lang.syntax/parenthexpr.h"
 #include "lang.syntax/factorialexpr.h"
 #include "lang.syntax/add1expr.h"
@@ -96,6 +97,9 @@ enum syntax
 #include "lang.syntax/assignexpr.h"
 #include "lang.syntax/sizeofexpr.h"
 #include "lang.syntax/dimensionexpr.h"
+
+#include "lang.syntax/exprlist.h"
+#include "lang.syntax/list.h"
 
 
 #define SYN_RULE z::script::compiler::syntaxRule
@@ -121,7 +125,8 @@ ARRAY* genSyntaxRules()
         new z::script::compiler::sizeofexpr,
         new z::script::compiler::dimensionexpr,
 
-
+        new z::script::compiler::exprlist,
+        new z::script::compiler::_list,
     };
 
     return rules;

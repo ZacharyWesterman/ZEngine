@@ -39,7 +39,9 @@ namespace script
                                   int index)
         {
             //if no detected boolean operators, continue to the next phase
-            if ((phrase_nodes->at(index)->type == ADDEXPR) &&
+            if (((phrase_nodes->at(index)->type == ADDEXPR) ||
+                 (phrase_nodes->at(index)->type == ASSIGNEXPR)
+                 ) &&
                  !(phrase_nodes->is_valid(index+1) &&
                    (phrase_nodes->at(index+1)->type == ident::OPERATOR) &&
                    (phrase_nodes->at(index+1)->metaValue >= AND_LGCL) &&
@@ -84,9 +86,7 @@ namespace script
             }
             //or a unary boolean operator
             else if (phrase_nodes->is_valid(index+1) &&
-                     ((phrase_nodes->at(index+1)->type == ADDEXPR) ||
-                      (phrase_nodes->at(index+1)->type == BOOLEXPR)
-                      ) &&
+                     (phrase_nodes->at(index+1)->type == ADDEXPR) &&
                      (phrase_nodes->at(index)->type == ident::OPERATOR) &&
                      ((phrase_nodes->at(index)->metaValue == NOT_LGCL) ||
                       (phrase_nodes->at(index)->metaValue == NOT_BITW)

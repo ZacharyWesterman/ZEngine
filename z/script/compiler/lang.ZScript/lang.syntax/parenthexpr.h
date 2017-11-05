@@ -57,12 +57,12 @@ namespace script
 
                 return true;
             }
-            else if ((phrase_nodes->at(index)->type == OPERAND) &&
+            else if ((phrase_nodes->at(index)->type == OPERAND) /*&&
                      !(phrase_nodes->is_valid(index-1) &&
                        phrase_nodes->is_valid(index+1) &&
                        (phrase_nodes->at(index-1)->type == ident::LPARENTH) &&
                        (phrase_nodes->at(index+1)->type == ident::RPARENTH)
-                       )
+                       )*/
                      )
             {
                 setSuperType(phrase_nodes->at(index), PARENTHEXPR);

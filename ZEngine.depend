@@ -2973,7 +2973,7 @@
 	<z/core/array.h>
 	"identity.h"
 
-1509769328 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lexer.h
+1509852872 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lexer.h
 	<z/core/timeout.h>
 	<z/core/array.h>
 	<z/core/dynamicStack.h>
@@ -3206,7 +3206,7 @@
 
 1507346414 /home/zwesterman/GitHub/ZEngine//z/script/compiler/identEnum.h
 
-1509769410 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax.h
+1509851642 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax.h
 	<z/core/array.h>
 	<z/script/compiler/syntaxRule.h>
 	"lang.syntax/program.h"
@@ -3222,15 +3222,16 @@
 	"lang.syntax/boolexpr.h"
 	"lang.syntax/assignexpr.h"
 	"lang.syntax/sizeofexpr.h"
+	"lang.syntax/dimensionexpr.h"
 
 1509765159 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/program.h
 	<z/script/compiler/syntaxRule.h>
 
 1509765231 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/operand.h
 
-1509765279 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/variable.h
+1509852645 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/variable.h
 
-1509765341 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/parenthexpr.h
+1509852332 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/parenthexpr.h
 
 1509765594 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/addexpr.h
 
@@ -3249,4 +3250,6 @@
 1509765750 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/assignexpr.h
 
 1509769957 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/sizeofexpr.h
+
+1509852681 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/dimensionexpr.h
 

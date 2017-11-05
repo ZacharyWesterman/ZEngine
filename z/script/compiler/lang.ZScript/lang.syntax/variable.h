@@ -58,6 +58,11 @@ namespace script
                    (phrase_nodes->at(index+1)->type == ident::IDENTIFIER) ||
                    (phrase_nodes->at(index+1)->type == ident::LBRACE)
                    )
+                  ) &&
+                !(phrase_nodes->is_valid(index+2) &&
+                  (phrase_nodes->at(index+1)->type == ident::PERIOD) &&
+                  (phrase_nodes->at(index+2)->type == ident::KEYWORD) &&
+                  (phrase_nodes->at(index+2)->metaValue == DIM)
                   )
                 )
             {

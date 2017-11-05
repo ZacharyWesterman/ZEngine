@@ -95,6 +95,7 @@ enum syntax
 #include "lang.syntax/boolexpr.h"
 #include "lang.syntax/assignexpr.h"
 #include "lang.syntax/sizeofexpr.h"
+#include "lang.syntax/dimensionexpr.h"
 
 
 #define SYN_RULE z::script::compiler::syntaxRule
@@ -118,6 +119,9 @@ ARRAY* genSyntaxRules()
         new z::script::compiler::boolexpr,
         new z::script::compiler::assignexpr,
         new z::script::compiler::sizeofexpr,
+        new z::script::compiler::dimensionexpr,
+
+
     };
 
     return rules;

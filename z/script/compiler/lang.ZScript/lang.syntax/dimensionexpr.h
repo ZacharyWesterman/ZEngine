@@ -24,31 +24,36 @@ namespace script
 {
     namespace compiler
     {
+        class dimensionexpr : public syntaxRule
+        {
+        public:
+            ~dimensionexpr() {}
 
-        bool lexer::dimensionexpr()
+            bool apply(core::array< phrase_t* >*,
+                       int);
+        };
+
+        bool dimensionexpr::apply(core::array< phrase_t* >* phrase_nodes,
+                                  int index)
         {
             if (phrase_nodes->is_valid(index+5) &&
                 (phrase_nodes->at(index)->type == ident::IDENTIFIER) &&
                 (phrase_nodes->at(index+1)->type == ident::PERIOD) &&
-                (phrase_nodes->at(index+2)->type == ident::KEYWORD_DIM) &&
+                (phrase_nodes->at(index+2)->type == ident::KEYWORD) &&
+                (phrase_nodes->at(index+2)->metaValue == DIM) &&
                 (phrase_nodes->at(index+3)->type == ident::LPARENTH) &&
                 (phrase_nodes->at(index+4)->type == BOOLEXPR) &&
-                (phrase_nodes->at(index+5)->type == ident::RPARENTH))
+                (phrase_nodes->at(index+5)->type == ident::RPARENTH)
+                )
             {
-                phrase_t* node = new phrase_t();
-
-                node->type = DIMENSIONEXPR;
-
-                node->line = phrase_nodes->at(index)->line;
-                node->column = phrase_nodes->at(index)->column;
+                phrase_t* node =
+                    new phrase_t(*(phrase_nodes->at(index)), DIMENSIONEXPR);
 
                 phrase_nodes->at(index)->parent = node;
                 phrase_nodes->at(index+4)->parent = node;
 
                 node->children.add(phrase_nodes->at(index));
                 node->children.add(phrase_nodes->at(index+4));
-
-                node->file = phrase_nodes->at(index)->file;
 
                 delete phrase_nodes->at(index+1);
                 delete phrase_nodes->at(index+2);
@@ -58,27 +63,24 @@ namespace script
 
                 return true;
             }
-            else if (!(phrase_nodes->is_valid(index-2) &&
+            else if (/*!(phrase_nodes->is_valid(index-2) &&
                        (phrase_nodes->at(index-1)->type == ident::PERIOD) &&
-                       (phrase_nodes->at(index-2)->type == ident::IDENTIFIER)) &&
+                       (phrase_nodes->at(index-2)->type == ident::IDENTIFIER)
+                       ) &&*/
                      phrase_nodes->is_valid(index+3) &&
-                     (phrase_nodes->at(index)->type == ident::KEYWORD_DIM) &&
+                     (phrase_nodes->at(index)->type == ident::KEYWORD) &&
+                     (phrase_nodes->at(index)->metaValue == DIM) &&
                      (phrase_nodes->at(index+1)->type == ident::LPARENTH) &&
                      (phrase_nodes->at(index+2)->type == BOOLEXPR) &&
-                     (phrase_nodes->at(index+3)->type == ident::RPARENTH))
+                     (phrase_nodes->at(index+3)->type == ident::RPARENTH)
+                     )
             {
-                phrase_t* node = new phrase_t();
-
-                node->type = DIMENSIONEXPR;
-
-                node->line = phrase_nodes->at(index)->line;
-                node->column = phrase_nodes->at(index)->column;
+                phrase_t* node =
+                    new phrase_t(*(phrase_nodes->at(index)), DIMENSIONEXPR);
 
                 phrase_nodes->at(index+2)->parent = node;
 
                 node->children.add(phrase_nodes->at(index+2));
-
-                node->file = phrase_nodes->at(index)->file;
 
                 delete phrase_nodes->at(index);
                 delete phrase_nodes->at(index+1);

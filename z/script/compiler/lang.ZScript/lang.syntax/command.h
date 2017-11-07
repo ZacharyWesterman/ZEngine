@@ -25,7 +25,17 @@ namespace script
     namespace compiler
     {
 
-        bool lexer::_command()
+        class _command : public syntaxRule
+        {
+        public:
+            ~_command() {}
+
+            bool apply(core::array< phrase_t* >*,
+                       int);
+        };
+
+        bool _command::apply(core::array< phrase_t* >* phrase_nodes,
+                                  int index)
         {
             if (phrase_nodes->is_valid(index+3) &&
                 (phrase_nodes->at(index)->type == IDENTIFIERLIST) &&
@@ -34,20 +44,14 @@ namespace script
                  (phrase_nodes->at(index+2)->type == BOOLEXPR)) &&
                 (phrase_nodes->at(index+3)->type == ident::RBRACE))
             {
-                phrase_t* node = new phrase_t();
-
-                node->type = COMMAND;
-
-                node->line = phrase_nodes->at(index)->line;
-                node->column = phrase_nodes->at(index)->column;
+                phrase_t* node =
+                    new phrase_t(*(phrase_nodes->at(index)), COMMAND);
 
                 phrase_nodes->at(index)->parent = node;
                 phrase_nodes->at(index+2)->parent = node;
 
                 node->children.add(phrase_nodes->at(index));
                 node->children.add(phrase_nodes->at(index+2));
-
-                node->file = phrase_nodes->at(index)->file;
 
                 delete phrase_nodes->at(index+1);
                 delete phrase_nodes->at(index+3);
@@ -60,18 +64,12 @@ namespace script
                 (phrase_nodes->at(index+1)->type == ident::LBRACE) &&
                 (phrase_nodes->at(index+2)->type == ident::RBRACE))
             {
-                phrase_t* node = new phrase_t();
-
-                node->type = COMMAND;
-
-                node->line = phrase_nodes->at(index)->line;
-                node->column = phrase_nodes->at(index)->column;
+                phrase_t* node =
+                    new phrase_t(*(phrase_nodes->at(index)), COMMAND);
 
                 phrase_nodes->at(index)->parent = node;
 
                 node->children.add(phrase_nodes->at(index));
-
-                node->file = phrase_nodes->at(index)->file;
 
                 delete phrase_nodes->at(index+1);
                 delete phrase_nodes->at(index+2);

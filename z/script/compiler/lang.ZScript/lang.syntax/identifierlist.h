@@ -25,23 +25,36 @@ namespace script
     namespace compiler
     {
 
-        bool lexer::identifierlist()
+        class identifierlist : public syntaxRule
         {
-            if (!(phrase_nodes->is_valid(index-1) &&
-                  ((phrase_nodes->at(index-1)->type == ident::KEYWORD_IN) ||
-                   (phrase_nodes->at(index-1)->type == ident::KEYWORD_SUB) ||
-                   (phrase_nodes->at(index-1)->type == ident::KEYWORD_TYPE) ||
+        public:
+            ~identifierlist() {}
+
+            bool apply(core::array< phrase_t* >*,
+                       int);
+        };
+
+        bool identifierlist::apply(core::array< phrase_t* >* phrase_nodes,
+                                  int index)
+        {
+            /*if (!(phrase_nodes->is_valid(index-1) &&
+                  ((phrase_nodes->at(index-1)->type == ident::KEYWORD) ||
                    (phrase_nodes->at(index-1)->type == ident::LPARENTH) ||
-                   (phrase_nodes->at(index-1)->type == ident::COMMA) )))
+                   (phrase_nodes->at(index-1)->type == ident::COMMA)
+                   )
+                  )
+                )*/
             {
                 if (phrase_nodes->is_valid(index+1) &&
                     ((phrase_nodes->at(index)->type == ident::IDENTIFIER) ||
-                     (phrase_nodes->at(index)->type == IDENTIFIERLIST)) &&
+                     (phrase_nodes->at(index)->type == IDENTIFIERLIST)
+                     ) &&
                     (phrase_nodes->at(index+1)->type == ident::IDENTIFIER) &&
-                    !(phrase_nodes->is_valid(index+2) &&
-                      ((phrase_nodes->at(index+2)->type == ident::SEMICOLON) ||
-                       (phrase_nodes->at(index+2)->type == ident::OPER_ASSIGN) ||
-                       (phrase_nodes->at(index+2)->type == ident::LPARENTH))))
+                    phrase_nodes->is_valid(index+2) &&
+                    ((phrase_nodes->at(index+2)->type == ident::IDENTIFIER) ||
+                     (phrase_nodes->at(index+2)->type == ident::LBRACE)
+                     )
+                    )
                 {
                     if (phrase_nodes->at(index)->type == IDENTIFIERLIST)
                     {
@@ -53,20 +66,14 @@ namespace script
                     }
                     else
                     {
-                        phrase_t* node = new phrase_t();
-
-                        node->type = IDENTIFIERLIST;
-
-                        node->line = phrase_nodes->at(index)->line;
-                        node->column = phrase_nodes->at(index)->column;
+                        phrase_t* node =
+                            new phrase_t(*(phrase_nodes->at(index)), IDENTIFIERLIST);
 
                         phrase_nodes->at(index)->parent = node;
                         phrase_nodes->at(index+1)->parent = node;
 
                         node->children.add(phrase_nodes->at(index));
                         node->children.add(phrase_nodes->at(index+1));
-
-                        node->file = phrase_nodes->at(index)->file;
 
                         phrase_nodes->replace(index, index+1, node);
                     }
@@ -77,18 +84,12 @@ namespace script
                          (phrase_nodes->at(index)->type == ident::IDENTIFIER) &&
                          (phrase_nodes->at(index+1)->type == ident::LBRACE))
                 {
-                    phrase_t* node = new phrase_t();
-
-                    node->type = IDENTIFIERLIST;
-
-                    node->line = phrase_nodes->at(index)->line;
-                    node->column = phrase_nodes->at(index)->column;
+                    phrase_t* node =
+                            new phrase_t(*(phrase_nodes->at(index)), IDENTIFIERLIST);
 
                     phrase_nodes->at(index)->parent = node;
 
                     node->children.add(phrase_nodes->at(index));
-
-                    node->file = phrase_nodes->at(index)->file;
 
                     phrase_nodes->at(index) = node;
 

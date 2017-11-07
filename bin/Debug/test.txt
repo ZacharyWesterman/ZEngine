@@ -1,4 +1,7 @@
 main()
 {
-  ;
+    x = {x,x} + {2};
+    print{x};
+    print error {0};
+    print to console {x + " = x"};
 }

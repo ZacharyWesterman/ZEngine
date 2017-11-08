@@ -108,6 +108,8 @@ enum syntax
 #include "lang.syntax/identifierlist.h"
 #include "lang.syntax/command.h"
 
+#include "lang.syntax/funccall.h"
+
 
 #define SYN_RULE z::script::compiler::syntaxRule
 #define ARRAY z::core::array<SYN_RULE*>
@@ -141,6 +143,8 @@ ARRAY* genSyntaxRules()
 
         new z::script::compiler::identifierlist,
         new z::script::compiler::_command,
+
+        new z::script::compiler::funccall,
     };
 
     return rules;

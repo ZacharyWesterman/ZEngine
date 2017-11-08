@@ -3206,7 +3206,7 @@
 
 1507346414 /home/zwesterman/GitHub/ZEngine//z/script/compiler/identEnum.h
 
-1510094461 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax.h
+1510183295 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax.h
 	<z/core/array.h>
 	<z/script/compiler/syntaxRule.h>
 	"lang.syntax/program.h"
@@ -3226,6 +3226,7 @@
 	"lang.syntax/exprlist.h"
 	"lang.syntax/list.h"
 	"lang.syntax/statement.h"
+	"lang.syntax/for_statement.h"
 	"lang.syntax/identifierlist.h"
 	"lang.syntax/command.h"
 
@@ -3260,11 +3261,13 @@
 
 1509856701 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/exprlist.h
 
-1510093825 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/list.h
+1510183589 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/list.h
 
 1509860235 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/statement.h
 
 1510094383 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/command.h
 
 1510095280 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/identifierlist.h
+
+1510183474 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/for_statement.h
 

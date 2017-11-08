@@ -24,11 +24,22 @@ namespace script
 {
     namespace compiler
     {
+        class for_statement : public syntaxRule
+        {
+        public:
+            ~for_statement() {}
 
-        bool lexer::for_statement()
+            bool apply(core::array< phrase_t* >*,
+                       int);
+        };
+
+
+        bool for_statement::apply(core::array< phrase_t* >* phrase_nodes,
+                                  int index)
         {
             if (phrase_nodes->is_valid(index+7) &&
-                (phrase_nodes->at(index)->type == ident::KEYWORD_FOR) &&
+                (phrase_nodes->at(index)->type == ident::KEYWORD) &&
+                (phrase_nodes->at(index)->metaValue == FOR) &&
                 (phrase_nodes->at(index+1)->type == ident::LPARENTH) &&
                 (phrase_nodes->at(index+2)->type == BOOLEXPR) &&
                 (phrase_nodes->at(index+3)->type == ident::SEMICOLON) &&
@@ -52,12 +63,8 @@ namespace script
                      (phrase_nodes->at(index+9)->type == STATEMENTLIST)) &&
                     (phrase_nodes->at(index+10)->type == ident::RBRACE))
                 {
-                    phrase_t* node = new phrase_t();
-
-                    node->type = FOR_STATEMENT;
-
-                    node->line = phrase_nodes->at(index)->line;
-                    node->column = phrase_nodes->at(index)->column;
+                    phrase_t* node =
+                    new phrase_t(*(phrase_nodes->at(index)), FOR_STATEMENT);
 
                     phrase_nodes->at(index+2)->parent = node;
                     phrase_nodes->at(index+4)->parent = node;
@@ -68,8 +75,6 @@ namespace script
                     node->children.add(phrase_nodes->at(index+4));
                     node->children.add(phrase_nodes->at(index+6));
                     node->children.add(phrase_nodes->at(index+9));
-
-                    node->file = phrase_nodes->at(index)->file;
 
                     delete phrase_nodes->at(index);
                     delete phrase_nodes->at(index+1);
@@ -86,12 +91,8 @@ namespace script
                     (phrase_nodes->at(index+8)->type == ident::LBRACE) &&
                     (phrase_nodes->at(index+9)->type == ident::RBRACE))
                 {
-                    phrase_t* node = new phrase_t();
-
-                    node->type = FOR_STATEMENT;
-
-                    node->line = phrase_nodes->at(index)->line;
-                    node->column = phrase_nodes->at(index)->column;
+                    phrase_t* node =
+                    new phrase_t(*(phrase_nodes->at(index)), FOR_STATEMENT);
 
                     phrase_nodes->at(index+2)->parent = node;
                     phrase_nodes->at(index+4)->parent = node;
@@ -118,12 +119,8 @@ namespace script
                 {
                     if (phrase_nodes->at(index+8)->type == STATEMENT)
                     {
-                        phrase_t* node = new phrase_t();
-
-                        node->type = FOR_STATEMENT;
-
-                        node->line = phrase_nodes->at(index)->line;
-                        node->column = phrase_nodes->at(index)->column;
+                        phrase_t* node =
+                        new phrase_t(*(phrase_nodes->at(index)), FOR_STATEMENT);
 
                         phrase_nodes->at(index+2)->parent = node;
                         phrase_nodes->at(index+4)->parent = node;
@@ -148,12 +145,8 @@ namespace script
                     }
                     else if (phrase_nodes->at(index+8)->type == ident::SEMICOLON)
                     {
-                        phrase_t* node = new phrase_t();
-
-                        node->type = FOR_STATEMENT;
-
-                        node->line = phrase_nodes->at(index)->line;
-                        node->column = phrase_nodes->at(index)->column;
+                        phrase_t* node =
+                        new phrase_t(*(phrase_nodes->at(index)), FOR_STATEMENT);
 
                         phrase_nodes->at(index+2)->parent = node;
                         phrase_nodes->at(index+4)->parent = node;

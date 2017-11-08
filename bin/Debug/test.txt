@@ -1,7 +1,8 @@
 main()
 {
-    x = {x,x} + {2};
-    print{x};
-    print error {0};
-    print to console {x + " = x"};
+    for (i=0; i<10; i++)
+    {
+        print {"hello"};
+        print {"world"};
+    }
 }

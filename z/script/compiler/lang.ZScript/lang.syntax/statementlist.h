@@ -25,7 +25,18 @@ namespace script
     namespace compiler
     {
 
-        bool lexer::statementlist()
+        class statementlist : public syntaxRule
+        {
+        public:
+            ~statementlist() {}
+
+            bool apply(core::array< phrase_t* >*,
+                       int);
+        };
+
+
+        bool statementlist::apply(core::array< phrase_t* >* phrase_nodes,
+                                  int index)
         {
             if (phrase_nodes->is_valid(index+1) &&
                 (phrase_nodes->at(index+1)->type == STATEMENT))

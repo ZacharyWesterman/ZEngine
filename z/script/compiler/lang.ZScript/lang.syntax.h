@@ -109,6 +109,7 @@ enum syntax
 #include "lang.syntax/command.h"
 
 #include "lang.syntax/funccall.h"
+#include "lang.syntax/function_decl.h"
 
 
 #define SYN_RULE z::script::compiler::syntaxRule
@@ -145,6 +146,7 @@ ARRAY* genSyntaxRules()
         new z::script::compiler::_command,
 
         new z::script::compiler::funccall,
+        new z::script::compiler::function_decl,
     };
 
     return rules;

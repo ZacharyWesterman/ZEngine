@@ -24,8 +24,18 @@ namespace script
 {
     namespace compiler
     {
+        class function_decl : public syntaxRule
+        {
+        public:
+            ~function_decl() {}
 
-        bool lexer::function_decl()
+            bool apply(core::array< phrase_t* >*,
+                       int);
+        };
+
+
+        bool function_decl::apply(core::array< phrase_t* >* phrase_nodes,
+                                  int index)
         {
             bool result = false;
 
@@ -42,12 +52,8 @@ namespace script
                  (phrase_nodes->at(index+5)->type == STATEMENT)) &&
                 (phrase_nodes->at(index+6)->type == ident::RBRACE))
             {
-                phrase_t* node = new phrase_t();
-
-                node->type = FUNCTION_DECL;
-
-                node->line = phrase_nodes->at(index)->line;
-                node->column = phrase_nodes->at(index)->column;
+                phrase_t* node =
+                new phrase_t(*(phrase_nodes->at(index)), FUNCTION_DECL);
 
                 phrase_nodes->at(index)->parent = node;
                 phrase_nodes->at(index+2)->parent = node;
@@ -56,8 +62,6 @@ namespace script
                 node->children.add(phrase_nodes->at(index));
                 node->children.add(phrase_nodes->at(index+2));
                 node->children.add(phrase_nodes->at(index+5));
-
-                node->file = phrase_nodes->at(index)->file;
 
                 delete phrase_nodes->at(index+1);
                 delete phrase_nodes->at(index+3);
@@ -77,20 +81,14 @@ namespace script
                  (phrase_nodes->at(index+4)->type == STATEMENT)) &&
                 (phrase_nodes->at(index+5)->type == ident::RBRACE))
             {
-                phrase_t* node = new phrase_t();
-
-                node->type = FUNCTION_DECL;
-
-                node->line = phrase_nodes->at(index)->line;
-                node->column = phrase_nodes->at(index)->column;
+                phrase_t* node =
+                new phrase_t(*(phrase_nodes->at(index)), FUNCTION_DECL);
 
                 phrase_nodes->at(index)->parent = node;
                 phrase_nodes->at(index+4)->parent = node;
 
                 node->children.add(phrase_nodes->at(index));
                 node->children.add(phrase_nodes->at(index+4));
-
-                node->file = phrase_nodes->at(index)->file;
 
                 delete phrase_nodes->at(index+1);
                 delete phrase_nodes->at(index+2);
@@ -111,20 +109,14 @@ namespace script
                 (phrase_nodes->at(index+4)->type == ident::LBRACE) &&
                 (phrase_nodes->at(index+5)->type == ident::RBRACE))
             {
-                phrase_t* node = new phrase_t();
-
-                node->type = FUNCTION_DECL;
-
-                node->line = phrase_nodes->at(index)->line;
-                node->column = phrase_nodes->at(index)->column;
+                phrase_t* node =
+                new phrase_t(*(phrase_nodes->at(index)), FUNCTION_DECL);
 
                 phrase_nodes->at(index)->parent = node;
                 phrase_nodes->at(index+2)->parent = node;
 
                 node->children.add(phrase_nodes->at(index));
                 node->children.add(phrase_nodes->at(index+2));
-
-                node->file = phrase_nodes->at(index)->file;
 
                 delete phrase_nodes->at(index+1);
                 delete phrase_nodes->at(index+3);
@@ -142,18 +134,12 @@ namespace script
                 (phrase_nodes->at(index+3)->type == ident::LBRACE) &&
                 (phrase_nodes->at(index+4)->type == ident::RBRACE))
             {
-                phrase_t* node = new phrase_t();
-
-                node->type = FUNCTION_DECL;
-
-                node->line = phrase_nodes->at(index)->line;
-                node->column = phrase_nodes->at(index)->column;
+                phrase_t* node =
+                new phrase_t(*(phrase_nodes->at(index)), FUNCTION_DECL);
 
                 phrase_nodes->at(index)->parent = node;
 
                 node->children.add(phrase_nodes->at(index));
-
-                node->file = phrase_nodes->at(index)->file;
 
                 delete phrase_nodes->at(index+1);
                 delete phrase_nodes->at(index+2);
@@ -170,7 +156,8 @@ namespace script
                 phrase_nodes->is_valid(index-1))
             {
                 //explicit function return type "var"
-                if (phrase_nodes->at(index-1)->type == ident::KEYWORD_VAR)
+                if ((phrase_nodes->at(index-1)->type == ident::KEYWORD) &&
+                    (phrase_nodes->at(index-1)->metaValue == VAR))
                 {
                     delete phrase_nodes->at(index-1);
                     phrase_nodes->remove(index-1);

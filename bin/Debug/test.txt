@@ -1,8 +1,5 @@
 main()
 {
-    var x;
-    var y = 10;
-
-    foo A;
-    bar B = {2,3};
+    foo A = 10;
+    bar B = (1, 12.3);
 }

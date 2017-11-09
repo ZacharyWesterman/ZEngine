@@ -66,14 +66,6 @@ namespace script
                      (phrase_nodes->at(index+3)->type == BOOLEXPR) &&
                      (phrase_nodes->at(index+4)->type == ident::SEMICOLON)
                      )
-                    /*(phrase_nodes->is_valid(index+1) &&
-                     phrase_nodes->is_valid(index-3) &&
-                     (phrase_nodes->at(index-3)->type == ident::IDENTIFIER) &&
-                     (phrase_nodes->at(index-2)->type == ident::IDENTIFIER) &&
-                     (phrase_nodes->at(index-1)->type == ident::OPER_ASSIGN) &&
-                     (phrase_nodes->at(index)->type == LIST) &&
-                     (phrase_nodes->at(index+1)->type == ident::SEMICOLON)
-                     )*/
             {
                 phrase_t* node =
                 new phrase_t(*(phrase_nodes->at(index)), TYPEVAR_DECL);
@@ -90,6 +82,37 @@ namespace script
                 delete phrase_nodes->at(index+2);
                 delete phrase_nodes->at(index+4);
                 phrase_nodes->replace(index, index+4, node);
+
+                return true;
+            }
+            else if (phrase_nodes->is_valid(index+6) &&
+                     (phrase_nodes->at(index)->type == ident::IDENTIFIER) &&
+                     (phrase_nodes->at(index+1)->type == ident::IDENTIFIER) &&
+                     (phrase_nodes->at(index+2)->type == ident::OPERATOR) &&
+                     (phrase_nodes->at(index+2)->metaValue == ASSIGN) &&
+                     (phrase_nodes->at(index+3)->type == LPARENTH) &&
+                     (phrase_nodes->at(index+4)->type == EXPRLIST) &&
+                     (phrase_nodes->at(index+5)->type == RPARENTH) &&
+                     (phrase_nodes->at(index+6)->type == ident::SEMICOLON)
+                     )
+            {
+                phrase_t* node =
+                new phrase_t(*(phrase_nodes->at(index)), TYPEVAR_DECL);
+
+                phrase_nodes->at(index)->parent = node;
+                phrase_nodes->at(index+1)->parent = node;
+                phrase_nodes->at(index+4)->parent = node;
+
+                node->children.add(phrase_nodes->at(index));
+                node->children.add(phrase_nodes->at(index+1));
+                node->children.add(phrase_nodes->at(index+4));
+
+
+                delete phrase_nodes->at(index+2);
+                delete phrase_nodes->at(index+3);
+                delete phrase_nodes->at(index+5);
+                delete phrase_nodes->at(index+6);
+                phrase_nodes->replace(index, index+6, node);
 
                 return true;
             }

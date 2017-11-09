@@ -109,6 +109,7 @@ enum syntax
 #include "lang.syntax/command.h"
 
 #include "lang.syntax/funccall.h"
+#include "lang.syntax/func_prototype.h"
 #include "lang.syntax/function_decl.h"
 #include "lang.syntax/formalvardecl.h"
 #include "lang.syntax/formaltypedecl.h"
@@ -149,6 +150,7 @@ ARRAY* genSyntaxRules()
         new z::script::compiler::_command,
 
         new z::script::compiler::funccall,
+        new z::script::compiler::func_prototype,
         new z::script::compiler::function_decl,
         new z::script::compiler::formalvardecl,
         new z::script::compiler::formaltypedecl,

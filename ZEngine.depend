@@ -3206,7 +3206,7 @@
 
 1507346414 /home/zwesterman/GitHub/ZEngine//z/script/compiler/identEnum.h
 
-1510188201 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax.h
+1510188772 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax.h
 	<z/core/array.h>
 	<z/script/compiler/syntaxRule.h>
 	"lang.syntax/program.h"
@@ -3231,6 +3231,7 @@
 	"lang.syntax/identifierlist.h"
 	"lang.syntax/command.h"
 	"lang.syntax/funccall.h"
+	"lang.syntax/func_prototype.h"
 	"lang.syntax/function_decl.h"
 	"lang.syntax/formalvardecl.h"
 	"lang.syntax/formaltypedecl.h"
@@ -3288,4 +3289,6 @@
 1510188060 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/formaltypedecl.h
 
 1510188184 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/formaldecllist.h
+
+1510188892 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/func_prototype.h
 

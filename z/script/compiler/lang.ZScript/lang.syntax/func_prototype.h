@@ -24,13 +24,27 @@ namespace script
 {
     namespace compiler
     {
+        class func_prototype : public syntaxRule
+        {
+        public:
+            ~func_prototype() {}
 
-        bool lexer::func_prototype()
+            bool apply(core::array< phrase_t* >*,
+                       int);
+        };
+
+
+        bool func_prototype::apply(core::array< phrase_t* >* phrase_nodes,
+                                  int index)
         {
             //function prototype must have an explicit return type.
             if (phrase_nodes->is_valid(index-1) &&
-                ((phrase_nodes->at(index-1)->type == ident::KEYWORD_VAR) ||
-                 (phrase_nodes->at(index-1)->type == ident::IDENTIFIER)))
+                (((phrase_nodes->at(index-1)->type == ident::KEYWORD) &&
+                  (phrase_nodes->at(index-1)->metaValue == VAR)
+                  ) ||
+                 (phrase_nodes->at(index-1)->type == ident::IDENTIFIER)
+                 )
+                )
             {
                 void* return_type;
 
@@ -40,7 +54,7 @@ namespace script
                     return_type = NULL;
 
 
-                //IDENTIFIER ( ... ) ;
+                //returnType ( ... ) ;
                 if (phrase_nodes->is_valid(index+4) &&
                     (phrase_nodes->at(index)->type == ident::IDENTIFIER) &&
                     (phrase_nodes->at(index+1)->type == ident::LPARENTH) &&
@@ -50,20 +64,14 @@ namespace script
                     (phrase_nodes->at(index+3)->type == ident::RPARENTH) &&
                     (phrase_nodes->at(index+4)->type == ident::SEMICOLON))
                 {
-                    phrase_t* node = new phrase_t();
-
-                    node->type = FUNC_PROTOTYPE;
-
-                    node->line = phrase_nodes->at(index)->line;
-                    node->column = phrase_nodes->at(index)->column;
+                    phrase_t* node =
+                    new phrase_t(*(phrase_nodes->at(index)), FUNC_PROTOTYPE);
 
                     phrase_nodes->at(index)->parent = node;
                     phrase_nodes->at(index+2)->parent = node;
 
                     node->children.add(phrase_nodes->at(index));
                     node->children.add(phrase_nodes->at(index+2));
-
-                    node->file = phrase_nodes->at(index)->file;
 
                     node->meta = return_type;
 
@@ -75,25 +83,19 @@ namespace script
 
                     return true;
                 }
-                //IDENTIFIER ( ) ;
+                //returnType ( ) ;
                 else if (phrase_nodes->is_valid(index+3) &&
                     (phrase_nodes->at(index)->type == ident::IDENTIFIER) &&
                     (phrase_nodes->at(index+1)->type == ident::LPARENTH) &&
                     (phrase_nodes->at(index+2)->type == ident::RPARENTH) &&
                     (phrase_nodes->at(index+3)->type == ident::SEMICOLON))
                 {
-                    phrase_t* node = new phrase_t();
-
-                    node->type = FUNC_PROTOTYPE;
-
-                    node->line = phrase_nodes->at(index)->line;
-                    node->column = phrase_nodes->at(index)->column;
+                    phrase_t* node =
+                    new phrase_t(*(phrase_nodes->at(index)), FUNC_PROTOTYPE);
 
                     phrase_nodes->at(index)->parent = node;
 
                     node->children.add(phrase_nodes->at(index));
-
-                    node->file = phrase_nodes->at(index)->file;
 
                     node->meta = return_type;
 

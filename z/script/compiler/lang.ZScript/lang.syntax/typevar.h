@@ -24,28 +24,31 @@ namespace script
 {
     namespace compiler
     {
+        class typevar : public syntaxRule
+        {
+        public:
+            ~typevar() {}
 
-        bool lexer::typevar()
+            bool apply(core::array< phrase_t* >*,
+                       int);
+        };
+
+        bool typevar::apply(core::array< phrase_t* >* phrase_nodes,
+                                  int index)
         {
             if (phrase_nodes->is_valid(index+2) &&
                 (phrase_nodes->at(index)->type == PARENTHEXPR) &&
                 (phrase_nodes->at(index+1)->type == ident::PERIOD) &&
                 (phrase_nodes->at(index+2)->type == VARIABLE))
             {
-                phrase_t* node = new phrase_t();
-
-                node->type = TYPEVAR;
-
-                node->line = phrase_nodes->at(index)->line;
-                node->column = phrase_nodes->at(index)->column;
+                phrase_t* node =
+                new phrase_t(*(phrase_nodes->at(index)), TYPEVAR);
 
                 phrase_nodes->at(index)->parent = node;
                 phrase_nodes->at(index+2)->parent = node;
 
                 node->children.add(phrase_nodes->at(index));
                 node->children.add(phrase_nodes->at(index+2));
-
-                node->file = phrase_nodes->at(index)->file;
 
                 delete phrase_nodes->at(index+1);
                 phrase_nodes->replace(index, index+2, node);

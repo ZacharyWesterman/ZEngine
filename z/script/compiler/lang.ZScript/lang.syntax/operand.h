@@ -73,13 +73,22 @@ namespace script
                        (phrase_nodes->at(index+1)->type == ident::OPERATOR) &&
                        (phrase_nodes->at(index+1)->metaValue >= ASSIGN) &&
                        (phrase_nodes->at(index+1)->metaValue <= MOD_ASSIGN)
+                       ) &&
+                     !(phrase_nodes->is_valid(index-1) &&
+                       (phrase_nodes->at(index-1)->type == ident::PERIOD)
                        )
                      ) ||
                     (phrase_nodes->at(index)->type == ident::LITERAL) ||
                     (phrase_nodes->at(index)->type == VARINDEX) ||
                     (phrase_nodes->at(index)->type == DIMENSIONEXPR) ||
                     (phrase_nodes->at(index)->type == SIZEOFEXPR) ||
-                    (phrase_nodes->at(index)->type == FUNCCALL) ||
+                    (phrase_nodes->at(index)->type == TYPE_FUNCCALL) ||
+                    (phrase_nodes->at(index)->type == TYPEVAR) ||
+                    ((phrase_nodes->at(index)->type == FUNCCALL) &&
+                     !(phrase_nodes->is_valid(index-1) &&
+                       (phrase_nodes->at(index-1)->type == ident::PERIOD)
+                       )
+                     ) ||
                     ((phrase_nodes->at(index)->type == LIST) &&
                      !(phrase_nodes->is_valid(index-1) &&
                        ((phrase_nodes->at(index-1)->type == IDENTIFIERLIST) ||

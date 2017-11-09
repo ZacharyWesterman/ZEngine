@@ -24,22 +24,26 @@ namespace script
 {
     namespace compiler
     {
+        class type_funccall : public syntaxRule
+        {
+        public:
+            ~type_funccall() {}
 
-        bool lexer::type_funccall()
+            bool apply(core::array< phrase_t* >*,
+                       int);
+        };
+
+        bool type_funccall::apply(core::array< phrase_t* >* phrase_nodes,
+                                  int index)
         {
             if (phrase_nodes->is_valid(index+2) &&
                 (phrase_nodes->at(index)->type == PARENTHEXPR) &&
                 (phrase_nodes->at(index+1)->type == ident::PERIOD) &&
-                (phrase_nodes->at(index+2)->type == FUNCCALL))
+                (phrase_nodes->at(index+2)->type == FUNCCALL)
+                )
             {
-                phrase_t* node = new phrase_t();
-
-                node->type = TYPE_FUNCCALL;
-
-                node->line = phrase_nodes->at(index)->line;
-                node->column = phrase_nodes->at(index)->column;
-
-                node->file = phrase_nodes->at(index)->file;
+                phrase_t* node =
+                new phrase_t(*(phrase_nodes->at(index)), TYPE_FUNCCALL);
 
                 phrase_nodes->at(index)->parent = node;
                 phrase_nodes->at(index+2)->parent = node;

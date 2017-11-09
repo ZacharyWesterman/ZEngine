@@ -3206,7 +3206,7 @@
 
 1507346414 /home/zwesterman/GitHub/ZEngine//z/script/compiler/identEnum.h
 
-1510190752 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax.h
+1510193682 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax.h
 	<z/core/array.h>
 	<z/script/compiler/syntaxRule.h>
 	"lang.syntax/program.h"
@@ -3240,11 +3240,13 @@
 	"lang.syntax/formalvardecl.h"
 	"lang.syntax/formaltypedecl.h"
 	"lang.syntax/formaldecllist.h"
+	"lang.syntax/type_funccall.h"
+	"lang.syntax/typevar.h"
 
 1509765159 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/program.h
 	<z/script/compiler/syntaxRule.h>
 
-1510191663 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/operand.h
+1510193827 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/operand.h
 
 1509852645 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/variable.h
 
@@ -3252,7 +3254,7 @@
 
 1509765594 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/addexpr.h
 
-1510191543 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/factorialexpr.h
+1510193425 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/factorialexpr.h
 
 1509765492 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/add1expr.h
 
@@ -3303,4 +3305,8 @@
 1510190314 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/index.h
 
 1510192045 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/varindex.h
+
+1510193665 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/type_funccall.h
+
+1510193779 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/typevar.h
 

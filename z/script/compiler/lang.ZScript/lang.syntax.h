@@ -120,6 +120,9 @@ enum syntax
 #include "lang.syntax/formaltypedecl.h"
 #include "lang.syntax/formaldecllist.h"
 
+#include "lang.syntax/type_funccall.h"
+#include "lang.syntax/typevar.h"
+
 
 #define SYN_RULE z::script::compiler::syntaxRule
 #define ARRAY z::core::array<SYN_RULE*>
@@ -165,6 +168,9 @@ ARRAY* genSyntaxRules()
         new z::script::compiler::formalvardecl,
         new z::script::compiler::formaltypedecl,
         new z::script::compiler::formaldecllist,
+
+        new z::script::compiler::type_funccall,
+        new z::script::compiler::typevar,
     };
 
     return rules;

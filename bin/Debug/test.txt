@@ -1,4 +1,5 @@
-main()
+main(var args)
 {
-    (Type1 + Type2).function().Vector.value;
+
+
 }

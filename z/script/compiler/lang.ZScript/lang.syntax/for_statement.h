@@ -59,6 +59,7 @@ namespace script
                     phrase_nodes->remove(index+7);
                 }
 
+                //for ( ... ) { ... }
                 if (phrase_nodes->is_valid(index+10) &&
                     (phrase_nodes->at(index+8)->type == ident::LBRACE) &&
                     ((phrase_nodes->at(index+9)->type == STATEMENT) ||
@@ -89,6 +90,7 @@ namespace script
 
                     return true;
                 }
+                //for ( ... ) { }
                 else if (phrase_nodes->is_valid(index+9) &&
                     (phrase_nodes->at(index+8)->type == ident::LBRACE) &&
                     (phrase_nodes->at(index+9)->type == ident::RBRACE))
@@ -119,6 +121,7 @@ namespace script
                 }
                 if (phrase_nodes->is_valid(index+8))
                 {
+                    //for ( ... ) STATEMENT
                     if (phrase_nodes->at(index+8)->type == STATEMENT)
                     {
                         phrase_t* node =
@@ -145,6 +148,7 @@ namespace script
 
                         return true;
                     }
+                    //for ( ... ) ;
                     else if (phrase_nodes->at(index+8)->type == ident::SEMICOLON)
                     {
                         phrase_t* node =

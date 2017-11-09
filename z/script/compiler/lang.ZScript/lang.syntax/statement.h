@@ -57,8 +57,8 @@ namespace script
                 return true;
             }
             else if (phrase_nodes->is_valid(index-1) &&
-                     ((phrase_nodes->at(index-1)->type == ident::LBRACE) /*||
-                      ((phrase_nodes->at(index-1)->type == ident::RPARENTH) &&
+                     ((phrase_nodes->at(index-1)->type == ident::LBRACE) ||
+                      (phrase_nodes->at(index-1)->type == ident::RPARENTH) /*&&
                        !(phrase_nodes->is_valid(index-3) &&
                          (phrase_nodes->at(index-2)->type == ident::IDENTIFIER) &&
                          (phrase_nodes->at(index-3)->type == ident::KEYWORD) &&

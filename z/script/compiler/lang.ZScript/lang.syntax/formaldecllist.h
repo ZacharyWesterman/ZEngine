@@ -24,8 +24,18 @@ namespace script
 {
     namespace compiler
     {
+        class formaldecllist : public syntaxRule
+        {
+        public:
+            ~formaldecllist() {}
 
-        bool lexer::formaldecllist()
+            bool apply(core::array< phrase_t* >*,
+                       int);
+        };
+
+
+        bool formaldecllist::apply(core::array< phrase_t* >* phrase_nodes,
+                                  int index)
         {
             if (phrase_nodes->is_valid(index+2))
             {

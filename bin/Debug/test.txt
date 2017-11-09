@@ -1,6 +1,3 @@
-main()
-{
-    f();
-}
+var f(var x, var y);
 
-f() {}
+f(var x, var y) {}

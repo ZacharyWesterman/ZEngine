@@ -24,21 +24,37 @@ namespace script
 {
     namespace compiler
     {
+        class formalvardecl : public syntaxRule
+        {
+        public:
+            ~formalvardecl() {}
 
-        bool lexer::formalvardecl()
+            bool apply(core::array< phrase_t* >*,
+                       int);
+        };
+
+
+        bool formalvardecl::apply(core::array< phrase_t* >* phrase_nodes,
+                                  int index)
         {
             if ((phrase_nodes->is_valid(index-2) &&
                  (phrase_nodes->at(index-2)->type == ident::IDENTIFIER) &&
-                 (phrase_nodes->at(index-1)->type == ident::LPARENTH)) ||
+                 (phrase_nodes->at(index-1)->type == ident::LPARENTH)
+                 ) ||
                 (phrase_nodes->is_valid(index-2) &&
                  ((phrase_nodes->at(index-2)->type == FORMALVARDECL) ||
-                  (phrase_nodes->at(index-2)->type == FORMALTYPEDECL)) &&
-                 (phrase_nodes->at(index-1)->type == ident::COMMA)))
+                  (phrase_nodes->at(index-2)->type == FORMALTYPEDECL)
+                  ) &&
+                 (phrase_nodes->at(index-1)->type == ident::COMMA)
+                 )
+                )
             {
 
                 if (phrase_nodes->is_valid(index+1) &&
-                    (phrase_nodes->at(index)->type == ident::KEYWORD_VAR) &&
-                    (phrase_nodes->at(index+1)->type == ident::IDENTIFIER))
+                    (phrase_nodes->at(index)->type == ident::KEYWORD) &&
+                    (phrase_nodes->at(index)->metaValue == VAR) &&
+                    (phrase_nodes->at(index+1)->type == ident::IDENTIFIER)
+                    )
                 {
                     phrase_t* node = new phrase_t();
 
@@ -58,7 +74,7 @@ namespace script
 
                     return true;
                 }
-                else if (!scope && //valid syntax outside of a function body
+                /*else if (!scope && //valid syntax outside of a function body
                          (phrase_nodes->at(index)->type == ident::IDENTIFIER) &&
                          !(phrase_nodes->is_valid(index+1) &&
                           (phrase_nodes->at(index+1)->type == ident::IDENTIFIER)))
@@ -79,7 +95,7 @@ namespace script
                     phrase_nodes->at(index) = node;
 
                     return true;
-                }
+                }*/
             }
 
             return false;

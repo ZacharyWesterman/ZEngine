@@ -24,8 +24,18 @@ namespace script
 {
     namespace compiler
     {
+        class formaltypedecl : public syntaxRule
+        {
+        public:
+            ~formaltypedecl() {}
 
-        bool lexer::formaltypedecl()
+            bool apply(core::array< phrase_t* >*,
+                       int);
+        };
+
+
+        bool formaltypedecl::apply(core::array< phrase_t* >* phrase_nodes,
+                                  int index)
         {
             if ((phrase_nodes->is_valid(index-2) &&
                  (phrase_nodes->at(index-2)->type == ident::IDENTIFIER) &&

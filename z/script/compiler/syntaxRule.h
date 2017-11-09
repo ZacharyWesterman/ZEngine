@@ -32,6 +32,16 @@ namespace script
             node->type = newType;
         }
 
+        script::error newError(phrase_t* node, const core::string<char>& msg)
+        {
+            if (node->file)
+                return script::error(msg, *(node->file),
+                                     node->line, node->column);
+            else
+                return script::error(msg,
+                                     node->line, node->column);
+        }
+
         class syntaxRule
         {
         public:

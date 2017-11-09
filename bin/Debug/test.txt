@@ -1,5 +1,6 @@
+
 main()
 {
-    foo A = 10;
-    bar B = (1, 12.3);
+    return 0;
 }
+ x

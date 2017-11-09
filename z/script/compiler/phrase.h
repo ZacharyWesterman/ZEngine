@@ -51,7 +51,7 @@ namespace script
             core::array<phrase_t*> children;
 
             //keep track of what file this is
-            void* file;
+            core::string<char>* file;
 
             //empty constructor
             phrase_t()

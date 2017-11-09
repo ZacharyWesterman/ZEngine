@@ -221,7 +221,7 @@ namespace script
                     (phrase_nodes.size() == 1))
                 {
                     phrase_t* result = phrase_nodes[0];
-                    phrase_nodes.remove(0);
+                    phrase_nodes.clear();
 
                     return result;
                 }
@@ -289,7 +289,7 @@ namespace script
             {
                 if (phrase_nodes.size() > 1)
                 {
-                    error_buffer.add(error("Syntax error",-1,-1));
+                    //error_buffer.add(error("Syntax error",-1,-1));
 
                     for (int n=0; n<phrase_nodes.size(); n++)
                     {

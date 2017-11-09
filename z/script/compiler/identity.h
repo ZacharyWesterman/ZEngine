@@ -53,13 +53,13 @@ namespace script
             generic<CPL_CHAR> value;
 
             //keep track of the current file
-            void* file;
+            core::string<char>* file;
 
             ///full constructor
             ident_t (ident _type = ident::NONE,
                      int lin = 0, int col = 0, int ind = 0,
                      void* symbol_ptr = NULL,
-                     void* fileID = NULL)
+                     core::string<char>* fileID = NULL)
             {
                 type = _type;
 

@@ -100,6 +100,8 @@ enum syntax
 
 #include "lang.syntax/range.h"
 #include "lang.syntax/rangelist.h"
+#include "lang.syntax/index.h"
+#include "lang.syntax/varindex.h"
 
 #include "lang.syntax/exprlist.h"
 #include "lang.syntax/list.h"
@@ -144,6 +146,8 @@ ARRAY* genSyntaxRules()
 
         new z::script::compiler::_range,
         new z::script::compiler::rangelist,
+        new z::script::compiler::_index,
+        new z::script::compiler::varindex,
 
         new z::script::compiler::exprlist,
         new z::script::compiler::_list,

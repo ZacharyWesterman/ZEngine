@@ -3206,7 +3206,7 @@
 
 1507346414 /home/zwesterman/GitHub/ZEngine//z/script/compiler/identEnum.h
 
-1510189719 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax.h
+1510190752 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax.h
 	<z/core/array.h>
 	<z/script/compiler/syntaxRule.h>
 	"lang.syntax/program.h"
@@ -3225,6 +3225,8 @@
 	"lang.syntax/dimensionexpr.h"
 	"lang.syntax/range.h"
 	"lang.syntax/rangelist.h"
+	"lang.syntax/index.h"
+	"lang.syntax/varindex.h"
 	"lang.syntax/exprlist.h"
 	"lang.syntax/list.h"
 	"lang.syntax/statement.h"
@@ -3242,7 +3244,7 @@
 1509765159 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/program.h
 	<z/script/compiler/syntaxRule.h>
 
-1509765231 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/operand.h
+1510191663 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/operand.h
 
 1509852645 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/variable.h
 
@@ -3250,7 +3252,7 @@
 
 1509765594 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/addexpr.h
 
-1509765387 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/factorialexpr.h
+1510191543 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/factorialexpr.h
 
 1509765492 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/add1expr.h
 
@@ -3296,5 +3298,9 @@
 
 1510189501 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/range.h
 
-1510189941 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/rangelist.h
+1510189973 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/rangelist.h
+
+1510190314 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/index.h
+
+1510192045 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/varindex.h
 

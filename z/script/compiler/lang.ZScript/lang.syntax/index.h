@@ -24,20 +24,29 @@ namespace script
 {
     namespace compiler
     {
+        class _index : public syntaxRule
+        {
+        public:
+            ~_index() {}
 
-        bool lexer::_index()
+            bool apply(core::array< phrase_t* >*,
+                       int);
+        };
+
+
+        bool _index::apply(core::array< phrase_t* >* phrase_nodes,
+                                  int index)
         {
             if (phrase_nodes->is_valid(index+2) &&
                 (phrase_nodes->at(index)->type == ident::LBRACKET) &&
                 ((phrase_nodes->at(index+1)->type == BOOLEXPR) ||
                  (phrase_nodes->at(index+1)->type == RANGE) ||
-                 (phrase_nodes->at(index+1)->type == INDEXLIST)) &&
-                (phrase_nodes->at(index+2)->type == ident::RBRACKET))
+                 (phrase_nodes->at(index+1)->type == RANGELIST)
+                 ) &&
+                (phrase_nodes->at(index+2)->type == ident::RBRACKET)
+                )
             {
-                if (phrase_nodes->at(index+1)->orig_type == ident::NONE)
-                    phrase_nodes->at(index+1)->orig_type =
-                                            phrase_nodes->at(index+1)->type;
-                phrase_nodes->at(index+1)->type = INDEX;
+                setSuperType(phrase_nodes->at(index+1), INDEX);
 
                 delete phrase_nodes->at(index);
                 delete phrase_nodes->at(index+2);

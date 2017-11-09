@@ -58,7 +58,10 @@ namespace script
             }
             else if ((phrase_nodes->at(index)->type == PARENTHEXPR) &&
                      !(phrase_nodes->is_valid(index+1) &&
-                       (phrase_nodes->at(index+1)->type == ident::PERIOD)
+                       ((phrase_nodes->at(index+1)->type == ident::PERIOD) ||
+                        (phrase_nodes->at(index+1)->type == ident::LBRACKET) ||
+                        (phrase_nodes->at(index+1)->type == INDEX)
+                        )
                        )
                      ) //prioritize type-vars over expressions
             {

@@ -24,25 +24,37 @@ namespace script
 {
     namespace compiler
     {
+        class varindex : public syntaxRule
+        {
+        public:
+            ~varindex() {}
 
-        bool lexer::varindex()
+            bool apply(core::array< phrase_t* >*,
+                       int);
+        };
+
+
+        bool varindex::apply(core::array< phrase_t* >* phrase_nodes,
+                                  int index)
         {
             if (phrase_nodes->is_valid(index+1) &&
-                ((phrase_nodes->at(index)->type == PARENTHEXPR) ||
+                ((phrase_nodes->at(index)->type == PARENTHEXPR) /*||
                  (phrase_nodes->at(index)->type == VARINDEX) ||
-                 (phrase_nodes->at(index)->type == LIST) ||
-                 ((phrase_nodes->at(index)->type == ident::LITERAL) &&
-                  ((phrase_nodes->at(index)->value.type() == data::STRING) ||
-                   (phrase_nodes->at(index)->value.type() == data::ARRAY)))) &&
+                 ((phrase_nodes->at(index)->type == BOOLEXPR) &&
+                  ((phrase_nodes->at(index)->orig_type == LIST) ||
+                   ((phrase_nodes->at(index)->orig_type == ident::LITERAL) &&
+                    ((phrase_nodes->at(index)->value.type() == data::STRING) ||
+                     (phrase_nodes->at(index)->value.type() == data::ARRAY)
+                     )
+                    )
+                   )
+                  )*/
+                 ) &&
                 (phrase_nodes->at(index+1)->type == INDEX)
                 )
             {
-                phrase_t* node = new phrase_t();
-
-                node->type = VARINDEX;
-
-                node->line = phrase_nodes->at(index)->line;
-                node->column = phrase_nodes->at(index)->column;
+                phrase_t* node =
+                new phrase_t(*(phrase_nodes->at(index)), VARINDEX);
 
                 phrase_nodes->at(index)->parent = node;
                 phrase_nodes->at(index+1)->parent = node;
@@ -50,13 +62,13 @@ namespace script
                 node->children.add(phrase_nodes->at(index));
                 node->children.add(phrase_nodes->at(index+1));
 
-                node->file = phrase_nodes->at(index)->file;
-
                 //check if this is a sub-index
                 //(previous 'index' was an index list)
-                if ((phrase_nodes->at(index)->type == VARINDEX) &&
-                    (phrase_nodes->at(index)->children->at(1)->type==INDEX) &&
-                    (phrase_nodes->at(index)->children->at(1)->children.size() > 1))
+                if ((phrase_nodes->at(index)->orig_type == VARINDEX) &&
+                    ((phrase_nodes->at(index)->children.at(1)->orig_type == RANGE) ||
+                     (phrase_nodes->at(index)->children.at(1)->orig_type == RANGELIST)
+                     )
+                    )
                 {
                     //indicate this is a sub-index
                     node->metaValue = 1;

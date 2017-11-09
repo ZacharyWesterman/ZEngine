@@ -76,6 +76,7 @@ namespace script
                        )
                      ) ||
                     (phrase_nodes->at(index)->type == ident::LITERAL) ||
+                    (phrase_nodes->at(index)->type == VARINDEX) ||
                     (phrase_nodes->at(index)->type == DIMENSIONEXPR) ||
                     (phrase_nodes->at(index)->type == SIZEOFEXPR) ||
                     (phrase_nodes->at(index)->type == FUNCCALL) ||

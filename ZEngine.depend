@@ -3206,7 +3206,7 @@
 
 1507346414 /home/zwesterman/GitHub/ZEngine//z/script/compiler/identEnum.h
 
-1510188772 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax.h
+1510189719 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax.h
 	<z/core/array.h>
 	<z/script/compiler/syntaxRule.h>
 	"lang.syntax/program.h"
@@ -3223,6 +3223,8 @@
 	"lang.syntax/assignexpr.h"
 	"lang.syntax/sizeofexpr.h"
 	"lang.syntax/dimensionexpr.h"
+	"lang.syntax/range.h"
+	"lang.syntax/rangelist.h"
 	"lang.syntax/exprlist.h"
 	"lang.syntax/list.h"
 	"lang.syntax/statement.h"
@@ -3291,4 +3293,8 @@
 1510188184 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/formaldecllist.h
 
 1510188892 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/func_prototype.h
+
+1510189501 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/range.h
+
+1510189941 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/rangelist.h
 

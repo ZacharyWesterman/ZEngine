@@ -24,8 +24,18 @@ namespace script
 {
     namespace compiler
     {
+        class rangelist : public syntaxRule
+        {
+        public:
+            ~rangelist() {}
 
-        bool lexer::rangelist()
+            bool apply(core::array< phrase_t* >*,
+                       int);
+        };
+
+
+        bool rangelist::apply(core::array< phrase_t* >* phrase_nodes,
+                                  int index)
         {
             if (phrase_nodes->is_valid(index+2) &&
                 phrase_nodes->is_valid(index-1) &&
@@ -36,30 +46,18 @@ namespace script
                 ((phrase_nodes->at(index+2)->type == ident::COMMA) ||
                  (phrase_nodes->at(index+2)->type == ident::RBRACKET)))
             {
-                phrase_t* node = new phrase_t();
+                phrase_nodes->at(index+1)->parent = phrase_nodes->at(index);
 
-                node->type = RANGELIST;
+                phrase_nodes->at(index)->children.add(phrase_nodes->at(index+1));
 
-                node->line = phrase_nodes->at(index)->line;
-                node->column = phrase_nodes->at(index)->column;
-
-                phrase_nodes->at(index)->parent = node;
-                phrase_nodes->at(index+1)->parent = node;
-
-                node->children.add(phrase_nodes->at(index));
-                node->children.add(phrase_nodes->at(index+1));
-
-                node->file = phrase_nodes->at(index)->file;
 
                 if (phrase_nodes->at(index+2)->type == ident::COMMA)
                 {
                     delete phrase_nodes->at(index+2);
-                    phrase_nodes->replace(index, index+2, node);
+                    phrase_nodes->remove(index+2);
                 }
-                else
-                {
-                    phrase_nodes->replace(index, index+1, node);
-                }
+
+                phrase_nodes->remove(index+1);
 
                 return true;
             }
@@ -70,18 +68,12 @@ namespace script
                  (phrase_nodes->at(index)->type == BOOLEXPR)) &&
                 (phrase_nodes->at(index+1)->type == ident::COMMA))
             {
-                phrase_t* node = new phrase_t();
-
-                node->type = RANGELIST;
-
-                node->line = phrase_nodes->at(index)->line;
-                node->column = phrase_nodes->at(index)->column;
+                phrase_t* node =
+                new phrase_t(*(phrase_nodes->at(index)), RANGELIST);
 
                 phrase_nodes->at(index)->parent = node;
 
                 node->children.add(phrase_nodes->at(index));
-
-                node->file = phrase_nodes->at(index)->file;
 
                 delete phrase_nodes->at(index+1);
                 phrase_nodes->replace(index, index+1, node);

@@ -98,6 +98,9 @@ enum syntax
 #include "lang.syntax/sizeofexpr.h"
 #include "lang.syntax/dimensionexpr.h"
 
+#include "lang.syntax/range.h"
+#include "lang.syntax/rangelist.h"
+
 #include "lang.syntax/exprlist.h"
 #include "lang.syntax/list.h"
 
@@ -138,6 +141,9 @@ ARRAY* genSyntaxRules()
         new z::script::compiler::assignexpr,
         new z::script::compiler::sizeofexpr,
         new z::script::compiler::dimensionexpr,
+
+        new z::script::compiler::_range,
+        new z::script::compiler::rangelist,
 
         new z::script::compiler::exprlist,
         new z::script::compiler::_list,

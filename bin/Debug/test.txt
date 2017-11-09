@@ -1,3 +1,4 @@
-var f(var x, var y);
-
-f(var x, var y) {}
+main()
+{
+    x[0->10,1,0<-4];
+}

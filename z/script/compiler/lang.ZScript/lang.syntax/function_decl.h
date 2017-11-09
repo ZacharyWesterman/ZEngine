@@ -30,12 +30,14 @@ namespace script
             ~function_decl() {}
 
             bool apply(core::array< phrase_t* >*,
-                       int);
+                       int,
+                       core::array<error>*);
         };
 
 
         bool function_decl::apply(core::array< phrase_t* >* phrase_nodes,
-                                  int index)
+                                  int index,
+                                  core::array<error>* error_buffer)
         {
             bool result = false;
 

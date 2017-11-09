@@ -30,12 +30,14 @@ namespace script
             ~formaldecllist() {}
 
             bool apply(core::array< phrase_t* >*,
-                       int);
+                       int,
+                       core::array<error>*);
         };
 
 
         bool formaldecllist::apply(core::array< phrase_t* >* phrase_nodes,
-                                  int index)
+                                  int index,
+                                  core::array<error>* error_buffer)
         {
             if (phrase_nodes->is_valid(index+2))
             {

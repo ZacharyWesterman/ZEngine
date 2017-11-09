@@ -30,12 +30,14 @@ namespace script
             ~func_prototype() {}
 
             bool apply(core::array< phrase_t* >*,
-                       int);
+                       int,
+                       core::array<error>*);
         };
 
 
         bool func_prototype::apply(core::array< phrase_t* >* phrase_nodes,
-                                  int index)
+                                  int index,
+                                  core::array<error>* error_buffer)
         {
             //function prototype must have an explicit return type.
             if (phrase_nodes->is_valid(index-1) &&

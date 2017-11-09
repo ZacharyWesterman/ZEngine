@@ -31,12 +31,14 @@ namespace script
             ~addexpr() {}
 
             bool apply(core::array< phrase_t* >*,
-                       int);
+                       int,
+                       core::array<error>*);
         };
 
 
         bool addexpr::apply(core::array< phrase_t* >* phrase_nodes,
-                                  int index)
+                                  int index,
+                                  core::array<error>* error_buffer)
         {
             //if no detected addition operators, continue to the next phase
             if ((phrase_nodes->at(index)->type == MULTIPLYEXPR) &&

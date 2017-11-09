@@ -30,12 +30,14 @@ namespace script
             ~for_statement() {}
 
             bool apply(core::array< phrase_t* >*,
-                       int);
+                       int,
+                       core::array<error>*);
         };
 
 
         bool for_statement::apply(core::array< phrase_t* >* phrase_nodes,
-                                  int index)
+                                  int index,
+                                  core::array<error>* error_buffer)
         {
             if (phrase_nodes->is_valid(index+7) &&
                 (phrase_nodes->at(index)->type == ident::KEYWORD) &&

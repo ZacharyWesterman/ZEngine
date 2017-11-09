@@ -30,11 +30,13 @@ namespace script
             ~dimensionexpr() {}
 
             bool apply(core::array< phrase_t* >*,
-                       int);
+                       int,
+                       core::array<error>*);
         };
 
         bool dimensionexpr::apply(core::array< phrase_t* >* phrase_nodes,
-                                  int index)
+                                  int index,
+                                  core::array<error>* error_buffer)
         {
             if (phrase_nodes->is_valid(index+5) &&
                 (phrase_nodes->at(index)->type == ident::IDENTIFIER) &&

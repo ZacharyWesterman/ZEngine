@@ -2973,7 +2973,7 @@
 	<z/core/array.h>
 	"identity.h"
 
-1509859514 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lexer.h
+1510261167 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lexer.h
 	<z/core/timeout.h>
 	<z/core/array.h>
 	<z/core/dynamicStack.h>
@@ -3035,7 +3035,7 @@
 	"syntaxRules/program.h"
 	"syntaxRules/stop_statement.h"
 
-1509765109 /home/zwesterman/GitHub/ZEngine//z/script/compiler/syntaxRule.h
+1510261128 /home/zwesterman/GitHub/ZEngine//z/script/compiler/syntaxRule.h
 	"error.h"
 	"phrase.h"
 	<z/core/array.h>
@@ -3243,70 +3243,70 @@
 	"lang.syntax/type_funccall.h"
 	"lang.syntax/typevar.h"
 
-1509765159 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/program.h
+1510261048 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/program.h
 	<z/script/compiler/syntaxRule.h>
 
-1510193827 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/operand.h
+1510261047 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/operand.h
 
-1509852645 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/variable.h
+1510261048 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/variable.h
 
-1509852332 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/parenthexpr.h
+1510261048 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/parenthexpr.h
 
-1509765594 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/addexpr.h
+1510261047 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/addexpr.h
 
-1510193425 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/factorialexpr.h
+1510261050 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/factorialexpr.h
 
-1509765492 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/add1expr.h
+1510261048 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/add1expr.h
 
-1509765515 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/negatexpr.h
+1510261049 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/negatexpr.h
 
-1509765550 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/powerexpr.h
+1510261051 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/powerexpr.h
 
-1509765570 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/multiplyexpr.h
+1510261051 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/multiplyexpr.h
 
-1509857531 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/boolexpr.h
+1510261050 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/boolexpr.h
 
-1509857506 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/assignexpr.h
+1510261047 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/assignexpr.h
 
-1509769957 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/sizeofexpr.h
+1510261051 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/sizeofexpr.h
 
-1509852681 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/dimensionexpr.h
+1510261048 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/dimensionexpr.h
 
-1509856701 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/exprlist.h
+1510261049 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/exprlist.h
 
-1510183589 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/list.h
+1510261049 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/list.h
 
-1510184648 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/statement.h
+1510261051 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/statement.h
 
-1510094383 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/command.h
+1510261050 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/command.h
 
-1510095280 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/identifierlist.h
+1510261050 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/identifierlist.h
 
-1510183474 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/for_statement.h
+1510261050 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/for_statement.h
 
-1510183782 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/statementlist.h
+1510261048 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/statementlist.h
 
-1510185162 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/funccall.h
+1510261051 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/funccall.h
 
-1510185595 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/function_decl.h
+1510261049 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/function_decl.h
 
-1510187824 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/formalvardecl.h
+1510261049 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/formalvardecl.h
 
-1510188060 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/formaltypedecl.h
+1510261050 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/formaltypedecl.h
 
-1510188184 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/formaldecllist.h
+1510261051 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/formaldecllist.h
 
-1510188892 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/func_prototype.h
+1510261048 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/func_prototype.h
 
-1510189501 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/range.h
+1510261048 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/range.h
 
-1510189973 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/rangelist.h
+1510261047 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/rangelist.h
 
-1510190314 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/index.h
+1510261049 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/index.h
 
-1510192045 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/varindex.h
+1510261050 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/varindex.h
 
-1510193665 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/type_funccall.h
+1510261051 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/type_funccall.h
 
-1510193779 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/typevar.h
+1510261049 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/typevar.h
 

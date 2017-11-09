@@ -37,8 +37,9 @@ namespace script
         public:
             virtual ~syntaxRule() {}
 
-            virtual bool apply(core::array< phrase_t* >* phrase_nodes,
-                               int index) {return false;}
+            virtual bool apply(core::array< phrase_t* >*,
+                               int,
+                               core::array<error>*) = 0;
         };
     }
 }

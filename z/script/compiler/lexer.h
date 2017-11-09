@@ -343,7 +343,7 @@ namespace script
                 int r=0;
 
                 while ((r < (rules->size())) &&
-                       !(rules->at(r)->apply(&phrase_nodes, index))
+                       !(rules->at(r)->apply(&phrase_nodes, index, &error_buffer))
                        )
                 {
                     r++;
@@ -373,7 +373,7 @@ namespace script
                 index = 0;
                 did_concat = false;
             }
-            else if (program_rule->apply(&phrase_nodes, index))
+            else if (program_rule->apply(&phrase_nodes, index, &error_buffer))
                 did_concat = true;
             else
                 index++;

@@ -30,11 +30,13 @@ namespace script
             ~add1expr() {}
 
             bool apply(core::array< phrase_t* >*,
-                       int);
+                       int,
+                       core::array<error>*);
         };
 
         bool add1expr::apply(core::array< phrase_t* >* phrase_nodes,
-                                  int index)
+                                  int index,
+                                  core::array<error>* error_buffer)
         {
             if (phrase_nodes->at(index)->type == FACTORIALEXPR)
             {

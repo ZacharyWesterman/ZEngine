@@ -31,12 +31,14 @@ namespace script
             ~sizeofexpr() {}
 
             bool apply(core::array< phrase_t* >*,
-                       int);
+                       int,
+                       core::array<error>*);
         };
 
 
         bool sizeofexpr::apply(core::array< phrase_t* >* phrase_nodes,
-                                  int index)
+                                  int index,
+                                  core::array<error>* error_buffer)
         {
             if (phrase_nodes->is_valid(index+3) &&
                 (phrase_nodes->at(index)->type == ident::OPERATOR) &&

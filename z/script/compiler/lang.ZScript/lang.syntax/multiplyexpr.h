@@ -31,12 +31,14 @@ namespace script
             ~multiplyexpr() {}
 
             bool apply(core::array< phrase_t* >*,
-                       int);
+                       int,
+                       core::array<error>*);
         };
 
 
         bool multiplyexpr::apply(core::array< phrase_t* >* phrase_nodes,
-                                  int index)
+                                  int index,
+                                  core::array<error>* error_buffer)
         {
             //if no detected multiplication operators, continue to the next phase
             if ((phrase_nodes->at(index)->type == POWEREXPR) &&

@@ -30,11 +30,13 @@ namespace script
             ~type_funccall() {}
 
             bool apply(core::array< phrase_t* >*,
-                       int);
+                       int,
+                       core::array<error>*);
         };
 
         bool type_funccall::apply(core::array< phrase_t* >* phrase_nodes,
-                                  int index)
+                                  int index,
+                                  core::array<error>* error_buffer)
         {
             if (phrase_nodes->is_valid(index+2) &&
                 (phrase_nodes->at(index)->type == PARENTHEXPR) &&

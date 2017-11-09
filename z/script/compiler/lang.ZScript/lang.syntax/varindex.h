@@ -30,12 +30,14 @@ namespace script
             ~varindex() {}
 
             bool apply(core::array< phrase_t* >*,
-                       int);
+                       int,
+                       core::array<error>*);
         };
 
 
         bool varindex::apply(core::array< phrase_t* >* phrase_nodes,
-                                  int index)
+                                  int index,
+                                  core::array<error>* error_buffer)
         {
             if (phrase_nodes->is_valid(index+1) &&
                 ((phrase_nodes->at(index)->type == PARENTHEXPR) /*||

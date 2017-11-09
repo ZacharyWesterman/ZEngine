@@ -3206,12 +3206,14 @@
 
 1507346414 /home/zwesterman/GitHub/ZEngine//z/script/compiler/identEnum.h
 
-1510263180 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax.h
+1510264968 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax.h
 	<z/core/array.h>
 	<z/script/compiler/syntaxRule.h>
 	"lang.syntax/program.h"
 	"lang.syntax/operand.h"
 	"lang.syntax/variable.h"
+	"lang.syntax/variable_decl.h"
+	"lang.syntax/typevar_decl.h"
 	"lang.syntax/parenthexpr.h"
 	"lang.syntax/factorialexpr.h"
 	"lang.syntax/add1expr.h"
@@ -3249,7 +3251,7 @@
 
 1510261047 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/operand.h
 
-1510261048 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/variable.h
+1510265247 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/variable.h
 
 1510261048 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/parenthexpr.h
 
@@ -3312,4 +3314,8 @@
 1510261049 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/typevar.h
 
 1510263263 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/return_statement.h
+
+1510265287 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/variable_decl.h
+
+1510265001 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/typevar_decl.h
 

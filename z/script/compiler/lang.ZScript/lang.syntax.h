@@ -86,6 +86,9 @@ enum syntax
 #include "lang.syntax/operand.h"
 #include "lang.syntax/variable.h"
 
+#include "lang.syntax/variable_decl.h"
+#include "lang.syntax/typevar_decl.h"
+
 #include "lang.syntax/parenthexpr.h"
 #include "lang.syntax/factorialexpr.h"
 #include "lang.syntax/add1expr.h"
@@ -135,6 +138,9 @@ ARRAY* genSyntaxRules()
     {
         new z::script::compiler::operand,
         new z::script::compiler::variable,
+
+        new z::script::compiler::variable_decl,
+        new z::script::compiler::typevar_decl,
 
         new z::script::compiler::parenthexpr,
         new z::script::compiler::factorialexpr,

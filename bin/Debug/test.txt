@@ -1,4 +1,8 @@
-var main(var args)
+main()
 {
-    return {};
+    var x;
+    var y = 10;
+
+    foo A;
+    bar B = {2,3};
 }

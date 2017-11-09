@@ -55,6 +55,13 @@ namespace script
                        (phrase_nodes->at(index+2)->type == ident::KEYWORD) &&
                         (phrase_nodes->at(index+2)->metaValue == KEYWORD::DIM)) ))*/
             if ((phrase_nodes->at(index)->type == ident::IDENTIFIER) &&
+                !(phrase_nodes->is_valid(index-1) &&
+                  ((phrase_nodes->at(index-1)->type == ident::IDENTIFIER) ||
+                   ((phrase_nodes->at(index-1)->type == ident::KEYWORD) &&
+                    (phrase_nodes->at(index-1)->metaValue == VAR)
+                    )
+                   )
+                  ) &&
                 !(phrase_nodes->is_valid(index+1) &&
                   ((phrase_nodes->at(index+1)->type == ident::LPARENTH) ||
                    (phrase_nodes->at(index+1)->type == ident::IDENTIFIER) ||

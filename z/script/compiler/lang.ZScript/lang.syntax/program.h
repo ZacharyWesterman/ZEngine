@@ -42,8 +42,17 @@ namespace script
                                   int index,
                                   core::array<error>* error_buffer)
         {
-            if ((phrase_nodes->at(index)->type == PROGRAM) &&
-                phrase_nodes->is_valid(index+1)
+            if (phrase_nodes->is_valid(index+1) &&
+                (phrase_nodes->at(index)->type == PROGRAM) &&
+                ((phrase_nodes->at(index+1)->type == VARIABLE_DECL) ||
+                 (phrase_nodes->at(index+1)->type == TYPEVAR_DECL) ||
+                 (phrase_nodes->at(index+1)->type == FUNC_PROTOTYPE) ||
+                 (phrase_nodes->at(index+1)->type == FUNCTION_DECL) ||
+                 (phrase_nodes->at(index+1)->type == TYPEDECL) ||
+                 (phrase_nodes->at(index+1)->type == EXTERNALDECL) ||
+                 (phrase_nodes->at(index+1)->type == SHAREDDECL) ||
+                 (phrase_nodes->at(index+1)->type == SUBROUTINE_DECL)
+                 )
                 )
             {
                 phrase_nodes->at(index+1)->parent = phrase_nodes->at(index);
@@ -53,7 +62,15 @@ namespace script
 
                 return true;
             }
-            else if (phrase_nodes->at(index)->type != PROGRAM)
+            else if ((phrase_nodes->at(index)->type == VARIABLE_DECL) ||
+                     (phrase_nodes->at(index)->type == TYPEVAR_DECL) ||
+                     (phrase_nodes->at(index)->type == FUNC_PROTOTYPE) ||
+                     (phrase_nodes->at(index)->type == FUNCTION_DECL) ||
+                     (phrase_nodes->at(index)->type == TYPEDECL) ||
+                     (phrase_nodes->at(index)->type == EXTERNALDECL) ||
+                     (phrase_nodes->at(index)->type == SHAREDDECL) ||
+                     (phrase_nodes->at(index)->type == SUBROUTINE_DECL)
+                     )
             {
                 phrase_t* pIndex = phrase_nodes->at(index);
 
@@ -68,6 +85,12 @@ namespace script
 
                 phrase_nodes->at(index) = node;
                 return true;
+            }
+            else if (phrase_nodes->at(index)->type != PROGRAM)
+            {
+                if (error_buffer->size() == 0)
+                    error_buffer->add(newError(phrase_nodes->at(index),
+                                               "Syntax error"));
             }
 
             return false;

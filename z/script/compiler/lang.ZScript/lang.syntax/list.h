@@ -39,7 +39,10 @@ namespace script
                                   core::array<error>* error_buffer)
         {
             if (!(phrase_nodes->is_valid(index-1) &&
-                  ((phrase_nodes->at(index-1)->type == ident::KEYWORD) ||
+                  (((phrase_nodes->at(index-1)->type == ident::KEYWORD) &&
+                    (phrase_nodes->at(index-1)->metaValue >= IF) &&
+                    (phrase_nodes->at(index-1)->metaValue <= WHILE)
+                    ) ||
                    (phrase_nodes->at(index-1)->type == ident::IDENTIFIER) ||
                    (phrase_nodes->at(index-1)->type == ident::RPARENTH)
                    )
@@ -51,14 +54,8 @@ namespace script
                     (phrase_nodes->at(index+1)->type == ident::RBRACE)
                     )
                 {
-                    phrase_t* node = new phrase_t();
-
-                    node->type = LIST;
-
-                    node->line = phrase_nodes->at(index)->line;
-                    node->column = phrase_nodes->at(index)->column;
-
-                    node->file = phrase_nodes->at(index)->file;
+                    phrase_t* node =
+                    new phrase_t(*(phrase_nodes->at(index)), LIST);
 
                     delete phrase_nodes->at(index);
                     delete phrase_nodes->at(index+1);

@@ -109,6 +109,7 @@ enum syntax
 #include "lang.syntax/statement.h"
 #include "lang.syntax/statementlist.h"
 #include "lang.syntax/for_statement.h"
+#include "lang.syntax/return_statement.h"
 
 #include "lang.syntax/identifierlist.h"
 #include "lang.syntax/command.h"
@@ -158,6 +159,7 @@ ARRAY* genSyntaxRules()
         new z::script::compiler::statement,
         new z::script::compiler::statementlist,
         new z::script::compiler::for_statement,
+        new z::script::compiler::return_statement,
 
         new z::script::compiler::identifierlist,
         new z::script::compiler::_command,

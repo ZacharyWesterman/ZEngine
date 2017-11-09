@@ -24,26 +24,34 @@ namespace script
 {
     namespace compiler
     {
+        class return_statement : public syntaxRule
+        {
+        public:
+            ~return_statement() {}
 
-        bool lexer::return_statement()
+            bool apply(core::array< phrase_t* >*,
+                       int,
+                       core::array<error>*);
+        };
+
+
+        bool return_statement::apply(core::array< phrase_t* >* phrase_nodes,
+                                  int index,
+                                  core::array<error>* error_buffer)
         {
             if (phrase_nodes->is_valid(index+2) &&
-                (phrase_nodes->at(index)->type == ident::KEYWORD_RETURN) &&
+                (phrase_nodes->at(index)->type == ident::KEYWORD) &&
+                (phrase_nodes->at(index)->metaValue == RETURN) &&
                 (phrase_nodes->at(index+1)->type == BOOLEXPR) &&
-                (phrase_nodes->at(index+2)->type == ident::SEMICOLON))
+                (phrase_nodes->at(index+2)->type == ident::SEMICOLON)
+                )
             {
-                phrase_t* node = new phrase_t();
-
-                node->type = RETURN_STATEMENT;
-
-                node->line = phrase_nodes->at(index)->line;
-                node->column = phrase_nodes->at(index)->column;
+                phrase_t* node =
+                new phrase_t(*(phrase_nodes->at(index)), RETURN_STATEMENT);
 
                 phrase_nodes->at(index+1)->parent = node;
 
                 node->children.add(phrase_nodes->at(index+1));
-
-                node->file = phrase_nodes->at(index)->file;
 
                 delete phrase_nodes->at(index);
                 delete phrase_nodes->at(index+2);
@@ -52,17 +60,12 @@ namespace script
                 return true;
             }
             else if (phrase_nodes->is_valid(index+1) &&
-                (phrase_nodes->at(index)->type == ident::KEYWORD_RETURN) &&
+                (phrase_nodes->at(index)->type == ident::KEYWORD) &&
+                (phrase_nodes->at(index)->metaValue == RETURN) &&
                 (phrase_nodes->at(index+1)->type == ident::SEMICOLON))
             {
-                phrase_t* node = new phrase_t();
-
-                node->type = RETURN_STATEMENT;
-
-                node->line = phrase_nodes->at(index)->line;
-                node->column = phrase_nodes->at(index)->column;
-
-                node->file = phrase_nodes->at(index)->file;
+                phrase_t* node =
+                new phrase_t(*(phrase_nodes->at(index)), RETURN_STATEMENT);
 
                 delete phrase_nodes->at(index);
                 delete phrase_nodes->at(index+1);

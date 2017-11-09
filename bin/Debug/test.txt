@@ -1,5 +1,4 @@
-main(var args)
+var main(var args)
 {
-
-
+    return {};
 }

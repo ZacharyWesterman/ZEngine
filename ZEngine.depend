@@ -2193,7 +2193,7 @@
 
 1489353285 c:\users\zachary\documents\github\zengine\\z\script\errors.h
 
-1509769185 source:/home/zwesterman/GitHub/ZEngine/main.cpp
+1510269912 source:/home/zwesterman/GitHub/ZEngine/main.cpp
 	<iostream>
 	<z/core.h>
 	<z/math.h>
@@ -2217,7 +2217,7 @@
 	"core/pause.h"
 	"core/charFunctions.h"
 
-1509768864 /home/zwesterman/GitHub/zLibraries/z/core/string.h
+1510269445 /home/zwesterman/GitHub/zLibraries/z/core/string.h
 	<type_traits>
 	<complex>
 	<z/float.h>
@@ -2941,7 +2941,7 @@
 	<z/core/timeout.h>
 	"generic.h"
 
-1509767248 /home/zwesterman/GitHub/ZEngine//z/script/compiler.h
+1510270007 /home/zwesterman/GitHub/ZEngine//z/script/compiler.h
 	"compiler/scanner.h"
 	"compiler/lexer.h"
 	"compiler/constantFolder.h"
@@ -2952,13 +2952,13 @@
 1507346414 /home/zwesterman/GitHub/ZEngine//z/script/compiler/escapeSequences.h
 	<z/core/string.h>
 
-1510266842 /home/zwesterman/GitHub/ZEngine//z/script/compiler/identity.h
+1510270014 /home/zwesterman/GitHub/ZEngine//z/script/compiler/identity.h
 	<z/core/string.h>
 	"identEnum.h"
 	"../generic.h"
 	"../error.h"
 
-1509768884 /home/zwesterman/GitHub/ZEngine//z/script/compiler/scanner.h
+1510269037 /home/zwesterman/GitHub/ZEngine//z/script/compiler/scanner.h
 	<limits>
 	<z/core/sortedArray.h>
 	<z/core/string.h>
@@ -2973,7 +2973,7 @@
 	<z/core/array.h>
 	"identity.h"
 
-1510267524 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lexer.h
+1510269324 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lexer.h
 	<z/core/timeout.h>
 	<z/core/array.h>
 	<z/core/dynamicStack.h>

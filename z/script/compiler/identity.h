@@ -25,7 +25,7 @@
 #include "../error.h"
 
 #ifndef CPL_CHAR
-#define CPL_CHAR int
+#define CPL_CHAR wchar_t
 #endif // CPL_CHAR
 
 namespace z

@@ -129,7 +129,7 @@ namespace script
         void print_lex_ast(int, phrase_t*);
 
 
-        template <typename CHAR>
+
         class lexer
         {
         private:
@@ -233,8 +233,8 @@ namespace script
 
         ///template for lexing function. Attempts to parse identifiers into
         ///valid syntax. Returns true if done, false otherwise.
-        template <typename CHAR>
-        bool lexer<CHAR>::lex(const core::timeout& time)
+
+        bool lexer::lex(const core::timeout& time)
         {
             while (!time.timedOut() && (progress != lex::DONE))
             {
@@ -306,8 +306,8 @@ namespace script
         }
 
 
-        template <typename CHAR>
-        void lexer<CHAR>::prg_none()
+
+        void lexer::prg_none()
         {
             if (index >= input_ident->size())
             {
@@ -324,8 +324,8 @@ namespace script
             }
         }
 
-        template <typename CHAR>
-        void lexer<CHAR>::prg_general()
+
+        void lexer::prg_general()
         {
             if (index >= phrase_nodes.size())
             {
@@ -359,8 +359,8 @@ namespace script
             }
         }
 
-        template <typename CHAR>
-        void lexer<CHAR>::prg_program()
+
+        void lexer::prg_program()
         {
             if (index >= phrase_nodes.size())
             {
@@ -379,8 +379,8 @@ namespace script
                 index++;
         }
 
-        template <typename CHAR>
-        void lexer<CHAR>::prg_cleanup()
+
+        void lexer::prg_cleanup()
         {
             //print_lex_ast(0, phrase_nodes[0]);
 

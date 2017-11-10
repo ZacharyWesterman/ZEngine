@@ -78,12 +78,15 @@
 		<Unit filename="z/script/compiler/lang.ZScript/lang.syntax/program.h" />
 		<Unit filename="z/script/compiler/lang.ZScript/lang.syntax/range.h" />
 		<Unit filename="z/script/compiler/lang.ZScript/lang.syntax/rangelist.h" />
+		<Unit filename="z/script/compiler/lang.ZScript/lang.syntax/return_statement.h" />
 		<Unit filename="z/script/compiler/lang.ZScript/lang.syntax/sizeofexpr.h" />
 		<Unit filename="z/script/compiler/lang.ZScript/lang.syntax/statement.h" />
 		<Unit filename="z/script/compiler/lang.ZScript/lang.syntax/statementlist.h" />
 		<Unit filename="z/script/compiler/lang.ZScript/lang.syntax/type_funccall.h" />
 		<Unit filename="z/script/compiler/lang.ZScript/lang.syntax/typevar.h" />
+		<Unit filename="z/script/compiler/lang.ZScript/lang.syntax/typevar_decl.h" />
 		<Unit filename="z/script/compiler/lang.ZScript/lang.syntax/variable.h" />
+		<Unit filename="z/script/compiler/lang.ZScript/lang.syntax/variable_decl.h" />
 		<Unit filename="z/script/compiler/lang.ZScript/lang.syntax/varindex.h" />
 		<Unit filename="z/script/compiler/lexer.h" />
 		<Unit filename="z/script/compiler/operator.h" />

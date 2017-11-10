@@ -43,11 +43,14 @@ namespace script
             if (phrase_nodes->is_valid(index+3) &&
                 (phrase_nodes->at(index)->type == ident::IDENTIFIER) &&
                 ((phrase_nodes->at(index+2)->type == BOOLEXPR) ||
-                 (phrase_nodes->at(index+2)->type == EXPRLIST)) &&
+                 (phrase_nodes->at(index+2)->type == EXPRLIST)
+                 ) &&
                 (phrase_nodes->at(index+1)->type == ident::LPARENTH) &&
                 (phrase_nodes->at(index+3)->type == ident::RPARENTH) &&
                 !(phrase_nodes->is_valid(index+4) &&
-                 (phrase_nodes->at(index+4)->type == ident::LBRACE)))
+                 (phrase_nodes->at(index+4)->type == ident::LBRACE)
+                  )
+                )
             {
                 phrase_t* node =
                     new phrase_t(*(phrase_nodes->at(index)), FUNCCALL);
@@ -64,12 +67,21 @@ namespace script
 
                 return true;
             }
-            else if (phrase_nodes->is_valid(index+2) &&
-                    (phrase_nodes->at(index)->type == ident::IDENTIFIER) &&
-                    (phrase_nodes->at(index+1)->type == ident::LPARENTH) &&
-                    (phrase_nodes->at(index+2)->type == ident::RPARENTH) &&
-                    !(phrase_nodes->is_valid(index+3) &&
-                      (phrase_nodes->at(index+3)->type == ident::LBRACE)))
+            else if (!(phrase_nodes->is_valid(index-1) &&
+                       ((phrase_nodes->at(index-1)->type == ident::IDENTIFIER) ||
+                        ((phrase_nodes->at(index-1)->type == ident::KEYWORD) &&
+                         (phrase_nodes->at(index-1)->metaValue == VAR)
+                         )
+                        )
+                       ) &&
+                     phrase_nodes->is_valid(index+2) &&
+                     (phrase_nodes->at(index)->type == ident::IDENTIFIER) &&
+                     (phrase_nodes->at(index+1)->type == ident::LPARENTH) &&
+                     (phrase_nodes->at(index+2)->type == ident::RPARENTH) &&
+                     !(phrase_nodes->is_valid(index+3) &&
+                       (phrase_nodes->at(index+3)->type == ident::LBRACE)
+                       )
+                     )
             {
                 phrase_t* node =
                     new phrase_t(*(phrase_nodes->at(index)), FUNCCALL);

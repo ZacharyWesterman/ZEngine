@@ -1,5 +1,2 @@
-
-main()
-{
-    return 0;
-}
+var main();
+var main(var args);

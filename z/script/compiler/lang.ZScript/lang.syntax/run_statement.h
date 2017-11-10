@@ -1,5 +1,5 @@
 /**
- * File:            stop_statement.h
+ * File:            run_statement.h
  * Namespace:       z::script
  * Description:     Implementation of the lexer's
  *                  syntax generating member functions.
@@ -11,12 +11,12 @@
  *
  * Author:          Zachary Westerman
  * Email:           zacharywesterman@yahoo.com
- * Last modified:   27 Jul. 2017
+ * Last modified:   15 Jul. 2017
 **/
 
 #pragma once
-#ifndef STOP_STATEMENT_H_INCLUDED
-#define STOP_STATEMENT_H_INCLUDED
+#ifndef RUN_STATEMENT_H_INCLUDED
+#define RUN_STATEMENT_H_INCLUDED
 
 namespace z
 {
@@ -24,26 +24,33 @@ namespace script
 {
     namespace compiler
     {
+        class run_statement : public syntaxRule
+        {
+        public:
+            ~run_statement() {}
 
-        bool lexer::stop_statement()
+            bool apply(core::array< phrase_t* >*,
+                       int,
+                       core::array<error>*);
+        };
+
+        bool run_statement::apply(core::array< phrase_t* >* phrase_nodes,
+                                  int index,
+                                  core::array<error>* error_buffer)
         {
             if (phrase_nodes->is_valid(index+2) &&
-                (phrase_nodes->at(index)->type == ident::KEYWORD_STOP) &&
+                (phrase_nodes->at(index)->type == ident::KEYWORD) &&
+                (phrase_nodes->at(index)->metaValue == RUN) &&
                 (phrase_nodes->at(index+1)->type == BOOLEXPR) &&
-                (phrase_nodes->at(index+2)->type == ident::SEMICOLON))
+                (phrase_nodes->at(index+2)->type == ident::SEMICOLON)
+                )
             {
-                phrase_t* node = new phrase_t();
-
-                node->type = STOP_STATEMENT;
-
-                node->line = phrase_nodes->at(index)->line;
-                node->column = phrase_nodes->at(index)->column;
+                phrase_t* node =
+                new phrase_t(*(phrase_nodes->at(index)), RUN_STATEMENT);
 
                 phrase_nodes->at(index+1)->parent = node;
 
                 node->children.add(phrase_nodes->at(index+1));
-
-                node->file = phrase_nodes->at(index)->file;
 
                 delete phrase_nodes->at(index);
                 delete phrase_nodes->at(index+2);
@@ -58,4 +65,4 @@ namespace script
 }
 }
 
-#endif // STOP_STATEMENT_H_INCLUDED
+#endif // RUN_STATEMENT_H_INCLUDED

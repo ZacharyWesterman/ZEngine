@@ -2193,7 +2193,7 @@
 
 1489353285 c:\users\zachary\documents\github\zengine\\z\script\errors.h
 
-1510269912 source:/home/zwesterman/GitHub/ZEngine/main.cpp
+1510270174 source:/home/zwesterman/GitHub/ZEngine/main.cpp
 	<iostream>
 	<z/core.h>
 	<z/math.h>
@@ -3206,7 +3206,7 @@
 
 1507346414 /home/zwesterman/GitHub/ZEngine//z/script/compiler/identEnum.h
 
-1510264968 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax.h
+1510289054 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax.h
 	<z/core/array.h>
 	<z/script/compiler/syntaxRule.h>
 	"lang.syntax/program.h"
@@ -3235,6 +3235,8 @@
 	"lang.syntax/statementlist.h"
 	"lang.syntax/for_statement.h"
 	"lang.syntax/return_statement.h"
+	"lang.syntax/run_statement.h"
+	"lang.syntax/stop_statement.h"
 	"lang.syntax/identifierlist.h"
 	"lang.syntax/command.h"
 	"lang.syntax/funccall.h"
@@ -3318,4 +3320,8 @@
 1510265287 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/variable_decl.h
 
 1510265789 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/typevar_decl.h
+
+1510289027 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/run_statement.h
+
+1510288969 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/stop_statement.h
 

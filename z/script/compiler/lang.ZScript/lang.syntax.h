@@ -132,6 +132,9 @@ enum syntax
 #include "lang.syntax/int_decllist.h"
 
 #include "lang.syntax/subroutine_decl.h"
+#include "lang.syntax/gosub_statement.h"
+#include "lang.syntax/label_statement.h"
+#include "lang.syntax/goto_statement.h"
 
 
 #define SYN_RULE z::script::compiler::syntaxRule
@@ -191,6 +194,9 @@ ARRAY* genSyntaxRules()
         new z::script::compiler::int_decllist,
 
         new z::script::compiler::subroutine_decl,
+        new z::script::compiler::gosub_statement,
+        new z::script::compiler::label_statement,
+        new z::script::compiler::goto_statement,
     };
 
     return rules;

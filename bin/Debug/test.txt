@@ -1,12 +1,15 @@
-
 var main()
 {
-    \\gosub routine;
+    var X = 0;
+
+    label LOOP;
+    gosub incrementX;
+    goto LOOP;
 }
 
 
-sub routine
+sub incrementX
 {
-    x ++;
-    print {x-1};
+    print {"X=" + X};
+    X++;
 };

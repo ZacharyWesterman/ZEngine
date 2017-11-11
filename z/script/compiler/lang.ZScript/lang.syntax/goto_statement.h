@@ -1,5 +1,5 @@
 /**
- * File:            gosub_statement.h
+ * File:            goto_statement.h
  * Namespace:       z::script
  * Description:     Implementation of the lexer's
  *                  syntax generating member functions.
@@ -15,8 +15,8 @@
 **/
 
 #pragma once
-#ifndef GOSUB_STATEMENT_H_INCLUDED
-#define GOSUB_STATEMENT_H_INCLUDED
+#ifndef GOTO_STATEMENT_H_INCLUDED
+#define GOTO_STATEMENT_H_INCLUDED
 
 namespace z
 {
@@ -24,26 +24,33 @@ namespace script
 {
     namespace compiler
     {
+        class goto_statement : public syntaxRule
+        {
+        public:
+            ~goto_statement() {}
 
-        bool lexer::gosub_statement()
+            bool apply(core::array< phrase_t* >*,
+                       int,
+                       core::array<error>*);
+        };
+
+        bool goto_statement::apply(core::array< phrase_t* >* phrase_nodes,
+                                  int index,
+                                  core::array<error>* error_buffer)
         {
             if (phrase_nodes->is_valid(index+2) &&
-                (phrase_nodes->at(index)->type == ident::KEYWORD_GOSUB) &&
+                (phrase_nodes->at(index)->type == ident::KEYWORD) &&
+                (phrase_nodes->at(index)->metaValue == GOTO) &&
                 (phrase_nodes->at(index+1)->type == ident::IDENTIFIER) &&
-                (phrase_nodes->at(index+2)->type == ident::SEMICOLON))
+                (phrase_nodes->at(index+2)->type == ident::SEMICOLON)
+                )
             {
-                phrase_t* node = new phrase_t();
-
-                node->type = GOSUB_STATEMENT;
-
-                node->line = phrase_nodes->at(index)->line;
-                node->column = phrase_nodes->at(index)->column;
+                phrase_t* node =
+                new phrase_t(*(phrase_nodes->at(index)), GOTO_STATEMENT);
 
                 phrase_nodes->at(index+1)->parent = node;
 
                 node->children.add(phrase_nodes->at(index+1));
-
-                node->file = phrase_nodes->at(index)->file;
 
                 delete phrase_nodes->at(index);
                 delete phrase_nodes->at(index+2);
@@ -58,4 +65,4 @@ namespace script
 }
 }
 
-#endif // GOSUB_STATEMENT_H_INCLUDED
+#endif // GOTO_STATEMENT_H_INCLUDED

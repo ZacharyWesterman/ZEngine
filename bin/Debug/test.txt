@@ -1,4 +1,5 @@
 var main()
 {
-    wait 1;
+    if(0);
+    else;
 }

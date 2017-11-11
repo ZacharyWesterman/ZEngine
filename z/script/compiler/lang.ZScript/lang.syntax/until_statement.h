@@ -24,27 +24,35 @@ namespace script
 {
     namespace compiler
     {
+        class until_statement : public syntaxRule
+        {
+        public:
+            ~until_statement() {}
 
-        bool lexer::until_statement()
+            bool apply(core::array< phrase_t* >*,
+                       int,
+                       core::array<error>*);
+        };
+
+        bool until_statement::apply(core::array< phrase_t* >* phrase_nodes,
+                                  int index,
+                                  core::array<error>* error_buffer)
         {
             if (phrase_nodes->is_valid(index+3) &&
-                (phrase_nodes->at(index)->type == ident::KEYWORD_WAIT) &&
-                (phrase_nodes->at(index+1)->type == ident::KEYWORD_UNTIL) &&
+                (phrase_nodes->at(index)->type == ident::KEYWORD) &&
+                (phrase_nodes->at(index)->metaValue == WAIT) &&
+                (phrase_nodes->at(index+1)->type == ident::KEYWORD) &&
+                (phrase_nodes->at(index+1)->metaValue == UNTIL) &&
                 (phrase_nodes->at(index+2)->type == BOOLEXPR) &&
-                (phrase_nodes->at(index+3)->type == ident::SEMICOLON))
+                (phrase_nodes->at(index+3)->type == ident::SEMICOLON)
+                )
             {
-                phrase_t* node = new phrase_t();
-
-                node->type = UNTIL_STATEMENT;
-
-                node->line = phrase_nodes->at(index)->line;
-                node->column = phrase_nodes->at(index)->column;
+                phrase_t* node =
+                new phrase_t(*(phrase_nodes->at(index)), UNTIL_STATEMENT);
 
                 phrase_nodes->at(index+2)->parent = node;
 
                 node->children.add(phrase_nodes->at(index+2));
-
-                node->file = phrase_nodes->at(index)->file;
 
                 delete phrase_nodes->at(index);
                 delete phrase_nodes->at(index+1);

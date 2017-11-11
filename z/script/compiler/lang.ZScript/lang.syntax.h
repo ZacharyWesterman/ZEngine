@@ -115,6 +115,8 @@ enum syntax
 #include "lang.syntax/return_statement.h"
 #include "lang.syntax/run_statement.h"
 #include "lang.syntax/stop_statement.h"
+#include "lang.syntax/wait_statement.h"
+#include "lang.syntax/until_statement.h"
 
 #include "lang.syntax/identifierlist.h"
 #include "lang.syntax/command.h"
@@ -179,6 +181,8 @@ ARRAY* genSyntaxRules()
         new z::script::compiler::return_statement,
         new z::script::compiler::run_statement,
         new z::script::compiler::stop_statement,
+        new z::script::compiler::wait_statement,
+        new z::script::compiler::until_statement,
 
         new z::script::compiler::identifierlist,
         new z::script::compiler::_command,

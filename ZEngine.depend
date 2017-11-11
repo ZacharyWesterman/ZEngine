@@ -3189,7 +3189,7 @@
 1507346414 /home/zwesterman/GitHub/ZEngine//z/script/compiler/keyword.h
 	<z/core/string.h>
 
-1507940297 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.keywords.h
+1510376269 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.keywords.h
 	<z/core/array.h>
 	<z/script/compiler/keyword.h>
 
@@ -3206,7 +3206,7 @@
 
 1507346414 /home/zwesterman/GitHub/ZEngine//z/script/compiler/identEnum.h
 
-1510369344 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax.h
+1510376912 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax.h
 	<z/core/array.h>
 	<z/script/compiler/syntaxRule.h>
 	"lang.syntax/program.h"
@@ -3237,6 +3237,8 @@
 	"lang.syntax/return_statement.h"
 	"lang.syntax/run_statement.h"
 	"lang.syntax/stop_statement.h"
+	"lang.syntax/wait_statement.h"
+	"lang.syntax/until_statement.h"
 	"lang.syntax/identifierlist.h"
 	"lang.syntax/command.h"
 	"lang.syntax/funccall.h"
@@ -3345,4 +3347,8 @@
 1510366827 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/goto_statement.h
 
 1510369436 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/shareddecl.h
+
+1510376926 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/wait_statement.h
+
+1510376797 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/until_statement.h
 

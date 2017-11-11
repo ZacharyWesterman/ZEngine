@@ -136,6 +136,8 @@ enum syntax
 #include "lang.syntax/label_statement.h"
 #include "lang.syntax/goto_statement.h"
 
+#include "lang.syntax/shareddecl.h"
+
 
 #define SYN_RULE z::script::compiler::syntaxRule
 #define ARRAY z::core::array<SYN_RULE*>
@@ -197,6 +199,8 @@ ARRAY* genSyntaxRules()
         new z::script::compiler::gosub_statement,
         new z::script::compiler::label_statement,
         new z::script::compiler::goto_statement,
+
+        new z::script::compiler::shareddecl,
     };
 
     return rules;

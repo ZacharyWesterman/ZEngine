@@ -165,9 +165,9 @@ goto_statement	: "goto" IDENTIFIER ;
 
 gosub_statement : "gosub" IDENTIFIER ;
 
-subroutine_decl : "sub" IDENTIFIER { }
-		| "sub" IDENTIFIER { statement }
-		| "sub" IDENTIFIER { statementlist }
+subroutine_decl : "sub" IDENTIFIER { } ;
+		| "sub" IDENTIFIER { statement } ;
+		| "sub" IDENTIFIER { statementlist } ;
 
 while_pre_stmt	: "loop" "while" ( boolexpr ) statement
 		| "loop" "while" ( boolexpr ) { statement }
@@ -192,7 +192,8 @@ until_statement	: "wait" "until" boolexpr ;
 
 externaldecl	: "external" variable ;
 
-shareddecl	: "shared" variable ;
+shareddecl	: "shared" variable_decl
+		| "shared" typevar_decl
 
 range		: boolexpr -> boolexpr
 		| boolexpr <- boolexpr

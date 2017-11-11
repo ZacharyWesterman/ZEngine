@@ -1,15 +1,4 @@
-var main()
+var main(var args)
 {
-    var X = 0;
-
-    label LOOP;
-    gosub incrementX;
-    goto LOOP;
+    X[0->5][0];
 }
-
-
-sub incrementX
-{
-    print {"X=" + X};
-    X++;
-};

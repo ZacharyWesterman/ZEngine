@@ -1,12 +1,12 @@
-type T
-{
-    f() {}
-    var a;
-    var b;
-};
-
 
 var main()
 {
-    return;
+    \\gosub routine;
 }
+
+
+sub routine
+{
+    x ++;
+    print {x-1};
+};

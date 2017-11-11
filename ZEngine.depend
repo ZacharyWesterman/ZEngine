@@ -3206,7 +3206,7 @@
 
 1507346414 /home/zwesterman/GitHub/ZEngine//z/script/compiler/identEnum.h
 
-1510364598 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax.h
+1510366019 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax.h
 	<z/core/array.h>
 	<z/script/compiler/syntaxRule.h>
 	"lang.syntax/program.h"
@@ -3249,6 +3249,7 @@
 	"lang.syntax/typevar.h"
 	"lang.syntax/typedecl.h"
 	"lang.syntax/int_decllist.h"
+	"lang.syntax/subroutine_decl.h"
 
 1510267335 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/program.h
 	<z/script/compiler/syntaxRule.h>
@@ -3330,4 +3331,6 @@
 1510364093 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/typedecl.h
 
 1510364553 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/int_decllist.h
+
+1510366320 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/subroutine_decl.h
 

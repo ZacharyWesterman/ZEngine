@@ -24,31 +24,40 @@ namespace script
 {
     namespace compiler
     {
-
-        bool lexer::subroutine_decl()
+        class subroutine_decl : public syntaxRule
         {
-            if (phrase_nodes->is_valid(index+4) &&
-                (phrase_nodes->at(index)->type == ident::KEYWORD_SUB) &&
+        public:
+            ~subroutine_decl() {}
+
+            bool apply(core::array< phrase_t* >*,
+                       int,
+                       core::array<error>*);
+        };
+
+        bool subroutine_decl::apply(core::array< phrase_t* >* phrase_nodes,
+                                  int index,
+                                  core::array<error>* error_buffer)
+        {
+            if (phrase_nodes->is_valid(index+5) &&
+                (phrase_nodes->at(index)->type == ident::KEYWORD) &&
+                (phrase_nodes->at(index)->metaValue == SUBR) &&
                 (phrase_nodes->at(index+1)->type == ident::IDENTIFIER) &&
                 (phrase_nodes->at(index+2)->type == ident::LBRACE) &&
                 ((phrase_nodes->at(index+3)->type == STATEMENT) ||
-                 (phrase_nodes->at(index+3)->type == STATEMENTLIST)) &&
-                (phrase_nodes->at(index+4)->type == ident::RBRACE))
+                 (phrase_nodes->at(index+3)->type == STATEMENTLIST)
+                 ) &&
+                (phrase_nodes->at(index+4)->type == ident::RBRACE) &&
+                (phrase_nodes->at(index+5)->type == ident::SEMICOLON)
+                )
             {
-                phrase_t* node = new phrase_t();
-
-                node->type = SUBROUTINE_DECL;
-
-                node->line = phrase_nodes->at(index)->line;
-                node->column = phrase_nodes->at(index)->column;
+                phrase_t* node =
+                new phrase_t(*(phrase_nodes->at(index)), SUBROUTINE_DECL);
 
                 phrase_nodes->at(index+1)->parent = node;
                 phrase_nodes->at(index+3)->parent = node;
 
                 node->children.add(phrase_nodes->at(index+1));
                 node->children.add(phrase_nodes->at(index+3));
-
-                node->file = phrase_nodes->at(index)->file;
 
                 delete phrase_nodes->at(index);
                 delete phrase_nodes->at(index+2);
@@ -57,24 +66,21 @@ namespace script
 
                 return true;
             }
-            else if (phrase_nodes->is_valid(index+3) &&
-                     (phrase_nodes->at(index)->type == ident::KEYWORD_SUB) &&
+            else if (phrase_nodes->is_valid(index+4) &&
+                     (phrase_nodes->at(index)->type == ident::KEYWORD) &&
+                     (phrase_nodes->at(index)->metaValue == SUBR) &&
                      (phrase_nodes->at(index+1)->type == ident::IDENTIFIER) &&
                      (phrase_nodes->at(index+2)->type == ident::LBRACE) &&
-                     (phrase_nodes->at(index+3)->type == ident::RBRACE))
+                     (phrase_nodes->at(index+3)->type == ident::RBRACE) &&
+                     (phrase_nodes->at(index+4)->type == ident::SEMICOLON)
+                     )
             {
-                phrase_t* node = new phrase_t();
-
-                node->type = SUBROUTINE_DECL;
-
-                node->line = phrase_nodes->at(index)->line;
-                node->column = phrase_nodes->at(index)->column;
+                phrase_t* node =
+                new phrase_t(*(phrase_nodes->at(index)), SUBROUTINE_DECL);
 
                 phrase_nodes->at(index+1)->parent = node;
 
                 node->children.add(phrase_nodes->at(index+1));
-
-                node->file = phrase_nodes->at(index)->file;
 
                 delete phrase_nodes->at(index);
                 delete phrase_nodes->at(index+2);

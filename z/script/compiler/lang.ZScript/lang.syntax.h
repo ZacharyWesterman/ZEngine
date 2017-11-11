@@ -131,6 +131,8 @@ enum syntax
 #include "lang.syntax/typedecl.h"
 #include "lang.syntax/int_decllist.h"
 
+#include "lang.syntax/subroutine_decl.h"
+
 
 #define SYN_RULE z::script::compiler::syntaxRule
 #define ARRAY z::core::array<SYN_RULE*>
@@ -187,6 +189,8 @@ ARRAY* genSyntaxRules()
         new z::script::compiler::typevar,
         new z::script::compiler::typedecl,
         new z::script::compiler::int_decllist,
+
+        new z::script::compiler::subroutine_decl,
     };
 
     return rules;

@@ -24,30 +24,40 @@ namespace script
 {
     namespace compiler
     {
+        class loop_statement : public syntaxRule
+        {
+        public:
+            ~loop_statement() {}
 
-        bool lexer::loop_statement()
+            bool apply(core::array< phrase_t* >*,
+                       int,
+                       core::array<error>*);
+        };
+
+        bool loop_statement::apply(core::array< phrase_t* >* phrase_nodes,
+                                  int index,
+                                  core::array<error>* error_buffer)
         {
             if (phrase_nodes->is_valid(index+3) &&
-                (phrase_nodes->at(index)->type == ident::KEYWORD_LOOP) &&
+                (phrase_nodes->at(index)->type == ident::KEYWORD) &&
+                (phrase_nodes->at(index)->metaValue == LOOP) &&
                 (phrase_nodes->at(index+1)->type == ident::LBRACE) &&
                 ((phrase_nodes->at(index+2)->type == STATEMENT) ||
-                 (phrase_nodes->at(index+2)->type == STATEMENTLIST)) &&
+                 (phrase_nodes->at(index+2)->type == STATEMENTLIST)
+                 ) &&
                 (phrase_nodes->at(index+3)->type == ident::RBRACE) &&
                 !(phrase_nodes->is_valid(index+4) &&
-                  (phrase_nodes->at(index+4)->type == ident::KEYWORD_WHILE)))
+                  (phrase_nodes->at(index+4)->type == ident::KEYWORD) &&
+                  (phrase_nodes->at(index+4)->metaValue == WHILE)
+                  )
+                )
             {
-                phrase_t* node = new phrase_t();
-
-                node->type = LOOP_STATEMENT;
-
-                node->line = phrase_nodes->at(index)->line;
-                node->column = phrase_nodes->at(index)->column;
+                phrase_t* node =
+                new phrase_t(*(phrase_nodes->at(index)), LOOP_STATEMENT);
 
                 phrase_nodes->at(index+2)->parent = node;
 
                 node->children.add(phrase_nodes->at(index+2));
-
-                node->file = phrase_nodes->at(index)->file;
 
                 delete phrase_nodes->at(index);
                 delete phrase_nodes->at(index+1);
@@ -58,19 +68,18 @@ namespace script
 
             }
             else if (phrase_nodes->is_valid(index+2) &&
-                (phrase_nodes->at(index)->type == ident::KEYWORD_LOOP) &&
-                (phrase_nodes->at(index+1)->type == ident::LBRACE) &&
-                (phrase_nodes->at(index+2)->type == ident::RBRACE) &&
-                !(phrase_nodes->is_valid(index+3) &&
-                  (phrase_nodes->at(index+3)->type == ident::KEYWORD_WHILE)))
+                     (phrase_nodes->at(index)->type == ident::KEYWORD) &&
+                     (phrase_nodes->at(index)->metaValue == LOOP) &&
+                     (phrase_nodes->at(index+1)->type == ident::LBRACE) &&
+                     (phrase_nodes->at(index+2)->type == ident::RBRACE) &&
+                     !(phrase_nodes->is_valid(index+3) &&
+                       (phrase_nodes->at(index+3)->type == ident::KEYWORD) &&
+                       (phrase_nodes->at(index+3)->metaValue == WHILE)
+                       )
+                     )
             {
-                phrase_t* node = new phrase_t();
-
-                node->type = LOOP_STATEMENT;
-
-                node->line = phrase_nodes->at(index)->line;
-                node->column = phrase_nodes->at(index)->column;
-
+                phrase_t* node =
+                new phrase_t(*(phrase_nodes->at(index)), LOOP_STATEMENT);
 
 
                 delete phrase_nodes->at(index);
@@ -82,20 +91,18 @@ namespace script
 
             }
             else if (phrase_nodes->is_valid(index+1) &&
-                (phrase_nodes->at(index)->type == ident::KEYWORD_LOOP) &&
-                !(phrase_nodes->is_valid(index+2) &&
-                  (phrase_nodes->at(index+2)->type == ident::KEYWORD_WHILE)))
+                     (phrase_nodes->at(index)->type == ident::KEYWORD) &&
+                     (phrase_nodes->at(index)->metaValue == LOOP) &&
+                     !(phrase_nodes->is_valid(index+2) &&
+                       (phrase_nodes->at(index+2)->type == ident::KEYWORD) &&
+                       (phrase_nodes->at(index+2)->metaValue == WHILE)
+                       )
+                     )
             {
                 if (phrase_nodes->at(index+1)->type == ident::SEMICOLON)
                 {
-                    phrase_t* node = new phrase_t();
-
-                    node->type = LOOP_STATEMENT;
-
-                    node->line = phrase_nodes->at(index)->line;
-                    node->column = phrase_nodes->at(index)->column;
-
-
+                    phrase_t* node =
+                    new phrase_t(*(phrase_nodes->at(index)), LOOP_STATEMENT);
 
                     delete phrase_nodes->at(index);
                     delete phrase_nodes->at(index+1);
@@ -105,12 +112,8 @@ namespace script
                 }
                 else if (phrase_nodes->at(index+1)->type == STATEMENT)
                 {
-                    phrase_t* node = new phrase_t();
-
-                    node->type = LOOP_STATEMENT;
-
-                    node->line = phrase_nodes->at(index)->line;
-                    node->column = phrase_nodes->at(index)->column;
+                    phrase_t* node =
+                    new phrase_t(*(phrase_nodes->at(index)), LOOP_STATEMENT);
 
                     phrase_nodes->at(index+1)->parent = node;
 

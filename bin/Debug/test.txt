@@ -1,5 +1,4 @@
 var main()
 {
-    if(0);
-    else;
+    loop;while(0);
 }

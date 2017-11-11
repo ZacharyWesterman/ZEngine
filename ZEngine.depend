@@ -3206,7 +3206,7 @@
 
 1507346414 /home/zwesterman/GitHub/ZEngine//z/script/compiler/identEnum.h
 
-1510289054 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax.h
+1510364598 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax.h
 	<z/core/array.h>
 	<z/script/compiler/syntaxRule.h>
 	"lang.syntax/program.h"
@@ -3247,6 +3247,8 @@
 	"lang.syntax/formaldecllist.h"
 	"lang.syntax/type_funccall.h"
 	"lang.syntax/typevar.h"
+	"lang.syntax/typedecl.h"
+	"lang.syntax/int_decllist.h"
 
 1510267335 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/program.h
 	<z/script/compiler/syntaxRule.h>
@@ -3285,7 +3287,7 @@
 
 1510261050 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/command.h
 
-1510261050 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/identifierlist.h
+1510364168 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/identifierlist.h
 
 1510261914 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/for_statement.h
 
@@ -3324,4 +3326,8 @@
 1510289027 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/run_statement.h
 
 1510288969 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/stop_statement.h
+
+1510364093 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/typedecl.h
+
+1510364553 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/int_decllist.h
 

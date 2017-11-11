@@ -24,34 +24,46 @@ namespace script
 {
     namespace compiler
     {
+        class int_decllist : public syntaxRule
+        {
+        public:
+            ~int_decllist() {}
 
-        bool lexer::int_decllist()
+            bool apply(core::array< phrase_t* >*,
+                       int,
+                       core::array<error>*);
+        };
+
+        bool int_decllist::apply(core::array< phrase_t* >* phrase_nodes,
+                                  int index,
+                                  core::array<error>* error_buffer)
         {
             if (((phrase_nodes->is_valid(index-4) &&
-                 (phrase_nodes->at(index-4)->type == ident::KEYWORD_TYPE) &&
-                 (phrase_nodes->at(index-3)->type == ident::IDENTIFIER) &&
-                 (phrase_nodes->at(index-2)->type == ident::LBRACE) &&
-                 ((phrase_nodes->at(index-1)->type == VARIABLE_DECL) ||
-                  (phrase_nodes->at(index-1)->type == TYPEVAR_DECL) ||
-                  (phrase_nodes->at(index-1)->type == FUNCTION_DECL))) ) &&
+                  (phrase_nodes->at(index-4)->type == ident::KEYWORD) &&
+                  (phrase_nodes->at(index-4)->metaValue == TYPE) &&
+                  (phrase_nodes->at(index-3)->type == ident::IDENTIFIER) &&
+                  (phrase_nodes->at(index-2)->type == ident::LBRACE) &&
+                  ((phrase_nodes->at(index-1)->type == VARIABLE_DECL) ||
+                   (phrase_nodes->at(index-1)->type == TYPEVAR_DECL) ||
+                   (phrase_nodes->at(index-1)->type == FUNCTION_DECL)
+                   )
+                  )
+                 ) &&
                 ((phrase_nodes->at(index)->type == VARIABLE_DECL) ||
                  (phrase_nodes->at(index)->type == TYPEVAR_DECL) ||
-                 (phrase_nodes->at(index)->type == FUNCTION_DECL)))
+                 (phrase_nodes->at(index)->type == FUNC_PROTOTYPE) ||
+                 (phrase_nodes->at(index)->type == FUNCTION_DECL)
+                 )
+                )
             {
-                phrase_t* node = new phrase_t();
-
-                node->type = INT_DECLLIST;
-
-                node->line = phrase_nodes->at(index)->line;
-                node->column = phrase_nodes->at(index)->column;
+                phrase_t* node =
+                new phrase_t(*(phrase_nodes->at(index-1)), INT_DECLLIST);
 
                 phrase_nodes->at(index-1)->parent = node;
                 phrase_nodes->at(index)->parent = node;
 
                 node->children.add(phrase_nodes->at(index-1));
                 node->children.add(phrase_nodes->at(index));
-
-                node->file = phrase_nodes->at(index-1)->file;
 
                 phrase_nodes->replace(index-1, index, node);
 
@@ -62,7 +74,10 @@ namespace script
 
                      ((phrase_nodes->at(index)->type == VARIABLE_DECL) ||
                       (phrase_nodes->at(index)->type == TYPEVAR_DECL) ||
-                      (phrase_nodes->at(index)->type == FUNCTION_DECL)) )
+                      (phrase_nodes->at(index)->type == FUNC_PROTOTYPE) ||
+                      (phrase_nodes->at(index)->type == FUNCTION_DECL)
+                      )
+                     )
             {
                 phrase_nodes->at(index-1)->children.add(phrase_nodes->at(index));
                 phrase_nodes->at(index)->parent = phrase_nodes->at(index-1);

@@ -1,2 +1,12 @@
-var main();
-var main(var args);
+type T
+{
+    f() {}
+    var a;
+    var b;
+};
+
+
+var main()
+{
+    return;
+}

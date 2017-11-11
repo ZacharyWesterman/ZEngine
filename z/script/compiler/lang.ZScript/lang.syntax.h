@@ -128,6 +128,8 @@ enum syntax
 
 #include "lang.syntax/type_funccall.h"
 #include "lang.syntax/typevar.h"
+#include "lang.syntax/typedecl.h"
+#include "lang.syntax/int_decllist.h"
 
 
 #define SYN_RULE z::script::compiler::syntaxRule
@@ -183,6 +185,8 @@ ARRAY* genSyntaxRules()
 
         new z::script::compiler::type_funccall,
         new z::script::compiler::typevar,
+        new z::script::compiler::typedecl,
+        new z::script::compiler::int_decllist,
     };
 
     return rules;

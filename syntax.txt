@@ -245,10 +245,11 @@ int_declaration	: variable_decl
 int_decllist	: if#"type" IDENTIFIER {# int_declaration int_declaration
 		| int_decllist int_declaration
 
-typedecl	: "type" IDENTIFIER { variable_decl }
-		| "type" IDENTIFIER { typevar_decl }
-		| "type" IDENTIFIER { function_decl }
-		| "type" IDENTIFIER { int_decllist }
+typedecl	: "type" IDENTIFIER { variable_decl } ;
+		| "type" IDENTIFIER { typevar_decl } ;
+		| "type" IDENTIFIER { function_decl } ;
+		| "type" IDENTIFIER { func_prototype } ;
+		| "type" IDENTIFIER { int_decllist } ;
 
 PSEUDO:
 ext_decl	: variable_decl

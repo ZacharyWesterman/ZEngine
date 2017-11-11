@@ -39,13 +39,13 @@ namespace script
                                   int index,
                                   core::array<error>* error_buffer)
         {
-            /*if (!(phrase_nodes->is_valid(index-1) &&
+            if (!(phrase_nodes->is_valid(index-1) &&
                   ((phrase_nodes->at(index-1)->type == ident::KEYWORD) ||
-                   (phrase_nodes->at(index-1)->type == ident::LPARENTH) ||
+                   //(phrase_nodes->at(index-1)->type == ident::LPARENTH) ||
                    (phrase_nodes->at(index-1)->type == ident::COMMA)
                    )
                   )
-                )*/
+                )
             {
                 if (phrase_nodes->is_valid(index+1) &&
                     ((phrase_nodes->at(index)->type == ident::IDENTIFIER) ||

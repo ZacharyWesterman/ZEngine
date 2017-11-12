@@ -3206,7 +3206,7 @@
 
 1507346414 /home/zwesterman/GitHub/ZEngine//z/script/compiler/identEnum.h
 
-1510513951 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax.h
+1510515349 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax.h
 	<z/core/array.h>
 	<z/script/compiler/syntaxRule.h>
 	"lang.syntax/program.h"
@@ -3235,6 +3235,7 @@
 	"lang.syntax/statementlist.h"
 	"lang.syntax/if_statement.h"
 	"lang.syntax/for_statement.h"
+	"lang.syntax/foreach_statement.h"
 	"lang.syntax/loop_statement.h"
 	"lang.syntax/while_pre_stmt.h"
 	"lang.syntax/while_post_stmt.h"
@@ -3363,4 +3364,6 @@
 1510513128 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/while_pre_stmt.h
 
 1510513920 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/while_post_stmt.h
+
+1510515731 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/foreach_statement.h
 

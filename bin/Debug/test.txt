@@ -1,11 +1,9 @@
 var main()
 {
-    var x = 101;
+    var list = {1,2,3,4};
 
-    loop
+    for each (var element; list) \\for each element in the list
     {
-        print {x};
-        x++;
+        print {element};
     }
-    while (x < 100);
 }

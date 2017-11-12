@@ -147,11 +147,11 @@ statementlist	: statement statement
 dimensionexpr	: IDENTIFIER . "dim" ( boolexpr )
 		| dim ( boolexpr )
 
-foreach_statement:"for" "each" variable "in" variable statement
-		| "for" "each" variable "in" variable { statement }
-		| "for" "each" variable "in" variable { statementlist }
-		| "for" "each" variable "in" variable { }
-		| "for" "each" variable "in" variable ;
+foreach_statement:"for" "each" ( (variable_decl or typevar_decl) boolexpr ) statement
+		| "for" "each" ( (variable_decl or typevar_decl) boolexpr ) { statement }
+		| "for" "each" ( (variable_decl or typevar_decl) boolexpr ) { statementlist }
+		| "for" "each" ( (variable_decl or typevar_decl) boolexpr ) { }
+		| "for" "each" ( (variable_decl or typevar_decl) boolexpr ) ;
 
 loop_statement	: "loop" statement !"while"
 		| "loop" { statement } !"while"

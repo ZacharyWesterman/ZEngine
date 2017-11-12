@@ -113,6 +113,7 @@ enum syntax
 #include "lang.syntax/statementlist.h"
 #include "lang.syntax/if_statement.h"
 #include "lang.syntax/for_statement.h"
+#include "lang.syntax/foreach_statement.h"
 #include "lang.syntax/loop_statement.h"
 #include "lang.syntax/while_pre_stmt.h"
 #include "lang.syntax/while_post_stmt.h"
@@ -183,6 +184,7 @@ ARRAY* genSyntaxRules()
         new z::script::compiler::statementlist,
         new z::script::compiler::if_statement,
         new z::script::compiler::for_statement,
+        new z::script::compiler::foreach_statement,
         new z::script::compiler::loop_statement,
         new z::script::compiler::while_pre_stmt,
         new z::script::compiler::while_post_stmt,

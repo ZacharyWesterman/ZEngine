@@ -61,6 +61,7 @@
 		<Unit filename="z/script/compiler/lang.ZScript/lang.syntax/exprlist.h" />
 		<Unit filename="z/script/compiler/lang.ZScript/lang.syntax/factorialexpr.h" />
 		<Unit filename="z/script/compiler/lang.ZScript/lang.syntax/for_statement.h" />
+		<Unit filename="z/script/compiler/lang.ZScript/lang.syntax/foreach_statement.h" />
 		<Unit filename="z/script/compiler/lang.ZScript/lang.syntax/formaldecllist.h" />
 		<Unit filename="z/script/compiler/lang.ZScript/lang.syntax/formaltypedecl.h" />
 		<Unit filename="z/script/compiler/lang.ZScript/lang.syntax/formalvardecl.h" />
@@ -101,6 +102,8 @@
 		<Unit filename="z/script/compiler/lang.ZScript/lang.syntax/variable_decl.h" />
 		<Unit filename="z/script/compiler/lang.ZScript/lang.syntax/varindex.h" />
 		<Unit filename="z/script/compiler/lang.ZScript/lang.syntax/wait_statement.h" />
+		<Unit filename="z/script/compiler/lang.ZScript/lang.syntax/while_post_stmt.h" />
+		<Unit filename="z/script/compiler/lang.ZScript/lang.syntax/while_pre_stmt.h" />
 		<Unit filename="z/script/compiler/lexer.h" />
 		<Unit filename="z/script/compiler/operator.h" />
 		<Unit filename="z/script/compiler/phrase.h" />

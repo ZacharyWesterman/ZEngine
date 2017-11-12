@@ -65,6 +65,8 @@ int main(int argc, char* argv[])
 
     core::string<char> file = "test.txt";
 
+    core::timeout time (-1);
+
     z::file::reader<CPL_CHAR> Reader;
     Reader.set(file);
     Reader.read();
@@ -72,6 +74,7 @@ int main(int argc, char* argv[])
     Reader.clear();
 
     //cout << input.narrow().str() << "\n\n";
+
 
 
     z::script::compiler::scanner Scanner(&symbol_table,
@@ -83,7 +86,7 @@ int main(int argc, char* argv[])
 
     Scanner.linkInput(&input);
 
-    Scanner.scan();
+    Scanner.scan(time);
 
     printErrors(Scanner.error_buffer);
 
@@ -101,10 +104,12 @@ int main(int argc, char* argv[])
 
     //cout << program << endl;
 
-    Lexer.lex();
+    Lexer.lex(time);
 
     //compiler::phrase_t* AST = Lexer.moveResultAST();
     printErrors(Lexer.error_buffer);
+
+    cout << "\nLoading + compile time = " << time.seconds() << "s.\n";
 
 
 

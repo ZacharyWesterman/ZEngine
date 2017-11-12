@@ -1,4 +1,10 @@
 var main()
 {
-    loop;while(0);
+    var x = 0;
+
+    loop while (x < 100)
+    {
+        print {x};
+        x++;
+    }
 }

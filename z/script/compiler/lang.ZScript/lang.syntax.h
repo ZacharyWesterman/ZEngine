@@ -6,7 +6,7 @@
 #include <z/script/compiler/syntaxRule.h>
 //#include <z/zcript/compiler/identEnum.h>
 
-enum SYNTAX
+enum syntax
 {
     IDENTIFIERLIST = z::script::compiler::ident::ID_COUNT,
     COMMAND,
@@ -83,45 +83,149 @@ enum SYNTAX
 
 #include "lang.syntax/program.h"
 
-#define SYN_RULE_C z::script::compiler::syntaxRule<char>
-#define SYN_RULE_W z::script::compiler::syntaxRule<wchar_t>
-#define ARRAY_C z::core::array<SYN_RULE_C*>
-#define ARRAY_W z::core::array<SYN_RULE_W*>
+#include "lang.syntax/operand.h"
+#include "lang.syntax/variable.h"
 
-ARRAY_C* genSyntaxRulesC()
+#include "lang.syntax/variable_decl.h"
+#include "lang.syntax/typevar_decl.h"
+
+#include "lang.syntax/parenthexpr.h"
+#include "lang.syntax/factorialexpr.h"
+#include "lang.syntax/add1expr.h"
+#include "lang.syntax/negatexpr.h"
+#include "lang.syntax/powerexpr.h"
+#include "lang.syntax/multiplyexpr.h"
+#include "lang.syntax/addexpr.h"
+#include "lang.syntax/boolexpr.h"
+#include "lang.syntax/assignexpr.h"
+#include "lang.syntax/sizeofexpr.h"
+#include "lang.syntax/dimensionexpr.h"
+
+#include "lang.syntax/range.h"
+#include "lang.syntax/rangelist.h"
+#include "lang.syntax/index.h"
+#include "lang.syntax/varindex.h"
+
+#include "lang.syntax/exprlist.h"
+#include "lang.syntax/list.h"
+
+#include "lang.syntax/statement.h"
+#include "lang.syntax/statementlist.h"
+#include "lang.syntax/if_statement.h"
+#include "lang.syntax/for_statement.h"
+#include "lang.syntax/foreach_statement.h"
+#include "lang.syntax/loop_statement.h"
+#include "lang.syntax/while_pre_stmt.h"
+#include "lang.syntax/while_post_stmt.h"
+#include "lang.syntax/return_statement.h"
+#include "lang.syntax/run_statement.h"
+#include "lang.syntax/stop_statement.h"
+#include "lang.syntax/wait_statement.h"
+#include "lang.syntax/until_statement.h"
+
+#include "lang.syntax/identifierlist.h"
+#include "lang.syntax/command.h"
+
+#include "lang.syntax/funccall.h"
+#include "lang.syntax/func_prototype.h"
+#include "lang.syntax/function_decl.h"
+#include "lang.syntax/formalvardecl.h"
+#include "lang.syntax/formaltypedecl.h"
+#include "lang.syntax/formaldecllist.h"
+
+#include "lang.syntax/type_funccall.h"
+#include "lang.syntax/typevar.h"
+#include "lang.syntax/typedecl.h"
+#include "lang.syntax/int_decllist.h"
+
+#include "lang.syntax/subroutine_decl.h"
+#include "lang.syntax/gosub_statement.h"
+#include "lang.syntax/label_statement.h"
+#include "lang.syntax/goto_statement.h"
+
+#include "lang.syntax/shareddecl.h"
+
+
+#define SYN_RULE z::script::compiler::syntaxRule
+#define ARRAY z::core::array<SYN_RULE*>
+
+
+ARRAY* genSyntaxRules()
 {
-    ARRAY_C* rules = new ARRAY_C
+    ARRAY* rules = new ARRAY
     {
+        new z::script::compiler::operand,
+        new z::script::compiler::variable,
 
+        new z::script::compiler::variable_decl,
+        new z::script::compiler::typevar_decl,
+
+        new z::script::compiler::parenthexpr,
+        new z::script::compiler::factorialexpr,
+        new z::script::compiler::add1expr,
+        new z::script::compiler::negatexpr,
+        new z::script::compiler::powerexpr,
+        new z::script::compiler::multiplyexpr,
+        new z::script::compiler::addexpr,
+        new z::script::compiler::boolexpr,
+        new z::script::compiler::assignexpr,
+        new z::script::compiler::sizeofexpr,
+        new z::script::compiler::dimensionexpr,
+
+        new z::script::compiler::_range,
+        new z::script::compiler::rangelist,
+        new z::script::compiler::_index,
+        new z::script::compiler::varindex,
+
+        new z::script::compiler::exprlist,
+        new z::script::compiler::_list,
+
+        new z::script::compiler::statement,
+        new z::script::compiler::statementlist,
+        new z::script::compiler::if_statement,
+        new z::script::compiler::for_statement,
+        new z::script::compiler::foreach_statement,
+        new z::script::compiler::loop_statement,
+        new z::script::compiler::while_pre_stmt,
+        new z::script::compiler::while_post_stmt,
+        new z::script::compiler::return_statement,
+        new z::script::compiler::run_statement,
+        new z::script::compiler::stop_statement,
+        new z::script::compiler::wait_statement,
+        new z::script::compiler::until_statement,
+
+        new z::script::compiler::identifierlist,
+        new z::script::compiler::_command,
+
+        new z::script::compiler::funccall,
+        new z::script::compiler::func_prototype,
+        new z::script::compiler::function_decl,
+        new z::script::compiler::formalvardecl,
+        new z::script::compiler::formaltypedecl,
+        new z::script::compiler::formaldecllist,
+
+        new z::script::compiler::type_funccall,
+        new z::script::compiler::typevar,
+        new z::script::compiler::typedecl,
+        new z::script::compiler::int_decllist,
+
+        new z::script::compiler::subroutine_decl,
+        new z::script::compiler::gosub_statement,
+        new z::script::compiler::label_statement,
+        new z::script::compiler::goto_statement,
+
+        new z::script::compiler::shareddecl,
     };
 
     return rules;
 }
 
-SYN_RULE_C* genProgramRuleC()
+SYN_RULE* genProgramRule()
 {
-    return new z::script::compiler::program<char>;
+    return new z::script::compiler::program;
 }
 
-
-ARRAY_W* genSyntaxRulesW()
-{
-    ARRAY_W* rules = new ARRAY_W
-    {
-
-    };
-
-    return rules;
-}
-
-SYN_RULE_W* genProgramRuleW()
-{
-    return new z::script::compiler::program<wchar_t>;
-}
-
-#undef SYN_RULE_C
-#undef SYN_RULE_W
-#undef ARRAY_C
-#undef ARRAY_W
+#undef SYN_RULE
+#undef ARRAY
 
 #endif // LANG_SYNTAX_H_INCLUDED

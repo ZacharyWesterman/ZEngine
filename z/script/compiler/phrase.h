@@ -27,7 +27,6 @@ namespace script
     namespace compiler
     {
 
-        template <typename CHAR>
         class phrase_t
         {
         public:
@@ -45,14 +44,14 @@ namespace script
                 unsigned long metaValue;
             };
 
-            generic<CHAR> value;
+            generic<CPL_CHAR> value;
 
 
             phrase_t* parent;
             core::array<phrase_t*> children;
 
             //keep track of what file this is
-            core::string<CHAR>* file;
+            core::string<char>* file;
 
             //empty constructor
             phrase_t()
@@ -65,15 +64,52 @@ namespace script
                 indent = 0;
 
                 meta = NULL;
-                value = 0;
 
                 parent = NULL;
 
                 file = NULL;
             }
 
+            /*phrase_t(int Type,
+                     core::string<CHAR>* File,
+                     int Line, int Column, int Indent = 0,
+                     void* Meta = NULL)
+            {
+                type = Type;
+                orig_type = ident::NONE;
+
+                line = Line;
+                column = Column;
+                indent = Indent;
+
+                meta = Meta;
+
+                parent = NULL;
+                file = File;
+            }*/
+
+            phrase_t(const phrase_t& other,
+                     int newType = ident::NONE)
+            {
+                if (newType != ident::NONE)
+                    type = newType;
+                else
+                    type = other.type;
+
+                orig_type = ident::NONE;
+
+                line = other.line;
+                column = other.column;
+                indent = other.indent;
+
+                meta = NULL;
+
+                parent = NULL;
+                file = other.file;
+            }
+
             //constructor from ident_t
-            phrase_t(const ident_t<CHAR>& token)
+            phrase_t(const ident_t& token)
             {
                 type = token.type;
                 orig_type = ident::NONE;
@@ -95,14 +131,16 @@ namespace script
             const phrase_t& operator=(const phrase_t& other)
             {
                 type = other.type;
+                orig_type = other.orig_type;
 
                 line = other.line;
                 column = other.column;
+                indent = other.indent;
 
                 meta = other.meta;
                 value = other.value;
 
-                children = other.children;
+                file = other.file;
 
                 return *this;
             }

@@ -24,6 +24,10 @@
 #include "../generic.h"
 #include "../error.h"
 
+#ifndef CPL_CHAR
+#define CPL_CHAR wchar_t
+#endif // CPL_CHAR
+
 namespace z
 {
 namespace script
@@ -31,7 +35,6 @@ namespace script
     namespace compiler
     {
 
-        template <typename CHAR>
         class ident_t
         {
         public:
@@ -43,20 +46,20 @@ namespace script
 
             union
             {
-                core::string<CHAR>* meta;
+                void* meta;
                 unsigned long metaValue;
             };
 
-            generic<CHAR> value;
+            generic<CPL_CHAR> value;
 
             //keep track of the current file
-            core::string<CHAR>* file;
+            core::string<char>* file;
 
             ///full constructor
             ident_t (ident _type = ident::NONE,
                      int lin = 0, int col = 0, int ind = 0,
-                     core::string<CHAR>* symbol_ptr = NULL,
-                     core::string<CHAR>* fileID = NULL)
+                     void* symbol_ptr = NULL,
+                     core::string<char>* fileID = NULL)
             {
                 type = _type;
 

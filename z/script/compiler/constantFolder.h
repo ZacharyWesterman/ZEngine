@@ -38,7 +38,7 @@ namespace script
         class constantFolder
         {
         private:
-            phrase_t<CHAR>* root;
+            phrase_t* root;
 
             int index;
             core::dynamicStack<int> index_stack;
@@ -78,7 +78,7 @@ namespace script
             ~constantFolder(){};
 
 
-            void setInput(phrase_t<CHAR>* new_root)
+            void setInput(phrase_t* new_root)
             {
                 index_stack.dump();
 
@@ -477,7 +477,7 @@ namespace script
         template <typename CHAR>
         void constantFolder<CHAR>::operate_varindex()
         {
-            phrase_t<CHAR>* child[] =
+            phrase_t* child[] =
             {
                 root->children[0],
                 root->children[1]
@@ -493,7 +493,7 @@ namespace script
                 generic<CHAR> v_index = root->children[1]->value;
 
 
-                phrase_t<CHAR>* node = root->children[0];
+                phrase_t* node = root->children[0];
                 node->parent = root->parent;
                 root->parent->children[index_stack.peek()-1] = node;
 
@@ -538,7 +538,7 @@ namespace script
                 generic<CHAR> v_start = child[1]->children[0]->value;
                 generic<CHAR> v_stop =  child[1]->children[1]->value;
 
-                phrase_t<CHAR>* node = child[0];
+                phrase_t* node = child[0];
                 node->parent = root->parent;
                 root->parent->children[index_stack.peek()-1] = node;
 
@@ -581,7 +581,7 @@ namespace script
                 //check all indexes in the list
                 for(int i=0; i<(child[1]->children.size()); i++)
                 {
-                    phrase_t<CHAR>* ptr = child[1]->children[i];
+                    phrase_t* ptr = child[1]->children[i];
 
                     //if this index is a single index
                     if ((ptr->type != ident::LITERAL) &&
@@ -606,7 +606,7 @@ namespace script
                     bool subIndex = (bool)root->metaValue;
 
 
-                    phrase_t<CHAR>* node = child[0];
+                    phrase_t* node = child[0];
                     node->parent = root->parent;
                     root->parent->children[index_stack.peek()-1] = node;
 
@@ -619,7 +619,7 @@ namespace script
 
                     for (int i=0; i<(child[1]->children).size(); i++)
                     {
-                        phrase_t<CHAR>* ptr = child[1]->children[i];
+                        phrase_t* ptr = child[1]->children[i];
 
                         if (ptr->type == ident::LITERAL)//LITERAL
                         {

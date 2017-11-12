@@ -5,7 +5,7 @@
 #include <z/core/sortedArray.h>
 #include <z/script/compiler/operator.h>
 
-enum OPERATORS
+enum operators
 {
     OPER_NONE = 0,
     ASSIGN,

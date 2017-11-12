@@ -67,7 +67,7 @@ namespace script
 
             core::string<CHAR> contents;
 
-            core::array< ident_t<CHAR> > identities;
+            core::array< ident_t > identities;
 
             core::array< error > error_buffer;
 
@@ -131,7 +131,7 @@ namespace script
 
             int working_node;
 
-            core::array< ident_t<CHAR> > full_ident_list;
+            core::array< ident_t > full_ident_list;
 
             bool is_done;
 
@@ -207,7 +207,7 @@ namespace script
 
             inline bool done() {return is_done;}
 
-            inline phrase_t<CHAR>* moveResultAST() {return fLexer.moveResultAST();}
+            inline phrase_t* moveResultAST() {return fLexer.moveResultAST();}
         };
 
 

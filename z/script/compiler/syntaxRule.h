@@ -14,8 +14,7 @@ namespace script
 {
     namespace compiler
     {
-        template <typename CHAR>
-        void deleteNode(phrase_t<CHAR>* root)
+        void deleteNode(phrase_t* root)
         {
             for (int i=0; i<(root->children.size()); i++)
             {
@@ -25,14 +24,32 @@ namespace script
             delete root;
         }
 
-        template <typename CHAR>
+        void setSuperType(phrase_t* node, int newType)
+        {
+            if (node->orig_type == ident::NONE)
+                node->orig_type = node->type;
+
+            node->type = newType;
+        }
+
+        script::error newError(phrase_t* node, const core::string<char>& msg)
+        {
+            if (node->file)
+                return script::error(msg, *(node->file),
+                                     node->line, node->column);
+            else
+                return script::error(msg,
+                                     node->line, node->column);
+        }
+
         class syntaxRule
         {
         public:
             virtual ~syntaxRule() {}
 
-            virtual bool apply(core::array< phrase_t<CHAR>* >* phrase_nodes,
-                               int index) {return false;}
+            virtual bool apply(core::array< phrase_t* >*,
+                               int,
+                               core::array<error>*) = 0;
         };
     }
 }

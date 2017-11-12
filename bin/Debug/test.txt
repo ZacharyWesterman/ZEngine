@@ -1,1 +1,7 @@
-a b c d e
+var main()
+{
+    var list = {1,2,3,4};
+
+    for each (var element; list)
+        print {element};
+}

@@ -37,14 +37,14 @@ namespace script
     namespace compiler
     {
 
-        template <typename CHAR>
+
         class scanner
         {
         private:
-            core::string<CHAR>* input;
-            core::array< ident_t<CHAR> >* identifiers;
+            core::string<CPL_CHAR>* input;
+            core::array< ident_t >* identifiers;
 
-            core::dynamicStack< ident_t<CHAR> > open_symbol_indices;
+            core::dynamicStack< ident_t > open_symbol_indices;
 
             int index;
 
@@ -57,13 +57,13 @@ namespace script
             int column;
             int indent;
 
-            ident_t<CHAR> current_ident;
+            ident_t current_ident;
             ident newIdent;
-            core::string<CHAR> current_symbol;
+            core::string<CPL_CHAR> current_symbol;
 
             bool done;
 
-            core::sortedRefArray< core::string<CHAR>* >* sym_table;
+            core::sortedRefArray< core::string<CPL_CHAR>* >* sym_table;
 
             core::array<keyword>* keywords;
             core::array<oper>* operators;
@@ -71,30 +71,30 @@ namespace script
             core::array< core::string<char> >* comment_rules;
             int open_comment;
 
-            CHAR open_string;
+            CPL_CHAR open_string;
 
             //keep track of the current file
-            core::string<CHAR>* file;
+            core::string<char>* file;
 
         public:
             core::array< error > error_buffer;
 
 
-            scanner(core::sortedRefArray< core::string<CHAR>* >*,
+            scanner(core::sortedRefArray< core::string<CPL_CHAR>* >*,
                      core::array<keyword>*,
                      core::array<oper>*,
                      core::array< core::string<char> >*,
-                     core::string<CHAR>*,
-                     core::array< ident_t<CHAR> >*);
+                     core::string<char>*,
+                     core::array< ident_t >*);
 
-            void set(core::sortedRefArray< core::string<CHAR>* >*,
+            void set(core::sortedRefArray< core::string<CPL_CHAR>* >*,
                      core::array<keyword>*,
                      core::array<oper>*,
                      core::array< core::string<char> >*,
-                     core::string<CHAR>*,
-                     core::array< ident_t<CHAR> >*);
+                     core::string<char>*,
+                     core::array< ident_t >*);
 
-            inline void linkInput(core::string<CHAR>*);
+            inline void linkInput(core::string<CPL_CHAR>*);
 
             bool scan(const core::timeout& time = -1);
 
@@ -103,14 +103,14 @@ namespace script
             inline bool bad();
 
         private:
-            bool list_opers(core::string<CHAR>&);
+            bool list_opers(core::string<CPL_CHAR>&);
 
             void get_this_keyword();
             void get_this_operator();
 
             void check_this_number();
 
-            core::string<CHAR>* addToSymTable(core::string<CHAR>*) const;
+            core::string<CPL_CHAR>* addToSymTable(const core::string<CPL_CHAR>&) const;
 
 
             void check_open_symbols();
@@ -135,15 +135,15 @@ namespace script
 
 
 
-        template <typename CHAR>
+
         //constructor allows operators, commands, and functions be set
-        scanner<CHAR>::scanner(core::sortedRefArray<core::string<CHAR>* >*
+        scanner::scanner(core::sortedRefArray<core::string<CPL_CHAR>* >*
                                                             symbol_table,
                                core::array<keyword>* Keywords,
                                core::array<oper>* Operators,
                                core::array< core::string<char> >* commentRules,
-                               core::string<CHAR>* File,
-                               core::array< ident_t<CHAR> >* Output)
+                               core::string<char>* File,
+                               core::array< ident_t >* Output)
         {
             clear();
 
@@ -155,14 +155,14 @@ namespace script
                 Output);
         }
 
-        template <typename CHAR>
-        void scanner<CHAR>::set(core::sortedRefArray<core::string<CHAR>* >*
+
+        void scanner::set(core::sortedRefArray<core::string<CPL_CHAR>* >*
                                                             symbol_table,
                                 core::array<keyword>* Keywords,
                                 core::array<oper>* Operators,
                                 core::array< core::string<char> >* commentRules,
-                                core::string<CHAR>* File,
-                                core::array< ident_t<CHAR> >* Output)
+                                core::string<char>* File,
+                                core::array< ident_t >* Output)
         {
             sym_table = symbol_table;
             keywords = Keywords;
@@ -174,16 +174,16 @@ namespace script
             done = true;
         }
 
-        template <typename CHAR>
-        inline void scanner<CHAR>::linkInput(core::string<CHAR>* string_input)
+
+        inline void scanner::linkInput(core::string<CPL_CHAR>* string_input)
         {
             input = string_input;
 
             clear();
         }
 
-        template <typename CHAR>
-        void scanner<CHAR>::clear()
+
+        void scanner::clear()
         {
             current_symbol.clear();
             open_symbol_indices.dump();
@@ -198,7 +198,7 @@ namespace script
             column = 0;
             indent = 0;
 
-            current_ident = ident_t<CHAR>(ident::NONE, 0, 0);
+            current_ident = ident_t(ident::NONE, 0, 0);
             newIdent = ident::NONE;
             current_symbol.clear();
 
@@ -206,14 +206,14 @@ namespace script
             done = false;
         }
 
-        template <typename CHAR>
-        inline bool scanner<CHAR>::good()
+
+        inline bool scanner::good()
         {
             return error_buffer.size() == 0;
         }
 
-        template <typename CHAR>
-        inline bool scanner<CHAR>::bad()
+
+        inline bool scanner::bad()
         {
             return error_buffer.size() != 0;
         }
@@ -223,8 +223,8 @@ namespace script
         //returns on timeout (does not mean it is finished scanning).
         //returns 1 if finished scanning,
         //returns 0 otherwise.
-        template <typename CHAR>
-        bool scanner<CHAR>::scan(const core::timeout& time)
+
+        bool scanner::scan(const core::timeout& time)
         {
             if (done || !input || !identifiers)
                 return true;
@@ -248,8 +248,8 @@ namespace script
                 if (!in_string && !in_comment)
                 {
                     //now in a string
-                    if ((input->at(index) == (CHAR)'\"') ||
-                        (input->at(index) == (CHAR)'\''))
+                    if ((input->at(index) == (CPL_CHAR)'\"') ||
+                        (input->at(index) == (CPL_CHAR)'\''))
                     {
                         newIdent = ident::STRING_LITERAL;
                         in_string = true;
@@ -322,31 +322,31 @@ namespace script
                     }
                     //generic identifiers
                     else if (core::isAlphanumeric(input->at(index)) ||
-                             (input->at(index) == (CHAR)'_'))
+                             (input->at(index) == (CPL_CHAR)'_'))
                         behav_identifier();
                     //period
-                    else if (input->at(index) == (CHAR)'.')
+                    else if (input->at(index) == (CPL_CHAR)'.')
                         behav_period();
                     //parentheses
-                    else if (input->at(index) == (CHAR)'(')
+                    else if (input->at(index) == (CPL_CHAR)'(')
                         behav_lparenth();
-                    else if (input->at(index) == (CHAR)')')
+                    else if (input->at(index) == (CPL_CHAR)')')
                         behav_rparenth();
                     //brackets
-                    else if (input->at(index) == (CHAR)'[')
+                    else if (input->at(index) == (CPL_CHAR)'[')
                         behav_lbracket();
-                    else if (input->at(index) == (CHAR)']')
+                    else if (input->at(index) == (CPL_CHAR)']')
                         behav_rbracket();
                     //curly braces
-                    else if (input->at(index) == (CHAR)'{')
+                    else if (input->at(index) == (CPL_CHAR)'{')
                         behav_lbrace();
-                    else if (input->at(index) == (CHAR)'}')
+                    else if (input->at(index) == (CPL_CHAR)'}')
                         behav_rbrace();
                     //comma
-                    else if (input->at(index) == (CHAR)',')
+                    else if (input->at(index) == (CPL_CHAR)',')
                         newIdent = ident::COMMA;
                     //semicolon
-                    else if (input->at(index) == (CHAR)';')
+                    else if (input->at(index) == (CPL_CHAR)';')
                         newIdent = ident::SEMICOLON;
                     else //possible operator
                         newIdent = ident::UNKNOWN;
@@ -398,10 +398,10 @@ namespace script
         }
 
 
-        template <typename CHAR>
-        void scanner<CHAR>::check_open_symbols()
+
+        void scanner::check_open_symbols()
         {
-            ident_t<CHAR> op_sym;
+            ident_t op_sym;
             while (open_symbol_indices.pop(op_sym))
             {
                 if (op_sym.type == ident::LPARENTH)
@@ -428,8 +428,8 @@ namespace script
             }
         }
 
-        template <typename CHAR>
-        void scanner<CHAR>::symbol_type_change()
+
+        void scanner::symbol_type_change()
         {
             if (current_ident.type == ident::UNKNOWN)
             {
@@ -458,7 +458,7 @@ namespace script
                 }
 
                 if (addmeta)
-                    current_ident.meta = addToSymTable(&current_symbol);
+                    current_ident.meta = addToSymTable(current_symbol);
                 identifiers->add(current_ident);
             }
 
@@ -472,15 +472,15 @@ namespace script
             current_ident.meta = NULL;
             current_ident.file = file;
 
-            current_ident.value = generic<CHAR>();
+            current_ident.value.clear();
         }
 
-        template <typename CHAR>
-        void scanner<CHAR>::update_line_column()
+
+        void scanner::update_line_column()
         {
-            if (input->at(index) == (CHAR)'\n')
+            if (input->at(index) == (CPL_CHAR)'\n')
             {
-                if (input->at(index+1) == (CHAR)'\r')
+                if (input->at(index+1) == (CPL_CHAR)'\r')
                     index++;
 
                 line++;
@@ -489,9 +489,9 @@ namespace script
 
                 in_comment = multiline_comment;
             }
-            else if (input->at(index) == (CHAR)'\r')
+            else if (input->at(index) == (CPL_CHAR)'\r')
             {
-                if (input->at(index+1) == (CHAR)'\n')
+                if (input->at(index+1) == (CPL_CHAR)'\n')
                     index++;
 
                 line++;
@@ -507,8 +507,8 @@ namespace script
         }
 
 
-        template <typename CHAR>
-        void scanner<CHAR>::behav_identifier()
+
+        void scanner::behav_identifier()
         {
             if ((newIdent != ident::NUMERIC_LITERAL) &&
                 (newIdent != ident::IDENTIFIER))
@@ -520,8 +520,8 @@ namespace script
             }
         }
 
-        template <typename CHAR>
-        void scanner<CHAR>::behav_period()
+
+        void scanner::behav_period()
         {
             //if a decimal point precedes a number
             //and no alphanumeric character directly precedes it,
@@ -532,21 +532,21 @@ namespace script
                 newIdent = ident::PERIOD;
         }
 
-        template <typename CHAR>
-        void scanner<CHAR>::behav_lparenth()
+
+        void scanner::behav_lparenth()
         {
             newIdent = ident::LPARENTH;
 
-            open_symbol_indices.push(ident_t<CHAR>(newIdent,
+            open_symbol_indices.push(ident_t(newIdent,
                                                    line, column));
         }
 
-        template <typename CHAR>
-        void scanner<CHAR>::behav_rparenth()
+
+        void scanner::behav_rparenth()
         {
             newIdent = ident::RPARENTH;
 
-            ident_t<CHAR> op_sym;
+            ident_t op_sym;
             if (!open_symbol_indices.pop(op_sym))
             {
                 error_buffer.add(error("Missing open parentheses",
@@ -570,21 +570,21 @@ namespace script
         }
 
 
-        template <typename CHAR>
-        void scanner<CHAR>::behav_lbracket()
+
+        void scanner::behav_lbracket()
         {
             newIdent = ident::LBRACKET;
 
-            open_symbol_indices.push(ident_t<CHAR>(newIdent,
+            open_symbol_indices.push(ident_t(newIdent,
                                                    line, column));
         }
 
-        template <typename CHAR>
-        void scanner<CHAR>::behav_rbracket()
+
+        void scanner::behav_rbracket()
         {
             newIdent = ident::RBRACKET;
 
-            ident_t<CHAR> op_sym;
+            ident_t op_sym;
             if (!open_symbol_indices.pop(op_sym))
             {
                 error_buffer.add(error("Missing open square bracket",
@@ -608,21 +608,21 @@ namespace script
         }
 
 
-        template <typename CHAR>
-        void scanner<CHAR>::behav_lbrace()
+
+        void scanner::behav_lbrace()
         {
             newIdent = ident::LBRACE;
 
-            open_symbol_indices.push(ident_t<CHAR>(newIdent,
+            open_symbol_indices.push(ident_t(newIdent,
                                                    line, column));
         }
 
-        template <typename CHAR>
-        void scanner<CHAR>::behav_rbrace()
+
+        void scanner::behav_rbrace()
         {
             newIdent = ident::RBRACE;
 
-            ident_t<CHAR> op_sym;
+            ident_t op_sym;
             if (!open_symbol_indices.pop(op_sym))
             {
                 error_buffer.add(error("Missing open curly brace",
@@ -647,8 +647,8 @@ namespace script
         }
 
 
-        template <typename CHAR>
-        void scanner<CHAR>::behav_in_string()
+
+        void scanner::behav_in_string()
         {
             if (input->at(index) == open_string)
             {
@@ -661,8 +661,8 @@ namespace script
 
                 if (esc_seq)
                 {
-                    core::string<CHAR> seq_name;
-                    core::string<CHAR> seq_equiv;
+                    core::string<CPL_CHAR> seq_name;
+                    core::string<CPL_CHAR> seq_equiv;
 
                     escSequenceName(esc_seq, seq_name);
                     escSequenceEquiv(esc_seq, seq_equiv);
@@ -677,7 +677,7 @@ namespace script
                     current_symbol += input->at(index);
 
                     //we have some unknown escape sequence
-                    if (input->at(index) == (CHAR)'\\')
+                    if (input->at(index) == (CPL_CHAR)'\\')
                     {
                         error_buffer.add(
                                 error("Unknown escape sequence",
@@ -693,12 +693,12 @@ namespace script
         ///list all the possible operators in the string
         ///the string must contain ONLY operators and NO spaces
         //returns false if an error was found.
-        template <typename CHAR>
-        bool scanner<CHAR>::list_opers(core::string<CHAR>& input)
+
+        bool scanner::list_opers(core::string<CPL_CHAR>& input)
         {
             bool oper_error = false;
 
-            core::array< ident_t<CHAR> > temp_opers;
+            core::array< ident_t > temp_opers;
 
             int x_offset = 0;
 
@@ -725,7 +725,7 @@ namespace script
 
                 if (prev_index > -1)
                 {
-                    ident_t<CHAR> this_oper (ident::OPERATOR,
+                    ident_t this_oper (ident::OPERATOR,
                                              line,
                                              column+x_offset-input.length(),
                                              0,
@@ -765,7 +765,7 @@ namespace script
                 this_type = ident::UNKNOWN;
 
 
-                identifiers->add(ident_t<CHAR>(this_type,
+                identifiers->add(ident_t(this_type,
                                                line, column-input.length()));
             }
 
@@ -774,8 +774,8 @@ namespace script
 
 
         ///If the current symbol matches a keyword, change the type to the appropriate keyword.
-        template <typename CHAR>
-        void scanner<CHAR>::get_this_keyword()
+
+        void scanner::get_this_keyword()
         {
             if (current_ident.type == ident::IDENTIFIER)
             {
@@ -784,7 +784,7 @@ namespace script
                 if (kwd_index > -1)//is a keyword
                 {
                     current_ident.type = ident::KEYWORD;
-                    current_ident.value = (keywords->at(kwd_index)).value;
+                    current_ident.metaValue = (keywords->at(kwd_index)).value;
                 }
             }
         }
@@ -792,10 +792,10 @@ namespace script
 
         ///If the current identifier matches a number form, check what form the number is in
         ///(e.g. decimal, binary, octal or hexadecimal) and convert to a number.
-        template <typename CHAR>
-        void scanner<CHAR>::check_this_number()
+
+        void scanner::check_this_number()
         {
-            core::string<CHAR> symbol = current_symbol;
+            core::string<CPL_CHAR> symbol = current_symbol;
 
             bool return_good = true;
             bool is_complex = false;
@@ -836,10 +836,10 @@ namespace script
 
             for (int i=0; i<(symbol.length()); i++)
             {
-                CHAR _char = symbol[i];
+                CPL_CHAR _char = symbol[i];
 
 
-                if (_char == (CHAR)'.')
+                if (_char == (CPL_CHAR)'.')
                 {
                     if (pastDecimal)
                     {
@@ -874,13 +874,15 @@ namespace script
                 else
                     current_ident.value = symbol.value(base);
             }
+
+            //std::cout << "[" << current_ident.value.complex() << "]\n";
         }
 
         ///Some operators have alphanumeric characters in them.
         ///if the current identifier matches an operator, change the type to OPERATOR.
         //does not produce any errors, so always returns true.
-        template <typename CHAR>
-        void scanner<CHAR>::get_this_operator()
+
+        void scanner::get_this_operator()
         {
             if (current_ident.type == ident::IDENTIFIER)
             {
@@ -896,20 +898,23 @@ namespace script
 
 
 
-        template <typename CHAR>
-        core::string<CHAR>* scanner<CHAR>::addToSymTable(core::string<CHAR>* symbol) const
+
+        core::string<CPL_CHAR>* scanner::addToSymTable(const core::string<CPL_CHAR>& symbol) const
         {
             if (sym_table)
             {
-                int existing = sym_table->find(symbol);
+                core::string<CPL_CHAR>* new_sym = new core::string<CPL_CHAR>(symbol);
+
+                int existing = sym_table->find(new_sym);
 
                 if (existing > -1)
                 {
+                    delete new_sym;
+
                     return sym_table->at(existing);
                 }
                 else
                 {
-                    core::string<CHAR>* new_sym = new core::string<CHAR>(*symbol);
                     sym_table->add(new_sym);
                     return new_sym;
                 }

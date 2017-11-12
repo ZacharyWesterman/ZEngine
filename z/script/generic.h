@@ -132,7 +132,13 @@ namespace z
                 d_value = new std::complex<Float>(_complex);
             }
 
-            generic(const core::string<CHAR>&);
+            template <typename CHAR_2>
+            generic(const core::string<CHAR_2>& _string)
+            {
+                d_type = data::STRING;
+                d_string = new core::string<CHAR>(_string);
+            }
+
             generic(const core::array< generic<CHAR> >&);
 
             template <typename CHAR_2>
@@ -710,13 +716,6 @@ namespace z
             other.d_type = data::NONE;
         }
 
-
-        template <typename CHAR>
-        generic<CHAR>::generic(const core::string<CHAR>& _string)
-        {
-            d_type = data::STRING;
-            d_string = new core::string<CHAR>(_string);
-        }
 
         template <typename CHAR>
         generic<CHAR>::generic(const core::array< generic<CHAR> >& _array)

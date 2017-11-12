@@ -5,7 +5,7 @@
 #include <z/core/array.h>
 #include <z/script/compiler/keyword.h>
 
-enum KEYWORDS
+enum keyword
 {
     KWD_NONE = 0,
     IF,
@@ -61,7 +61,7 @@ ARRAY* genKeywords()
         KWD("sub",      SUBR),
         KWD("run",      RUN),
         KWD("stop",     STOP),
-        KWD("include",  INCLUDE),
+        //KWD("include",  INCLUDE),
         KWD("break",    BREAK),
         KWD("return",   RETURN),
         KWD("dim",      DIM),
@@ -69,7 +69,7 @@ ARRAY* genKeywords()
         KWD("until",    UNTIL),
         KWD("var",      VAR),
         KWD("type",     TYPE),
-        KWD("external", EXTERNAL),
+        //KWD("external", EXTERNAL),
         KWD("shared",   SHARED)
     };
 

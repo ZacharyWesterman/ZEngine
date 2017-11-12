@@ -7,7 +7,6 @@ list		: { }
 
 parenthexpr	: !IDENTIFIER ( boolexpr )
 		| operand
-		| sizeofexpr
 
 factorialexpr	: parenthexpr !
 		| parenthexpr
@@ -49,7 +48,6 @@ boolexpr	: "not" addexpr
 		| addexpr ~| addexpr
 		| addexpr ~: addexpr
 		| addexpr
-		| assignexpr
 
 assignexpr	: var = boolexpr
 		| var += boolexpr
@@ -58,6 +56,7 @@ assignexpr	: var = boolexpr
 		| var /= boolexpr
 		| var //= boolexpr
 		| var %= boolexpr
+		| var ... assignexpr
 
 sizeofexpr	: "sizeof" ( boolexpr )
 
@@ -65,7 +64,8 @@ variable_decl	: "var" IDENTIFIER ;
 		| "var" IDENTIFIER = boolexpr ;
 
 typevar_decl	: IDENTIFIER IDENTIFIER ;
-		| IDENTIFIER IDENTIFIER  = list ;
+		| IDENTIFIER IDENTIFIER  = boolexpr ;
+		| IDENTIFIER IDENTIFIER = ( exprlist ) ;
 
 funccall	: IDENTIFIER ( )
 		| IDENTIFIER ( boolexpr )
@@ -147,11 +147,11 @@ statementlist	: statement statement
 dimensionexpr	: IDENTIFIER . "dim" ( boolexpr )
 		| dim ( boolexpr )
 
-foreach_statement:"for" "each" variable "in" variable statement
-		| "for" "each" variable "in" variable { statement }
-		| "for" "each" variable "in" variable { statementlist }
-		| "for" "each" variable "in" variable { }
-		| "for" "each" variable "in" variable ;
+foreach_statement:"for" "each" ( (variable_decl or typevar_decl) boolexpr ) statement
+		| "for" "each" ( (variable_decl or typevar_decl) boolexpr ) { statement }
+		| "for" "each" ( (variable_decl or typevar_decl) boolexpr ) { statementlist }
+		| "for" "each" ( (variable_decl or typevar_decl) boolexpr ) { }
+		| "for" "each" ( (variable_decl or typevar_decl) boolexpr ) ;
 
 loop_statement	: "loop" statement !"while"
 		| "loop" { statement } !"while"
@@ -165,9 +165,9 @@ goto_statement	: "goto" IDENTIFIER ;
 
 gosub_statement : "gosub" IDENTIFIER ;
 
-subroutine_decl : "sub" IDENTIFIER { }
-		| "sub" IDENTIFIER { statement }
-		| "sub" IDENTIFIER { statementlist }
+subroutine_decl : "sub" IDENTIFIER { } ;
+		| "sub" IDENTIFIER { statement } ;
+		| "sub" IDENTIFIER { statementlist } ;
 
 while_pre_stmt	: "loop" "while" ( boolexpr ) statement
 		| "loop" "while" ( boolexpr ) { statement }
@@ -192,7 +192,8 @@ until_statement	: "wait" "until" boolexpr ;
 
 externaldecl	: "external" variable ;
 
-shareddecl	: "shared" variable ;
+shareddecl	: "shared" variable_decl
+		| "shared" typevar_decl
 
 range		: boolexpr -> boolexpr
 		| boolexpr <- boolexpr
@@ -245,10 +246,11 @@ int_declaration	: variable_decl
 int_decllist	: if#"type" IDENTIFIER {# int_declaration int_declaration
 		| int_decllist int_declaration
 
-typedecl	: "type" IDENTIFIER { variable_decl }
-		| "type" IDENTIFIER { typevar_decl }
-		| "type" IDENTIFIER { function_decl }
-		| "type" IDENTIFIER { int_decllist }
+typedecl	: "type" IDENTIFIER { variable_decl } ;
+		| "type" IDENTIFIER { typevar_decl } ;
+		| "type" IDENTIFIER { function_decl } ;
+		| "type" IDENTIFIER { func_prototype } ;
+		| "type" IDENTIFIER { int_decllist } ;
 
 PSEUDO:
 ext_decl	: variable_decl

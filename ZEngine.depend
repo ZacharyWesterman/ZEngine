@@ -2193,7 +2193,7 @@
 
 1489353285 c:\users\zachary\documents\github\zengine\\z\script\errors.h
 
-1506889681 source:/home/zwesterman/GitHub/ZEngine/main.cpp
+1510513637 source:/home/zwesterman/GitHub/ZEngine/main.cpp
 	<iostream>
 	<z/core.h>
 	<z/math.h>
@@ -2217,7 +2217,7 @@
 	"core/pause.h"
 	"core/charFunctions.h"
 
-1507239151 /home/zwesterman/GitHub/zLibraries/z/core/string.h
+1510269445 /home/zwesterman/GitHub/zLibraries/z/core/string.h
 	<type_traits>
 	<complex>
 	<z/float.h>
@@ -2302,7 +2302,7 @@
 1504656435 /home/zwesterman/GitHub/zLibraries/z/math/factorial.h
 	<cmath>
 
-1504654717 /home/zwesterman/GitHub/zLibraries/z/math/fibonacci.h
+1508470967 /home/zwesterman/GitHub/zLibraries/z/math/fibonacci.h
 	"constants.h"
 	<math.h>
 	<z/float.h>
@@ -2434,9 +2434,9 @@
 	<complex>
 	<type_traits>
 
-1504760261 /home/zwesterman/GitHub/zLibraries/z/file/exists.h
+1509054763 /home/zwesterman/GitHub/zLibraries/z/file/exists.h
 	<z/core/string.h>
-	<fstream>
+	<sys/stat.h>
 
 1499916514 /home/zwesterman/GitHub/ZEngine/z/script/parser/lexerPhraseDetection.h
 
@@ -2917,10 +2917,10 @@
 	"script/command.h"
 	"script/compiler.h"
 
-1506557762 /home/zwesterman/GitHub/ZEngine//z/script/error.h
+1507346414 /home/zwesterman/GitHub/ZEngine//z/script/error.h
 	<z/core/string.h>
 
-1507246254 /home/zwesterman/GitHub/ZEngine//z/script/generic.h
+1509768156 /home/zwesterman/GitHub/ZEngine//z/script/generic.h
 	<z/float.h>
 	<z/core/string.h>
 	<z/core/array.h>
@@ -2929,19 +2929,19 @@
 	<complex>
 	<type_traits>
 
-1506554036 /home/zwesterman/GitHub/ZEngine//z/script/function.h
+1507346414 /home/zwesterman/GitHub/ZEngine//z/script/function.h
 	<z/core/string.h>
 	<z/core/array.h>
 	<z/core/timeout.h>
 	"generic.h"
 
-1506554036 /home/zwesterman/GitHub/ZEngine//z/script/command.h
+1507346414 /home/zwesterman/GitHub/ZEngine//z/script/command.h
 	<z/core/string.h>
 	<z/core/array.h>
 	<z/core/timeout.h>
 	"generic.h"
 
-1506645428 /home/zwesterman/GitHub/ZEngine//z/script/compiler.h
+1510270007 /home/zwesterman/GitHub/ZEngine//z/script/compiler.h
 	"compiler/scanner.h"
 	"compiler/lexer.h"
 	"compiler/constantFolder.h"
@@ -2949,16 +2949,16 @@
 	"compiler/semanticAnalyzer.h"
 	"compiler/includeIterator.h"
 
-1506626916 /home/zwesterman/GitHub/ZEngine//z/script/compiler/escapeSequences.h
+1507346414 /home/zwesterman/GitHub/ZEngine//z/script/compiler/escapeSequences.h
 	<z/core/string.h>
 
-1506646976 /home/zwesterman/GitHub/ZEngine//z/script/compiler/identity.h
+1510270014 /home/zwesterman/GitHub/ZEngine//z/script/compiler/identity.h
 	<z/core/string.h>
 	"identEnum.h"
 	"../generic.h"
 	"../error.h"
 
-1506626726 /home/zwesterman/GitHub/ZEngine//z/script/compiler/scanner.h
+1510269037 /home/zwesterman/GitHub/ZEngine//z/script/compiler/scanner.h
 	<limits>
 	<z/core/sortedArray.h>
 	<z/core/string.h>
@@ -2969,11 +2969,11 @@
 	"keyword.h"
 	"operator.h"
 
-1506649612 /home/zwesterman/GitHub/ZEngine//z/script/compiler/phrase.h
+1510266871 /home/zwesterman/GitHub/ZEngine//z/script/compiler/phrase.h
 	<z/core/array.h>
 	"identity.h"
 
-1506890231 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lexer.h
+1510269324 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lexer.h
 	<z/core/timeout.h>
 	<z/core/array.h>
 	<z/core/dynamicStack.h>
@@ -3035,7 +3035,7 @@
 	"syntaxRules/program.h"
 	"syntaxRules/stop_statement.h"
 
-1506648321 /home/zwesterman/GitHub/ZEngine//z/script/compiler/syntaxRule.h
+1510267155 /home/zwesterman/GitHub/ZEngine//z/script/compiler/syntaxRule.h
 	"error.h"
 	"phrase.h"
 	<z/core/array.h>
@@ -3152,7 +3152,7 @@
 
 1504986116 /home/zwesterman/GitHub/ZEngine//z/script/compiler/syntaxErrors/error_for.h
 
-1506556857 /home/zwesterman/GitHub/ZEngine//z/script/compiler/constantFolder.h
+1509765903 /home/zwesterman/GitHub/ZEngine//z/script/compiler/constantFolder.h
 	<z/core/dynamicStack.h>
 	<z/core/timeout.h>
 	"../error.h"
@@ -3164,7 +3164,7 @@
 1505087960 /home/zwesterman/GitHub/ZEngine//z/script/compiler/signatures.h
 	<z/core/array.h>
 
-1506556886 /home/zwesterman/GitHub/ZEngine//z/script/compiler/semanticAnalyzer.h
+1509765903 /home/zwesterman/GitHub/ZEngine//z/script/compiler/semanticAnalyzer.h
 	<z/core/array.h>
 	<z/core/dynamicStack.h>
 	<z/core/timeout.h>
@@ -3176,7 +3176,7 @@
 	"varScope.h"
 	<iostream>
 
-1506554152 /home/zwesterman/GitHub/ZEngine//z/script/compiler/includeIterator.h
+1509765902 /home/zwesterman/GitHub/ZEngine//z/script/compiler/includeIterator.h
 	<z/core/array.h>
 	<z/file/reader.h>
 	<z/file/shorten.h>
@@ -3186,31 +3186,184 @@
 	"lexer.h"
 	<iostream>
 
-1506622093 /home/zwesterman/GitHub/ZEngine//z/script/compiler/keyword.h
+1507346414 /home/zwesterman/GitHub/ZEngine//z/script/compiler/keyword.h
 	<z/core/string.h>
 
-1506621397 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.keywords.h
+1510376269 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.keywords.h
 	<z/core/array.h>
 	<z/script/compiler/keyword.h>
 
-1506622064 /home/zwesterman/GitHub/ZEngine//z/script/compiler/operator.h
+1507346414 /home/zwesterman/GitHub/ZEngine//z/script/compiler/operator.h
 	<z/core/string.h>
 
-1506621861 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.operators.h
+1507943095 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.operators.h
 	<z/core/sortedArray.h>
 	<z/script/compiler/operator.h>
 
-1506625137 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.comments.h
+1507346414 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.comments.h
 	<z/core/string.h>
 	<z/core/array.h>
 
-1506646967 /home/zwesterman/GitHub/ZEngine//z/script/compiler/identEnum.h
+1507346414 /home/zwesterman/GitHub/ZEngine//z/script/compiler/identEnum.h
 
-1506890565 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax.h
+1510515349 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax.h
 	<z/core/array.h>
 	<z/script/compiler/syntaxRule.h>
 	"lang.syntax/program.h"
+	"lang.syntax/operand.h"
+	"lang.syntax/variable.h"
+	"lang.syntax/variable_decl.h"
+	"lang.syntax/typevar_decl.h"
+	"lang.syntax/parenthexpr.h"
+	"lang.syntax/factorialexpr.h"
+	"lang.syntax/add1expr.h"
+	"lang.syntax/negatexpr.h"
+	"lang.syntax/powerexpr.h"
+	"lang.syntax/multiplyexpr.h"
+	"lang.syntax/addexpr.h"
+	"lang.syntax/boolexpr.h"
+	"lang.syntax/assignexpr.h"
+	"lang.syntax/sizeofexpr.h"
+	"lang.syntax/dimensionexpr.h"
+	"lang.syntax/range.h"
+	"lang.syntax/rangelist.h"
+	"lang.syntax/index.h"
+	"lang.syntax/varindex.h"
+	"lang.syntax/exprlist.h"
+	"lang.syntax/list.h"
+	"lang.syntax/statement.h"
+	"lang.syntax/statementlist.h"
+	"lang.syntax/if_statement.h"
+	"lang.syntax/for_statement.h"
+	"lang.syntax/foreach_statement.h"
+	"lang.syntax/loop_statement.h"
+	"lang.syntax/while_pre_stmt.h"
+	"lang.syntax/while_post_stmt.h"
+	"lang.syntax/return_statement.h"
+	"lang.syntax/run_statement.h"
+	"lang.syntax/stop_statement.h"
+	"lang.syntax/wait_statement.h"
+	"lang.syntax/until_statement.h"
+	"lang.syntax/identifierlist.h"
+	"lang.syntax/command.h"
+	"lang.syntax/funccall.h"
+	"lang.syntax/func_prototype.h"
+	"lang.syntax/function_decl.h"
+	"lang.syntax/formalvardecl.h"
+	"lang.syntax/formaltypedecl.h"
+	"lang.syntax/formaldecllist.h"
+	"lang.syntax/type_funccall.h"
+	"lang.syntax/typevar.h"
+	"lang.syntax/typedecl.h"
+	"lang.syntax/int_decllist.h"
+	"lang.syntax/subroutine_decl.h"
+	"lang.syntax/gosub_statement.h"
+	"lang.syntax/label_statement.h"
+	"lang.syntax/goto_statement.h"
+	"lang.syntax/shareddecl.h"
 
-1506890416 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/program.h
+1510267335 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/program.h
 	<z/script/compiler/syntaxRule.h>
+
+1510261047 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/operand.h
+
+1510265247 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/variable.h
+
+1510261048 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/parenthexpr.h
+
+1510261047 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/addexpr.h
+
+1510261050 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/factorialexpr.h
+
+1510261048 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/add1expr.h
+
+1510261049 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/negatexpr.h
+
+1510261051 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/powerexpr.h
+
+1510261051 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/multiplyexpr.h
+
+1510261050 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/boolexpr.h
+
+1510261047 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/assignexpr.h
+
+1510261051 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/sizeofexpr.h
+
+1510261048 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/dimensionexpr.h
+
+1510261049 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/exprlist.h
+
+1510263684 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/list.h
+
+1510371159 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/statement.h
+
+1510261050 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/command.h
+
+1510364168 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/identifierlist.h
+
+1510261914 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/for_statement.h
+
+1510261048 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/statementlist.h
+
+1510290027 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/funccall.h
+
+1510261049 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/function_decl.h
+
+1510261049 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/formalvardecl.h
+
+1510261050 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/formaltypedecl.h
+
+1510261051 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/formaldecllist.h
+
+1510261048 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/func_prototype.h
+
+1510261048 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/range.h
+
+1510261047 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/rangelist.h
+
+1510261049 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/index.h
+
+1510261050 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/varindex.h
+
+1510261051 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/type_funccall.h
+
+1510261049 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/typevar.h
+
+1510263263 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/return_statement.h
+
+1510265287 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/variable_decl.h
+
+1510265789 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/typevar_decl.h
+
+1510289027 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/run_statement.h
+
+1510288969 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/stop_statement.h
+
+1510364093 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/typedecl.h
+
+1510364553 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/int_decllist.h
+
+1510366320 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/subroutine_decl.h
+
+1510366690 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/gosub_statement.h
+
+1510367039 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/label_statement.h
+
+1510366827 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/goto_statement.h
+
+1510369436 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/shareddecl.h
+
+1510376926 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/wait_statement.h
+
+1510376797 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/until_statement.h
+
+1510378272 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/if_statement.h
+
+1510379495 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/loop_statement.h
+
+1510513128 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/while_pre_stmt.h
+
+1510513920 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/while_post_stmt.h
+
+1510515731 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/foreach_statement.h
 

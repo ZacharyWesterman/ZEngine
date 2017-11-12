@@ -28,58 +28,69 @@ namespace script
 {
     namespace compiler
     {
-        template <typename CHAR>
-        class program : public syntaxRule<CHAR>
+        class program : public syntaxRule
         {
         public:
             ~program() {}
 
-            bool apply(core::array< phrase_t<CHAR>* >*,
-                       int);
+            bool apply(core::array< phrase_t* >*,
+                       int,
+                       core::array<error>*);
         };
 
-        template <typename CHAR>
-        bool program<CHAR>::apply(core::array< phrase_t<CHAR>* >* phrase_nodes,
-                                  int index)
+        bool program::apply(core::array< phrase_t* >* phrase_nodes,
+                                  int index,
+                                  core::array<error>* error_buffer)
         {
-            if ((phrase_nodes->at(index)->type == PROGRAM) &&
-                phrase_nodes->is_valid(index+1))
+            if (phrase_nodes->is_valid(index+1) &&
+                (phrase_nodes->at(index)->type == PROGRAM) &&
+                ((phrase_nodes->at(index+1)->type == VARIABLE_DECL) ||
+                 (phrase_nodes->at(index+1)->type == TYPEVAR_DECL) ||
+                 (phrase_nodes->at(index+1)->type == FUNC_PROTOTYPE) ||
+                 (phrase_nodes->at(index+1)->type == FUNCTION_DECL) ||
+                 (phrase_nodes->at(index+1)->type == TYPEDECL) ||
+                 (phrase_nodes->at(index+1)->type == EXTERNALDECL) ||
+                 (phrase_nodes->at(index+1)->type == SHAREDDECL) ||
+                 (phrase_nodes->at(index+1)->type == SUBROUTINE_DECL)
+                 )
+                )
             {
-                if (phrase_nodes->at(index+1)->type == PROGRAM)
-                {
-                    phrase_nodes->at(index)->children.
-                        add(phrase_nodes->at(index+1)->children);
+                phrase_nodes->at(index+1)->parent = phrase_nodes->at(index);
+                phrase_nodes->at(index)->children.add(phrase_nodes->at(index+1));
 
-                    delete phrase_nodes->at(index+1);
-                    phrase_nodes->remove(index+1);
-                }
-                else
-                {
-                    phrase_nodes->at(index+1)->parent = phrase_nodes->at(index);
-                    phrase_nodes->at(index)->children.add(phrase_nodes->at(index+1));
-
-                    phrase_nodes->remove(index+1);
-                }
+                phrase_nodes->remove(index+1);
 
                 return true;
             }
-            else if (phrase_nodes->at(index)->type != PROGRAM)
+            else if ((phrase_nodes->at(index)->type == VARIABLE_DECL) ||
+                     (phrase_nodes->at(index)->type == TYPEVAR_DECL) ||
+                     (phrase_nodes->at(index)->type == FUNC_PROTOTYPE) ||
+                     (phrase_nodes->at(index)->type == FUNCTION_DECL) ||
+                     (phrase_nodes->at(index)->type == TYPEDECL) ||
+                     (phrase_nodes->at(index)->type == EXTERNALDECL) ||
+                     (phrase_nodes->at(index)->type == SHAREDDECL) ||
+                     (phrase_nodes->at(index)->type == SUBROUTINE_DECL)
+                     )
             {
+                phrase_t* pIndex = phrase_nodes->at(index);
 
-                phrase_t<CHAR>* node = new phrase_t<CHAR>();
+                phrase_t* node =
+                    new phrase_t(*pIndex, PROGRAM);
 
                 node->type = PROGRAM;
-                node->file = phrase_nodes->at(index)->file;
 
-                node->line = phrase_nodes->at(index)->line;
-                node->column = phrase_nodes->at(index)->column;
-
-                phrase_nodes->at(index)->parent = node;
-                node->children.add(phrase_nodes->at(index));
+                pIndex->parent = node;
+                node->children.add(pIndex);
 
 
                 phrase_nodes->at(index) = node;
                 return true;
+            }
+            else if (phrase_nodes->at(index)->type != PROGRAM)
+            {
+                if (error_buffer->size() == 0)
+                    error_buffer->add(newError(phrase_nodes->at(index),
+                                               "Syntax error"));
             }
 
             return false;

@@ -1,3 +1,5 @@
+//#define CPL_CHAR wchar_t
+
 //#define Z_USE_DOUBLE
 #include <iostream>
 
@@ -36,17 +38,16 @@ void printErrors(const core::array< script::error >& error_buffer)
     }
 }
 
-void printIdents(const core::array< compiler::ident_t<char> >& idents)
+void printIdents(const core::array< compiler::ident_t >& idents)
 {
     for (int i=0; i<idents.size(); i++)
     {
         cout << compiler::symTypeStr[idents[i].type];
-        /*if (idents[i].meta)
-            cout << " Mt=" << idents[i].metaValue << endl;
-        else
-            cout << " Va=" << idents[i].value.string().str() << endl;*/
-
-
+        if (idents[i].meta)
+            cout << " Mt=" << ((core::string<CPL_CHAR>*)idents[i].meta)->narrow().str();
+        if (idents[i].value.type())
+            cout << " Va=" << idents[i].value.string().narrow().str();
+        cout << endl;
     }
 }
 
@@ -57,21 +58,26 @@ int main(int argc, char* argv[])
     core::array<compiler::oper>* operators = genOperators();
     core::array< core::string<char> >* comments = genCommentRules();
 
-    core::sortedRefArray< core::string<char>* > symbol_table;
+    core::sortedRefArray< core::string<CPL_CHAR>* > symbol_table;
     core::sortedRefArray< core::string<char>* > file_list;
 
-    core::array< z::script::compiler::ident_t<char> > idents;
+    core::array< z::script::compiler::ident_t > idents;
 
     core::string<char> file = "test.txt";
 
-    z::file::reader<char> Reader;
+    core::timeout time (-1);
+
+    z::file::reader<CPL_CHAR> Reader;
     Reader.set(file);
     Reader.read();
-    core::string<char> input(Reader.getContents());
+    core::string<CPL_CHAR> input (Reader.getContents());
     Reader.clear();
 
+    //cout << input.narrow().str() << "\n\n";
 
-    z::script::compiler::scanner<char> Scanner(&symbol_table,
+
+
+    z::script::compiler::scanner Scanner(&symbol_table,
                                                keywords,
                                                operators,
                                                comments,
@@ -80,28 +86,30 @@ int main(int argc, char* argv[])
 
     Scanner.linkInput(&input);
 
-    Scanner.scan();
+    Scanner.scan(time);
 
     printErrors(Scanner.error_buffer);
 
     //printIdents(idents);
 
 
-    core::array< compiler::syntaxRule<char>* >* syntax;
-    syntax = genSyntaxRulesC();
+    core::array< compiler::syntaxRule* >* syntax;
+    syntax = genSyntaxRules();
 
-    compiler::syntaxRule<char>* program;
-    program = genProgramRuleC();
+    compiler::syntaxRule* program;
+    program = genProgramRule();
 
-    z::script::compiler::lexer<char> Lexer(syntax, program);
+    z::script::compiler::lexer Lexer(syntax, program);
     Lexer.linkInput(&idents);
 
     //cout << program << endl;
 
-    Lexer.lex();
+    Lexer.lex(time);
 
-    //compiler::phrase_t<char>* AST = Lexer.moveResultAST();
+    //compiler::phrase_t* AST = Lexer.moveResultAST();
     printErrors(Lexer.error_buffer);
+
+    cout << "\nLoading + compile time = " << time.seconds() << "s.\n";
 
 
 

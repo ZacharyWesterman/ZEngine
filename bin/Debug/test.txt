@@ -1,10 +1,11 @@
 var main()
 {
-    var x = 0;
+    var x = 101;
 
-    loop while (x < 100)
+    loop
     {
         print {x};
         x++;
     }
+    while (x < 100);
 }

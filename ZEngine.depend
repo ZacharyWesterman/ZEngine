@@ -2193,7 +2193,7 @@
 
 1489353285 c:\users\zachary\documents\github\zengine\\z\script\errors.h
 
-1510270174 source:/home/zwesterman/GitHub/ZEngine/main.cpp
+1510513637 source:/home/zwesterman/GitHub/ZEngine/main.cpp
 	<iostream>
 	<z/core.h>
 	<z/math.h>
@@ -3206,7 +3206,7 @@
 
 1507346414 /home/zwesterman/GitHub/ZEngine//z/script/compiler/identEnum.h
 
-1510513168 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax.h
+1510513951 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax.h
 	<z/core/array.h>
 	<z/script/compiler/syntaxRule.h>
 	"lang.syntax/program.h"
@@ -3237,6 +3237,7 @@
 	"lang.syntax/for_statement.h"
 	"lang.syntax/loop_statement.h"
 	"lang.syntax/while_pre_stmt.h"
+	"lang.syntax/while_post_stmt.h"
 	"lang.syntax/return_statement.h"
 	"lang.syntax/run_statement.h"
 	"lang.syntax/stop_statement.h"
@@ -3360,4 +3361,6 @@
 1510379495 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/loop_statement.h
 
 1510513128 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/while_pre_stmt.h
+
+1510513920 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/while_post_stmt.h
 

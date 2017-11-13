@@ -31,13 +31,13 @@ namespace script
 
             bool apply(core::array< phrase_t* >*,
                        int,
-                       core::array<error>*);
+                       core::array<error>*) const;
         };
 
 
         bool formaldecllist::apply(core::array< phrase_t* >* phrase_nodes,
                                   int index,
-                                  core::array<error>* error_buffer)
+                                  core::array<error>* error_buffer) const
         {
             if (phrase_nodes->is_valid(index+2))
             {

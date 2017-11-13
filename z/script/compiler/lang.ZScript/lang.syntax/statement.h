@@ -32,13 +32,13 @@ namespace script
 
             bool apply(core::array< phrase_t* >*,
                        int,
-                       core::array<error>*);
+                       core::array<error>*) const;
         };
 
 
         bool statement::apply(core::array< phrase_t* >* phrase_nodes,
                                   int index,
-                                  core::array<error>* error_buffer)
+                                  core::array<error>* error_buffer) const
         {
             //remove excess
             if ((!phrase_nodes->is_valid(index-1) ||

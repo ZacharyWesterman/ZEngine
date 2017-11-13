@@ -1,7 +1,4 @@
-var main()
+var main(var a, var b, var c, var d)
 {
-    var list = {1,2,3,4};
 
-    for each (var element; list)
-        print {element};
 }

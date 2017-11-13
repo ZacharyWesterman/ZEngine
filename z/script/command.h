@@ -24,8 +24,6 @@ namespace z
 {
     namespace script
     {
-
-        template <typename CHAR>
         class command
         {
         private:
@@ -35,16 +33,13 @@ namespace z
             bool graphics_required;
             bool sound_required;
 
-            core::array< core::string<CHAR> > cmd_name;
+            core::array< core::string<char> > cmd_name;
 
             int params_min;
             int params_max;
 
-        protected:
-            core::array< generic<CHAR> > params;
-
         public:
-            command(const core::array< core::string<CHAR> >& _name,
+            command(const core::array< core::string<char> >& _name,
                       int min_params = -1,
                       int max_params = -1,
                       void* _graphics_engine = NULL,
@@ -70,16 +65,14 @@ namespace z
             virtual ~command() {}
 
 
-            virtual errorFlag addParam(const generic<CHAR>& next_param)
-            {
-                params.add(next_param);
-
-                return error();
-            }
+            virtual bool execute(const core::timeout&,
+                                 const generic<CPL_CHAR>&,
+                                 void*, //temporary memory pointer
+                                 core::array<error>*) const = 0;
 
             //call this script function (with timeout).
             //should return true if finished, false otherwise
-            virtual bool call(const core::timeout&) = 0;
+            virtual bool call(const core::timeout&) const = 0;
 
 
             inline void setGraphicsEngine(void* _engine, bool required = true)
@@ -93,9 +86,6 @@ namespace z
                 sound_engine = _engine;
                 sound_required = required;
             }
-
-            inline void clear()
-            { params.clear(); }
 
 
             inline bool requiresGraphics() const
@@ -121,19 +111,6 @@ namespace z
             inline const int minParams() const
             { return params_min; }
 
-
-            errorFlag paramCountError() const
-            {
-                if (params_max < 0)
-                    return error();
-
-                if (params.size() > params_max)
-                    return error("Too many parameters");
-                else if (params.size() < params_min)
-                    return error("Too few parameters");
-                else
-                    return error();
-            }
 
 
             bool operator==(const command<CHAR>& other) const

@@ -82,7 +82,7 @@ namespace script
             ///Identifier for the current type that the function is in.
             void* inType;
 
-            ///List of identifiers for each parameter's name.
+            ///List of identifiers for each parameter's type.
             core::array< void* > paramTypes;
 
             ///List of unique ID values for each parameter.

@@ -14,7 +14,7 @@
 
 #include <z/script/compiler.h>
 
-
+#include <z/script/compiler/semanticRule.h>
 
 
 //using namespace std;

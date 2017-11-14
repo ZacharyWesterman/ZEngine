@@ -25,8 +25,6 @@ namespace z
 {
     namespace script
     {
-
-        template <typename CHAR>
         class function
         {
         private:
@@ -36,20 +34,16 @@ namespace z
             bool graphics_required;
             bool sound_required;
 
-            core::string<CHAR> func_name;
+            core::string<char> func_name;
 
             int params_min;
             int params_max;
 
             bool is_constant;
 
-        protected:
-            core::array< generic<CHAR> > params;
-            generic<CHAR> return_value;
-
         public:
 
-            function(core::string<CHAR> _name,
+            function(core::string<char> _name,
                        bool _constant = false,
                        int min_params = -1,
                        int max_params = -1,
@@ -76,17 +70,13 @@ namespace z
 
             virtual ~function() {}
 
-
-            virtual errorFlag addParam(const generic<CHAR>& next_param)
-            {
-                params.add(next_param);
-
-                return error();
-            }
-
             //call this script function (with timeout).
             //should return true if finished, false otherwise
-            virtual bool call(const core::timeout&) = 0;
+            virtual bool call(const core::timeout&,
+                              const generic<CPL_CHAR>&,//input parameter(s)
+                              const generic<CPL_CHAR>&,//output value
+                              void*, //temporary memory pointer
+                              core::array<error>*) const = 0;
 
 
             inline void setGraphicsEngine(void* _engine, bool required = true)
@@ -99,13 +89,6 @@ namespace z
             {
                 sound_engine = _engine;
                 sound_required = required;
-            }
-
-
-            inline void clear()
-            {
-                return_value.clear();
-                params.clear();
             }
 
 
@@ -138,19 +121,6 @@ namespace z
             inline const generic<CHAR>& result() const
             { return return_value; }
 
-
-            errorFlag paramCountError() const
-            {
-                if (params_max < 0)
-                    return error();
-
-                if (params.size() > params_max)
-                    return error("Too many parameters");
-                else if (params.size() < params_min)
-                    return error("Too few parameters");
-                else
-                    return error();
-            }
 
 
             bool operator==(const function<CHAR>& other) const

@@ -18,6 +18,7 @@ namespace script
             virtual ~semanticRule() {}
 
             virtual bool check(varScope*,
+                               int&,//current index
                                core::array<error>*) = 0;
         };
     }

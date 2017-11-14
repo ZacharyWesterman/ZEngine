@@ -109,6 +109,7 @@
 		<Unit filename="z/script/compiler/phrase.h" />
 		<Unit filename="z/script/compiler/scanner.h" />
 		<Unit filename="z/script/compiler/semanticAnalyzer.h" />
+		<Unit filename="z/script/compiler/semanticRule.h" />
 		<Unit filename="z/script/compiler/signatures.h" />
 		<Unit filename="z/script/compiler/syntaxErrors/error_for.h" />
 		<Unit filename="z/script/compiler/syntaxErrors/error_oper.h" />

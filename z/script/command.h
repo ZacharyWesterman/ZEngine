@@ -102,7 +102,7 @@ namespace z
             { return sound_engine; }
 
 
-            inline const core::array< core::string<CHAR> >& name() const
+            inline const core::array< core::string<char> >& name() const
             { return cmd_name; }
 
             inline const int maxParams() const
@@ -113,34 +113,34 @@ namespace z
 
 
 
-            bool operator==(const command<CHAR>& other) const
+            bool operator==(const command& other) const
             {
                 return (params_max == other.params_max) &&
                        (params_min == other.params_min) &&
                        (cmd_name == other.cmd_name);
             }
 
-            inline bool operator!=(const command<CHAR>& other) const
+            inline bool operator!=(const command& other) const
             { return !operator==(other); }
 
-            bool operator>(const command<CHAR>& other) const
+            bool operator>(const command& other) const
             {
                 return (cmd_name > other.cmd_name) ||
                        (params_max > other.params_max) ||
                        (params_min > other.params_min);
             }
 
-            inline bool operator<=(const command<CHAR>& other) const
+            inline bool operator<=(const command& other) const
             { return !operator>(other); }
 
-            bool operator<(const command<CHAR>& other) const
+            bool operator<(const command& other) const
             {
                 return (cmd_name < other.cmd_name) ||
                        (params_max < other.params_max) ||
                        (params_min < other.params_min);
             }
 
-            inline bool operator>=(const command<CHAR>& other) const
+            inline bool operator>=(const command& other) const
             { return !operator<(other); }
         };
     }

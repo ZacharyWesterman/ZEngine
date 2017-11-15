@@ -106,7 +106,7 @@ namespace z
             { return sound_engine; }
 
 
-            inline const core::string<CHAR>& name() const
+            inline const core::string<char>& name() const
             { return func_name; }
 
             inline const int maxParams() const
@@ -118,39 +118,35 @@ namespace z
             inline const bool constant() const
             { return is_constant; }
 
-            inline const generic<CHAR>& result() const
-            { return return_value; }
 
-
-
-            bool operator==(const function<CHAR>& other) const
+            bool operator==(const function& other) const
             {
                 return (params_max == other.params_max) &&
                        (params_min == other.params_min) &&
                        (func_name == other.func_name);
             }
 
-            inline bool operator!=(const function<CHAR>& other) const
+            inline bool operator!=(const function& other) const
             { return !operator==(other); }
 
-            bool operator>(const function<CHAR>& other) const
+            bool operator>(const function& other) const
             {
                 return (func_name > other.func_name) ||
                        (params_max > other.params_max) ||
                        (params_min > other.params_min);
             }
 
-            inline bool operator<=(const function<CHAR>& other) const
+            inline bool operator<=(const function& other) const
             { return !operator>(other); }
 
-            bool operator<(const function<CHAR>& other) const
+            bool operator<(const function& other) const
             {
                 return (func_name < other.func_name) ||
                        (params_max < other.params_max) ||
                        (params_min < other.params_min);
             }
 
-            inline bool operator>=(const function<CHAR>& other) const
+            inline bool operator>=(const function& other) const
             { return !operator<(other); }
         };
 

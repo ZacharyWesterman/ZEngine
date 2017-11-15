@@ -1,4 +1,5 @@
-var main(var a, var b, var c, var d)
+var main()
 {
-
+    var x;
+    var x = 12*x;
 }

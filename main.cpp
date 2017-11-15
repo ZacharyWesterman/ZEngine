@@ -16,8 +16,6 @@
 #include <z/script/compiler.h>
 
 //#include <z/script/compiler/semanticRule.h>
-
-
 //using namespace std;
 
 
@@ -114,7 +112,7 @@ int main(int argc, char* argv[])
     printErrors(Lexer.error_buffer);
 
 
-   compiler::phrase_t* AST = Lexer.moveResultAST();
+    compiler::phrase_t* AST = Lexer.moveResultAST();
 
     core::array<compiler::semanticRule*>* semantics;
     semantics = genSemanticRules();
@@ -125,7 +123,9 @@ int main(int argc, char* argv[])
 
     Analyzer.analyze(time);
 
-    cout << "\nLoading + compile time = " << time.seconds() << "s.\n";
+    printErrors(Analyzer.error_buffer);
+
+    cout << "Loading + compile time = " << time.seconds() << "s.\n";
 
 
     compiler::deleteNode(AST);

@@ -200,49 +200,46 @@ namespace script
         {
             while (!is_done && !time.timedOut())
             {
+                //check each rule,
+                int r = 0;
+                while ((r < (rules->size())) &&
+                       !(rules->at(r)->check(commands,
+                                            functions,
+                                            &semantics,
+                                            root,
+                                            index,
+                                            &error_buffer))
+                        )
+                {
+                    r++;
+                }
+
+                //then enter the next available node.
                 if ((index >= (root->children).size()) ||
                     (index < 0)
                     )
-                {
                     exit_node();
-                }
                 else
-                {
-                    int r = 0;
-
-                    while ((r < (rules->size())) &&
-                           !(rules->at(r)->check(commands,
-                                                 functions,
-                                                 &semantics,
-                                                 root,
-                                                 index,
-                                                 &error_buffer))
-                           )
-                    {
-                        r++;
-                    }
-
                     enter_node(index);
-                }
             }
 
             ///debug
             if (is_done)
             {
                 printScope(semantics.globalScope);
-                cout << endl;
                 //print functions
                 for (int i=0; i<semantics.functionList.size(); i++)
                 {
+                    cout << endl;
                     core::string<char> msg;
                     genFuncSigString(semantics.functionList[i], msg);
                     cout << msg.str() << ", \tID="
-                         << semantics.functionList[i].uniqueID << endl;
+                         << semantics.functionList[i].uniqueID;
                 }
-                cout << endl;
                 //print types
                 for (int i=0; i<semantics.typeList.size(); i++)
                 {
+                    cout << endl;
                     cout << "type "
                          << ((core::string<CPL_CHAR>*)semantics.typeList[i].type)->narrow().str()
                          << "{ vars=";
@@ -261,7 +258,6 @@ namespace script
                     }
                     cout << " }";
                 }
-                cout << endl;
             }
 
             return is_done;

@@ -2193,7 +2193,7 @@
 
 1489353285 c:\users\zachary\documents\github\zengine\\z\script\errors.h
 
-1510715454 source:/home/zwesterman/GitHub/ZEngine/main.cpp
+1510772079 source:/home/zwesterman/GitHub/ZEngine/main.cpp
 	<iostream>
 	<z/core.h>
 	<z/math.h>
@@ -3166,7 +3166,7 @@
 1510706781 /home/zwesterman/GitHub/ZEngine//z/script/compiler/signatures.h
 	<z/core/array.h>
 
-1510715627 /home/zwesterman/GitHub/ZEngine//z/script/compiler/semanticAnalyzer.h
+1510771346 /home/zwesterman/GitHub/ZEngine//z/script/compiler/semanticAnalyzer.h
 	<z/core/array.h>
 	<z/core/timeout.h>
 	"../error.h"
@@ -3389,6 +3389,6 @@
 	<z/script/compiler/semanticRule.h>
 	"lang.semantics/variable_decl_sem.h"
 
-1510715109 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.semantics/variable_decl_sem.h
+1510772328 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.semantics/variable_decl_sem.h
 	<z/script/compiler/semanticRule.h>
 

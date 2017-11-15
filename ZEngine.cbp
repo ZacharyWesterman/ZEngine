@@ -51,6 +51,8 @@
 		<Unit filename="z/script/compiler/lang.ZScript/lang.comments.h" />
 		<Unit filename="z/script/compiler/lang.ZScript/lang.keywords.h" />
 		<Unit filename="z/script/compiler/lang.ZScript/lang.operators.h" />
+		<Unit filename="z/script/compiler/lang.ZScript/lang.semantics.h" />
+		<Unit filename="z/script/compiler/lang.ZScript/lang.semantics/variable_decl_sem.h" />
 		<Unit filename="z/script/compiler/lang.ZScript/lang.syntax.h" />
 		<Unit filename="z/script/compiler/lang.ZScript/lang.syntax/add1expr.h" />
 		<Unit filename="z/script/compiler/lang.ZScript/lang.syntax/addexpr.h" />
@@ -110,6 +112,7 @@
 		<Unit filename="z/script/compiler/scanner.h" />
 		<Unit filename="z/script/compiler/semanticAnalyzer.h" />
 		<Unit filename="z/script/compiler/semanticRule.h" />
+		<Unit filename="z/script/compiler/semanticScope.h" />
 		<Unit filename="z/script/compiler/signatures.h" />
 		<Unit filename="z/script/compiler/syntaxErrors/error_for.h" />
 		<Unit filename="z/script/compiler/syntaxErrors/error_oper.h" />

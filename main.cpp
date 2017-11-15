@@ -114,16 +114,21 @@ int main(int argc, char* argv[])
     printErrors(Lexer.error_buffer);
 
 
+   compiler::phrase_t* AST = Lexer.moveResultAST();
 
     core::array<compiler::semanticRule*>* semantics;
     semantics = genSemanticRules();
 
     z::script::compiler::semanticAnalyzer Analyzer(commands, functions, semantics);
 
+    Analyzer.setInput(AST);
+
     Analyzer.analyze(time);
 
     cout << "\nLoading + compile time = " << time.seconds() << "s.\n";
 
+
+    compiler::deleteNode(AST);
 
 
     delete operators;

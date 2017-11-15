@@ -15,6 +15,9 @@
 ///Lexical analyzer
 #include "compiler/lexer.h"
 
+///Semantic analyzer
+#include "compiler/semanticAnalyzer.h"
+
 /*
 ///Constant folder
 #include "compiler/constantFolder.h"

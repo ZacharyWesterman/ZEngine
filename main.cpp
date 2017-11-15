@@ -14,7 +14,7 @@
 
 #include <z/script/compiler.h>
 
-#include <z/script/compiler/semanticRule.h>
+//#include <z/script/compiler/semanticRule.h>
 
 
 //using namespace std;
@@ -108,6 +108,9 @@ int main(int argc, char* argv[])
 
     //compiler::phrase_t* AST = Lexer.moveResultAST();
     printErrors(Lexer.error_buffer);
+
+
+    //core::array< varSignature > vars;
 
     cout << "\nLoading + compile time = " << time.seconds() << "s.\n";
 

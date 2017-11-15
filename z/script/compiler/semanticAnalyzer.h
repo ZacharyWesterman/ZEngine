@@ -18,7 +18,6 @@
 #define SEMANTICANALYZER_H_INCLUDED
 
 #include <z/core/array.h>
-#include <z/core/dynamicStack.h>
 #include <z/core/timeout.h>
 #include "../error.h"
 
@@ -26,6 +25,9 @@
 
 #include "../command.h"
 #include "../function.h"
+
+#include "semanticScope.h"
+#include "semanticRule.h"
 
 #include "signatures.h"
 #include "varScope.h"
@@ -100,35 +102,23 @@ namespace script
 
 
 
+
         template <typename CHAR>
         class semanticAnalyzer
         {
         private:
-            const core::array< command<CHAR>* >* commands;
-            const core::array< function<CHAR>* >* functions;
+            const core::array< command* >* commands;
+            const core::array< function* >* functions;
+
+            const core::array< semanticRule* >* rules;
 
             phrase_t* root;
+
             int index;
             core::dynamicStack<int> index_stack;
             bool is_done;
 
-
-            varScope global_scope;
-            varScope* current_scope;
-
-            symID uniqueID_current;
-
-            core::array<funcSignature> function_list;
-            core::array< void* > param_list;
-
-            core::array<typeSignature> type_list;
-
-            core::dynamicStack<void*> typeStack;
-            phrase_t* exprStart;
-
-            void* current_type;
-            core::array<symID> type_func_list;
-            core::array<symID> type_var_list;
+            semanticScope semantics;
 
 
             void enter_node(int);
@@ -137,52 +127,21 @@ namespace script
 
             void appendType();
 
-            void enter_scope();
-            void exit_scope();
-
-
-            void analyze_variable_decl();
-            void analyze_function_decl();
-            void analyze_assignexpr();
-            void analyze_variable();
-            void analyze_literal();
-            void analyze_expression();
-            void analyze_list();
-
-            void analyze_typevar_decl();
-
-            void analyze_for_statement();
-            void analyze_foreach_statement();
-            void analyze_if_statement();
-
-            void analyze_typedecl();
-
-            void analyze_formaldecl();
-            void analyze_funccall();
-
         public:
             core::array< error > error_buffer;
 
-            semanticAnalyzer(const core::array< command<CHAR>* >& _commands,
-                     const core::array< function<CHAR>* >& _functions)
+            semanticAnalyzer(const core::array< command* >* _commands,
+                             const core::array< function* >* _functions,
+                             const core::array< semanticRule* >* _rules)
             {
                 index = 0;
                 root = NULL;
 
                 is_done = true;
 
-                commands = &_commands;
-                functions = &_functions;
-
-
-                global_scope.parent = NULL;
-                current_scope = &global_scope;
-
-                uniqueID_current = 1;
-
-                exprStart = NULL;
-
-                current_type = NULL;
+                commands = _commands;
+                functions = _functions;
+                rules = _rules;
             };
 
             ~semanticAnalyzer(){};
@@ -197,23 +156,12 @@ namespace script
                 index = 0;
                 root = new_root;
 
-                is_done = (root == NULL);
+                is_done = ((root == NULL) ||
+                           (commands == NULL) ||
+                           (functions == NULL) ||
+                           (rules == NULL));
 
-                global_scope.vars.clear();
-                global_scope.children.clear();
-                current_scope = &global_scope;
-
-                uniqueID_current = 1; //reserve 0 for NULL
-
-                function_list.clear();
-                type_list.clear();
-
-                typeStack.dump();
-                exprStart = NULL;
-
-                current_type = NULL;
-                type_func_list.clear();
-                type_var_list.clear();
+                semantics.clear();
             }
 
             inline bool good() {return (error_buffer.size() == 0);}
@@ -249,22 +197,6 @@ namespace script
         }
 
 
-        template <typename CHAR>
-        void semanticAnalyzer<CHAR>::enter_scope()
-        {
-            current_scope->children.add(varScope(current_scope));
-
-            current_scope = &current_scope->children[current_scope->children.size() -1];
-        }
-
-        template <typename CHAR>
-        void semanticAnalyzer<CHAR>::exit_scope()
-        {
-            if (current_scope->parent)
-                current_scope = current_scope->parent;
-        }
-
-
         ///Main semantic analysis function.
         //Returns true if finished, false otherwise.
         template <typename CHAR>
@@ -272,90 +204,64 @@ namespace script
         {
             while (!is_done && !time.timedOut())
             {
-                //variable declaration
-                if (root->type == phrase::VARIABLE_DECL)
+                if ((index >= (root->children).size()) ||
+                    (index < 0)
+                    )
                 {
-                    analyze_variable_decl();
-                }
-                //variable assignment
-                else if (root->type == phrase::ASSIGNEXPR)
-                {
-                    analyze_assignexpr();
-                }
-                else if (root->type == phrase::FUNCTION_DECL)
-                {
-                    analyze_function_decl();
-                }
-                else if (root->type == phrase::VARIABLE)
-                {
-                    analyze_variable();
-                }
-                else if (root->type == ident::LITERAL)
-                {
-                    analyze_literal();
-                }
-                else if (root->type == phrase::TYPEVAR_DECL)
-                {
-                    analyze_typevar_decl();
-                }
-                else if (root->type == phrase::TYPEDECL)
-                {
-                    analyze_typedecl();
-                }
-                else if (root->type == phrase::FOR_STATEMENT)
-                {
-                    analyze_for_statement();
-                }
-                else if (root->type == phrase::FOREACH_STATEMENT)
-                {
-                    analyze_foreach_statement();
-                }
-                else if ((root->type == phrase::FORMALVARDECL) ||
-                         (root->type == phrase::FORMALTYPEDECL))
-                {
-                    analyze_formaldecl();
+                    exit_node();
                 }
                 else
                 {
-                    if (index >= (root->children).size())
-                        exit_node();
-                    else
-                        enter_node(index);
+                    int r = 0;
+
+                    while ((r < (rules->size())) &&
+                           !(rules->at(r)->check(commands,
+                                                 functions,
+                                                 &semantics,
+                                                 root,
+                                                 index,
+                                                 &error_buffer))
+                           )
+                    {
+                        r++;
+                    }
+
+                    enter_node(index);
                 }
             }
 
             ///debug
             if (is_done)
             {
-                printScope(global_scope);
+                printScope(semantics.globalScope);
                 cout << endl;
                 //print functions
-                for (int i=0; i<function_list.size(); i++)
+                for (int i=0; i<semantics.functionList.size(); i++)
                 {
                     core::string<CHAR> msg;
-                    genFuncSigString(function_list[i], msg);
+                    genFuncSigString(semantics.functionList[i], msg);
                     cout << msg.str() << ", \tID="
-                         << function_list[i].uniqueID << endl;
+                         << semantics.functionList[i].uniqueID << endl;
                 }
                 cout << endl;
                 //print types
-                for (int i=0; i<type_list.size(); i++)
+                for (int i=0; i<semantics.typeList.size(); i++)
                 {
                     cout << "type "
-                         << ((core::string<CHAR>*)type_list[i].type)->str()
+                         << ((core::string<CHAR>*)semantics.typeList[i].type)->str()
                          << "{ vars=";
-                    for (int v=0; v<type_list[i].vars.size(); v++)
+                    for (int v=0; v<semantics.typeList[i].vars.size(); v++)
                     {
                         if (v)
                             cout << ',';
-                        cout << type_list[i].vars[v];
+                        cout << semantics.typeList[i].vars[v];
                     }
                     cout << "  funcs=";
-                    for (int f=0; f<type_list[i].funcs.size(); f++)
+                    for (int f=0; f<semantics.typeList[i].funcs.size(); f++)
                     {
                         if (f)
                             cout << ',';
-                        cout << type_list[i].funcs[f];
+                        cout << semantics.typeList[i].funcs[f];
                     }
                     cout << " }";
                 }
@@ -366,7 +272,7 @@ namespace script
         }
 
 
-        template <typename CHAR>
+        /*template <typename CHAR>
         void semanticAnalyzer<CHAR>::analyze_variable_decl()
         {
             varSignature _var (root->children[0]->meta, uniqueID_current);
@@ -824,6 +730,7 @@ namespace script
 
             exit_node();
         }
+        */
 
     }
 }

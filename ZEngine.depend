@@ -2193,7 +2193,7 @@
 
 1489353285 c:\users\zachary\documents\github\zengine\\z\script\errors.h
 
-1510615414 source:/home/zwesterman/GitHub/ZEngine/main.cpp
+1510712854 source:/home/zwesterman/GitHub/ZEngine/main.cpp
 	<iostream>
 	<z/core.h>
 	<z/math.h>
@@ -2203,7 +2203,6 @@
 	<z/script/compiler/lang.ZScript/lang.comments.h>
 	<z/script/compiler/lang.ZScript/lang.syntax.h>
 	<z/script/compiler.h>
-	<z/script/compiler/semanticRule.h>
 
 1505437128 /home/zwesterman/GitHub/zLibraries/z/core.h
 	"core/string.h"
@@ -2930,21 +2929,22 @@
 	<complex>
 	<type_traits>
 
-1510617911 /home/zwesterman/GitHub/ZEngine//z/script/function.h
+1510712367 /home/zwesterman/GitHub/ZEngine//z/script/function.h
 	<z/core/string.h>
 	<z/core/array.h>
 	<z/core/timeout.h>
 	"generic.h"
 
-1510616915 /home/zwesterman/GitHub/ZEngine//z/script/command.h
+1510712126 /home/zwesterman/GitHub/ZEngine//z/script/command.h
 	<z/core/string.h>
 	<z/core/array.h>
 	<z/core/timeout.h>
 	"generic.h"
 
-1510270007 /home/zwesterman/GitHub/ZEngine//z/script/compiler.h
+1510712078 /home/zwesterman/GitHub/ZEngine//z/script/compiler.h
 	"compiler/scanner.h"
 	"compiler/lexer.h"
+	"compiler/semanticAnalyzer.h"
 	"compiler/constantFolder.h"
 	"compiler/varScope.h"
 	"compiler/semanticAnalyzer.h"
@@ -2974,7 +2974,7 @@
 	<z/core/array.h>
 	"identity.h"
 
-1510516540 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lexer.h
+1510713541 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lexer.h
 	<z/core/timeout.h>
 	<z/core/array.h>
 	<z/core/dynamicStack.h>
@@ -3162,17 +3162,18 @@
 1505089832 /home/zwesterman/GitHub/ZEngine//z/script/compiler/varScope.h
 	"signatures.h"
 
-1510615132 /home/zwesterman/GitHub/ZEngine//z/script/compiler/signatures.h
+1510706781 /home/zwesterman/GitHub/ZEngine//z/script/compiler/signatures.h
 	<z/core/array.h>
 
-1510516540 /home/zwesterman/GitHub/ZEngine//z/script/compiler/semanticAnalyzer.h
+1510713857 /home/zwesterman/GitHub/ZEngine//z/script/compiler/semanticAnalyzer.h
 	<z/core/array.h>
-	<z/core/dynamicStack.h>
 	<z/core/timeout.h>
 	"../error.h"
 	"phrase.h"
 	"../command.h"
 	"../function.h"
+	"semanticScope.h"
+	"semanticRule.h"
 	"signatures.h"
 	"varScope.h"
 	<iostream>
@@ -3368,8 +3369,17 @@
 
 1510617265 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/foreach_statement.h
 
-1510616950 /home/zwesterman/GitHub/ZEngine//z/script/compiler/semanticRule.h
+1510713968 /home/zwesterman/GitHub/ZEngine//z/script/compiler/semanticRule.h
 	"../error.h"
 	"signatures.h"
+	"semanticScope.h"
+	"phrase.h"
+	"../command.h"
+	"../function.h"
+
+1510708509 /home/zwesterman/GitHub/ZEngine//z/script/compiler/semanticScope.h
+	<z/core/array.h>
 	"varScope.h"
+	"signatures.h"
+	"phrase.h"
 

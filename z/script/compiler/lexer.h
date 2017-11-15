@@ -137,8 +137,8 @@ namespace script
 
             core::array< phrase_t* > phrase_nodes;
 
-            core::array< syntaxRule* >* rules;
-            syntaxRule* program_rule;
+            const core::array< syntaxRule* >* rules;
+            const syntaxRule* program_rule;
 
             phrase_t* current_node;
 
@@ -327,7 +327,9 @@ namespace script
 
         void lexer::prg_general()
         {
-            if (index >= phrase_nodes.size())
+            if ((index >= phrase_nodes.size()) ||
+                (index < 0)
+                )
             {
                 if (!did_concat)
                 {

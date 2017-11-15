@@ -11,6 +11,7 @@
 #include <z/script/compiler/lang.ZScript/lang.operators.h>
 #include <z/script/compiler/lang.ZScript/lang.comments.h>
 #include <z/script/compiler/lang.ZScript/lang.syntax.h>
+#include <z/script/compiler/lang.ZScript/lang.semantics.h>
 
 #include <z/script/compiler.h>
 
@@ -54,6 +55,9 @@ void printIdents(const core::array< compiler::ident_t >& idents)
 
 int main(int argc, char* argv[])
 {
+    core::array<script::command*>* commands = new core::array<script::command*>();
+    core::array<script::function*>* functions = new core::array<script::function*>();
+
     core::array<compiler::keyword>* keywords = genKeywords();
     core::array<compiler::oper>* operators = genOperators();
     core::array< core::string<char> >* comments = genCommentRules();
@@ -110,7 +114,13 @@ int main(int argc, char* argv[])
     printErrors(Lexer.error_buffer);
 
 
-    //core::array< varSignature > vars;
+
+    core::array<compiler::semanticRule*>* semantics;
+    semantics = genSemanticRules();
+
+    z::script::compiler::semanticAnalyzer Analyzer(commands, functions, semantics);
+
+    Analyzer.analyze(time);
 
     cout << "\nLoading + compile time = " << time.seconds() << "s.\n";
 
@@ -119,10 +129,15 @@ int main(int argc, char* argv[])
     delete operators;
     delete keywords;
     delete[] comments;
+
     for (int i=0; i<syntax->size(); i++)
         delete syntax->at(i);
     delete syntax;
     delete program;
+
+    for (int i=0; i<semantics->size(); i++)
+        delete semantics->at(i);
+    delete semantics;
 
     //compiler::deleteNode(AST);
 

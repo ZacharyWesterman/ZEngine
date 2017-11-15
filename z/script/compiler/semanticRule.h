@@ -19,6 +19,7 @@ namespace script
     {
         class semanticRule
         {
+        public:
             virtual ~semanticRule() {}
 
             //return TRUE if node is of correct type

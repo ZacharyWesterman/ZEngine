@@ -64,21 +64,20 @@ namespace script
                 printScope(_scope.children[i], padding+1, ++scopeNum);
         }
 
-        template<typename CHAR>
-        void genFuncSigString(const funcSignature& _func, core::string<CHAR>& msg)
+        void genFuncSigString(const funcSignature& _func, core::string<char>& msg)
         {
             if (_func.returnType)
-                msg = *((core::string<CHAR>*)_func.returnType);
+                msg = *((core::string<CPL_CHAR>*)_func.returnType);
             else
                 msg = "var";
 
             msg += ' ';
             if (_func.inType)
             {
-                msg += *((core::string<CHAR>*)_func.inType);
+                msg += *((core::string<CPL_CHAR>*)_func.inType);
                 msg += '.';
             }
-            msg += *((core::string<CHAR>*)_func.ID);
+            msg += *((core::string<CPL_CHAR>*)_func.ID);
 
 
             msg += '(';
@@ -90,7 +89,7 @@ namespace script
                     msg += ',';
 
                 if (_func.paramTypes[i])
-                    msg += *((core::string<CHAR>*)_func.paramTypes[i]);
+                    msg += *((core::string<CPL_CHAR>*)_func.paramTypes[i]);
                 else
                     msg += "var";
 
@@ -101,9 +100,6 @@ namespace script
         }
 
 
-
-
-        template <typename CHAR>
         class semanticAnalyzer
         {
         private:
@@ -177,8 +173,8 @@ namespace script
 
 
 
-        template <typename CHAR>
-        void semanticAnalyzer<CHAR>::enter_node(int entry)
+
+        void semanticAnalyzer::enter_node(int entry)
         {
             root = root->children[entry];
             index_stack.push(entry+1);
@@ -186,8 +182,8 @@ namespace script
             index = 0;
         }
 
-        template <typename CHAR>
-        void semanticAnalyzer<CHAR>::exit_node()
+
+        void semanticAnalyzer::exit_node()
         {
             if (!index_stack.pop(index) ||
                 !(root->parent))
@@ -199,8 +195,8 @@ namespace script
 
         ///Main semantic analysis function.
         //Returns true if finished, false otherwise.
-        template <typename CHAR>
-        bool semanticAnalyzer<CHAR>::analyze(const core::timeout& time)
+
+        bool semanticAnalyzer::analyze(const core::timeout& time)
         {
             while (!is_done && !time.timedOut())
             {
@@ -238,7 +234,7 @@ namespace script
                 //print functions
                 for (int i=0; i<semantics.functionList.size(); i++)
                 {
-                    core::string<CHAR> msg;
+                    core::string<char> msg;
                     genFuncSigString(semantics.functionList[i], msg);
                     cout << msg.str() << ", \tID="
                          << semantics.functionList[i].uniqueID << endl;
@@ -248,7 +244,7 @@ namespace script
                 for (int i=0; i<semantics.typeList.size(); i++)
                 {
                     cout << "type "
-                         << ((core::string<CHAR>*)semantics.typeList[i].type)->str()
+                         << ((core::string<CPL_CHAR>*)semantics.typeList[i].type)->narrow().str()
                          << "{ vars=";
                     for (int v=0; v<semantics.typeList[i].vars.size(); v++)
                     {
@@ -272,8 +268,8 @@ namespace script
         }
 
 
-        /*template <typename CHAR>
-        void semanticAnalyzer<CHAR>::analyze_variable_decl()
+        /*
+        void semanticAnalyzer::analyze_variable_decl()
         {
             varSignature _var (root->children[0]->meta, uniqueID_current);
 
@@ -303,8 +299,8 @@ namespace script
             exit_node();
         }
 
-        template <typename CHAR>
-        void semanticAnalyzer<CHAR>::analyze_assignexpr()
+
+        void semanticAnalyzer::analyze_assignexpr()
         {
             if ((root->children[0]->type == phrase::VARIABLE) &&
                 (index < 1))
@@ -362,8 +358,8 @@ namespace script
                 exit_node();
         }
 
-        template <typename CHAR>
-        void semanticAnalyzer<CHAR>::analyze_function_decl()
+
+        void semanticAnalyzer::analyze_function_decl()
         {
             if (index < (root->children).size())
             {
@@ -427,8 +423,8 @@ namespace script
             }
         }
 
-        template <typename CHAR>
-        void semanticAnalyzer<CHAR>::analyze_variable()
+
+        void semanticAnalyzer::analyze_variable()
         {
             varSignature _var = current_scope->getVariable(
                                     varSignature(root->children[0]->meta) );
@@ -452,8 +448,8 @@ namespace script
             exit_node();
         }
 
-        template <typename CHAR>
-        void semanticAnalyzer<CHAR>::analyze_literal()
+
+        void semanticAnalyzer::analyze_literal()
         {
             if (exprStart)
                 typeStack.push(NULL); //literals are always of type "var"
@@ -461,8 +457,8 @@ namespace script
             exit_node();
         }
 
-        template <typename CHAR>
-        void semanticAnalyzer<CHAR>::analyze_expression()
+
+        void semanticAnalyzer::analyze_expression()
         {
             if (index >= (root->children).size())
             {
@@ -557,8 +553,8 @@ namespace script
             }
         }
 
-        template <typename CHAR>
-        void semanticAnalyzer<CHAR>::analyze_typevar_decl()
+
+        void semanticAnalyzer::analyze_typevar_decl()
         {
             //check if the type exists
             typeSignature _type (root->children[0]->meta, NULL);
@@ -593,8 +589,8 @@ namespace script
             exit_node();
         }
 
-        template <typename CHAR>
-        void semanticAnalyzer<CHAR>::analyze_for_statement()
+
+        void semanticAnalyzer::analyze_for_statement()
         {
             if (index < root->children.size())
             {
@@ -610,8 +606,8 @@ namespace script
             }
         }
 
-        template <typename CHAR>
-        void semanticAnalyzer<CHAR>::analyze_typedecl()
+
+        void semanticAnalyzer::analyze_typedecl()
         {
             if (index < root->children.size())
             {
@@ -678,8 +674,8 @@ namespace script
             }
         }
 
-        template <typename CHAR>
-        void semanticAnalyzer<CHAR>::analyze_foreach_statement()
+
+        void semanticAnalyzer::analyze_foreach_statement()
         {
             if (index < root->children.size())
             {
@@ -695,8 +691,8 @@ namespace script
             }
         }
 
-        template <typename CHAR>
-        void semanticAnalyzer<CHAR>::analyze_formaldecl()
+
+        void semanticAnalyzer::analyze_formaldecl()
         {
             if (root->type == phrase::FORMALTYPEDECL)
             {

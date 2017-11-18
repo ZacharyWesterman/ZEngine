@@ -3166,7 +3166,7 @@
 1510706781 /home/zwesterman/GitHub/ZEngine//z/script/compiler/signatures.h
 	<z/core/array.h>
 
-1510771346 /home/zwesterman/GitHub/ZEngine//z/script/compiler/semanticAnalyzer.h
+1511049022 /home/zwesterman/GitHub/ZEngine//z/script/compiler/semanticAnalyzer.h
 	<z/core/array.h>
 	<z/core/timeout.h>
 	"../error.h"
@@ -3370,7 +3370,7 @@
 
 1510617265 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.syntax/foreach_statement.h
 
-1510715092 /home/zwesterman/GitHub/ZEngine//z/script/compiler/semanticRule.h
+1511048919 /home/zwesterman/GitHub/ZEngine//z/script/compiler/semanticRule.h
 	"../error.h"
 	"signatures.h"
 	"semanticScope.h"
@@ -3389,6 +3389,6 @@
 	<z/script/compiler/semanticRule.h>
 	"lang.semantics/variable_decl_sem.h"
 
-1510772328 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.semantics/variable_decl_sem.h
+1511048949 /home/zwesterman/GitHub/ZEngine//z/script/compiler/lang.ZScript/lang.semantics/variable_decl_sem.h
 	<z/script/compiler/semanticRule.h>
 

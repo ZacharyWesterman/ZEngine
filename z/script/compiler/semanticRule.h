@@ -20,11 +20,15 @@ namespace script
         class semanticRule
         {
         public:
+            const int type;
+
+            semanticRule(const int ruleType) : type(ruleType) {}
+
             virtual ~semanticRule() {}
 
             //return TRUE if node is of correct type
             //(don't check every rule if we found the right one)
-            virtual bool check(const core::array< command* >*, //list of commands
+            virtual void apply(const core::array< command* >*, //list of commands
                                const core::array< function* >*, //list of functions
                                semanticScope*,
                                phrase_t*, //current node

@@ -1,5 +1,5 @@
 var main()
 {
-    var x;
-    var x = 12*x;
+    var x = 2;
+    var y = 12*x;
 }

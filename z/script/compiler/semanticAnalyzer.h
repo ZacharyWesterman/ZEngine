@@ -203,15 +203,20 @@ namespace script
                 //check each rule,
                 int r = 0;
                 while ((r < (rules->size())) &&
-                       !(rules->at(r)->check(commands,
+                       !(rules->at(r)->type == root->type)
+                        )
+                {
+                    r++;
+                }
+
+                if (r < (rules->size()))
+                {
+                    rules->at(r)->apply(commands,
                                             functions,
                                             &semantics,
                                             root,
                                             index,
-                                            &error_buffer))
-                        )
-                {
-                    r++;
+                                            &error_buffer);
                 }
 
                 //then enter the next available node.

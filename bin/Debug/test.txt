@@ -1,5 +1,12 @@
+type TYPE
+{
+    var x;
+    var y;
+};
+
 var main()
 {
     var x = 2;
-    var y = 12*x;
+
+    TYPE x = 7;
 }

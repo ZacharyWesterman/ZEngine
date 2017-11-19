@@ -270,35 +270,6 @@ namespace script
 
 
         /*
-        void semanticAnalyzer::analyze_variable_decl()
-        {
-            varSignature _var (root->children[0]->meta, uniqueID_current);
-
-
-            if (!current_scope->addVar(_var))
-            {
-                core::string<CHAR> msg;
-                if (current_type)
-                {
-                    msg = *((core::string<CHAR>*)current_type);
-                    msg += '.';
-                }
-
-                msg += *((core::string<CHAR>*)root->children[0]->meta);
-
-                error_buffer.add(error(root->line,
-                                                    root->column,
-                                        error::VARIABLE_REDECLARED,
-                                                    msg,
-                                                    root->file));
-            }
-            else if (current_type)
-                type_var_list.add(uniqueID_current);
-
-            uniqueID_current++;
-
-            exit_node();
-        }
 
 
         void semanticAnalyzer::analyze_assignexpr()
@@ -555,40 +526,6 @@ namespace script
         }
 
 
-        void semanticAnalyzer::analyze_typevar_decl()
-        {
-            //check if the type exists
-            typeSignature _type (root->children[0]->meta, NULL);
-
-            if (type_list.find(_type) <= -1)
-            {
-                error_buffer.add(error(root->line,
-                                                    root->column,
-                                                    error::TYPE_UNDEFINED,
-                                    *((core::string<CHAR>*)_type.type),
-                                                    root->file));
-            }
-
-            //add typed-var to current scope
-            bool good = current_scope->addVar(varSignature(root->children[1]->meta,
-                                                   uniqueID_current,
-                                                   root->children[0]->meta));
-
-            if (!good)
-            {
-                error_buffer.add(error(root->line,
-                                                    root->column,
-                                        error::VARIABLE_REDECLARED,
-                                    *((core::string<CHAR>*)root->children[1]->meta),
-                                                    root->file));
-            }
-            else if (current_type)
-                type_var_list.add(uniqueID_current);
-
-            uniqueID_current++;
-
-            exit_node();
-        }
 
 
         void semanticAnalyzer::analyze_for_statement()

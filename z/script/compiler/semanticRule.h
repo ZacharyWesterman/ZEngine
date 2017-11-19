@@ -26,8 +26,7 @@ namespace script
 
             virtual ~semanticRule() {}
 
-            //return TRUE if node is of correct type
-            //(don't check every rule if we found the right one)
+
             virtual void apply(const core::array< command* >*, //list of commands
                                const core::array< function* >*, //list of functions
                                semanticScope*,

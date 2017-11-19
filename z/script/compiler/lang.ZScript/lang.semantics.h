@@ -8,6 +8,7 @@
 
 ///include semantic rules here
 #include "lang.semantics/variable_decl_sem.h"
+#include "lang.semantics/typevar_decl_sem.h"
 
 
 #define SEM_RULE z::script::compiler::semanticRule
@@ -18,6 +19,7 @@ ARRAY* genSemanticRules()
     ARRAY* rules = new ARRAY
     {
         new z::script::compiler::variable_decl_sem,
+        new z::script::compiler::typevar_decl_sem,
     };
 
     return rules;

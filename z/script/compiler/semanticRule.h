@@ -35,13 +35,13 @@ namespace script
                                core::array<error>*) = 0;
 
 
-            void enter_scope(varScope* scope)
+            void enter_scope(varScope*& scope)
             {
                 scope->children.add(varScope(scope));
                 scope = &(scope->children[scope->children.size()-1]);
             }
 
-            void exit_scope(varScope* scope)
+            void exit_scope(varScope*& scope)
             {
                 if (scope->parent)
                     scope = scope->parent;

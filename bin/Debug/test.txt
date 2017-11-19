@@ -8,5 +8,5 @@ var main()
 {
     var x = 2;
 
-    TYPE x = 7;
+    TYPE y = 7;
 }

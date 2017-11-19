@@ -88,10 +88,13 @@ namespace script
             ///List of unique ID values for each parameter.
             core::array< symID > params;
 
+            bool declared;
+
             bool operator==(const funcSignature& other) const;
 
             funcSignature(void* _ID, void* _returnType,
-                          symID _uniqueID, void* _inType);
+                          symID _uniqueID, void* _inType,
+                          bool is_declared);
 
             const funcSignature& operator=(const funcSignature& other);
         };
@@ -106,12 +109,14 @@ namespace script
          * \b NULL implies that this function does not belong to a type.
          */
         funcSignature::funcSignature(void* _ID, void* _returnType,
-                                     symID _uniqueID, void* _inType)
+                                     symID _uniqueID, void* _inType,
+                                     bool is_declared = false)
         {
             ID = _ID;
             returnType = _returnType;
             uniqueID = _uniqueID;
             inType = _inType;
+            declared = is_declared;
         }
 
         /**

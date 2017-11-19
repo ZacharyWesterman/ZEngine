@@ -232,6 +232,7 @@ namespace script
             if (is_done)
             {
                 printScope(semantics.globalScope);
+
                 //print functions
                 for (int i=0; i<semantics.functionList.size(); i++)
                 {
@@ -241,6 +242,7 @@ namespace script
                     cout << msg.str() << ", \tID="
                          << semantics.functionList[i].uniqueID;
                 }
+
                 //print types
                 for (int i=0; i<semantics.typeList.size(); i++)
                 {
@@ -263,6 +265,10 @@ namespace script
                     }
                     cout << " }";
                 }
+
+                if (semantics.functionList.size() ||
+                    semantics.typeList.size())
+                    cout << "\n\n";
             }
 
             return is_done;
@@ -544,73 +550,6 @@ namespace script
             }
         }
 
-
-        void semanticAnalyzer::analyze_typedecl()
-        {
-            if (index < root->children.size())
-            {
-                if (index == 0)
-                {
-                    //find the correct scope
-                    int i = type_list.find(typeSignature(
-                                            root->children[0]->meta,
-                                            NULL));
-
-                    if (i > -1)
-                    {
-                        current_scope = type_list[i].scope;
-                    }
-                    else
-                        enter_scope();
-
-                    current_type = root->children[0]->meta;
-                }
-
-                enter_node(index);
-            }
-            else
-            {
-                //make sure no functions with this name exist
-                void* ID = root->children[0]->meta;
-
-                int i = 0;
-                while ((i < function_list.size()) &&
-                       (function_list[i].ID != ID))
-                {
-                    i++;
-                }
-
-                if (i < function_list.size())
-                {
-                    error_buffer.add(error(root->line,
-                                                        root->column,
-                                                error::TYPE_ALREADY_FUNCTION,
-                                                *((core::string<CHAR>*)ID),
-                                                        root->file));
-                }
-
-
-                //register to the appropriate type
-                typeSignature _type (current_type, current_scope);
-
-                i = type_list.find(_type);
-                if (i <= -1)
-                {
-                    i = type_list.add(_type);
-                }
-
-                type_list[i].funcs.add(type_func_list);
-                type_list[i].vars.add(type_var_list);
-
-
-                current_type = NULL;
-                type_func_list.clear();
-                type_var_list.clear();
-
-                exit_scope();
-                exit_node();
-            }
-        }
 
 
         void semanticAnalyzer::analyze_foreach_statement()

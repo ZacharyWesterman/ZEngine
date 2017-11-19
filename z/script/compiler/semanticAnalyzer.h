@@ -55,8 +55,8 @@ namespace script
                 for (int i=0; i<padding; i++)
                     cout << "  ";
 
-                cout << "Tp=" << (_scope.vars[i].type ? ((core::string<char>*)_scope.vars[i].type)->str() : "var")
-                     << ",\tNm=" << ((core::string<char>*)_scope.vars[i].ID)->str()
+                cout << "Tp=" << (_scope.vars[i].type ? ((core::string<CPL_CHAR>*)_scope.vars[i].type)->narrow().str() : "var")
+                     << ",\tNm=" << ((core::string<CPL_CHAR>*)_scope.vars[i].ID)->narrow().str()
                      << ",\tID=" << _scope.vars[i].uniqueID << endl;
             }
 

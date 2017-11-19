@@ -10,3 +10,8 @@ var main()
 
     TYPE y = 7;
 }
+
+type TYPE
+{
+
+};

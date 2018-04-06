@@ -18,97 +18,65 @@
 #define IDENTITY_H_INCLUDED
 
 #include <z/core/string.h>
-
-#include "identEnum.h"
-
-#include "../generic.h"
-#include "../error.h"
-
-#ifndef CPL_CHAR
-#define CPL_CHAR wchar_t
-#endif // CPL_CHAR
+#include <z/int.h>
+#include <z/char.h>
 
 namespace z
 {
-namespace script
-{
-    namespace compiler
-    {
+	namespace compiler
+	{
+		class identity
+		{
+		public:
+			const Int type;
+			const Int subType;
 
-        class ident_t
-        {
-        public:
-            int type;
+			const core::string<Char>* symbol;
 
-            int line;
-            int column;
-            int indent;
-
-            union
-            {
-                void* meta;
-                unsigned long metaValue;
-            };
-
-            generic<CPL_CHAR> value;
-
-            //keep track of the current file
-            core::string<char>* file;
-
-            ///full constructor
-            ident_t (ident _type = ident::NONE,
-                     int lin = 0, int col = 0, int ind = 0,
-                     void* symbol_ptr = NULL,
-                     core::string<char>* fileID = NULL)
-            {
-                type = _type;
-
-                line = lin;
-                column = col;
-                indent = ind;
-
-                meta = symbol_ptr;
-
-                //value = 0;
-
-                file = fileID;
-            }
+			const Int line;
+			const Int column;
+			const Int indent;
 
 
-            ///equality operators
-            inline bool operator==(const ident_t& other) const
-            {
-                return (type == other.type);
-            }
+			//Constructor
+			identity(Int Type, Int SubType, const core::string<Char>* Symbol, Int Line, Int Column, Int Indent) :
+				type(Type), subType(SubType), symbol(Symbol), line(Line), column(Column), indent(Indent)
+			{}
 
-            inline bool operator!=(const ident_t& other) const
-            {
-                return (type != other.type);
-            }
 
-            inline bool operator>(const ident_t& other) const
-            {
-                return (type > other.type);
-            }
+			//equality operators
 
-            inline bool operator>=(const ident_t& other) const
-            {
-                return (type >= other.type);
-            }
+			bool operator==(const identity& other) const
+			{
+				return (type == other.type) && (subType == other.subType);
+			}
 
-            inline bool operator<(const ident_t& other) const
-            {
-                return (type < other.type);
-            }
+			bool operator!=(const identity& other) const
+			{
+				return (type != other.type) || (subType != other.subType);
+			}
 
-            inline bool operator<=(const ident_t& other) const
-            {
-                return (type <= other.type);
-            }
-        };
+			bool operator>(const identity& other) const
+			{
+				return (type > other.type) || (subType > other.subType);
+			}
 
-    }
-}
+			bool operator>=(const identity& other) const
+			{
+				return (*this > other) || (*this == other);
+			}
+
+			bool operator<(const identity& other) const
+			{
+				return (type < other.type) || (subType < other.subType);
+			}
+
+			bool operator<=(const identity& other) const
+			{
+				return (*this < other) || (*this == other);
+			}
+		};
+	}
 }
 
 #endif // IDENTITY_H_INCLUDED

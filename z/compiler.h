@@ -13,7 +13,7 @@
 #include "compiler/scanner.h"
 
 ///Lexical analyzer
-#include "compiler/lexer.h"
+// #include "compiler/lexer.h"
 
 /*
 ///Constant folder

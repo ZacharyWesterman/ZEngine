@@ -6,43 +6,53 @@ using namespace z;
 #include <z/char.h>
 
 #include "z/compiler/identity.h"
+#include "z/compiler/symbolRule.h"
 
-namespace z
-{
-	namespace compiler
-	{
-		class symbolRule
-		{
-		public:
-			const core::string<Char> pattern;
-			const Int match_type;
-			const Int match_sub_type;
+#include <z/core.h>
 
-			symbolRule(const core::string<Char>& Pattern, Int matchType, Int matchSubType = 0) :
-				pattern(Pattern), match_type(matchType), match_sub_type(matchSubType) {}
-			virtual ~symbolRule() {}
-
-			virtual void onMatch(identity& ident) = 0;
-		};
-
-		class identifier : public symbolRule
-		{
-		public:
-			identifier() : symbolRule("\\w+", 1) {}
-
-			void onMatch(identity& ident)
-			{
-
-			}
-		};
-	}
-}
+// namespace z
+// {
+// 	namespace compiler
+// 	{
+// 		class identifier : public symbolRule
+// 		{
+// 		public:
+// 			identifier() : symbolRule("\".*((?<!\\)\")", 1) {}
+//
+// 			void onMatch(identity& ident)
+// 			{
+//
+// 			}
+// 		};
+// 	}
+// }
 
 int main(int argc, char* argv[])
 {
 	system::console console;
 
-	z::compiler::symbolRule* rule = new z::compiler::identifier;
+	core::string<char> string ("\".*((?!<\\\\)\"|[\\n$])");
+
+	util::regex<char> regex(string);
+
+	if (regex.bad())
+		console.writeln("Invalid regex formatting.");
+
+	core::stringStream<char> stream (cs("the following \"this is \\\"A string\\\", \"thank you."));
+
+	Int found = regex.search(stream);
+
+	if (found > 0)
+	{
+		auto msg = cs("Found ")+regex.foundLen()+" characters at index ";
+		msg += cs(regex.foundAt())+" in input. (\"";
+		msg += regex.foundString()+"\")";
+		console.writeln(msg);
+	}
+	else
+		console.writeln("No string found matching regex.");
+
+	// z::compiler::symbolRule* rule = new z::compiler::identifier;
 
 	// console.writeln(rule->pattern.match("1hello"));
 

@@ -1,18 +1,3 @@
-/**
- * File:            identity.h
- * Namespace:       z::script
- * Description:     Template for script identities. An example
- *                  identifier could be represented as <"+",OPERATOR>.
- *                  For error reporting purposes, all identities include
- *                  the line and column of their first character from
- *                  the input stream.
- *
- *
- * Author:          Zachary Westerman
- * Email:           zacharywesterman@yahoo.com
- * Last modified:   20 Aug. 2017
-**/
-
 #pragma once
 #ifndef IDENTITY_H_INCLUDED
 #define IDENTITY_H_INCLUDED

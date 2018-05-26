@@ -1,90 +1,101 @@
 [Arithmetic]
-ADD
-SUB
-MUL
-DIV
-IDIV
-REMD
+ADD		{var1}	{var2}	{varOut}
+SUB		{var1}	{var2}	{varOut}
+MUL		{var1}	{var2}	{varOut}
+DIV		{var1}	{var2}	{varOut}
+IDIV	{var1}	{var2}	{varOut}
+REMD	{var1}	{var2}	{varOut}
+POW		{var1}	{var2}	{varOut}
+FAC		{var}	{varOut}
 
 [Assign]
-CONST
-ASGCONST
-ASSIGN
-DEFCMD
-DEFFUNC
+DEFCONST	{value}
+ASGCONST	{var}		{const}
+ASGMEM		{var1}		{var2}
+MEMALLOC	{amount}
+MEMFREE		{amount}
+MEMSIZE
+DEFCMD		{stringList}
+DEFFUNC		{stringList}
 
 [Comparison]
-EQ
-NE
-GT
-GE
-LT
-LE
+EQ	{var1}	{var2}	{varOut}
+NE	{var1}	{var2}	{varOut}
+GT	{var1}	{var2}	{varOut}
+GE	{var1}	{var2}	{varOut}
+LT	{var1}	{var2}	{varOut}
+LE	{var1}	{var2}	{varOut}
 
 [Boolean (Logical)]
-AND
-OR
-NAND
-NOR
-XOR
-XNOR
+AND		{var1}	{var2}	{varOut}
+OR		{var1}	{var2}	{varOut}
+NAND	{var1}	{var2}	{varOut}
+NOR		{var1}	{var2}	{varOut}
+XOR		{var1}	{var2}	{varOut}
+XNOR	{var1}	{var2}	{varOut}
+NOT		{var}	{varOut}
 
 [Boolean (Bitwise)]
-ANDB
-ORB
-NANDB
-NORB
-XORB
-XNORB
+ANDB	{var1}	{var2}	{varOut}
+ORB		{var1}	{var2}	{varOut}
+NANDB	{var1}	{var2}	{varOut}
+NORB	{var1}	{var2}	{varOut}
+XORB	{var1}	{var2}	{varOut}
+XNORB	{var1}	{var2}	{varOut}
+NOTB	{var}	{varOut}
 
 [Datatype (Get Convert)]
-REDUCE
-POINTER
-ARRAY
-STRING
-COMPLEX
-FLOAT
-INT
-BOOL
+REDUCE	{var}	{varOut}
+POINTER	{var}	{varOut}
+ARRAY	{var}	{varOut}
+STRING	{var}	{varOut}
+COMPLEX	{var}	{varOut}
+FLOAT	{var}	{varOut}
+INT		{var}	{varOut}
+BOOL	{var}	{varOut}
 
 [Datatype (Get Status)]
-TYPE
-ISPOINTER
-ISARRAY
-ISSTRING
-ISCOMPLEX
-ISFLOAT
-ISINT
-ISNULL
+TYPE		{var}	{varOut}
+ISPOINTER	{var}	{varOut}
+ISARRAY		{var}	{varOut}
+ISSTRING	{var}	{varOut}
+ISCOMPLEX	{var}	{varOut}
+ISFLOAT		{var}	{varOut}
+ISINT		{var}	{varOut}
+ISNULL		{var}	{varOut}
 
 [Datatype (Array Manip)]
-ARRAYIZE
-APPEND
-INSERT
-DELETE
-INDEX
+ARRAYIZE	{var}		{amount}	{varOut}
+NULLARRAY	{varOut}
+APPEND		{var}		{varOut}
+INSERT		{var}		{offset}	{varOut}
+DELETE		{offset}	{varOut}
+INDEX		{var}		{offset}	{varOut}
 
 [Control]
-JUMPTRUE
-JUMPFALSE
+JUMPTRUE	{var}
+JUMPTRUEP	{var}
+JUMPFALSE	{var}
+JUMPFALSEP	{var}
 JUMP
+JUMPP
+RETURN
 
 [Language]
-INITGUI
-INITENGINE
-INITAUDIO
-TERMGUI
-TERMENGINE
-TERMAUDIO
-SETGOALFPS
-WAIT
-ERRSTRICT
-ERRLENIENT
-ERRIGNORE
-EXIT
-RUN
-COMPILERUN
-CHECKCOMPLETE
-WAITCOMPLETE
-RUNCMD
-CALLFUNC
+INITGUI		{var}	{varOut}
+INITENGINE	{var}	{varOut}
+INITAUDIO	{var}	{varOut}
+TERMGUI		{var}	{varOut}
+TERMENGINE	{var}
+TERMAUDIO	{var}
+SETGOALFPS	{var}
+WAIT		{var}
+SETERRLEVEL	{var}
+GETERRLEVEL	{varOut}
+EXIT		{var}
+RUN			{var1}	{var2}	{varOut}
+COMPILERUN	{var1}	{var2}	{var3}	{varOut}
+CHECKCOMPLETE	{var}	{varOut}
+WAITCOMPLETE	{var}
+RUNCMD		{cmdID}
+CALLFUNC	{funcID}	{varOut}

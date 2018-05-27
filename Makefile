@@ -1,8 +1,29 @@
-CFLAGS= -I"../zLibraries" -std=c++11 -g -Wall -fexceptions
-LFLAGS=
+OUT = zengine
+CC = g++
+ODIR = obj
+CFLAGS = -I"../zLibraries" -std=c++11 -g -Wall -fexceptions
+LFLAGS =
 
-all: main.cpp
-	g++ $(CFLAGS) -o zengine $(LFLAGS) main.cpp
+_OBJS = main.o driver.o program.o instruction.o
+OBJS = $(patsubst %,$(ODIR)/%,$(_OBJS))
+
+
+all: $(OBJS)
+	g++ -o $(OUT) $(OBJS)
+
+$(ODIR)/main.o: main.cpp
+	$(CC) $(CFLAGS) -c main.cpp -o $(ODIR)/main.o
+
+$(ODIR)/driver.o: z/engine/driver.cpp
+	$(CC) $(CFLAGS) -c z/engine/driver.cpp -o $(ODIR)/driver.o
+
+$(ODIR)/program.o: z/engine/program.cpp
+	$(CC) $(CFLAGS) -c z/engine/program.cpp -o $(ODIR)/program.o
+
+$(ODIR)/instruction.o: z/engine/instruction.cpp
+	$(CC) $(CFLAGS) -c z/engine/instruction.cpp -o $(ODIR)/instruction.o
 
 clean:
-	rm -f zengine
+	rm -f $(ODIR)/*.o $(OUT)
+
+rebuild: clean all

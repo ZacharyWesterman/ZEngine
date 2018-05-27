@@ -97,16 +97,16 @@ INITAUDIO	{var}	{varOut}				|	Initialize the audio engine with the parameters in
 TERMGUI		{varOut}						|	Terminate the GUI interface. Results/status are returned in {varOut}.
 TERMENGINE	{varOut}						|	Terminate the rendering engine. Results/status are returned in {varOut}.
 TERMAUDIO	{varOut}						|	Terminate the audio engine. Results/status are returned in {varOut}.
-SETGOALFPS	{var}							|	Set the goal frames per second for the rendering engine. If {var} is not a real numerical value, does nothing and generates error at HIGH level. If {var} is negative, goal FPS is unlimited.
-GETGOALFPS	{varOut}						|	Get the current goal frames per second for the rendering engine, storing in {varOut}. Returns -1 if goal FPS is unlimited.
-SETGOALIPS	{var}							|	Set the goal instructions per second for this program. If {var} is not a real numerical value, does nothing and generates error at HIGH level. If {var} is negative, goal IPS is unlimited.
-GETGOALIPS	{varOut}						|	Get the current goal instructions per second for this program, storing in {varOut}. Returns -1 if goal IPS is unlimited.
+SETGOALFPS	{var}							|	Set the goal frames per second for the rendering engine. If {var} is not a real numerical value, does nothing and generates error at HIGH level. If {var} is 0 or lower, goal FPS is unlimited.
+GETGOALFPS	{varOut}						|	Get the current goal frames per second for the rendering engine, storing in {varOut}. Returns 0 if goal FPS is unlimited.
+SETGOALIPS	{var}							|	Set the goal instructions per second for this program. If {var} is not a real numerical value, does nothing and generates error at HIGH level. If {var} is 0 or lower, goal IPS is unlimited.
+GETGOALIPS	{varOut}						|	Get the current goal instructions per second for this program, storing in {varOut}. Returns 0 if goal IPS is unlimited.
 WAIT		{var}							|	Pause execution of this program for approximately {var} milliseconds. If {var} is not a positive real value, then this instruction does nothing.
-SETERRLOW									|	Ignore no errors that this or any child programs generate.
-SETERRMED									|	Ignore any LOW errors that this or any child programs generate.
-SETERRHIGH									|	Ignore any LOW or MED errors that this or any child programs generate.
-SETERRSEVERE								|	Ignore any LOW, MED or HIGH errors that this or any child programs generate.
-SETERRIGNORE								|	Ignore any errors that this or any child programs generate.
+SETERRLOW									|	Ignore no errors that this program, or any child programs spawned later, generate.
+SETERRMED									|	Ignore any LOW errors that this program, or any child programs spawned later, generate.
+SETERRHIGH									|	Ignore any LOW or MED errors that this program, or any child programs spawned later, generate.
+SETERRSEVERE								|	Ignore any LOW, MED or HIGH errors that this program, or any child programs spawned later, generate.
+SETERRIGNORE								|	Ignore any errors that this program, or any child programs spawned later, generate.
 EXITONERROR	{var}							|	If {var} evaluates to TRUE, then cease execution of this and all child programs when one of those programs generates a non-ignored error.
 GETLASTERROR	{varOut}					|	Copy the last non-ignored error message into {varOut}. This clears the last error message.
 EXIT		{var}							|	Cease execution of this and all child programs, returning {var} to the parent program. If this is the only program still in execution, zengine terminates.
@@ -119,3 +119,6 @@ WAITALLEXIT	{varOut}						|	Wait for all child programs to exit, setting {varOut
 KILLPROGRAM	{var}							|	Cause the program with the ID {var} to immediately cease execution. Does nothing if the program is not running.
 RUNCMD		{var1}	{var2}					|	Execute the command of ID {var1} with the parameters in {var2}.	If no command of that ID, does nothing and generates error at SEVERE level.
 CALLFUNC	{var1}	{var2}	{varOut}		|	Call the function of ID {var1} with the parameters in {var2}, returning result in {varOut}. If no function of that ID, does nothing and generates error at SEVERE level.
+
+[Debug]
+DEBUGLINE	{const}							|	Set the current program line to indicate in error messages. If no debug line set in the program, error messages will indicate the instruction number.

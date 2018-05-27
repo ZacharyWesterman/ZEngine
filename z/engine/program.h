@@ -28,6 +28,8 @@ namespace z
 		class program
 		{
 		private:
+			const core::string<Char> file;
+
 			const program* parent;
 			bool isRunning;
 			Float programIPS;
@@ -36,7 +38,7 @@ namespace z
 			Int nextInstruction;
 			std::stack<Int> returnIndex;
 
-			
+			errorLevel reportErrorLevel;
 
 		public:
 			program(const program* thisParent = NULL);

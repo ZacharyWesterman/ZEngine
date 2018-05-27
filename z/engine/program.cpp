@@ -17,6 +17,8 @@ namespace z
 			programIPS = 0;
 
 			isRunning = false;
+
+			reportErrorLevel = NO_ERROR;
 		}
 
 		program::~program()
@@ -44,7 +46,7 @@ namespace z
 			return isRunning;
 		}
 
-		bool program::read(core::inputStream<Char>& input)
+		bool program::readFile(const core::string<Char>& )
 		{
 			nextInstruction = 0;
 
@@ -61,6 +63,11 @@ namespace z
 				instruction* instr = instructions->at(nextInstruction);
 
 				errorLevel err = instr->execute(this, thisDriver);
+
+				if (err <= reportErrorLevel)
+				{
+
+				}
 
 				nextInstruction = instr->next(this);
 			}

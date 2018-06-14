@@ -2,6 +2,7 @@
 #include "program.h"
 
 #include <z/core/array.h>
+#include <z/core/string.h>
 
 namespace z
 {

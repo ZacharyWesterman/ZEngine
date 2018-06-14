@@ -46,7 +46,7 @@ namespace z
 			return isRunning;
 		}
 
-		bool program::readFile(const core::string<Char>& )
+		bool program::read(core::inputStream<byte>* input)
 		{
 			nextInstruction = 0;
 
@@ -66,7 +66,7 @@ namespace z
 
 				if (err <= reportErrorLevel)
 				{
-
+					//report the error
 				}
 
 				nextInstruction = instr->next(this);

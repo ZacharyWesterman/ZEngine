@@ -3,6 +3,7 @@
 #define INSTR_MEMALLOC_H_INCLUDED
 
 #include "instruction.h"
+#include "inst.h"
 
 namespace z
 {
@@ -11,12 +12,18 @@ namespace z
 		class memalloc : public instruction
 		{
 		private:
+			memID amount;
 
 		public:
-			memalloc();
 			~memalloc();
 
+			memalloc(memID);
+
+			void serialIn(core::inputStream<byte>*);
+
 			void execute(program*, driver*);
+
+			void serialOut(core::outputStream<byte>*);
 		};
 	}
 }

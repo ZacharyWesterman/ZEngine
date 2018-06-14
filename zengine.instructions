@@ -75,8 +75,8 @@ ISNULL		{var}	{varOut}				|	Return TRUE if NULL or null string, pointer, or arra
 
 [Array Manip]	Note that array or string "indexes" are an offset from the beginning, and thus start at 0. If {offset} is not a non-negative integer, returns a null array and generates error at HIGH level.
 ARRAYIZE	{var}	{offset}	{varOut}	|	Get {var} and the next {offset} contiguous variables and concatenate them into an array, storing in {varOut}.
-APPEND		{var}	{varOut}				|	Add {var} as an element storing at the end of {varOut}. If {varOut} is not an array, does nothing and generates an error at HIGH level.
-INSERT		{var}	{offset}	{varOut}	|	Insert {var} as an element before the {offset} element of and storing in {varOut}. If {varOut} is not an array, does nothing and generates an error at HIGH level.
+APPEND		{var}	{varOut}				|	Add {var} as an element storing at the end of {varOut}. If {varOut} is not an array or string, does nothing and generates an error at HIGH level.
+INSERT		{var}	{offset}	{varOut}	|	Insert {var} as an element before the {offset} element of and storing in {varOut}. If {varOut} is not an array or string, does nothing and generates an error at HIGH level.
 DELETE		{offset}	{varOut}			|	Remove the {offset} element from and storing in {varOut}. If {varOut} is not an array, does nothing and generates an error at HIGH level.
 GETELEM		{var}	{offset}	{varOut}	|	Copy the {offset} element of {var}, storing in {varOut}. If {var} is not an array or a string, does nothing and generates an error at HIGH level.
 SETELEM		{var}	{offset}	{varOut}	|	Set the {offset} element of {varOut} to the value in {var}. If {varOut} is not an array or a string, does nothing and generates an error at HIGH level.
@@ -121,4 +121,6 @@ RUNCMD		{var1}	{var2}					|	Execute the command of ID {var1} with the parameters
 CALLFUNC	{var1}	{var2}	{varOut}		|	Call the function of ID {var1} with the parameters in {var2}, returning result in {varOut}. If no function of that ID, does nothing and generates error at SEVERE level.
 
 [Debug]
-DEBUGLINE	{const}							|	Set the current program line to indicate in error messages. If no debug line set in the program, error messages will indicate the instruction number.
+DEBUGLINE	 	{const}						|	Set the source line to indicate in error messages. If no debug line set in the program, error messages will indicate the instruction number.
+DEBUGFUNCTION	{const}						|	Set the source function to indicate in error messages.
+DEBUGFILE		{const}						|	Set the source file to indicate in error messages.

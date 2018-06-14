@@ -8,7 +8,7 @@ _OBJS = main.o driver.o program.o instruction.o
 OBJS = $(patsubst %,$(ODIR)/%,$(_OBJS))
 
 
-all: $(OBJS)
+all: objdir $(OBJS)
 	g++ -o $(OUT) $(OBJS)
 
 $(ODIR)/main.o: main.cpp
@@ -22,6 +22,9 @@ $(ODIR)/program.o: z/engine/program.cpp
 
 $(ODIR)/instruction.o: z/engine/instruction.cpp
 	$(CC) $(CFLAGS) -c z/engine/instruction.cpp -o $(ODIR)/instruction.o
+
+objdir:
+	mkdir -p $(ODIR)
 
 clean:
 	rm -f $(ODIR)/*.o $(OUT)

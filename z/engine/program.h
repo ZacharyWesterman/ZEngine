@@ -5,6 +5,8 @@
 #include <z/z.h>
 #include <stack>
 
+#include "errorLevel.h"
+
 #ifndef NULL
 #define NULL 0
 #endif
@@ -18,6 +20,9 @@ namespace z
 
 		template <typename>
 		class inputStream;
+
+		template <typename>
+		class string;
 	}
 
 	namespace engine
@@ -28,7 +33,7 @@ namespace z
 		class program
 		{
 		private:
-			const core::string<Char> file;
+			// const core::string<Char> file;
 
 			const program* parent;
 			bool isRunning;
@@ -51,7 +56,7 @@ namespace z
 			void exit();
 			bool running() const;
 
-			bool read(core::inputStream<Char>&);
+			bool read(core::inputStream<byte>*);
 
 			void run(const driver*);
 		};

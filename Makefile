@@ -1,32 +1,27 @@
-OUT = zengine
 CC = g++
-ODIR = obj
 CFLAGS = -I"../zLibraries" -std=c++11 -g -Wall -fexceptions
 LFLAGS =
 
-_OBJS = main.o driver.o program.o instruction.o
-OBJS = $(patsubst %,$(ODIR)/%,$(_OBJS))
+SRCS = main.cpp $(wildcard z/*.cpp) $(wildcard z/engine/*.cpp) $(wildcard z/engine/instructions/*.cpp)
 
+OUT_ = $(subst /,.,$(SRCS))
+OUTS = $(patsubst %.cpp,obj/%.o,$(OUT_))
 
-all: objdir $(OBJS)
-	g++ -o $(OUT) $(OBJS)
+all: objdir zengine
 
-$(ODIR)/main.o: main.cpp
-	$(CC) $(CFLAGS) -c main.cpp -o $(ODIR)/main.o
+zengine: $(OUTS)
+	g++ $(LFLAGS) -o zengine $<
 
-$(ODIR)/driver.o: z/engine/driver.cpp
-	$(CC) $(CFLAGS) -c z/engine/driver.cpp -o $(ODIR)/driver.o
+$(OUTS): $(SRCS)
+	g++ $(CFLAGS) -c $< -o $@
 
-$(ODIR)/program.o: z/engine/program.cpp
-	$(CC) $(CFLAGS) -c z/engine/program.cpp -o $(ODIR)/program.o
-
-$(ODIR)/instruction.o: z/engine/instruction.cpp
-	$(CC) $(CFLAGS) -c z/engine/instruction.cpp -o $(ODIR)/instruction.o
-
+.PHONY: objdir
 objdir:
-	mkdir -p $(ODIR)
+	mkdir -p obj
 
+.PHONY: clean
 clean:
-	rm -f $(ODIR)/*.o $(OUT)
+	rm -f obj/*.o zengine
 
+.PHONY: rebuild
 rebuild: clean all

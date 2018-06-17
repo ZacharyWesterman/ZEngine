@@ -10,20 +10,34 @@ namespace z
 {
 	namespace engine
 	{
-		program::program(const program* thisParent): parent(thisParent)
+		void program::reset(bool autoRun)
 		{
-			instructions = new core::array<instruction*>;
 			nextInstruction = 0;
 			programIPS = 0;
-
-			isRunning = false;
-
+			isRunning = autoRun;
 			reportErrorLevel = NO_ERROR;
 		}
 
 		program::~program()
 		{
-			delete instructions;
+			this->dump();
+		}
+
+		program::program(const program* thisParent, core::array<instruction*>* init) : parent(thisParent), instructions(init)
+		{
+			this->reset((bool)init);
+		}
+
+		void program::dump()
+		{
+			if (instructions)
+			{
+				for (Int i=0; i<(instructions->length()); i++)
+					delete instructions->at(i);
+				delete instructions;
+
+				instructions = NULL;
+			}
 		}
 
 		bool program::operator==(const program& other) const

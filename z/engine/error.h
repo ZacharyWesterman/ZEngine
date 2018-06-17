@@ -19,14 +19,17 @@ namespace z
 		{
 		private:
 			const errorLevel errLevel;
-			const core::string<Char> errFile;
-			const core::string<Char> errMsg;
+			const core::string<Char>* errFile;
+			const core::string<Char>* errMsg;
 			const Int errLine;
 			const bool errLineDef;
 
 		public:
-			error(const errorLevel, const core::string<Char>&,
-				const Int, const bool);
+			error(const errorLevel,
+				const core::string<Char>*,
+				const core::string<Char>*,
+				const Int,
+				const bool);
 
 			Int line() const;
 

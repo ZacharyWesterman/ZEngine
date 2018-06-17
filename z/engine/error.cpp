@@ -7,8 +7,8 @@ namespace z
 	namespace engine
 	{
 		error::error(const errorLevel level,
-					const core::string<Char>& inFile,
-					const core::string<Char>& msg,
+					const core::string<Char>* inFile,
+					const core::string<Char>* msg,
 					const Int atLine,
 					const bool isLine) :
 			errLevel(level), errFile(inFile), errMsg(msg),
@@ -22,12 +22,12 @@ namespace z
 
 		const core::string<Char>& error::file() const
 		{
-			return errFile;
+			return *errFile;
 		}
 
 		const core::string<Char>& error::message() const
 		{
-			return errMsg;
+			return *errMsg;
 		}
 
 		errorLevel error::level() const
@@ -37,7 +37,7 @@ namespace z
 
 		core::string<Char> error::levelString() const
 		{
-			switch errLevel
+			switch (errLevel)
 			{
 			case LOW:
 				return "LOW";
@@ -68,9 +68,9 @@ namespace z
 			msg += levelString();
 			msg += "] Error in ";
 
-			if (errFile.length())
+			if (errFile->length())
 			{
-				msg += errFile;
+				msg += *errFile;
 				msg += ", ";
 			}
 
@@ -80,7 +80,7 @@ namespace z
 			msg += errLine;
 			msg += ": ";
 
-			msg += errMsg;
+			msg += *errMsg;
 
 			return msg;
 		}

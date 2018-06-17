@@ -36,18 +36,24 @@ namespace z
 			// const core::string<Char> file;
 
 			const program* parent;
+			core::array<instruction*>* instructions;
+
 			bool isRunning;
 			Float programIPS;
 
-			core::array<instruction*>* instructions;
 			Int nextInstruction;
 			std::stack<Int> returnIndex;
 
 			errorLevel reportErrorLevel;
 
+			void reset(bool);
+
 		public:
-			program(const program* thisParent = NULL);
 			~program();
+
+			program(const program* thisParent = NULL, core::array<instruction*>* init = NULL);
+
+			void dump();
 
 			bool operator==(const program& other) const;
 

@@ -4,24 +4,30 @@ LFLAGS =
 
 SRCS = main.cpp $(wildcard z/*.cpp) $(wildcard z/engine/*.cpp) $(wildcard z/engine/instructions/*.cpp)
 
-OUT_ = $(subst /,.,$(SRCS))
-OUTS = $(patsubst %.cpp,obj/%.o,$(OUT_))
+OBJS = $(patsubst %.cpp,%.o,$(SRCS))
 
-all: objdir zengine
+.PHONY: all
+all: zengine
 
-zengine: $(OUTS)
-	g++ $(LFLAGS) -o zengine $<
+zengine: $(OBJS)
+	g++ $(LFLAGS) -o zengine $^
 
-$(OUTS): $(SRCS)
-	g++ $(CFLAGS) -c $< -o $@
+$(OBJS): %.o: %.cpp
+	g++ $(CFLAGS) -o $@ -c $^
 
 .PHONY: objdir
-objdir:
+objdir: | obj
+
+obj:
 	mkdir -p obj
 
 .PHONY: clean
 clean:
-	rm -f obj/*.o zengine
+	rm -f $(OBJS) zengine
+
+.PHONY: clear
+clear:
+	rm -f $(OBJS)
 
 .PHONY: rebuild
 rebuild: clean all

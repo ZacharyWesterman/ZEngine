@@ -10,9 +10,9 @@ namespace z
 
 		memalloc::memalloc(memID memAmount) : amount(memAmount) {}
 
-		void memalloc::execute(program*, driver*)
+		errorLevel memalloc::execute(const program*, const driver*)
 		{
-
+			return NO_ERROR;
 		}
 
 		void memalloc::serialIn(core::inputStream<byte>* stream)
@@ -22,7 +22,7 @@ namespace z
 
 		void memalloc::serialOut(core::outputStream<byte>* stream)
 		{
-			
+
 		}
 	}
 }

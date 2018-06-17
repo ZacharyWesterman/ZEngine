@@ -2,8 +2,8 @@
 #ifndef INSTR_MEMALLOC_H_INCLUDED
 #define INSTR_MEMALLOC_H_INCLUDED
 
-#include "instruction.h"
-#include "inst.h"
+#include "../instruction.h"
+#include "../inst.h"
 
 namespace z
 {
@@ -21,7 +21,7 @@ namespace z
 
 			void serialIn(core::inputStream<byte>*);
 
-			void execute(program*, driver*);
+			errorLevel execute(const program*, const driver*);
 
 			void serialOut(core::outputStream<byte>*);
 		};

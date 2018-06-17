@@ -30,7 +30,7 @@ namespace z
 		private:
 
 		public:
-			virtual ~instruction() = 0;
+			virtual ~instruction() {};
 
 
 			virtual errorLevel execute(const program*, const driver*) = 0;

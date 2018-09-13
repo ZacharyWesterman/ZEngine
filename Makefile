@@ -12,8 +12,11 @@ all: zengine
 zengine: $(OBJS)
 	g++ $(LFLAGS) -o zengine $^
 
-$(OBJS): %.o: %.cpp
+main.o: main.cpp
 	g++ $(CFLAGS) -o $@ -c $^
+
+%.o: %.cpp %.h
+	g++ $(CFLAGS) -o $@ -c $<
 
 .PHONY: objdir
 objdir: | obj

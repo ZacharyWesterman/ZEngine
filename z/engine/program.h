@@ -7,6 +7,8 @@
 
 #include "errorLevel.h"
 
+#include <z/core/array.h>
+
 #ifndef NULL
 #define NULL 0
 #endif
@@ -15,8 +17,8 @@ namespace z
 {
 	namespace core
 	{
-		template <typename>
-		class array;
+		// template <typename>
+		// class array;
 
 		template <typename>
 		class inputStream;

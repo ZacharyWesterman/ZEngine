@@ -1,4 +1,7 @@
 *.o
+*.so
+*.dll
+*.exe
 
 Doxygen/
-zengine
+zing

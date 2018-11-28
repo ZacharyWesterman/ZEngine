@@ -1,31 +1,58 @@
-#include "z/engine/program.h"
 
-#include <z/core/array.h>
+#include <z/core.h>
+#include <z/system.h>
+#include <z/file.h>
 
-#include "z/engine/instructions/memalloc.h"
+#include <z/compiler/preprocTags.h>
+// #include <dlfcn.h>
 
-using namespace z;
+#define s(x) z::core::string<>(x)
 
-core::array<engine::instruction*>* genInstructions();
+typedef z::compiler::preprocTags* (* pptfunc)();
 
-int main(int argc, char** argv)
+int main()
 {
-	// z::engine::driver Driver(argc, argv);
+	z::system::console console;
+	z::file::library lang;
 
-	core::array<engine::instruction*>* instructions = genInstructions();
+	z::compiler::preprocTags* tags = NULL;
 
-	z::engine::program tmp(NULL, instructions);
+	lang.load("../zinglang/zasm.so");
+
+	if (lang.bad())
+	{
+		s("Load failed!").writeln(console);
+	}
+	else
+	{
+		auto raw = (pptfunc)lang.symbol("preprocTags");
+		if (raw)
+		{
+			tags = raw();
+		}
+		else
+		{
+			s("Symbol DNE!").writeln(console);
+		}
+	}
+
+	if (!tags) tags = new z::compiler::preprocTags;
+
+	auto directive = tags->directive();
+	auto directend = tags->directend();
+
+	if (directive.length())
+	{
+		(s("Directive = (")+directive+")").writeln(console);
+		if (directend.length())
+			(s("Directend = (")+directend+")").writeln(console);
+		else
+			s("No directive end pattern specified!").writeln(console);
+	}
+	else
+		s("No directive start pattern defined.").writeln(console);
+
+	lang.unload();
 
 	return 0;
-}
-
-core::array<engine::instruction*>* genInstructions()
-{
-	core::array<engine::instruction*>* instructions;
-
-	instructions = new core::array<engine::instruction*>;
-
-	instructions->add(new engine::memalloc(0));
-
-	return instructions;
 }

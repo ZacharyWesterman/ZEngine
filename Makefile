@@ -1,36 +1,73 @@
-CC = g++
-CFLAGS = -I"../zLibraries" -std=c++11 -g -Wall -fexceptions
-LFLAGS =
+EXECNAME = zing
+LIBNAME = zed
 
-SRCS = main.cpp $(wildcard z/*.cpp) $(wildcard z/engine/*.cpp) $(wildcard z/engine/instructions/*.cpp)
-
+SRCS = main.cpp $(wildcard z/compiler/*.cpp)
 OBJS = $(patsubst %.cpp,%.o,$(SRCS))
 
-.PHONY: all
-all: zengine
+ARCH = $(shell g++ -dumpmachine)
 
-zengine: $(OBJS)
-	g++ $(LFLAGS) -o zengine $^
+ifeq ($(findstring x86_64,$(ARCH)),x86_64)
+CCTARGET = -m64
+else
+ifeq ($(findstring i686,$(ARCH)),i686)
+CCTARGET = -m32
+else
+CCTARGET =
+endif
+endif
+
+INCLUDE = -I"../libzed" -I"../zing"
+CCFLAGS = $(INCLUDE) -std=c++11 -W -Wall -Wextra -pedantic -fexceptions $(CCTARGET)
+
+# opt defaults to -O3
+ifndef OPT
+OLEVEL = 3
+endif
+
+#if opt flag is true
+ifneq (,$(findstring $(OPT),S size Size SIZE))
+OLEVEL = s
+endif
+
+# if debug flag is false
+ifeq (,$(findstring $(DEBUG),1 true True TRUE))
+CCFLAGS += -O$(OLEVEL) -g0
+else
+CCFLAGS += -g3 -O$(OLEVEL) -DDEBUG
+endif
+
+LFLAGS = -l$(LIBNAME) -ldl
+ifeq ($(OS),Windows_NT)
+LFLAGS += -L.
+EXECUTABLE = $(EXECNAME).exe
+RMOBJS = $(subst /,\,$(OBJS))
+RM = del
+else
+EXECUTABLE = $(EXECNAME)
+RMOBJS = $(OBJS)
+RM = rm -f
+endif
+
+CC = g++
+LN = g++
+
+default: $(EXECUTABLE)
+
+$(EXECUTABLE): $(OBJS)
+	$(LN) -o $@ $^ $(LFLAGS)
 
 main.o: main.cpp
-	g++ $(CFLAGS) -o $@ -c $^
+	$(CC) $(CCFLAGS) -o $@ -c $^
 
 %.o: %.cpp %.h
-	g++ $(CFLAGS) -o $@ -c $<
+	$(CC) $(CCFLAGS) -o $@ -c $<
 
-.PHONY: objdir
-objdir: | obj
+clean: clear
+	$(RM) $(RMOBJS)
 
-obj:
-	mkdir -p obj
-
-.PHONY: clean
-clean:
-	rm -f $(OBJS) zengine
-
-.PHONY: clear
 clear:
-	rm -f $(OBJS)
+	$(RM) *.so $(EXECUTABLE)
 
-.PHONY: rebuild
-rebuild: clean all
+rebuild: clean default
+
+.PHONY: default clean clear rebuild lang

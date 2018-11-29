@@ -9,29 +9,29 @@ namespace z
 		class preprocTags
 		{
 		public:
-			virtual core::string<> directive() const
+			virtual zstring directive() const
 			{
-				return core::string<>();
+				return zstring();
 			}
 
-			virtual core::string<> directend() const
+			virtual zstring directend() const
 			{
-				return core::string<>();
+				return zstring();
 			}
 
-			virtual core::string<> commentStart() const
+			virtual zstring commentStart() const
 			{
-				return core::string<>();
+				return zstring();
 			}
 
-			virtual core::string<> commentStop() const
+			virtual zstring commentStop() const
 			{
-				return core::string<>();
+				return zstring();
 			}
 
-			virtual core::string<> commentLine() const
+			virtual zstring commentLine() const
 			{
-				return core::string<>();
+				return zstring();
 			}
 		};
 	}

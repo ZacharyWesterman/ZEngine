@@ -6,8 +6,6 @@
 #include <z/compiler/preprocTags.h>
 // #include <dlfcn.h>
 
-#define s(x) z::core::string<>(x)
-
 typedef z::compiler::preprocTags* (* pptfunc)();
 
 int main()
@@ -21,7 +19,7 @@ int main()
 
 	if (lang.bad())
 	{
-		s("Load failed!").writeln(console);
+		zstring("Load failed!").writeln(console);
 	}
 	else
 	{
@@ -32,7 +30,7 @@ int main()
 		}
 		else
 		{
-			s("Symbol DNE!").writeln(console);
+			zstring("Symbol DNE!").writeln(console);
 		}
 	}
 
@@ -43,14 +41,14 @@ int main()
 
 	if (directive.length())
 	{
-		(s("Directive = (")+directive+")").writeln(console);
+		(zstring("Directive = (")+directive+")").writeln(console);
 		if (directend.length())
-			(s("Directend = (")+directend+")").writeln(console);
+			(zstring("Directend = (")+directend+")").writeln(console);
 		else
-			s("No directive end pattern specified!").writeln(console);
+			zstring("No directive end pattern specified!").writeln(console);
 	}
 	else
-		s("No directive start pattern defined.").writeln(console);
+		zstring("No directive start pattern defined.").writeln(console);
 
 	lang.unload();
 

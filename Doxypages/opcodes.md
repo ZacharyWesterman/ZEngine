@@ -1,5 +1,6 @@
 All `{var}` and such indicate a variable index. The variable index `{0}` reserved as **NULL** and as such any modify instructions on it are ignored.<BR>
 Variable index `{1}` is defined as parameters from the parent program. This will always be an array.<BR>
+Variable index `{2}` is the value returned to the calling process. By default this is set to null.<BR>
 Aside from these, all memory must be allocated by the program.
 If a program attempts to read from or assign to a variable index that is not currently allocated, A **BADMEMORY** exception is thrown.
 
@@ -210,8 +211,8 @@ If a jump is specified to a non-integral index, a **JUMP** exception of **BADTYP
 |JVEXCEPT|{instr} |       |        |Set the VM to jump to the instruction at the index in ${instr} when an exception occurs. If non-integral input or bad index, does nothing|
 |DEXCEPT |        |       |        |Return to default exception handling behavior|
 |EXCEPT  |{type}  |{desc} |        |Causes an exception of type {type} to be thrown, with a subtype/description of {desc}|
-|TEXCEPT |        |       |{varOut}|Get the type of the last exception thrown. If none, sets {varOut} to **NULL**|
-|SEXCEPT |        |       |{varOut}|Get the subtype/description of the last exception thrown. If none, sets {varOut} to **NULL**|
+|EXDATA  |        |       |{varOut}|Get the data of the last thrown exception in the format `{type,subtype,line,func,file,obj,description text}`|
+|STACKTRACE|      |       |{varOut}|Get the full stack trace as an array (e.g. `{elem1,elem2,...}`) where each element is an array of format `{line,func,file,obj}`.
 
 
 ##Data Types

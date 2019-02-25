@@ -1,36 +1,61 @@
-CC = g++
-CFLAGS = -I"../zLibraries" -std=c++11 -g -Wall -fexceptions
-LFLAGS =
+NAME = zing
+VERSION = 0
+MAJOR   = 1
+MINOR   = 0
 
-SRCS = main.cpp $(wildcard z/*.cpp) $(wildcard z/engine/*.cpp) $(wildcard z/engine/instructions/*.cpp)
-
+SRCS = main.cpp $(wildcard engine/*.cpp) $(wildcard engine/instructions/*.cpp)
 OBJS = $(patsubst %.cpp,%.o,$(SRCS))
 
-.PHONY: all
-all: zengine
+ARCH = $(shell g++ -dumpmachine)
 
-zengine: $(OBJS)
-	g++ $(LFLAGS) -o zengine $^
+ifeq ($(findstring x86_64,$(ARCH)),x86_64)
+CCTARGET = -m64
+else
+ifeq ($(findstring i686,$(ARCH)),i686)
+CCTARGET = -m32
+else
+CCTARGET =
+endif
+endif
+
+# opt defaults to -O3
+ifndef OPT
+OLEVEL = 3
+endif
+
+#if opt flag is true
+ifneq (,$(findstring $(OPT),S size Size SIZE))
+OLEVEL = s
+endif
+
+# if debug flag is false
+ifeq (,$(findstring $(DEBUG),1 true True TRUE))
+CCFLAGS += -O$(OLEVEL) -g0
+LFLAGS += -s
+else
+CCFLAGS += -g3 -O$(OLEVEL) -DDEBUG
+endif
+
+INCLUDE = -I"../libzed"
+CCFLAGS = $(INCLUDE) -std=c++11 -W -Wall -Wextra -pedantic -fexceptions $(CCTARGET)
+
+LFLAGS = -lzed
+
+CC = g++
+LN = g++
+
+default: $(NAME)
+
+$(NAME): $(OBJS)
+	$(CC) $(LFLAGS) -o $(NAME) $^
 
 main.o: main.cpp
-	g++ $(CFLAGS) -o $@ -c $^
+	$(CC) $(CCFLAGS) -o $@ -c $^
 
-%.o: %.cpp %.h
-	g++ $(CFLAGS) -o $@ -c $<
+%.o: %.cpp %.hpp
+	$(CC) $(CCFLAGS) -o $@ -c $<
 
-.PHONY: objdir
-objdir: | obj
-
-obj:
-	mkdir -p obj
-
-.PHONY: clean
 clean:
-	rm -f $(OBJS) zengine
+	rm -f $(OBJS) $(NAME)
 
-.PHONY: clear
-clear:
-	rm -f $(OBJS)
-
-.PHONY: rebuild
-rebuild: clean all
+.PHONY: clean default

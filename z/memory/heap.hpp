@@ -190,6 +190,19 @@ namespace z
 					}
 				});
 			}
+
+			/**
+			 * \brief Reserve a given number of objects to be initialized in the future.
+			 *
+			 * This lets the heap know that it will need to keep track of at least the given number
+			 * of objects. This can save execution time if you are using the heap to initialize a large
+			 * amount of objects. Note that the type of object does not matter, so reserves for multiple
+			 * object types of differing size can all be combined into one reserve call.
+			 *
+			 * \threadsafe_member_yes
+			 * \param count The number of objects that will be initialized in the future.
+			 */
+			void reserveInit(int count);
 		};
 	}
 }

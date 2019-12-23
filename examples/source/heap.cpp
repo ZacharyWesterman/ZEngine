@@ -4,17 +4,19 @@
 
 z::system::console console;
 
-class object
+struct object
 {
-public:
-	object(int num, bool flag)
+	int value;
+	bool flag;
+
+	object(int aValue, bool aFlag) : value(aValue), flag(aFlag)
 	{
-		(zstring("Init with ")+num + ":" + flag).writeln(console);
+		(zstring("Init with ") + value + ":" + flag).writeln(console);
 	}
 
 	~object()
 	{
-		zstring("Destructor").writeln(console);
+		(zstring("Destroy with ") + value + ":" + flag).writeln(console);
 	}
 };
 
@@ -82,10 +84,20 @@ int main()
 	(zstring("\nWe've used ") + heap.used() + "/" + heap.max() + " bytes.\n").writeln(console);
 
 
-	//Now for allocating custom objects:
+	/*
+	 * Now for allocating custom objects:
+	 */
+
 	//Get memory as before, then tell the heap to initialize the object.
 	auto myObjects = heap.get<object>(2);
-	heap.init(myObjects, 123, false);
+
+	//If we're going to initialize lots of objects, it saves time to tell the heap in advance.
+	//This is not necessary, but is good practice.
+	heap.reserveInit(2);
+
+	//initialize the objects.
+	heap.init(&myObjects[0], 123, false);
+	heap.init(&myObjects[1], 456, true);
 
 	//Note that if we reallocate the heap, all initialized objects are destroyed.
 	//This is not necessary to do, as they will also be destroyed when the heap is.

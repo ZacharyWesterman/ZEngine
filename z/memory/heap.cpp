@@ -72,5 +72,13 @@ namespace z
 			current = upcoming;
 			return pointer;
 		}
+
+		void heap::reserveInit(int count)
+		{
+			//We don't want simultaneous calls to mess up calling destructors later on.
+			const std::lock_guard<std::mutex> lock(dtorMutex);
+
+			dtors.reserve(dtors.size() + count);
+		}
 	}
 }

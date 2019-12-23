@@ -1,7 +1,10 @@
 *.o
 zing
+za
 *.so
 *.exe
 *.dll
 html/
 doxygen.log
+examples/binary
+examples/object

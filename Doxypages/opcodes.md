@@ -256,14 +256,14 @@ Get the type of {var}, or what it can cast to without losing information. These 
 |STDOUT |{var}  |        |Convert {var} to a string then write to stdout|
 |STDERR |{var}  |        |Convert {var} to a string then write to stderr|
 |WAIT   |{var}  |        |Pause program execution for {var} milliseconds. If {var} does not evaluate to a positive number, this does nothing|
-|SETIPS |{var}  |        |Set the (approximate) number of instructions to run per second. If 0 or less, then it is unlimited|
+|SETIPS |{var}  |        |Set the (approximate) number of instructions to run per second. If the real part evaluates to 0 or less, then it is unlimited. If not numeric, generates an **ARITHMETIC** exception of **NONARITHMETIC**.|
 |GETIPS |       |{varOut}|Get the current goal IPS|
 
 ##Debug Information
 These OPs are for helping pinpoint where exceptions occurred.
 
 If no debug line is specified before an exception occurs, exceptions thrown will indicate the instruction number.<BR>
-By default, the debug file is the currently running object file.<BR>
+Unless otherwise specified the debug file will be the currently running object file.<BR>
 
 | OP      | Input | Description |
 | ------- | ----- | ----------- |

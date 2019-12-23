@@ -14,11 +14,22 @@ namespace z
 
 		heap::~heap()
 		{
+			for (auto& dtor : dtors)
+			{
+				dtor.destroy(dtor.p);
+			}
 			if (mem) delete mem;
 		}
 
 		bool heap::allocate(size_t bytes)
 		{
+			//call destructors of objects we're managing.
+			for (auto& dtor : dtors)
+			{
+				dtor.destroy(dtor.p);
+			}
+			dtors.clear();
+
 			//only reallocate if we have less than what we need.
 			if (memSize < bytes)
 			{

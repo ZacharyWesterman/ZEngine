@@ -1,6 +1,8 @@
 #pragma once
 #include <stddef.h>
 #include <mutex>
+#include <type_traits>
+#include <vector>
 
 namespace z
 {
@@ -10,6 +12,8 @@ namespace z
 		 * This class is for memory that is not meant to be freed throughout the
 		 * lifetime of any usage of the memory. For example, a set of instructions
 		 * in a program.
+		 *
+		 * \threadsafe_class_const
 		 */
 		class heap
 		{
@@ -18,6 +22,15 @@ namespace z
 			size_t memSize;
 			size_t current;
 			std::mutex memMutex; //protect memory from simultaneous calls to get()
+
+			//Keep track of objects we will need to destroy later.
+			struct destructor
+			{
+				const void* p;
+				void(*destroy)(const void*);
+			};
+			std::vector<destructor> dtors;
+			std::mutex dtorMutex; //protect from data races when adding destructors.
 
 		public:
 			///Allow allocated memory to increase if we run out of available space.
@@ -42,7 +55,7 @@ namespace z
 			 * \warning Improper use of allocated memory can cause data corruptions or segmentation faults!
 			 * It is up to you to ensure memory is no longer in use before reallocating the heap.
 			 *
-			 * \threadsafe_function_no
+			 * \threadsafe_member_no
 			 * \param bytes The number of bytes to allocate.
 			 * \return True if allocation was successful, false otherwise.
 			 */
@@ -58,7 +71,7 @@ namespace z
 			 * \warning Improper use of allocated memory can cause data corruptions or segmentation faults!
 			 * It is up to you to ensure memory is no longer in use before reallocating the heap.
 			 *
-			 * \threadsafe_function_no
+			 * \threadsafe_member_no
 			 * \param bytes The number of objects to allocate.
 			 * \return True if allocation was successful, false otherwise.
 			 */
@@ -72,7 +85,6 @@ namespace z
 
 			/**
 			 * \brief Get the number of bytes currently allocated.
-			 * \threadsafe_function_yes
 			 * \return The number of bytes available for use.
 			 */
 			size_t max() const
@@ -82,7 +94,6 @@ namespace z
 
 			/**
 			 * \brief Get the number of objects currently allocated.
-			 * \threadsafe_function_yes
 			 * \return The number of objects of T's size that are available for use (rounded down).
 			 */
 			template<typename T>
@@ -93,7 +104,6 @@ namespace z
 
 			/**
 			 * \brief Get the number of bytes in use.
-			 * \threadsafe_function_yes
 			 * \return The amount of used heap in bytes.
 			 */
 			size_t used() const
@@ -103,7 +113,6 @@ namespace z
 
 			/**
 			 * \brief Get the number of objects in use.
-			 * \threadsafe_function_yes
 			 * \return The amount of used heap in objects of T's size (rounded down).
 			 */
 			template<typename T>
@@ -119,7 +128,7 @@ namespace z
 			 * will automatically increase to accomodate the requested amount. Otherwise, if
 			 * more memory is requested than is available, then the request fails.
 			 *
-			 * \threadsafe_function_yes
+			 * \threadsafe_member_yes
 			 * \param bytes The amount of memory requested in bytes.
 			 * \return On success returns a pointer to the requested memory segment. Returns NULL on failure.
 			 */
@@ -132,7 +141,7 @@ namespace z
 			 * will automatically increase to accomodate the requested amount. Otherwise, if
 			 * more memory is requested than is available, then the request fails.
 			 *
-			 * \threadsafe_function_yes
+			 * \threadsafe_member_yes
 			 * \param bytes The amount of memory requested in objects of T's size.
 			 * \return On success returns a pointer to the requested memory segment. Returns NULL on failure.
 			 */
@@ -141,6 +150,45 @@ namespace z
 			{
 				size_t bytes = sizeof(T) * count;
 				return (T*)get(bytes);
+			}
+
+			/**
+			 * \brief Initialize an object stored on this heap.
+			 *
+			 * Constructs a single object using the given parameters, and assigns the
+			 * destructor to run when the heap is destroyed or reallocated.
+			 * Note that the object must belong to this heap to be managed in this way.
+			 *
+			 * \threadsafe_member_yes
+			 * \param pointer Reference to the object we're constructing.
+			 * \param args The list of arguments to pass to the constructor.
+			 * \throws std::runtime_error if the object does not belong to this heap.
+			 */
+			template<typename T, typename ...Args>
+			void init(T* pointer, Args&& ... args)
+			{
+				//only init object if it was allocated in this heap.
+				//Otherwise error out.
+				auto memPtr = (T*)mem;
+				if((pointer < memPtr) || ((pointer + sizeof(T)) > (memPtr + current)))
+				{
+					throw std::runtime_error("Attempt to initialize an object that does not belong to this heap!");
+				}
+
+				//Pointer is OK, so initialize.
+				new(pointer) T(std::forward<Args>(args) ...);
+
+				//We don't want simultaneous calls to mess up calling destructors later on.
+				const std::lock_guard<std::mutex> lock(dtorMutex);
+
+				//Remember that we want to destroy the object later.
+				dtors.push_back({
+					pointer,
+					[](const void* x)
+					{
+						static_cast<const T*>(x)->~T();
+					}
+				});
 			}
 		};
 	}

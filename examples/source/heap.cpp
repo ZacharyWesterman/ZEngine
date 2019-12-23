@@ -2,6 +2,22 @@
 #include <z/core/string.h>
 #include <z/memory/heap.hpp>
 
+z::system::console console;
+
+class object
+{
+public:
+	object(int num, bool flag)
+	{
+		(zstring("Init with ")+num + ":" + flag).writeln(console);
+	}
+
+	~object()
+	{
+		zstring("Destructor").writeln(console);
+	}
+};
+
 void printHeapSpace(const z::memory::heap& heap)
 {
 	z::system::console console;
@@ -19,8 +35,6 @@ void printHeapSpace(const z::memory::heap& heap)
 
 int main()
 {
-	z::system::console console;
-
 	z::memory::heap heap;
 
 	//Set up enough contiguous space for 1 int.
@@ -65,7 +79,19 @@ int main()
 	zstring(newInts ? "Successfully got 5 ints!" : "Unable to get memory for 5 ints!").writeln(console);
 	printHeapSpace(heap);
 
-	(zstring("\nWe've used ") + heap.used() + "/" + heap.max() + " bytes.").writeln(console);
+	(zstring("\nWe've used ") + heap.used() + "/" + heap.max() + " bytes.\n").writeln(console);
+
+
+	//Now for allocating custom objects:
+	//Get memory as before, then tell the heap to initialize the object.
+	auto myObjects = heap.get<object>(2);
+	heap.init(myObjects, 123, false);
+
+	//Note that if we reallocate the heap, all initialized objects are destroyed.
+	//This is not necessary to do, as they will also be destroyed when the heap is.
+	heap.allocate(0);
+
+	(zstring("\nWe've used ") + heap.used() + "/" + heap.max() + " bytes.\n").writeln(console);
 
 	return 0;
 }

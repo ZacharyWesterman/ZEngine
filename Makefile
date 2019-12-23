@@ -3,7 +3,10 @@ VERSION = 0
 MAJOR   = 1
 MINOR   = 0
 
-SRCS = main.cpp $(wildcard engine/*.cpp) $(wildcard engine/instructions/*.cpp)
+ASSEMBLER = za
+
+# SRCS = $(wildcard engine/*.cpp) $(wildcard engine/instructions/*.cpp)
+SRCS = $(wildcard z/memory/*.cpp)
 OBJS = $(patsubst %.cpp,%.o,$(SRCS))
 
 ARCH = $(shell g++ -dumpmachine)
@@ -46,16 +49,39 @@ LN = g++
 
 default: $(NAME)
 
-$(NAME): $(OBJS)
-	$(CC) $(LFLAGS) -o $(NAME) $^
+$(NAME): $(OBJS) main.o
+	$(LN) $(LFLAGS) -o $@ $^
+
+za: $(OBJS) za.o
+	$(LN) $(LFLAGS) -o $@ $^
 
 main.o: main.cpp
+	$(CC) $(CCFLAGS) -o $@ -c $^
+
+za.o: za.cpp
 	$(CC) $(CCFLAGS) -o $@ -c $^
 
 %.o: %.cpp %.hpp
 	$(CC) $(CCFLAGS) -o $@ -c $<
 
-clean:
-	rm -f $(OBJS) $(NAME)
+clean: clean-examples
+	rm -rf $(OBJS) $(NAME) za.o
 
-.PHONY: clean default
+examples: $(OBJS) examples/object examples/binary examples/binary/heap
+
+examples/binary:
+	mkdir -p $@
+
+examples/object:
+	mkdir -p $@
+
+examples/object/%.o: examples/source/%.cpp
+	g++ -I. -I"../libzed" -std=c++11 -fPIC -o $@ -c $^
+
+examples/binary/%: examples/object/%.o $(OBJS)
+	g++ -lzed -o $@ $^
+
+clean-examples:
+	rm -rf examples/binary examples/object
+
+.PHONY: clean default examples clean-examples

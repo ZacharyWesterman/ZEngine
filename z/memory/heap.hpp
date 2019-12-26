@@ -13,6 +13,9 @@ namespace z
 		 * lifetime of any usage of the memory. For example, a set of instructions
 		 * in a program.
 		 *
+		 * \note This class does not manage actual memory usage for you; it just helps
+		 * make management easier.
+		 *
 		 * \threadsafe_class_const
 		 */
 		class heap
@@ -42,13 +45,15 @@ namespace z
 			 */
 			heap(bool canIncrease = false);
 
-			///Destructor
+			///Destructor. Releases memory and destroys any objects this heap initialized.
 			~heap();
 
 			/**
 			 * \brief Reset heap and allocate a given number of bytes.
 			 *
-			 * Note that if the amount of memory we're allocating is smaller than what is already
+			 * Releases memory and destroys any objects this heap initialized.
+			 *
+			 * \note If the amount of memory we're allocating is smaller than what is already
 			 * allocated, the heap does not resize (as we already have enough). Instead, the
 			 * existing heap is reused.
 			 *
@@ -64,7 +69,9 @@ namespace z
 			/**
 			 * \brief Reset heap and allocate a given number of objects.
 			 *
-			 * Note that if the amount of memory we're allocating is smaller than what is already
+			 * Releases memory and destroys any objects this heap initialized.
+			 *
+			 * \note If the amount of memory we're allocating is smaller than what is already
 			 * allocated, the heap does not resize (as we already have enough). Instead, the
 			 * existing heap is reused.
 			 *
@@ -81,6 +88,38 @@ namespace z
 				if (count < 0) return false;
 				size_t bytes = sizeof(T) * count;
 				return allocate(bytes);
+			}
+
+			/**
+			 * \brief Resize heap to at least the given number of bytes.
+			 *
+			 * This will decrease or increase the amount of memory in use to the amount given.
+			 * \note If the amount given is smaller than what is already
+			 * in use, the heap will decrease to exactly what's in use.
+			 *
+			 * \threadsafe_member_yes
+			 * \param bytes The number of bytes to resize to.
+			 * \return True if resize was successful, false otherwise.
+			 */
+			bool resize(size_t bytes);
+
+			/**
+			 * \brief Resize heap to at least the given number of objects.
+			 *
+			 * This will decrease or increase the amount of memory in use to fit the number of objects given.
+			 * \note If the amount given is smaller than what is already
+			 * in use, the heap will decrease to exactly what's in use.
+			 *
+			 * \threadsafe_member_yes
+			 * \param bytes The number of objects to resize to.
+			 * \return True if resize was successful, false otherwise.
+			 */
+			template<typename T>
+			bool resize(size_t count)
+			{
+				if (count < 0) return false;
+				size_t bytes = sizeof(T) * count;
+				return resize(bytes);
 			}
 
 			/**
@@ -122,6 +161,25 @@ namespace z
 			}
 
 			/**
+			 * \brief Get the number of bytes that are available to allocate.
+			 * \return The amount of unused heap in bytes.
+			 */
+			size_t remaining() const
+			{
+				return memSize - current;
+			}
+
+			/**
+			 * \brief Get the number of objects that are available to allocate.
+			 * \return The amount of unused heap in objects of T's size (rounded down).
+			 */
+			template<typename T>
+			size_t remaining() const
+			{
+				return (memSize - current) / sizeof(T);
+			}
+
+			/**
 			 * \brief Grab some memory from the heap.
 			 *
 			 * Reserve some heap memory for external use. If this->increase is true then the heap
@@ -157,7 +215,7 @@ namespace z
 			 *
 			 * Constructs a single object using the given parameters, and assigns the
 			 * destructor to run when the heap is destroyed or reallocated.
-			 * Note that the object must belong to this heap to be managed in this way.
+			 * \note The object must belong to this heap to be managed in this way.
 			 *
 			 * \threadsafe_member_yes
 			 * \param pointer Reference to the object we're constructing.
@@ -196,7 +254,8 @@ namespace z
 			 *
 			 * This lets the heap know that it will need to keep track of at least the given number
 			 * of objects. This can save execution time if you are using the heap to initialize a large
-			 * amount of objects. Note that the type of object does not matter, so reserves for multiple
+			 * amount of objects.
+			 * \note The type of object does not matter, so reserves for multiple
 			 * object types of differing size can all be combined into one reserve call.
 			 *
 			 * \threadsafe_member_yes

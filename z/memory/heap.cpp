@@ -43,6 +43,25 @@ namespace z
 			return true;
 		}
 
+		bool heap::resize(size_t bytes)
+		{
+			//We don't want simultaneous calls to mess up memory requests.
+			const std::lock_guard<std::mutex> lock(memMutex);
+
+			if (!mem) return allocate(bytes);
+
+			if (memSize == bytes) return true; //no resize needed.
+			if (current > bytes) bytes = current;
+
+			auto oldMem = mem;
+			mem = new unsigned char[bytes];
+			std::memcpy(mem, oldMem, bytes);
+			delete[] oldMem;
+			memSize = bytes;
+
+			return (bool)mem;
+		}
+
 		unsigned char* heap::get(size_t bytes)
 		{
 			//We don't want simultaneous calls to mess up memory requests.

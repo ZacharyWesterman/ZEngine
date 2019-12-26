@@ -105,5 +105,25 @@ int main()
 
 	(zstring("\nWe've used ") + heap.used() + "/" + heap.max() + " bytes.\n").writeln(console);
 
+	//In a lot of cases we won't know exactly how much memory we need,
+	//so we'll want to increase the memory in chunks as we start running out.
+	//It's possible to reallocate without wiping everything:
+	zstring("\nIncreasing space!\n").writeln(console);
+	heap.resize(1024);
+	printHeapSpace(heap);
+	heap.resize(heap.max() + 1024);
+	printHeapSpace(heap);
+	heap.resize(heap.max() + 1024);
+	printHeapSpace(heap);
+
+	(zstring("\nWe've used ") + heap.used() + "/" + heap.max() + " bytes.").writeln(console);
+
+	//And what if we are using too much memory and think we should cut back?
+	//Resizing works the other way too:
+	zstring("\nDecreasing space!").writeln(console);
+	heap.resize<int>(20);
+	printHeapSpace(heap);
+	(zstring("We've used ") + heap.used() + "/" + heap.max() + " bytes.\n").writeln(console);
+
 	return 0;
 }

@@ -31,6 +31,10 @@ ifneq (,$(findstring $(OPT),S size Size SIZE))
 OLEVEL = s
 endif
 
+INCLUDE = -I"../libzed"
+CCFLAGS = $(INCLUDE) -std=c++11 -W -Wall -Wextra -pedantic -fexceptions $(CCTARGET)
+LFLAGS = -lzed
+
 # if debug flag is false
 ifeq (,$(findstring $(DEBUG),1 true True TRUE))
 CCFLAGS += -O$(OLEVEL) -g0
@@ -38,11 +42,6 @@ LFLAGS += -s
 else
 CCFLAGS += -g3 -O$(OLEVEL) -DDEBUG
 endif
-
-INCLUDE = -I"../libzed"
-CCFLAGS = $(INCLUDE) -std=c++11 -W -Wall -Wextra -pedantic -fexceptions $(CCTARGET)
-
-LFLAGS = -lzed
 
 CC = g++
 LN = g++
@@ -65,7 +64,7 @@ za.o: za.cpp
 	$(CC) $(CCFLAGS) -o $@ -c $<
 
 clean: clean-examples
-	rm -rf $(OBJS) $(NAME) za.o
+	rm -rf $(OBJS) $(NAME) *.o
 
 examples: $(OBJS) examples/object examples/binary examples/binary/heap
 

@@ -1,0 +1,8 @@
+.data 2
+complex:0+13i
+array:
+;:endarray
+.txt
+load $1
+nop $1 d2
+add $1

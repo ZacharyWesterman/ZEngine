@@ -6,7 +6,7 @@ MINOR   = 0
 ASSEMBLER = za
 
 # SRCS = $(wildcard engine/*.cpp) $(wildcard engine/instructions/*.cpp)
-SRCS = $(wildcard z/memory/*.cpp)
+SRCS = $(wildcard z/memory/*.cpp) $(wildcard z/compiler/*.cpp)
 OBJS = $(patsubst %.cpp,%.o,$(SRCS))
 
 ARCH = $(shell g++ -dumpmachine)

@@ -66,7 +66,9 @@ za.o: za.cpp
 clean: clean-examples
 	rm -rf $(OBJS) $(NAME) *.o
 
-examples: $(OBJS) examples/object examples/binary examples/binary/heap
+examples: $(OBJS) examples/object examples/binary examples-bin
+
+examples-bin: examples/binary/heap examples/binary/scanner
 
 examples/binary:
 	mkdir -p $@
@@ -83,4 +85,4 @@ examples/binary/%: examples/object/%.o $(OBJS)
 clean-examples:
 	rm -rf examples/binary examples/object
 
-.PHONY: clean default examples clean-examples
+.PHONY: clean default examples clean-examples examples-bin

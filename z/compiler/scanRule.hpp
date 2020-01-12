@@ -12,20 +12,13 @@ namespace z
 		private:
 			z::util::regex matchPattern;
 			int matchID;
-			void (*onMatch)(zstring&);
+			void (*onMatch)(zstring&, scanner&);
 			bool matchTypeSuccess;
 
 		public:
 			scanRule() {};
 
-			// template<typename Functor>
-			// scanRule(Functor resultOnMatch)
-			// {
-			//
-			// 	onMatch = resultOnMatch;
-			// }
-
-			scanRule(const zstring& pattern, int resultID, void (*resultOnMatch)(zstring&) = NULL, bool resultIsSuccess = true);
+			scanRule(const zstring& pattern, int resultID, void (*resultOnMatch)(zstring&, scanner&) = NULL, bool resultIsSuccess = true);
 
 			scanRule(const scanRule&) = delete;
 			scanRule& operator=(const scanRule&) = delete;

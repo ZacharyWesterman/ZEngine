@@ -3,25 +3,23 @@
 #include <z/core/stream.h>
 
 #include "scanRule.hpp"
+#include "loggable.hpp"
 
 namespace z
 {
 	namespace compiler
 	{
-		class scanner
+		class scanner : public loggable
 		{
 		private:
-			size_t line;
-			size_t column;
-
-		public:
+			bool scanOnce(z::core::inputStream& stream);
 			z::core::array<scanRule> rules;
 
-			bool scanOnce(z::core::inputStream& stream);
+		public:
+			scanner() : loggable() {};
 
 			void scan(z::core::inputStream& stream);
-
-			void error(const zstring& message);
+			void addRule(scanRule&& rule, int scope = 0);
 		};
 	}
 }

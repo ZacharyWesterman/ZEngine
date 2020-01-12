@@ -5,41 +5,49 @@
 
 #include "z/compiler/scanRule.hpp"
 #include "z/compiler/scanner.hpp"
+#include "z/compiler/loggable.hpp"
 
-z::system::console console;
 
-int main()
+int main(int argc, char** argv)
 {
+	z::system::console console;
+	if (argc < 2)
+	{
+		zstring("No input file specified!").writeln(console);
+		return 1;
+	}
+
 	z::compiler::scanner scanner;
 
-	scanner.rules.add({"\\.data\\b", 1, [] (zstring& text)
+	scanner.addRule({"\\.data\\b", 1, [] (zstring& text, z::compiler::scanner& scanner)
 		{
-			(void)text;
-			zstring("Begin data section").writeln(console);
+			scanner.note("Begin data section");
+			scanner.logLine(text.length());
 		}
 	});
 
-	scanner.rules.add({"\\.txt\\b", 2, [] (zstring& text)
+	scanner.addRule({"\\.txt\\b", 2, [] (zstring& text, z::compiler::scanner& scanner)
 		{
 			(void)text;
-			zstring("Begin program section").writeln(console);
+			scanner.warn("Begin program section");
 		}
 	});
 
-	scanner.rules.add({"[+-]?\\d+[+-]\\d+i|[+-]?\\d+i", 3});//complex nums
-	scanner.rules.add({"\\d+\\.\\d*", 4});//floats
-	scanner.rules.add({"\\d+", 5});//integers
+	scanner.addRule({"[+-]?\\d+[+-]\\d+i|[+-]?\\d+i", 3});//complex nums
+	scanner.addRule({"\\d+\\.\\d*", 4});//floats
+	scanner.addRule({"\\d+", 5});//integers
 
-	scanner.rules.add({"\\b(complex|array|int|float|string|c|a|i|f|s):", 6});
+	scanner.addRule({"\\b(complex|array|int|float|string|c|a|i|f|s):", 6});
 
-	scanner.rules.add({"\\b(load|nop|add)\\b", 7});
+	scanner.addRule({"\\b(load|nop|add)\\b", 7});
 
-	scanner.rules.add({"\\$\\d+", 8});//memory access
+	scanner.addRule({"\\$\\d+", 8});//memory access
 
-	scanner.rules.add({"\\s+", -1});//white space is not an error!
+	scanner.addRule({"\\s+", -1});//white space is not an error!
 
 
-	z::file::inputStream input ("examples/data/program1.txt");
+	scanner.file = argv[1];
+	z::file::inputStream input (scanner.file);
 	scanner.scan(input);
 
 	return 0;

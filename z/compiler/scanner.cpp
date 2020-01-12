@@ -19,7 +19,7 @@ namespace z
 					//call the rule's special onMatch function if it exists
 					if (rule.onMatch)
 					{
-						rule.onMatch(text);
+						rule.onMatch(text, *this);
 					}
 
 					return true;
@@ -36,6 +36,7 @@ namespace z
 			line = column = 1;
 
 			zstring text;
+			thisLine = &text;
 			while(!stream.empty())
 			{
 				text.readln(stream);
@@ -71,11 +72,10 @@ namespace z
 			}
 		}
 
-		void scanner::error(const zstring& message)
+		void scanner::addRule(scanRule&& rule, int scope)
 		{
-			z::system::console console;
-
-			(zstring("Error (") + line + "," + column + ") : " + message).writeln(console);
+			(void)scope;
+			rules.add(std::move(rule));
 		}
 	}
 }

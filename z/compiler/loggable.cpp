@@ -5,13 +5,11 @@ namespace z
 {
 	namespace compiler
 	{
-		loggable::loggable() : thisLine(NULL) {}
-
-		const zstring& loggable::currentLine() const
-		{
-			if (thisLine) return *thisLine;
-			return lineStandIn;
-		}
+		loggable::loggable() :
+			thisLine(NULL),
+			errorCount(0),
+			warningCount(0)
+		{}
 
 		void loggable::error(const zstring& message)
 		{
@@ -31,6 +29,8 @@ namespace z
 			msg += ' ';
 			msg += message;
 			msg.writeln(console);
+
+			++errorCount;
 		}
 
 		void loggable::warn(const zstring& message)
@@ -51,6 +51,8 @@ namespace z
 			msg += ' ';
 			msg += message;
 			msg.writeln(console);
+
+			++warningCount;
 		}
 
 		void loggable::note(const zstring& message)
@@ -58,7 +60,7 @@ namespace z
 			z::system::console console;
 
 			zstring msg;
-			if (console.istty()) msg = "\u001b[1m\u001b[38;5;140m";
+			if (console.istty()) msg = "\u001b[1m\u001b[38;5;81m";
 			msg += "note:";
 			if (console.istty()) msg += "\u001b[0m";
 			msg += ' ';
@@ -69,7 +71,6 @@ namespace z
 		void loggable::log(const zstring& message)
 		{
 			z::system::console console;
-
 			message.writeln(console);
 		}
 
@@ -88,11 +89,27 @@ namespace z
 			msg.repeat(' ', pos);
 			if (console.istty()) msg += "\u001b[1m\u001b[38;5;118m";
 			msg += '^';
-			if (length > 2) msg.repeat(L'-',length);
+			if (length > 2) msg.repeat(L'-',length-2);
 			if (length > 1) msg += '^';
 			if (console.istty()) msg += "\u001b[0m";
 
 			msg.writeln(console);
+		}
+
+		const zstring& loggable::currentLine() const
+		{
+			if (thisLine) return *thisLine;
+			return lineStandIn;
+		}
+
+		int loggable::errors() const
+		{
+			return errorCount;
+		}
+
+		int loggable::warnings() const
+		{
+			return warningCount;
 		}
 	}
 }

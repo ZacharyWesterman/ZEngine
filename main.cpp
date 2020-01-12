@@ -28,8 +28,8 @@ int main(int argc, char** argv)
 
 	scanner.addRule({"\\.txt\\b", 2, [] (zstring& text, z::compiler::scanner& scanner)
 		{
-			(void)text;
-			scanner.warn("Begin program section");
+			scanner.note("Begin program section");
+			scanner.logLine(text.length());
 		}
 	});
 
@@ -49,6 +49,8 @@ int main(int argc, char** argv)
 	scanner.file = argv[1];
 	z::file::inputStream input (scanner.file);
 	scanner.scan(input);
+
+	scanner.log(zstring("Scanned with ") + scanner.errors() + " errors, " + scanner.warnings() + " warnings.");
 
 	return 0;
 }

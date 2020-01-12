@@ -34,6 +34,7 @@ namespace z
 			if (!stream.good()) return;
 
 			line = column = 1;
+			errorCount = warningCount = 0;
 
 			zstring text;
 			thisLine = &text;

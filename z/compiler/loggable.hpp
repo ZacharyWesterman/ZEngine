@@ -8,13 +8,12 @@ namespace z
 		class loggable
 		{
 		private:
-			int errorCount;
-			int warningCount;
-
 			zstring lineStandIn; //in case thisLine is null;
 
 		protected:
 			zstring* thisLine;
+			int errorCount;
+			int warningCount;
 
 		public:
 			int line;
@@ -30,6 +29,9 @@ namespace z
 			void logLine(int length = 0);
 
 			const zstring& currentLine() const;
+
+			int errors() const;
+			int warnings() const;
 		};
 	}
 }

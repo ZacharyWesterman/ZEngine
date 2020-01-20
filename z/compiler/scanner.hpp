@@ -22,7 +22,7 @@ namespace z
 			int currentScope;
 
 		public:
-			scanner();
+			scanner(z::core::outputStream& stream);
 
 			void scan(z::core::inputStream& stream);
 			void addRule(scanRule&& rule, int scope = 0);

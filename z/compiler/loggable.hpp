@@ -1,5 +1,6 @@
 #pragma once
 #include <z/core/string.h>
+#include <z/core/stream.h>
 
 namespace z
 {
@@ -7,20 +8,18 @@ namespace z
 	{
 		class loggable
 		{
-		private:
-			zstring lineStandIn; //in case thisLine is null;
-
 		protected:
-			zstring* thisLine;
+			z::core::outputStream& output;
 			int errorCount;
 			int warningCount;
+			zstring thisLine;
 
 		public:
 			int line;
 			int column;
 			zstring file;
 
-			loggable();
+			loggable(z::core::outputStream& stream);
 
 			void error(const zstring& message);
 			void warn(const zstring& message);

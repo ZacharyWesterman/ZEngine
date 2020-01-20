@@ -6,7 +6,7 @@ namespace z
 {
 	namespace compiler
 	{
-		scanner::scanner() : loggable(), currentScope(0) {}
+		scanner::scanner(z::core::outputStream& stream) : loggable(stream), currentScope(0) {}
 
 		bool scanner::scanOnce(z::core::inputStream& stream)
 		{
@@ -38,13 +38,12 @@ namespace z
 			line = column = 1;
 			errorCount = warningCount = 0;
 
-			zstring text;
-			thisLine = &text;
+			thisLine.clear();
 			while(!stream.empty())
 			{
-				text.readln(stream);
+				thisLine.readln(stream);
 
-				z::core::memoryStream lineStream (text.wstring(), text.length());
+				z::core::memoryStream lineStream (thisLine.wstring(), thisLine.length());
 				lineStream.setFormat(z::utf32, true);
 
 				zstring badText;

@@ -17,7 +17,7 @@ int main(int argc, char** argv)
 		return 1;
 	}
 
-	z::compiler::scanner scanner;
+	z::compiler::scanner scanner(console);
 
 	scanner.addRule({"\\.data\\b", 1, [] (zstring& text, z::compiler::scanner& scanner)
 		{

@@ -13,12 +13,11 @@ namespace z
 			z::util::regex matchPattern;
 			int matchID;
 			void (*onMatch)(zstring&, scanner&);
-			bool matchTypeSuccess;
 
 		public:
 			scanRule() {};
 
-			scanRule(const zstring& pattern, int resultID, void (*resultOnMatch)(zstring&, scanner&) = NULL, bool resultIsSuccess = true);
+			scanRule(const zstring& pattern, int resultID, void (*resultOnMatch)(zstring&, scanner&) = NULL);
 
 			scanRule(const scanRule&) = delete;
 			scanRule& operator=(const scanRule&) = delete;

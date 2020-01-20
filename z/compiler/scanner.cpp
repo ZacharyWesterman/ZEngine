@@ -6,11 +6,13 @@ namespace z
 {
 	namespace compiler
 	{
+		scanner::scanner() : loggable(), currentScope(0) {}
+
 		bool scanner::scanOnce(z::core::inputStream& stream)
 		{
 			column = (stream.tell() >> 2) + 1;
 
-			for (auto& rule : rules)
+			for (auto& rule : rules[currentScope])
 			{
 				if (rule.matchPattern.match(stream))
 				{
@@ -75,8 +77,27 @@ namespace z
 
 		void scanner::addRule(scanRule&& rule, int scope)
 		{
-			(void)scope;
-			rules.add(std::move(rule));
+			rules[scope].add(std::move(rule));
 		}
+
+		void scanner::push(int scope)
+		{
+			scopes.push(currentScope);
+			currentScope = scope;
+		}
+
+		void scanner::pop()
+		{
+			if (scopes.empty())
+			{
+				currentScope = 0;
+			}
+			else
+			{
+				currentScope = scopes.top();
+				scopes.pop();
+			}
+		}
+
 	}
 }

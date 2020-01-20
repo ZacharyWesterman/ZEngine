@@ -77,7 +77,10 @@ namespace z
 
 		void scanner::addRule(scanRule&& rule, int scope)
 		{
-			rules[scope].add(std::move(rule));
+			if (rule.matchPattern.bad())
+				error(zstring("Bad regex in scanner rule: ") + rule.matchPattern.errorString());
+			else
+				rules[scope].add(std::move(rule));
 		}
 
 		void scanner::push(int scope)

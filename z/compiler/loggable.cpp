@@ -17,12 +17,15 @@ namespace z
 
 			zstring msg;
 			if (console.istty()) msg = "\u001b[1m";
-			msg += file;
-			msg += ':';
-			msg += line;
-			msg += ':';
-			msg += column;
-			msg += ": ";
+			if (file.length())
+			{
+				msg += file;
+				msg += ':';
+				msg += line;
+				msg += ':';
+				msg += column;
+				msg += ": ";
+			}
 			if (console.istty()) msg += "\u001b[38;5;196m";
 			msg += "error:";
 			if (console.istty()) msg += "\u001b[0m";
@@ -39,12 +42,15 @@ namespace z
 
 			zstring msg;
 			if (console.istty()) msg = "\u001b[1m";
-			msg += file;
-			msg += ':';
-			msg += line;
-			msg += ':';
-			msg += column;
-			msg += ": ";
+			if (file.length())
+			{
+				msg += file;
+				msg += ':';
+				msg += line;
+				msg += ':';
+				msg += column;
+				msg += ": ";
+			}
 			if (console.istty()) msg += "\u001b[38;5;140m";
 			msg += "warning:";
 			if (console.istty()) msg += "\u001b[0m";

@@ -1,5 +1,5 @@
 #pragma once
-#include <z/util/regex.h>
+#include <z/util/regex.hpp>
 
 namespace z
 {

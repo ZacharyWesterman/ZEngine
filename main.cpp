@@ -1,7 +1,7 @@
-#include <z/core.h>
-#include <z/file.h>
-#include <z/util.h>
-#include <z/system/console.h>
+#include <z/core.hpp>
+#include <z/file.hpp>
+#include <z/util.hpp>
+#include <z/system/console.hpp>
 
 #include "z/compiler/scanRule.hpp"
 #include "z/compiler/scanner.hpp"

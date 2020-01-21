@@ -1,6 +1,6 @@
 #pragma once
-#include <z/core/array.h>
-#include <z/core/stream.h>
+#include <z/core/array.hpp>
+#include <z/core/stream.hpp>
 
 #include "scanRule.hpp"
 #include "loggable.hpp"

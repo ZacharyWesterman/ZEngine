@@ -1,5 +1,5 @@
-#include <z/system/console.h>
-#include <z/core/string.h>
+#include <z/system/console.hpp>
+#include <z/core/string.hpp>
 #include <z/memory/heap.hpp>
 
 z::system::console console;

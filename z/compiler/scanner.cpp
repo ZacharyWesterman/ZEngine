@@ -1,6 +1,6 @@
 #include "scanner.hpp"
-#include <z/system/console.h>
-#include <z/core/memoryStream.h>
+#include <z/system/console.hpp>
+#include <z/core/memoryStream.hpp>
 
 namespace z
 {

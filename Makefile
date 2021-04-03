@@ -6,7 +6,7 @@ MINOR   = 0
 ASSEMBLER = za
 
 # SRCS = $(wildcard engine/*.cpp) $(wildcard engine/instructions/*.cpp)
-SRCS = $(wildcard z/memory/*.cpp) $(wildcard z/compiler/*.cpp)
+SRCS = $(wildcard grammar/*.cpp)
 OBJS = $(patsubst %.cpp,%.o,$(SRCS))
 
 ARCH = $(shell g++ -dumpmachine)
@@ -31,8 +31,7 @@ ifneq (,$(findstring $(OPT),S size Size SIZE))
 OLEVEL = s
 endif
 
-INCLUDE = -I"../libzed"
-CCFLAGS = $(INCLUDE) -std=c++11 -W -Wall -Wextra -pedantic -fexceptions $(CCTARGET)
+CCFLAGS = $(INCLUDE) -std=c++17 -W -Wall -Wextra -pedantic -fexceptions $(CCTARGET)
 LFLAGS = -lzed
 
 # if debug flag is false
